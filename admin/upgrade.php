@@ -15,7 +15,7 @@ include('topmenu.html');
 echo "<h1>NoTrack Upgrade</h1>\n";
 echo  "<br />\n";
 
-$Version="0.4";
+$Version="0.5";
 $Config = array();
 
 function Load_Config_File() {

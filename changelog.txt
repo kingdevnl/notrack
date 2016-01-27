@@ -1,8 +1,19 @@
-New in v0.4 alpha 3
+v0.5 alpha
+Fixed Issue7 - Dnsmasq restart issues with wlan0.
+Implemented Memcache to improve PHP performance.
+Historical look back is now available in Domain Stats.
+Dnsmasq log archiving removes surplus information in order to improve performance on Historical look back.
+NoTrack is now compatible with Arch and Fedora based distros, thanks floturcocantsee.
+Searchbox added to Block List.
+CSS Theming improvements to tables.
+
+Note: These are significant changes, and you'll need to re-install NoTrack
+
+v0.4 alpha 3
 Added Time selector to Domain Stats
 Added favicon
 Moved upgrade notification from Github to trackers.txt file
 
-New in v0.3 alpha 2
+v0.3 alpha 2
 Added Google search and Whois to Stats table 
 Started making NoTrack compatible with other Linux Distros.
