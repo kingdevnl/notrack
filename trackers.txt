@@ -1,12 +1,12 @@
-#List of Ad files last updated 24 Jan 2016 .2
+#List of Ad files last updated 26 Jan 2016 .1
 #LatestVersion 0.4
 103bees.com
 10cms.com
+1800omniture.com #Adobe
 206ads.com
 247realmedia.com #AppNexus Inc
 247realmedia.org #AppNexus Inc
 254a.com
-#2mdn.net
 2cobrowse.com #eGain Corporation
 2o7.net #Adobe
 302br.net
@@ -26,6 +26,7 @@
 5gl1x9qc.com
 5min.com
 7eer.net #Impact Radius
+800omnture.com #Adobe
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a-msedge.net #Markmonitor
 a2dfp.net
@@ -99,12 +100,14 @@ adnxus.com #AppNexus Inc
 adobedtm.com #Adobe
 adobetag.com #Adobe
 adoftheyear.com
+adpacked.com #Adobe
 adreadytractions.com
 adriver.ru
 adroll.com
 adrotate.se
 adrsp.net
 adrtx.net
+ads-ai.com #YieldBot
 ads-creativesyndicator.com
 adsafeprotected.com
 adscale.de
@@ -212,7 +215,13 @@ atgsvcs.com
 ati-host.net
 attraqt.com
 atwola.com
+audienceco-op.com #Adobe
+audiencedatamanagement.com #Adobe
 audienceiq.com
+audiencemanagementplatform.com #Adobe
+audiencemanagementplatforms.com #Adobe
+audiencescoring.com #Adobe
+audiencesettlement.com #Adobe
 audiencesharing.com #Adobe
 auditude.com
 authorisationimprint.com
@@ -231,6 +240,8 @@ baynote.net
 bcplayer.net
 beanstock.com
 begun.ru
+behancemanage.com #Adobe
+behavior.com #Adobe
 betrad.com
 betteradserving.com #AppNexus Inc
 betterbrandsafety.com #AppNexus Inc
@@ -244,7 +255,9 @@ bevyup.com
 bidr.io
 bidswitch.net
 bidtrk.com
-bing.net
+bigtentresearch.com #TMRG
+bigtentresearch.net #TMRG
+bing.net #Microsoft
 bizible.com
 bizographics.com
 bkrtx.com
@@ -272,10 +285,25 @@ brightcovemedia.com
 brightcovetv.com
 brightedge.com
 brighteroption.com
+brightroll.com #BrightRoll
+brightroll.mobi #BrightRoll
+brightroll.net #BrightRoll
+brightroll.org #BrightRoll
+brightrolldsp.com #BrightRoll
+brightrollexchange.com #BrightRoll
+brightrollmarketplace.com #BrightRoll
+brightrollvideosummit.com #BrightRoll
+brightroulette.com #BrightRoll
 brilig.com
 britecove.biz
 broadband2compare.com #Digital Window
-btrll.com
+brvideosummit.com #BrightRoll
+brx.com #BrightRoll
+brxvideosummit.com #BrightRoll
+btrll.com #BrightRoll
+btrll.net #BrightRoll
+btrll.org #BrightRoll
+brvs.com #BrightRoll
 btstatic.com
 bugherd.com
 builfico.de
@@ -350,10 +378,14 @@ contentwindow.com #Digital Window
 contextweb.com
 convertro.com
 conyak.com
+cookielesstargeting.info #YieldBot
+cookielesstargeting.org #YieldBot
+cookielesstargeting.net #YieldBot
 coremetrics.eu
 corporate-ir.net
 coveritlive.com
 cq.io
+cqcounter.com
 crazyegg.com
 crealytics.com
 createabetterinternet.com #AppNexus Inc
@@ -369,6 +401,7 @@ ctasnet.com
 ctnsnet.com
 ctscdn.com
 customerjourney.com #eGain Corporation
+customersciences.com #Adobe
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
@@ -380,13 +413,19 @@ dcoengine.com
 declaredthoughtfulness.co
 deltacdn.net #Markmonitor
 demandbase.com
-demdex.net
+demdex.com #Adobe
+demdexpartner.com #Adobe
+demdextest.com #Adobe
+demographicprofiling.com #Adobe
 deployads.com
 devnexus.net #AppNexus Inc
 devnxs.net #AppNexus Inc
+dexometer.com #Adobe
 dianomi.com
 dianalytics.com #Adobe
 digital-window.com #Digital Window
+digitalreflectionpanel.com #TMRG
+digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
 direct-serve.com #Digital Window
 directrev.com
@@ -458,6 +497,7 @@ evyy.net #Impact Radius
 exelator.com
 exoclick.com
 exovueplatform.com
+expandengagement.com #Adobe
 exponential.com
 extreme-dm.com
 eyeota.com
@@ -486,9 +526,12 @@ footprint.net #Markmonitor
 footprintdns.com
 footprintpredict.com
 force.com
+forensiq.com #Forensiq
+forensiq.net #Forensiq
 foreseeresults.com
 forkmedia.in
 formalyzer.com
+fqtag.com #Forensiq
 frantro.de
 freeskreen.com
 fresh8.co
@@ -521,7 +564,8 @@ godatafeed.com
 google-analytics.com
 #googleadservices.com
 #googlesyndication.com
-#googletagservices.com
+googletagmanager.com
+googletagservices.com
 gorillanation.com
 goroost.com
 gosquared.com
@@ -593,9 +637,13 @@ impactradius.com #Impact Radius
 impdesk.com
 impressiondesk.com
 imrworldwide.com
+in2panel.com #TMRG
+in2panel.net #TMRG
 industrybrains.com
 inetwork.directory
 infinity-tracking.net
+influentialinsights.com #TMRG
+influentialinsights.net #TMRG
 infolinks.com
 inscname.net #instartlogic
 inscname2.net #instartlogic
@@ -645,6 +693,7 @@ jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kastatic.com
 kau.li
+kiespr.com #TMRG
 kiosked.com
 kissmetrics.com
 komoona.com
@@ -8337,16 +8386,22 @@ mmondi.com
 mmstat.com
 mplxtms.com
 moatads.com
+mobilexpression.com #TMRG
+mobilexpression.net #TMRG
 mobiles2compare.com #Digital Window
 mobilesource.net #Digital Window
 mobiletracking.com #Impact Radius
+moblexp.com #TMRG
+moblexp.net #TMRG
 mobytrks.com
+midrollvideo.com #BrightRoll
 mookie1.com
 monetate.net
 mouseflow.com
 mrkt.it
 msads.net
 msedge.net
+msftncsi.com
 msgfocus.com
 mxcdn.net
 mxlogic.com
@@ -8354,9 +8409,15 @@ mxptint.net
 mxpnl.com
 mybuys.com
 mydas.mobi
+myflairware.com #TMRG
+myflairware.net #TMRG
 myswitchads.com
 mythings.com
 mytrafficvalue.commsedge.net
+myvirtualdisc.com #TMRG
+myvirtualdisc.net #TMRG
+myvirtualdisk.com #TMRG
+myvirtualdisk.net #TMRG
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 nanigans.com
 nano-visor.biz #instartlogic
@@ -8382,10 +8443,8 @@ nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
 nexusapps.com #AppNexus Inc
 nmgcdn.com
-nsatc.net #Markmonitor
 nster.net
 nr-data.net
-nsatc.net
 nster.net
 nuggad.net
 #O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O
@@ -8407,6 +8466,7 @@ oileddaintiessunset.info
 om.au
 omessage.com
 omnitagjs.com
+omniture.com #Adobe
 omtrdc.net
 onclasrv.com
 onclickads.net
@@ -8431,6 +8491,8 @@ openxenterprise.com #OpenX
 openxenterprise.net #OpenX
 openxenterprise.org #OpenX
 ophan.co.uk
+opinionsquare.com #TMRG
+opinionsquare.net #TMRG
 optilead.co.uk
 optinmonster.com
 optimizely.com
@@ -8459,6 +8521,10 @@ pepperjamnetwork.com
 perfb.com #Digital Window
 perfectaudience.com
 perfiliate.com #Digital Window
+permission-research.com #TMRG
+permission-research.net #TMRG
+permissionresearch.com #TMRG
+permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
 phicdn.net #Markmonitor
@@ -8476,9 +8542,11 @@ polyfill.io
 popads.net
 popularix.com
 postrelease.com
+postroller.com #BrightRoll
 pow7.com
 ppchero.com
 ppjol.net
+preroller.com #BrightRoll
 prnx.net
 primefuse.com
 pro-market.net
@@ -8530,6 +8598,7 @@ redeye.international
 redstar.co.uk
 refinedads.com
 relestar.com
+relevantknowledge.com #TMRG
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -8556,6 +8625,7 @@ rm0007.net
 rm0008.net
 rm0009.net
 rm0010.net
+robtex.net #Possible MS tracking
 roia.biz
 roost.me
 route.to
@@ -8589,7 +8659,8 @@ sascdn.com
 saymedia.com
 sayutracking.co.uk
 scarabresearch.com
-scorecardresearch.com
+scorecardresearch.com #TMRG
+scorecardresearch.net #TMRG
 scoutanalytics.net
 sd-ad.net #instartlogic
 sd-ad.org #instartlogic
@@ -8602,13 +8673,15 @@ searchmarketing.com
 secretmedia.com
 secureadserver.com
 securepaths.com
-securestudies.com
+securestudies.com #TMRG
+securestudies.net #TMRG
 segment.com
 sellathon.com
 semasio.net
 sendgrid.me
 sensic.net
 sentifi.com
+securepaths.com #Forensiq
 servebom.com
 servedby-buysellads.com
 servedbyopenx.com #OpenX
@@ -8623,6 +8696,8 @@ sharethis.com
 sharethrough.com
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
+shwired.com #TMRG
+shwired.net #TMRG
 sid-ads.com
 siftscience.com 
 silkenthreadiness.info
@@ -8640,7 +8715,8 @@ smartadserver.com
 smarterclick.co.uk
 smartstream.tv
 smct.co
-snapsitemap.com
+snapengage.com #SnapEngage LLC
+snapsitemap.com #PathDefender
 snapsurveys.com
 snorkletech.com #AppNexus Inc
 softwaredefined.guru #instartlogic
@@ -8717,7 +8793,6 @@ techhive.com
 technoratimedia.com
 teaserroll.com #Inskinad
 testorion.com #eGain Corporation
-telegraphbags.com
 televisions2compare.com #Digital Window
 telize.com
 tellapart.com
@@ -8733,6 +8808,8 @@ tidaltv.com
 tiqcdn.com
 tkqlhce.com
 tl813.com
+tmrginc.com #TMRG
+tmrginc.net #TMRG
 tqlkg.com
 tqn.com
 trackalyzer.com
@@ -8743,16 +8820,22 @@ trackwindow.com #Digital Window
 tradeadexchange.com
 tradedoubler.com
 tradefxads.com
-trafficjunky.net 
+trafficauthority.com #Adobe
+trafficjunky.net
+trafficmanager.net
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
+trees4knowledge.com #TMRG
+treesforknowledge.com #TMRG
 tribalfusion.com
 triggit.com
 trkme.net
 truste.com
 truste-svc.net
-trusted.site
+trusted.site #PathDefender
 trustedsite.com
+truviewanalytics.com #Adobe
+truviewdata.com #Adobe
 ttxm.co.uk
 tubemogul.com
 tumri.net
@@ -8762,6 +8845,8 @@ tyroo.com
 tyroodr.com
 typekit.net #Belongs to Adobe, may or may not be a tracker
 tynt.com
+tyskyt.com #YieldBot
+tyskyt.net #YieldBot
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 uadx.com
 udmserve.net
@@ -8792,11 +8877,13 @@ v11cdn.net #Markmonitor
 v12cdn.net #Markmonitor
 v13cdn.net #Markmonitor
 valdelabs.com #AppNexus Inc
-vdna-assets.com
+vdna-assets.com #Imagini Holdings
 veille-referencement.com
 veoxa.com
 verticaltechmedia.de
 verticalscope.com
+verityresearchpanel.com #TMRG
+verityresearchpanel.net #TMRG
 vertmarkets.com
 veruta.com
 venturead.com
@@ -8807,6 +8894,8 @@ videoadex.com
 videologygroup.com
 vidyard.com
 viglink.com
+videopostroll.com #BrightRoll
+videopreroll.com #BrightRoll
 vidlux.com
 vidmark.com
 vindicosuite.com
@@ -8834,12 +8923,17 @@ webappstreamingnetwork.net #instartlogic
 webappstreamingnetwork.org #instartlogic
 webgains.com
 webmd.com
+webrankresearch.com #TMRG
+webrankresearch.net #TMRG
+webstatsresearch.com #TMRG
+webstatsresearch.net #TMRG
 webtrekk.com
 webtrekk.net
 webtrends.com
 webtrendslive.com
 webvitality.me
 whoisvisiting.com
+whyanalytics.com #Imagini Holdings
 wickhillnews.com
 wikia-beacon.com
 wistia.com
@@ -8859,16 +8953,17 @@ yadro.ru
 yarpp.org
 ybsitecenter.com
 yellgroup.com
+yellowdragonsoft.com #Adobe
 yieldify.com
 yieldlab.net
 yieldmanager.com
 yieldoptimizer.com
 yieldpartners.com
 yjtag.jp
-yldbt.com
-yldmgrimg.net
+yldbt.com #YeildBot
+yldmgrimg.net #Yahoo
 yuq.me
-ywxi.net
+ywxi.net #PathDefender
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
 zanox.ws
 zbuckz.com
@@ -8880,12 +8975,9 @@ ziffdavisinternational.com
 zkcdn.net
 znaptag.com
 zqtk.net
+zzword.com #Adobe
 #---------------------------------------------------------
 #Analytics Domains
-microsoft.akadns.net
-ms.akadns.net
-sls.update.microsoft.com.akadns.net
-statsfe2.update.microsoft.com.akadns.net
 dmtracking2.alibaba.com
 stat.alibaba.com
 affiliate-program.amazon.co.uk
@@ -8902,6 +8994,7 @@ medals.bizrate.com #TBC
 pixel.brit.co
 pixiedust.buzzfeed.com
 dw.cbsimg.net
+compatexchange.cloudapp.net
 d3ujids68p6xmp.cloudfront.net
 data.coremetrics.com
 de.coremetrics.com
@@ -8914,16 +9007,20 @@ stats.ft.com
 track.ft.com
 ad.groupon.co.uk
 partner-ts.groupon.co.uk
+metric.gstatic.com #Google
 beacon.guim.co.uk
 ads.hearstmags.com
 pixel.honestjohn.co.uk
+m.hotmail.com
 metrics.ikea.com
-rad.live.com
+rad.live.com #Microsoft
 ssw.live.com
 watson.live.com
-bingads.microsoft.com
+static.2mdn.net
+s.gateway.messenger.live.com
+bingads.microsoft.com #Microsoft
 choice.microsoft.com
-telemetry.microsoft.com
+data.microsoft.com
 diagnostics.support.microsoft.com
 feedback.windows.com
 feedback.search.microsoft.com
@@ -8931,21 +9028,22 @@ glbdns2.microsoft.com
 i1.services.social.microsoft.com
 watson.microsoft.com
 redir.metaservices.microsoft.com
-settings-sandbox.data.microsoft.com
-settings-win.data.microsoft.com
+support.microsoft.com
 statsfe1.ws.microsoft.com
 statsfe2.ws.microsoft.com
 sts.microsoft.com
+telemetry.microsoft.com
 telemetry.urs.microsoft.com
-vortex.data.microsoft.com
-vortex-sandbox.data.microsoft.com
-vortex-win.data.microsoft.com
+cds26.ams9.msecn.net
 ac3.msn.com
+ads.msn.com
 ads1.msn.com
 ads2.msn.com
+c.msn.com
 flex.msn.com
 g.msn.com
 h1.msn.com
+h2.msn.com
 live.rads.msn.com
 preview.msn.com
 rad.msn.com
@@ -8958,7 +9056,9 @@ pixel.reddit.com
 pixel.redditmedia.com
 analytics.faw.sky.com
 smetrics.sky.com
+apps.skype.com
 pricelist.skype.com
+ui.skype.com
 analytics.twitter.com
 analytics.yahoo.com
 ads.yahoo.com
