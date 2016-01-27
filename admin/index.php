@@ -39,7 +39,7 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
   echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3 class="home-nav">'.number_format(floatval(exec('wc /var/lib/misc/dnsmasq.leases | cut -d\  -f 3'))).'</h3><h4 class="home-nav">Systems</h4></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
 }
 else {
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3 class="home-nav">N/A</h3></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div><a href="./dhcpleases.php">'."\n";
+  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3 class="home-nav">N/A</h3></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
 }
 echo '</div>';
 
@@ -60,7 +60,7 @@ else {                                           //Config line missing
   echo "<br /></div>\n";    
 }
 
-//Temp warning about Memcache
+//Temp warning about changes
 echo '<div class="row">'."\n";
 echo '<h3>Important Note: </h3>';
 echo '<p>As of NoTrack v0.5 (released 27 Jan 2016) a significant number of changes have been made to the underlying functionality of NoTrack, therefore you will need to <b>re-install NoTrack</b>.</p>'."\n";
