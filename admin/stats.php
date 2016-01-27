@@ -17,7 +17,7 @@ echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','stackexchange.com');
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','cedexis-radar.net','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 
 $Mem = new Memcache;                             //Initiate Memcache
@@ -43,17 +43,17 @@ if (isset($_GET['dir'])) {
 $StartPoint = 1;				 //Start point
 if (isset($_GET['start'])) {
   if (is_numeric($_GET['start'])) {
-    if (($_GET['start'] >= 1) && ($_GET['count'] < PHP_INT_MAX - 2)) {	         
+    if (($_GET['start'] >= 1) && ($_GET['count'] < PHP_INT_MAX - 2)) {
       $StartPoint = intval($_GET['start']);
     }
   }
 }
 
 $ItemsPerPage = 500;				 //Rows per page
-if (isset($_GET['count'])) {
-  if (is_numeric($_GET['count'])) {
-    if (($_GET['count'] >= 2) && ($_GET['count'] < PHP_INT_MAX)) {
-      $ItemsPerPage = intval($_GET['count']);
+if (isset($_GET['c'])) {
+  if (is_numeric($_GET['c'])) {
+    if (($_GET['c'] >= 2) && ($_GET['c'] < PHP_INT_MAX)) {
+      $ItemsPerPage = intval($_GET['c']);
     }
   }
 }
@@ -67,79 +67,135 @@ if (isset($_GET['v'])) {
   }  
 }
 
-$Earliest = 0;
-$EarliestStr = "";
-if (isset($_GET['earliest'])) {
-  $EarliestStr = strtolower($_GET['earliest']);
-  if ($EarliestStr != "today") {
-    if (($Earliest = strtotime($EarliestStr)) === false) {
-      $Earliest = 0;
-      $EarliestStr = "today";
-      echo "Invalid Time\n";
+$StartTime = time();
+$StartStr = '';
+if (isset($_GET['e'])) {
+  $StartStr = $_GET['e'];
+  if ($StartStr != 'today') {
+    if (($StartTime = strtotime($StartStr)) === false) {
+      $StartTime = 0;
+      $StartStr = 'today';
+      echo "Invalid Time <br />\n";
+    }    
+  }
+}
+
+$DateRange = 1;
+if (isset($_GET['dr'])) {                        //Date Range
+  if (is_numeric($_GET['dr'])) {
+    if (($_GET['dr'] >= 1) && ($_GET['dr'] < PHP_INT_MAX)) {
+      $DateRange = intval($_GET['dr']);
     }
   }  
 }
-
 //ReturnURL - Gives a simplier formatted URL for displaying----------
 function ReturnURL($Str) {
   //Conditions:
   //1: Drop www (its unnecessary and not all websites use it now)
-  //2: Combine .co.xx, com.xx, .net.xx into one string. Otherwise .uk would be TLD and .co the website. 
-  //   .co.uk is the top level domain
-  //3: Only return as far back as one subdomain. a.b.c.d.somesite.com is a bit excessive 
-  //   "d.somesite.com" will suffice
-  //4: Try and combine well used sites $CommonSites which use a lot of different subdomains into "*"
-  //   Its tempting to increase the list, however there is a processing limitation on a RaspberryPi
+  //2: Domain length of 0 or 1 is sent straight onto DNS server
+  //   Return it without comparing it against common sites
+  //3: Check domain against CommonSites, if there is a match then
+  //   return '*.' for the subdomains
+  //4: .co.xx, .com.xx, .net.xx need to be evaluated as a single TLD
   global $CommonSites;
-  $Split = explode('.', $Str);
+  
+  if (substr($Str,0,4) == 'www.') $Site = substr($Str,4); 
+  else $Site = $Str;
+  
+  $Split = explode('.', $Site);
   $c = count($Split) - 1;
   
-  if ($Split[$c - 1] == 'co') {
-    $Split[$c - 1] = 'co.' . $Split[$c];    
-    $c--;    
+  if ($c < 2) {
+    return $Site;
   }
-  elseif ($Split[$c - 1] == 'com') {
-    $Split[$c - 1] = 'com.' . $Split[$c];
-    $c--;
+  elseif ($c == 2) {
+    if (in_array($Split[1].'.'.$Split[2], $CommonSites)) return '*.'.$Split[1].'.'.$Split[2];
+    else return $Site;
   }
-  elseif ($Split[$c - 1] == 'net') {
-    $Split[$c - 1] = 'net.' . $Split[$c]; 
-    $c--;    
+  else {
+    switch ($Split[$c-1]) {
+      case 'co':
+      case 'com':
+      case 'net':
+        if (in_array($Split[$c-2].'.'.$Split[$c-1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c-2].'.'.$Split[$c-1].'.'.$Split[$c];
+        break;
+      default:        
+        if (in_array($Split[$c-1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c-1].'.'.$Split[$c];
+        break;
+    }    
+    return $Site;
   }
   
-  if ($c == 0) return $Split[0];
-  if ($c == 1) return $Split[0] . '.' . $Split[1];
-  if ($c == 2) {
-    if ($Split[0] == 'www') return $Split[1] . '.' . $Split[2];
-    else {
-      if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
-      else return $Split[0] . '.' . $Split[1] . '.' . $Split[2];
-    }
-  }
-  if ($c >= 2) {
-    if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
-    else return $Split[$c - 2] . '.' . $Split[$c - 1] . '.' . $Split[$c];
-  }
   return 'Error in URL String';
+}
+//Add GET Var to Link if Variable is used----------------------------
+function AddGetVar($Var) {
+  global $DateRange, $StartStr, $ItemsPerPage, $SortCol, $SortDir, $View;
+  switch ($Var) {
+    case 'C':
+      if ($ItemsPerPage != 500) return '&amp;c='.$ItemsPerPage;
+    break;
+    case 'Dir':
+      if ($SortDir == 1) return '&amp;dir=1';
+    break;
+    case 'DR':
+      if ($DateRange != 1) return '&amp;dr='.$DateRange;
+    break;
+    case 'E':
+      if ($StartStr != "") return '&amp;e='.$StartStr;
+    break;
+    case 'Sort':
+      if ($SortCol == 1) return '&amp;sort=1';
+    break;
+    case 'V':
+      if ($View != 1) return '&amp;v='.$View;
+    break;
+  }
+  return '';
+}
+
+//Add Hidden Var to Form if Variable is used-------------------------
+function AddHiddenVar($Var) {
+global $DateRange, $ItemsPerPage, $SortCol, $SortDir, $StartStr, $View;
+  switch ($Var) {
+    case 'C':
+      if ($ItemsPerPage != 500) return '<input type="hidden" name="c" value="'.$ItemsPerPage.'" />';
+    break;
+    case 'Dir':
+      if ($SortDir == 1) return '<input type="hidden" name="dir" value="1" />';
+    break;
+    case 'DR':
+      if ($DateRange != 1) return '<input type="hidden" name="dr" value="'.$DateRange.'" />';      
+    break;
+    case 'E':
+      if ($StartStr != "") return '<input type="hidden" name="e" value="'.$StartStr.'" />';
+    break;
+    case 'Sort':
+      if ($SortCol == 1) return '<input type="hidden" name="sort" value="1" />';      
+    break;
+    case 'V':
+      if ($View != 1) return '<input type="hidden" name="v" value="'.$View.'" />';      
+    break;
+  }
+  return '';
 }
 
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
-  global $ItemsPerPage, $SortCol, $SortDir, $View;
+  //global $ItemsPerPage, $SortCol, $SortDir, $View;
   if ($Active) {
-    echo '<li class="active"><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
+    echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">';
   }
   else {
-    echo '<li><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
+    echo '<li><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">';
   }  
   echo "$Character</a></li>\n";  
   return null;
 }
 
 //WriteTH Function for Table Header----------------------------------- 
-function WriteTH($Sort, $Dir, $Str) {
-  global $ItemsPerPage, $StartPoint, $View;
-  echo '<th><a href="?start='.$StartPoint.'&amp;count='.$ItemsPerPage.'&amp;sort='.$Sort.'&amp;dir='.$Dir.'&amp;v='.$View.'">'.$Str.'</a></th>';
+function WriteTH($Sort, $Dir, $Str) {  
+  echo '<th><a href="?start='.$StartPoint.AddGetVar('C').'&amp;sort='.$Sort.'&amp;dir='.$Dir.AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Str.'</a></th>';
   return null;
 }
 
@@ -148,7 +204,7 @@ function Load_TLDBlockList() {
 //Blocklist is held in Memcache for 10 minutes
   global $TLDBlockList, $Mem;
   $TLDBlockList=$Mem->get('TLDBlockList');
-  if (! $TLDBlockList) {    
+  if (! $TLDBlockList) {
     $FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
     while (!feof($FileHandle)) {
       $TLDBlockList[] = trim(fgets($FileHandle));
@@ -221,7 +277,7 @@ function Read_Day_Blocked($FileHandle) {
 }
 //Read Time All--------------------------------------------------------
 function Read_Time_All($FileHandle) {
-  global $DomainList, $Earliest;
+  global $DomainList, $StartTime;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -229,7 +285,7 @@ function Read_Time_All($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+    if (strtotime($Seg[2]) >= $StartTime) {       //Check if time in log > Earliest required
       if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
         $DomainList[] = ReturnURL($Seg[5]) . '+';
         $Dedup = $Seg[5];
@@ -249,7 +305,7 @@ function Read_Time_All($FileHandle) {
 }
 //Read Day Allowed---------------------------------------------------
 function Read_Time_Allowed($FileHandle) {
-  global $DomainList, $Earliest;
+  global $DomainList, $StartTime;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     
@@ -258,7 +314,7 @@ function Read_Time_Allowed($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+    if (strtotime($Seg[2]) >= $StartTime) {       //Check if time in log > Earliest required
       if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
         $DomainList[] = ReturnURL($Seg[5]) . '+';
         $Dedup = $Seg[5];
@@ -269,7 +325,7 @@ function Read_Time_Allowed($FileHandle) {
 }
 //Read Day Allowed---------------------------------------------------
 function Read_Time_Blocked($FileHandle) {
-  global $DomainList, $Earliest;
+  global $DomainList, $StartTime;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -277,7 +333,7 @@ function Read_Time_Blocked($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
       if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
         $DomainList[] = ReturnURL($Seg[5]) . '-';
         $Dedup = $Seg[5];
@@ -286,10 +342,45 @@ function Read_Time_Blocked($FileHandle) {
   }
   return null;
 }
-//Main---------------------------------------------------------------
-Load_TLDBlockList();                             //Load TLD Blocklist from memory or file
+//Load Historic Log All----------------------------------------------
+function Load_HistoricLog_All($LogDate) {
+  global $DomainList;
+  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
+  if (file_exists($LogFile)) {
+    $FileHandle= fopen($LogFile, 'r');
+    while (!feof($FileHandle)) {
+      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile
+      $DomainList[] = ReturnURL(substr($Line, 0, -1)).substr($Line, -1, 1);
+    }
+  }
+}
+//Load Historic Log Allowed------------------------------------------
+function Load_HistoricLog_Allowed($LogDate) {
+  global $DomainList;
+  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
+  if (file_exists($LogFile)) {
+    $FileHandle= fopen($LogFile, 'r');
+    while (!feof($FileHandle)) {
+      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile
+      if (substr($Line, -1, 1) == '+') $DomainList[] = ReturnURL(substr($Line, 0, -1)).'+';
+    }
+  }
+}
+//Load Historic Log Blocked------------------------------------------
+function Load_HistoricLog_Blocked($LogDate) {
+  global $DomainList;
+  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
+  if (file_exists($LogFile)) {
+    $FileHandle= fopen($LogFile, 'r');
+    while (!feof($FileHandle)) {
+      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile      
+      if (substr($Line, -1, 1) == '-') $DomainList[] = ReturnURL(substr($Line, 0, -1)).'-';
+    }
+  }
+}
 
-//Open Log File------------------------------------------------------
+//Load Todays LogFile------------------------------------------------
+function Load_TodayLog() {
 //Dnsmasq log line consists of:
 //0 - Month
 //1 - Day
@@ -299,22 +390,73 @@ Load_TLDBlockList();                             //Load TLD Blocklist from memor
 //5 - Website Requested
 //6 - "is"
 //7 - IP Returned
-$Dedup = "";                                     //To prevent duplication
-$FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
-//These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
-if ($Earliest == 0) {
-  if ($View == 1) Read_Day_All($FileHandle);     //Read both Allow & Block
-  elseif ($View == 2) Read_Day_Allowed($FileHandle);  //Read Allowed only
-  elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only
+//The functions are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
+  global $StartTime, $StartStr, $View;
+  $FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
+  
+  if (($StartStr == '') || ($StartStr == 'today')) {
+    if ($View == 1) Read_Day_All($FileHandle);     //Read both Allow & Block
+    elseif ($View == 2) Read_Day_Allowed($FileHandle);  //Read Allowed only
+    elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only    
+  }
+  else {
+    if ($View == 1) Read_Time_All($FileHandle);    //Read both Allow & Block
+    elseif ($View == 2) Read_Time_Allowed($FileHandle);  //Read Allowed only
+    elseif ($View == 3) Read_Time_Blocked($FileHandle);  //Read Blocked only    
+  }
+  fclose($FileHandle);
+  return null;
+}
+//Load Historic Logs-------------------------------------------------
+function Load_HistoricLogs() {
+  global $DateRange, $StartTime, $View, $Mem, $DomainList;
+  
+  //It can take a while to process days worth of logs, therefore we'll 
+  //utilise Memcache to hold the data for 10 minutes
+  //Compare $StartTime, $DateRange, and $View to the current settings.
+  //If they match then leave function without opening any files
+  //Store data in Memcache once loaded
+  
+  $DomainList = $Mem->get('DomainList');         //Load Domain list from Memcache
+  if ($DomainList) {                             //Has array loaded?
+    if (($StartTime == $Mem->get('StartTime')) && ($DateRange == $Mem->get('DateRange')) && ($View == $Mem->get('View'))) return;
+    else {
+      echo "Change";
+      $Mem->delete('StartTime');                 //Delete old variables from Memcache
+      $Mem->delete('DateRange');
+      $Mem->delete('DomainList');
+      $Mem->delete('View');
+      $DomainList = array();                     //Delete data in array
+    }    
+  }
+    
+  $LD = $StartTime + 86400;                      //Log files get cached the following day, so we move the start date on by 86,400 seconds (24 hours)
+  for ($i = 0; $i < $DateRange; $i++) {
+    if ($View == 1) Load_HistoricLog_All(date('Y-m-d', $LD));
+    elseif ($View == 2) Load_HistoricLog_Allowed(date('Y-m-d', $LD));
+    elseif ($View == 3) Load_HistoricLog_Blocked(date('Y-m-d', $LD));
+    $LD = $LD + 86400;                           //Add per run of loop 24 Hours
+    if ($LD > time() + 86400) {                  //Don't exceed today
+      break;
+    }
+  }
+  
+  $Mem->set('StartTime', $StartTime, 0, 600);    //Store variables in Memcache
+  $Mem->set('DateRange', $DateRange, 0, 600);
+  $Mem->set('DomainList', $DomainList, 0, 600);
+  $Mem->set('View', $View, 0, 600);
+}
+//Main---------------------------------------------------------------
+Load_TLDBlockList();                             //Load TLD Blocklist from memory or file
+
+if ($StartTime > (time() - 86400)) {             //Load Todays LogFile
+  //echo "Today";
+  Load_TodayLog();
 }
 else {
-  if ($View == 1) Read_Time_All($FileHandle);    //Read both Allow & Block
-  elseif ($View == 2) Read_Time_Allowed($FileHandle);  //Read Allowed only
-  elseif ($View == 3) Read_Time_Blocked($FileHandle);  //Read Blocked only
+  //echo "Historic";
+  Load_HistoricLogs();                           //Or load Historic logs
 }
-fclose($FileHandle);
-
-
 
 //Sort Array of Domains from log file--------------------------------
 $SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
@@ -331,13 +473,10 @@ $ListSize = count($SortedDomainList);
 if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
 
 //Draw Filter Dropdown list------------------------------------------
+echo '<div class="row"><div class="col-half">'."\n";
 echo '<form action="?" method="get">';
-echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
-echo '<input type="hidden" name="dir" value="'.$SortDir.'" />';  
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />';
-echo '<input type="hidden" name="count" value="'.$ItemsPerPage.'" />';
-echo '<input type="hidden" name="earliest" value="'.$EarliestStr.'" />';
-echo '<Label><b>Filter:</b> View  <select name="v" onchange="submit()">';
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('E').AddHiddenVar('DR');
+echo '<Label>Filter: <select name="v" onchange="submit()">';
 switch ($View) {                                 //First item is unselectable, therefore we need to
   case 1:                                        //give a different selection for each value of $View
     echo '<option value="1">All Requests</option>';
@@ -359,13 +498,9 @@ echo '</select></label></form>'."\n";
 
 //Draw Time Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
-echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
-echo '<input type="hidden" name="dir" value="'.$SortDir.'" />';  
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />';
-echo '<input type="hidden" name="count" value="'.$ItemsPerPage.'" />';
-echo '<input type="hidden" name="v" value="'.$View.'" />';
-echo '<Label><b>Time:</b> Show  <select name="earliest" onchange="submit()">';
-switch ($EarliestStr) {                          //First item is unselectable
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('V').AddHiddenVar('DR');
+echo '<Label>Time: <select name="e" onchange="submit()">';
+switch ($StartStr) {                          //First item is unselectable
   case "today": case "":
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
@@ -391,14 +526,21 @@ switch ($EarliestStr) {                          //First item is unselectable
     echo '<option value="-1hours">1 Hour</option>';
   break;
   default:
-    echo '<option value="'.$EarliestStr.'">Other</option>';
+    echo '<option value="'.$StartStr.'">Other</option>';
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
     echo '<option value="-1hours">1 Hour</option>';
     echo '<option value="-8hours">8 Hours</option>';
   break;
 }
-echo '</select></label></form>'."\n";
+echo '</select></label></form></div>'."\n";
+
+//Draw Calendar------------------------------------------------------
+echo '<div class="col-half"><form action="?" method="get">';
+echo '<label>Date: <input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /></label><br />';
+echo '<label>Range: <input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/></label><br />';
+echo '<input type="submit" value="Submit">';
+echo '</form></div></div>';
 
 //Draw Table Headers-------------------------------------------------
 echo '<div class="row"><br />'."\n";
@@ -453,7 +595,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       echo '<tr class="local">';
       echo '<td>'.$i.'</td><td>'.$Site.'</td>';
     }
-    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt=""</a></td><td><a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt=""></a></td><td>'.$Value.'</td></tr>'."\n";    
+    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt=""></a></td><td><a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt=""></a></td><td>'.$Value.'</td></tr>'."\n";    
   }  
   $i++;
 }
@@ -485,7 +627,6 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
     WriteLI('&#x00AB;', $ItemsPerPage * ($CurPos - 2), false);
     WriteLI('1', 0, false);
   }
-	
 
   if ($ListSize <= 4) {                          //Small Lists don't need fancy effects
     for ($i = 2; $i <= $ListSize; $i++) {	 //List of Numbers

@@ -410,6 +410,11 @@ Setup_NoTrack() {
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
   sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
   
+  Check_File_Exists "$InstallLoc/dns-log-archive.sh"
+  sudo cp "$InstallLoc/dns-log-archive.sh" /usr/local/sbin/dns-log-archive.sh
+  sudo mv /usr/local/sbin/dns-log-archive.sh /usr/local/sbin/dns-log-archive
+  sudo chmod +x /usr/local/sbin/dns-log-archive
+  
   echo "Creating daily cron job in /etc/cron.daily/"
   if [ -e /etc/cron.daily/notrack ]; then        #Remove old symlink
     echo "Removing old file: /etc/cron.daily/notrack"

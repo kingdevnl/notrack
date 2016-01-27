@@ -95,7 +95,24 @@ pre {
   margin: 1rem;
   padding: 0.5rem;    
   overflow: auto;  
-} 
+}
+input[type="text"] {
+  font-size: 1.2em;
+  height: 1.5em;  
+  background-color: #FBFBFB;
+  color: #00000A;
+  border: 2px solid #6BA7D9;  
+  border-radius: 5px;
+  width: 89%;
+  box-shadow: 0 0 12px #6BA7D9;
+  margin-bottom: 0.5em;
+}
+input[type="submit"]  {
+  display: inline-block;
+  width: 6em;
+  height: 2em;
+  margin-left: 8em;
+}
 .row {
   width:100%;
   float:left;
@@ -209,16 +226,36 @@ div.centered {
 .pag-nav li:hover > ul {
   visibility: visible;
 }
-
 table {  
-  border: 1px dotted grey;
-  border-spacing: 1px;  
+  border: 1px solid #b3b3b3;
+  border-spacing: 0;
   table-layout: fixed;
 }
 td, th {
-  border: 1px dotted grey;
+  border: 1px solid #b3b3b3;
   overflow: auto;  
   padding: 2px 3px;  
+}
+th {
+  background-color: #97D9FF;
+}
+table#block-table {  
+  width: 90%;
+  margin: 0px auto;
+  font-size:1.1em; 
+}
+#block-table tr:nth-child(odd) td{
+   background: #FBFBFB;
+}
+#block-table tr:nth-child(even) td{
+   background: #EEEEEE;
+}
+#block-table td:nth-child(1), #block-table th:nth-child(1) {
+  width: 10%;
+  text-align: center;  
+}
+#block-table td:nth-child(2), #block-table th:nth-child(2) {
+  width: 88%;    
 }
 table.domain-table {  
   width: 90%;
@@ -244,6 +281,12 @@ table.dhcp-table {
   width: 90%;
   margin: 0px auto;
   font-size:1.1em; 
+}
+.dhcp-table tr:nth-child(odd) td{
+   background: #FBFBFB;
+}
+.dhcp-table tr:nth-child(even) td{
+   background: #EEEEEE;
 }
 .dhcp-table td:nth-child(1), .dhcp-table th:nth-child(1) {
   width: 15%;
@@ -431,6 +474,19 @@ table.dhcp-table {
     margin: 1em;
   }
 }
+
+.col-half {
+  width: 45%;
+  padding: 1em;  
+  float: left;
+}
+
+@media only screen and (max-width: 640px), only screen and (max-device-width: 640px) {
+  .col-half {
+    width: 100%;
+  }
+}
+
 
 @media only print {
   #main-menu-back {

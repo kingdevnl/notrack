@@ -13,7 +13,7 @@
 include('topmenu.html');
 echo "<h1>NoTrack Admin</h1>\n"; 
 
-$Version="0.4";
+$Version="0.5";
 $Config = array();
 
 function Load_Config_File() {
@@ -62,13 +62,11 @@ else {                                           //Config line missing
 
 //Temp warning about Memcache
 echo '<div class="row">'."\n";
-echo '<h3>Please Note: NoTrack is now using memcache to improve page loading performance.</h4>';
-echo '<p>Ubuntu / Debian users install memcached and php5-memcache:</p>';
-echo '<pre>sudo apt-get install memcached php5-memcache<br />sudo service lighttpd restart</pre><br />';
-echo '<p>Arch users install memcached and php-memcache:</p>';
-echo '<pre>pacman -S memcached php-memcache</pre><br />';
-echo '<p>Fedora users install memcached and php-pecl-memcached:</p>';
-echo '<pre>dnf install memcached php-pecl-memcached<br />sudo service lighttpd restart</pre>';
+echo '<h3>Important Note: </h3>';
+echo '<p>As of NoTrack v0.5 (released 27 Jan 2016) a significant number of changes have been made to the underlying functionality of NoTrack, therefore you will need to <b>re-install NoTrack</b>.</p>'."\n";
+echo '<p>Remember to take a copy of Dnsmaq log file <b>/etc/dnsmasq.conf</b> if you have made any changes.<br />There is no need to do a full re-install of the OS.</p>'."\n";
+echo '<p>Instructions:</p>'."\n";
+echo '<pre>cd ~/NoTrack<br />bash install.sh</pre>'."\n";
 echo '</div>';
 
 
