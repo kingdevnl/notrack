@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <title>NoTrack TLD Blocklist</title>
+  <title>NoTrack TLD Blocklist</title>  
 </head>
 
 <body>
@@ -39,12 +39,18 @@ function Load_TLDBlockList() {
 Load_TLDBlockList();
 asort($TLDBlockList);
 
-//Display List-------------------------------------------------------
-echo '<div class="row-padded"><br />'."\n";
+//Draw Table---------------------------------------------------------
+echo '<div class="row"><br />'."\n";
+echo '<table id="block-table">'."\n";
+echo '<tr><th>#</th><th>Site</th></tr>'."\n";
+$i = 1;
 foreach($TLDBlockList as $Site) {
-  echo $Site."<br />\n";
+  if ($Site != "") {
+    echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
+    $i++;
+  }  
 }
-echo "</div>\n";
+echo "</table></div>\n";
 ?> 
 </div>
 </body>
