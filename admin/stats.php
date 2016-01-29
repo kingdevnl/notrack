@@ -420,8 +420,7 @@ function Load_HistoricLogs() {
   $DomainList = $Mem->get('DomainList');         //Load Domain list from Memcache
   if ($DomainList) {                             //Has array loaded?
     if (($StartTime == $Mem->get('StartTime')) && ($DateRange == $Mem->get('DateRange')) && ($View == $Mem->get('View'))) return;
-    else {
-      echo "Change";
+    else {      
       $Mem->delete('StartTime');                 //Delete old variables from Memcache
       $Mem->delete('DateRange');
       $Mem->delete('DomainList');
