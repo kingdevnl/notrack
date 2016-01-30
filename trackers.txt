@@ -1,4 +1,4 @@
-#List of Ad files last updated 27 Jan 2016 .1
+#List of Ad files last updated 30 Jan 2016 .1
 #LatestVersion 0.5
 103bees.com
 10cms.com
@@ -748,6 +748,7 @@ mediaforge.com
 mediaplex.com
 mediavoice.com
 merchenta.com
+messages2.com #Silverpop Systems
 metalyzer.com
 meteora.co
 meteora.us
@@ -760,9 +761,11 @@ microsoft-hohm.com #Markmonitor
 millennialmedia.com
 mixpanel.com
 msecnd.net
-mkt101.com #Markmonitor
-mkt101.net
-mkt102.com
+:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
+:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
+#mkt101.com #Markmonitor
+mkt101.net #Silverpop Systems
+#mkt102.com
 mkt103.com
 mkt104.com
 mkt105.com
@@ -8407,6 +8410,7 @@ mxcdn.net
 mxlogic.com
 mxptint.net
 mxpnl.com
+myads.com #Rubicon
 mybuys.com
 mydas.mobi
 myflairware.com #TMRG
@@ -8431,6 +8435,7 @@ nanovisor.info #instartlogic
 nanovisor.net #instartlogic
 nanovisor.org #instartlogic
 nanovisor.us #instartlogic
+nearbyad.com #Rubicon
 netcommunities.com
 netdna-cdn.com #Markmonitor
 netmng.com
@@ -8615,17 +8620,26 @@ rfihub.net
 rhythmxchange.com
 richrelevance.com
 rlcdn.com
-rm0001.net
-rm0002.net
-rm0003.net
-rm0004.net
-rm0005.net
-rm0006.net
-rm0007.net
-rm0008.net
-rm0009.net
-rm0010.net
-robtex.net #Possible MS tracking
+rm01.net #Silverpop Systems
+rm02.net #Silverpop Systems
+rm03.net #Silverpop Systems
+rm04.net #Silverpop Systems
+rm05.net #Silverpop Systems
+rm06.net #Silverpop Systems
+rm07.net #Silverpop Systems
+rm08.net #Silverpop Systems
+rm09.net #Silverpop Systems
+rm10.net #Silverpop Systems
+rm0001.net #Silverpop Systems
+rm0002.net #Silverpop Systems
+rm0003.net #Silverpop Systems
+rm0004.net #Silverpop Systems
+rm0005.net #Silverpop Systems
+rm0006.net #Silverpop Systems
+rm0007.net #Silverpop Systems
+rm0008.net #Silverpop Systems
+rm0009.net #Silverpop Systems
+rm0010.net #Silverpop Systems
 roia.biz
 roost.me
 route.to
@@ -8649,7 +8663,11 @@ rtbx.net #AppNexus Inc
 rtbx.org #AppNexus Inc
 rtbx.us #AppNexus Inc
 ru4.com
-rubiconproject.com
+rubi.link #Rubicon
+rubiconproject.com #Rubicon
+rubiconproject.info #Rubicon
+rubiconproject.mobi #Rubicon
+rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
@@ -8704,7 +8722,7 @@ silkenthreadiness.info
 silverpop.com
 simplereach.com
 site24x7rum.com
-sitescout.com
+sitescout.com #Rubicon
 sitescoutadserver.com
 sitestat.com
 sitetagger.co.uk
@@ -8947,6 +8965,9 @@ wunderloop.net
 wwpxl.com #AppNexus Inc
 wywy.com
 #X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X
+xct31.net #Silverpop Systems
+xct32.net #Silverpop Systems
+xct33.net #Silverpop Systems
 xg4ken.com
 xiti.com
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
@@ -9067,3 +9088,5 @@ geo.query.yahoo.com
 mc.yandex.ru
 pixel.wp.com
 stats.wp.com
+:analytics-colecter-\d{1,8}\.us-east-1\.elb\.amazonaws\.com
+:^pixel\.
