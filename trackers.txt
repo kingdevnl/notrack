@@ -1,8 +1,12 @@
-#List of Ad files last updated 30 Jan 2016 .1
+#List of Ad files last updated 30 Jan 2016 .2
 #LatestVersion 0.5
+1-cl0ud.com #Lead Forensics
+1-creative-1.com #Lead Forensics
 103bees.com
 10cms.com
+123-tracker.com #Lead Forensics
 1800omniture.com #Adobe
+200summit.com #Lead Forensics
 206ads.com
 247realmedia.com #AppNexus Inc
 247realmedia.org #AppNexus Inc
@@ -39,6 +43,7 @@ abmr.net
 abtasty.com
 active-agent.com
 active-agent.net
+active-trk7.com #Lead Forensics
 acuityplatform.com
 acxiom-online.com
 ad-serverparc.nl
@@ -161,6 +166,7 @@ akadns.net
 alertbot.co.uk
 aliunicorn.com
 alnisrgroup.com
+altabold1.com #Lead Forensics
 amap.com
 amazon-adsystem.com
 amgdgt.com
@@ -169,6 +175,7 @@ amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
 and.co.uk
+angorch-cdr7.com #Lead Forensics
 anrdoezrs.net
 apester.com
 apnex.us #AppNexus Inc
@@ -213,6 +220,7 @@ atdmt.com
 atemda.com
 atgsvcs.com
 ati-host.net
+atl-6-ga.com #Lead Forensics
 attraqt.com
 atwola.com
 audienceco-op.com #Adobe
@@ -232,16 +240,21 @@ awin3.com #Digital Window
 awinanalytics.com #Digital Window
 awltovhc.com
 awmetrics.com #Digital Window
+azera-s014.com #Lead Forensics
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
+bae5tracker.com #Lead Forensics
 basebanner.com
 batchgeo.com
+baw5tracker.com #Lead Forensics
 baynote.net
 #bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
 bcplayer.net
+bdg001a.com #Lead Forensics
 beanstock.com
 begun.ru
 behancemanage.com #Adobe
 behavior.com #Adobe
+berg-6-82.com #Lead Forensics
 betrad.com
 betteradserving.com #AppNexus Inc
 betterbrandsafety.com #AppNexus Inc
@@ -258,11 +271,14 @@ bidtrk.com
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 bing.net #Microsoft
+bis-dic15.com #Lead Forensics
 bizible.com
 bizographics.com
 bkrtx.com
 blinkx.com
+blocwhite7.com #Lead Forensics
 blogherads.com
+bosctrl32.com #Lead Forensics
 bluebillywig.com
 bluekai.com
 bluelithium.com
@@ -333,6 +349,8 @@ cdngc.net
 cedexis.net
 cedexis-radar.net
 celtra.com
+centralcore7.com #Lead Forensics
+central-core-7.com #Lead Forensics
 ceros.com
 certona.net
 cetrk.com
@@ -353,6 +371,7 @@ clicktracks.com
 clickwindow.com #Digital Window
 clickwindow.net #Digital Window
 clixengine.com #Digital Window
+cloud-9751.com #Lead Forensics
 cloudapp.net #Markmonitor
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
@@ -369,6 +388,7 @@ compete.com
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
 connexity.net
+cnt-tm-1.com #Lead Forensics
 content-square.net
 content.ad
 contentclick.co.uk
@@ -376,6 +396,9 @@ contentfeed.net
 contentquery.net
 contentwindow.com #Digital Window
 contextweb.com
+cntr-di5.com #Lead Forensics
+cntr-di7.com #Lead Forensics
+connct-9.com #Lead Forensics
 convertro.com
 conyak.com
 cookielesstargeting.info #YieldBot
@@ -398,13 +421,16 @@ crtracklink.com
 crwdcntrl.net
 cspbuilder.info
 ctasnet.com
+cten10010.com #Lead Forensics
 ctnsnet.com
 ctscdn.com
+custhelp.com
 customerjourney.com #eGain Corporation
 customersciences.com #Adobe
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
+dakic-ia-300.com #Lead Forensics
 daphnecm.com
 dapxl.com
 dartsearch.net
@@ -427,6 +453,8 @@ digital-window.com #Digital Window
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
+direct-aws-a1.com #Lead Forensics
+direct-azr-78.com #Lead Forensics
 direct-serve.com #Digital Window
 directrev.com
 directserve.com #Digital Window
@@ -446,6 +474,9 @@ dpmsrv.com
 dqna.net
 dressipi.com #Style website which offers analytics for other retailers
 dsply.com
+dtc-330d.com #Lead Forensics
+dtc-v6t.com #Lead Forensics
+dthvdr9.com #Lead Forensics
 dtscout.com
 duba.com
 duba.net
@@ -460,6 +491,7 @@ ebaypartnernetwork.com
 ebz.io
 ecopute.com #AppNexus Inc
 ecustomeropinions.com
+ed-clr-01.com #Lead Forensics
 edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
@@ -470,12 +502,13 @@ egdemo.info #eGain Corporation
 egeng.info #eGain Corporation
 electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
+eloqua.com #Oracle
 emailretargeting.com
 embed.ly
 emediate.dk
 emltrk.com
 emv3.com
-en25.com
+en25.com #Oracle
 engagesciences.com
 engine54.com #AppNexus Inc
 ensighten.com
@@ -490,7 +523,12 @@ errorception.com
 esearchvision.com
 esomniture.com #Adobe
 esvdigital.com
+eue21east.com #Lead Forensics
+eue27west.com #Lead Forensics
 eum-appdynamics.com
+eventcapture03.com #Lead Forensics
+eventcapture06.com #Lead Forensics
+ever-track-51.com #Lead Forensics
 everestjs.net
 everesttech.net
 evyy.net #Impact Radius
@@ -515,6 +553,8 @@ feedsportal.com
 fetchback.com
 fidelity-media.com
 fimserve.com
+final-aws-01.com #Lead Forensics
+final-azr-01.com #Lead Forensics
 findingflowers.com #Digital Window
 fits.me
 flashtalking.com
@@ -522,9 +562,9 @@ flite.com
 flexlinks.com
 flx1.com
 followistic.com
-footprint.net #Markmonitor
-footprintdns.com
-footprintpredict.com
+footprint.net #Level3
+footprintdns.com #Microsoft
+footprintpredict.com #Microsoft
 force.com
 forensiq.com #Forensiq
 forensiq.net #Forensiq
@@ -546,6 +586,8 @@ fyre.co
 gardendiscount.com #Digital Window
 gaug.es
 gamned.com
+gbl007.com #Lead Forensics
+gblwebcen.com #Lead Forensics
 gemius.pl
 geoadnxs.com #AppNexus Inc
 geoadnxs.net #AppNexus Inc
@@ -555,6 +597,7 @@ geogslb.net #AppNexus Inc
 georiot.com
 getclicky.com
 getdrip.com
+getphotoeffects.com #RadiumOne
 gigya.com
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
@@ -586,6 +629,10 @@ gslbns.net #AppNexus Inc
 gslbns.org #AppNexus Inc
 gssprt.jp
 gumgum.com
+gw100-10.com #Lead Forensics
+gwallet.com #RadiumOne
+gwallet.net #RadiumOne
+gwallet-qa.com #RadiumOne
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 hanapinmarketing.com
 hardofhearing.org
@@ -595,7 +642,9 @@ histats.com
 hlserve.com
 hochmoor.com
 hotjar.com
-hs-analytics.net
+hrb1tng0.com #Lead Forensics
+hs-analytics.com #Hubspot
+hs-analytics.net #Hubspot
 hscta.net
 hsstatic.net
 html5nano-visor.biz #instartlogic
@@ -693,6 +742,7 @@ jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kastatic.com
 kau.li
+keywords.com #Microsoft
 kiespr.com #TMRG
 kiosked.com
 kissmetrics.com
@@ -757,7 +807,7 @@ metricswindow.com #Digital Window
 mgid.com
 mgsvc.com
 micpn.com
-microsoft-hohm.com #Markmonitor
+microsoft-hohm.com #Microsoft
 millennialmedia.com
 mixpanel.com
 msecnd.net
@@ -8399,6 +8449,8 @@ moblexp.net #TMRG
 mobytrks.com
 midrollvideo.com #BrightRoll
 mookie1.com
+mon-com-01.com #Lead Forensics
+mon-com-net.com #Lead Forensics
 monetate.net
 mouseflow.com
 mrkt.it
@@ -8423,6 +8475,7 @@ myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
 myvirtualdisk.net #TMRG
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
+n-core-pipe.com #Lead Forensics
 nanigans.com
 nano-visor.biz #instartlogic
 nano-visor.com #instartlogic
@@ -8437,7 +8490,6 @@ nanovisor.org #instartlogic
 nanovisor.us #instartlogic
 nearbyad.com #Rubicon
 netcommunities.com
-netdna-cdn.com #Markmonitor
 netmng.com
 netseer.com
 netshelter.net
@@ -8452,6 +8504,8 @@ nster.net
 nr-data.net
 nster.net
 nuggad.net
+nw-rail-03.com #Lead Forensics
+nyctrl32.com #Lead Forensics
 #O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O
 oas-central.com #AppNexus Inc
 oas-central.net #AppNexus Inc
@@ -8466,6 +8520,7 @@ oasnexus.net #AppNexus Inc
 oclaserver.com
 octonet.com
 offpageads.com
+ofnsv69.com #Lead Forensics
 ojrq.net #Impact Radius
 oileddaintiessunset.info
 om.au
@@ -8520,6 +8575,7 @@ panachetech.com #AppNexus Inc
 pardot.com
 parsely.com
 passionfruitads.com
+pdxor02.com #Lead Forensics
 peer39.net
 peerius.com
 pepperjamnetwork.com
@@ -8532,10 +8588,16 @@ permissionresearch.com #TMRG
 permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
-phicdn.net #Markmonitor
+phicdn.net #Verizon
 pimpb.us #AppNexus Inc
 pingdom.net
+pingme.net #RadiumOne
+pingmemessenger.com #RadiumOne
+pingmemessenger.mobi #RadiumOne
+pingmemessenger.net #RadiumOne
+pingmemessenger.us #RadiumOne
 pixfuture.net
+pkrchp001.com #Lead Forensics
 playforprizes.net #Digital Window
 plista.com
 plugerr.com
@@ -8581,6 +8643,7 @@ q4cdn.com
 q4web.com
 q4websystems.com
 qmerce.com
+qservz.com
 qsubmit.com
 qualtrics.com
 quantcast.com
@@ -8588,8 +8651,25 @@ quantserve.com
 qubitproducts.com
 questionmarket.com
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
+r1-cdn.net #RadiumOne
+r1sdk.com #RadiumOne
+r1sdk-cdn.com #RadiumOne
+r1share.com #RadiumOne
 r42tag.com
 raasnet.com
+radicaltest.com #RadiumOne
+radium1.com #RadiumOne
+radium1.info #RadiumOne
+radium1.net #RadiumOne
+radium1.org #RadiumOne
+radium1.us #RadiumOne
+radiumone.com #RadiumOne
+radiumone.info #RadiumOne
+radiumone.mobi #RadiumOne
+radiumone.net #RadiumOne
+radiumone.org #RadiumOne
+radiumone.us #RadiumOne
+radiumonelabs.com #RadiumOne
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
 reactful.com
@@ -8640,6 +8720,7 @@ rm0007.net #Silverpop Systems
 rm0008.net #Silverpop Systems
 rm0009.net #Silverpop Systems
 rm0010.net #Silverpop Systems
+rng-snp-003.com #Lead Forensics
 roia.biz
 roost.me
 route.to
@@ -8671,12 +8752,19 @@ rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
+s3network1.com #Lead Forensics
+s5network1.com #Lead Forensics
+saas-eue-1.com #Lead Forensics
+saas-euw-1.com #Lead Forensics
 sail-horizon.com
 sailthru.com
+sas15k01.com #Lead Forensics
 sascdn.com
 saymedia.com
 sayutracking.co.uk
 scarabresearch.com
+sch-alt-91.com #Lead Forensics
+sch-crt-91.com #Lead Forensics
 scorecardresearch.com #TMRG
 scorecardresearch.net #TMRG
 scoutanalytics.net
@@ -8686,8 +8774,10 @@ sdad.biz #instartlogic
 sdad.guru #instartlogic
 sdad.mobi #instartlogic
 sdad.technology #instartlogic
+se-core-pipe.com #Lead Forensics
 search2shop.com #Digital Window
 searchmarketing.com
+seatac15.com #Lead Forensics
 secretmedia.com
 secureadserver.com
 securepaths.com
@@ -8714,6 +8804,7 @@ sharethis.com
 sharethrough.com
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
+shrfbdg004.com #Lead Forensics
 shwired.com #TMRG
 shwired.net #TMRG
 sid-ads.com
@@ -8737,6 +8828,8 @@ snapengage.com #SnapEngage LLC
 snapsitemap.com #PathDefender
 snapsurveys.com
 snorkletech.com #AppNexus Inc
+snta0034.com #Lead Forensics
+softtrack08.com #Lead Forensics
 softwaredefined.guru #instartlogic
 softwaredefined.us #instartlogic
 softwaredefinedappdelivery.com #instartlogic
@@ -8768,6 +8861,7 @@ specificclick.net
 speedshiftmedia.com
 spendandraise.org #Digital Window
 spendnraise.org #Digital Window
+spoded.com #Microsoft
 spongecell.com
 spopessentials3.com
 spoteffects.com
@@ -8789,6 +8883,7 @@ subtraxion.com
 successfultogether.co.uk
 sugarops.com
 sumome.com
+sw-rail-7.com #Lead Forensics
 switchadhub.com
 switchads.com
 swoop.com
@@ -8820,12 +8915,13 @@ theadex.com
 theatre-breaks.com #Digital Window
 thebrighttag.com
 thehut.net
-thetacdn.net #Markmonitor
+thetacdn.net #Verizon
 ticket-genie.com #Digital Window
 tidaltv.com
 tiqcdn.com
 tkqlhce.com
 tl813.com
+tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tqlkg.com
@@ -8833,6 +8929,9 @@ tqn.com
 trackalyzer.com
 trackedlink.net
 track-flow.com
+track-mv.com #MultiView
+track-mv-01.com #MultiView
+track-mv-02.com #MultiView
 trackjs.com
 trackwindow.com #Digital Window
 tradeadexchange.com
@@ -8841,6 +8940,7 @@ tradefxads.com
 trafficauthority.com #Adobe
 trafficjunky.net
 trafficmanager.net
+trail-web.com #Lead Forensics
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
 trees4knowledge.com #TMRG
@@ -8907,6 +9007,7 @@ vertmarkets.com
 veruta.com
 venturead.com
 viafoura.com
+viame-cdn.com #RadiumOne
 viazza.com
 viazza.info
 videoadex.com
@@ -8933,6 +9034,10 @@ voycme.com #eGain Corporation
 w55c.net
 walkme.com
 wci-fl.com
+web-01-gbl.com #Lead Forensics
+web-cntr-09.com #Lead Forensics
+web-cntr-10.com #Lead Forensics
+web-cntr-11.com #Lead Forensics
 webapplicationstreamingnetwork.com #instartlogic
 webapplicationstreamingnetwork.info #instartlogic
 webapplicationstreamingnetwork.net #instartlogic
@@ -8958,6 +9063,7 @@ wikia-beacon.com
 wistia.com
 woopra.com
 wowanalytics.co.uk
+ws-outage.com #Lead Forensics
 wt-eu02.net
 wt-safetag.com
 wtp101.com
