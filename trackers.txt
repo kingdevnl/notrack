@@ -1,4 +1,4 @@
-#List of Ad files last updated 30 Jan 2016 .2
+#List of Ad files last updated 30 Jan 2016 .3
 #LatestVersion 0.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -240,6 +240,7 @@ awin3.com #Digital Window
 awinanalytics.com #Digital Window
 awltovhc.com
 awmetrics.com #Digital Window
+azalead.com
 azera-s014.com #Lead Forensics
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 bae5tracker.com #Lead Forensics
@@ -301,6 +302,7 @@ brightcovemedia.com
 brightcovetv.com
 brightedge.com
 brighteroption.com
+brightinfo.com #BrightInfo
 brightroll.com #BrightRoll
 brightroll.mobi #BrightRoll
 brightroll.net #BrightRoll
@@ -8977,24 +8979,25 @@ uniqodo.com
 univide.com
 uobsoe.com
 upsellit.com
-upsiloncdn.net #Markmonitor
+upsiloncdn.net #Verizon
 urbanairship.com
+userstats.com
 userzoom.com
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
-v0cdn.net #Markmonitor
-v1cdn.net #Markmonitor
-v2cdn.net #Markmonitor
-v3cdn.net #Markmonitor
-v4cdn.net #Markmonitor
-v5cdn.net #Markmonitor
-v6cdn.net #Markmonitor
-v7cdn.net #Markmonitor
-v8cdn.net #Markmonitor
-v9cdn.net #Markmonitor
-v10cdn.net #Markmonitor
-v11cdn.net #Markmonitor
-v12cdn.net #Markmonitor
-v13cdn.net #Markmonitor
+v0cdn.net #Verizon
+v1cdn.net #Verizon
+v2cdn.net #Verizon
+v3cdn.net #Verizon
+v4cdn.net #Verizon
+v5cdn.net #Verizon
+v6cdn.net #Verizon
+v7cdn.net #Verizon
+v8cdn.net #Verizon
+v9cdn.net #Verizon
+v10cdn.net #Verizon
+v11cdn.net #Verizon
+v12cdn.net #Verizon
+v13cdn.net #Verizon
 valdelabs.com #AppNexus Inc
 vdna-assets.com #Imagini Holdings
 veille-referencement.com
