@@ -813,8 +813,8 @@ microsoft-hohm.com #Microsoft
 millennialmedia.com
 mixpanel.com
 msecnd.net
-:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
-:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
+#:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
+#:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
 #mkt101.com #Markmonitor
 mkt101.net #Silverpop Systems
 #mkt102.com
@@ -9197,5 +9197,5 @@ geo.query.yahoo.com
 mc.yandex.ru
 pixel.wp.com
 stats.wp.com
-:analytics-colecter-\d{1,8}\.us-east-1\.elb\.amazonaws\.com
-:^pixel\.
+#:analytics-colecter-\d{1,8}\.us-east-1\.elb\.amazonaws\.com:
+#:^pixel\.:
