@@ -5,6 +5,7 @@
 103bees.com
 10cms.com
 123-tracker.com #Lead Forensics
+161media.com#161 Media
 1800omniture.com #Adobe
 200summit.com #Lead Forensics
 206ads.com
@@ -78,6 +79,7 @@ adixo.com
 adizio.com
 adjug.com
 adjust.com
+adlansa.com
 adlegend.com
 adlibrary.org #AppNexus Inc
 adlooxtracking.com
@@ -107,6 +109,7 @@ adobetag.com #Adobe
 adoftheyear.com
 adpacked.com #Adobe
 adreadytractions.com
+adrequest.net#R van Ingen
 adriver.ru
 adroll.com
 adrotate.se
@@ -135,6 +138,7 @@ advertising.com
 advertserve.com
 adviva.net
 adxpose.com
+adyard.net#Ligatus GmbH
 adzerk.com
 adzerk.net
 adzhub.com
@@ -180,6 +184,15 @@ anrdoezrs.net
 apester.com
 apnex.us #AppNexus Inc
 apnx.us #AppNexus Inc
+app-dynamics.com#AppDynamics
+appdynamics.asia#AppDynamics
+appdynamics.biz#AppDynamics
+appdynamics.com#AppDynamics
+appdynamics.info#AppDynamics
+appdynamics.mobi#AppDynamics
+appdynamics.net#AppDynamics
+appdynamics.org#AppDynamics
+appdynamics.us#AppDynamics
 appenstance.com #AppNexus Inc
 appier.net
 appinstance.com #AppNexus Inc
@@ -188,6 +201,7 @@ applicationstreamingnetwork.com #instartlogic
 applicationstreamingnetwork.info #instartlogic
 applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
+appsmonitoring.com#AppDynamics
 appnex.us #AppNexus Inc
 appnexis.com #AppNexus Inc
 appnexus.asia #AppNexus Inc
@@ -289,6 +303,7 @@ bluesnapper.com.au
 bluevoice.biz
 bluevoice.us
 bombora.com
+boomads.com
 boostable.com
 bounceexchange.com
 brand-server.com
@@ -325,6 +340,7 @@ brvs.com #BrightRoll
 btstatic.com
 bugherd.com
 builfico.de
+bunchbox.co#Peaks & Pies
 burstnet.com
 burt.io
 buyat.com #Digital Window
@@ -366,6 +382,7 @@ choosealoan.com #Digital Window
 christmasalready.com #Digital Window
 chrs-mln-krs.com
 clear-reports.com
+clearcode.cc
 clickfuse.com
 clickshift.com
 clicktale.net
@@ -499,8 +516,7 @@ edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
 elasticbeanstalk.com
-egaintraining.com #eGain Corporation
-egdemo.info #eGain Corporation
+elitechnology.com#Enne Solutions
 egeng.info #eGain Corporation
 electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
@@ -521,13 +537,13 @@ envnxs.net #AppNexus Inc
 epmads.com
 eqads.com
 erne.co
-errorception.com
+errorception.com#Rakesh Pai
 esearchvision.com
 esomniture.com #Adobe
 esvdigital.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
-eum-appdynamics.com
+eum-appdynamics.com#AppDynamics
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
 ever-track-51.com #Lead Forensics
@@ -601,6 +617,7 @@ getclicky.com
 getdrip.com
 getphotoeffects.com #RadiumOne
 gigya.com
+gimmescreenshot.com#Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
 go-mpulse.net
@@ -696,6 +713,7 @@ infinity-tracking.net
 influentialinsights.com #TMRG
 influentialinsights.net #TMRG
 infolinks.com
+innometrics.com#Swordfish Inc
 inscname.net #instartlogic
 inscname2.net #instartlogic
 insdns.net #instartlogic
@@ -742,6 +760,8 @@ justbroadband.com #Digital Window
 justnavigators.com #Digital Window
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
+kaloo.ga#Kalooga
+kalooga.com#Kalooga
 kastatic.com
 kau.li
 keywords.com #Microsoft
@@ -766,6 +786,11 @@ levexis.com
 liadm.com
 liftdna.com #OpenX
 liftdna.net #OpenX
+ligadx.com#Ligatus GmbH
+ligatus.biz#Ligatus GmbH
+ligatus.com#Ligatus GmbH
+ligatus.info#Ligatus GmbH
+ligatus.us#Ligatus GmbH
 lijit.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
@@ -8531,7 +8556,7 @@ omnitagjs.com
 omniture.com #Adobe
 omtrdc.net
 onclasrv.com
-onclickads.net
+onclickads.net#Advertising Technologies
 onestat.com
 olark.com
 online-metrix.net
@@ -8557,12 +8582,13 @@ opinionsquare.com #TMRG
 opinionsquare.net #TMRG
 optilead.co.uk
 optinmonster.com
-optimizely.com
+optimizely.com#Optimizely
 optnmnstr.com
 outbrain.com
 owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
 p-td.com
+p161.net#161 Media
 pages01.net
 pages02.net
 pages03.net
@@ -8598,6 +8624,8 @@ pingmemessenger.com #RadiumOne
 pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
+piwik.pro#Piwik PRO
+piwikpro.com#Piwik PRO
 pixfuture.net
 pkrchp001.com #Lead Forensics
 playforprizes.net #Digital Window
@@ -8657,7 +8685,7 @@ r1-cdn.net #RadiumOne
 r1sdk.com #RadiumOne
 r1sdk-cdn.com #RadiumOne
 r1share.com #RadiumOne
-r42tag.com
+r42tag.com#Relay42 
 raasnet.com
 radicaltest.com #RadiumOne
 radium1.com #RadiumOne
@@ -8758,6 +8786,7 @@ s3network1.com #Lead Forensics
 s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
 saas-euw-1.com #Lead Forensics
+sagent.io#Sagent BV
 sail-horizon.com
 sailthru.com
 sas15k01.com #Lead Forensics
@@ -8804,6 +8833,7 @@ sessioncam.com
 sex-affiliation.com
 sharethis.com
 sharethrough.com
+shop2market.com
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
 shrfbdg004.com #Lead Forensics
@@ -8829,6 +8859,7 @@ smct.co
 snapengage.com #SnapEngage LLC
 snapsitemap.com #PathDefender
 snapsurveys.com
+snmmd.nl
 snorkletech.com #AppNexus Inc
 snta0034.com #Lead Forensics
 softtrack08.com #Lead Forensics
@@ -8889,6 +8920,7 @@ sw-rail-7.com #Lead Forensics
 switchadhub.com
 switchads.com
 swoop.com
+swordfishdc.com#Swordfish Inc
 symcb.com #Symantec
 symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
@@ -8981,6 +9013,7 @@ uobsoe.com
 upsellit.com
 upsiloncdn.net #Verizon
 urbanairship.com
+usabilla.com#Usabilla
 userstats.com
 userzoom.com
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
@@ -9000,6 +9033,7 @@ v12cdn.net #Verizon
 v13cdn.net #Verizon
 valdelabs.com #AppNexus Inc
 vdna-assets.com #Imagini Holdings
+veeseo.com#Veeseo
 veille-referencement.com
 veoxa.com
 verticaltechmedia.de
@@ -9033,6 +9067,7 @@ voucheralley.com #Digital Window
 vouchercodeclub.com #Digital Window
 voucherwindow.com #Digital Window
 voycme.com #eGain Corporation
+vwdservices.com#VWD Group
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
 walkme.com
@@ -9183,6 +9218,7 @@ asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net
 stats.pagefair.net
+cookiesv2.publiekeomroep.nl
 pixel.reddit.com
 pixel.redditmedia.com
 analytics.faw.sky.com
