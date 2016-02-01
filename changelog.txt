@@ -1,5 +1,5 @@
 v0.5.1 alpha
-Added Report Button to stats page (Issue #10)
+Added Report Button to Domain Stats (Issue #10)
 
 v0.5 alpha
 Fixed Issue #7 - Dnsmasq restart issues with wlan0.
