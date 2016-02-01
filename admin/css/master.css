@@ -269,13 +269,16 @@ table.domain-table {
 .domain-table td:nth-child(2), .domain-table th:nth-child(2) {
   width: 53%;
 }
-.domain-table td:nth-child(3), .domain-table td:nth-child(4), .domain-table th:nth-child(3), .domain-table th:nth-child(4) {
-  width: 6%;  
+.domain-table td:nth-child(3), .domain-table th:nth-child(3) {
+  width: 12%;  
   text-align: center;
 }
-.domain-table td:nth-child(5), .domain-table th:nth-child(5) {
+.domain-table td:nth-child(4), .domain-table th:nth-child(4) {
   width: 15%;  
   text-align: center;
+}
+.domain-table img {
+  width: 1em;
 }
 table.dhcp-table {  
   width: 90%;
@@ -336,15 +339,12 @@ table.dhcp-table {
   position: absolute;
   top: 2.2em;  
   left: 7em;
-  height: 1em;   
+  height: 1em;
 }
 #main-menu-line img {
   margin: 0 5px;
   width: 2rem;
   height: 2rem;
-}
-#main-menu-line h3 {
-  margin: 0;  
 }
 #main-menu {
   font-size: 1.1em;

@@ -17,7 +17,7 @@ echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','cedexis-radar.net','stackexchange.com');
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 
 $Mem = new Memcache;                             //Initiate Memcache
@@ -553,8 +553,7 @@ if ($SortCol == 1) {
 else {
   WriteTH(1, $SortDir, 'Domain');
 }
-echo "<th>G</th>\n";
-echo "<th>W</th>\n";
+echo "<th>Action</th>\n";
 if ($SortCol == 0) {
   if ($SortDir == 0) WriteTH(0, 1, 'Requests&#x25BE;');
   else WriteTH(0, 0, 'Requests&#x25B4;');
@@ -575,6 +574,8 @@ foreach ($SortedDomainList as $Str => $Value) {
       if ($i & 1) echo '<tr class="odd">';       //Light grey row on odd numbers
       else echo '<tr class="even">';             //White row on even numbers
       echo '<td>'. $i.'</td><td>'.$Site.'</td>';
+      
+      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
     }
     elseif ($Action == '-') {                    //- = Blocked
       $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
@@ -589,12 +590,17 @@ foreach ($SortedDomainList as $Str => $Value) {
       else {
         echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">Blocked by Tracker List</p></td>';
       }
+      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\'remove--'.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
     }
     elseif ($Action == '1') {                    //1 = Local lookup
       echo '<tr class="local">';
       echo '<td>'.$i.'</td><td>'.$Site.'</td>';
+      $ReportSiteStr = '';
     }
-    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt=""></a></td><td><a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt=""></a></td><td>'.$Value.'</td></tr>'."\n";    
+    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
+    <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
+    .$ReportSiteStr;
+    echo '</td><td>'.$Value.'</td></tr>'."\n";    
   }  
   $i++;
 }
@@ -679,5 +685,11 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
 
 ?>
 </div>
+
+<script>
+function ReportSite(Site) {
+  if (confirm("Do you want to report site\n" + Site)) window.open("http://quidsup.net/notrack/report.php?site=" + Site, "_self");
+}
+</script>
 </body>
 </html>

@@ -1,5 +1,8 @@
+v0.5.1 alpha
+Added Report Button to stats page (Issue #10)
+
 v0.5 alpha
-Fixed Issue7 - Dnsmasq restart issues with wlan0.
+Fixed Issue #7 - Dnsmasq restart issues with wlan0.
 Implemented Memcache to improve PHP performance.
 Historical look back is now available in Domain Stats.
 Dnsmasq log archiving removes surplus information in order to improve performance on Historical look back.

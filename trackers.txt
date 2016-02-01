@@ -1,5 +1,5 @@
-#List of Ad files last updated 30 Jan 2016 .3
-#LatestVersion 0.5
+#List of Ad files last updated 01 Feb 2016 .1
+#LatestVersion 0.5.1
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -8562,6 +8562,7 @@ olark.com
 online-metrix.net
 onscroll.com
 ontoplist.com
+ooyala.com
 openad.com #AppNexus Inc
 openadstream.com #AppNexus Inc
 openadstream.mobi #AppNexus Inc
@@ -9150,6 +9151,9 @@ affiliate-program.amazon.co.uk
 device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
+metrics.argos.co.uk
+beacon.groceries.asda.com#Asda
+omniture.groceries.asda.com
 metric.asos.com
 website-performance-beacon.autotrader.co.uk
 metrics.barclays.co.uk
@@ -9166,6 +9170,11 @@ data.coremetrics.com
 de.coremetrics.com
 testdata.coremetrics.com
 metrics.ctvdigital.net
+dart.l.doubleclick.net#DoubleClick
+stats.g.doubleclick.net
+stats.l.doubleclick.net
+coremetrics.com.edgekey.net#EdgeKey
+ooyala.com.edgekey.net
 ads.ebay.com
 stats.ebay.com
 pixel.facebook.com
@@ -9226,6 +9235,7 @@ smetrics.sky.com
 apps.skype.com
 pricelist.skype.com
 ui.skype.com
+webtrends.telegraph.co.uk
 analytics.twitter.com
 analytics.yahoo.com
 ads.yahoo.com
