@@ -10,8 +10,8 @@
 <body>
 <div id="main">
 <?php
-$CurTopMenu = 'tldblocklist';
-include('topmenu.html');
+$CurTopMenu = 'config';
+include('./include/topmenu.html');
 echo "<h1>Top Level Domain Blocklist</h1>\n";
 
 $TLDBlockList = array();
@@ -24,7 +24,7 @@ function Load_TLDBlockList() {
 //Blocklist is held in Memcache for 10 minutes
   global $TLDBlockList, $Mem;
   $TLDBlockList=$Mem->get('TLDBlockList');
-  if (! $TLDBlockList) {    
+  if (! $TLDBlockList) {
     $FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
     while (!feof($FileHandle)) {
       $TLDBlockList[] = trim(fgets($FileHandle));
@@ -39,10 +39,16 @@ function Load_TLDBlockList() {
 Load_TLDBlockList();
 asort($TLDBlockList);
 
+echo '<div class="pag-nav"><ul>'."\n";           //Config Menu
+echo '<li><a href="./config.php" title="General">General</a></li>'."\n";
+echo '<li><a href="./blocklist.php" title="Block List">Block List</a></li>'."\n";
+echo '<li class="active"><a href="./tldblocklist.php" title="Top Level Domain Blocklist">TLD Block List</a></li>'."\n";
+echo "</ul></div>\n";
+echo '<div class="row"><br /></div>';            //Spacer
+
 //Draw Table---------------------------------------------------------
 echo '<div class="row"><br />'."\n";
 echo '<table id="block-table">'."\n";
-echo '<tr><th>#</th><th>Site</th></tr>'."\n";
 $i = 1;
 foreach($TLDBlockList as $Site) {
   if ($Site != "") {

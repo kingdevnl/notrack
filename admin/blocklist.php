@@ -10,29 +10,12 @@
 <body>
 <div id="main">
 <?php
-$CurTopMenu = 'blocklist';
-include('topmenu.html');
+$CurTopMenu = 'config';
+include('./include/topmenu.html');
 echo "<h1>Tracker Blocklist</h1>\n";
-
-$Show = 'all';
-$SingleLetter=false;
-$SingleNumber=false;
-$Letters = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-$Numbers = array('0','1','2','3','4','5','6','7','8','9');
 
 $Mem = new Memcache;                             //Initiate Memcache
 $Mem->connect('localhost');
-
-if (isset($_GET['show'])) {
-  if ($_GET['show'] == 'num') {
-    $SingleNumber = true;
-    $Show = 'num';
-  }
-  if (in_array($_GET['show'], $Letters)) { 
-    $Show = $_GET['show'];
-    $SingleLetter = true;
-  } 
-}
 
 $SearchStr = '';
 if ($_GET['s']) {
@@ -41,24 +24,6 @@ if ($_GET['s']) {
   $SearchStr = strtolower($SearchStr);  
 }
 
-//Add GET Var to Link if Variable is used----------------------------
-function AddGetVar($Var) {
-//Function isn't used much yet, but may expand in future
-  global $SearchStr;
-  if ($SearchStr != '') return '&amp;s='.$SearchStr;
-  return '';
-}
-//WriteLI Function for Pagination Boxes-------------------------------
-function WriteLI($Character, $Active) {
-  if ($Active) {
-    echo '<li class="active"><a href="?show=all'.AddGetVar('s').'">';
-  }
-  else {
-    echo '<li><a href="?show='.strtolower($Character).AddGetVar('s').'">';
-  }  
-  echo "$Character</a></li>\n";  
-  return null;
-}
 //Load Blocklist------------------------------------------------------
 function Load_BlockList() {
 //Blocklist is held in Memcache for 10 minutes
@@ -79,23 +44,16 @@ function Load_BlockList() {
 //Main---------------------------------------------------------------
 Load_BlockList();
 
-//Character Select---------------------------------------------------
-echo '<div class="pag-nav">';
-echo "<br /><ul>\n";
-if ($Show == 'all') WriteLI('All', true);
-else WriteLI('All', false);
-WriteLI('Num', $SingleNumber);
-foreach($Letters as $Val) {
-  if ($Val == $Show) WriteLI(strtoupper($Val), true);
-  else WriteLI(strtoupper($Val), false);
-}
+echo '<div class="pag-nav"><ul>'."\n";           //Config Menu
+echo '<li><a href="./config.php" title="General">General</a></li>'."\n";
+echo '<li class="active"><a href="./blocklist.php" title="Block List">Block List</a></li>'."\n";
+echo '<li><a href="./tldblocklist.php" title="Top Level Domain Blocklist">TLD Block List</a></li>'."\n";
 echo "</ul></div>\n";
-echo '<div class="row"><br /></div>';
+echo '<div class="row"><br /></div>';            //Spacer
 
 //Searchbox----------------------------------------------------------
 echo '<div class="centered"><br />'."\n";
 echo '<form action="?" method="get">';
-echo '<input type="hidden" name="show" value="'.$Show.'" />'."\n";
 if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
 else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
 echo "</form></div>\n";
@@ -104,55 +62,20 @@ echo "</form></div>\n";
 //Draw Table---------------------------------------------------------
 echo '<div class="row"><br />'."\n";
 echo '<table id="block-table">'."\n";
-echo '<tr><th>#</th><th>Site</th></tr>'."\n";
 $i = 1;
 
 if ($SearchStr == '') {
   foreach ($TrackerBlockList as $Site) {
-    if (($SingleLetter) || ($SingleNumber)) {
-      $Char1 = substr($Site,0,1);
-      if ($SingleLetter) {
-        if ($Char1 == $Show) {
-          echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
-        }
-      }
-      if ($SingleNumber) {
-        if (in_array($Char1, $Numbers)) {
-          echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
-        }
-      }
-    }
-    else {
-      echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
-    }
+    echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
     $i++;
   }
 }
 else {
   foreach ($TrackerBlockList as $Site) {
-    if (($SingleLetter) || ($SingleNumber)) {
-      $Char1 = substr($Site,0,1);
-      if ($SingleLetter) {
-        if ($Char1 == $Show) {
-          if (strpos($Site, $SearchStr) !== false) {
-            echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";        
-          }
-        }
-      }
-      if ($SingleNumber) {
-        if (in_array($Char1, $Numbers)) {
-          if (strpos($Site, $SearchStr) !== false) {
-            echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";        
-          }
-        }
-      }
+    if (strpos($Site, $SearchStr) !== false) {
+      echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";
+      $i++;
     }
-    else {
-      if (strpos($Site, $SearchStr) !== false) {
-        echo '<tr><td>'.$i.'</td><td>'.$Site.'</td></tr>'."\n";        
-      }
-    }
-    $i++;
   }
 }
 echo "</table></div>\n";

@@ -1,19 +1,20 @@
 #!/bin/bash
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
-#              Script will also create quick.lists for use by stats.php web page
+#Script will also create quick.lists for use by stats.php web page
 #Author : QuidsUp
 #Date : 2015-01-14
 #Usage : sudo bash notrack.sh
 
-#User Configerable Variables incase config file is missing
-DefaultIPVersion="IPv4"
-DefaultNetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1) #Set this to the name of network device e.g. "eth0" if you have multiple network cards
+#User Configerable Variables in case config file is missing
+NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1) #Set this to the name of network device e.g. "eth0" if you have multiple network cards
+IPVersion="IPv4"
+BlockList_TLD="1"
 
 #System Variables----------------------------------------------------
-Version="0.4"
+Version="0.6"
 TrackerSource="http://quidsup.net/trackers.txt" 
-TrackerListFile="/etc/dnsmasq.d/adsites.list" 
+TrackerListFile="/etc/dnsmasq.d/trackers.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
 TrackerBlackList="/etc/notrack/blacklist.txt"
 TrackerWhiteList="/etc/notrack/whitelist.txt"
@@ -23,9 +24,8 @@ DomainBlackList="/etc/notrack/domain-blacklist.txt"
 DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
-NetDev=""
-IPVersion=""
-OldLatestVersion=""
+
+OldLatestVersion="$Version"
 
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
@@ -34,7 +34,7 @@ Error_Exit() {
   exit 2
 }
 
-#Check File Exists---------------------------------------------------
+#Check File Exists and Abort if it doesn't exist---------------------
 Check_File_Exists() {
   if [ ! -e "$1" ]; then
     echo "Error file $1 is missing.  Aborting."
@@ -42,51 +42,43 @@ Check_File_Exists() {
   fi
 }
 
-#Read Config File----------------------------------------------------
-Read_Config_File() {
-  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
-    echo "Creating notrack folder under /etc"
-    echo
-    mkdir "/etc/notrack"
-    if [ ! -d "/etc/notrack" ]; then             #Check again
-      Error_Exit "Error Unable to create folder /etc/notrack"      
-    fi
+#Create File---------------------------------------------------------
+CreateFile() {
+  if [ ! -e "$1" ]; then
+    echo "Creating file: $1"
+    touch "$1"
   fi
+}
 
-  if [ ! -e $ConfigFile ]; then                  #No Config File
-    echo "Creating config file"
-    touch $ConfigFile                            #Create Config file
-    IPVersion=$DefaultIPVersion                  #Set default values
-    NetDev=$DefaultNetDev
-    OldLatestVersion=$Version
-    if [ ! -e $ConfigFile ]; then                #Check again. Warning if file is missing
-      echo "Warning Unable to create config file. Continuing with default settings"      
-    else                                         #Successful, lets write the values
-      echo "IPVersion = $IPVersion" >> $ConfigFile
-      echo "NetDev = $NetDev" >> $ConfigFile
-      echo "LatestVersion = $Version" >> $ConfigFile
-    fi
-  else                                           #File exists, load variables 
-    IPVersion=$(cat "$ConfigFile" | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
-    NetDev=$(cat "$ConfigFile" | grep "NetDev" | cut -d "=" -f 2 | tr -d [[:space:]])
-    OldLatestVersion=$(cat $ConfigFile | grep "LatestVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
-    
-    #Verify variables have been loaded successfully
-    if [ "$IPVersion" == "" ]; then              #Check IPVersion
-      IPVersion=$DefaultIPVersion                #Set to default
-      echo "IPVersion = $IPVersion" >> $ConfigFile
-    fi
-    
-    if [ "$NetDev" == "" ]; then                 #Check NetDev
-      NetDev=$DefaultNetDev
-      echo "NetDev = $NetDev" >> $ConfigFile
-    fi    
-    
-    if [[ $OldLatestVersion == "" ]]; then       #Check OldLatestVersion
-      OldLatestVersion=$Version                  #Default to script version for now
-      echo "LatestVersion = $Version" >> $ConfigFile       
-    fi
-  fi  
+#Delete old file if it Exists----------------------------------------
+DeleteOldFile() {
+  if [ -e "$1" ]; then
+    echo "Deleting old file $1"
+    rm "$1"
+  fi
+}
+
+#Read Config File----------------------------------------------------
+Read_Config_File() {  
+  if [ -e "$ConfigFile" ]; then
+    echo "Reading Config File"
+    while IFS='= ' read Key Value
+    do
+      if [[ ! $Key =~ ^\ *# && -n $Key ]]; then
+        Value="${Value%%\#*}"    # Del in line right comments
+        Value="${Value%%*( )}"   # Del trailing spaces
+        Value="${Value%\"*}"     # Del opening string quotes 
+        Value="${Value#\"*}"     # Del closing string quotes 
+        
+        case "$Key" in
+          IPVersion) IPVersion="$Value";;
+          NetDev) NetDev="$Value";;
+          LatestVersion) OldLatestVersion="$Value";;
+          BlockList_TLD) BlockList_TLD="$Value";;
+        esac            
+      fi
+    done < $ConfigFile
+  fi 
 }
 
 #Check Lists---------------------------------------------------------
@@ -198,50 +190,28 @@ Get_IPAddress() {
   echo
 }
 
-#Download Lists from Website-----------------------------------------
-Download_Lists() {
+#NoTrack BlockList---------------------------------------------------
+GetList_NoTrack() {
+  
+  CreateFile "$TrackerListFile"
+  CreateFile "$TrackerQuickList"
+  
   echo "Downloading Tracker Site List from: $TrackerSource"
   echo
   wget -O /etc/notrack/trackers.txt $TrackerSource
   echo
-  echo "Downloading Malcious Domain List from: $DomainSource"
-  echo
-  wget -O /etc/notrack/domains.txt $DomainSource
-
-  if [ ! -e /etc/notrack/trackers.txt ]; then     #Check if lists have been downloaded successfully 
-    Error_Exit "Error Ad Site List not downloaded"    
-  fi
-
-  if [ ! -e /etc/notrack/domains.txt ]; then
-    Error_Exit "Error Domain List not downloaded"    
-  fi
-}
-
-#Build Trackers and Domain Lists to Parse into Dnsmasq---------------
-Build_Lists() {
-  if [ ! -e $TrackerListFile ]; then             #Check List Files exist
-    touch $TrackerListFile                       #Create them if necessary
-  fi
-  if [ ! -e $TrackerQuickList ]; then
-    touch $TrackerQuickList
-  fi
-  if [ ! -e $DomainListFile ]; then
-    touch $DomainListFile
-  fi
-  if [ ! -e $DomainQuickList ]; then
-    touch $DomainQuickList
-  fi 
-
-  #Merge Blacklist with URL List
+  Check_File_Exists "/etc/notrack/trackers.txt"
+  
+  #Merge Downloaded List with users Blacklist
   cat /etc/notrack/trackers.txt $TrackerBlackList > /tmp/combined.txt
 
-  #Merge Whitelist with above two lists to remove duplicates-----------
-  i=0
+  #Merge Whitelist with above two lists to remove duplicates
   echo "Processing Tracker List"
   echo "#Tracker Blocklist last updated $(date)" > $TrackerListFile
   echo "#Don't make any changes to this file, use $TrackerBlackList and $TrackerWhiteList instead" >> $TrackerListFile
-  cat /dev/null > $TrackerQuickList
-
+  cat /dev/null > $TrackerQuickList              #Empty old List
+  
+  i=0                                            #Progress dot counter
   awk 'NR==FNR{A[$1]; next}!($1 in A)' $TrackerWhiteList /tmp/combined.txt | while read -r Line; do
     if [ $i == 100 ]; then                       #Display some progress ..
       echo -n .
@@ -264,13 +234,23 @@ Build_Lists() {
 
   echo .                                         #Final dot and carriage return
   echo "Imported $(wc -l $TrackerQuickList | cut -d' ' -f1) Advert Domains into block list"
+}
 
-
-#Domain List---------------------------------------------------------
-  #Merge Blacklist with Domain List
+#TLD BlockList-------------------------------------------------------
+GetList_TLD() {
+  CreateFile $DomainListFile
+  CreateFile $DomainQuickList
+  
+  echo "Downloading Malcious Domain List from: $DomainSource"
+  echo
+  wget -O /etc/notrack/domains.txt $DomainSource
+  
+  Check_File_Exists "/etc/notrack/domains.txt"
+  
+  #Merge Domainlist with users Blacklist
   cat /etc/notrack/domains.txt $DomainBlackList > /tmp/combined.txt
 
-  #Merge Whitelist with above two lists to remove duplicates---------
+  #Merge Whitelist with above two lists to remove duplicates
   echo "#Domain Blocklist last updated $(date)" > $DomainListFile
   echo "#Don't make any changes to this file, use $DomainBlackList and $DomainWhiteList instead" >> $DomainListFile
   cat /dev/null > $DomainQuickList
@@ -285,13 +265,9 @@ Build_Lists() {
   done
 
   echo "Imported $(wc -l $DomainQuickList | cut -d' ' -f1) Malicious Domains into TLD block list"
-
-  echo "Removing temporary files"
-  rm /tmp/combined.txt                           #Clear up
-
-  echo "Restarting Dnsnmasq"
-  service dnsmasq restart                        #Restart dnsmasq
+  echo
 }
+
 #Upgrade-------------------------------------------------------------
 Web_Upgrade() {
   if [ "$(id -u)" == "0" ]; then                 #Check if running as root
@@ -357,6 +333,17 @@ Full_Upgrade() {
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
   sudo chmod +x /usr/local/sbin/notrack
   
+  Check_File_Exists "$InstallLoc/ntrk-exec.sh"
+  sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
+  sudo chmod 755 /usr/local/sbin/ntrk-exec
+  
+  SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
+  if [[ $SudoCheck == "" ]]; then
+    echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
+    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" >> /etc/sudoers
+  fi
+  
   echo "NoTrack Script updated"
 }
 #Help----------------------------------------------------------------
@@ -420,9 +407,31 @@ else                                             #No arguments means update trac
     Error_Exit "Error this script must be run as root"    
   fi
   
+  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
+    echo "Creating notrack folder under /etc"
+    echo
+    mkdir "/etc/notrack"
+    if [ ! -d "/etc/notrack" ]; then             #Check again
+      Error_Exit "Error Unable to create folder /etc/notrack"      
+    fi
+  fi
+  
   Read_Config_File                               #Load saved variables  
   Check_Lists
   Get_IPAddress
-  Download_Lists
-  Build_Lists
+  
+  DeleteOldFile "/etc/dnsmasq.d/adsites.list"    #Legacy NoTrack list
+  GetList_NoTrack
+  
+  if [[ $BlockList_TLD == "1" ]]; then           #Process TLD Blocklist?
+    GetList_TLD
+  else 
+    DeleteOldFile "$DomainListFile"
+  fi
+  
+  echo "Removing temporary files"
+  rm /tmp/combined.txt                           #Clear up
+
+  echo "Restarting Dnsnmasq"
+  service dnsmasq restart                        #Restart dnsmasq
 fi 

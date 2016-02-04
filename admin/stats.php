@@ -4,21 +4,29 @@
     <meta charset="UTF-8" />
     <link href="./css/master.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="./favicon.png" />
-    <title>NoTrack Stats</title>
+    <title>NoTrack - DNS Stats</title>
 </head>
 
 <body>
 <div id="main">
 <?php
 $CurTopMenu = 'stats';
-include('topmenu.html');
+include('./include/topmenu.html');
 echo "<h1>Domain Stats</h1>\n";
 echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','stackexchange.com');
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
+//cloudfront.net - Very popular CDN, hard to back trace originating site
+//googleusercontent.com - Google+ and YouTube user content
+//googlevideo.com - True links to YouTube videos
+//cedexis-radar.net - Blocked tracker that uses different subdomain per site they provide tracking services for
+//gvt1.com - Google Play Store
+//deviantart.net - Image download from deviatart
+//deviantart.com - Each user has a different subdomain on deviantart.com
+//stackexchange.com - Community Q&A, opens a lot of subdomains per visit
 
 $Mem = new Memcache;                             //Initiate Memcache
 $Mem->connect('localhost');
@@ -537,8 +545,8 @@ echo '</select></label></form></div>'."\n";
 //Draw Calendar------------------------------------------------------
 echo '<div class="col-half"><form action="?" method="get">';
 echo '<label>Date: <input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /></label><br />';
-echo '<label>Range: <input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/></label><br />';
-echo '<input type="submit" value="Submit">';
+echo '<label>Range: <input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/></label><br /><br />'."\n";
+echo '<div class="centered"><input type="submit" value="Submit"></div>'."\n";
 echo '</form></div></div>';
 
 //Draw Table Headers-------------------------------------------------

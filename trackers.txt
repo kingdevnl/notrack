@@ -1,4 +1,4 @@
-#List of Ad files last updated 01 Feb 2016 .1
+#List of Ad files last updated 03 Feb 2016 .1
 #LatestVersion 0.5.1
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -356,6 +356,7 @@ callwindow.net #Digital Window
 cap-mii.net
 captifymedia.com
 carambo.la
+carbonads.net
 casalemedia.com
 cash4charities.com #Digital Window
 cash4charity.com #Digital Window
@@ -453,6 +454,7 @@ dakic-ia-300.com #Lead Forensics
 daphnecm.com
 dapxl.com
 dartsearch.net
+data-eroadvertising.com
 datacaciques.com
 dcoengine.com
 declaredthoughtfulness.co
@@ -537,6 +539,7 @@ envnxs.net #AppNexus Inc
 epmads.com
 eqads.com
 erne.co
+ero-advertising.com
 errorception.com#Rakesh Pai
 esearchvision.com
 esomniture.com #Adobe
@@ -8601,6 +8604,7 @@ pages08.net
 pages09.net
 paidonresults.net
 panachetech.com #AppNexus Inc
+panel100.com
 pardot.com
 parsely.com
 passionfruitads.com
@@ -8618,6 +8622,7 @@ permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
 phicdn.net #Verizon
+piksel.com
 pimpb.us #AppNexus Inc
 pingdom.net
 pingme.net #RadiumOne
@@ -8975,6 +8980,7 @@ tradefxads.com
 trafficauthority.com #Adobe
 trafficjunky.net
 trafficmanager.net
+trafficshop.com
 trail-web.com #Lead Forensics
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
@@ -9015,6 +9021,7 @@ upsellit.com
 upsiloncdn.net #Verizon
 urbanairship.com
 usabilla.com#Usabilla
+useitbetter.com
 userstats.com
 userzoom.com
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
@@ -9129,6 +9136,7 @@ yieldpartners.com
 yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
+youramigo.com
 yuq.me
 ywxi.net #PathDefender
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
@@ -9245,3 +9253,4 @@ pixel.wp.com
 stats.wp.com
 #:analytics-colecter-\d{1,8}\.us-east-1\.elb\.amazonaws\.com:
 #:^pixel\.:
+#:^speedtrap\.:

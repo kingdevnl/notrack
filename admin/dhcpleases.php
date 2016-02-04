@@ -11,7 +11,7 @@
 <div id="main">
 <?php
 $CurTopMenu = 'dhcp';
-include('topmenu.html');
+include('./include/topmenu.html');
 echo "<h1>DHCP Leases</h1>\n";
 
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {

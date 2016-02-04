@@ -444,7 +444,19 @@ Setup_NoTrack() {
   echo
   echo
 }
-
+#NoTrack Exec--------------------------------------------------------
+Setup_NtrkExec {
+  Check_File_Exists "$InstallLoc/ntrk-exec.sh"
+  sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
+  sudo chmod 755 /usr/local/sbin/ntrk-exec
+  
+  SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
+  if [[ $SudoCheck == "" ]]; then
+    echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
+    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" >> /etc/sudoers
+  fi  
+}
 #Main----------------------------------------------------------------
 if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users folder
   InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
