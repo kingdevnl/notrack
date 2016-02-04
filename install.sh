@@ -454,7 +454,7 @@ Setup_NtrkExec {
   SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
   if [[ $SudoCheck == "" ]]; then
     echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
-    sudo echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" >> /etc/sudoers
+    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
   fi  
 }
 #Main----------------------------------------------------------------
@@ -493,6 +493,7 @@ fi
 Setup_Dnsmasq
 Setup_Lighttpd
 Setup_NoTrack
+Setup_NtrkExec
 
 # Reload FirewallD to ensure new rules are functional
 if [ $(command -v firewall-cmd) ]; then
