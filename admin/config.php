@@ -53,8 +53,8 @@ function ExecAction($Action, $ExecNow) {
   
   if ($ExecNow) {
     echo "<pre>\n";
-    //$Msg = shell_exec('sudo ntrk-exec 2>&1');
-    $Msg = shell_exec('sudo /home/quids/NoTrack/ntrk-exec.sh 2>&1');
+    $Msg = shell_exec('sudo ntrk-exec 2>&1');
+    #$Msg = shell_exec('sudo /home/quids/NoTrack/ntrk-exec.sh 2>&1');
     echo $Msg;
     echo "</pre>\n";
   }
