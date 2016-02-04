@@ -404,7 +404,7 @@ if [ "$1" ]; then                                #Have any arguments been given
   done
 else                                             #No arguments means update trackers
   if [ "$(id -u)" != "0" ]; then                 #Check if running as root
-    Error_Exit "Error this script must be run as root"    
+    Error_Exit "Error this script must be run as root"
   fi
   
   if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
