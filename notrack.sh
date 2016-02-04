@@ -341,7 +341,7 @@ Full_Upgrade() {
   SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
   if [[ $SudoCheck == "" ]]; then
     echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
-    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" >> /etc/sudoers
+    sudo echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" >> /etc/sudoers
   fi
   
   echo "NoTrack Script updated"
