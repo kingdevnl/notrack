@@ -41,16 +41,6 @@ if ($Version != $Config['LatestVersion']) {      //See if upgrade Needed
   echo "</table></div></div>\n";  
 }
 
-//Temp warning about changes
-echo '<div class="row"><br />'."\n";
-echo '<h5>Important Note: </h5>';
-echo '<p>As of NoTrack v0.5 (released 27 Jan 2016) a significant number of changes have been made to the underlying functionality of NoTrack, therefore you will need to <b>re-install NoTrack</b>.</p>'."\n";
-echo '<p>Remember to take a copy of Dnsmaq log file <b>/etc/dnsmasq.conf</b> if you have made any changes.<br />There is no need to do a full re-install of the OS.</p>'."\n";
-echo '<p>Instructions:</p>'."\n";
-echo '<pre>cd ~/NoTrack<br />bash install.sh</pre>'."\n";
-echo '</div>';
-
-
 ?>
 </div>
 </body>

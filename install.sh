@@ -5,7 +5,7 @@
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="0.5"
+Version="0.6"
 NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 CountNetDev=$(wc -w <<< "$NetDev")
 Height=$(tput lines)
@@ -439,9 +439,6 @@ Setup_NoTrack() {
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
   echo "NetDev = $NetDev" | sudo tee /etc/notrack/notrack.conf
   
-  echo
-  echo "Setup of NoTrack complete"
-  echo
   echo
 }
 #NoTrack Exec--------------------------------------------------------

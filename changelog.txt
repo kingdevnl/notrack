@@ -1,3 +1,14 @@
+v0.6 alpha
+New Config page (Issue #4).
+New System Info page.
+New script file ntrk-exec, carries out commands from Admin webpage with root privileges.
+Lighttpd and PHP remain running at www-data with non-root privileges.
+Choice of options available added to blocked pages (Issue #1).
+Top Level Domain blocklist can be disabled.
+Purge History added to Config page.
+A-Z pagination removed from Blocklist page.
+Improved error checking.
+
 v0.5.1 alpha
 Added Report Button to Domain Stats (Issue #10)
 

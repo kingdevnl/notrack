@@ -1,5 +1,5 @@
 <?php
-$Version='0.5.2';
+$Version='0.6';
 
 $FileTmpAction='/tmp/ntrk-exec.txt';
 $FileTmpConfig='/tmp/notrack.conf';
