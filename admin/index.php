@@ -18,12 +18,17 @@ echo "<h1>NoTrack Admin</h1>\n";
 //Main---------------------------------------------------------------
 echo '<div class="row"><br /></div>'."\n";
 echo '<div class="row">';
-echo '<a href="./blocklist.php"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/tracker-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
 
+//Tracker Blocklist
+echo '<a href="./blocklist.php"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /etc/notrack/tracker-quick.list | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
+
+//TLD Blocklist
 echo '<a href="./tldblocklist.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
 
+//DNS Queries
 echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /var/log/notrack.log | grep -F query[A] | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./images/server.png" alt=""></div></div></a>'."\n";
 
+//DHCP Systems
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {
   echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc /var/lib/misc/dnsmasq.leases | cut -d\  -f 3'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
 }
