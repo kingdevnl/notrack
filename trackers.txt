@@ -107,6 +107,7 @@ adnxus.com #AppNexus Inc
 adobedtm.com #Adobe
 adobetag.com #Adobe
 adoftheyear.com
+adometry.com #Google
 adpacked.com #Adobe
 adreadytractions.com
 adrequest.net#R van Ingen
@@ -295,7 +296,7 @@ blocwhite7.com #Lead Forensics
 blogherads.com
 bosctrl32.com #Lead Forensics
 bluebillywig.com
-bluekai.com
+bluekai.com #Oracle
 bluelithium.com
 bluesnapper.au
 bluesnapper.com
@@ -436,7 +437,9 @@ creative-serving.com
 creativelibrary.org #AppNexus Inc
 creatormail.co.uk
 criteo.com
+crosspixel.net #Cross Pixel
 crowdignite.com
+crsspxl.com #Cross Pixel
 crtracklink.com
 crwdcntrl.net
 cspbuilder.info
@@ -817,6 +820,7 @@ mailadvertising.co.uk
 mailchimp.com
 mailmunch.co
 marinsm.com
+marketizator.com
 marketo.com
 marketo.net
 matheranalytics.com
@@ -8964,6 +8968,7 @@ tl813.com
 tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
+tns-counter.ru
 tqlkg.com
 tqn.com
 trackalyzer.com
@@ -9107,6 +9112,7 @@ whyanalytics.com #Imagini Holdings
 wickhillnews.com
 wikia-beacon.com
 wistia.com
+wistia.net
 woopra.com
 wowanalytics.co.uk
 ws-outage.com #Lead Forensics
@@ -9156,6 +9162,7 @@ zzword.com #Adobe
 dmtracking2.alibaba.com
 stat.alibaba.com
 affiliate-program.amazon.co.uk
+analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
