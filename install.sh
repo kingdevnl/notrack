@@ -437,8 +437,7 @@ Setup_NoTrack() {
   echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
-  echo "NetDev = $NetDev" | sudo tee /etc/notrack/notrack.conf
-  
+  echo "NetDev = $NetDev" | sudo tee -a /etc/notrack/notrack.conf
   echo
 }
 #NoTrack Exec--------------------------------------------------------
