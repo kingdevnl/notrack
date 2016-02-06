@@ -27,6 +27,9 @@ DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 OldLatestVersion="$Version"
 
+BlockList_TLD=1
+BlockList_PglYoyo=0
+
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
   echo "$1"
@@ -93,6 +96,7 @@ Read_Config_File() {
           NetDev) NetDev="$Value";;
           LatestVersion) OldLatestVersion="$Value";;
           BlockList_TLD) BlockList_TLD="$Value";;
+          BlockList_PglYoyo) BlockList_PglYoyo="$Value";;
         esac            
       fi
     done < $ConfigFile
@@ -230,7 +234,7 @@ GetList_NoTrack() {
   echo
   Check_File_Exists "/etc/notrack/trackers.txt"
   
-  echo "Processing NoTrack Tracker List"
+  echo "Processing NoTrack BlockList"
   echo "#Tracker Blocklist last updated $(date)" > $TrackerListFile
   echo "#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead" >> $TrackerListFile
   cat /dev/null > $TrackerQuickList              #Empty old List
@@ -267,6 +271,7 @@ GetList_NoTrack() {
   done < /etc/notrack/trackers.txt
   
   echo .                                         #Final dot and carriage return
+  echo "Finished processing NoTrack Blocklist"
   echo
 }
 
@@ -299,14 +304,14 @@ GetList_TLD() {
   done
 
   echo "Imported $(wc -l $DomainQuickList | cut -d' ' -f1) Malicious Domains into TLD block list"
-  echo
-  echo "Removing temporary files"
+  
   rm /tmp/combined.txt                           #Clear up
+  echo
 }
 
 #NoTrack BlockList---------------------------------------------------
 GetList_BlackList() {
-  echo "Processing NoTrack Black List"
+  echo "Processing Custom Black List"
   
   while IFS='# ' read -r Line Comment
   do
@@ -317,8 +322,46 @@ GetList_BlackList() {
       AddSite "$Line" "$TrackerListFile" "$Comment"      
     fi  
   done < $BlackListFile
-  echo 
+  echo "Finished processing Custom Black List"
+  echo
 }
+
+#PGL Yoyo BlockList--------------------------------------------------
+GetList_PglYoyo() {  
+  echo "Downloading PglYoyo BlockList"
+  wget -O /tmp/pglyoyo.txt "http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
+  
+  if  [ ! -e /tmp/pglyoyo.txt ]; then
+    echo "File not downloaded /tmp/pglyoyo.txt"
+    return 1
+  fi
+  
+  CreateFile /etc/dnsmasq.d/pglyoyo.list
+  echo "Processing PglYoyo Blocklist"
+  i=0                                            #Progress dot counter
+  while IFS=' ' read -r Line 
+  do
+    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+      Line="${Line%%\#*}"                        #Delete comments
+      Line="${Line%%*( )}"                       #Delete trailing spaces
+      
+      AddSite "$Line" "/etc/dnsmasq.d/pglyoyo.list" ""
+      
+      if [ $i == 100 ]; then                     #Display progress dots
+        echo -n .
+        i=0        
+      fi
+      
+      ((i++))
+    fi
+  done < /tmp/pglyoyo.txt
+  
+  echo .
+  echo "Finished processing PglYoyo Blocklist"
+  rm /tmp/pglyoyo.txt
+  echo
+}
+
 
 #Upgrade-------------------------------------------------------------
 Web_Upgrade() {
@@ -484,6 +527,12 @@ else                                             #No arguments means update trac
     GetList_TLD                                  #Process TLD List
   else 
     DeleteOldFile "$DomainListFile"              #Delete old file to prevent Dnsmasq from reading it
+  fi
+  
+  if [[ $BlockList_PglYoyo == "1" ]]; then
+    GetList_PglYoyo
+  else
+    DeleteOldFile /etc/dnsmasq.d/pglyoyo.list
   fi
   
   echo "Imported $(cat /etc/notrack/tracker-quick.list | grep -c Active) Domains into Block List"

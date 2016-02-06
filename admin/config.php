@@ -23,11 +23,19 @@ function DisplayConfigChoices() {
   echo '<form action="?" method="get">';         //Block Lists
   echo '<input type="hidden" name="action" value="blocklists">';
   DrawSysTable('Block Lists');  
-  if ($Config['BlockList_TLD'] == 0) DrawSysRow('Top Level Domain', '<input type="checkbox" name="tldblocklist">');
-  else DrawSysRow('Top Level Domain', '<input type="checkbox" name="tldblocklist" checked="checked">');
+  $Checked='';
+  if ($Config['BlockList_TLD'] == 1) $Checked='checked="checked"';
+  else $Checked='';
+  DrawSysRow('Top Level Domain', '<input type="checkbox" name="blocklist_tld"'.$Checked.'>');
+  
+  if ($Config['BlockList_PglYoyo'] == 1) $Checked='checked="checked"';
+  else $Checked='';
+  DrawSysRow('PglYoyo', '<input type="checkbox" name="blocklist_pglyoyo"'.$Checked.'>');
+  
   echo "</table><br />\n";
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
   echo "</div></div></form>\n";
+  
   
   echo '<form action="?" method="get">';         //Web Server
   echo '<input type="hidden" name="action" value="webserver">';
@@ -37,6 +45,7 @@ function DisplayConfigChoices() {
   echo "</table><br />\n";
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
   echo "</div></div></form>\n";
+  
   
   DrawSysTable('History');
   DrawSysRow('Delete All History', '<button class="button-danger" type="reset" onclick="ConfirmLogDelete();">Purge</button>');
@@ -65,10 +74,15 @@ function ExecAction($Action, $ExecNow) {
 function UpdateBlockListConfig() {
   global $Config;
   
-  if (isset($_GET['tldblocklist'])) {
-    if ($_GET['tldblocklist'] == 'on') $Config['BlockList_TLD'] = 1;    
+  if (isset($_GET['blocklist_tld'])) {
+    if ($_GET['blocklist_tld'] == 'on') $Config['BlockList_TLD'] = 1;    
   }
   else $Config['BlockList_TLD'] = 0;
+  
+  if (isset($_GET['blocklist_pglyoyo'])) {
+    if ($_GET['blocklist_pglyoyo'] == 'on') $Config['BlockList_PglYoyo'] = 1;    
+  }
+  else $Config['BlockList_PglYoyo'] = 0;
   
   //print_r($Config);
   return null;

@@ -29,8 +29,8 @@ function LoadConfigFile() {
     if (!array_key_exists('NetDev', $Config)) $Config += array('NetDev' => 'eth0');
     if (!array_key_exists('IPVersion', $Config)) $Config += array('IPVersion' => 'IPv4');
     if (!array_key_exists('BlockMessage', $Config)) $Config += array('BlockMessage' => 'pixel');
-    if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => '1');
-    //if (!array_key_exists('', $Config)) $Config += array('' => '');
+    if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => 1);
+    if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);
     //if (!array_key_exists('', $Config)) $Config += array('' => '');
     //if (!array_key_exists('', $Config)) $Config += array('' => '');
     //if (!array_key_exists('', $Config)) $Config += array('' => '');
