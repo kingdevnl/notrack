@@ -73,8 +73,8 @@ h5 {
   text-align: left;
   color: #F4F4F4;
   background: #555;
-  margin: 0 0 0.5em 0;
-  padding: 0.2em 0.2em 0.2em 1em;
+  margin: 0 0.5em 0.5em 0;
+  padding: 0.2em 0.5em;
 }
 ul, ol {
   margin: 0;
@@ -199,6 +199,10 @@ div.centered {
 @media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {
   .sys-group {width: 90%;}
   .sys-title, .sys-items {width: 100%;}  
+  h5 {
+    margin: 0 0 0.5em 0;
+  	padding: 0.2em 0.2em 0.2em 1em;
+  }
 }
 @media only screen and (max-width:640px), only screen and (max-device-width:640px) {
   .sys-group {width: 96%;}
