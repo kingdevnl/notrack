@@ -72,6 +72,7 @@ adform.net
 adgenie.co.uk
 adglare.net
 adgrx.com
+adinfuse.com #Velti
 adip.ly
 adis.ws
 adition.com
@@ -89,7 +90,8 @@ admarketplace.net
 admaym.com
 admediaclick.com #AppNexus Inc
 admedo.com
-admized.com
+admized.covm
+admob.com #AdMob
 adnexus.com #AppNexus Inc
 adnexus.net #AppNexus Inc
 adnexus.nyc #AppNexus Inc
@@ -116,12 +118,16 @@ adroll.com
 adrotate.se
 adrsp.net
 adrtx.net
+ads4apps.net #Smaato
+ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
 ads-creativesyndicator.com
 adsafeprotected.com
 adscale.de
 adsensecustomsearchads.com
 adsfac.eu
+adsmobi.com #Smaato
+adsmobi.info #Smaato
 adsonar.com
 adspdbl.com
 adspeed.net
@@ -186,6 +192,7 @@ apester.com
 apnex.us #AppNexus Inc
 apnx.us #AppNexus Inc
 app-dynamics.com#AppDynamics
+appads.com #Smaato
 appdynamics.asia#AppDynamics
 appdynamics.biz#AppDynamics
 appdynamics.com#AppDynamics
@@ -202,6 +209,8 @@ applicationstreamingnetwork.com #instartlogic
 applicationstreamingnetwork.info #instartlogic
 applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
+applift.com #AppLift
+applovin.com #AppLovin
 appsmonitoring.com#AppDynamics
 appnex.us #AppNexus Inc
 appnexis.com #AppNexus Inc
@@ -230,6 +239,8 @@ appstreamingnetwork.com #instartlogic
 appstreamingnetwork.info #instartlogic
 appstreamingnetwork.net #instartlogic
 appstreamingnetwork.org #instartlogic
+apptrade.biz #Millennial Media
+apptrade.mobi #Millennial Media
 apxlv.com
 atdmt.com
 atemda.com
@@ -303,6 +314,7 @@ bluesnapper.com
 bluesnapper.com.au
 bluevoice.biz
 bluevoice.us
+bluuadd.com #Smaato
 bombora.com
 boomads.com
 boostable.com
@@ -368,7 +380,7 @@ cashforfundraising.com #Digital Window
 cdngc.net
 cedexis.net
 cedexis-radar.net
-celtra.com
+celtra.com #Celtra
 centralcore7.com #Lead Forensics
 central-core-7.com #Lead Forensics
 ceros.com
@@ -397,6 +409,7 @@ cloudapp.net #Markmonitor
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail2.com
+cmcm.bid #MobPartner
 cmcore.com
 cmmeglobal.com
 cnzz.com
@@ -408,6 +421,7 @@ comparingmobiles.com #Digital Window
 compete.com
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
+connecteddevices.net #Millennial Media
 connexity.net
 cnt-tm-1.com #Lead Forensics
 content-square.net
@@ -457,8 +471,8 @@ dakic-ia-300.com #Lead Forensics
 daphnecm.com
 dapxl.com
 dartsearch.net
-data-eroadvertising.com
 datacaciques.com
+data-eroadvertising.com
 dcoengine.com
 declaredthoughtfulness.co
 deltacdn.net #Markmonitor
@@ -468,25 +482,26 @@ demdexpartner.com #Adobe
 demdextest.com #Adobe
 demographicprofiling.com #Adobe
 deployads.com
+deviceapps.net #Millennial Media
 devnexus.net #AppNexus Inc
 devnxs.net #AppNexus Inc
 dexometer.com #Adobe
-dianomi.com
 dianalytics.com #Adobe
-digital-window.com #Digital Window
+dianomi.com
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
+digital-window.com #Digital Window
 direct-aws-a1.com #Lead Forensics
 direct-azr-78.com #Lead Forensics
-direct-serve.com #Digital Window
 directrev.com
 directserve.com #Digital Window
+direct-serve.com #Digital Window
 displaymarketplace.com
 displaywords.com #AppNexus Inc
 displaywords.net #AppNexus Inc
-dl-rms.com
 dlqm.net
+dl-rms.com
 dmtracker.com
 dmtrk.net
 dmtry.com
@@ -494,6 +509,12 @@ domdex.com
 dotomi.com
 doubleverify.com
 dowjoneson.com
+dpchica.mobi #Millennial Media
+dpdawg.mobi #Millennial Media
+dpguystuff.mobi #Millennial Media
+dpinspire.mobi #Millennial Media
+dplivin.mobi #Millennial Media
+dpmetro.mobi #Millennial Media
 dpmsrv.com
 dqna.net
 dressipi.com #Style website which offers analytics for other retailers
@@ -592,13 +613,14 @@ footprintpredict.com #Microsoft
 force.com
 forensiq.com #Forensiq
 forensiq.net #Forensiq
-foreseeresults.com
+foreseeresults.com #ForeSee
 forkmedia.in
 formalyzer.com
 fqtag.com #Forensiq
 frantro.de
 freeskreen.com
 fresh8.co
+freegreatapps.com #MdotM
 freewall.com #AppNexus Inc
 frm.li
 froo.com
@@ -640,6 +662,7 @@ gosquared.com
 gpwebsolutions.co.uk
 grapeshot.co.uk
 gravity.com
+greystripe.com #Conversant
 grfyti.com #eGain Corporation
 groovygifts.com #Digital Window
 grvcdn.com
@@ -719,7 +742,14 @@ infinity-tracking.net
 influentialinsights.com #TMRG
 influentialinsights.net #TMRG
 infolinks.com
-innometrics.com#Swordfish Inc
+inmobi.com #InMobi
+inmobi.info #InMobi
+inmobi.us #InMobi
+inmobiapis.com #InMobi
+inmobicdn.net #InMobi
+inmobipso.com #InMobi
+inner-active.mobi #Inneractive
+innometrics.com #Swordfish Inc
 inscname.net #instartlogic
 inscname2.net #instartlogic
 insdns.net #instartlogic
@@ -759,10 +789,11 @@ iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 jisusaiche.com
 jmxded110.net
-justpremium.com
+jumptap.com #Jumptap
 jumptime.com #OpenX
 justappliances.com #Digital Window
 justbroadband.com #Digital Window
+justpremium.com
 justnavigators.com #Digital Window
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
@@ -785,6 +816,7 @@ laptops2compare.com #Digital Window
 latestprizes.com #Digital Window
 latestprizes.net #Digital Window
 lduhtrp.net
+leadboltmobile.net #LeadBolt
 leadforensics.com
 leadformix.com
 legolas-media.com
@@ -807,6 +839,7 @@ liveadexchanger.com
 livefyre.com
 liverail.com
 liveperson.net
+localytics.com #Localytics
 lognormal.net
 loyaltywindow.com #Digital Window
 lpsnmedia.net
@@ -826,13 +859,16 @@ marketo.net
 matheranalytics.com
 mathtag.com
 maxymiser.net
+mdotm.com #MdotM
 media.net
 media6degrees.com
 mediaforge.com
+medialytics.com #Medialets
 mediaplex.com
 mediavoice.com
 merchenta.com
 messages2.com #Silverpop Systems
+metaflow.com #InMobi
 metalyzer.com
 meteora.co
 meteora.us
@@ -842,9 +878,9 @@ mgid.com
 mgsvc.com
 micpn.com
 microsoft-hohm.com #Microsoft
+midrollvideo.com #BrightRoll
 millennialmedia.com
 mixpanel.com
-msecnd.net
 #:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
 #:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
 #mkt101.com #Markmonitor
@@ -8471,34 +8507,46 @@ mlnadvertising.com
 mlsend2.com
 mmondi.com
 mmstat.com
-mplxtms.com
 moatads.com
-mobilexpression.com #TMRG
-mobilexpression.net #TMRG
+mobclix.com #Velti
+mobile-ad-cloud.com #Smaato
 mobiles2compare.com #Digital Window
 mobilesource.net #Digital Window
 mobiletracking.com #Impact Radius
+mobilexpression.com #TMRG
+mobilexpression.net #TMRG
 moblexp.com #TMRG
 moblexp.net #TMRG
+mobpartner.com #MobPartner
+mobpartner.mobi #MobPartner
 mobytrks.com
-midrollvideo.com #BrightRoll
-mookie1.com
+mocean.mobi #PubMatic
+mojiva.com #Mojiva
+mojiva.mobi #Mojiva
+mojiva.net #Mojiva
+mojiva.org #Mojiva
 mon-com-01.com #Lead Forensics
 mon-com-net.com #Lead Forensics
 monetate.net
+mookie1.com
 mouseflow.com
+mplxtms.com
+mptracking.mobi #MobPartner
 mrkt.it
 msads.net
+msecnd.net
 msedge.net
 msftncsi.com
 msgfocus.com
 mxcdn.net
 mxlogic.com
-mxptint.net
 mxpnl.com
+mxptint.net
 myads.com #Rubicon
+myapptv.net #Millennial Media
 mybuys.com
 mydas.mobi
+mydas.mobi #Millennial Media
 myflairware.com #TMRG
 myflairware.net #TMRG
 myswitchads.com
@@ -8508,6 +8556,7 @@ myvirtualdisc.com #TMRG
 myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
 myvirtualdisk.net #TMRG
+myvserv.com #Vserv
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 n-core-pipe.com #Lead Forensics
 nanigans.com
@@ -8626,6 +8675,8 @@ permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
 phicdn.net #Verizon
+phluant.com #Phluant
+phluantmobile.net #Phluant
 piksel.com
 pimpb.us #AppNexus Inc
 pingdom.net
@@ -8665,7 +8716,7 @@ powertheinternet.com #AppNexus Inc
 privatescale.com #AppNexus Inc
 privatescale.net #AppNexus Inc
 ptengine.com
-pubmatic.com
+pubmatic.com #PubMatic
 pubmine.com
 pubnation.com #Not sure
 pubsqrd.com
@@ -8718,11 +8769,13 @@ realads.com #AppNexus Inc
 realmedia.com #AppNexus Inc
 realtimerelationship.com #AppNexus Inc
 rebelmouse.com
+reddadd.net #Smaato
 redirecting2.net
 redeye.international
 redstar.co.uk
 refinedads.com
 relestar.com
+relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
 rename.com #Digital Window
 rename.net #Digital Window
@@ -8861,8 +8914,20 @@ sitestat.com
 sitetagger.co.uk
 skimresources.com
 sli-spark.com
-smaato.net
-smartadserver.com
+smaato.asia #Smaato
+smaato.com #Smaato
+smaato.hamburg #Smaato
+smaato.info #Smaato
+smaato.mobi #Smaato
+smaato.net #Smaato
+smaato.org #Smaato
+smartadserver.biz #Smart Ad Server
+smartadserver.com #Smart Ad Server
+smartadserver.info #Smart Ad Server
+smartadserver.mobi #Smart Ad Server
+smartadserver.net #Smart Ad Server
+smartadserver.org #Smart Ad Server
+smartadserver.us #Smart Ad Server
 smarterclick.co.uk
 smartstream.tv
 smct.co
@@ -8941,9 +9006,10 @@ tagcommander.com
 taggstar.com
 tagsrvcs.com
 tangiblee.com
-tapad.com
+tapad.com #Tapad
 tapfiliate.com
-tctm.co 
+tctm.co
+tdpwap.mobi #Millennial Media
 teads.tv
 tealiumiq.com
 techhive.com
@@ -8958,7 +9024,9 @@ testanalytics.net
 theadex.com
 theatre-breaks.com #Digital Window
 thebrighttag.com
+thedailypocket.mobi #Millennial Media
 thehut.net
+therelevancegraph.mobi #Millennial Media
 thetacdn.net #Verizon
 ticket-genie.com #Digital Window
 tidaltv.com
@@ -9004,6 +9072,7 @@ ttxm.co.uk
 tubemogul.com
 tumri.net
 turn.com
+tvappvertising.net #Millennial Media
 tvsquared.com
 tyroo.com
 tyroodr.com
@@ -9049,6 +9118,7 @@ vdna-assets.com #Imagini Holdings
 veeseo.com#Veeseo
 veille-referencement.com
 veoxa.com
+velti.com #Velti
 verticaltechmedia.de
 verticalscope.com
 verityresearchpanel.com #TMRG
@@ -9080,6 +9150,10 @@ voucheralley.com #Digital Window
 vouchercodeclub.com #Digital Window
 voucherwindow.com #Digital Window
 voycme.com #eGain Corporation
+vserv.mobi #Vserv
+vservdigital.com #Vserv
+vservmobi.com #Vserv
+vservmobi.com #Vserv
 vwdservices.com#VWD Group
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
