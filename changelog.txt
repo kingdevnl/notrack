@@ -1,3 +1,12 @@
+v0.6.1 alpha
+Option for AdBlock+ EasyList Blocklist
+Option for AdBlock Manager Blocklist
+Option for hpHosts Blocklist
+Option for Malware Domains Blocklist
+Option for PglYoyo Blocklist
+Option for Someone Who Cares Blocklist
+Option for Winhelp 2002 Blocklist
+
 v0.6 alpha
 New Config page (Issue #4).
 New System Info page.
