@@ -12,7 +12,7 @@ IPVersion="IPv4"
 BlockList_TLD="1"
 
 #System Variables----------------------------------------------------
-Version="0.6"
+Version="0.6.1"
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/trackers.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
@@ -27,8 +27,15 @@ DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 OldLatestVersion="$Version"
 
+BlockList_NoTrack=1
 BlockList_TLD=1
+BlockList_AdBlockManager=0
+BlockList_EasyList=0
+BlockList_hpHosts=0
 BlockList_PglYoyo=0
+BlockList_SomeoneWhoCares=0
+BlockList_MalwareDomains=0
+BlockList_Winhelp2002=0
 
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
@@ -58,32 +65,40 @@ DeleteOldFile() {
   if [ -e "$1" ]; then
     echo "Deleting old file $1"
     rm "$1"
+    echo
   fi
 }
 #Add Site to List-----------------------------------------------------
 AddSite() {
-  Site="$1"
-  if [[ $WhiteListCount == 0 ]]; then               #No Items in blocklist?
-    echo "address=/$Line/$IPAddr" >> "$2"           #Just add site to tracker list
-    echo "$Line,Active,$3" >> $TrackerQuickList
+  #$1 = Site to Add
+  #$2 = File
+  #$3 = Comment
+  
+  if [ ${#1} == 0 ]; then return; fi             #Ignore zero length str
+  
+  if [[ $WhiteListCount == 0 ]]; then            #No Items in blocklist?
+    echo "address=/$1/$IPAddr" >> "$2"           #Just add site to tracker list
+    echo "$1,Active,$3" >> $TrackerQuickList
   else
-    for WLSite in "${WhiteList[@]}"                 #Loop through White List
+    for WLSite in "${WhiteList[@]}"              #Loop through White List
     do      
-      if [[ $Site == "$WLSite" ]]; then
-        echo "$Site,Disabled,$3" >> $TrackerQuickList  #Matched, note site is disabled
-        return 0
+      if [[ $1 == "$WLSite" ]]; then             #Matched, site disabled
+        echo "$1,Disabled,$3" >> $TrackerQuickList
+        return 0                                 #Leave function
       fi
     done
     
-    echo "address=/$Line/$IPAddr" >> "$2"
-    echo "$Line,Active,$3" >> $TrackerQuickList
+    echo "address=/$1/$IPAddr" >> "$2"           #No match in whitelist    echo "$1,Active,$3" >> $TrackerQuickList     
   fi  
 }
 #Read Config File----------------------------------------------------
+#Default values are set at top of this script
+#Config File contains Key & Value on each line of some/none/or all items
+#If the Key is found in the case, then we write the value to the Variable
 Read_Config_File() {  
   if [ -e "$ConfigFile" ]; then
     echo "Reading Config File"
-    while IFS='= ' read -r Key Value
+    while IFS='= ' read -r Key Value             #Seperator '= '
     do
       if [[ ! $Key =~ ^\ *# && -n $Key ]]; then
         Value="${Value%%\#*}"    # Del in line right comments
@@ -95,8 +110,15 @@ Read_Config_File() {
           IPVersion) IPVersion="$Value";;
           NetDev) NetDev="$Value";;
           LatestVersion) OldLatestVersion="$Value";;
+          BlockList_NoTrack) BlockList_NoTrack="$Value";;
           BlockList_TLD) BlockList_TLD="$Value";;
+          BlockList_AdBlockManager) BlockList_AdBlockManager="$Value";;
+          BlockList_EasyList) BlockList_EasyList="$Value";;
+          BlockList_hpHosts) BlockList_hpHosts="$Value";;
+          BlockList_MalwareDomains) BlockList_MalwareDomains="$Value";;
           BlockList_PglYoyo) BlockList_PglYoyo="$Value";;
+          BlockList_SomeoneWhoCares) BlockList_SomeoneWhoCares="$Value";;
+          BlockList_Winhelp2002) BlockList_Winhelp2002="$Value";;
         esac            
       fi
     done < $ConfigFile
@@ -210,7 +232,7 @@ Get_IPAddress() {
   echo "IP Version: $IPVersion"
   
   if [ "$IPVersion" == "IPv4" ]; then
-    echo "Reading IPv4 Address from $NetDev."
+    echo "Reading IPv4 Address from $NetDev"
     IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
     
   elif [ "$IPVersion" == "IPv6" ]; then
@@ -225,8 +247,7 @@ Get_IPAddress() {
 
 #NoTrack BlockList---------------------------------------------------
 GetList_NoTrack() {
-  CreateFile "$TrackerListFile"
-  CreateFile "$TrackerQuickList"
+  CreateFile "$TrackerListFile"  
   
   echo "Downloading Tracker Site List from: $TrackerSource"
   echo
@@ -237,23 +258,14 @@ GetList_NoTrack() {
   echo "Processing NoTrack BlockList"
   echo "#Tracker Blocklist last updated $(date)" > $TrackerListFile
   echo "#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead" >> $TrackerListFile
-  cat /dev/null > $TrackerQuickList              #Empty old List
-  
+    
   i=0                                            #Progress dot counter
   while IFS='# ' read -r Line Comment
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      
-      AddSite "$Line" "$TrackerListFile" "$Comment"
-      
-      if [ $i == 100 ]; then                     #Display progress dots
-        echo -n .
-        i=0        
-      fi
-      
-      ((i++))
+      Line="${Line%%*( )}"                       #Delete trailing spaces      
+      AddSite "$Line" "$TrackerListFile" "$Comment"      
     elif [[ "${Comment:0:13}" == "LatestVersion" ]]; then
       LatestVersion="${Comment:14}"              #Substr version number only
       if [[ $OldLatestVersion != "$LatestVersion" ]]; then 
@@ -267,10 +279,15 @@ GetList_NoTrack() {
           sed -i "s/^\(LatestVersion *= *\).*/\1$LatestVersion/" $ConfigFile
         fi
       fi      
-    fi  
+    fi
+    if [ $i == 100 ]; then                     #Display progress dots
+      echo -n .
+      i=0        
+    fi      
+    ((i++))
   done < /etc/notrack/trackers.txt
   
-  echo .                                         #Final dot and carriage return
+  echo .                                         #Final dot
   echo "Finished processing NoTrack Blocklist"
   echo
 }
@@ -312,57 +329,244 @@ GetList_TLD() {
 #NoTrack BlockList---------------------------------------------------
 GetList_BlackList() {
   echo "Processing Custom Black List"
+  Process_PlainList "$BlackListFile" "$TrackerListFile"
+  echo "Finished processing Custom Black List"
+  echo
+}
+#GetList AdBlockManager----------------------------------------------
+GetList_AdBlockManager() {
+  echo "Downloading AdBlock Manager List"
+  wget -O /tmp/adblockmanager.txt "http://adblock.gjtech.net/?format=unix-hosts"
   
+  if [ ! -e /tmp/adblockmanager.txt ]; then      #Check if list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/adblockmanager.list"
+  echo "Processing AdBlock Manager List"
+  Process_UnixList127 "/tmp/adblockmanager.txt" "/etc/dnsmasq.d/adblockmanager.list"
+  echo "Finished processing AdBlock Manager List"
+  echo
+}
+#GetList EasyList----------------------------------------------------
+GetList_EasyList() {
+  echo "Downloading EasyList"
+  wget -O /tmp/easylist.txt "https://easylist-downloads.adblockplus.org/easylist.txt"
+
+  if [ ! -e /tmp/easylist.txt ]; then            #Check if list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/easylist.list"
+  echo "Processing EasyList"
+  Process_EasyList "/tmp/easylist.txt" "/etc/dnsmasq.d/easylist.list"
+  echo "Finished processing EasyList"
+  rm /tmp/easylist.txt
+  echo
+}  
+#GetList hpHosts-----------------------------------------------------
+GetList_hpHosts() {
+  echo "Downloading hpHosts Block List"
+  wget -O /tmp/hphosts.txt "http://hosts-file.net/ad_servers.txt"
+  
+  if [ ! -e /tmp/hphosts.txt ]; then             #Check if list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/hphosts.list"
+  echo "Processing hpHosts Block List"
+  Process_UnixList127 "/tmp/hphosts.txt" "/etc/dnsmasq.d/hphosts.list"
+  echo "Finished processing hpHosts Block List"
+  echo
+  rm /tmp/hphosts.txt
+}
+#GetList Malware Domains---------------------------------------------
+#http://mirror1.malwaredomains.com/files/justdomains
+GetList_MalwareDomains() {
+  echo "Downloading Malware Domains Block List"
+  wget -O /tmp/malwaredomains.txt "http://mirror1.malwaredomains.com/files/justdomains"
+  
+  if [ ! -e /tmp/malwaredomains.txt ]; then      #Check if list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/malwaredomains.list"
+  echo "Processing Malware Domains Block List"
+  Process_PlainList "/tmp/malwaredomains.txt" "/etc/dnsmasq.d/malwaredomains.list"
+  echo "Finished processing Malware Domains Block List"
+  echo
+  rm /tmp/malwaredomains.txt
+}
+#PGL Yoyo BlockList--------------------------------------------------
+GetList_PglYoyo() {    
+  echo "Downloading PglYoyo BlockList"
+  wget -O /tmp/pglyoyo.txt "http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
+  
+  if  [ ! -e /tmp/pglyoyo.txt ]; then            #Check list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1                                     
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/pglyoyo.list"
+  echo "Processing PglYoyo Blocklist"
+  Process_PlainList "/tmp/pglyoyo.txt" "/etc/dnsmasq.d/pglyoyo.list"
+  
+  
+  echo "Finished processing PglYoyo Blocklist"
+  rm /tmp/pglyoyo.txt                            #Clean up
+  echo
+}
+#Get List SomeoneWhoCares--------------------------------------------
+GetList_SomeoneWhoCares() {
+  echo "Downloading SomeoneWhoCares Block List"
+  wget -O /tmp/someonewhocares.txt "http://someonewhocares.org/hosts/hosts"
+  
+  if [ ! -e /tmp/someonewhocares.txt ]; then     #Check list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/someonewhocares.list"
+  echo "Processing SomeoneWhoCares Block List"
+  Process_UnixList127 "/tmp/someonewhocares.txt" "/etc/dnsmasq.d/someonewhocares.list"
+  echo "Finished processing SomeoneWhoCares Block List"
+  echo
+  rm /tmp/someonewhocares.txt
+}
+#Get List Winhelp2002------------------------------------------------
+GetList_Winhelp2002() {
+  echo "Downloading Winhelp2002 Block List"
+  wget -O /tmp/winhelp2002.txt "http://winhelp2002.mvps.org/hosts.txt"
+  
+  if [ ! -e /tmp/winhelp2002.txt ]; then         #Check list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/winhelp2002.list"
+  echo "Processing Winhelp2002 Block List"
+  Process_UnixList0 "/tmp/winhelp2002.txt" "/etc/dnsmasq.d/winhelp2002.list"
+  echo "Finished processing Winhelp2002 Block List"
+  echo
+  rm /tmp/winhelp2002.txt
+}
+#Process EasyList----------------------------------------------------
+Process_EasyList() {
+#||ozone.ru^$third-party,domain=~ozon.ru|~ozonru.co.il|~ozonru.com|~ozonru.eu|~ozonru.kz
+#||promotools.biz^$third-party
+#||surveysforgifts.org^$popup,third-party
+#||dt00.net^$third-party,domain=~marketgid.com|~marketgid.ru|~marketgid.ua|~mgid.com|~thechive.com
+#||pubdirecte.com^$third-party,domain=~debrideurstream.fr
+#$1 = SourceFile
+#$2 = DestFile
+  i=0                                            #Progress dot counter
+    
+  while IFS=' ' read -r Line
+  do
+    if [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party$ ]]; then
+      AddSite "${Line:2:-13}" "$2" ""
+    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$popup\,third-party$ ]]; then
+      AddSite "${Line:2:-19}" "$2" ""
+    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party\,domain=~ ]]; then
+      #^$third-party,domain= apepars mid line, we need to replace it with a | pipe seperator like the rest of the line has
+      Line=$(sed 's/\^$third-party,domain=~/\|/g' <<< "$Line")
+      IFS='|~', read -r -a ArrayOfLine <<< "$Line" #Explode into array using seperator | or ~
+      for Line in "${ArrayOfLine[@]}"            #Loop through array
+      do
+        AddSite "$Line" "$2" ""
+      done  
+    fi
+    
+    if [ $i == 200 ]; then                       #Display progress dots
+      echo -n .
+      i=0        
+    fi
+    ((i++))
+  done < "$1"
+  echo .
+}
+
+#Process PlainList---------------------------------------------------
+#Plain Lists are styled like:
+# #Comment
+# Site
+# Site #Comment
+Process_PlainList() {
+#$1 = SourceFile
+#$2 = DestFile
+  i=0                                            #Progress dot counter
   while IFS='# ' read -r Line Comment
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
       
-      AddSite "$Line" "$TrackerListFile" "$Comment"      
-    fi  
-  done < $BlackListFile
-  echo "Finished processing Custom Black List"
-  echo
-}
-
-#PGL Yoyo BlockList--------------------------------------------------
-GetList_PglYoyo() {  
-  echo "Downloading PglYoyo BlockList"
-  wget -O /tmp/pglyoyo.txt "http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
-  
-  if  [ ! -e /tmp/pglyoyo.txt ]; then
-    echo "File not downloaded /tmp/pglyoyo.txt"
-    return 1
-  fi
-  
-  CreateFile /etc/dnsmasq.d/pglyoyo.list
-  echo "Processing PglYoyo Blocklist"
-  i=0                                            #Progress dot counter
-  while IFS=' ' read -r Line 
-  do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      
-      AddSite "$Line" "/etc/dnsmasq.d/pglyoyo.list" ""
-      
-      if [ $i == 100 ]; then                     #Display progress dots
+      AddSite "$Line" "$2" "$Comment"
+            
+      if [ $i == 200 ]; then                     #Display progress dots
         echo -n .
         i=0        
       fi
       
       ((i++))
     fi
-  done < /tmp/pglyoyo.txt
-  
+  done < "$1"
   echo .
-  echo "Finished processing PglYoyo Blocklist"
-  rm /tmp/pglyoyo.txt
-  echo
 }
-
-
+#Process UnixList 0--------------------------------------------------
+#Unix hosts file starting 0.0.0.0 site.com
+Process_UnixList0() {
+#$1 = SourceFile
+#$2 = DestFile
+  i=0                                            #Progress dot counter
+  while IFS='' read -r Line 
+  do
+    if [[ ${Line:0:3} == "0.0" ]]; then
+      Line=${Line:8}
+      Line="${Line%%\#*}"                        #Delete comments
+      
+      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
+        AddSite "$Line" "$2" ""
+      fi
+    fi
+    
+    if [ $i == 200 ]; then                       #Display progress dots
+      echo -n .
+      i=0        
+    fi      
+    ((i++))
+  done < "$1"
+  echo .
+ }
+#Process UnixList 127------------------------------------------------
+#Unix hosts file starting 127.0.0.1 site.com
+Process_UnixList127() {
+#$1 = SourceFile
+#$2 = DestFile
+  i=0                                            #Progress dot counter
+  while IFS='' read -r Line
+  do
+    if [[ ${Line:0:3} == "127" ]]; then
+      #Line=$(cut -d ' ' -f 2 <<< $Line)
+      Line=${Line:10}
+      Line="${Line%%\#*}"                        #Delete comments
+      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
+        AddSite "$Line" "$2" ""
+      fi
+    fi
+    
+    if [ $i == 200 ]; then                       #Display progress dots
+      echo -n .
+      i=0        
+    fi      
+    ((i++))
+  done < "$1"
+  echo .
+ }
 #Upgrade-------------------------------------------------------------
 Web_Upgrade() {
   if [ "$(id -u)" == "0" ]; then                 #Check if running as root
@@ -518,21 +722,59 @@ else                                             #No arguments means update trac
   
   Read_WhiteList                                 #Load Whitelist into array
   
+  CreateFile "$TrackerQuickList"
+  cat /dev/null > $TrackerQuickList              #Empty csv file
+  
   DeleteOldFile "/etc/dnsmasq.d/adsites.list"    #Legacy NoTrack list
   
-  GetList_NoTrack                                #Must process Quids Block list
-  GetList_BlackList                              #Process Users Blacklist
+  #Check if we need to process each blocklist
+  #If not then Delete old file to prevent Dnsmasq from reading it
   
-  if [[ $BlockList_TLD == "1" ]]; then           #Process TLD Blocklist?
-    GetList_TLD                                  #Process TLD List
-  else 
-    DeleteOldFile "$DomainListFile"              #Delete old file to prevent Dnsmasq from reading it
+  if [ $BlockList_NoTrack == 1 ]; then
+    GetList_NoTrack                              #Process Quids Block list
+  else
+    DeleteOldFile "$TrackerListFile"
   fi
   
-  if [[ $BlockList_PglYoyo == "1" ]]; then
-    GetList_PglYoyo
-  else
-    DeleteOldFile /etc/dnsmasq.d/pglyoyo.list
+  GetList_BlackList                              #Process Users Blacklist
+    
+  #TLD Blocklist?
+  if [ $BlockList_TLD == 1 ]; then GetList_TLD                                  
+  else DeleteOldFile "$DomainListFile"           
+  fi
+  
+  #AdBlock Manager
+  if [ $BlockList_AdBlockManager == 1 ]; then GetList_AdBlockManager
+  else DeleteOldFile "/etc/dnsmasq.d/adblockmanager.list"
+  fi
+  
+  #EasyList
+  if [ $BlockList_EasyList == 1 ]; then GetList_EasyList
+  else DeleteOldFile "/etc/dnsmasq.d/easylist.list"
+  fi
+  
+  #hpHosts
+  if [ $BlockList_hpHosts == 1 ]; then GetList_hpHosts
+  else DeleteOldFile "/etc/dnsmasq.d/hphosts.list"
+  fi
+  
+  #Malware Domains
+  if [ $BlockList_MalwareDomains == 1 ]; then GetList_MalwareDomains
+  else DeleteOldFile "/etc/dnsmasq.d/malwaredomains.list"
+  fi
+  
+  #PglYoyo
+  if [ $BlockList_PglYoyo == 1 ]; then GetList_PglYoyo
+  else DeleteOldFile "/etc/dnsmasq.d/pglyoyo.list"
+  fi
+  
+  #SomeoneWhoCares
+  if [ $BlockList_SomeoneWhoCares == 1 ]; then GetList_SomeoneWhoCares
+  else DeleteOldFile "/etc/dnsmasq.d/someonewhocares.list"
+  fi
+  
+  if [ $BlockList_Winhelp2002 == 1 ]; then GetList_Winhelp2002
+  else DeleteOldFile "/etc/dnsmasq.d/winhelp2002.list"
   fi
   
   echo "Imported $(cat /etc/notrack/tracker-quick.list | grep -c Active) Domains into Block List"
