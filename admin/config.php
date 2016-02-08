@@ -18,7 +18,7 @@ echo "<h1>NoTrack Config</h1>\n";
 
 //-------------------------------------------------------------------
 function Checked($Var) {
-  if ($Var == 1) return 'checked="checked"';
+  if ($Var == 1) return ' checked="checked"';
   else return '';
 }
 //-------------------------------------------------------------------
@@ -29,23 +29,23 @@ function DisplayConfigChoices() {
   echo '<input type="hidden" name="action" value="blocklists">';
   DrawSysTable('Block Lists');  
   
-  DrawSysRow('NoTrack', '<input type="checkbox" name="blocklist_notrack"'.Checked($Config['BlockList_NoTrack']).'>');
+  DrawSysRow('NoTrack', '<input type="checkbox" name="blocklist_notrack"'.Checked($Config['BlockList_NoTrack']).'> Default List, containing mixture of Trackers and Ad sites.');
    
-  DrawSysRow('Top Level Domain', '<input type="checkbox" name="blocklist_tld"'.Checked($Config['BlockList_TLD']).'>');
+  DrawSysRow('Top Level Domain', '<input type="checkbox" name="blocklist_tld"'.Checked($Config['BlockList_TLD']).'> Whole country and generic domains.');
   
-  DrawSysRow('AdBlock+ EasyList', '<input type="checkbox" name="blocklist_easylist"'.Checked($Config['BlockList_EasyList']).'>');
+  DrawSysRow('AdBlock Plus EasyList', '<input type="checkbox" name="blocklist_easylist"'.Checked($Config['BlockList_EasyList']).'> Utilises a small portion of the list to block entire Ad domains.');
   
-  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="blocklist_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'>');
+  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="blocklist_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'> Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   
-  DrawSysRow('hpHosts', '<input type="checkbox" name="blocklist_hphosts"'.Checked($Config['BlockList_hpHosts']).'>');
+  DrawSysRow('hpHosts', '<input type="checkbox" name="blocklist_hphosts"'.Checked($Config['BlockList_hpHosts']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
   
-  DrawSysRow('Malware Domains', '<input type="checkbox" name="blocklist_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'>');
+  DrawSysRow('Malware Domains', '<input type="checkbox" name="blocklist_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'> A good list to add.');
                                                                    
-  DrawSysRow('PglYoyo', '<input type="checkbox" name="blocklist_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'>');
+  DrawSysRow('PglYoyo', '<input type="checkbox" name="blocklist_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'> Ad sites, a few are already in NoTrack.');
   
-  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="blocklist_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'>');
+  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="blocklist_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'> Mixture of Shock and Ad sites.');
 
-  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="blocklist_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'>');
+  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="blocklist_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
   
   echo "</table><br />\n";
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
