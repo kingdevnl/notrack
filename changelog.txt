@@ -6,6 +6,11 @@ Option for Malware Domains Blocklist
 Option for PglYoyo Blocklist
 Option for Someone Who Cares Blocklist
 Option for Winhelp 2002 Blocklist
+Option to turn off NoTrack Blocklist
+Option to turn off TLD Blocklist
+
+Known issues: Winhelp 2002 Blocklist is very slow to add.
+More EasyLists are due to be added in the next version
 
 v0.6 alpha
 New Config page (Issue #4).
@@ -17,26 +22,3 @@ Top Level Domain blocklist can be disabled.
 Purge History added to Config page.
 A-Z pagination removed from Blocklist page.
 Improved error checking.
-
-v0.5.1 alpha
-Added Report Button to Domain Stats (Issue #10)
-
-v0.5 alpha
-Fixed Issue #7 - Dnsmasq restart issues with wlan0.
-Implemented Memcache to improve PHP performance.
-Historical look back is now available in Domain Stats.
-Dnsmasq log archiving removes surplus information in order to improve performance on Historical look back.
-NoTrack is now compatible with Arch and Fedora based distros, thanks floturcocantsee.
-Searchbox added to Block List.
-CSS Theming improvements to tables.
-
-Note: These are significant changes, and you'll need to re-install NoTrack
-
-v0.4 alpha 3
-Added Time selector to Domain Stats
-Added favicon
-Moved upgrade notification from Github to trackers.txt file
-
-v0.3 alpha 2
-Added Google search and Whois to Stats table 
-Started making NoTrack compatible with other Linux Distros.
