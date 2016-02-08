@@ -6,10 +6,21 @@
 #Date : 2015-01-14
 #Usage : sudo bash notrack.sh
 
-#User Configerable Variables in case config file is missing
-NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1) #Set this to the name of network device e.g. "eth0" if you have multiple network cards
+#User Configerable Variables in case config file is missing----------
+#Set NetDev to the name of network device e.g. "eth0" IF you have multiple network cards
+NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 IPVersion="IPv4"
-BlockList_TLD="1"
+
+#Blocklist Sources and their file format-----------------------------
+#NoTrack - PlainList + Special http://quidsup.net/trackers.txt
+#TLD - PlainList
+#AdBlockManager - UnixList127 http://adblock.gjtech.net
+#EasyList - EasyList https://easylist-downloads.adblockplus.org
+#hpHosts - UnixList127 http://hosts-file.net
+#PglYoyo - PlainList http://pgl.yoyo.org/adservers
+#SomeoneWhoCares - UnixList127 http://someonewhocares.org/hosts/
+#MalwareDomains - PlainList http://www.malwaredomains.com/
+#Winhelp2002 - UnixList0 http://winhelp2002.mvps.org/
 
 #System Variables----------------------------------------------------
 Version="0.6.1"
@@ -381,10 +392,9 @@ GetList_hpHosts() {
   Process_UnixList127 "/tmp/hphosts.txt" "/etc/dnsmasq.d/hphosts.list"
   echo "Finished processing hpHosts Block List"
   echo
-  #rm /tmp/hphosts.txt
+  rm /tmp/hphosts.txt
 }
 #GetList Malware Domains---------------------------------------------
-#http://mirror1.malwaredomains.com/files/justdomains
 GetList_MalwareDomains() {
   echo "Downloading Malware Domains Block List"
   wget -O /tmp/malwaredomains.txt "http://mirror1.malwaredomains.com/files/justdomains"
@@ -529,7 +539,7 @@ Process_UnixList0() {
            
       if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
         Line="${Line%%\#*}"                      #Delete comments
-        #Line -1 doesn't work
+        #Line -1 doesn't work here, resort to tr instead
         Line=$(tr -d '\r' <<< $Line)             #F*in slow
         AddSite "$Line" "$2" ""        
       fi
