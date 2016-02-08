@@ -381,7 +381,7 @@ GetList_hpHosts() {
   Process_UnixList127 "/tmp/hphosts.txt" "/etc/dnsmasq.d/hphosts.list"
   echo "Finished processing hpHosts Block List"
   echo
-  rm /tmp/hphosts.txt
+  #rm /tmp/hphosts.txt
 }
 #GetList Malware Domains---------------------------------------------
 #http://mirror1.malwaredomains.com/files/justdomains
@@ -402,7 +402,7 @@ GetList_MalwareDomains() {
   rm /tmp/malwaredomains.txt
 }
 #PGL Yoyo BlockList--------------------------------------------------
-GetList_PglYoyo() {    
+GetList_PglYoyo() {  
   echo "Downloading PglYoyo BlockList"
   wget -O /tmp/pglyoyo.txt "http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
   
@@ -504,14 +504,13 @@ Process_PlainList() {
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
-      
+      Line="${Line:-1}"                          #Delete return
       AddSite "$Line" "$2" "$Comment"
             
       if [ $i == 200 ]; then                     #Display progress dots
         echo -n .
         i=0        
-      fi
-      
+      fi      
       ((i++))
     fi
   done < "$1"
@@ -527,10 +526,12 @@ Process_UnixList0() {
   do
     if [[ ${Line:0:3} == "0.0" ]]; then
       Line=${Line:8}
-      Line="${Line%%\#*}"                        #Delete comments
-      
+           
       if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
-        AddSite "$Line" "$2" ""
+        Line="${Line%%\#*}"                      #Delete comments
+        #Line -1 doesn't work
+        Line=$(tr -d '\r' <<< $Line)             #F*in slow
+        AddSite "$Line" "$2" ""        
       fi
     fi
     
@@ -550,11 +551,12 @@ Process_UnixList127() {
   i=0                                            #Progress dot counter
   while IFS='' read -r Line
   do
-    if [[ ${Line:0:3} == "127" ]]; then
-      #Line=$(cut -d ' ' -f 2 <<< $Line)
+    if [[ ${Line:0:3} == "127" ]]; then      
       Line=${Line:10}
       Line="${Line%%\#*}"                        #Delete comments
       if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
+        Line=${Line:-1}                          #Strip carrige return
+        #echo "$Line $2"
         AddSite "$Line" "$2" ""
       fi
     fi
