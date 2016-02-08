@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <title>NoTrack - Settings</title>  
+  <title>NoTrack - Config</title>  
 </head>
 
 <body>
@@ -17,20 +17,35 @@ include('./include/topmenu.html');
 echo "<h1>NoTrack Config</h1>\n";
 
 //-------------------------------------------------------------------
+function Checked($Var) {
+  if ($Var == 1) return 'checked="checked"';
+  else return '';
+}
+//-------------------------------------------------------------------
 function DisplayConfigChoices() {
   global $Config;
   
   echo '<form action="?" method="get">';         //Block Lists
   echo '<input type="hidden" name="action" value="blocklists">';
   DrawSysTable('Block Lists');  
-  $Checked='';
-  if ($Config['BlockList_TLD'] == 1) $Checked='checked="checked"';
-  else $Checked='';
-  DrawSysRow('Top Level Domain', '<input type="checkbox" name="blocklist_tld"'.$Checked.'>');
   
-  if ($Config['BlockList_PglYoyo'] == 1) $Checked='checked="checked"';
-  else $Checked='';
-  DrawSysRow('PglYoyo', '<input type="checkbox" name="blocklist_pglyoyo"'.$Checked.'>');
+  DrawSysRow('NoTrack', '<input type="checkbox" name="blocklist_notrack"'.Checked($Config['BlockList_NoTrack']).'>');
+   
+  DrawSysRow('Top Level Domain', '<input type="checkbox" name="blocklist_tld"'.Checked($Config['BlockList_TLD']).'>');
+  
+  DrawSysRow('AdBlock+ EasyList', '<input type="checkbox" name="blocklist_easylist"'.Checked($Config['BlockList_EasyList']).'>');
+  
+  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="blocklist_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'>');
+  
+  DrawSysRow('hpHosts', '<input type="checkbox" name="blocklist_hphosts"'.Checked($Config['BlockList_hpHosts']).'>');
+  
+  DrawSysRow('Malware Domains', '<input type="checkbox" name="blocklist_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'>');
+                                                                   
+  DrawSysRow('PglYoyo', '<input type="checkbox" name="blocklist_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'>');
+  
+  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="blocklist_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'>');
+
+  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="blocklist_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'>');
   
   echo "</table><br />\n";
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
@@ -62,8 +77,7 @@ function ExecAction($Action, $ExecNow) {
   
   if ($ExecNow) {
     echo "<pre>\n";
-    $Msg = shell_exec('sudo ntrk-exec 2>&1');
-    #$Msg = shell_exec('sudo /home/quids/NoTrack/ntrk-exec.sh 2>&1');
+    $Msg = shell_exec('sudo ntrk-exec 2>&1');    
     echo $Msg;
     echo "</pre>\n";
   }
@@ -74,15 +88,50 @@ function ExecAction($Action, $ExecNow) {
 function UpdateBlockListConfig() {
   global $Config;
   
+  if (isset($_GET['blocklist_notrack'])) {
+    if ($_GET['blocklist_notrack'] == 'on') $Config['BlockList_NoTrack'] = 1;
+  }
+  else $Config['BlockList_NoTrack'] = 0;
+  
   if (isset($_GET['blocklist_tld'])) {
-    if ($_GET['blocklist_tld'] == 'on') $Config['BlockList_TLD'] = 1;    
+    if ($_GET['blocklist_tld'] == 'on') $Config['BlockList_TLD'] = 1;
   }
   else $Config['BlockList_TLD'] = 0;
   
+  if (isset($_GET['blocklist_easylist'])) {
+    if ($_GET['blocklist_easylist'] == 'on') $Config['BlockList_EasyList'] = 1;
+  }
+  else $Config['BlockList_EasyList'] = 0;
+  
+  if (isset($_GET['blocklist_adblockmanager'])) {
+    if ($_GET['blocklist_adblockmanager'] == 'on') $Config['BlockList_AdBlockManager'] = 1;
+  }
+  else $Config['BlockList_AdBlockManager'] = 0;
+  
+  if (isset($_GET['blocklist_hphosts'])) {
+    if ($_GET['blocklist_hphosts'] == 'on') $Config['BlockList_hpHosts'] = 1;
+  }
+  else $Config['BlockList_hpHosts'] = 0;
+  
+  if (isset($_GET['blocklist_malwaredomains'])) {
+    if ($_GET['blocklist_malwaredomains'] == 'on') $Config['BlockList_MalwareDomains'] = 1;
+  }
+  else $Config['BlockList_MalwareDomains'] = 0;
+  
   if (isset($_GET['blocklist_pglyoyo'])) {
-    if ($_GET['blocklist_pglyoyo'] == 'on') $Config['BlockList_PglYoyo'] = 1;    
+    if ($_GET['blocklist_pglyoyo'] == 'on') $Config['BlockList_PglYoyo'] = 1;
   }
   else $Config['BlockList_PglYoyo'] = 0;
+  
+  if (isset($_GET['blocklist_someonewhocares'])) {
+    if ($_GET['blocklist_someonewhocares'] == 'on') $Config['BlockList_SomeoneWhoCares'] = 1;
+  }
+  else $Config['BlockList_SomeoneWhoCares'] = 0;
+  
+  if (isset($_GET['blocklist_winhelp2002'])) {
+    if ($_GET['blocklist_winhelp2002'] == 'on') $Config['BlockList_Winhelp2002'] = 1;
+  }
+  else $Config['BlockList_Winhelp2002'] = 0;
   
   //print_r($Config);
   return null;
@@ -133,7 +182,11 @@ if (isset($_GET['action'])) {
       UpdateBlockListConfig();
       WriteTmpConfig();
       ExecAction('update-config', false);
-      ExecAction('run-notrack', true);
+      ExecAction('run-notrack', false);
+      echo "<pre>\n";
+      echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
+      echo 'Updating Blocklists...</pre>';      
+      exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
     break;
     case 'webserver':
       UpdateWebserverConfig();
