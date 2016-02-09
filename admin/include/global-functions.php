@@ -33,6 +33,7 @@ function LoadConfigFile() {
     if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => 1);
     if (!array_key_exists('BlockList_AdBlockManager', $Config)) $Config += array('BlockList_AdBlockManager' => 0);
     if (!array_key_exists('BlockList_EasyList', $Config)) $Config += array('BlockList_EasyList' => 0);
+    if (!array_key_exists('BlockList_EasyPrivacy', $Config)) $Config += array('BlockList_EasyPrivacy' => 0);
     if (!array_key_exists('BlockList_hpHosts', $Config)) $Config += array('BlockList_hpHosts' => 0);
     if (!array_key_exists('BlockList_MalwareDomains', $Config)) $Config += array('BlockList_MalwareDomains' => 0);
     if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);    

@@ -35,6 +35,8 @@ function DisplayConfigChoices() {
   
   DrawSysRow('AdBlock Plus EasyList', '<input type="checkbox" name="blocklist_easylist"'.Checked($Config['BlockList_EasyList']).'> Utilises a small portion of the list to block entire Ad domains.');
   
+  DrawSysRow('EasyPrivacy', '<input type="checkbox" name="blocklist_easypriacy"'.Checked($Config['BlockList_EasyPrivacy']).'> Supplementary list from AdBlock Plus to protect personal data.');
+  
   DrawSysRow('AdBlock Manager', '<input type="checkbox" name="blocklist_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'> Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   
   DrawSysRow('hpHosts', '<input type="checkbox" name="blocklist_hphosts"'.Checked($Config['BlockList_hpHosts']).'> Very inefficient list containing multiple subdomains for known Ad sites.');

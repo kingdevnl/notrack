@@ -14,16 +14,18 @@ IPVersion="IPv4"
 #Blocklist Sources and their file format-----------------------------
 #NoTrack - PlainList + Special http://quidsup.net/trackers.txt
 #TLD - PlainList
-#AdBlockManager - UnixList127 http://adblock.gjtech.net
-#EasyList - EasyList https://easylist-downloads.adblockplus.org
-#hpHosts - UnixList127 http://hosts-file.net
-#PglYoyo - PlainList http://pgl.yoyo.org/adservers
-#SomeoneWhoCares - UnixList127 http://someonewhocares.org/hosts/
-#MalwareDomains - PlainList http://www.malwaredomains.com/
-#Winhelp2002 - UnixList0 http://winhelp2002.mvps.org/
+#AdBlockManager - UnixList127 - http://adblock.gjtech.net/?format=unix-hosts
+#https://easylist.adblockplus.org
+#EasyList - EasyList - https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt
+#EasyPrivacy - EasyList - https://easylist-downloads.adblockplus.org/easyprivacy.txt
+#hpHosts - UnixList127 - http://hosts-file.net
+#PglYoyo - PlainList - http://pgl.yoyo.org/adservers
+#SomeoneWhoCares - UnixList127 - http://someonewhocares.org/hosts/
+#MalwareDomains - PlainList - mirror1.malwaredomains.com/files/justdomains
+#Winhelp2002 - UnixList0 - http://winhelp2002.mvps.org/hosts.txt
 
 #System Variables----------------------------------------------------
-Version="0.6.1"
+Version="0.6.2"
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/trackers.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
@@ -42,6 +44,7 @@ BlockList_NoTrack=1
 BlockList_TLD=1
 BlockList_AdBlockManager=0
 BlockList_EasyList=0
+BlockList_EasyPrivacy=0
 BlockList_hpHosts=0
 BlockList_PglYoyo=0
 BlockList_SomeoneWhoCares=0
@@ -104,7 +107,7 @@ AddSite() {
 }
 #Read Config File----------------------------------------------------
 #Default values are set at top of this script
-#Config File contains Key & Value on each line of some/none/or all items
+#Config File contains Key & Value on each line for some/none/or all items
 #If the Key is found in the case, then we write the value to the Variable
 Read_Config_File() {  
   if [ -e "$ConfigFile" ]; then
@@ -125,6 +128,7 @@ Read_Config_File() {
           BlockList_TLD) BlockList_TLD="$Value";;
           BlockList_AdBlockManager) BlockList_AdBlockManager="$Value";;
           BlockList_EasyList) BlockList_EasyList="$Value";;
+          BlockList_EasyPrivacy) BlockList_EasyPrivacy="$Value";;
           BlockList_hpHosts) BlockList_hpHosts="$Value";;
           BlockList_MalwareDomains) BlockList_MalwareDomains="$Value";;
           BlockList_PglYoyo) BlockList_PglYoyo="$Value";;
@@ -150,8 +154,7 @@ Read_WhiteList() {
 }
 #Check Lists---------------------------------------------------------
 Check_Lists() {  
-  #Check if Blacklist exists-----------------------------------------
-  if [ ! -e $BlackListFile ]; then
+  if [ ! -e $BlackListFile ]; then               #Check if Blacklist exists
     echo "Creating blacklist"
     touch $BlackListFile
     echo "#Use this file to add additional websites to be blocked" >> $BlackListFile
@@ -161,8 +164,7 @@ Check_Lists() {
     echo "#googletagservices.com" >> $BlackListFile
   fi
 
-  #Check if Whitelist exists-----------------------------------------
-  if [ ! -e $WhiteListFile ]; then
+  if [ ! -e $WhiteListFile ]; then               #Check if Whitelist exists
     echo "Creating whitelist"
     touch $WhiteListFile
     echo "# Use this file to remove files from blocklist" >> $WhiteListFile
@@ -170,10 +172,8 @@ Check_Lists() {
     echo "#doubleclick.net" >> $WhiteListFile
     echo "#google-analytics.com" >> $WhiteListFile
   fi
-
-
-  #Check if DomainBlacklist exists-----------------------------------
-  if [ ! -e $DomainBlackList ]; then
+  
+  if [ ! -e $DomainBlackList ]; then             #Check if DomainBlacklist exists
     echo "Creating domain blacklist"
     touch $DomainBlackList
     echo "#Use this file to add additional domains to the blocklist." >> $DomainBlackList
@@ -216,8 +216,7 @@ Check_Lists() {
     echo "#.ws #Western Samoa" >> $DomainBlackList  
   fi
 
-  #Check if Domain Whitelist exists
-  if [ ! -e $DomainWhiteList ]; then
+  if [ ! -e $DomainWhiteList ]; then             #Check if Domain Whitelist exists
     echo "Creating Domain whitelist"
     echo
     touch $DomainWhiteList
@@ -270,7 +269,11 @@ GetList_NoTrack() {
   echo "#Tracker Blocklist last updated $(date)" > $TrackerListFile
   echo "#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead" >> $TrackerListFile
     
-  i=0                                            #Progress dot counter
+  i=0                                            #Progress counter
+  j=1                                            #Percent point
+  c=$(wc -l "/etc/notrack/trackers.txt" | cut -d " " -f 1)              #Count number of lines
+  c=$((c/100))                                   #Calculate 1%
+  
   while IFS='# ' read -r Line Comment
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
@@ -291,14 +294,16 @@ GetList_NoTrack() {
         fi
       fi      
     fi
-    if [ $i == 100 ]; then                     #Display progress dots
-      echo -n .
-      i=0        
-    fi      
+    
+    if [ $i -ge $c ]; then                       #Display progress
+      echo -ne " $j%  \r"      
+      ((j++))
+      i=0      
+    fi
     ((i++))
   done < /etc/notrack/trackers.txt
   
-  echo .                                         #Final dot
+  echo 
   echo "Finished processing NoTrack Blocklist"
   echo
 }
@@ -363,7 +368,7 @@ GetList_AdBlockManager() {
 #GetList EasyList----------------------------------------------------
 GetList_EasyList() {
   echo "Downloading EasyList"
-  wget -O /tmp/easylist.txt "https://easylist-downloads.adblockplus.org/easylist.txt"
+  wget -O /tmp/easylist.txt "https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
 
   if [ ! -e /tmp/easylist.txt ]; then            #Check if list has been downloaded
     echo "File not downloaded"                   #Warn user
@@ -376,7 +381,24 @@ GetList_EasyList() {
   echo "Finished processing EasyList"
   rm /tmp/easylist.txt
   echo
-}  
+}
+#GetList EasyPrivacy-------------------------------------------------
+GetList_EasyPrivacy() {
+  echo "Downloading EasyPrivacy"
+  #wget -O /tmp/easyprivacy.txt "https://easylist-downloads.adblockplus.org/easyprivacy.txt"
+
+  if [ ! -e /tmp/easyprivacy.txt ]; then         #Check if list has been downloaded
+    echo "File not downloaded"                   #Warn user
+    return 1
+  fi
+  
+  CreateFile "/etc/dnsmasq.d/easyprivacy.list"
+  echo "Processing EasyPrivacy"
+  Process_EasyList "/tmp/easyprivacy.txt" "/etc/dnsmasq.d/easyprivacy.list"
+  echo "Finished processing EasyPrivacy"
+  #rm /tmp/easylist.txt
+  echo
+}
 #GetList hpHosts-----------------------------------------------------
 GetList_hpHosts() {
   echo "Downloading hpHosts Block List"
@@ -398,6 +420,7 @@ GetList_hpHosts() {
 GetList_MalwareDomains() {
   echo "Downloading Malware Domains Block List"
   wget -O /tmp/malwaredomains.txt "http://mirror1.malwaredomains.com/files/justdomains"
+  #Alt https://mirror.cedia.org.ec/malwaredomains/justdomains
   
   if [ ! -e /tmp/malwaredomains.txt ]; then      #Check if list has been downloaded
     echo "File not downloaded"                   #Warn user
@@ -424,8 +447,6 @@ GetList_PglYoyo() {
   CreateFile "/etc/dnsmasq.d/pglyoyo.list"
   echo "Processing PglYoyo Blocklist"
   Process_PlainList "/tmp/pglyoyo.txt" "/etc/dnsmasq.d/pglyoyo.list"
-  
-  
   echo "Finished processing PglYoyo Blocklist"
   rm /tmp/pglyoyo.txt                            #Clean up
   echo
@@ -473,7 +494,10 @@ Process_EasyList() {
 #||pubdirecte.com^$third-party,domain=~debrideurstream.fr
 #$1 = SourceFile
 #$2 = DestFile
-  i=0                                            #Progress dot counter
+  i=0                                            #Progress counter
+  j=1                                            #Percent point
+  c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
+  c=$((c/100))                                   #Calculate 1%
     
   while IFS=' ' read -r Line
   do
@@ -491,13 +515,14 @@ Process_EasyList() {
       done  
     fi
     
-    if [ $i == 200 ]; then                       #Display progress dots
-      echo -n .
-      i=0        
+    if [ $i -ge $c ]; then                       #Display progress
+      echo -ne " $j%  \r"      
+      ((j++))
+      i=0      
     fi
     ((i++))
   done < "$1"
-  echo .
+  echo 
 }
 
 #Process PlainList---------------------------------------------------
@@ -508,7 +533,11 @@ Process_EasyList() {
 Process_PlainList() {
 #$1 = SourceFile
 #$2 = DestFile
-  i=0                                            #Progress dot counter
+  i=0                                            #Progress counter
+  j=1                                            #Percent point
+  c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
+  c=$((c/100))                                   #Calculate 1%
+  
   while IFS='# ' read -r Line Comment
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
@@ -516,49 +545,59 @@ Process_PlainList() {
       Line="${Line%%*( )}"                       #Delete trailing spaces
       Line="${Line:-1}"                          #Delete return
       AddSite "$Line" "$2" "$Comment"
-            
-      if [ $i == 200 ]; then                     #Display progress dots
-        echo -n .
-        i=0        
-      fi      
-      ((i++))
     fi
+    
+    if [ $i -ge $c ]; then                       #Display progress
+      echo -ne " $j%  \r"      
+      ((j++))
+      i=0      
+    fi
+    ((i++))
   done < "$1"
-  echo .
+  echo
 }
 #Process UnixList 0--------------------------------------------------
 #Unix hosts file starting 0.0.0.0 site.com
 Process_UnixList0() {
 #$1 = SourceFile
 #$2 = DestFile
-  i=0                                            #Progress dot counter
+  i=0                                            #Progress counter
+  j=1                                            #Percent point
+  c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
+  c=$((c/100))                                   #Calculate 1%
+  
   while IFS='' read -r Line 
   do
     if [[ ${Line:0:3} == "0.0" ]]; then
       Line=${Line:8}
            
-      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
+      if [[ ! $Line =~ ^(#|localhost|www\.|EOF|\[) ]]; then
         Line="${Line%%\#*}"                      #Delete comments
         #Line -1 doesn't work here, resort to tr instead
-        Line=$(tr -d '\r' <<< $Line)             #F*in slow
+        Line=$(tr -d '\r' <<< "$Line")           #F*in slow
         AddSite "$Line" "$2" ""        
       fi
     fi
     
-    if [ $i == 200 ]; then                       #Display progress dots
-      echo -n .
-      i=0        
-    fi      
+    if [ $i -ge $c ]; then                       #Display progress
+      echo -ne " $j%  \r"      
+      ((j++))
+      i=0      
+    fi
     ((i++))
   done < "$1"
-  echo .
+  echo
  }
 #Process UnixList 127------------------------------------------------
 #Unix hosts file starting 127.0.0.1 site.com
 Process_UnixList127() {
 #$1 = SourceFile
 #$2 = DestFile
-  i=0                                            #Progress dot counter
+  i=0                                            #Progress counter
+  j=1                                            #Percent point
+  c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
+  c=$((c/100))                                   #Calculate 1%
+  
   while IFS='' read -r Line
   do
     if [[ ${Line:0:3} == "127" ]]; then      
@@ -571,13 +610,14 @@ Process_UnixList127() {
       fi
     fi
     
-    if [ $i == 200 ]; then                       #Display progress dots
-      echo -n .
-      i=0        
-    fi      
+   if [ $i -ge $c ]; then                       #Display progress
+      echo -ne " $j%  \r"      
+      ((j++))
+      i=0      
+    fi
     ((i++))
   done < "$1"
-  echo .
+  echo
  }
 #Upgrade-------------------------------------------------------------
 Web_Upgrade() {
@@ -751,41 +791,46 @@ else                                             #No arguments means update trac
   GetList_BlackList                              #Process Users Blacklist
     
   #TLD Blocklist?
-  if [ $BlockList_TLD == 1 ]; then GetList_TLD                                  
+  if [ "$BlockList_TLD" == 1 ]; then GetList_TLD                                  
   else DeleteOldFile "$DomainListFile"           
   fi
   
   #AdBlock Manager
-  if [ $BlockList_AdBlockManager == 1 ]; then GetList_AdBlockManager
+  if [ "$BlockList_AdBlockManager" == 1 ]; then GetList_AdBlockManager
   else DeleteOldFile "/etc/dnsmasq.d/adblockmanager.list"
   fi
   
   #EasyList
-  if [ $BlockList_EasyList == 1 ]; then GetList_EasyList
+  if [ "$BlockList_EasyList" == 1 ]; then GetList_EasyList
   else DeleteOldFile "/etc/dnsmasq.d/easylist.list"
   fi
   
+  #EasyPrivacy
+  if [ "$BlockList_EasyPrivacy" == 1 ]; then GetList_EasyPrivacy
+  else DeleteOldFile "/etc/dnsmasq.d/easyprivacy.list"
+  fi
+  
   #hpHosts
-  if [ $BlockList_hpHosts == 1 ]; then GetList_hpHosts
+  if [ "$BlockList_hpHosts" == 1 ]; then GetList_hpHosts
   else DeleteOldFile "/etc/dnsmasq.d/hphosts.list"
   fi
   
   #Malware Domains
-  if [ $BlockList_MalwareDomains == 1 ]; then GetList_MalwareDomains
+  if [ "$BlockList_MalwareDomains" == 1 ]; then GetList_MalwareDomains
   else DeleteOldFile "/etc/dnsmasq.d/malwaredomains.list"
   fi
   
   #PglYoyo
-  if [ $BlockList_PglYoyo == 1 ]; then GetList_PglYoyo
+  if [ "$BlockList_PglYoyo" == 1 ]; then GetList_PglYoyo
   else DeleteOldFile "/etc/dnsmasq.d/pglyoyo.list"
   fi
   
   #SomeoneWhoCares
-  if [ $BlockList_SomeoneWhoCares == 1 ]; then GetList_SomeoneWhoCares
+  if [ "$BlockList_SomeoneWhoCares" == 1 ]; then GetList_SomeoneWhoCares
   else DeleteOldFile "/etc/dnsmasq.d/someonewhocares.list"
   fi
   
-  if [ $BlockList_Winhelp2002 == 1 ]; then GetList_Winhelp2002
+  if [ "$BlockList_Winhelp2002" == 1 ]; then GetList_Winhelp2002
   else DeleteOldFile "/etc/dnsmasq.d/winhelp2002.list"
   fi
   
