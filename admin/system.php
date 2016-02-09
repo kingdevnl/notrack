@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <title>NoTrack - System Infomation</title>  
+  <title>NoTrack - System Information</title>  
 </head>
 
 <body>
