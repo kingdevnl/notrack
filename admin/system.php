@@ -25,7 +25,7 @@ $PS_Dnsmasq = preg_split('/\s+/', exec('ps -eo fname,pid,stime,cputime,pmem | gr
 
 $PS_Lighttpd = preg_split('/\s+/', exec('ps -eo fname,pid,stime,cputime,pmem | grep lighttpd'));
 
-echo "<h1>System Infomation</h1>\n";
+echo "<h1>System Information</h1>\n";
 
 DrawSysTable('Server');
 DrawSysRow('Name', gethostname());
