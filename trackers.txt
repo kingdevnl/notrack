@@ -1,4 +1,4 @@
-#List of Ad files last updated 08 Feb 2016 .1
+#List of Ad files last updated 10 Feb 2016 .1
 #LatestVersion 0.6.1
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -47,7 +47,9 @@ active-agent.net
 active-trk7.com #Lead Forensics
 acuityplatform.com
 acxiom-online.com
+ad-center.com
 ad-serverparc.nl
+ad4game.com
 adadvisor.net
 adagencyonline.biz
 adagencyonline.net
@@ -653,7 +655,7 @@ goadservices.com
 godatafeed.com
 google-analytics.com
 #googleadservices.com
-#googlesyndication.com
+googlesyndication.com
 googletagmanager.com
 googletagservices.com
 gorillanation.com
@@ -9280,6 +9282,7 @@ metrics.ikea.com
 rad.live.com #Microsoft
 ssw.live.com
 watson.live.com
+marketing.lloydsbank.co.uk
 static.2mdn.net
 s.gateway.messenger.live.com
 bingads.microsoft.com #Microsoft
