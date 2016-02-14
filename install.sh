@@ -5,7 +5,7 @@
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="0.6"
+Version="0.6.2"
 NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 CountNetDev=$(wc -w <<< "$NetDev")
 Height=$(tput lines)

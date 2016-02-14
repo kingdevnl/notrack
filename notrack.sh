@@ -39,6 +39,8 @@ DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 OldLatestVersion="$Version"
+declare -A WhiteList                             #associative array
+
 
 BlockList_NoTrack=1
 BlockList_TLD=1
@@ -90,20 +92,12 @@ AddSite() {
   
   if [ ${#1} == 0 ]; then return; fi             #Ignore zero length str
   
-  if [[ $WhiteListCount == 0 ]]; then            #No Items in blocklist?
-    echo "address=/$1/$IPAddr" >> "$2"           #Just add site to tracker list
-    echo "$1,Active,$3" >> $TrackerQuickList
+  if [ "${WhiteList[$1]}" ]; then                #Is site in WhiteList Array?
+    echo "$1,Disabled,$3" >> $TrackerQuickList
   else
-    for WLSite in "${WhiteList[@]}"              #Loop through White List
-    do      
-      if [[ $1 == "$WLSite" ]]; then             #Matched, site disabled
-        echo "$1,Disabled,$3" >> $TrackerQuickList
-        return 0                                 #Leave function
-      fi
-    done
-    
-    echo "address=/$1/$IPAddr" >> "$2"           #No match in whitelist    echo "$1,Active,$3" >> $TrackerQuickList     
-  fi  
+    echo "address=/$1/$IPAddr" >> "$2"           #No match in whitelist
+    echo "$1,Active,$3" >> $TrackerQuickList
+  fi
 }
 #Read Config File----------------------------------------------------
 #Default values are set at top of this script
@@ -147,7 +141,7 @@ Read_WhiteList() {
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
-      WhiteList[$WhiteListCount]="$Line"      
+      WhiteList[$Line]="$Line"      
       ((WhiteListCount++))
     fi
   done < $WhiteListFile  
@@ -507,7 +501,7 @@ Process_EasyList() {
       AddSite "${Line:2:-19}" "$2" ""
     elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party\,domain=~ ]]; then
       #^$third-party,domain= apepars mid line, we need to replace it with a | pipe seperator like the rest of the line has
-      Line=$(sed 's/\^$third-party,domain=~/\|/g' <<< "$Line")
+      Line=$(sed "s/\^$third-party,domain=~/\|/g" <<< "$Line")
       IFS='|~', read -r -a ArrayOfLine <<< "$Line" #Explode into array using seperator | or ~
       for Line in "${ArrayOfLine[@]}"            #Loop through array
       do
@@ -782,7 +776,7 @@ else                                             #No arguments means update trac
   #Check if we need to process each blocklist
   #If not then Delete old file to prevent Dnsmasq from reading it
   
-  if [ $BlockList_NoTrack == 1 ]; then
+  if [ "$BlockList_NoTrack" == 1 ]; then
     GetList_NoTrack                              #Process Quids Block list
   else
     DeleteOldFile "$TrackerListFile"

@@ -1,3 +1,11 @@
+v0.6.2 alpha
+Added description next to each Blocklist on Config page
+Replaced progress dots in NoTrack script with Percent indicator
+Swapped EasyList to EasyList without element hiding
+Option for EasyPrivacy Blocklist
+Typo fixed on System Information page (Issue #15)
+Work in progress on new Blocklist page
+
 v0.6.1 alpha
 Option for AdBlock+ EasyList Blocklist
 Option for AdBlock Manager Blocklist

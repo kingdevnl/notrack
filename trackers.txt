@@ -1,5 +1,5 @@
-#List of Ad files last updated 10 Feb 2016 .1
-#LatestVersion 0.6.1
+#List of Ad files last updated 13 Feb 2016 .1
+#LatestVersion 0.6.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -9253,6 +9253,7 @@ advertising.bbcworldwide.com
 bat.bing.com
 medals.bizrate.com #TBC
 pixel.brit.co
+marketing-solutions.bt.com
 pixiedust.buzzfeed.com
 dw.cbsimg.net
 compatexchange.cloudapp.net
