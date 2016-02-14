@@ -169,7 +169,7 @@ function UpdateBlockListConfig() {
   if (isset($_GET['blocklist_easyprivacy'])) {
     if ($_GET['blocklist_easyprivacy'] == 'on') $Config['BlockList_EasyPrivacy'] = 1;
   }
-  else $Config['BlockList_EasyList'] = 0;
+  else $Config['BlockList_EasyPrivacy'] = 0;
   
   if (isset($_GET['blocklist_adblockmanager'])) {
     if ($_GET['blocklist_adblockmanager'] == 'on') $Config['BlockList_AdBlockManager'] = 1;
@@ -260,7 +260,8 @@ if (isset($_GET['action'])) {
       ExecAction('run-notrack', false);
       echo "<pre>\n";
       echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
-      echo 'Updating Blocklists...</pre>';      
+      echo 'Updating Blocklists in background...'."\n";
+      echo 'Click Back to return to Config page</pre>';      
       exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
       break;
     case 'webserver':
