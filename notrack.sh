@@ -1,4 +1,3 @@
- 
 #!/bin/bash
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
