@@ -624,6 +624,8 @@ freeskreen.com
 fresh8.co
 freegreatapps.com #MdotM
 freewall.com #AppNexus Inc
+friendinsites.com #Keywee
+friendsinsites.com #Keywee
 frm.li
 froo.com
 fullstory.com
@@ -803,6 +805,7 @@ kaloo.ga#Kalooga
 kalooga.com #Kalooga
 kastatic.com
 kau.li
+keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
 kiosked.com
@@ -886,6 +889,7 @@ micpn.com
 microsoft-hohm.com #Microsoft
 midrollvideo.com #BrightRoll
 millennialmedia.com
+mioeverywhere.tv #Ooyala
 mixpanel.com
 #:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
 #:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
@@ -8875,6 +8879,7 @@ sdad.guru #instartlogic
 sdad.mobi #instartlogic
 sdad.technology #instartlogic
 se-core-pipe.com #Lead Forensics
+sea-nov-1.com #Lead Forensics
 search2shop.com #Digital Window
 searchmarketing.com
 seatac15.com #Lead Forensics
@@ -8935,6 +8940,8 @@ smartadserver.net #Smart Ad Server
 smartadserver.org #Smart Ad Server
 smartadserver.us #Smart Ad Server
 smarterclick.co.uk
+smartology.co #Smartology
+smartology.net #Smartology
 smartstream.tv
 smct.co
 snapengage.com #SnapEngage LLC
@@ -9034,6 +9041,7 @@ thedailypocket.mobi #Millennial Media
 thehut.net
 therelevancegraph.mobi #Millennial Media
 thetacdn.net #Verizon
+thispick.com #Keywee
 ticket-genie.com #Digital Window
 tidaltv.com
 tiqcdn.com
@@ -9068,6 +9076,7 @@ treesforknowledge.com #TMRG
 tribalfusion.com
 triggit.com
 trkme.net
+tru.am #TrueAnthem
 truste.com
 truste-svc.net
 trusted.site #PathDefender
@@ -9176,6 +9185,7 @@ webappstreamingnetwork.com #instartlogic
 webappstreamingnetwork.info #instartlogic
 webappstreamingnetwork.net #instartlogic
 webappstreamingnetwork.org #instartlogic
+webengage.co #WebEngage
 webgains.com
 webmd.com
 webrankresearch.com #TMRG
