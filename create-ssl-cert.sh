@@ -26,7 +26,7 @@ Show_Welcome() {
 Show_Finish() {
   whiptail --msgbox --title "Complete" "Your SSL Certificate has been installed and Lighttpd has sucessfully restarted" 10 $Width
   echo
-  echo "Install the $HostName-cert.p12 certificate into your web browser"
+  #echo "Install the $HostName-cert.p12 certificate into your web browser"
   echo
 }
 
@@ -56,9 +56,7 @@ echo "Enabling SSL Module on Lighttpd"
 sudo lighty-enable-mod ssl
 echo
 
-echo "Creating SSL Certificate"
-echo
-echo "Example details:"
+echo "Example details required to create an SSL Certificate:"
 echo "Country Name (2 letter code) [AU]: GB"
 echo "State or Province Name (full name) [Some-State]: ."
 echo "Locality Name (eg, city) []: Cardiff"
@@ -114,7 +112,6 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
   
   if [ -z "$(pgrep lighttpd)" ]; then              #Check if lighttpd restart has now been successful
     echo "Lighttpd restart failed"
-    echo "I don't know how to fix this"
   else
     echo "Lighttpd restart successful"
   fi
