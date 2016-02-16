@@ -1,4 +1,4 @@
-#List of Ad files last updated 13 Feb 2016 .1
+#List of Ad files last updated 16 Feb 2016 .1
 #LatestVersion 0.6.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -800,7 +800,7 @@ justnavigators.com #Digital Window
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kaloo.ga#Kalooga
-kalooga.com#Kalooga
+kalooga.com #Kalooga
 kastatic.com
 kau.li
 keywords.com #Microsoft
@@ -818,6 +818,10 @@ laptops2compare.com #Digital Window
 latestprizes.com #Digital Window
 latestprizes.net #Digital Window
 lduhtrp.net
+lead-01.com #Euclead
+lead-30.com #Euclead
+lead-analytics.biz #Euclead
+lead10.com #Euclead
 leadboltmobile.net #LeadBolt
 leadforensics.com
 leadformix.com
