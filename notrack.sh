@@ -1,3 +1,4 @@
+ 
 #!/bin/bash
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
@@ -31,16 +32,14 @@ TrackerListFile="/etc/dnsmasq.d/trackers.list"
 TrackerQuickList="/etc/notrack/tracker-quick.list"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
-WhiteListCount=0
-DomainSource="http://quidsup.net/malicious-domains.txt"
 DomainListFile="/etc/dnsmasq.d/malicious-domains.list"
 DomainBlackList="/etc/notrack/domain-blacklist.txt"
 DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 OldLatestVersion="$Version"
+UnixTime=$(date +%s)
 declare -A WhiteList                             #associative array
-
 
 BlockList_NoTrack=1
 BlockList_TLD=1
@@ -52,6 +51,17 @@ BlockList_PglYoyo=0
 BlockList_SomeoneWhoCares=0
 BlockList_MalwareDomains=0
 BlockList_Winhelp2002=0
+
+declare -A URLList
+URLList[tld]="http://quidsup.net/malicious-domains.txt"
+URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
+URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
+URLList[easyprivacy]="https://easylist-downloads.adblockplus.org/easyprivacy.txt"
+URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
+URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
+URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
+URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
+URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
 
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
@@ -67,7 +77,6 @@ Check_File_Exists() {
     exit 2
   fi
 }
-
 #Create File---------------------------------------------------------
 CreateFile() {
   if [ ! -e "$1" ]; then
@@ -75,7 +84,6 @@ CreateFile() {
     touch "$1"
   fi
 }
-
 #Delete old file if it Exists----------------------------------------
 DeleteOldFile() {
   if [ -e "$1" ]; then
@@ -141,8 +149,7 @@ Read_WhiteList() {
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
-      WhiteList[$Line]="$Line"      
-      ((WhiteListCount++))
+      WhiteList[$Line]="$Line"
     fi
   done < $WhiteListFile  
 }
@@ -173,7 +180,7 @@ Check_Lists() {
     echo "#Use this file to add additional domains to the blocklist." >> $DomainBlackList
     echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainBlackList
     echo "# I have divided the list info three different classifications:" >> $DomainBlackList
-    echo "# 1: Very high risk - Cheap/Free domains which attract a high number of scammers. This list gets downloaded from: $DomainSource" >> $DomainBlackList
+    echo "# 1: Very high risk - Cheap/Free domains which attract a high number of scammers. This list gets downloaded from: ${URLList[tld]}" >> $DomainBlackList
     echo "# 2: Risky - More of a mixture of legitimate to malicious domains. Consider enabling blocking of these domains, unless you live in one of the countries listed." >> $DomainBlackList
     echo "# 3: Low risk - Malicious sites do appear in these domains, but they are well in the minority." >> $DomainBlackList
 
@@ -255,7 +262,7 @@ GetList_NoTrack() {
   
   echo "Downloading Tracker Site List from: $TrackerSource"
   echo
-  wget -O /etc/notrack/trackers.txt $TrackerSource
+  wget -qO /etc/notrack/trackers.txt $TrackerSource
   echo
   Check_File_Exists "/etc/notrack/trackers.txt"
   
@@ -307,9 +314,9 @@ GetList_TLD() {
   CreateFile $DomainListFile
   CreateFile $DomainQuickList
   
-  echo "Downloading Malcious Domain List from: $DomainSource"
+  echo "Downloading Top Level Domain list"
   echo
-  wget -O /etc/notrack/domains.txt $DomainSource
+  wget -qO /etc/notrack/domains.txt "${URLList[tld]}"
   
   Check_File_Exists "/etc/notrack/domains.txt"
   
@@ -343,141 +350,41 @@ GetList_BlackList() {
   echo "Finished processing Custom Black List"
   echo
 }
-#GetList AdBlockManager----------------------------------------------
-GetList_AdBlockManager() {
-  echo "Downloading AdBlock Manager List"
-  wget -O /tmp/adblockmanager.txt "http://adblock.gjtech.net/?format=unix-hosts"
+#GetList-------------------------------------------------------------
+GetList() {
+  local Lst="$1"
+  #local Method="$2"
   
-  if [ ! -e /tmp/adblockmanager.txt ]; then      #Check if list has been downloaded
-    echo "File not downloaded"                   #Warn user
+  if [ -e "/tmp/$Lst.txt" ]; then
+    local FileTime=$(stat -c %Z /tmp/$Lst.txt)    
+    if [ $FileTime -gt $((UnixTime-187200)) ]; then
+      echo "File /tmp/$Lst.txt in date. Not downloading"
+    else
+      echo "Downloading $Lst"
+      wget -qO "/tmp/$Lst.txt" "${URLList[$Lst]}"
+    fi
+  else  
+    echo "Downloading $Lst"
+    wget -qO "/tmp/$Lst.txt" "${URLList[$Lst]}"
+  fi
+  
+  if [ ! -e "/tmp/$Lst.txt" ]; then                 #Check if list has been downloaded
+    echo "File not downloaded"
     return 1
   fi
   
-  CreateFile "/etc/dnsmasq.d/adblockmanager.list"
-  echo "Processing AdBlock Manager List"
-  Process_UnixList127 "/tmp/adblockmanager.txt" "/etc/dnsmasq.d/adblockmanager.list"
-  echo "Finished processing AdBlock Manager List"
+  CreateFile "/etc/dnsmasq.d/$Lst.list"
+  echo "Processing list $Lst"
+  
+  case $2 in
+    "easylist") Process_EasyList "/tmp/$Lst.txt" "/etc/dnsmasq.d/$Lst.list" ;;
+    "plain") Process_PlainList "/tmp/$Lst.txt" "/etc/dnsmasq.d/$Lst.list" ;;
+    "unix127") Process_UnixList127 "/tmp/$Lst.txt" "/etc/dnsmasq.d/$Lst.list" ;;
+    "unix0") Process_UnixList0 "/tmp/$Lst.txt" "/etc/dnsmasq.d/$Lst.list" ;;
+  esac
+  
+  echo "Finished processing $Lst"
   echo
-}
-#GetList EasyList----------------------------------------------------
-GetList_EasyList() {
-  echo "Downloading EasyList"
-  wget -O /tmp/easylist.txt "https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
-
-  if [ ! -e /tmp/easylist.txt ]; then            #Check if list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/easylist.list"
-  echo "Processing EasyList"
-  Process_EasyList "/tmp/easylist.txt" "/etc/dnsmasq.d/easylist.list"
-  echo "Finished processing EasyList"
-  rm /tmp/easylist.txt
-  echo
-}
-#GetList EasyPrivacy-------------------------------------------------
-GetList_EasyPrivacy() {
-  echo "Downloading EasyPrivacy"
-  #wget -O /tmp/easyprivacy.txt "https://easylist-downloads.adblockplus.org/easyprivacy.txt"
-
-  if [ ! -e /tmp/easyprivacy.txt ]; then         #Check if list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/easyprivacy.list"
-  echo "Processing EasyPrivacy"
-  Process_EasyList "/tmp/easyprivacy.txt" "/etc/dnsmasq.d/easyprivacy.list"
-  echo "Finished processing EasyPrivacy"
-  #rm /tmp/easylist.txt
-  echo
-}
-#GetList hpHosts-----------------------------------------------------
-GetList_hpHosts() {
-  echo "Downloading hpHosts Block List"
-  wget -O /tmp/hphosts.txt "http://hosts-file.net/ad_servers.txt"
-  
-  if [ ! -e /tmp/hphosts.txt ]; then             #Check if list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/hphosts.list"
-  echo "Processing hpHosts Block List"
-  Process_UnixList127 "/tmp/hphosts.txt" "/etc/dnsmasq.d/hphosts.list"
-  echo "Finished processing hpHosts Block List"
-  echo
-  rm /tmp/hphosts.txt
-}
-#GetList Malware Domains---------------------------------------------
-GetList_MalwareDomains() {
-  echo "Downloading Malware Domains Block List"
-  wget -O /tmp/malwaredomains.txt "http://mirror1.malwaredomains.com/files/justdomains"
-  #Alt https://mirror.cedia.org.ec/malwaredomains/justdomains
-  
-  if [ ! -e /tmp/malwaredomains.txt ]; then      #Check if list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/malwaredomains.list"
-  echo "Processing Malware Domains Block List"
-  Process_PlainList "/tmp/malwaredomains.txt" "/etc/dnsmasq.d/malwaredomains.list"
-  echo "Finished processing Malware Domains Block List"
-  echo
-  rm /tmp/malwaredomains.txt
-}
-#PGL Yoyo BlockList--------------------------------------------------
-GetList_PglYoyo() {  
-  echo "Downloading PglYoyo BlockList"
-  wget -O /tmp/pglyoyo.txt "http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
-  
-  if  [ ! -e /tmp/pglyoyo.txt ]; then            #Check list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1                                     
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/pglyoyo.list"
-  echo "Processing PglYoyo Blocklist"
-  Process_PlainList "/tmp/pglyoyo.txt" "/etc/dnsmasq.d/pglyoyo.list"
-  echo "Finished processing PglYoyo Blocklist"
-  rm /tmp/pglyoyo.txt                            #Clean up
-  echo
-}
-#Get List SomeoneWhoCares--------------------------------------------
-GetList_SomeoneWhoCares() {
-  echo "Downloading SomeoneWhoCares Block List"
-  wget -O /tmp/someonewhocares.txt "http://someonewhocares.org/hosts/hosts"
-  
-  if [ ! -e /tmp/someonewhocares.txt ]; then     #Check list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/someonewhocares.list"
-  echo "Processing SomeoneWhoCares Block List"
-  Process_UnixList127 "/tmp/someonewhocares.txt" "/etc/dnsmasq.d/someonewhocares.list"
-  echo "Finished processing SomeoneWhoCares Block List"
-  echo
-  rm /tmp/someonewhocares.txt
-}
-#Get List Winhelp2002------------------------------------------------
-GetList_Winhelp2002() {
-  echo "Downloading Winhelp2002 Block List"
-  wget -O /tmp/winhelp2002.txt "http://winhelp2002.mvps.org/hosts.txt"
-  
-  if [ ! -e /tmp/winhelp2002.txt ]; then         #Check list has been downloaded
-    echo "File not downloaded"                   #Warn user
-    return 1
-  fi
-  
-  CreateFile "/etc/dnsmasq.d/winhelp2002.list"
-  echo "Processing Winhelp2002 Block List"
-  Process_UnixList0 "/tmp/winhelp2002.txt" "/etc/dnsmasq.d/winhelp2002.list"
-  echo "Finished processing Winhelp2002 Block List"
-  echo
-  rm /tmp/winhelp2002.txt
 }
 #Process EasyList----------------------------------------------------
 Process_EasyList() {
@@ -493,7 +400,7 @@ Process_EasyList() {
   c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
   c=$((c/100))                                   #Calculate 1%
     
-  while IFS=' ' read -r Line
+  while IFS=$' \n' read -r Line
   do
     if [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party$ ]]; then
       AddSite "${Line:2:-13}" "$2" ""
@@ -505,7 +412,9 @@ Process_EasyList() {
       IFS='|~', read -r -a ArrayOfLine <<< "$Line" #Explode into array using seperator | or ~
       for Line in "${ArrayOfLine[@]}"            #Loop through array
       do
-        AddSite "$Line" "$2" ""
+        if [[ $Line =~ ^\|\|[a-z0-9\.-]*$ ]]; then #Check Array line is a URL
+          AddSite "$Line" "$2" ""
+        fi
       done  
     fi
     
@@ -532,12 +441,12 @@ Process_PlainList() {
   c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
   c=$((c/100))                                   #Calculate 1%
   
-  while IFS='# ' read -r Line Comment
+  while IFS=$'# \n' read -r Line Comment _
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      Line="${Line:-1}"                          #Delete return
+      Line="${Line%%*( )}"                       #Delete trailing spaces      
+      #echo "$Line $2 $Comment"
       AddSite "$Line" "$2" "$Comment"
     fi
     
@@ -560,15 +469,14 @@ Process_UnixList0() {
   c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
   c=$((c/100))                                   #Calculate 1%
   
-  while IFS='' read -r Line 
+  while IFS=$'\r' read -r Line _
   do
     if [[ ${Line:0:3} == "0.0" ]]; then
       Line=${Line:8}
            
       if [[ ! $Line =~ ^(#|localhost|www\.|EOF|\[) ]]; then
         Line="${Line%%\#*}"                      #Delete comments
-        #Line -1 doesn't work here, resort to tr instead
-        Line=$(tr -d '\r' <<< "$Line")           #F*in slow
+        #Line=$(tr -d '\r' <<< "$Line")           #F*in slow
         AddSite "$Line" "$2" ""        
       fi
     fi
@@ -592,14 +500,15 @@ Process_UnixList127() {
   c=$(wc -l "$1" | cut -d " " -f 1)              #Count number of lines
   c=$((c/100))                                   #Calculate 1%
   
-  while IFS='' read -r Line
+  while IFS=$'\r' read -r Line _
   do
     if [[ ${Line:0:3} == "127" ]]; then      
       Line=${Line:10}
       Line="${Line%%\#*}"                        #Delete comments
       if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then
-        Line=${Line:-1}                          #Strip carrige return
-        #echo "$Line $2"
+        #Line=${Line:-1}                          #Strip carrige return
+        #Line=$(tr -d '\r' <<< "$Line")           #F*in slow        
+        #echo "$Line $Var1 $2"
         AddSite "$Line" "$2" ""
       fi
     fi
@@ -649,7 +558,7 @@ Web_Upgrade() {
     fi
 
     echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
-    wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+    wget -O /tmp/notrack-master.zip https://github.com/quidsup/notrack/archive/master.zip
     if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
       #Abort we can't go any further without any code from git
       Error_Exit "Error Download from github has failed"      
@@ -790,41 +699,41 @@ else                                             #No arguments means update trac
   fi
   
   #AdBlock Manager
-  if [ "$BlockList_AdBlockManager" == 1 ]; then GetList_AdBlockManager
+  if [ "$BlockList_AdBlockManager" == 1 ]; then GetList "adblockmanager" "unix127"
   else DeleteOldFile "/etc/dnsmasq.d/adblockmanager.list"
   fi
   
   #EasyList
-  if [ "$BlockList_EasyList" == 1 ]; then GetList_EasyList
+  if [ "$BlockList_EasyList" == 1 ]; then GetList "easylist" "easylist"
   else DeleteOldFile "/etc/dnsmasq.d/easylist.list"
   fi
   
   #EasyPrivacy
-  if [ "$BlockList_EasyPrivacy" == 1 ]; then GetList_EasyPrivacy
+  if [ "$BlockList_EasyPrivacy" == 1 ]; then GetList "easyprivacy" "easylist"
   else DeleteOldFile "/etc/dnsmasq.d/easyprivacy.list"
   fi
   
   #hpHosts
-  if [ "$BlockList_hpHosts" == 1 ]; then GetList_hpHosts
+  if [ "$BlockList_hpHosts" == 1 ]; then GetList "hphosts" "unix127"
   else DeleteOldFile "/etc/dnsmasq.d/hphosts.list"
   fi
   
   #Malware Domains
-  if [ "$BlockList_MalwareDomains" == 1 ]; then GetList_MalwareDomains
+  if [ "$BlockList_MalwareDomains" == 1 ]; then GetList "malwaredomains" "plain"
   else DeleteOldFile "/etc/dnsmasq.d/malwaredomains.list"
   fi
   
   #PglYoyo
-  if [ "$BlockList_PglYoyo" == 1 ]; then GetList_PglYoyo
+  if [ "$BlockList_PglYoyo" == 1 ]; then GetList "pglyoyo" "plain"
   else DeleteOldFile "/etc/dnsmasq.d/pglyoyo.list"
   fi
   
   #SomeoneWhoCares
-  if [ "$BlockList_SomeoneWhoCares" == 1 ]; then GetList_SomeoneWhoCares
+  if [ "$BlockList_SomeoneWhoCares" == 1 ]; then GetList "someonewhocares" "unix127"
   else DeleteOldFile "/etc/dnsmasq.d/someonewhocares.list"
   fi
   
-  if [ "$BlockList_Winhelp2002" == 1 ]; then GetList_Winhelp2002
+  if [ "$BlockList_Winhelp2002" == 1 ]; then GetList "winhelp2002" "unix0"
   else DeleteOldFile "/etc/dnsmasq.d/winhelp2002.list"
   fi
   
