@@ -815,7 +815,6 @@ korrelate.com
 korrelate.net
 krxd.net
 ksmobile.com
-#kxcdn.com
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
 laptops2compare.com #Digital Window
 latestprizes.com #Digital Window
@@ -831,6 +830,7 @@ leadformix.com
 legolas-media.com
 levexis.com
 liadm.com
+licasd.com #Live Intent
 liftdna.com #OpenX
 liftdna.net #OpenX
 ligadx.com#Ligatus GmbH
