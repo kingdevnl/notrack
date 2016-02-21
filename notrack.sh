@@ -173,7 +173,7 @@ Generate_DomainBlackList() {
   local -a Tmp                                   #Local array to build contents of file
   
   echo "Creating domain blacklist"
-  touch "$DomainBlackList"
+  touch "$DomainBlackListFile"
   Tmp+=("#Use this file to add additional domains to the blocklist.")
   Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
   Tmp+=("# I have divided the list info three different classifications:")
@@ -217,7 +217,7 @@ Generate_DomainWhiteList() {
   local -a Tmp                                   #Local array to build contents of file
   
   echo "Creating Domain whitelist"
-  touch "$DomainWhiteList"
+  touch "$DomainWhiteListFile"
   Tmp+=("#Use this file to remove files malicious domains from block list")
   Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
   Tmp+=("#.cf #Central African Republic")
