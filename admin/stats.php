@@ -10,10 +10,12 @@
 <body>
 <div id="main">
 <?php
+require('./include/global-vars.php');
+require('./include/global-functions.php');
 $CurTopMenu = 'stats';
 include('./include/topmenu.html');
 echo "<h1>Domain Stats</h1>\n";
-echo "<br />\n";
+
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
@@ -28,74 +30,6 @@ $CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com',
 //deviantart.com - Each user has a different subdomain on deviantart.com
 //stackexchange.com - Community Q&A, opens a lot of subdomains per visit
 
-$Mem = new Memcache;                             //Initiate Memcache
-$Mem->connect('localhost');
-
-//HTTP GET Variables-------------------------------------------------
-$SortCol = 0;
-if (isset($_GET['sort'])) {
-  switch ($_GET['sort']) {
-    case 0: $SortCol = 0; break;                 //Requests
-    case 1: $SortCol = 1; break;                 //Name
-  }
-}
-
-//Direction: 0 = Ascending, 1 = Descending
-$SortDir = 0;
-if (isset($_GET['dir'])) {
-  if ($_GET['dir'] == "1") {
-    $SortDir = 1;
-  }  
-}
-
-$StartPoint = 1;				 //Start point
-if (isset($_GET['start'])) {
-  if (is_numeric($_GET['start'])) {
-    if (($_GET['start'] >= 1) && ($_GET['count'] < PHP_INT_MAX - 2)) {
-      $StartPoint = intval($_GET['start']);
-    }
-  }
-}
-
-$ItemsPerPage = 500;				 //Rows per page
-if (isset($_GET['c'])) {
-  if (is_numeric($_GET['c'])) {
-    if (($_GET['c'] >= 2) && ($_GET['c'] < PHP_INT_MAX)) {
-      $ItemsPerPage = intval($_GET['c']);
-    }
-  }
-}
-
-$View = 1;
-if (isset($_GET['v'])) {
-  switch ($_GET['v']) {
-    case '1': $View = 1; break;                 //Show All
-    case '2': $View = 2; break;                 //Allowed only
-    case '3': $View = 3; break;                 //Blocked only
-  }  
-}
-
-$StartTime = time();
-$StartStr = '';
-if (isset($_GET['e'])) {
-  $StartStr = $_GET['e'];
-  if ($StartStr != 'today') {
-    if (($StartTime = strtotime($StartStr)) === false) {
-      $StartTime = 0;
-      $StartStr = 'today';
-      echo "Invalid Time <br />\n";
-    }    
-  }
-}
-
-$DateRange = 1;
-if (isset($_GET['dr'])) {                        //Date Range
-  if (is_numeric($_GET['dr'])) {
-    if (($_GET['dr'] >= 1) && ($_GET['dr'] < PHP_INT_MAX)) {
-      $DateRange = intval($_GET['dr']);
-    }
-  }  
-}
 //ReturnURL - Gives a simplier formatted URL for displaying----------
 function ReturnURL($Str) {
   //Conditions:
@@ -209,16 +143,22 @@ function WriteTH($Sort, $Dir, $Str) {
 
 //Load TLD Block List------------------------------------------------
 function Load_TLDBlockList() {
-//Blocklist is held in Memcache for 10 minutes
+//1. Attempt to load TLDBlockList from Memcache
+//2. If that fails then check if DomainQuickList file exists
+//3. Read each line into TLDBlockList array and trim off \n
+//4. Once loaded store TLDBlockList array in Memcache for 20 mins
   global $TLDBlockList, $Mem;
+  
   $TLDBlockList=$Mem->get('TLDBlockList');
   if (! $TLDBlockList) {
-    $FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
-    while (!feof($FileHandle)) {
-      $TLDBlockList[] = trim(fgets($FileHandle));
+    if (file_exists($DomainQuickList)) {          //Check if File Exists
+      $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open'.$DomainQuickList);
+      while (!feof($FileHandle)) {
+        $TLDBlockList[] = trim(fgets($FileHandle));
+      }
+      fclose($FileHandle);
+      $Mem->set('TLDBlockList', $TLDBlockList, 0, 1200);
     }
-    fclose($FileHandle);
-    $Mem->set('TLDBlockList', $TLDBlockList, 0, 600);
   }
   return null;
 }
@@ -408,7 +348,7 @@ function Load_TodayLog() {
     elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only    
   }
   else {
-    if ($View == 1) Read_Time_All($FileHandle);    //Read both Allow & Block
+    if ($View == 1) Read_Time_All($FileHandle);  //Read both Allow & Block
     elseif ($View == 2) Read_Time_Allowed($FileHandle);  //Read Allowed only
     elseif ($View == 3) Read_Time_Blocked($FileHandle);  //Read Blocked only    
   }
@@ -454,16 +394,48 @@ function Load_HistoricLogs() {
   $Mem->set('View', $View, 0, 600);
 }
 //Main---------------------------------------------------------------
-Load_TLDBlockList();                             //Load TLD Blocklist from memory or file
 
-if ($StartTime > (time() - 86400)) {             //Load Todays LogFile
-  //echo "Today";
-  Load_TodayLog();
+//HTTP GET Variables-------------------------------------------------
+//SortCol 0: Requests
+//SortCol 1: Name
+$SortCol = Filter_Int('sort', 0, 2, 0);
+
+//Direction 0: Ascending
+//Direction 1: Descending
+$SortDir = Filter_Int('dir', 0, 2, 0);
+
+$StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
+
+$ItemsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500); //Rows per page
+
+//View 1: Show All
+//View 2: Allowed only
+//View 3: Blocked only
+$View = Filter_Int('v', 1, 4, 1);
+
+$StartTime = time();
+$StartStr = '';
+if (isset($_GET['e'])) {
+  $StartStr = $_GET['e'];
+  if ($StartStr != 'today') {
+    if (($StartTime = strtotime($StartStr)) === false) {
+      $StartTime = 0;
+      $StartStr = 'today';
+      echo "Invalid Time <br />\n";
+    }    
+  }
 }
-else {
-  //echo "Historic";
-  Load_HistoricLogs();                           //Or load Historic logs
-}
+
+$DateRange = Filter_Int('dr', 1, 366, 1);
+
+//-------------------------------------------------------------------
+LoadConfigFile();
+
+if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                             
+
+//Are we loading Todays logs or Historic logs?
+if ($StartTime > (time() - 86400)) Load_TodayLog();
+else Load_HistoricLogs(); 
 
 //Sort Array of Domains from log file--------------------------------
 $SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
@@ -480,10 +452,10 @@ $ListSize = count($SortedDomainList);
 if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
 
 //Draw Filter Dropdown list------------------------------------------
-echo '<div class="row"><div class="col-half">'."\n";
+echo '<div class="sys-group"><div class="col-half">'."\n";
 echo '<form action="?" method="get">';
 echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('E').AddHiddenVar('DR');
-echo '<Label>Filter: <select name="v" onchange="submit()">';
+echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
 switch ($View) {                                 //First item is unselectable, therefore we need to
   case 1:                                        //give a different selection for each value of $View
     echo '<option value="1">All Requests</option>';
@@ -501,12 +473,12 @@ switch ($View) {                                 //First item is unselectable, t
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select></label></form>'."\n";
+echo '</select></form>'."\n";
 
 //Draw Time Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
 echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('V').AddHiddenVar('DR');
-echo '<Label>Time: <select name="e" onchange="submit()">';
+echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
 switch ($StartStr) {                          //First item is unselectable
   case "today": case "":
     echo '<option value="today">Today</option>';
@@ -540,18 +512,18 @@ switch ($StartStr) {                          //First item is unselectable
     echo '<option value="-8hours">8 Hours</option>';
   break;
 }
-echo '</select></label></form></div>'."\n";
+echo '</select></form></div>'."\n";
 
 //Draw Calendar------------------------------------------------------
 echo '<div class="col-half"><form action="?" method="get">';
-echo '<label>Date: <input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /></label><br />';
-echo '<label>Range: <input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/></label><br /><br />'."\n";
+echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /><br />';
+echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/><br /><br />'."\n";
 echo '<div class="centered"><input type="submit" value="Submit"></div>'."\n";
 echo '</form></div></div>';
 
 //Draw Table Headers-------------------------------------------------
-echo '<div class="row"><br />'."\n";
-echo '<table class="domain-table">';             //Table Start
+echo '<div class="sys-group">'."\n";
+echo '<table id="domain-table">';             //Table Start
 echo "<tr>\n";
 echo "<th>#</th>\n";
 if ($SortCol == 1) {
@@ -578,11 +550,10 @@ foreach ($SortedDomainList as $Str => $Value) {
     if ($i >= $StartPoint + $ItemsPerPage) break;//Exit the loop at end of Pagination + Number of Items per page
     $Action = substr($Str,-1,1);                 //Last character tells us whether URL was blocked or not
     $Site = substr($Str, 0, -1);
-    if ($Action == '+') {                        //+ = Allowed
-      if ($i & 1) echo '<tr class="odd">';       //Light grey row on odd numbers
-      else echo '<tr class="even">';             //White row on even numbers
-      echo '<td>'. $i.'</td><td>'.$Site.'</td>';
-      
+    $ReportSiteStr = '';                         //Assume no Report Button
+    
+    if ($Action == '+') {                        //+ = Allowed      
+      echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';
       $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
     }
     elseif ($Action == '-') {                    //- = Blocked
@@ -594,16 +565,16 @@ foreach ($SortedDomainList as $Str => $Value) {
       }
       elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
         echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';
+        
       }
       else {
-        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">Blocked by Tracker List</p></td>';
-      }
-      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\'remove--'.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+        echo '<td>'.$i.'</td><td>'.$Site.'</td>';
+        $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\'remove--'.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+      }      
     }
     elseif ($Action == '1') {                    //1 = Local lookup
       echo '<tr class="local">';
-      echo '<td>'.$i.'</td><td>'.$Site.'</td>';
-      $ReportSiteStr = '';
+      echo '<td>'.$i.'</td><td>'.$Site.'</td>';      
     }
     echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
     <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
@@ -614,7 +585,7 @@ foreach ($SortedDomainList as $Str => $Value) {
 }
 
 echo "</table></div>\n";
-echo '<div class="row"><br /></div>';
+
 
 
 //Pagination---------------------------------------------------------
@@ -627,9 +598,8 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
       break;					 //Leave loop when found
     }
   }
-
-  echo '<div class="pag-nav">';
-  echo "<br /><ul>\n";
+  
+  echo '<div class="sys-group"><div class="pag-nav"><ul>'."\n";
   
   if ($CurPos == 1) {                            //At the beginning display blank box
     echo '<li><span>&nbsp;&nbsp;</span></li>';
@@ -688,7 +658,7 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
   if ($CurPos < $ListSize) {                     // >> Symbol for Next
     WriteLI('&#x00BB;', $ItemsPerPage * $CurPos, false);
   }	
-  echo "</ul></div>\n";  
+  echo "</ul></div></div>\n";  
 }
 
 ?>

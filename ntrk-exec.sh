@@ -1,9 +1,11 @@
 #!/bin/bash
 #Title : NoTrack Exec
-#Description :  page
+#Description : NoTrack Exec takes jobs that have been written to from
+# A low privilege user, e.g. www-data, and then carries out the job
+# at root level.
 #Author : QuidsUp
 #Date : 2015-02-02
-#Usage : ntrk-exec
+#Usage : Write jobs to /tmp/ntrk-exec.txt, then launch ntrk-exec
 
 
 #Check File Exists---------------------------------------------------
@@ -13,12 +15,41 @@ Check_File_Exists() {
     exit 2
   fi
 }
-#Delete History------------------------------------------------------
-Delete-History() {
-  echo "Deleting Log Files in /var/log/notrack"
-  rm /var/log/notrack/*
+#Copy Black List-----------------------------------------------------
+Copy_BlackList() {
+  if [ -e "/tmp/blacklist.txt" ]; then
+    chown root:root /tmp/blacklist.txt
+    chmod 644 /tmp/blacklist.txt
+    echo "Copying /tmp/blacklist.txt to /etc/notrack/blacklist.txt"
+    mv /tmp/blacklist.txt /etc/notrack/blacklist.txt
+    echo
+  fi
 }
-
+#Copy White List-----------------------------------------------------
+Copy_WhiteList() {
+  if [ -e "/tmp/whitelist.txt" ]; then
+    chown root:root /tmp/whitelist.txt
+    chmod 644 /tmp/whitelist.txt
+    echo "Copying /tmp/whitelist.txt to /etc/notrack/whitelist.txt"
+    mv /tmp/whitelist.txt /etc/notrack/whitelist.txt    
+  fi
+}
+#Delete History------------------------------------------------------
+Delete_History() {
+  echo "Deleting Log Files in /var/log/notrack"
+  rm /var/log/notrack/*                          #Delete all files in notrack log folder
+  cat /dev/null > /var/log/notrack.log           #Zero out live log
+}
+#Update Config-------------------------------------------------------
+Update_Config() {
+  if [ -e "/tmp/notrack.conf" ]; then
+    chown root:root /tmp/notrack.conf
+    chmod 644 /tmp/notrack.conf      
+    echo "Copying /tmp/notrack.conf to /etc/notrack/notrack.conf"
+    mv /tmp/notrack.conf /etc/notrack/notrack.conf
+    echo
+  fi
+}
 #Main----------------------------------------------------------------
 
 if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user
@@ -34,19 +65,20 @@ fi
 
 Check_File_Exists "/tmp/ntrk-exec.txt"
 
-while read Line; do
+while read -r Line; do
   #echo "$Line"
   case "$Line" in
+    copy-blacklist)
+      Copy_BlackList
+    ;;
+    copy-whitelist) 
+      Copy_WhiteList
+    ;;
     delete-history)
-      Delete-History
+      Delete_History
     ;;
     update-config)
-      Check_File_Exists "/tmp/notrack.conf"
-      chown root:root /tmp/notrack.conf
-      chmod 644 /tmp/notrack.conf      
-      echo "Copying /tmp/notrack.conf to /etc/notrack.conf"
-      mv /tmp/notrack.conf /etc/notrack/notrack.conf
-      echo
+      Update_Config
     ;;
     blockmsg-message)
       echo 'Setting Block message Blocked by NoTrack';
@@ -62,4 +94,5 @@ while read Line; do
   esac
 done < /tmp/ntrk-exec.txt
 
+echo "Deleting /tmp/ntrk-exec.txt" 
 rm /tmp/ntrk-exec.txt

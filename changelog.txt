@@ -1,3 +1,14 @@
+v0.7 alpha
+BlackList and WhiteList can now be customised from Admin page (Issue #14).
+Speed improvements to Blocklist processing script notrack.sh.
+Fixed Issue #18 - Whitelist not working with Windows formatted Blocklists.
+Simplified Blocking message on Stats page.
+Improved Styling on Stats page.
+Improved Styling for mobile users on Index page.
+Video tutorial added to DHCP page.
+Corrected mistake with Table Row colours in the CSS.
+Installer now adds NoTrack device to Local hosts file.
+
 v0.6.2 alpha
 Added description next to each Blocklist on Config page
 Replaced progress dots in NoTrack script with Percent indicator

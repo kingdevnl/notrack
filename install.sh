@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #Title : NoTrack Installer
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
-#Author : QuidsUp
+#Authors : QuidsUp, floturcocantsee
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="0.6.2"
+Version="0.7"
 NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 CountNetDev=$(wc -w <<< "$NetDev")
 Height=$(tput lines)
@@ -163,7 +163,23 @@ Check_File_Exists() {
     exit 2
   fi
 }
-
+#Get IP Address of System--------------------------------------------
+Get_IPAddress() {
+  echo "IP Version: $IPVersion"
+  
+  if [ "$IPVersion" == "IPv4" ]; then
+    echo "Reading IPv4 Address from $NetDev"
+    IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
+    
+  elif [ "$IPVersion" == "IPv6" ]; then
+    echo "Reading IPv6 Address"
+    IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
+  else
+    Error_Exit "Unknown IP Version"
+  fi
+  echo "System IP Address $IPAddr"
+  echo
+}
 #Install Packages----------------------------------------------------
 Install_Deb() {
   echo "Preparing to Install Deb Packages..."
@@ -243,16 +259,10 @@ Install_Yum() {
   echo
 }
 #--------------------------------------------------------------------
-Install_Zypper() {
-  echo "Zypper package install not implemented yet.  Aborting."
-  exit 2
-}
-#--------------------------------------------------------------------
 Install_Packages() {
   if [ $(command -v apt-get) ]; then Install_Deb
   elif [ $(command -v dnf) ]; then Install_Dnf
-  elif [ $(command -v yum) ]; then Install_Yum
-  elif [ $(command -v zypper) ]; then Install_Zypper
+  elif [ $(command -v yum) ]; then Install_Yum  
   elif [ $(command -v pacman) ]; then Install_Pacman
   else 
     echo "Unable to work out which package manage is being used."
@@ -306,7 +316,10 @@ Download_WithWget() {
   sudo chown "$(whoami)":"$(whoami)" -hR "$InstallLoc"
 }
 #Setup Dnsmasq-------------------------------------------------------
-Setup_Dnsmasq() {
+Setup_Dnsmasq() {  
+  local HostName=""
+  HostName=$(cat /etc/hostname)
+  
   #Copy config files modified for NoTrack
   echo "Copying config files from $InstallLoc to /etc/"
   Check_File_Exists "$InstallLoc/conf/dnsmasq.conf"
@@ -332,9 +345,8 @@ Setup_Dnsmasq() {
   sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
   sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf
   echo "Creating file /etc/localhosts.list for Local Hosts"
-  echo "Start filling it out, and then enable by uncommenting"
-  echo "#addn-hosts=/etc/localhosts.list in /etc/dnsmasq.conf"
-  sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
+  sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
+  echo -e "$IPAddr\t$HostName"                   #First entry is this system
     
   #Setup Log rotation for dnsmasq
   echo "Copying log rotation script for Dnsmasq"
@@ -471,6 +483,8 @@ echo
 Ask_IPVersion
 echo "IPVersion set to: $IPVersion"
 echo
+
+Get_IPAddress
 
 Ask_DNSServer
 echo "Primary DNS Server set to: $DNSChoice1"

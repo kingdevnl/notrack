@@ -13,17 +13,25 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 include('./include/topmenu.html');
+
+LoadConfigFile();
+
 echo "<h1>NoTrack Admin</h1>\n"; 
 
 //Main---------------------------------------------------------------
-echo '<div class="row"><br /></div>'."\n";
+
 echo '<div class="row">';
 
 //Tracker Blocklist
-echo '<a href="./blocklist.php"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /etc/notrack/tracker-quick.list | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
+echo '<a href="./config.php?v=blocklist"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat '.$FileBlockingCSV.' | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
 
 //TLD Blocklist
-echo '<a href="./tldblocklist.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
+if ($Config['BlockList_TLD'] == 1) {
+  echo '<a href="./config.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
+}
+else {
+  echo '<a href="./config.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><br /><h4>Disabled</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
+}
 
 //DNS Queries
 echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /var/log/notrack.log | grep -F query[A] | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./images/server.png" alt=""></div></div></a>'."\n";
@@ -35,11 +43,13 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
 else {
   echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>N/A</h3></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
 }
-echo '</div>';
+echo "</div>\n";
 
+echo '<div class="row-mobile">';
+echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./images/config.png" alt=""></div></div></a>'."\n";
 
-LoadConfigFile();  
-  
+echo "</div>\n";
+
 if ($Version != $Config['LatestVersion']) {      //See if upgrade Needed
   DrawSysTable('Upgrade');
   echo '<p>New version available: v'.$Config['LatestVersion'].'&nbsp;&nbsp;<a class="button-grey" href="./upgrade.php">Upgrade</a></p>';        
