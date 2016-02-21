@@ -13,12 +13,14 @@
 $CurTopMenu = 'dhcp';
 include('./include/topmenu.html');
 echo "<h1>DHCP Leases</h1>\n";
+echo '<div class="sys-group">'."\n";
 
-if (file_exists('/var/lib/misc/dnsmasq.leases')) {
+if (file_exists('/var/lib/misc/dnsmasq.lease')) {
   $FileHandle= fopen('/var/lib/misc/dnsmasq.leases', 'r') or die("Error unable to open /var/lib/misc/dnsmasq.leases");
-  echo '<div class="row"><br />'."\n";
-  echo '<table class="dhcp-table"><tr>';
+
+  echo '<table id="dhcp-table"><tr>';
   echo '<th>Date of Request</th><th>Device Name</th><th>MAC Address</th><th>IP Allocated</th>'."\n";
+  
   while (!feof($FileHandle)) {
     $Line = trim(fgets($FileHandle));            //Read Line of LogFile
     if ($Line != '') {                           //Sometimes a blank line appears in log file
@@ -35,7 +37,10 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
   echo "</table>\n";
 }
 else {
-  echo "<p>DHCP Functionality not in use</p>\n";
+  echo "<p>DHCP Is not currently being handled with NoTrack.</p>\n";
+  echo '<p>In order to enable it, you need to edit Dnsmasq config file.<br />See this video tutorial: <a href="https://www.youtube.com/watch?v=a5dUJ0SlGP0">DHCP Server Setup with Dnsmasq</a></p><br />'."\n";
+  echo '<iframe width="640" height="360" src="https://www.youtube.com/embed/a5dUJ0SlGP0" frameborder="0" allowfullscreen></iframe>';
+  
 }
 
 ?>
