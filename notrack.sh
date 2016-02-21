@@ -210,7 +210,7 @@ Generate_DomainBlackList() {
   Tmp+=("#.tv #Tuvalu")
   Tmp+=("#.vn #Vietnam")
   Tmp+=("#.ws #Western Samoa")
-  printf "%s\n" "${Tmp[@]}" > $DomainBlackList   #Write Array to file with line seperator
+  printf "%s\n" "${Tmp[@]}" > $DomainBlackListFile   #Write Array to file with line seperator
 }
 #Generate Domain WhiteList-------------------------------------------
 Generate_DomainWhiteList() {
@@ -232,7 +232,7 @@ Generate_DomainWhiteList() {
   Tmp+=("#.science")
   Tmp+=("#.work")
   Tmp+=("#.xyz")
-  printf "%s\n" "${Tmp[@]}" > $DomainWhiteList   #Write Array to file with line seperator
+  printf "%s\n" "${Tmp[@]}" > $DomainWhiteListFile #Write Array to file with line seperator
 }
 #Generate BlackList--------------------------------------------------
 Generate_BlackList() {
@@ -792,13 +792,13 @@ else                                             #No arguments means update trac
   DeleteOldFile "/etc/notrack/tracker-quick.list"
   DeleteOldFile "/var/www/html/admin/blocklist.php"
   
-  if [ ! -e $BlackListFile ]; then Generate_BlackList
+  if [ ! -e "$BlackListFile" ]; then Generate_BlackList
   fi
   
-  if [ ! -e $DomainBlackList ]; then Generate_DomainBlackList
+  if [ ! -e "$DomainBlackListFile" ]; then Generate_DomainBlackList
   fi
   
-  if [ ! -e $DomainWhiteList ]; then Generate_DomainWhiteList
+  if [ ! -e "$DomainWhiteListFile" ]; then Generate_DomainWhiteList
   fi
   
   GetList_BlackList                              #Process Users Blacklist
