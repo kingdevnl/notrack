@@ -346,8 +346,8 @@ Setup_Dnsmasq() {
   sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf
   echo "Creating file /etc/localhosts.list for Local Hosts"
   sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
-  echo -e "Writing first entry for this system $IPAddr\t$HostName"
-  echo -e "$IPAddr\t$HostName" >> /etc/localhosts.list #First entry is this system
+  echo -e "Writing first entry for this system: $IPAddr\t$HostName"
+  sudo echo -e "$IPAddr\t$HostName" >> /etc/localhosts.list #First entry is this system
     
   #Setup Log rotation for dnsmasq
   echo "Copying log rotation script for Dnsmasq"
