@@ -24,12 +24,12 @@ Config[blocklist_malwaredomains]=0
 Config[blocklist_winhelp2002]=0
 
 #Leave these Settings alone------------------------------------------
-Version="0.6.2"
-TrackerQuickList="/etc/notrack/tracker-quick.list"
+Version="0.7"
+BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
-DomainBlackList="/etc/notrack/domain-blacklist.txt"
-DomainWhiteList="/etc/notrack/domain-whitelist.txt"
+DomainBlackListFile="/etc/notrack/domain-blacklist.txt"
+DomainWhiteListFile="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 
@@ -63,7 +63,6 @@ Error_Exit() {
   echo "Aborting"
   exit 2
 }
-
 #Check File Exists and Abort if it doesn't exist---------------------
 Check_File_Exists() {
   if [ ! -e "$1" ]; then
@@ -83,21 +82,23 @@ DeleteOldFile() {
   if [ -e "$1" ]; then
     echo "Deleting file $1"
     rm "$1"
-    ((ChangesMade++))
+    ((ChangesMade++))                            #Deleting a file counts as a change, and may require Dnsmasq to be restarted
   fi
 }
 #Add Site to List-----------------------------------------------------
 AddSite() {
   #$1 = Site to Add
   #$2 = Comment
+  #Add Site checks whether a Site is in the Users whitelist
+  #1. Desregard zero length strings
+  #2. Check If site name ($1) is listed in the WhiteList associative array
+  #3a. If it is then add a line to CSVList Array saying Site is Disabled
+  #3b. Otherwise add line to CSVList Array saying Site is Enabled, and add line to DNSList in the form of "address=/site.com/192.168.0.0"
   if [ ${#1} == 0 ]; then return 0; fi           #Ignore zero length str
   
-  if [ "${WhiteList[$1]}" ]; then                #Is site in WhiteList Array?
-    #echo "$1,Disabled,$3" >> $TrackerQuickList
+  if [ "${WhiteList[$1]}" ]; then                #Is site in WhiteList Array?    
     CSVList+=("$1,Disabled,$2")
-  else                                           #No match in whitelist
-    #echo "address=/$1/$IPAddr" >> "$2"           
-    #echo "$1,Active,$3" >> $TrackerQuickList
+  else                                           #No match in whitelist    
     DNSList+=("address=/$1/$IPAddr")
     CSVList+=("$1,Active,$2")
   fi
@@ -105,6 +106,11 @@ AddSite() {
 #Calculate Percent Point in list files-------------------------------
 CalculatePercentPoint() {
   #$1 = File to Calculate
+  #1. Count number of lines in file with "wc"
+  #2. Calculate Percentage Point (number of for loop passes for 1%)
+  #3. Calculate Jump Point (increment of 1 percent point on for loop)
+  #E.g.1 20 lines = 1 for loop pass to increment percentage by 5%
+  #E.g.2 200 lines = 2 for loop passes to increment percentage by 1%
   local NumLines=0
   
   NumLines=$(wc -l "$1" | cut -d " " -f 1)       #Count number of lines
@@ -153,14 +159,14 @@ Read_Config_File() {
 
 #Read White List-----------------------------------------------------
 Read_WhiteList() {
-  while IFS=' ' read -r Line
+  while IFS='# ' read -r Line _
   do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
       WhiteList[$Line]="$Line"
     fi
-  done < $WhiteListFile  
+  done < $WhiteListFile
 }
 #Generate Domain BlackList-------------------------------------------
 Generate_DomainBlackList() {
@@ -293,7 +299,7 @@ GetList_BlackList() {
   #Are the Whitelist & Blacklist older than 36 Hours, and the Processed List of any age?
   if [ $WhiteListFileTime -lt $((UnixTime-187200)) ] && [ $BlFileTime -lt $((UnixTime-187200)) ] && [ $ListFileTime -gt 0 ]; then
     if [ $(wc -l /etc/notrack/custom.csv | cut -d " " -f 1) -gt 1 ]; then
-      cat /etc/notrack/custom.csv >> "$TrackerQuickList"
+      cat /etc/notrack/custom.csv >> "$BlockingCSV"
     fi
     echo "Custom Black List is in date, no need for processing"
     echo
@@ -307,7 +313,7 @@ GetList_BlackList() {
   printf "%s\n" "${CSVList[@]}" > "/etc/notrack/custom.csv"
   printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/custom.list"
   if [ $(wc -l /etc/notrack/custom.csv | cut -d " " -f 1) -gt 1 ]; then
-    cat /etc/notrack/custom.csv >> "$TrackerQuickList"
+    cat /etc/notrack/custom.csv >> "$BlockingCSV"
   fi
   echo "Finished processing Custom Black List"
   echo
@@ -341,7 +347,7 @@ GetList() {
   
   #Is the Whitelist older than 36 Hours, and the Processed List younger than $3. If so leave the function without processing
   if [ $WhiteListFileTime -lt $((UnixTime-187200)) ] && [ $ListFileTime -gt $((UnixTime-$3)) ]; then
-    cat "$CSVFile" >> "$TrackerQuickList"
+    cat "$CSVFile" >> "$BlockingCSV"
     echo "$Lst is in date, no need for processing"
     echo
     return 0
@@ -380,7 +386,7 @@ GetList() {
   #Write arrays to file
   printf "%s\n" "${CSVList[@]}" > "/etc/notrack/$Lst.csv"
   printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/$Lst.list"
-  cat "/etc/notrack/$Lst.csv" >> "$TrackerQuickList"
+  cat "/etc/notrack/$Lst.csv" >> "$BlockingCSV"
   echo "Finished processing $Lst"
   echo
   ((ChangesMade++))
@@ -495,27 +501,57 @@ Process_PlainList() {
 }
 #Process TLD List----------------------------------------------------
 Process_TLDList() {
-  CreateFile $DomainQuickList
+  #1. Load Domain whitelist into associative array
+  #2. Read downloaded TLD list, and compare with Domain WhiteList
+  #3. Read users custom TLD list, and compare with Domain WhiteList
+  #4. Results are stored in CSVList, and DNSList. These arrays are sent back to GetList() for writing to file.
+  #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
+  #DomainQuickList is used to speed up processing in stats.php
   
-  cat /tmp/tld.txt $DomainBlackList > /tmp/combined.txt
-
-  #Merge Whitelist with above two lists to remove duplicates
-  echo "#Domain Blocklist last updated $(date)" > /etc/dnsmasq.d/tld.list
-  echo "#Don't make any changes to this file, use $DomainBlackList and $DomainWhiteList instead" >> /etc/dnsmasq.d/tld.list
-  cat /dev/null > $DomainQuickList
-
-  awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while read -r Line; do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then 
-      Line="${Line%%\#*}"  # Del in line right comments
-      Line="${Line%%*( )}" # Del trailing spaces 
-      echo "address=/$Line/$IPAddr" >> /etc/dnsmasq.d/tld.list
-      echo "$Line" >> $DomainQuickList
+  declare -A DomainWhiteList
+  
+  CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
+  cat /dev/null > "$DomainQuickList"             #Empty file
+  
+  while IFS=$'#\n' read -r Line _
+  do
+    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+      Line="${Line%%\#*}"                        #Delete comments
+      Line="${Line%%*( )}"                       #Delete trailing spaces
+      DomainWhiteList[$Line]="$Line"             #Add domain to associative array      
     fi
-  done
-
-  echo "Imported $(wc -l $DomainQuickList | cut -d' ' -f1) Malicious Domains into TLD block list"
+  done < "$DomainWhiteListFile"
   
-  rm /tmp/combined.txt                           #Clear up  
+  while IFS=$'#\n' read -r Line Comment _         
+  do
+    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+      Line="${Line%%\#*}"                        #Delete comments
+      Line="${Line%%*( )}"                       #Delete trailing spaces            
+      if [ "${DomainWhiteList[$Line]}" ]; then
+        CSVList+=("$Line,Disabled,$Comment")
+      else
+        DNSList+=("address=/$Line/$IPAddr")
+        CSVList+=("$Line,Active,$Comment")
+        echo "$Line" >> "$DomainQuickList"
+      fi
+    fi
+  done < /tmp/tld.txt
+  
+  while IFS=$'#\n' read -r Line Comment _
+  do
+    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+      Line="${Line%%\#*}"                        #Delete comments
+      Line="${Line%%*( )}"                       #Delete trailing spaces            
+      if [ "${DomainWhiteList[$Line]}" ]; then
+        CSVList+=("$Line,Disabled,$Comment")
+      else
+        DNSList+=("address=/$Line/$IPAddr")
+        CSVList+=("$Line,Active,$Comment")
+        echo "$Line" >> "$DomainQuickList"
+      fi
+    fi
+  done < "$DomainBlackListFile" 
+  
 }
 #Process UnixList 0--------------------------------------------------
 #Unix hosts file starting 0.0.0.0 site.com
@@ -708,6 +744,21 @@ if [ "$1" ]; then                                #Have any arguments been given
   done
 else                                             #No arguments means update trackers
 #--------------------------------------------------------------------
+#At this point the functionality of notrack.sh is to update blocklists
+#1. Check if user is running as root
+#2. Create folder /etc/notrack
+#3. Load config file (or use default values)
+#4. Get IP address of system, e.g. 192.168.1.2
+#5. Get last time (in Epoch) of when WhiteList was changed (If its more than 36 hours then we don't process BlackLists unless they have changed)
+#6. Generate WhiteList if it doens't exist
+#7. Load WhiteList file into WhiteList associative array
+#8. Create csv file of blocked sites, or empty it if it exists
+#9. Create BlackList, TLD BlackList, and TLD WhiteList if they don't exist
+#10. Process Users Custom BlackList
+#11. Process Other blocklists according to Config
+#12. Delete TLD Blocklist file if Config says its disabled
+#13. Tell user how many sites are blocked by counting number of lines with "Active" in
+#14. If the number if changes is 1 or more then restart Dnsmasq
   if [ "$(id -u)" != 0 ]; then                   #Check if running as root
     Error_Exit "Error this script must be run as root"
   fi
@@ -731,13 +782,15 @@ else                                             #No arguments means update trac
   fi
   
   Read_WhiteList                                 #Load Whitelist into array
-  CreateFile "$TrackerQuickList"
-  cat /dev/null > $TrackerQuickList              #Empty csv file
+  CreateFile "$BlockingCSV"
+  cat /dev/null > $BlockingCSV                   #Empty csv file
   
   #Legacy files to delete, remove at Beta release
   DeleteOldFile "/etc/dnsmasq.d/adsites.list"    
   DeleteOldFile "/etc/dnsmasq.d/malicious-domains.list"
   DeleteOldFile "/etc/notrack/trackers.txt"
+  DeleteOldFile "/etc/notrack/tracker-quick.list"
+  DeleteOldFile "/var/www/html/admin/blocklist.php"
   
   if [ ! -e $BlackListFile ]; then Generate_BlackList
   fi
@@ -750,8 +803,8 @@ else                                             #No arguments means update trac
   
   GetList_BlackList                              #Process Users Blacklist
   
-  GetList "notrack" "notrack" 172800             #2 Days
   GetList "tld" "tldlist" 604800                 #7 Days
+  GetList "notrack" "notrack" 172800             #2 Days  
   GetList "adblockmanager" "unix127" 604800      #7 Days
   GetList "easylist" "easylist" 345600           #4 Days
   GetList "easyprivacy" "easylist" 345600        #4 Days
@@ -761,12 +814,14 @@ else                                             #No arguments means update trac
   GetList "someonewhocares" "unix127" 345600     #4 Days
   GetList "winhelp2002" "unix0" 604800           #7 Days
   
-  echo "Imported $(cat /etc/notrack/tracker-quick.list | grep -c Active) Domains into Block List"
+  if [ ${Config[blocklist_tld]} == 0 ]; then
+    DeleteOldFile "$DomainQuickList"
+  fi
+  
+  echo "Imported $(cat "$BlockingCSV" | grep -c Active) Domains into Block List"
   
   if [ $ChangesMade -gt 0 ]; then                #Have any lists been processed?
     echo "Restarting Dnsnmasq"
-    service dnsmasq restart                      #Restart dnsmasq
-  else
-    echo "Nothing changed"
+    service dnsmasq restart                      #Restart dnsmasq  
   fi
 fi 
