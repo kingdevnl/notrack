@@ -1,6 +1,7 @@
 v0.7 alpha
 BlackList and WhiteList can now be customised from Admin page (Issue #14).
 Speed improvements to Blocklist processing script notrack.sh.
+notrack.sh only downloads & processes blocklists when necessary 
 Fixed Issue #18 - Whitelist not working with Windows formatted Blocklists.
 Simplified Blocking message on Stats page.
 Improved Styling on Stats page.
