@@ -37,11 +37,11 @@ function Filter_Str($Str) {
 //Filter URL GET-----------------------------------------------------
 function Filter_URL($Str) {
   //1. Check Variable Exists
-  //2. Check String Length is > 0 AND String doesn't contain !"£$%^&*()+=<>,|/\
+  //2. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
   //3. Check String matches the form of a URL "any.co"
   //Return True on success, and False on fail
   if (isset($_GET[$Str])) {
-    if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\*\(\)+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
+    if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
       if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1)
       return true;
     }
