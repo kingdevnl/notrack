@@ -1,19 +1,27 @@
-<nav>
-<div tabindex="0" id="main-menu-back">  
+<nav><div tabindex="0" id="main-menu-back">
+<div id="main-menu-img">
   <a href="../admin"><img alt="Home" src="../admin/images/ntrklogo.png" title="Home"></a>
-  <div id="main-menu">  
-    <ul> 
-      <li><a<?php if ($CurTopMenu == 'stats') echo ' class="active"';?> href="../admin/stats.php" title="Domain Stats"><span>Domain Stats</span></a></li>
-      <li><a<?php if ($CurTopMenu == 'dhcp') echo ' class="active"';?> href="../admin/dhcpleases.php" title="DHCP Leases"><span>DHCP Leases</span></a></li>
-      <li><a<?php if ($CurTopMenu == 'config') echo ' class="active"';?> href="../admin/config.php" title="Config"><span>Config</span></a></li>
-      <li><a<?php if ($CurTopMenu == 'system') echo ' class="active"';?> href="../admin/system.php" title="System Information"><span>System Info</span></a></li>      
-    </ul>
-  </div>
-  <div id="main-menu-line">
-    <a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>
-    <a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>
-    <a href="https://www.youtube.com/user/quidsup" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>    
-    <a href="https://www.twitter.com/quidsup" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>    
-  </div>
 </div>
-</nav>
+<div id="main-menu">  
+  <ul> 
+    <li><a<?php if ($CurTopMenu == 'stats') echo ' class="active"';?> href="../admin/stats.php" title="Domain Stats"><span>Domain Stats</span></a></li>
+    <li><a<?php if ($CurTopMenu == 'dhcp') echo ' class="active"';?> href="../admin/dhcpleases.php" title="DHCP Leases"><span>DHCP Leases</span></a></li>
+    <li><a<?php if ($CurTopMenu == 'config') echo ' class="active"';?> href="../admin/config.php" title="Config"><span>Config</span></a></li>
+    <li><a<?php if ($CurTopMenu == 'system') echo ' class="active"';?> href="../admin/system.php" title="System Information"><span>System Info</span></a></li>      
+  </ul>  
+  <ul class="right-menu">
+    <li><a href="javascript:void(0)" onclick="document.getElementById('options-box').style.display='block';document.getElementById('fade').style.display='block'"><span>Options</span></a></li></ul>
+</div>
+<div id="main-menu-line">
+  <a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>
+  <a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>
+  <a href="https://www.youtube.com/user/quidsup" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>    
+  <a href="https://www.twitter.com/quidsup" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>    
+</div></div></nav>
+
+<div id="options-box">
+<h2>Options</h2>
+<div id="close-button"><a href="javascript:void(0)" onclick="document.getElementById('options-box').style.display='none';document.getElementById('fade').style.display='none'">Close</a></div>
+
+</div>
+<div id="fade"></div>

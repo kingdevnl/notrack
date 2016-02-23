@@ -12,6 +12,24 @@ function DrawSysRow($Description, $Value) {
   echo '<tr><td>'.$Description.': </td><td>'.$Value.'</td></tr>'."\n";
   return null;
 }
+//Execute Action-----------------------------------------------------
+function ExecAction($Action, $ExecNow, $Fork=false) {
+  global $FileTmpAction;
+  if (file_put_contents($FileTmpAction, $Action."\n", FILE_APPEND) === false) {
+    die('Unable to write to file '.$FileTmpAction);
+  }
+  
+  if (($ExecNow) && (! $Fork)) {
+    echo "<pre>\n";
+    $Msg = shell_exec('sudo ntrk-exec 2>&1');
+    echo $Msg;
+    echo "</pre>\n";
+  }
+  elseif (($ExecNow) && ($Fork)) {
+    exec("sudo ntrk-exec > /dev/null &");
+  }
+  return null;    
+}
 //Filter Int from GET------------------------------------------------
 function Filter_Int($Str, $Min, $Max, $Def=false) {
   //1. Check Variable Exists

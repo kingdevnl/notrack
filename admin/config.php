@@ -23,32 +23,6 @@ function Checked($Var) {
   if ($Var == 1) return ' checked="checked"';
   else return '';
 }
-//-------------------------------------------------------------------
-function Checked2($Var) {
-  if ($Var == 'Active') return ' checked="checked"';
-  else return '';
-}
-//-------------------------------------------------------------------
-function Checked3($Var) {
-  if ($Var == true) return ' checked="checked"';
-  else return '';
-}
-//Execute Action-----------------------------------------------------
-function ExecAction($Action, $ExecNow) {
-  global $FileTmpAction;
-  if (file_put_contents($FileTmpAction, $Action."\n", FILE_APPEND) === false) {
-    die('Unable to write to file '.$FileTmpAction);
-  }
-  
-  if ($ExecNow) {
-    echo "<pre>\n";
-    $Msg = shell_exec('sudo ntrk-exec 2>&1');    
-    echo $Msg;
-    echo "</pre>\n";
-  }
-  return null;
-    
-}
 //Filter Config GET--------------------------------------------------
 function Filter_Config($Str) {
   //Range: on or nothing
@@ -64,7 +38,9 @@ function LoadBlockList() {
 //Blocklist is held in Memcache for 10 minutes
   global $FileBlockingCSV, $List, $Mem;
   
-  #Temporary warning to cover NoTrack pre 0.7 where blocklist was in a list file
+  ///////////////////////////////////////////////////////////////////
+  //Temporary warning to cover NoTrack pre 0.7 where blocklist was in a list file
+  //Remove at Beta
   if (file_exists('/etc/notrack/tracker-quick.list')) {
     echo '<h4>Warning: Legacy version of NoTrack created the blocklist</h4><br />'."\n";
     echo '<h4>Please wait a few minutes while list is regenerated</h4><br />';
@@ -76,6 +52,7 @@ function LoadBlockList() {
     die();
     return null;
   }
+  ///////////////////////////////////////////////////////////////////
   
   $List = $Mem->get('TrackerBlockList');
   if (! $TrackerBlockList) {
@@ -186,8 +163,7 @@ function DisplayCustomList() {
   echo '<div class="centered"><br />'."\n";  
   if ($SearchStr == "") echo '<a href="?v='.$View.'&action='.$View.'&do=update" class="button-blue">Update Blocklists</a>';
   else echo '<a href="?v='.$View.'&s='.$SearchStr.'&action='.$View.'&do=update" class="button-blue">Update Blocklists</a>';
-  echo "</div></div>\n";
-  
+  echo "</div></div>\n";  
 }
 //-------------------------------------------------------------------
 function DisplayBlockList() {
@@ -414,7 +390,6 @@ if (isset($_GET['v'])) {
 <li<?php if ($View=='blacklist') echo ' class="active"';?>><a href="?v=blacklist" title="Black List">Black List</a></li>
 <li<?php if ($View=='whitelist') echo ' class="active"';?>><a href="?v=whitelist" title="White List">White List</a></li>
 <li<?php if ($View=='blocklist') echo ' class="active"';?>><a href="?v=blocklist" title="Blocking List">Blocking List</a></li>
-
 </ul></div></div>
 <div class="row"><br /></div>
 

@@ -7,6 +7,8 @@
 #Date : 2015-02-02
 #Usage : Write jobs to /tmp/ntrk-exec.txt, then launch ntrk-exec
 
+#Settings------------------------------------------------------------
+ConfigFile="/etc/notrack/notrack.conf"
 
 #Check File Exists---------------------------------------------------
 Check_File_Exists() {
@@ -40,6 +42,71 @@ Delete_History() {
   rm /var/log/notrack/*                          #Delete all files in notrack log folder
   cat /dev/null > /var/log/notrack.log           #Zero out live log
 }
+#Pause---------------------------------------------------------------
+Pause() {
+  #$1 = Time in minutes
+  
+  #1. Check if Config file exists
+  #2. If it does then:
+  #  2a. Copy Config to a temp file
+  #  2b. Zero out Config file
+  #  2c. Read temp file, and copy each line to Config if it doesn't start with "BlockList" (This way we can retain the users old config)
+  #3. If Config doesn't exist, then Create a new file
+  #4. Write lines into config disabling NoTrack & TLD BlockLists (These are the only two enabled by default in NoTrack)
+  #5. Run NoTrack
+  #6. Sleep
+  #7. Move old Config back if it existed, or delete Config file
+  #8. Run NoTrack again
+  
+  echo "Pausing NoTrack for $1 minutes"
+  
+  local ConfigExists=0
+    
+  if [ -e "$ConfigFile" ]; then
+    ConfigExists=1
+    echo "Copying $ConfigFile to /tmp/oldnotrack.conf"
+    cp "$ConfigFile" /tmp/oldnotrack.conf
+    
+    cat /dev/null > $ConfigFile                  #Empty config file
+    
+    echo "Reading temporary Config file"
+    while IFS=$'\n' read -r Line _
+    do
+      if [[ ${Line:0:9} != "BlockList" ]]; then  #Exclude Blocklist lines
+        echo "$Line" >> $ConfigFile              #Copy old line to Config
+      fi
+    done < "/tmp/oldnotrack.conf"
+  else                                           #No file found
+    echo "No Config file found"
+    echo "Creating Config file"
+    touch "$ConfigFile"                          #Create new Config
+  fi
+  
+  echo "Writing config file"
+  echo "BlockList_NoTrack = 0" >> $ConfigFile
+  echo "BlockList_TLD = 0" >> $ConfigFile
+  
+  echo "Running NoTrack"
+  echo
+  notrack
+  
+  echo
+  echo "Sleeping for $1 minutes"  
+  sleep "$1m"
+    
+  if [ $ConfigExists == 1 ]; then
+    echo "Copying /tmp/oldnotrack.conf to $ConfigFile"
+    mv /tmp/oldnotrack.conf "$ConfigFile"
+  else
+    echo "Deleting Config file and resuming default values"
+    rm "$ConfigFile"
+  fi
+  
+  echo "Running NoTrack again"
+  echo
+  notrack
+  echo
+}  
 #Update Config-------------------------------------------------------
 Update_Config() {
   if [ -e "/tmp/notrack.conf" ]; then
@@ -77,6 +144,9 @@ while read -r Line; do
     delete-history)
       Delete_History
     ;;
+    pause15)
+      ntrk-pause --pause 15
+    ;;
     update-config)
       Update_Config
     ;;
@@ -94,5 +164,7 @@ while read -r Line; do
   esac
 done < /tmp/ntrk-exec.txt
 
-echo "Deleting /tmp/ntrk-exec.txt" 
-rm /tmp/ntrk-exec.txt
+if [ -e /tmp/ntrk-exec.txt ]; then
+  echo "Deleting /tmp/ntrk-exec.txt" 
+  rm /tmp/ntrk-exec.txt
+fi

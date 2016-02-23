@@ -24,7 +24,7 @@ Config[blocklist_malwaredomains]=0
 Config[blocklist_winhelp2002]=0
 
 #Leave these Settings alone------------------------------------------
-Version="0.7"
+Version="0.7.1"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -677,6 +677,11 @@ Full_Upgrade() {
   sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
   sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
   sudo chmod 755 /usr/local/sbin/ntrk-exec
+  
+  Check_File_Exists "$InstallLoc/ntrk-pause.sh"
+  sudo cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
+  sudo chmod 755 /usr/local/sbin/ntrk-pause
   
   SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
   if [[ $SudoCheck == "" ]]; then

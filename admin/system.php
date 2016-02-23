@@ -15,8 +15,18 @@ require('./include/global-functions.php');
 $CurTopMenu = 'system';
 include('./include/topmenu.html');
 
+echo "<h1>System Information</h1>\n";
+
 //DrawSysTable is in Global Functions. It echos out sys-group div, sys-title div, and sys-items div
 //DrawSysRow is in Global Functions. It echos table row with contents
+
+if (isset($_GET['a'])) {
+  switch ($_GET['a']) {
+    case 'pause15':
+      ExecAction('pause15', true, true);
+      break;
+  }
+}
 
 $Load = sys_getloadavg();
 $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));
@@ -24,8 +34,6 @@ $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));
 $PS_Dnsmasq = preg_split('/\s+/', exec('ps -eo fname,pid,stime,cputime,pmem | grep dnsmasq'));
 
 $PS_Lighttpd = preg_split('/\s+/', exec('ps -eo fname,pid,stime,cputime,pmem | grep lighttpd'));
-
-echo "<h1>System Information</h1>\n";
 
 DrawSysTable('Server');
 DrawSysRow('Name', gethostname());
