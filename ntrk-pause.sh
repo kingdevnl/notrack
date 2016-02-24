@@ -1,9 +1,9 @@
 #!/bin/bash
 #Title : NoTrack Pause
-#Description : 
+#Description : NoTrack Pause can pause/stop/start blocking in NoTrack. It alters the Blocking settings in /etc/notrack/notrack.conf 
 #Author : QuidsUp
 #Date : 2015-02-23
-#Usage : 
+#Usage : ntrk-pause [--pause | --stop | --start | --status]
 
 #Settings (Leave these alone)----------------------------------------
 ConfigFile="/etc/notrack/notrack.conf"
@@ -19,7 +19,7 @@ BackupConfig() {
   #  2a. Copy Config to a temp file
   #  2b. Zero out Config file
   #  2c. Read temp file, and copy each line to Config if it doesn't start with "BlockList" (This way we can retain the users old config)
-  
+  #3. If config doesn't exist then Create a new file
    
   if [ -e "$ConfigFile" ]; then    
     echo "Copying $ConfigFile to $OldConfig"
@@ -47,7 +47,8 @@ CheckRoot() {
     exit 2
   fi
   
-  if [[ $(pgrep ntrk-pause | head -n 1) != "$$" ]]; then
+  #Check if another copy of ntrk-pause is running, and terminate it 
+  if [[ $(pgrep ntrk-pause | head -n 1) != "$$" ]]; then  #$$ = This PID
     echo "Ending ntrk-pause process $(pgrep ntrk-pause | head -n 1)"
     kill -9 "$(pgrep ntrk-pause | head -n 1)"
   fi
@@ -75,12 +76,18 @@ GetStatus() {
 }
 #Pause---------------------------------------------------------------
 Pause() {
-  
-  
-  #3. If Config doesn't exist, then Create a new file
-  #4. Write lines into config disabling NoTrack & TLD BlockLists (These are the only two enabled by default in NoTrack)
-  #5. Run NoTrack
-  #6. Sleep
+  #1. Calculate unpause time, based on (Current Epoch time + (ntrk-pause $1 * 60))
+  #2. Check if running as Root user
+  #3. Get Status of ntrk-pause
+  #  3a Status Nothing:
+  #  3a i. Backup Config
+  #  3a ii. Disable blocking in Config, and write Unpause time
+  #  3b. Status Unknown, leave this function
+  #  3c. Status Paused, change unpause time in Config file
+  #  3d. Status Stopped, change status and add unpause time in Config file
+  # NoTrack & TLD BlockLists are the only two BlockLists enabled by default in NoTrack
+  #4. Run NoTrack
+  #5. Sleep for ntrk-pause $1 minutes
   #7. Move old Config back if it existed, or delete Config file
   #8. Run NoTrack again
   
@@ -144,11 +151,19 @@ ShowHelp() {
   echo -e "  -h, --help\t\tDisplay this help and exit"
   echo -e "  -p, --pause [Number]\tPause NoTrack for [Number] of Minutes"
   echo -e "  -s, --start\t\tStart NoTrack from Either Paused of Stopped state"
+  echo -e "  --status\t\tDisplay current status of ntrk-pause"
   echo
   exit 0
 }
 #Start---------------------------------------------------------------
 Start() {
+  #1. Check if running as Root user
+  #2a. Move old Config file back if it existed
+  #2b. Or Check if there is a Status line in Config file.
+  #  2b i. User never had a Config file, Delete it to force back default values
+  #2c. Blocking is enabled, don't change anything
+  #3. Run NoTrack
+  
   CheckRoot
     
   if [ -e "$OldConfig" ]; then
@@ -168,6 +183,16 @@ Start() {
 }
 #Stop----------------------------------------------------------------
 Stop() {
+  #1. Check if running as Root user
+  #2. Get Status of ntrk-pause
+  #  2a Status Nothing:
+  #  2a i. Backup Config
+  #  2a ii. Disable blocking in Config, add Status Stopped
+  #  2b. Status Unknown, leave this function
+  #  2c. Status Paused, change status to Stopped
+  #  2d. Status Stopped, leave this function
+  # NoTrack & TLD BlockLists are the only two BlockLists enabled by default in NoTrack
+  #3. Run NoTrack
   CheckRoot
 
   GetStatus
@@ -220,8 +245,8 @@ if [ "$1" ]; then                         #Have any arguments been given
         Start
         ;;      
       -p|--pause)
-        PauseTime=$(sed "s/'//g" <<< "$2")
-        Pause        
+        PauseTime=$(sed "s/'//g" <<< "$2")       #Remove single quotes
+        Pause
         shift
         ;;
       --status)
@@ -236,6 +261,12 @@ if [ "$1" ]; then                         #Have any arguments been given
   done
 else                                             #No commands passed
   echo "Checking status of NoTrack"
+  #No instructions given by user, the following will happen based on the result of GetStatus
+  #a. Status Nothing - Pause for 15 Minutes
+  #b. Status Unknown - Run Start, in order to push Config file back in
+  #c. Status Paused - Unpause
+  #d. Status Stopped - Start
+  
   GetStatus
   case $? in
     0)
