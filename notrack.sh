@@ -689,6 +689,13 @@ Full_Upgrade() {
     echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
   fi
   
+  if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
+     echo "Removing version number from Config file"
+     sudo grep -v "LatestVersion" "$ConfigFile" > /tmp/notrack.conf
+     sudo mv /tmp/notrack.conf "$ConfigFile"
+  fi
+  
+  
   echo "NoTrack Script updated"
 }
 #Help----------------------------------------------------------------
