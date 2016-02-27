@@ -803,6 +803,12 @@ else                                             #No arguments means update trac
   DeleteOldFile "/etc/notrack/trackers.txt"
   DeleteOldFile "/etc/notrack/tracker-quick.list"
   DeleteOldFile "/var/www/html/admin/blocklist.php"
+  #admin/images/computer.svg
+  #deleted:    admin/images/magnifying_glass.svg
+  #deleted:    admin/images/ntrklogo.svg
+  #deleted:    admin/images/server.svg
+  #deleted:    admin/images/whois_icon.svg
+
   
   if [ ! -e "$BlackListFile" ]; then Generate_BlackList
   fi
