@@ -13,7 +13,7 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 $CurTopMenu = 'stats';
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 echo "<h1>Domain Stats</h1>\n";
 
 $DomainList = array();

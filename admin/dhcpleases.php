@@ -11,7 +11,7 @@
 <div id="main">
 <?php
 $CurTopMenu = 'dhcp';
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 echo "<h1>DHCP Leases</h1>\n";
 echo '<div class="sys-group">'."\n";
 

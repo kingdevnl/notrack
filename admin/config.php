@@ -13,7 +13,7 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 $CurTopMenu = 'config';
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 echo "<h1>NoTrack Config</h1>\n";
 
 $List=array();

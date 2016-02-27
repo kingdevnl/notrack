@@ -13,7 +13,7 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 $CurTopMenu = 'system';
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 
 echo "<h1>System Information</h1>\n";
 

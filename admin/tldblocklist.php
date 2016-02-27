@@ -11,7 +11,7 @@
 <div id="main">
 <?php
 $CurTopMenu = 'config';
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 echo "<h1>Top Level Domain Blocklist</h1>\n";
 
 $TLDBlockList = array();

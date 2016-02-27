@@ -15,7 +15,7 @@ require('./include/global-vars.php');
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-include('./include/topmenu.html');
+include('./include/topmenu.php');
 echo "<h1>NoTrack Upgrade</h1>\n";
 
 

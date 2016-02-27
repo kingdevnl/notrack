@@ -389,84 +389,74 @@ tr.dark {
 .sys-table td:nth-child(2) {
   width: 70%;
 }
-#main-menu-back {
-  width: 100%;
-  height: 4.4rem;
-  background-color: #262626;
-  font-size: 1.1em;
+#menu-top {
+  width: 100%;  
+  background-color: #262626;  
+  height: 6rem;
 }
-#main-menu-img {
+#menu-logo {
   float: left;
-  margin-right: 0.5rem;
 }
-#main-menu-img img {
-  width: 4.4rem;
-  height: 4.4rem;  
+#menu-logo img {
+  width: 22rem;
 }
-#main-menu {    
-  float: left;  
-  height: 1.9em;
+#menu-top-right {
+  padding: 2rem 2rem 0 0;
+  float: right;
 }
-#main-menu ul { 
-  list-style: none;
-  display: inline; 
-}
-#main-menu ul.right-menu { 
-  position: absolute;
-  right: 0;
-}
-#main-menu li {  
-  display: inline;  
-}
-#main-menu li a {
-  float: left;   
-  display: block;   
-  background-color: #262626; 
-}
-#main-menu a.active {  
-  background-color: #3B3B3B;  
-}
-#main-menu a:link, #main-menu a:visited {
-  color: #6BA7D9;
-  text-decoration: none;
-}
-#main-menu li a:hover{
-  color: #00EDFF;
-  background-color: #3B3B3B; 
-}
-#main-menu span {
-  line-height:1.9em;  
-  padding: 0 1.2em;
-}
-#main-menu-line {  
-  position: absolute;
-  top: 2.2rem;
-  left: 6.5rem;
-  
-  height: 1em;
-}
-#main-menu-line img {
+#menu-top-right img {
   margin: 0 0.2rem;
   width: 2rem;
   height: 2rem;
 }
-/*Mobile view removes menu and just leaves the home button*/
-@media only screen and (max-width:480px), only screen and (max-device-width:480px) {
-  #main-menu-back {    
-    width: 7.5rem;
-    height: 7.5rem;
-    
-    border-radius: 4px;
-  }
-  #main-menu, #main-menu-line {
-    display: none;
-  }   
-  #main-menu-back img {
-    width: 7.2rem;
-    height: 7.2rem;    
-  }
+#main-menu {
+  width: 100%;
+  height: 3.0rem;
+  font-size: 1.1em;  
+  background-color: #262626;
+}
+#main-menu a {
+  color: #008DF1;
+}
+#main-menu img {
+  width: 2.3rem;
+  height: 2.3rem;
+  margin: 0.4rem 0rem 0.3rem 0rem;
+  float: left;
+}
+#main-menu span {
+  line-height: 2.9rem;
+  display: inline-block;
+  float: left;
+  padding: 0 0.4em; 
+}
+#main-menu span.float-right {
+  float: right;  
+}
+#main-menu span.dtext {
+  display: inline-block;
+}
+#main-menu span:hover{
+  /*color: #00EDFF;*/
+  background-color: #3B3B3B; 
+}
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {  
   .row-mobile {
     display: inline;
+  }
+  #main-menu {
+    height: 4.8rem;
+  }
+  #main-menu span.dtext {
+    display: none;
+  }
+  #main-menu img {
+    width: 4rem;
+    height: 4rem;
+  }
+  #main-menu span {
+    padding: 0 1rem;
+    height: 4.8rem;
   }
 }
 .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
