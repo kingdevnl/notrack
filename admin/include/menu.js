@@ -9,6 +9,9 @@ function PauseNoTrack(Action, PauseTime) {
     case 'stop':
       document.getElementById("dialogmsg").innerHTML = "Disabling NoTrack";
       break;
+    case 'force-notrack':
+      document.getElementById("dialogmsg").innerHTML = "Updating Blocklists";
+      break;
     case 'restart':
       document.getElementById("dialogmsg").innerHTML = "Restarting System";
       break;

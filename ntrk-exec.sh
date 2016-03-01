@@ -144,6 +144,9 @@ while read -r Line; do
     delete-history)
       Delete_History
     ;;
+    force-notrack)
+      notrack --force
+    ;;
     pause5)
       ntrk-pause --pause 5
     ;;

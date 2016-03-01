@@ -49,7 +49,7 @@ URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
 ChangesMade=0                                    #Number of Lists processed. If left at zero then Dnsmasq won't be restarted
 FileTime=0                                       #Return value from Get_FileTime
 OldLatestVersion="$Version"
-UnixTime=$(date +%s)                             #Epoch time now
+UnixTime=$(date +%s)                             #Unix time now
 declare -A WhiteList                             #associative array
 WhiteListFileTime=0
 declare -a CSVList                               #Array to store each list
@@ -718,7 +718,7 @@ Show_Version() {
 
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o bhvu -l help,version,upgrade -- "$@"); then
+  if ! options=$(getopt -o bfhvu -l help,force,version,upgrade -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -730,17 +730,24 @@ if [ "$1" ]; then                                #Have any arguments been given
     case $1 in
       -b) 
         Web_Upgrade
+        exit 0
+      ;;
+      -f|--force)
+        UnixTime=2678400     #Change time back to Feb 1970, which will force all lists to update
       ;;
       -h|--help) 
         Show_Help
+        exit 0
       ;;
       -v|--version) 
         Show_Version
+        exit 0
       ;;
       -u|--upgrade)
         Web_Upgrade
         Full_Upgrade
-      ;;      
+        exit 0
+      ;;
       (--) 
         shift
         break
@@ -754,7 +761,8 @@ if [ "$1" ]; then                                #Have any arguments been given
     esac
     shift
   done
-else                                             #No arguments means update trackers
+fi
+  
 #--------------------------------------------------------------------
 #At this point the functionality of notrack.sh is to update blocklists
 #1. Check if user is running as root
@@ -771,84 +779,68 @@ else                                             #No arguments means update trac
 #12. Delete TLD Blocklist file if Config says its disabled
 #13. Tell user how many sites are blocked by counting number of lines with "Active" in
 #14. If the number if changes is 1 or more then restart Dnsmasq
-  if [ "$(id -u)" != 0 ]; then                   #Check if running as root
-    Error_Exit "Error this script must be run as root"
+if [ "$(id -u)" != 0 ]; then                     #Check if running as root
+  Error_Exit "Error this script must be run as root"
+fi
+  
+if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exists
+  echo "Creating notrack folder under /etc"
+  echo
+  mkdir "/etc/notrack"
+  if [ ! -d "/etc/notrack" ]; then               #Check again
+    Error_Exit "Error Unable to create folder /etc/notrack"      
   fi
+fi
   
-  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
-    echo "Creating notrack folder under /etc"
-    echo
-    mkdir "/etc/notrack"
-    if [ ! -d "/etc/notrack" ]; then             #Check again
-      Error_Exit "Error Unable to create folder /etc/notrack"      
-    fi
-  fi
+Read_Config_File                                 #Load saved variables
+Get_IPAddress                                    #Read IP Address of NetDev
   
-  Read_Config_File                               #Load saved variables
-  Get_IPAddress                                  #Read IP Address of NetDev
+Get_FileTime "$WhiteListFile"
+WhiteListFileTime=$FileTime
   
-  Get_FileTime "$WhiteListFile"
-  WhiteListFileTime=$FileTime
+if [ ! -e $WhiteListFile ]; then Generate_WhiteList
+fi
   
-  if [ ! -e $WhiteListFile ]; then Generate_WhiteList
-  fi
+Read_WhiteList                                 #Load Whitelist into array
+CreateFile "$BlockingCSV"
+cat /dev/null > $BlockingCSV                   #Empty csv file
   
-  Read_WhiteList                                 #Load Whitelist into array
-  CreateFile "$BlockingCSV"
-  cat /dev/null > $BlockingCSV                   #Empty csv file
-  
-  #Legacy files to delete, remove at Beta release
-  DeleteOldFile "/etc/dnsmasq.d/adsites.list"    
-  DeleteOldFile "/etc/dnsmasq.d/malicious-domains.list"
-  DeleteOldFile "/etc/notrack/trackers.txt"
-  DeleteOldFile "/etc/notrack/tracker-quick.list"
-  DeleteOldFile "/var/www/html/admin/blocklist.php"
-  #admin/images/computer.svg
-  #deleted:    admin/images/magnifying_glass.svg
-  #deleted:    admin/images/ntrklogo.svg
-  #deleted:    admin/images/server.svg
-  #deleted:    admin/images/whois_icon.svg
-  #admin/images/computer.png
-  #admin/images/config.png
-  #admin/images/menu_config.png
-  #admin/images/menu_home.png
-  #admin/images/menu_option.png
-  #admin/images/server.png
-  #admin/include/topmenu.html
-  #admin/svg/computer.svg
-  #admin/svg/server.svg
+#Legacy files to delete, remove at Beta release
+DeleteOldFile "/etc/dnsmasq.d/adsites.list"    
+DeleteOldFile "/etc/dnsmasq.d/malicious-domains.list"
+DeleteOldFile "/etc/notrack/trackers.txt"
+DeleteOldFile "/etc/notrack/tracker-quick.list" 
 
   
-  if [ ! -e "$BlackListFile" ]; then Generate_BlackList
-  fi
+if [ ! -e "$BlackListFile" ]; then Generate_BlackList
+fi
   
-  if [ ! -e "$DomainBlackListFile" ]; then Generate_DomainBlackList
-  fi
+if [ ! -e "$DomainBlackListFile" ]; then Generate_DomainBlackList
+fi
   
-  if [ ! -e "$DomainWhiteListFile" ]; then Generate_DomainWhiteList
-  fi
+if [ ! -e "$DomainWhiteListFile" ]; then Generate_DomainWhiteList
+fi
   
-  GetList_BlackList                              #Process Users Blacklist
+GetList_BlackList                                #Process Users Blacklist
   
-  GetList "tld" "tldlist" 604800                 #7 Days
-  GetList "notrack" "notrack" 172800             #2 Days  
-  GetList "adblockmanager" "unix127" 604800      #7 Days
-  GetList "easylist" "easylist" 345600           #4 Days
-  GetList "easyprivacy" "easylist" 345600        #4 Days
-  GetList "hphosts" "unix127" 345600             #4 Days
-  GetList "malwaredomains" "plain" 345600        #4 Days
-  GetList "pglyoyo" "plain" 345600               #4 Days
-  GetList "someonewhocares" "unix127" 345600     #4 Days
-  GetList "winhelp2002" "unix0" 604800           #7 Days
+GetList "tld" "tldlist" 604800                   #7 Days
+GetList "notrack" "notrack" 172800               #2 Days  
+GetList "adblockmanager" "unix127" 604800        #7 Days
+GetList "easylist" "easylist" 345600             #4 Days
+GetList "easyprivacy" "easylist" 345600          #4 Days
+GetList "hphosts" "unix127" 345600               #4 Days
+GetList "malwaredomains" "plain" 345600          #4 Days
+GetList "pglyoyo" "plain" 345600                 #4 Days
+GetList "someonewhocares" "unix127" 345600       #4 Days
+GetList "winhelp2002" "unix0" 604800             #7 Days
   
-  if [ ${Config[blocklist_tld]} == 0 ]; then
-    DeleteOldFile "$DomainQuickList"
-  fi
+if [ ${Config[blocklist_tld]} == 0 ]; then
+  DeleteOldFile "$DomainQuickList"
+fi
   
-  echo "Imported $(cat "$BlockingCSV" | grep -c Active) Domains into Block List"
+echo "Imported $(cat "$BlockingCSV" | grep -c Active) Domains into Block List"
   
-  if [ $ChangesMade -gt 0 ]; then                #Have any lists been processed?
-    echo "Restarting Dnsnmasq"
-    service dnsmasq restart                      #Restart dnsmasq  
-  fi
-fi 
+if [ $ChangesMade -gt 0 ]; then                  #Have any lists been processed?
+  echo "Restarting Dnsnmasq"
+  service dnsmasq restart                        #Restart dnsmasq  
+fi

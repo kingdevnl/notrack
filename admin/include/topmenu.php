@@ -20,6 +20,9 @@ if (isset($_GET['a'])) {
     case 'stop':
       ExecAction('stop', true, true);
       break;
+    case 'force-notrack':
+      ExecAction('force-notrack', true, true);
+      break;
     case 'restart':
       sleep(2);
       ExecAction('restart', true, true);
@@ -92,7 +95,7 @@ echo "</div></div></nav>\n";
 <div class="dialog-bar">Options</div>
 <div id="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'"></a></div>
 <br />
-<span><a href="#" onclick="PauseNoTrack('forceupdate')" class="button-grey">Update Trackers</a></span><br />
+<span><a href="#" onclick="PauseNoTrack('force-notrack')" class="button-grey">Update Blocklist</a></span><br />
 <span><a href="#" onclick="PauseNoTrack('restart')" class="button-grey">Restart</a></span>
 <span><a href="#" onclick="PauseNoTrack('shutdown')" class="button-danger">Shutdown</a></span><br />
 </div></div>
