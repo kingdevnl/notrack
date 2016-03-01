@@ -59,7 +59,7 @@ if (substr($Config['Status'], 0, 6) == 'Paused') {
   echo '<a href="#" onclick="PauseNoTrack(\'start\')"><span class="pbutton" title="Enable Blocking">&#9654;</span></a>'."\n";
 }
 elseif ($Config['Status'] == 'Stop') {
-  echo '<span class="timer" title="Disabled">----</span>'."\n";
+  echo '<span class="timer" title="NoTrack Disabled">----</span>'."\n";
   echo '<a href="#" onclick="PauseNoTrack(\'start\')"><span class="pbutton" title="Enable Blocking">&#9654;</span></a>'."\n";
 }
 else {
