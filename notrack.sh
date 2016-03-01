@@ -733,7 +733,7 @@ if [ "$1" ]; then                                #Have any arguments been given
         exit 0
       ;;
       -f|--force)
-        UnixTime=2678400     #Change time back to Feb 1970, which will force all lists to update
+        UnixTime=2524608000     #Change time forward to Jan 2050, which will force all lists to update
       ;;
       -h|--help) 
         Show_Help
