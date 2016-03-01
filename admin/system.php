@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
   <title>NoTrack - System Information</title>  
 </head>
 
@@ -12,21 +13,12 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-$CurTopMenu = 'system';
 include('./include/topmenu.php');
 
 echo "<h1>System Information</h1>\n";
 
 //DrawSysTable is in Global Functions. It echos out sys-group div, sys-title div, and sys-items div
 //DrawSysRow is in Global Functions. It echos table row with contents
-
-if (isset($_GET['a'])) {
-  switch ($_GET['a']) {
-    case 'pause15':
-      ExecAction('pause15', true, true);
-      break;
-  }
-}
 
 $Load = sys_getloadavg();
 $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));

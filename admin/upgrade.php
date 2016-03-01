@@ -1,13 +1,11 @@
-<?php
-require('./include/global-vars.php');
-?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link href="./css/master.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    <title>NoTrack Upgrade</title>
+  <meta charset="UTF-8" />
+  <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
+  <title>NoTrack Upgrade</title>
 </head>
 
 <body>
@@ -34,9 +32,7 @@ if (isset($_GET['u'])) {                        //Check if we are running upgrad
     echo "</div>\n";
   }
 }
-else {                                           //Just displaying status
-  LoadConfigFile();  
-  
+else {                                           //Just displaying status  
   if ($Version == $Config['LatestVersion']) {    //See if upgrade Needed
     echo '<p>You&#39;re running the latest version v'.$Version.'</p><br />';
     echo '<div class="centered">'."\n";          //Center div for button

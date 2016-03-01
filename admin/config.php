@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
   <title>NoTrack - Config</title>  
 </head>
 
@@ -363,11 +364,19 @@ function UpdateCustomList($ListName) {
 }
 //Write Tmp Config File----------------------------------------------
 function WriteTmpConfig() {
+  //1. Load Config File
+  //2. Loop through Config Array
+  //3. Write all values, except for "Status = Enabled"
+  //4. Close Config File
+  //5. Delete Config Array out of Memcache, in order to force reload 
+  
   global $Config, $FileTmpConfig, $Mem;
   
   $FileHandle = fopen($FileTmpConfig, 'w');      //Open temp config for writing
   foreach ($Config as $Key => $Value) {          //Loop through Config array
-    fwrite($FileHandle, $Key.' = '.$Value."\n"); //Write Key & Value
+    if (($Key != 'Status') && ($Value != 'Enabled')) { 
+      fwrite($FileHandle, $Key.' = '.$Value."\n"); //Write Key & Value
+    }
   }
   fclose($FileHandle);                           //Close file
   

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link href="./css/master.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    <title>NoTrack Admin</title>
+  <meta charset="UTF-8" />
+  <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
+  <title>NoTrack Admin</title>
 </head>
 
 <body>
@@ -13,10 +14,6 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 include('./include/topmenu.php');
-
-LoadConfigFile();
-
-//echo "<h1>NoTrack Admin</h1>\n"; 
 
 //Main---------------------------------------------------------------
 
@@ -34,19 +31,19 @@ else {
 }
 
 //DNS Queries
-echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /var/log/notrack.log | grep -F query[A] | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./images/server.png" alt=""></div></div></a>'."\n";
+echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /var/log/notrack.log | grep -F query[A] | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./images/home_server.png" srcset="./svg/home_server.svg"  alt=""></div></div></a>'."\n";
 
 //DHCP Systems
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc /var/lib/misc/dnsmasq.leases | cut -d\  -f 3'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
+  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc /var/lib/misc/dnsmasq.leases | cut -d\  -f 3'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'."\n";
 }
 else {
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>N/A</h3></div><div class="home-nav-right"><img class="full" src="./images/computer.png" alt=""></div></div></a>'."\n";
+  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>N/A</h3></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'."\n";
 }
 echo "</div>\n";
 
 echo '<div class="row-mobile">';
-echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./images/config.png" alt=""></div></div></a>'."\n";
+echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./svg/config.svg" alt=""></div></div></a>'."\n";
 
 echo "</div>\n";
 

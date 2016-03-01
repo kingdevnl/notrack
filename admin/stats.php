@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link href="./css/master.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    <title>NoTrack - DNS Stats</title>
+  <meta charset="UTF-8" />
+  <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
+  <title>NoTrack - DNS Stats</title>
 </head>
 
 <body>
@@ -12,7 +13,6 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-$CurTopMenu = 'stats';
 include('./include/topmenu.php');
 echo "<h1>Domain Stats</h1>\n";
 
@@ -429,8 +429,6 @@ if (isset($_GET['e'])) {
 $DateRange = Filter_Int('dr', 1, 366, 1);
 
 //-------------------------------------------------------------------
-LoadConfigFile();
-
 if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                             
 
 //Are we loading Todays logs or Historic logs?

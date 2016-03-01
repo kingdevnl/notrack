@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link href="./css/master.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    <title>DHCP Leases</title>
+  <meta charset="UTF-8" />
+  <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <script src="./include/menu.js"></script>
+  <title>NoTrack - DHCP Leases</title>
 </head>
 
 <body>
 <div id="main">
 <?php
-$CurTopMenu = 'dhcp';
+require('./include/global-vars.php');
+require('./include/global-functions.php');
 include('./include/topmenu.php');
 echo "<h1>DHCP Leases</h1>\n";
 echo '<div class="sys-group">'."\n";
