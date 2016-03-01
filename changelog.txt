@@ -1,6 +1,7 @@
 v0.7.2 alpha
-Pause feature implemented in Admin page.
+Pause feature implemented in Admin page (Issue #19).
 Fixed race condition bug with ntrk-pause.
+Fixed Issue #21 - Incorrect version number displayed after upgrade.
 Menu images now utilising SVG's (Scaled Vector Graphics).
 Options popup now functional.
 System Shutdown & Restart buttons added to Options popup.
