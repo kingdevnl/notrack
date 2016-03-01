@@ -60,6 +60,10 @@ GetStatus() {
 #? 3 = NoTrack Running
 #? 100 = Blocking Paused
 #? 101 = Blocking Disabled
+  if [[ $(pgrep notrack) != "" ]]; then
+    return 3
+  fi
+  
   if [ -e "$OldConfig" ]; then
     if [ -e "$ConfigFile" ]; then
       if [[ $(cat "$ConfigFile" | grep "Status = Paused") != "" ]]; then
@@ -110,6 +114,10 @@ Pause() {
       echo "Old config exists, but status unknown"
       exit 2
       ;;
+    3)
+      echo "NoTrack already running"
+      exit 3
+      ;;
     100)
       echo "Changing Pause time"
       sed -i "s/^\(Status *= *\).*/\1Paused$UnPauseTime/" $ConfigFile
@@ -155,14 +163,44 @@ ShowHelp() {
   echo
   exit 0
 }
+#Show Status---------------------------------------------------------
+ShowStatus() {
+  GetStatus
+  
+  case $? in
+    0)
+      echo "Status 0: Blocking Enabled"
+      ;;
+    2)
+      echo "Status 2: Old config exists, but status unknown"      
+      ;;
+    3)
+      echo "Status 3: NoTrack already running"      
+      ;;
+    100)
+      echo "Status 100: Blocking Paused"
+      ;;
+    101)
+      echo "Status 101: Blocking Disabled"
+      ;;
+  esac
+  exit 0
+}  
 #Start---------------------------------------------------------------
 Start() {
-  #1. Check if running as Root user
-  #2a. Move old Config file back if it existed
-  #2b. Or Check if there is a Status line in Config file.
-  #  2b i. User never had a Config file, Delete it to force back default values
-  #2c. Blocking is enabled, don't change anything
-  #3. Run NoTrack
+  #1. Get Status of ntrk-pause
+  #2. Exit if Status = 3 (NoTrack already running)
+  #3. Check if running as Root user
+  #4a. Move old Config file back if it existed
+  #4b. Or Check if there is a Status line in Config file.
+  #  4b i. User never had a Config file, Delete it to force back default values
+  #4c. Blocking is enabled, don't change anything
+  #5. Run NoTrack
+  GetStatus
+  if [ $? == 3 ]; then
+    echo "NoTrack already running"
+    exit 3
+  fi
   
   CheckRoot
     
@@ -208,6 +246,10 @@ Stop() {
       echo "Old config exists, but status unknown"
       exit 2
       ;;
+    3)
+      echo "NoTrack already running"
+      exit 3
+      ;;
     100)
       echo "Switching from Paused to Stop"
       sed -i "s/^\(Status *= *\).*/\1Stop/" $ConfigFile
@@ -250,8 +292,7 @@ if [ "$1" ]; then                         #Have any arguments been given
         shift
         ;;
       --status)
-        GetStatus
-        echo "Status $?"
+        ShowStatus
         ;;
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
