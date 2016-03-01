@@ -156,11 +156,17 @@ while read -r Line; do
     pause60)
       ntrk-pause --pause 60
     ;;
+    restart)
+      reboot
+    ;;
     start)
       ntrk-pause --start
     ;;
     stop)
       ntrk-pause --stop
+    ;;
+    shutdown)
+      shutdown now
     ;;
     update-config)
       Update_Config

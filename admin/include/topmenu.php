@@ -13,15 +13,23 @@ if (isset($_GET['a'])) {
       break;
     case 'pause60':
       ExecAction('pause60', true, true);
-      break;
+      break;    
     case 'start':
       ExecAction('start', true, true);
       break;
     case 'stop':
       ExecAction('stop', true, true);
       break;
+    case 'restart':
+      sleep(2);
+      ExecAction('restart', true, true);
+      break;
+    case 'shutdown':
+      sleep(2);
+      ExecAction('shutdown', true, true);
+      break;
   }
-  sleep(5);  
+  sleep(5);
 }
 
 LoadConfigFile();
@@ -84,9 +92,9 @@ echo "</div></div></nav>\n";
 <div class="dialog-bar">Options</div>
 <div id="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'"></a></div>
 <br />
-<span><a href="#" class="button-grey">Update Trackers</a></span><br />
-<span><a href="#" class="button-grey">Restart</a></span>
-<span><a href="#" class="button-danger">Shutdown</a></span><br />
+<span><a href="#" onclick="PauseNoTrack('forceupdate')" class="button-grey">Update Trackers</a></span><br />
+<span><a href="#" onclick="PauseNoTrack('restart')" class="button-grey">Restart</a></span>
+<span><a href="#" onclick="PauseNoTrack('shutdown')" class="button-danger">Shutdown</a></span><br />
 </div></div>
 
 <div id="fade"></div>

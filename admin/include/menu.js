@@ -9,11 +9,18 @@ function PauseNoTrack(Action, PauseTime) {
     case 'stop':
       document.getElementById("dialogmsg").innerHTML = "Disabling NoTrack";
       break;
+    case 'restart':
+      document.getElementById("dialogmsg").innerHTML = "Restarting System";
+      break;
+    case 'shutdown':
+      document.getElementById("dialogmsg").innerHTML = "Shutting Down System";
+      break;
     default:
       alert("PauseNoTrack: Unknown action");
       return;
   }
   
+  document.getElementById('centerpoint2').style.display = "none";
   document.getElementById("centerpoint1").style.display = "block";
   document.getElementById("fade").style.display = "block";
   
