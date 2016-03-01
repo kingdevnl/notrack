@@ -144,8 +144,23 @@ while read -r Line; do
     delete-history)
       Delete_History
     ;;
+    pause5)
+      ntrk-pause --pause 5
+    ;;
     pause15)
       ntrk-pause --pause 15
+    ;;
+    pause30)
+      ntrk-pause --pause 30
+    ;;
+    pause60)
+      ntrk-pause --pause 60
+    ;;
+    start)
+      ntrk-pause --start
+    ;;
+    stop)
+      ntrk-pause --stop
     ;;
     update-config)
       Update_Config
