@@ -1,7 +1,14 @@
+v0.7.2 alpha
+Pause feature implemented in Admin page.
+Fixed race condition bug with ntrk-pause.
+Menu images now utilising SVG's (Scaled Vector Graphics).
+Options popup now functional.
+System Shutdown & Restart buttons added to Options popup.
+New Logo.
+
 v0.7.1 alpha
 Interim release to ease integration of New Pause feature
 New script ntrk-pause to start/stop/pause blocking (Issue #19)
-(Run NoTrack --upgrade twice to install ntrk-pause correctly)
 Improved styling for Tablet users
 
 v0.7 alpha
