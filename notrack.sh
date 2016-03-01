@@ -808,6 +808,15 @@ else                                             #No arguments means update trac
   #deleted:    admin/images/ntrklogo.svg
   #deleted:    admin/images/server.svg
   #deleted:    admin/images/whois_icon.svg
+  #admin/images/computer.png
+  #admin/images/config.png
+  #admin/images/menu_config.png
+  #admin/images/menu_home.png
+  #admin/images/menu_option.png
+  #admin/images/server.png
+  #admin/include/topmenu.html
+  #admin/svg/computer.svg
+  #admin/svg/server.svg
 
   
   if [ ! -e "$BlackListFile" ]; then Generate_BlackList
