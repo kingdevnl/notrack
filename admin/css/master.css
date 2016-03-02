@@ -104,6 +104,7 @@ pre {
   margin: 0.5em auto;
   padding: 0.5em;
   overflow: auto;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, .5);
 }
 @media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {
   pre {width: 90%}
@@ -577,8 +578,8 @@ span.filter {
 }
 @media only screen and (max-width:480px), only screen and (max-device-width:480px) {
   .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
-    width: 90%;	
-    margin: 1em auto;
+    width: 90%;    
+    margin: 1em 4%;
   }  
 }
 @media only print {

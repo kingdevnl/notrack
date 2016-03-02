@@ -1,5 +1,5 @@
-#List of Ad files last updated 26 Feb 2016 .1
-#LatestVersion 0.7.1
+#List of Ad files last updated 02 Mar 2016
+#LatestVersion 0.7.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -33,7 +33,7 @@
 7eer.net #Impact Radius
 800omnture.com #Adobe
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
-a-msedge.net #Markmonitor
+a-msedge.net #Microsoft
 a2dfp.net
 a9.com
 abetterweb.info #instartlogic
@@ -125,6 +125,7 @@ ads4apps.net #Smaato
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
 ads-creativesyndicator.com
+ads-verify.net
 adsafeprotected.com
 adscale.de
 adsensecustomsearchads.com
@@ -415,6 +416,7 @@ cmail2.com
 cmcm.bid #MobPartner
 cmcore.com
 cmmeglobal.com
+cnt-tm-1.com #Lead Forensics
 cnzz.com
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
@@ -426,7 +428,7 @@ concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
 connecteddevices.net #Millennial Media
 connexity.net
-cnt-tm-1.com #Lead Forensics
+consumerenergyreport.com
 content-square.net
 content.ad
 contentclick.co.uk
@@ -859,6 +861,7 @@ lypn.com
 madisonlogic.com
 madnxs.com #AppNexus Inc
 madnxs.net #AppNexus Inc
+magreprints.com
 mailadvertising.co.uk
 mailchimp.com
 mailmunch.co
@@ -870,7 +873,7 @@ matheranalytics.com
 mathtag.com
 maxymiser.net
 mdotm.com #MdotM
-media.net
+media.net #Yahoo
 media6degrees.com
 mediaforge.com
 medialytics.com #Medialets
@@ -8518,6 +8521,7 @@ mlnadvertising.com
 mlsend2.com
 mmondi.com
 mmstat.com
+mnetads.com #Yahoo
 moatads.com
 mobclix.com #Velti
 mobile-ad-cloud.com #Smaato
@@ -8589,6 +8593,7 @@ netseer.com
 netshelter.net
 newrelic.com
 nexac.com
+nextbigsound.com #Pandora Media
 nextplatform.com
 nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
@@ -9052,6 +9057,7 @@ tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
+topfox.co.uk
 tqlkg.com
 tqn.com
 trackalyzer.com
@@ -9239,6 +9245,7 @@ yuq.me
 ywxi.net #PathDefender
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
 zanox.ws
+zdbb.net #Ziff Davis
 zbuckz.com
 zedo.com
 zemanta.com
@@ -9291,48 +9298,50 @@ track.ft.com
 ad.groupon.co.uk
 partner-ts.groupon.co.uk
 metric.gstatic.com #Google
-beacon.guim.co.uk
+beacon.guim.co.uk #The Guardian
 ads.hearstmags.com
 pixel.honestjohn.co.uk
-m.hotmail.com
+m.hotmail.com #Microsoft
 metrics.ikea.com
 rad.live.com #Microsoft
-ssw.live.com
-watson.live.com
+ssw.live.com #Microsoft
+watson.live.com #Microsoft
 marketing.lloydsbank.co.uk
-static.2mdn.net
+s0.2mdn.net #Microsoft
+static.2mdn.net #Microsoft
 s.gateway.messenger.live.com
 bingads.microsoft.com #Microsoft
-choice.microsoft.com
-data.microsoft.com
-diagnostics.support.microsoft.com
-feedback.windows.com
-feedback.search.microsoft.com
-glbdns2.microsoft.com
-i1.services.social.microsoft.com
-watson.microsoft.com
-redir.metaservices.microsoft.com
-support.microsoft.com
-statsfe1.ws.microsoft.com
-statsfe2.ws.microsoft.com
-sts.microsoft.com
-telemetry.microsoft.com
-telemetry.urs.microsoft.com
-cds26.ams9.msecnd.net
-vo.msecnd.net
-ac3.msn.com
-ads.msn.com
-ads1.msn.com
-ads2.msn.com
-c.msn.com
-flex.msn.com
-g.msn.com
-h1.msn.com
-h2.msn.com
-live.rads.msn.com
-preview.msn.com
-rad.msn.com
+choice.microsoft.com #Microsoft
+data.microsoft.com #Microsoft
+diagnostics.support.microsoft.com #Microsoft
+feedback.windows.com #Microsoft
+feedback.search.microsoft.com #Microsoft
+glbdns2.microsoft.com #Microsoft
+i1.services.social.microsoft.com #Microsoft
+watson.microsoft.com #Microsoft
+redir.metaservices.microsoft.com #Microsoft
+support.microsoft.com #Microsoft
+statsfe1.ws.microsoft.com #Microsoft
+statsfe2.ws.microsoft.com #Microsoft
+sts.microsoft.com #Microsoft
+telemetry.microsoft.com #Microsoft
+telemetry.urs.microsoft.com #Microsoft
+cds26.ams9.msecnd.net #Microsoft
+vo.msecnd.net #Microsoft
+ac3.msn.com #Microsoft
+ads.msn.com #Microsoft
+ads1.msn.com #Microsoft
+ads2.msn.com #Microsoft
+c.msn.com #Microsoft
+flex.msn.com #Microsoft
+g.msn.com #Microsoft
+h1.msn.com #Microsoft
+h2.msn.com #Microsoft
+live.rads.msn.com #Microsoft
+preview.msn.com #Microsoft
+rad.msn.com #Microsoft
 cp1.news.com.au
+heartbeat.dm.origin.com #EA
 asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net
@@ -9342,17 +9351,14 @@ pixel.reddit.com
 pixel.redditmedia.com
 analytics.faw.sky.com
 smetrics.sky.com
-apps.skype.com
-pricelist.skype.com
-ui.skype.com
+apps.skype.com #Microsoft
+pricelist.skype.com #Microsoft
+ui.skype.com #Microsoft
 webtrends.telegraph.co.uk
-analytics.twitter.com
+analytics.twitter.com #Twitter
 analytics.yahoo.com
 ads.yahoo.com
 geo.query.yahoo.com
 mc.yandex.ru
-pixel.wp.com
-stats.wp.com
-#:analytics-colecter-\d{1,8}\.us-east-1\.elb\.amazonaws\.com:
-#:^pixel\.:
-#:^speedtrap\.:
+pixel.wp.com #Wordpress
+stats.wp.com #Wordpress

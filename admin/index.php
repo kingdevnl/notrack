@@ -43,9 +43,10 @@ else {
 echo "</div>\n";
 
 echo '<div class="row-mobile">';
-echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./svg/config.svg" alt=""></div></div></a>'."\n";
+echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./svg/home_config.svg" alt=""></div></div></a>'."\n";
 
 echo "</div>\n";
+echo '<div class="row"><br /></div>'."\n";
 
 if ($Version != $Config['LatestVersion']) {      //See if upgrade Needed
   DrawSysTable('Upgrade');
