@@ -1,6 +1,6 @@
 v0.7.3 alpha
 Added extra time selectors in Stats page.
-There has been some confusion about why NoTrack is blocking local network IP addresses. This is not the case, the Dnsmasq DNS server doesn't know what to do with them. I've ammended the Stats table to differentiate between a Blocked site compared to an Invalid site (includes IP addresses)
+Ammended the Stats table to differentiate between a Blocked site compared to an Invalid site (includes IP addresses)
 
 v0.7.2 alpha
 Pause feature implemented in Admin page (Issue #19).
