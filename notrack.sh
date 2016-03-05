@@ -24,7 +24,7 @@ Config[blocklist_malwaredomains]=0
 Config[blocklist_winhelp2002]=0
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.2"
+Version="0.7.3"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
