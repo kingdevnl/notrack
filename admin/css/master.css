@@ -338,6 +338,9 @@ tr:nth-child(even) {
 tr.blocked {
   background: #EB5D66;
 }
+tr.invalid {
+  background: #EE202B;
+}
 tr.local {
   background: #93A0FF;
 }

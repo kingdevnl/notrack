@@ -478,34 +478,60 @@ echo '<form action="?" method="get">';
 echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('V').AddHiddenVar('DR');
 echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
 switch ($StartStr) {                          //First item is unselectable
-  case "today": case "":
+  case 'today': case '':
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
     echo '<option value="-1hours">1 Hour</option>';
     echo '<option value="-8hours">8 Hours</option>';
   break;
-  case "-5minutes":
+  case '-5minutes':
     echo '<option value="-5minutes">5 Minutes</option>';
     echo '<option value="today">Today</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
     echo '<option value="-1hours">1 Hour</option>';
     echo '<option value="-8hours">8 Hours</option>';
   break;
-  case "-1hours":
+  case '-15minutes':
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="-8hours">8 Hours</option>';
+  break;
+  case '-30minutes':
+    echo '<option value="-30minutes">30 Minutes</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="-8hours">8 Hours</option>';
+  break;
+  case '-1hours':
     echo '<option value="-1hours">1 Hour</option>';
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
     echo '<option value="-8hours">8 Hours</option>';
   break;
-  case "-8hours":
+  case '-8hours':
     echo '<option value="-8hours">8 Hours</option>';
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
     echo '<option value="-1hours">1 Hour</option>';
   break;
   default:
     echo '<option value="'.$StartStr.'">Other</option>';
     echo '<option value="today">Today</option>';
     echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-15minutes">15 Minutes</option>';
+    echo '<option value="-30minutes">30 Minutes</option>';
     echo '<option value="-1hours">1 Hour</option>';
     echo '<option value="-8hours">8 Hours</option>';
   break;
@@ -552,21 +578,24 @@ foreach ($SortedDomainList as $Str => $Value) {
     
     if ($Action == '+') {                        //+ = Allowed      
       echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';
-      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';      
     }
     elseif ($Action == '-') {                    //- = Blocked
       $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
       $CountSubDomains = count($SplitURL);
-      echo '<tr class="blocked">';               //Red row for blocked
+      
       if ($CountSubDomains <= 1) {               //No TLD Given, this could be a search via address bar  
-        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">Invalid domain</p></td>';
+        echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
+      }                                          //Is it an IP Address?
+      elseif (($CountSubDomains == 3) && (!filter_var($Site, FILTER_VALIDATE_IP) === false)) {
+        echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
       }
       elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
-        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';
+        echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';
         
       }
       else {
-        echo '<td>'.$i.'</td><td>'.$Site.'</td>';
+        echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'</td>';
         $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\'remove--'.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
       }      
     }
