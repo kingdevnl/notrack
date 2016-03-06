@@ -579,7 +579,7 @@ foreach ($SortedDomainList as $Str => $Value) {
     
     if ($Action == '+') {                        //+ = Allowed      
       echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';
-      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', false)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';      
+      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', false)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
     }
     elseif ($Action == '-') {                    //- = Blocked
       $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
@@ -588,7 +588,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       if ($CountSubDomains <= 1) {               //No TLD Given, this could be a search via address bar  
         echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
       }                                          //Is it an IP Address?
-      elseif (($CountSubDomains == 3) && (!filter_var($Site, FILTER_VALIDATE_IP) === false)) {
+      elseif (($CountSubDomains == 4) && (!filter_var($Site, FILTER_VALIDATE_IP) === false)) {
         echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
       }
       elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
