@@ -24,7 +24,7 @@ Config[blocklist_malwaredomains]=0
 Config[blocklist_winhelp2002]=0
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.3"
+Version="0.7.4"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -805,11 +805,12 @@ Read_WhiteList                                 #Load Whitelist into array
 CreateFile "$BlockingCSV"
 cat /dev/null > $BlockingCSV                   #Empty csv file
   
-#Legacy files to delete, remove at Beta release
-DeleteOldFile "/etc/dnsmasq.d/adsites.list"    
+#Legacy files to delete, remove at RC release
+DeleteOldFile "/etc/dnsmasq.d/adsites.list"
 DeleteOldFile "/etc/dnsmasq.d/malicious-domains.list"
+DeleteOldFile "/etc/dnsmasq.d/trackers.list"
 DeleteOldFile "/etc/notrack/trackers.txt"
-DeleteOldFile "/etc/notrack/tracker-quick.list" 
+DeleteOldFile "/etc/notrack/tracker-quick.list"
 
   
 if [ ! -e "$BlackListFile" ]; then Generate_BlackList
