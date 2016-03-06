@@ -5,6 +5,7 @@
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
+  <script src="./include/stats.js"></script>
   <title>NoTrack - DNS Stats</title>
 </head>
 
@@ -578,7 +579,7 @@ foreach ($SortedDomainList as $Str => $Value) {
     
     if ($Action == '+') {                        //+ = Allowed      
       echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';
-      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';      
+      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', false)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';      
     }
     elseif ($Action == '-') {                    //- = Blocked
       $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
@@ -596,7 +597,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       }
       else {
         echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'</td>';
-        $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\'remove--'.$Site.'\')"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+        $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', true)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
       }      
     }
     elseif ($Action == '1') {                    //1 = Local lookup
@@ -691,10 +692,17 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
 ?>
 </div>
 
-<script>
-function ReportSite(Site) {
-  if (confirm("Do you want to report site\n" + Site)) window.open("http://quidsup.net/notrack/report.php?site=" + Site, "_self");
-}
-</script>
+<div id="stats-center"><div id="stats-box">
+<div class="dialog-bar">Report</div>
+<span id="sitename">site</span>
+<span id="statsmsg">something</span>
+<span id="statsblock1"><a class="button-blue" href="#">Block Whole</a> Block whole domain</span>
+<span id="statsblock2"><a class="button-blue" href="#">Block Sub</a> Block just the subdomain</span>
+<span id="statsreport"><a class="button-blue" href="#">Report</a></span>
+<br />
+<div class="centered"><a class="button-grey" href="#" onclick="HideStatsBox()">Cancel</a></div>
+<div class="close-button"><a href="#" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></a></div>
+</div></div>
+
 </body>
 </html>
