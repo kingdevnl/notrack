@@ -88,16 +88,16 @@ echo "</div></div></nav>\n";
 <div id="centerpoint1"><div id="dialog">
 <div class="dialog-bar">NoTrack</div>
 <span id="dialogmsg">Doing something</span>
-<div class="centered"><img src="./images/progress.gif"></div>
+<div class="centered"><img src="./images/progress.gif" alt=""></div>
 </div></div>
 
 <div id="centerpoint2"><div id="options">
 <div class="dialog-bar">Options</div>
-<div id="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'"></a></div>
-<br />
+<br /><br />
 <span><a href="#" onclick="PauseNoTrack('force-notrack')" class="button-grey">Update Blocklist</a></span><br />
 <span><a href="#" onclick="PauseNoTrack('restart')" class="button-grey">Restart</a></span>
 <span><a href="#" onclick="PauseNoTrack('shutdown')" class="button-danger">Shutdown</a></span><br />
+<div class="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="Close"></a></div>
 </div></div>
 
 <div id="fade"></div>

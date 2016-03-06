@@ -1,3 +1,7 @@
+v0.7.4 alpha
+Fixed Issue #28 - Network connection disabled in Windows
+Sites can now be Blocked from Stats page (Issue #27)
+
 v0.7.3 alpha
 Added extra time selectors in Stats page.
 Ammended the Stats table to differentiate between a Blocked site compared to an Invalid site (includes IP addresses)
