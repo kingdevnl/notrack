@@ -572,6 +572,7 @@ ero-advertising.com
 errorception.com#Rakesh Pai
 esearchvision.com
 esomniture.com #Adobe
+esprima.org
 esvdigital.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
@@ -651,6 +652,7 @@ georiot.com
 getclicky.com
 getdrip.com
 getphotoeffects.com #RadiumOne
+ghostery.com #Ghostery Enterprise
 gigya.com
 gimmescreenshot.com#Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
@@ -9260,6 +9262,8 @@ zqtk.net
 zzword.com #Adobe
 #---------------------------------------------------------
 #Analytics Domains
+s0.2mdn.net #Microsoft
+static.2mdn.net #Microsoft
 dmtracking2.alibaba.com
 stat.alibaba.com
 affiliate-program.amazon.co.uk
@@ -9287,10 +9291,10 @@ data.coremetrics.com
 de.coremetrics.com
 testdata.coremetrics.com
 metrics.ctvdigital.net
-dart.l.doubleclick.net#DoubleClick
-stats.g.doubleclick.net
-stats.l.doubleclick.net
-coremetrics.com.edgekey.net#EdgeKey
+dart.l.doubleclick.net #Google
+stats.g.doubleclick.net #Google
+stats.l.doubleclick.net #Google
+coremetrics.com.edgekey.net #EdgeKey
 ooyala.com.edgekey.net
 ads.ebay.com
 stats.ebay.com
@@ -9304,30 +9308,34 @@ beacon.guim.co.uk #The Guardian
 ads.hearstmags.com
 pixel.honestjohn.co.uk
 m.hotmail.com #Microsoft
-metrics.ikea.com
+metrics.ikea.com #Ikea
+adverts.itv.com #ITV
+traffic.jackpot247.com #Jackpot247
 rad.live.com #Microsoft
 ssw.live.com #Microsoft
 watson.live.com #Microsoft
+s.gateway.messenger.live.com #Microsoft
 marketing.lloydsbank.co.uk
-s0.2mdn.net #Microsoft
-static.2mdn.net #Microsoft
-s.gateway.messenger.live.com
 bingads.microsoft.com #Microsoft
 choice.microsoft.com #Microsoft
 data.microsoft.com #Microsoft
 diagnostics.support.microsoft.com #Microsoft
-feedback.windows.com #Microsoft
+dmd.metaservices.microsoft.com	
 feedback.search.microsoft.com #Microsoft
+geo-prod.do.dsp.mp.microsoft.com #Microsoft
 glbdns2.microsoft.com #Microsoft
 i1.services.social.microsoft.com #Microsoft
-watson.microsoft.com #Microsoft
+ls2web.redmond.corp.microsoft.com #Microsoft
 redir.metaservices.microsoft.com #Microsoft
+spynet2.microsoft.com #Microsoft
+spynetalt.microsoft.com #Microsoft
 support.microsoft.com #Microsoft
 statsfe1.ws.microsoft.com #Microsoft
 statsfe2.ws.microsoft.com #Microsoft
 sts.microsoft.com #Microsoft
 telemetry.microsoft.com #Microsoft
 telemetry.urs.microsoft.com #Microsoft
+watson.microsoft.com #Microsoft
 cds26.ams9.msecnd.net #Microsoft
 vo.msecnd.net #Microsoft
 ac3.msn.com #Microsoft
@@ -9355,9 +9363,9 @@ analytics.faw.sky.com
 smetrics.sky.com
 apps.skype.com #Microsoft
 pricelist.skype.com #Microsoft
-ui.skype.com #Microsoft
 webtrends.telegraph.co.uk
 analytics.twitter.com #Twitter
+feedback.windows.com #Microsoft
 analytics.yahoo.com
 ads.yahoo.com
 geo.query.yahoo.com
