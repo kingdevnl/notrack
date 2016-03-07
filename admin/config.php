@@ -612,15 +612,13 @@ if (isset($_GET['action'])) {
       ExecAction('delete-history', true);
       DisplayConfigChoices();
       break;
-    case 'blacklist':
+    case 'black':
       LoadBlackList();
-      UpdateCustomList('BlackList');
-      DisplayCustomList('black');
+      UpdateCustomList('BlackList');      
       break;      
-    case 'whitelist':
+    case 'white':
       LoadWhiteList();
-      UpdateCustomList('WhiteList');
-      DisplayCustomList('white');
+      UpdateCustomList('WhiteList');      
       break;
       
   }
