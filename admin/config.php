@@ -26,7 +26,7 @@ require('./include/global-functions.php');
 LoadConfigFile();
 //include('./include/topmenu.php');
 
-$List=array();
+$List = array();               //Global array for all the Block Lists
 
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
@@ -77,7 +77,7 @@ function WriteLI($Character, $Start, $Active, $View) {
   echo "$Character</a></li>\n";  
   return null;
 }
-//-------------------------------------------------------------------
+//Checked returns Checked if Variable is true------------------------
 function Checked($Var) {
   if ($Var == 1) return ' checked="checked"';
   return '';
@@ -94,7 +94,11 @@ function Filter_Config($Str) {
 }
 //-------------------------------------------------------------------
 function LoadSiteList() {
-//Blocklist is held in Memcache for 10 minutes
+//This function is susceptible to race condition:
+//If the User changes the BlockLists and switches to this view while NoTrack is processing $FileBlockingCSV is incomplete.
+//To combat this race condition Lists below 100 lines aren't stored in Memcache.
+//Large lists are held in Memcache for 5 minutes
+
   global $FileBlockingCSV, $List, $Mem;
   
   ///////////////////////////////////////////////////////////////////
@@ -121,7 +125,9 @@ function LoadSiteList() {
     }
     
     fclose($FileHandle);
-    $Mem->set('SiteList', $List, 0, 600);
+    if (count($List) > 100) {  //Only store decent size list in Memcache
+      $Mem->set('SiteList', $List, 0, 240);      //4 Minutes
+    }
   }
   return null;
 }
@@ -145,7 +151,7 @@ function LoadBlackList() {
       }
     }  
     fclose($FileHandle);  
-    $Mem->set('BlackList', $List, 0, 600);
+    $Mem->set('BlackList', $List, 0, 60);
   }
   return null;
 }
@@ -165,11 +171,12 @@ function LoadWhiteList() {
         }
         else {
           $List[] = Array(trim($Seg[0]), $Seg[1], true);
-        }        
+        }
       }
     }  
-    fclose($FileHandle);  
-    $Mem->set('WhiteList', $List, 0, 600);
+    fclose($FileHandle);
+    
+    $Mem->set('WhiteList', $List, 0, 60);
   }
   return null;
 }
@@ -327,8 +334,13 @@ function DisplaySiteList() {
   echo "</div>\n";
   
   echo '<div class="sys-group">';
-  //echo '<form action="?" method="get">';         //Block Lists
-  //echo '<input type="hidden" name="action" value="sites">';
+  
+  if ($ListSize == 0) {
+    echo 'No sites found in Block List'."\n";
+    echo '</div>';
+    return;
+  }
+  
   echo '<table id="block-table">'."\n";
   
   $i = $StartPoint;
@@ -558,8 +570,6 @@ function WriteTmpConfig() {
 }
 //Main---------------------------------------------------------------
 
-
-
 $SearchStr = '';
 if ($_GET['s']) {
   //Allow only characters a-z A-Z 0-9 ( ) . _ - and \whitespace
@@ -578,12 +588,13 @@ if (isset($_POST['action'])) {
       WriteTmpConfig();
       ExecAction('update-config', false);
       ExecAction('run-notrack', true, true);
+      $Mem->delete('SiteList');
       echo "<pre>\n";
       echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
       echo 'Updating Blocklists in background</pre>';
       break;
     default:
-      echo 'Unkown POST action';
+      echo 'Unknown POST action';
       die();
   }
 }
