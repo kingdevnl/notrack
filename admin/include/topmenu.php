@@ -37,7 +37,7 @@ if (isset($_GET['a'])) {
 
 LoadConfigFile();
 
-if ($_SERVER['PHP_SELF'] == '/admin/index.php') {
+if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php only
   echo '<div id="menu-top"><div id="menu-logo">'."\n";
   echo '<a href="../admin/"><img src="./svg/ntrklogo2.svg" alt=""></a></div>'."\n";
   echo '<div id="menu-top-right">'."\n";
