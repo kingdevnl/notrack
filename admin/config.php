@@ -10,32 +10,90 @@
 
 <body>
 <div id="main">
+<nav><div id="main-menu">
+  <a href="../admin"><span class="pictext"><img src="./svg/menu_home.svg" alt=""></span></a>
+  <a href="../admin/config.php"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">General</span></span></a>
+  <a href="../admin/config.php?v=blocks"><span class="pictext"><img src="./svg/menu_blocklists.svg" alt=""><span class="dtext">Block Lists</span></span></a>
+  <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">Black List</span></span></a>
+  <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">White List</span></span></a>
+  <!--<a href="../admin/config.php?v=tldblack"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">TLD Black </span></span></a>
+  <a href="../admin/config.php?v=tldwhite"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">TLD White </span></span></a> -->
+  <a href="../admin/config.php?v=sites"><span class="pictext"><img src="./svg/menu_sites.svg" alt=""><span class="dtext">Sites Blocked</span></span></a>
+</div></nav>
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-$CurTopMenu = 'config';
-include('./include/topmenu.php');
-echo "<h1>NoTrack Config</h1>\n";
+LoadConfigFile();
+//include('./include/topmenu.php');
 
 $List=array();
 
+//Add GET Var to Link if Variable is used----------------------------
+function AddGetVar($Var) {
+  global $RowsPerPage, $SearchStr, $StartPoint;
+  switch ($Var) {
+    case 'C':
+      if ($RowsPerPage != 500) return '&amp;c='.$RowsPerPage;
+      break;
+    case 'S':
+      if ($SearchStr != '') return '&amp;s='.$SearchStr;
+      break;
+    case 'Start':
+      if ($StartPoint != 1) return '&amp;start='.$StartPoint;
+      break;
+    default:
+      echo 'Invalid option in AddGetVar';
+      die();
+  }
+  return '';
+}
+//Add Hidden Var to Form if Variable is used-------------------------
+function AddHiddenVar($Var) {
+  global $RowsPerPage, $SearchStr, $StartPoint;
+  switch ($Var) {
+    case 'C':
+      if ($RowsPerPage != 500) return '<input type="hidden" name="c" value="'.$RowsPerPage.'" />';
+      break;
+    case 'S':
+      if ($SearchStr != '') '<input type="hidden" name="s" value="'.$SearchStr.'" />';
+      break;
+    case 'Start':
+      if ($StartPoint != 1) return '<input type="hidden" name="start" value="'.$StartPoint.'" />';
+      break;
+    default:
+      echo 'Invalid option in AddHiddenVar';
+      die();
+  }
+  return '';
+}
+//WriteLI Function for Pagination Boxes-------------------------------
+function WriteLI($Character, $Start, $Active, $View) {
+  if ($Active) {
+    echo '<li class="active"><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">';
+  }
+  else {
+    echo '<li><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">';
+  }  
+  echo "$Character</a></li>\n";  
+  return null;
+}
 //-------------------------------------------------------------------
 function Checked($Var) {
   if ($Var == 1) return ' checked="checked"';
-  else return '';
+  return '';
 }
-//Filter Config GET--------------------------------------------------
+//Filter Config POST-------------------------------------------------
 function Filter_Config($Str) {
   //Range: on or nothing
   //On = Return 1
   //Else = Return 0
-  if (isset($_GET[$Str])) {
-    if ($_GET[$Str] == 'on') return 1;    
+  if (isset($_POST[$Str])) {    
+    if ($_POST[$Str] == 'on') return 1;    
   }
   return 0;
 }
 //-------------------------------------------------------------------
-function LoadBlockList() {
+function LoadSiteList() {
 //Blocklist is held in Memcache for 10 minutes
   global $FileBlockingCSV, $List, $Mem;
   
@@ -55,15 +113,15 @@ function LoadBlockList() {
   }
   ///////////////////////////////////////////////////////////////////
   
-  $List = $Mem->get('TrackerBlockList');
-  if (! $TrackerBlockList) {
+  $List = $Mem->get('SiteList');
+  if (! $List) {    
     $FileHandle = fopen($FileBlockingCSV, 'r') or die('Error unable to open '.$FileBlockingCSV);
     while (!feof($FileHandle)) {
       $List[] = fgetcsv($FileHandle);
     }
     
     fclose($FileHandle);
-    $Mem->set('TrackerBlockList', $TrackerBlockList, 0, 600);
+    $Mem->set('SiteList', $List, 0, 600);
   }
   return null;
 }
@@ -83,8 +141,7 @@ function LoadBlackList() {
         }
         else {
           $List[] = Array(trim($Seg[0]), $Seg[1], true);
-        }
-        #echo $Line.'<br />';
+        }        
       }
     }  
     fclose($FileHandle);  
@@ -108,8 +165,7 @@ function LoadWhiteList() {
         }
         else {
           $List[] = Array(trim($Seg[0]), $Seg[1], true);
-        }
-        #echo $Line.'<br />';
+        }        
       }
     }  
     fclose($FileHandle);  
@@ -118,8 +174,61 @@ function LoadWhiteList() {
   return null;
 }
 //-------------------------------------------------------------------
-function DisplayCustomList() {
-  global $List, $SearchStr, $View;
+function DisplayBlockLists() {
+  global $Config;
+
+  echo '<form action="?v=blocks" method="post">';         //Block Lists
+  echo '<input type="hidden" name="action" value="blocklists">';
+  DrawSysTable('Block Lists');  
+  
+  DrawSysRow('NoTrack', '<input type="checkbox" name="bl_notrack"'.Checked($Config['BlockList_NoTrack']).'> Default List, containing mixture of Trackers and Ad sites.');
+   
+  DrawSysRow('Top Level Domain', '<input type="checkbox" name="bl_tld"'.Checked($Config['BlockList_TLD']).'> Whole country and generic domains.');
+  
+  DrawSysRow('AdBlock Plus EasyList', '<input type="checkbox" name="bl_easylist"'.Checked($Config['BlockList_EasyList']).'> Utilises a small portion of the list to block entire Ad domains.');
+  
+  DrawSysRow('EasyPrivacy', '<input type="checkbox" name="bl_easyprivacy"'.Checked($Config['BlockList_EasyPrivacy']).'> Supplementary list from AdBlock Plus to protect personal data.');
+  
+  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="bl_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'> Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
+  
+  DrawSysRow('hpHosts', '<input type="checkbox" name="bl_hphosts"'.Checked($Config['BlockList_hpHosts']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
+  
+  DrawSysRow('Malware Domains', '<input type="checkbox" name="bl_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'> A good list to add.');
+                                                                   
+  DrawSysRow('PglYoyo', '<input type="checkbox" name="bl_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'> Ad sites, a few are already in NoTrack.');
+  
+  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="bl_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'> Mixture of Shock and Ad sites.');
+
+  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="bl_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
+  
+  echo "</table><br />\n";
+  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
+  echo "</div></div></form>\n";
+  
+  return null;
+}
+//-------------------------------------------------------------------
+function DisplayConfigChoices() {
+  global $Config;
+  
+  echo '<form action="?" method="get">';         //Web Server
+  echo '<input type="hidden" name="action" value="webserver">';
+  DrawSysTable('Web Server');  
+  if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked>1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message">Message - Blocked by NoTrack<br />');
+  else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked>Message - Blocked by NoTrack<br />');
+  echo "</table><br />\n";
+  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
+  echo "</div></div></form>\n";
+    
+  DrawSysTable('History');
+  DrawSysRow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
+  echo "</table></div></div>\n";
+
+  return null;
+}
+//-------------------------------------------------------------------
+function DisplayCustomList($View) {
+  global $List, $SearchStr;
   
   echo '<div class="sys-group">';
   echo '<div class="centered"><br />'."\n";
@@ -167,102 +276,162 @@ function DisplayCustomList() {
   echo "</div></div>\n";  
 }
 //-------------------------------------------------------------------
-function DisplayBlockList() {
-  global $List, $SearchStr;
+function DisplaySiteList() {
+  global $List, $SearchStr, $StartPoint, $RowsPerPage;
+  
+  //1. Check if a Search has been made
+  //2a. Loop through List doing a strpos check to see if search string exists in List[x][0] (site name)
+  //2b. Copy items to a Temp Array
+  //2c. Copy Temp array back to List
+  //2d. Delete Temp array
+  //3. Draw page
+  
+  if ($SearchStr != '') {                        //Is user searching?
+    $TempArray = array();
+    foreach ($List as $Site) {                   //Go through array
+      if (strpos($Site[0], $SearchStr) !== false) {
+        $TempArray[] = $Site;                    //Copy matching string to temp array
+      }
+    }
+    $List = $TempArray;                          //Copy temp array to List
+    unset($TempArray);                           //Delete temp array
+  }
+  
+  $ListSize = count($List);
+  
+  if ($List[$ListSize-1][0] == '') {             //Last line is sometimes blank
+    array_splice($List, $ListSize-1);            //Cut last line out
+  }
+  
+  if ($StartPoint >= $ListSize) $StartPoint = 1; //Start point can't be greater than the list size
+  
+  if ($RowsPerPage < $ListSize) {                //Slice array if it's larger than RowsPerPage
+    $List = array_slice($List, $StartPoint, $RowsPerPage);
+  }
   
   echo '<div class="sys-group">';
-  echo '<div class="centered"><br />'."\n";
+  echo '<div class="centered">'."\n";
   echo '<form action="?" method="get">';
-  echo '<input type="hidden" name="v" value="blocklist">';
+  echo '<input type="hidden" name="v" value="sites">';
+  echo AddHiddenVar('C');
+  
   if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
   else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
   echo "</form></div>\n";
   
-  echo '<div class="row"><br />'."\n";
-  echo '<form action="?" method="get">';         //Block Lists
-  echo '<input type="hidden" name="action" value="sites">';
+  if ($ListSize > $RowsPerPage) {               //Is Pagination needed
+    echo '<br /><div class="row">';
+    DisplayPagination($ListSize, 'sites');
+    echo "</div>\n";
+  }
+  echo "</div>\n";
+  
+  echo '<div class="sys-group">';
+  //echo '<form action="?" method="get">';         //Block Lists
+  //echo '<input type="hidden" name="action" value="sites">';
   echo '<table id="block-table">'."\n";
-  $i = 1;
+  
+  $i = $StartPoint;
 
-  if ($SearchStr == '') {
-    foreach ($List as $Site) {
-      if ($Site[1] == 'Active') {
-        echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'."\n";
-      }
-      else {
-        echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'."\n";
-      }
-      $i++;
+  foreach ($List as $Site) {    
+    if ($Site[1] == 'Active') {
+      echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'."\n";
     }
-  }
-  else {
-    foreach ($List as $Site) {
-      if (strpos($Site[0], $SearchStr) !== false) {
-        if ($Site[1] == 'Active') {
-          echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'."\n";
-        }
-        else {
-          echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'."\n";
-        }
-      }
-      $i++;
+    else {
+      echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'."\n";
     }
+    $i++;
   }
+  
   echo "</table></div></div>\n";
-
+  
+  if ($ListSize > $RowsPerPage) {               //Is Pagination needed
+    echo '<div class="sys-group">';
+    DisplayPagination($ListSize, 'sites');
+    echo "</div>\n";
+  }
+  
+  return null;
 }
 //-------------------------------------------------------------------
-function DisplayConfigChoices() {
-  global $Config;
-  
-  echo '<form action="?" method="get">';         //Block Lists
-  echo '<input type="hidden" name="action" value="blocklists">';
-  DrawSysTable('Block Lists');  
-  
-  DrawSysRow('NoTrack', '<input type="checkbox" name="bl_notrack"'.Checked($Config['BlockList_NoTrack']).'> Default List, containing mixture of Trackers and Ad sites.');
-   
-  DrawSysRow('Top Level Domain', '<input type="checkbox" name="bl_tld"'.Checked($Config['BlockList_TLD']).'> Whole country and generic domains.');
-  
-  DrawSysRow('AdBlock Plus EasyList', '<input type="checkbox" name="bl_easylist"'.Checked($Config['BlockList_EasyList']).'> Utilises a small portion of the list to block entire Ad domains.');
-  
-  DrawSysRow('EasyPrivacy', '<input type="checkbox" name="bl_easyprivacy"'.Checked($Config['BlockList_EasyPrivacy']).'> Supplementary list from AdBlock Plus to protect personal data.');
-  
-  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="bl_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'> Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
-  
-  DrawSysRow('hpHosts', '<input type="checkbox" name="bl_hphosts"'.Checked($Config['BlockList_hpHosts']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
-  
-  DrawSysRow('Malware Domains', '<input type="checkbox" name="bl_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'> A good list to add.');
-                                                                   
-  DrawSysRow('PglYoyo', '<input type="checkbox" name="bl_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'> Ad sites, a few are already in NoTrack.');
-  
-  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="bl_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'> Mixture of Shock and Ad sites.');
+function DisplayPagination($LS, $View) {
+  global $RowsPerPage, $StartPoint;
 
-  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="bl_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
+  $ListSize = ceil($LS / $RowsPerPage);         //Calculate List Size
+  $CurPos = 0;
   
-  echo "</table><br />\n";
-  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
-  echo "</div></div></form>\n";
+  while ($CurPos < $ListSize) {                  //Find Current Page
+    $CurPos++;
+    if ($StartPoint < $CurPos * $RowsPerPage) {
+      break;					 //Leave loop when found
+    }
+  }
   
-  
-  echo '<form action="?" method="get">';         //Web Server
-  echo '<input type="hidden" name="action" value="webserver">';
-  DrawSysTable('Web Server');  
-  if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked>1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message">Message - Blocked by NoTrack<br />');
-  else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked>Message - Blocked by NoTrack<br />');
-  echo "</table><br />\n";
-  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
-  echo "</div></div></form>\n";
+  echo '<div class="pag-nav"><ul>'."\n";
   
   
-  DrawSysTable('History');
-  DrawSysRow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
-  echo "</table></div></div>\n";
+  if ($CurPos == 1) {                            //At the beginning display blank box
+    echo '<li><span>&nbsp;&nbsp;</span></li>';
+    echo "\n";
+    WriteLI('1', 0, true, $View);
+  }    
+  else {                                         // << Symbol & Print Box 1
+    WriteLI('&#x00AB;', $RowsPerPage * ($CurPos - 2), false, $View);
+    WriteLI('1', 0, false, $View);
+  }
 
-  return null;
+  if ($ListSize <= 4) {                          //Small Lists don't need fancy effects
+    for ($i = 2; $i <= $ListSize; $i++) {	 //List of Numbers
+      if ($i == $CurPos) {
+        WriteLI($i, $RowsPerPage * ($i - 1), true, $View);
+      }
+      else {
+        WriteLI($i, $RowsPerPage * ($i - 1), false, $View);
+      }
+    }
+  }
+  elseif ($ListSize > 4 && $CurPos == 1) {       // < [1] 2 3 4 T >
+    WriteLI('2', $RowsPerPage, false, $View);
+    WriteLI('3', $RowsPerPage * 2, false, $View);
+    WriteLI('4', $RowsPerPage * 3, false, $View);
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false, $View);
+  }
+  elseif ($ListSize > 4 && $CurPos == 2) {       // < 1 [2] 3 4 T >
+    WriteLI('2', $RowsPerPage, true, $View);
+    WriteLI('3', $RowsPerPage * 2, false, $View);
+    WriteLI('4', $RowsPerPage * 3, false, $View);
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false, $View);
+  }
+  elseif ($ListSize > 4 && $CurPos > $ListSize - 2) {// < 1 T-3 T-2 T-1 T > 
+    for ($i = $ListSize - 3; $i <= $ListSize; $i++) {//List of Numbers
+      if ($i == $CurPos) {
+        WriteLI($i, $RowsPerPage * ($i - 1), true, $View);
+      }
+      else {
+        WriteLI($i, $RowsPerPage * ($i - 1), false, $View);
+    	}
+      }
+    }
+  else {                                         // < 1 c-1 [c] c+1 T >
+    for ($i = $CurPos - 1; $i <= $CurPos + 1; $i++) {//List of Numbers
+      if ($i == $CurPos) {
+        WriteLI($i, $RowsPerPage * ($i - 1), true, $View);
+      }
+      else {
+        WriteLI($i, $RowsPerPage * ($i - 1), false, $View);
+      }
+    }
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false, $View);
+  }
+  
+  if ($CurPos < $ListSize) {                     // >> Symbol for Next
+    WriteLI('&#x00BB;', $RowsPerPage * $CurPos, false, $View);
+  }	
+  echo "</ul></div>\n";
 }
 //Update Block List Config-------------------------------------------
 function UpdateBlockListConfig() {
-  //Read and Filter values parsed from HTTP GET into the Config array  
+  //Read and Filter values parsed from HTTP POST into the Config array  
   //After this function WriteTmpConfig is run
   
   global $Config, $FileTmpConfig, $Mem;
@@ -278,7 +447,6 @@ function UpdateBlockListConfig() {
   $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
   $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
   
-  $Mem->delete('BlockList');
   //print_r($Config); 
   return null;
 }
@@ -371,41 +539,26 @@ function WriteTmpConfig() {
   //5. Delete Config Array out of Memcache, in order to force reload 
   
   global $Config, $FileTmpConfig, $Mem;
-  
+    
   $FileHandle = fopen($FileTmpConfig, 'w');      //Open temp config for writing
+  
   foreach ($Config as $Key => $Value) {          //Loop through Config array
-    if (($Key != 'Status') && ($Value != 'Enabled')) { 
-      fwrite($FileHandle, $Key.' = '.$Value."\n"); //Write Key & Value
+    if ($Key == 'Status') {
+      if ($Value != 'Enabled') {
+        fwrite($FileHandle, $Key.' = '.$Value."\n");//Write Key & Value
+      }
+    }
+    else {
+      fwrite($FileHandle, $Key.' = '.$Value."\n");  //Write Key & Value
     }
   }
   fclose($FileHandle);                           //Close file
   
-  $Mem->delete('Config');                        //Delete config from Memcache
+  $Mem->delete('Config');                        //Delete config from Memcache  
 }
 //Main---------------------------------------------------------------
 
-$View = 'config';
-if (isset($_GET['v'])) {
-  switch($_GET['v']) {
-    case 'config': $View = 'config'; break;
-    case 'blocklist': $View = 'blocklist'; break;
-    case 'blacklist': $View = 'blacklist'; break;
-    case 'whitelist': $View = 'whitelist'; break;
-  }
-}
-?>
-<div class="row"><div class="pag-nav"><ul>
-<li<?php if ($View=='config') echo ' class="active"';?>><a href="./config.php" title="General">General</a></li>
-<li<?php if ($View=='blacklist') echo ' class="active"';?>><a href="?v=blacklist" title="Black List">Black List</a></li>
-<li<?php if ($View=='whitelist') echo ' class="active"';?>><a href="?v=whitelist" title="White List">White List</a></li>
-<li<?php if ($View=='blocklist') echo ' class="active"';?>><a href="?v=blocklist" title="Blocking List">Blocking List</a></li>
-</ul></div></div>
-<div class="row"><br /></div>
 
-<?php
-/*<li<?php if ($View=='tldlist') echo ' class="active"';?>><a href="?v=tldlist" title="Top Level Domain Blocklist">TLD List</a></li> */
-
-LoadConfigFile();
 
 $SearchStr = '';
 if ($_GET['s']) {
@@ -414,19 +567,30 @@ if ($_GET['s']) {
   $SearchStr = strtolower($SearchStr);  
 }
 
-if (isset($_GET['action'])) {
-  switch($_GET['action']) {
+$StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
+
+$RowsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500); //Rows per page
+
+if (isset($_POST['action'])) {
+  switch($_POST['action']) {
     case 'blocklists':
       UpdateBlockListConfig();
       WriteTmpConfig();
       ExecAction('update-config', false);
-      ExecAction('run-notrack', false);
+      ExecAction('run-notrack', true, true);
       echo "<pre>\n";
       echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
-      echo 'Updating Blocklists in background</pre>';      
-      exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
-      DisplayConfigChoices();
+      echo 'Updating Blocklists in background</pre>';
       break;
+    default:
+      echo 'Unkown POST action';
+      die();
+  }
+}
+  
+
+if (isset($_GET['action'])) {
+  switch($_GET['action']) {    
     case 'webserver':
       UpdateWebserverConfig();
       WriteTmpConfig();
@@ -440,37 +604,52 @@ if (isset($_GET['action'])) {
     case 'blacklist':
       LoadBlackList();
       UpdateCustomList('BlackList');
-      DisplayCustomList();
+      DisplayCustomList('black');
       break;      
     case 'whitelist':
       LoadWhiteList();
       UpdateCustomList('WhiteList');
-      DisplayCustomList();
+      DisplayCustomList('white');
       break;
       
   }
 }
-else {
-  switch($View) {
+
+if (isset($_GET['v'])) {
+  switch($_GET['v']) {
     case 'config':
       DisplayConfigChoices();
       break;
-    case 'blocklist':
-      LoadBlockList();
-      DisplayBlockList();
+    case 'blocks':
+      DisplayBlockLists();
       break;
-    case 'blacklist':
+    case 'black':
       LoadBlackList();
-      DisplayCustomList();
+      DisplayCustomList('black');
       break;
-    case 'whitelist':
+    case 'white':
       LoadWhiteList();
-      DisplayCustomList();
+      DisplayCustomList('white');
+      break;
+    case 'tldblack':
+      //LoadTLDBlackList();
+      DisplayCustomList('tldblack');
+      break;
+    case 'tldwhite':
+      //LoadTLDWhiteList();
+      DisplayCustomList('tldwhite');
+      break;
+    case 'sites':
+      LoadSiteList();
+      DisplaySiteList();
       break;
     default:
       DisplayConfigChoices();
       break;
   }
+}
+else {
+  DisplayConfigChoices();
 }
 
 ?> 
@@ -498,9 +677,7 @@ function DeleteSite(RowNum) {
   window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=del&row='+RowNum, "_self");
 }
 function ChangeSite(Item) {
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=cng&site='+Item.name+'&status='+Item.checked, "_self");
-  //alert(Item.checked);
-  //alert(Item.name);
+  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=cng&site='+Item.name+'&status='+Item.checked, "_self");  
 }
 </script>
 </body>
