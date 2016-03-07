@@ -1,5 +1,5 @@
-#List of Ad files last updated 06 Mar 2016
-#LatestVersion 0.7.4
+#List of Ad files last updated 07 Mar 2016
+#LatestVersion 0.7.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -9311,15 +9311,18 @@ m.hotmail.com #Microsoft
 metrics.ikea.com #Ikea
 adverts.itv.com #ITV
 traffic.jackpot247.com #Jackpot247
+g.live.com #Microsoft
 rad.live.com #Microsoft
 ssw.live.com #Microsoft
 watson.live.com #Microsoft
 s.gateway.messenger.live.com #Microsoft
+inference.location.live.net #Microsoft
 marketing.lloydsbank.co.uk
 bingads.microsoft.com #Microsoft
 choice.microsoft.com #Microsoft
 data.microsoft.com #Microsoft
 diagnostics.support.microsoft.com #Microsoft
+dl.delivery.mp.microsoft.com #Microsoft
 dmd.metaservices.microsoft.com	
 feedback.search.microsoft.com #Microsoft
 geo-prod.do.dsp.mp.microsoft.com #Microsoft
@@ -9342,6 +9345,7 @@ ac3.msn.com #Microsoft
 ads.msn.com #Microsoft
 ads1.msn.com #Microsoft
 ads2.msn.com #Microsoft
+arc.msn.com #Microsoft
 c.msn.com #Microsoft
 flex.msn.com #Microsoft
 g.msn.com #Microsoft
@@ -9362,6 +9366,8 @@ pixel.redditmedia.com
 analytics.faw.sky.com
 smetrics.sky.com
 apps.skype.com #Microsoft
+b.config.skype.com #Microsoft
+pipe.skype.com #Microsoft
 pricelist.skype.com #Microsoft
 webtrends.telegraph.co.uk
 analytics.twitter.com #Twitter

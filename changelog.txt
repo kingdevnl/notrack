@@ -1,3 +1,10 @@
+v0.7.5 alpha
+20 newly identified MS spying domains added to block list.
+Fixed Bug with blocklists not saving (introduced when Pause feature was added).
+Reduced impact of race condition when viewing Sites Blocked while NoTrack is processing Block Lists.
+New Style Config page.
+Pagination added to Sites Blocked list (Issue #23).
+
 v0.7.4 alpha
 Fixed Issue #28 - Network connection disabled in Windows
 Sites can now be Blocked from Stats page (Issue #27)
@@ -31,36 +38,3 @@ Improved Styling for mobile users on Index page.
 Video tutorial added to DHCP page.
 Corrected mistake with Table Row colours in the CSS.
 Installer now adds NoTrack device to Local hosts file.
-
-v0.6.2 alpha
-Added description next to each Blocklist on Config page
-Replaced progress dots in NoTrack script with Percent indicator
-Swapped EasyList to EasyList without element hiding
-Option for EasyPrivacy Blocklist
-Typo fixed on System Information page (Issue #15)
-Work in progress on new Blocklist page
-
-v0.6.1 alpha
-Option for AdBlock+ EasyList Blocklist
-Option for AdBlock Manager Blocklist
-Option for hpHosts Blocklist
-Option for Malware Domains Blocklist
-Option for PglYoyo Blocklist
-Option for Someone Who Cares Blocklist
-Option for Winhelp 2002 Blocklist
-Option to turn off NoTrack Blocklist
-Option to turn off TLD Blocklist
-
-Known issues: Winhelp 2002 Blocklist is very slow to add.
-More EasyLists are due to be added in the next version
-
-v0.6 alpha
-New Config page (Issue #4).
-New System Info page.
-New script file ntrk-exec, carries out commands from Admin webpage with root privileges.
-Lighttpd and PHP remain running at www-data with non-root privileges.
-Choice of options available added to blocked pages (Issue #1).
-Top Level Domain blocklist can be disabled.
-Purge History added to Config page.
-A-Z pagination removed from Blocklist page.
-Improved error checking.
