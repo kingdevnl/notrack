@@ -1,5 +1,5 @@
 #List of Ad files last updated 07 Mar 2016
-#LatestVersion 0.7.5
+#LatestVersion 0.7.6
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -783,6 +783,7 @@ integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
 intellitxt.com
+intenta.io
 intentiq.com
 intentmedia.net
 interclick.com
@@ -798,6 +799,7 @@ ist-track.com
 iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 jisusaiche.com
+jpush.io
 jmxded110.net
 jumptap.com #Jumptap
 jumptime.com #OpenX
@@ -8622,6 +8624,7 @@ oasnexus.net #AppNexus Inc
 oclaserver.com
 octonet.com
 offpageads.com
+officemart.ru
 ofnsv69.com #Lead Forensics
 ojrq.net #Impact Radius
 oileddaintiessunset.info
@@ -9299,8 +9302,9 @@ ooyala.com.edgekey.net
 ads.ebay.com
 stats.ebay.com
 pixel.facebook.com
-stats.ft.com
-track.ft.com
+stats.ft.com #Financial Times
+track.ft.com #Financial Times
+collector.githubapp.com #Git
 ad.groupon.co.uk
 partner-ts.groupon.co.uk
 metric.gstatic.com #Google

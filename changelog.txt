@@ -1,3 +1,8 @@
+v0.7.6 alpha
+New style Blocklist page, ready for new 3rd party Blocklists to be added
+Fixed broked links from stats.js -> config.php
+Fixed Issue #32 duplicate options on config change
+
 v0.7.5 alpha
 20 newly identified MS spying domains added to block list.
 Fixed Bug with blocklists not saving (introduced when Pause feature was added).
