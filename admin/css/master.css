@@ -399,8 +399,17 @@ tr.dark {
   text-align: right;
   font-weight: bold;
 }
-.sys-table td:nth-child(2) {
+.sys-table th:nth-child(1) {
+  width: 25%;
+  text-align: left;
+  background: #999;
+  padding-left: 0.5em;
+}
+.sys-table td:nth-child(2), .sys-table th:nth-child(2) {
   width: 70%;
+}
+.sys-table a {
+  font-size: 0.7em;
 }
 /*Main Menu*********************************************************/
 #menu-top {
