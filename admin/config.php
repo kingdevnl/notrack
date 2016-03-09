@@ -79,8 +79,22 @@ function WriteLI($Character, $Start, $Active, $View) {
 }
 //Checked returns Checked if Variable is true------------------------
 function Checked($Var) {
+//Remove this function
   if ($Var == 1) return ' checked="checked"';
   return '';
+}
+//Draw BlockList Row-------------------------------------------------
+function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
+  global $Config;
+  
+  if ($Config[$ConfBL] == 0) {
+    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'."\n";
+  }
+  else {
+    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'" checked="checked"> '.$Msg.'</td></tr>'."\n";    
+  }
+  
+  return null;
 }
 //Filter Config POST-------------------------------------------------
 function Filter_Config($Str) {
@@ -117,8 +131,10 @@ function LoadSiteList() {
   }
   ///////////////////////////////////////////////////////////////////
   
-  $List = $Mem->get('SiteList');
-  if (! $List) {    
+  //$List = $Mem->get('SiteList');
+  
+  if (! $List) {
+    $List[] = array('Null', 'Active', 'Null');  //Bump start point to 1
     $FileHandle = fopen($FileBlockingCSV, 'r') or die('Error unable to open '.$FileBlockingCSV);
     while (!feof($FileHandle)) {
       $List[] = fgetcsv($FileHandle);
@@ -188,27 +204,34 @@ function DisplayBlockLists() {
   echo '<input type="hidden" name="action" value="blocklists">';
   DrawSysTable('Block Lists');  
   
-  DrawSysRow('NoTrack', '<input type="checkbox" name="bl_notrack"'.Checked($Config['BlockList_NoTrack']).'> Default List, containing mixture of Trackers and Ad sites.');
-   
-  DrawSysRow('Top Level Domain', '<input type="checkbox" name="bl_tld"'.Checked($Config['BlockList_TLD']).'> Whole country and generic domains.');
+  DrawBlockListRow('bl_notrack', 'BlockList_NoTrack', 'NoTrack', 'Default List, containing mixture of Trackers and Ad sites.'); 
   
-  DrawSysRow('AdBlock Plus EasyList', '<input type="checkbox" name="bl_easylist"'.Checked($Config['BlockList_EasyList']).'> Utilises a small portion of the list to block entire Ad domains.');
+  DrawBlockListRow('bl_tld', 'BlockList_TLD', 'Top Level Domain', 'Whole country and generic domains.');
   
-  DrawSysRow('EasyPrivacy', '<input type="checkbox" name="bl_easyprivacy"'.Checked($Config['BlockList_EasyPrivacy']).'> Supplementary list from AdBlock Plus to protect personal data.');
+  echo '<tr><th colspan="2">Ad Block</th></tr>';
+  DrawBlockListRow('bl_easylist', 'BlockList_EasyList', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
-  DrawSysRow('AdBlock Manager', '<input type="checkbox" name="bl_adblockmanager"'.Checked($Config['BlockList_AdBlockManager']).'> Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
+  DrawBlockListRow('bl_pglyoyo', 'BlockList_PglYoyo', 'Peter Lowe’s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
   
-  DrawSysRow('hpHosts', '<input type="checkbox" name="bl_hphosts"'.Checked($Config['BlockList_hpHosts']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
+  DrawBlockListRow('bl_adblockmanager', 'BlockList_AdBlockManager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   
-  DrawSysRow('Malware Domains', '<input type="checkbox" name="bl_malwaredomains"'.Checked($Config['BlockList_MalwareDomains']).'> A good list to add.');
-                                                                   
-  DrawSysRow('PglYoyo', '<input type="checkbox" name="bl_pglyoyo"'.Checked($Config['BlockList_PglYoyo']).'> Ad sites, a few are already in NoTrack.');
+  echo '<tr><th colspan="2">Privacy</th></tr>';
+  DrawBlockListRow('bl_easyprivacy', 'BlockList_EasyPrivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
-  DrawSysRow('Someone Who Cares', '<input type="checkbox" name="bl_someonewhocares"'.Checked($Config['BlockList_SomeoneWhoCares']).'> Mixture of Shock and Ad sites.');
-
-  DrawSysRow('WinHelp 2002', '<input type="checkbox" name="bl_winhelp2002"'.Checked($Config['BlockList_Winhelp2002']).'> Very inefficient list containing multiple subdomains for known Ad sites.');
+  echo '<tr><th colspan="2">Malware domains</th></tr>';
+  DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
+  
+  echo '<tr><th colspan="2">Social</th></tr>';
+  
+  echo '<tr><th colspan="2">Multipurpose</th></tr>';
+  DrawBlockListRow('bl_someonewhocares', 'BlockList_SomeoneWhoCares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts/">(someonewhocares.org)</a>');
+  
+  DrawBlockListRow('hpHosts', 'BlockList_hpHosts', 'hpHosts', 'Very inefficient list <a href="http://hosts-file.net/"</a>(hosts-file.net)</a>');
+                                             
+  DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
   echo "</table><br />\n";
+  
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
   echo "</div></div></form>\n";
   
@@ -218,7 +241,7 @@ function DisplayBlockLists() {
 function DisplayConfigChoices() {
   global $Config;
   
-  echo '<form action="?" method="get">';         //Web Server
+  echo '<form action="?" method="post">';        //Web Server
   echo '<input type="hidden" name="action" value="webserver">';
   DrawSysTable('Web Server');  
   if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked>1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message">Message - Blocked by NoTrack<br />');
@@ -466,8 +489,8 @@ function UpdateBlockListConfig() {
 function UpdateWebserverConfig() {
   global $Config;
   
-  if (isset($_GET['block'])) {
-    switch ($_GET['block']) {
+  if (isset($_POST['block'])) {
+    switch ($_POST['block']) {
       case 'pixel':
         $Config['BlockMessage'] = 'pixel';
         ExecAction('blockmsg-pixel', false);
@@ -593,6 +616,11 @@ if (isset($_POST['action'])) {
       echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
       echo 'Updating Blocklists in background</pre>';
       break;
+    case 'webserver':      
+      UpdateWebserverConfig();
+      WriteTmpConfig();
+      ExecAction('update-config', true, true);
+      break;    
     default:
       echo 'Unknown POST action';
       die();
@@ -601,13 +629,7 @@ if (isset($_POST['action'])) {
   
 
 if (isset($_GET['action'])) {
-  switch($_GET['action']) {    
-    case 'webserver':
-      UpdateWebserverConfig();
-      WriteTmpConfig();
-      ExecAction('update-config', true);
-      DisplayConfigChoices();
-      break;
+  switch($_GET['action']) {
     case 'delete-history':
       ExecAction('delete-history', true);
       DisplayConfigChoices();
