@@ -43,22 +43,22 @@ function ReportSite(Site, Remove) {
     Report = '<a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain';
     
     if (SplitLength == 2) {                      //Single domain
-      Block1 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';      
+      Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';      
     }
     else {     
       if (SplitLength >= 3) {                    //Three or more splits maybe a .co domain
         if (Split[SplitLength-2] == "co") {      //Is it a .co domain?
   	  if (SplitLength == 3) {                //Single domain
-	    Block1 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';
+	    Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';
 	  }
 	  else if (SplitLength > 3) {            //Dealing with a .co domain with subdomains
-	    Block1 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1];
-	    Block2 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
+	    Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1];
+	    Block2 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
 	  }
         }
         else {                                   //Dealing with a non .co domain with subdomains
-	  Block1 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-2]+'.'+Split[SplitLength-1];
-	  Block2 = '<a class="button-blue" href=" ./config.php?v=blacklist&action=blacklist&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
+	  Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-2]+'.'+Split[SplitLength-1];
+	  Block2 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
 	}
       }
     }
