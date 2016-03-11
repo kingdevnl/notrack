@@ -35,7 +35,7 @@ echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div cla
 
 //DHCP Systems
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc /var/lib/misc/dnsmasq.leases | cut -d\  -f 3'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'."\n";
+  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'."\n";
 }
 else {
   echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>N/A</h3></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'."\n";
