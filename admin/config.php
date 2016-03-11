@@ -134,7 +134,7 @@ function LoadSiteList() {
   //$List = $Mem->get('SiteList');
   
   if (! $List) {
-    $List[] = array('Null', 'Active', 'Null');  //Bump start point to 1
+    //$List[] = array('Null', 'Active', 'Null');  //Bump start point to 1
     $FileHandle = fopen($FileBlockingCSV, 'r') or die('Error unable to open '.$FileBlockingCSV);
     while (!feof($FileHandle)) {
       $List[] = fgetcsv($FileHandle);
@@ -211,22 +211,27 @@ function DisplayBlockLists() {
   echo '<tr><th colspan="2">Ad Block</th></tr>';
   DrawBlockListRow('bl_easylist', 'BlockList_EasyList', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
-  DrawBlockListRow('bl_pglyoyo', 'BlockList_PglYoyo', 'Peter Lowe’s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
+  DrawBlockListRow('bl_pglyoyo', 'BlockList_PglYoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
   
   DrawBlockListRow('bl_adblockmanager', 'BlockList_AdBlockManager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   
   echo '<tr><th colspan="2">Privacy</th></tr>';
   DrawBlockListRow('bl_easyprivacy', 'BlockList_EasyPrivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
+  DrawBlockListRow('bl_fbenhanced', 'BlockList_FBEnhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
+    
   echo '<tr><th colspan="2">Malware domains</th></tr>';
   DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
   
   echo '<tr><th colspan="2">Social</th></tr>';
+  DrawBlockListRow('bl_fbannoyance', 'BlockList_FBAnnoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
+  
+  DrawBlockListRow('bl_fbsocial', 'BlockList_FBSocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz">(fanboy.co.nz)</a>');
   
   echo '<tr><th colspan="2">Multipurpose</th></tr>';
-  DrawBlockListRow('bl_someonewhocares', 'BlockList_SomeoneWhoCares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts/">(someonewhocares.org)</a>');
+  DrawBlockListRow('bl_someonewhocares', 'BlockList_SomeoneWhoCares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts">(someonewhocares.org)</a>');
   
-  DrawBlockListRow('hpHosts', 'BlockList_hpHosts', 'hpHosts', 'Very inefficient list <a href="http://hosts-file.net/"</a>(hosts-file.net)</a>');
+  DrawBlockListRow('hpHosts', 'BlockList_hpHosts', 'hpHosts', 'Very inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
                                              
   DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
@@ -473,9 +478,12 @@ function UpdateBlockListConfig() {
     
   $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
+  $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
   $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
   $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
-  $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
+  $Config['BlockList_FBAnnoyance'] = Filter_Config('bl_fbannoyance');
+  $Config['BlockList_FBEnhanced'] = Filter_Config('bl_fbenhanced');
+  $Config['BlockList_FBSocial'] = Filter_Config('bl_fbsocial');
   $Config['BlockList_hpHosts'] = Filter_Config('bl_hphosts');
   $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');
   $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');

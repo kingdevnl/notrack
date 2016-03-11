@@ -90,6 +90,9 @@ function LoadConfigFile() {
     if (!array_key_exists('BlockList_AdBlockManager', $Config)) $Config += array('BlockList_AdBlockManager' => 0);
     if (!array_key_exists('BlockList_EasyList', $Config)) $Config += array('BlockList_EasyList' => 0);
     if (!array_key_exists('BlockList_EasyPrivacy', $Config)) $Config += array('BlockList_EasyPrivacy' => 0);
+    if (!array_key_exists('BlockList_FBAnnoyance', $Config)) $Config += array('BlockList_FBAnnoyance' => 0);
+    if (!array_key_exists('BlockList_FBEnhanced', $Config)) $Config += array('BlockList_FBEnhanced' => 0);
+    if (!array_key_exists('BlockList_FBSocial', $Config)) $Config += array('BlockList_FBEnhanced' => 0);    
     if (!array_key_exists('BlockList_hpHosts', $Config)) $Config += array('BlockList_hpHosts' => 0);
     if (!array_key_exists('BlockList_MalwareDomains', $Config)) $Config += array('BlockList_MalwareDomains' => 0);
     if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);    

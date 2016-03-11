@@ -17,6 +17,9 @@ Config[blocklist_tld]=1
 Config[blocklist_adblockmanager]=0
 Config[blocklist_easylist]=0
 Config[blocklist_easyprivacy]=0
+Config[blocklist_fbannoyance]=0
+Config[blocklist_fbenhanced]=0
+Config[blocklist_fbsocial]=0
 Config[blocklist_hphosts]=0
 Config[blocklist_pglyoyo]=0
 Config[blocklist_someonewhocares]=0
@@ -39,11 +42,15 @@ URLList[tld]="http://quidsup.net/malicious-domains.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
 URLList[easyprivacy]="https://easylist-downloads.adblockplus.org/easyprivacy.txt"
+URLList[fbannoyance]="https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"
+URLList[fbenhanced]="https://www.fanboy.co.nz/enhancedstats.txt"
+URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
+
 
 #Global Variables----------------------------------------------------
 ChangesMade=0                                    #Number of Lists processed. If left at zero then Dnsmasq won't be restarted
@@ -146,6 +153,9 @@ Read_Config_File() {
           BlockList_AdBlockManager) Config[blocklist_adblockmanager]="$Value";;
           BlockList_EasyList) Config[blocklist_easylist]="$Value";;
           BlockList_EasyPrivacy) Config[blocklist_easyprivacy]="$Value";;
+          BlockList_FBAnnoyance) Config[blocklist_fbannoyance]="$Value";;
+          BlockList_FBEnhanced) Config[blocklist_fbenhanced]="$Value";;
+          BlockList_FBSocial) Config[blocklist_fbsocial]="$Value";;
           BlockList_hpHosts) Config[blocklist_hphosts]="$Value";;
           BlockList_MalwareDomains) Config[blocklist_malwaredomains]="$Value";;
           BlockList_PglYoyo) Config[blocklist_pglyoyo]="$Value";;
@@ -829,6 +839,9 @@ GetList "notrack" "notrack" 172800               #2 Days
 GetList "adblockmanager" "unix127" 604800        #7 Days
 GetList "easylist" "easylist" 345600             #4 Days
 GetList "easyprivacy" "easylist" 345600          #4 Days
+GetList "fbannoyance" "easylist" 172800          #2 Days
+GetList "fbenhanced" "easylist" 172800           #2 Days
+GetList "fbsocial" "easylist" 345600             #4 Days
 GetList "hphosts" "unix127" 345600               #4 Days
 GetList "malwaredomains" "plain" 345600          #4 Days
 GetList "pglyoyo" "plain" 345600                 #4 Days

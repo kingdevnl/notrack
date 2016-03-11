@@ -538,7 +538,7 @@ tr.dark {
 /*Home Nav**********************************************************/
 .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
   width: 23%;
-  margin: 0 0 1% 0.8%;
+  margin: 0 0 1% 0.7%;
   float: left; 
   border: 2px solid #111;
   border-radius: 8px;
@@ -583,7 +583,7 @@ span.filter {
   text-align: right;
   display: inline-block;  
 }
-@media only screen and (max-width:1400px), only screen and (max-device-width:1400px) {
+@media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {
   .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
     width: 46.5%;	
   }
