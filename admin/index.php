@@ -20,7 +20,7 @@ include('./include/topmenu.php');
 echo '<div class="row"><br />';
 
 //Tracker Blocklist
-echo '<a href="./config.php?v=blocklist"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat '.$FileBlockingCSV.' | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
+echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat '.$FileBlockingCSV.' | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'."\n";
 
 //TLD Blocklist
 if ($Config['BlockList_TLD'] == 1) {
