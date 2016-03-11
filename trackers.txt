@@ -408,6 +408,7 @@ clicktracks.com
 clickwindow.com #Digital Window
 clickwindow.net #Digital Window
 clixengine.com #Digital Window
+clksite.com #MyAdWise
 cloud-9751.com #Lead Forensics
 cloudapp.net #Markmonitor
 clusteredcloud.com #AppNexus Inc
@@ -877,6 +878,7 @@ marketo.net
 matheranalytics.com
 mathtag.com
 maxymiser.net
+mcstats.org
 mdotm.com #MdotM
 media.net #Yahoo
 media6degrees.com
@@ -8529,7 +8531,9 @@ mmstat.com
 mnetads.com #Yahoo
 moatads.com
 mobclix.com #Velti
+mobfactory.info
 mobile-ad-cloud.com #Smaato
+mobileapptracking.com
 mobiles2compare.com #Digital Window
 mobilesource.net #Digital Window
 mobiletracking.com #Impact Radius
@@ -8746,6 +8750,7 @@ pubexchange.com
 pulsemgr.com
 pump.to
 purplenile.com #eGain Corporation
+pvtraffic.com
 pwrads.net
 pxlsrv.com #AppNexus Inc
 pxlsrv.net #AppNexus Inc
@@ -9064,6 +9069,7 @@ tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
+toogle.com #Malicious Site
 topfox.co.uk
 tqlkg.com
 tqn.com
@@ -9242,6 +9248,7 @@ yellowdragonsoft.com #Adobe
 yieldify.com
 yieldlab.net
 yieldmanager.com
+yieldmo.com #Yieldmo
 yieldoptimizer.com
 yieldpartners.com
 yjtag.jp
@@ -9343,6 +9350,7 @@ sts.microsoft.com #Microsoft
 telemetry.microsoft.com #Microsoft
 telemetry.urs.microsoft.com #Microsoft
 watson.microsoft.com #Microsoft
+snoop.minecraft.net #Microsoft
 cds26.ams9.msecnd.net #Microsoft
 vo.msecnd.net #Microsoft
 ac3.msn.com #Microsoft
@@ -9367,8 +9375,9 @@ stats.pagefair.net
 cookiesv2.publiekeomroep.nl
 pixel.reddit.com
 pixel.redditmedia.com
-analytics.faw.sky.com
-smetrics.sky.com
+analytics.schoolwires.com
+analytics.faw.sky.com #Sky
+smetrics.sky.com #Sky
 apps.skype.com #Microsoft
 b.config.skype.com #Microsoft
 pipe.skype.com #Microsoft
