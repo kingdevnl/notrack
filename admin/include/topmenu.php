@@ -53,7 +53,6 @@ if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php on
   <a href="../admin/stats.php"><span class="pictext"><img src="./svg/menu_stats.svg" alt=""><span class="dtext">Domain Stats</span></span></a>
   <a href="../admin/dhcpleases.php"><span class="pictext"><img src="./svg/menu_dhcp.svg" alt=""><span class="dtext">DHCP</span></span></a>
   <a href="../admin/config.php"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">Config</span></span></a>
-  <a href="../admin/system.php"><span class="pictext"><img src="./svg/menu_info.svg" alt=""><span class="dtext">System Info</span></span></a>
   <a href="#" onclick="ShowOptions()"><span class="pictext rightpictext"><img src="./svg/menu_option.svg" alt=""><span class="dtext">Options</span></span></a>
 
 <?php
