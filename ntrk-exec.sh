@@ -36,6 +36,26 @@ Copy_WhiteList() {
     mv /tmp/whitelist.txt /etc/notrack/whitelist.txt    
   fi
 }
+#Copy TLD Black List-------------------------------------------------
+Copy_TLDBlackList() {
+  if [ -e "/tmp/tldblacklist.txt" ]; then
+    chown root:root /tmp/tldblacklist.txt
+    chmod 644 /tmp/tldblacklist.txt
+    echo "Copying /tmp/tldblacklist.txt to /etc/notrack/domain-blacklist.txt"
+    mv /tmp/tldblacklist.txt /etc/notrack/domain-blacklist.txt
+    echo
+  fi
+}
+#Copy TLD White List-------------------------------------------------
+Copy_TLDWhiteList() {
+  if [ -e "/tmp/tldwhitelist.txt" ]; then
+    chown root:root /tmp/tldwhitelist.txt
+    chmod 644 /tmp/tldwhitelist.txt
+    echo "Copying /tmp/tldwhitelist.txt to /etc/notrack/domain-whitelist.txt"
+    mv /tmp/tldwhitelist.txt /etc/notrack/domain-whitelist.txt    
+  fi
+}
+
 #Delete History------------------------------------------------------
 Delete_History() {
   echo "Deleting Log Files in /var/log/notrack"
@@ -132,14 +152,19 @@ fi
 
 Check_File_Exists "/tmp/ntrk-exec.txt"
 
-while read -r Line; do
-  #echo "$Line"
+while read -r Line; do  
   case "$Line" in
     copy-blacklist)
       Copy_BlackList
     ;;
     copy-whitelist) 
       Copy_WhiteList
+    ;;
+    copy-tldblacklist)
+      Copy_TLDBlackList
+    ;;
+    copy-tldwhitelist) 
+      Copy_TLDWhiteList
     ;;
     delete-history)
       Delete_History
@@ -185,6 +210,8 @@ while read -r Line; do
     run-notrack)
       notrack
     ;;
+    *)
+      echo "Invalid action $Line"
   esac
 done < /tmp/ntrk-exec.txt
 
