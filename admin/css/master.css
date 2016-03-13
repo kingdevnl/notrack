@@ -29,6 +29,11 @@ p.small {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
 }
+p.light {
+  margin: 0 0 0 0.5em;
+  font-size: 0.8rem;
+  color: grey;
+}
 img {
   border: none;
 }
@@ -447,13 +452,13 @@ tr.dark {
   margin: 0.4rem 0rem 0.3rem 0rem;
   float: left;
 }
-#main-menu span.pictext {
+span.pictext {
   line-height: 2.9rem;  
   float: left;
   padding: 0 0.4em;
   border-radius: 5px;
 }
-#main-menu span.rightpictext {
+span.rightpictext {
   float: right;  
 }
 #pause {
@@ -467,15 +472,15 @@ tr.dark {
 #dropbutton {
   display: inline-block;
 }
-#pause span.pbutton, #dropbutton {  
+span.pbutton, #dropbutton {  
   padding: 0.2rem 0.4rem;
   color: #008DC1;
   border-radius: 2px;
 }
-#pause span.pbutton {
+span.pbutton {
   font-weight: bold;
 }
-#pause span.timer {
+span.timer {
   background-color: #F1F1F1;
   margin-right: 0.2rem;
   padding: 0 0.1rem;
@@ -508,7 +513,15 @@ tr.dark {
   padding: 0.5rem 0 0.5rem 0.8rem;
   line-height: 1.1em;
 }
-@media only screen and (max-width:480px), only screen and (max-device-width:480px) {  
+@media only screen and (max-width:900px), only screen and (max-device-width:900px) {  /*Tablet view for Menu*/
+  .dtext {
+    display: none;
+  }
+  .pictext:hover .dtext {  /*Show text when hovering over picture*/
+    display: inline;    
+  }
+}
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {  /*Mobile view for Menu*/
   .row-mobile {
     display: inline;
   }
@@ -516,18 +529,18 @@ tr.dark {
     height: 4.8rem;
     font-size: 2rem;
   }
-  #main-menu span.dtext {
+  span.dtext {
     display: none;
   }
   #main-menu img {
     width: 4rem;
     height: 4rem;
   }
-  #main-menu span.pictext #main-menu span.rightpictext {
+  span.pictext span.rightpictext {
     padding: 0 1rem;
     height: 4.8rem;
   }  
-  #pause span.pbutton, #dropbutton {
+  span.pbutton, #dropbutton {
     font-size: 2.1rem;
     padding: 0 1rem;
   }
@@ -583,12 +596,12 @@ span.filter {
   text-align: right;
   display: inline-block;  
 }
-@media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {
+@media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {  /*Windowed view for Home Nav*/
   .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
     width: 46.5%;	
   }
 }
-@media only screen and (max-width:480px), only screen and (max-device-width:480px) {
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {   /*Mobile view for Home Nav*/
   .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
     width: 90%;    
     margin: 1em 4%;
@@ -664,8 +677,7 @@ span.filter {
   text-align: center;
   color: #00AAFD;
   border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  /*display: block;*/
+  border-top-right-radius: 5px;  
   margin-bottom: 1em;
 }
 #options {
