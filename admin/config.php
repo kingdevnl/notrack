@@ -1,10 +1,41 @@
+<?php
+require('./include/global-vars.php');
+require('./include/global-functions.php');
+LoadConfigFile();
+
+$List = array();               //Global array for all the Block Lists
+
+if (isset($_POST['action'])) {
+  switch($_POST['action']) {
+    case 'blocklists':
+      UpdateBlockListConfig();
+      WriteTmpConfig();
+      ExecAction('update-config', false);
+      ExecAction('run-notrack', true, true);
+      $Mem->delete('SiteList');                  //Delete Site Blocked from Memcache
+      sleep(1);                                  //Short pause to prevent race condition
+      header('Location: ?v=blocks');             //Reload page
+      break;
+    case 'webserver':      
+      UpdateWebserverConfig();
+      WriteTmpConfig();
+      ExecAction('update-config', true, true);      
+      header('Location: ?');
+      break;    
+    default:
+      echo 'Unknown POST action';
+      die();
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
-  <script src="./include/menu.js"></script>
+  <script src="./include/config.js"></script>
   <title>NoTrack - Config</title>  
 </head>
 
@@ -16,18 +47,12 @@
   <a href="../admin/config.php?v=blocks"><span class="pictext"><img src="./svg/menu_blocklists.svg" alt=""><span class="dtext">Block Lists</span></span></a>
   <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">Black List</span></span></a>
   <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">White List</span></span></a>
-  <!--<a href="../admin/config.php?v=tldblack"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">TLD Black </span></span></a>
-  <a href="../admin/config.php?v=tldwhite"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">TLD White </span></span></a> -->
+  <a href="../admin/config.php?v=tldblack"><span class="pictext"><img src="./svg/menu_tldblack.svg" alt=""><span class="dtext">TLD Black </span></span></a>
+  <a href="../admin/config.php?v=tldwhite"><span class="pictext"><img src="./svg/menu_tldwhite.svg" alt=""><span class="dtext">TLD White </span></span></a>
   <a href="../admin/config.php?v=sites"><span class="pictext"><img src="./svg/menu_sites.svg" alt=""><span class="dtext">Sites Blocked</span></span></a>
 </div></nav>
+
 <?php
-require('./include/global-vars.php');
-require('./include/global-functions.php');
-LoadConfigFile();
-//include('./include/topmenu.php');
-
-$List = array();               //Global array for all the Block Lists
-
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
   global $RowsPerPage, $SearchStr, $StartPoint;
@@ -85,15 +110,41 @@ function Checked($Var) {
 }
 //Draw BlockList Row-------------------------------------------------
 function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
-  global $Config;
+  global $Config, $DirEtc, $DirTmp;
   
   if ($Config[$ConfBL] == 0) {
     echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'."\n";
   }
   else {
-    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'" checked="checked"> '.$Msg.'</td></tr>'."\n";    
-  }
+    $CsvFile = false;
+    $CsvLines = 0;
+    $TxtFile = false;
+    $TxtLines = 0;
+    $FileName = '';
+    $TotalStr = '';  
   
+    $FileName = substr($BL, 3);
+    $CsvFile = file_exists($DirEtc.$FileName.'.csv');
+    $TxtFile = file_exists($DirTmp.$FileName.'.txt');
+    
+    if ($CsvFile && $TxtFile) {
+      $CsvLines = intval(exec('wc -l '.$DirEtc.$FileName.'.csv'));
+      $TxtLines = intval(exec('wc -l '.$DirTmp.$FileName.'.txt'));
+      if ($CsvLines > $TxtLines) $CsvLines = $TxtLines ;
+      $TotalStr = '<p class="light">'.$CsvLines.' used of '.$TxtLines.'</p>';
+    }
+    elseif ($CsvFile) {
+      $CsvLines = intval(exec('wc -l '.$DirEtc.$FileName.'.csv'));
+      $TotalStr = '<p class="light">'.$CsvLines.' used of ?</p>';
+    }
+    elseif ($TxtFile) {
+      $TxtLines = intval(exec('wc -l '.$DirTmp.$FileName.'.txt'));
+      $TotalStr = '<p class="light">? used of '.$TxtLines.'</p>';
+    }
+   
+    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'" checked="checked"> '.$Msg.' '.$TotalStr.'</td></tr>'."\n";    
+  }
+    
   return null;
 }
 //Filter Config POST-------------------------------------------------
@@ -107,11 +158,41 @@ function Filter_Config($Str) {
   return 0;
 }
 //-------------------------------------------------------------------
+function LoadCustomList($ListName, $FileName) {
+  //Loads a Black or White List from File into $List Array and respective Memcache array
+  //Returns true on completion
+  
+  global $List, $Mem;
+  
+  $List = $Mem->get($ListName);
+  
+  if (! $List) {
+    $FileHandle = fopen($FileName, 'r') or die('Error unable to open '.$FileName);
+    while (!feof($FileHandle)) {
+      $Line = trim(fgets($FileHandle));
+      
+      if (Filter_URL_Str($Line)) {
+        $Seg = explode('#', $Line);
+        if ($Seg[0] == '') {
+          $List[] = Array(trim($Seg[1]), $Seg[2], false);
+        }
+        else {
+          $List[] = Array(trim($Seg[0]), $Seg[1], true);
+        }        
+      }
+    }  
+    fclose($FileHandle);  
+    $Mem->set($ListName, $List, 0, 60);
+  }
+  
+  return true;  
+}  
+//-------------------------------------------------------------------
 function LoadSiteList() {
 //This function is susceptible to race condition:
 //If the User changes the BlockLists and switches to this view while NoTrack is processing $FileBlockingCSV is incomplete.
 //To combat this race condition Lists below 100 lines aren't stored in Memcache.
-//Large lists are held in Memcache for 5 minutes
+//Large lists are held in Memcache for 4 minutes
 
   global $FileBlockingCSV, $List, $Mem;
   
@@ -131,7 +212,7 @@ function LoadSiteList() {
   }
   ///////////////////////////////////////////////////////////////////
   
-  //$List = $Mem->get('SiteList');
+  $List = $Mem->get('SiteList');
   
   if (! $List) {
     //$List[] = array('Null', 'Active', 'Null');  //Bump start point to 1
@@ -144,55 +225,6 @@ function LoadSiteList() {
     if (count($List) > 100) {  //Only store decent size list in Memcache
       $Mem->set('SiteList', $List, 0, 240);      //4 Minutes
     }
-  }
-  return null;
-}
-//-------------------------------------------------------------------
-function LoadBlackList() {
-  global $FileBlackList, $List, $Mem;
-  
-  $List = $Mem->get('BlackList');
-  if (! $List) {
-    $FileHandle = fopen($FileBlackList, 'r') or die('Error unable to open '.$FileBlackList);
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));
-      if (preg_match('/.*\.[a-z]{2,}/', $Line) == 1) {
-        $Seg = explode('#', $Line);
-        if ($Seg[0] == '') {
-          $List[] = Array(trim($Seg[1]), $Seg[2], false);
-        }
-        else {
-          $List[] = Array(trim($Seg[0]), $Seg[1], true);
-        }        
-      }
-    }  
-    fclose($FileHandle);  
-    $Mem->set('BlackList', $List, 0, 60);
-  }
-  return null;
-}
-//-------------------------------------------------------------------
-function LoadWhiteList() {
-  global $FileWhiteList, $List, $Mem;
-  
-  $List = $Mem->get('WhiteList');
-  if (! $List) {
-    $FileHandle = fopen($FileWhiteList, 'r') or die('Error unable to open '.$FileWhiteList);
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));
-      if (preg_match('/.*\.[a-z]{2,}/', $Line) == 1) {
-        $Seg = explode('#', $Line);
-        if ($Seg[0] == '') {
-          $List[] = Array(trim($Seg[1]), $Seg[2], false);
-        }
-        else {
-          $List[] = Array(trim($Seg[0]), $Seg[1], true);
-        }
-      }
-    }  
-    fclose($FileHandle);
-    
-    $Mem->set('WhiteList', $List, 0, 60);
   }
   return null;
 }
@@ -220,7 +252,7 @@ function DisplayBlockLists() {
   
   DrawBlockListRow('bl_fbenhanced', 'BlockList_FBEnhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
     
-  echo '<tr><th colspan="2">Malware domains</th></tr>';
+  echo '<tr><th colspan="2">Malware</th></tr>';
   DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
   
   echo '<tr><th colspan="2">Social</th></tr>';
@@ -231,7 +263,7 @@ function DisplayBlockLists() {
   echo '<tr><th colspan="2">Multipurpose</th></tr>';
   DrawBlockListRow('bl_someonewhocares', 'BlockList_SomeoneWhoCares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts">(someonewhocares.org)</a>');
   
-  DrawBlockListRow('hpHosts', 'BlockList_hpHosts', 'hpHosts', 'Very inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
+  DrawBlockListRow('bl_hphosts', 'BlockList_hpHosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
                                              
   DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
@@ -244,20 +276,51 @@ function DisplayBlockLists() {
 }
 //-------------------------------------------------------------------
 function DisplayConfigChoices() {
-  global $Config;
+  global $Config, $DirOldLogs, $Version;
   
-  echo '<form action="?" method="post">';        //Web Server
-  echo '<input type="hidden" name="action" value="webserver">';
-  DrawSysTable('Web Server');  
-  if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked>1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message">Message - Blocked by NoTrack<br />');
-  else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked>Message - Blocked by NoTrack<br />');
-  echo "</table><br />\n";
-  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
-  echo "</div></div></form>\n";
-    
-  DrawSysTable('History');
+  $Load = sys_getloadavg();
+  $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));
+
+  $PS_Dnsmasq = preg_split('/\s+/', exec('ps -eo fname,pid,stime,pmem | grep dnsmasq'));
+
+  $PS_Lighttpd = preg_split('/\s+/', exec('ps -eo fname,pid,stime,pmem | grep lighttpd'));
+
+  $fi = new FilesystemIterator($DirOldLogs, FilesystemIterator::SKIP_DOTS);
+  
+  
+  DrawSysTable('Server');
+  DrawSysRow('Name', gethostname());
+  DrawSysRow('IP Address', $_SERVER['SERVER_ADDR']);
+  DrawSysRow('Sysload', $Load[0].' | '.$Load[1].' | '.$Load[2]);
+  DrawSysRow('Memory Used', $FreeMem[2].' MB');
+  DrawSysRow('Free Memory', $FreeMem[3].' MB');
+  DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
+  DrawSysRow('NoTrack Version', $Version);
+  echo "</table></div></div>\n";
+  
+  DrawSysTable('Dnsmasq');
+  if ($PS_Dnsmasq[0] != null) DrawSysRow('Status','Dnsmasq is running');
+  else DrawSysRow('Status','Inactive');
+  DrawSysRow('Pid', $PS_Dnsmasq[1]);
+  DrawSysRow('Started On', $PS_Dnsmasq[2]);
+  //DrawSysRow('Cpu', $PS_Dnsmasq[3]);
+  DrawSysRow('Memory Used', $PS_Dnsmasq[3].' MB');
+  DrawSysRow('Historical Logs', iterator_count($fi).' Days');
   DrawSysRow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
   echo "</table></div></div>\n";
+
+  echo '<form name="blockmsg" action="?" method="post">';        //Web Server
+  echo '<input type="hidden" name="action" value="webserver">';
+  DrawSysTable('Lighttpd');
+  if ($PS_Lighttpd[0] != null) DrawSysRow('Status','Lighttpd is running');
+  else DrawSysRow('Status','Inactive');
+  DrawSysRow('Pid', $PS_Lighttpd[1]);
+  DrawSysRow('Started On', $PS_Lighttpd[2]);
+  //DrawSysRow('Cpu', $PS_Lighttpd[3]);
+  DrawSysRow('Memory Used', $PS_Lighttpd[3].' MB');
+  if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message" onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');
+  else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');  
+  echo "</table></div></div></form>\n";
 
   return null;
 }
@@ -265,14 +328,16 @@ function DisplayConfigChoices() {
 function DisplayCustomList($View) {
   global $List, $SearchStr;
   
-  echo '<div class="sys-group">';
-  echo '<div class="centered"><br />'."\n";
+  //Needs Pagination
+  
+  echo '<div class="sys-group"><div class="centered">'."\n";
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="'.$View.'">';
   if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
   else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
-  echo "</form></div>\n";
+  echo "</form></div></div>\n";
   
+  echo '<div class="sys-group">';
   echo '<div class="row"><br />'."\n";
   echo '<table id="block-table">'."\n";
   $i = 1;
@@ -301,13 +366,18 @@ function DisplayCustomList($View) {
       $i++;
     }
   }
-  echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+  if (($View == 'black') || ($View == 'white')) {
+    echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+  }
+  elseif (($View == 'tldblack') || ($View == 'tldwhite')) {
+    echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder=".domain"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+  }
+    
+  echo "</table></div></div>\n";
   
-  echo "</table>\n";
-  
-  echo '<div class="centered"><br />'."\n";  
-  if ($SearchStr == "") echo '<a href="?v='.$View.'&action='.$View.'&do=update" class="button-blue">Update Blocklists</a>';
-  else echo '<a href="?v='.$View.'&s='.$SearchStr.'&action='.$View.'&do=update" class="button-blue">Update Blocklists</a>';
+  echo '<div class="sys-group"><div class="centered">'."\n";  
+  echo '<a href="./include/downloadlist.php?v='.$View.'" class="button-grey">Download List</a>&nbsp;&nbsp;';
+  echo '<a href="?v='.$View.AddGetVar('S').'&amp;action='.$View.'&amp;do=update" class="button-blue">Update Blocklists</a>';
   echo "</div></div>\n";  
 }
 //-------------------------------------------------------------------
@@ -493,93 +563,121 @@ function UpdateBlockListConfig() {
   //print_r($Config); 
   return null;
 }
-//Update Webserver Config--------------------------------------------
-function UpdateWebserverConfig() {
-  global $Config;
-  
-  if (isset($_POST['block'])) {
-    switch ($_POST['block']) {
-      case 'pixel':
-        $Config['BlockMessage'] = 'pixel';
-        ExecAction('blockmsg-pixel', false);
-      break;
-      case 'message':
-        $Config['BlockMessage'] = 'message';
-        ExecAction('blockmsg-message', false);
-      break;
-    }
-  }
-}
 //Update Custom List-------------------------------------------------
-function UpdateCustomList($ListName) {
+function UpdateCustomList($LongName, $ListName) {
   //Works for either BlackList or WhiteList
-  global $FileTmpBlackList,$FileTmpWhiteList, $List, $Mem;
   
-  if ($ListName == 'BlackList') $FileName = $FileTmpBlackList;
-  elseif ($ListName == 'WhiteList') $FileName = $FileTmpWhiteList;
-  else die('Error unknown option '.$ListName.' in UpdateCustomList');  
+  //1. Appropriate list should have already have been loaded into $List Array
+  //2. Find out what value has been requested on GET &do=
+  //2a. Add Site using site name, and comment to end of $List array
+  //2b. Change whether Site is enabled or disabled using Row number of $List array
+  //2c. Delete Site from $List array by using Row number
+  //2d. Change whether Site is enabled or disabled using name
+  //2e. Error and leave function if any other value is given
+  //3. Open File for writing in /tmp/"listname".txt
+  //4. Write $List array to File
+  //5. Delete $List array from Memcache
+  //6. Write $List array with changes from #2 to Memcache
+  //7. Run ntrk-exec as Forked process
+  //8. Onward process is to DisplayCustomList function
+  
+  global $DirTmp, $List, $Mem;
+  
+  $LowercaseLongName = strtolower($LongName);
   
   if (Filter_Str('do')) {
     switch ($_GET['do']) {
-    case 'add':
-      if ((Filter_URL('site')) && (Filter_Str('comment'))) {      
-        $List[] = Array($_GET['site'], $_GET['comment'], true);
-      }
-      break;
-    case 'cng':
-      if ((Filter_Str('site')) && (Filter_Str('status'))) {
-        if (is_numeric(substr($_GET['site'],1))) {
-          $RowNum = intval(substr($_GET['site'],1));
-          $RowNum--;
-          if (($RowNum >= 0) && ($RowNum < count($List))) {
-            if ($_GET['status'] == 'true') $List[$RowNum][2] = true;
-            else $List[$RowNum][2] = false;
-          }
+      case 'add':
+        if ((Filter_URL('site')) && (Filter_Str('comment'))) {      
+          $List[] = Array($_GET['site'], $_GET['comment'], true);
         }
-      }
-      break;
-    case 'del':
-      //Shift by one to compensate Human readable to actual Array value
-      $RowNum = Filter_Int('row', 1, count($List)+1);
-      if ($RowNum !== false) {
-        array_splice($List, $RowNum-1, 1);       //Remove one line from List array
-      }             
-     break;
-    case 'update':
-      ExecAction('run-notrack', false);
-      echo "<pre>\n";
-      echo 'Updating Custom blocklists in background</pre>';      
-      exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
-      return null;
-      break;
+        break;
+      case 'cng':
+        //Shift by one to compensate Human readable to actual Array value
+        $RowNum = Filter_Int('row', 1, count($List)+1);
+        if (($RowNum !== false) && (isset($_GET['status']))) {
+          $RowNum--;
+          $List[$RowNum][2] = Filter_Bool('status');
+        }      
+        break;
+      case 'del':
+        //Shift by one to compensate Human readable to actual Array value
+        $RowNum = Filter_Int('row', 1, count($List)+1);
+        if ($RowNum !== false) {
+          array_splice($List, $RowNum-1, 1);       //Remove one line from List array
+        }             
+       break;
+      case 'update':
+        echo "<pre>\n";
+        echo 'Updating Custom blocklists in background</pre>';      
+        ExecAction('run-notrack', true, true);
+        return null;
+        break;    
+      default:
+        echo "Invalid request in UpdateCustomList\n";
+        return false;
     }
-  }  
+  }
+  else {
+    echo "No request specified in UpdateCustomList\n";
+    return false;
+  }
   
-  $FileHandle = fopen($FileName, 'w');           //Open File for writing
-  fwrite($FileHandle, "#Use this file to create your own custom".$ListName."\n");
+  //Open file /tmp/listname.txt for writing
+  $FileHandle = fopen($DirTmp.$LowercaseLongName.'.txt', 'w');
+  
+  //Write Usage Instructions to top of File
+  fwrite($FileHandle, "#Use this file to create your own custom ".$LongName."\n");
   fwrite($FileHandle, "#Run notrack script (sudo notrack) after you make any changes to this file\n");
-  foreach ($List as $Line) {                     //Loop through Config array
-    if ($Line[2] == true) {
+  
+  foreach ($List as $Line) {                     //Write List Array to File
+    if ($Line[2] == true) {                      //Is site enabled?
       fwrite($FileHandle, $Line[0].' #'.$Line[1]."\n");
     }
-    else {
+    else {                                       //Site disabled, comment it out by preceding Line with #
       fwrite($FileHandle, '# '.$Line[0].' #'.$Line[1]."\n");
     }    
   }
   fclose($FileHandle);                           //Close file
   
   $Mem->delete($ListName);
-  $Mem->set($ListName, $List, 0, 600);
-  ExecAction('copy-'.strtolower($ListName), false);  
+  $Mem->set($ListName, $List, 0, 60);
+  
+  ExecAction('copy-'.$LowercaseLongName, true, true);
+  
   return null;
 }
+//Update Webserver Config--------------------------------------------
+function UpdateWebserverConfig() {
+  global $Config;
+  
+  //1. Config should already be in Memcache
+  //2. Has POST request block got a value?
+  //3. Run ntrk-exec with appropriate change to Webserver setting
+  //4. Onward process is WriteTmpConfig function
+  
+  if (isset($_POST['block'])) {
+    switch ($_POST['block']) {
+      case 'pixel':
+        $Config['BlockMessage'] = 'pixel';
+        ExecAction('blockmsg-pixel', false);
+        break;
+      case 'message':
+        $Config['BlockMessage'] = 'message';
+        ExecAction('blockmsg-message', false);
+        break;
+    }
+  }
+}
+
 //Write Tmp Config File----------------------------------------------
 function WriteTmpConfig() {
-  //1. Load Config File
+  //1. Open Temp Config file for writing
   //2. Loop through Config Array
   //3. Write all values, except for "Status = Enabled"
   //4. Close Config File
-  //5. Delete Config Array out of Memcache, in order to force reload 
+  //5. Delete Config Array out of Memcache, in order to force reload
+  //6. Onward process is to Display appropriate config view
   
   global $Config, $FileTmpConfig, $Mem;
     
@@ -612,28 +710,6 @@ $StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
 
 $RowsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500); //Rows per page
 
-if (isset($_POST['action'])) {
-  switch($_POST['action']) {
-    case 'blocklists':
-      UpdateBlockListConfig();
-      WriteTmpConfig();
-      ExecAction('update-config', false);
-      ExecAction('run-notrack', true, true);
-      $Mem->delete('SiteList');
-      echo "<pre>\n";
-      echo 'Copying /tmp/notrack.conf to /etc/notrack.conf'."\n";
-      echo 'Updating Blocklists in background</pre>';
-      break;
-    case 'webserver':      
-      UpdateWebserverConfig();
-      WriteTmpConfig();
-      ExecAction('update-config', true, true);
-      break;    
-    default:
-      echo 'Unknown POST action';
-      die();
-  }
-}
   
 
 if (isset($_GET['action'])) {
@@ -643,14 +719,22 @@ if (isset($_GET['action'])) {
       DisplayConfigChoices();
       break;
     case 'black':
-      LoadBlackList();
-      UpdateCustomList('BlackList');      
-      break;      
-    case 'white':
-      LoadWhiteList();
-      UpdateCustomList('WhiteList');      
+      LoadCustomList('black', $FileBlackList);
+      UpdateCustomList('BlackList', 'black');
+      //DisplayCustomList('black');
       break;
-      
+    case 'white':
+      LoadCustomList('white', $FileWhiteList);
+      UpdateCustomList('WhiteList', 'white');
+      break;
+    case 'tldblack':
+      LoadCustomList('tldblack', $FileTLDBlackList);
+      UpdateCustomList('TLDBlackList', 'tldblack');
+      break;
+    case 'tldwhite':
+      LoadCustomList('tldwhite', $FileTLDWhiteList);
+      UpdateCustomList('TLDWhiteList', 'tldwhite');
+      break;      
   }
 }
 
@@ -663,19 +747,19 @@ if (isset($_GET['v'])) {
       DisplayBlockLists();
       break;
     case 'black':
-      LoadBlackList();
+      LoadCustomList('black', $FileBlackList);
       DisplayCustomList('black');
       break;
     case 'white':
-      LoadWhiteList();
+      LoadCustomList('white', $FileWhiteList);
       DisplayCustomList('white');
       break;
     case 'tldblack':
-      //LoadTLDBlackList();
+      LoadCustomList('tldblack', $FileTLDBlackList);
       DisplayCustomList('tldblack');
       break;
     case 'tldwhite':
-      //LoadTLDWhiteList();
+      LoadCustomList('tldwhite', $FileTLDWhiteList);
       DisplayCustomList('tldwhite');
       break;
     case 'sites':
@@ -693,31 +777,5 @@ else {
 
 ?> 
 </div>
-
-<script>
-function getUrlVars() {
-  var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-  function(m,key,value) {
-    vars[key] = value;
-  });
-  return vars;
-}
-
-function ConfirmLogDelete() {
-  if (confirm("Are you sure you want to delete all History?")) window.open("?action=delete-history", "_self");
-}
-function AddSite(RowNum) {  
-  var SiteName = document.getElementsByName('site'+RowNum)[0].value;
-  var Comment = document.getElementsByName('comment'+RowNum)[0].value;
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=add&site='+SiteName+'&comment='+Comment, "_self");
-}
-function DeleteSite(RowNum) {
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=del&row='+RowNum, "_self");
-}
-function ChangeSite(Item) {
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=cng&site='+Item.name+'&status='+Item.checked, "_self");  
-}
-</script>
 </body>
 </html>

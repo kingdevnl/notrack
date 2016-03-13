@@ -1,15 +1,21 @@
 <?php
-$Version='0.7.6';
+$Version='0.7.7';
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileBlockingCSV = '/etc/notrack/blocking.csv';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
 $FileTmpConfig = '/tmp/notrack.conf';
-$FileTmpBlackList = '/tmp/blacklist.txt';
-$FileTmpWhiteList = '/tmp/whitelist.txt';
+/*$FileTmpBlackList = '/tmp/blacklist.txt';
+$FileTmpWhiteList = '/tmp/whitelist.txt';*/
 $FileConfig = '/etc/notrack/notrack.conf';
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
+$FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
+$FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
+
+$DirTmp = '/tmp/';
+$DirEtc = '/etc/notrack/';
+$DirOldLogs = '/var/log/notrack';
 
 $Config=array();
 

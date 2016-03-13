@@ -30,23 +30,38 @@ function ExecAction($Action, $ExecNow, $Fork=false) {
   }
   return null;    
 }
+//Filter Bool from GET-----------------------------------------------
+function Filter_Bool($Str) {
+  //1. Check Variable Exists
+  //2. Check if Variable is 'true', then return boolean true
+  //3. Otherwise return boolean false
+  
+  if (isset($_GET[$Str])) {
+    if ($_GET[$Str] == 'true') return true;
+  }
+  return false;
+}
 //Filter Int from GET------------------------------------------------
-function Filter_Int($Str, $Min, $Max, $Def=false) {
+function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
   //1. Check Variable Exists
   //2. Check Value is between $Min and $Max
-  //3. Return Value on success, and $Def on fail
-  if (is_numeric($_GET[$Str])) {
-    if (($_GET[$Str] >= $Min) && ($_GET[$Str] < $Max)) {
-      return intval($_GET[$Str]);
+  //3. Return Value on success, and $DefaultValue on fail
+  
+  if (isset($_GET[$Str])) {
+    if (is_numeric($_GET[$Str])) {
+      if (($_GET[$Str] >= $Min) && ($_GET[$Str] < $Max)) {
+        return intval($_GET[$Str]);
+      }
     }
   }
-  return $Def;
+  return $DefaltValue;
 }
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
   //2. Check String doesn't contain !"£$%^&*()[]+=<>,|/\
   //Return True on success, and False on fail
+
   if (isset($_GET[$Str])) {
     if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
   }
@@ -60,13 +75,21 @@ function Filter_URL($Str) {
   //Return True on success, and False on fail
   if (isset($_GET[$Str])) {
     if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
-      if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1)
-      return true;
+      if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1) return true;
     }
   }
   return false;
 }
-
+//Filter URL Str-----------------------------------------------------
+function Filter_URL_Str($Str) {
+  //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
+  //2. Check String matches the form of a URL "any.co"
+  //Return True on success, and False on fail
+  if (((strlen($Str) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $Str) == 0))) {
+    if (preg_match('/.*\..{2,}/', $Str) == 1) return true;    
+  }  
+  return false;
+}
 //Load Config File---------------------------------------------------
 function LoadConfigFile() {
   global $FileConfig, $Config, $Mem, $Version;

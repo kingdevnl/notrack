@@ -1,5 +1,5 @@
-#List of Ad files last updated 07 Mar 2016
-#LatestVersion 0.7.6
+#List of Ad files last updated 13 Mar 2016
+#LatestVersion 0.7.7
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -32,6 +32,8 @@
 5min.com
 7eer.net #Impact Radius
 800omnture.com #Adobe
+95095.com #Alibaba
+950958.com #Alibaba
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a-msedge.net #Microsoft
 a2dfp.net
@@ -208,6 +210,7 @@ appdynamics.us#AppDynamics
 appenstance.com #AppNexus Inc
 appier.net
 appinstance.com #AppNexus Inc
+apple-safari.info #Malicious Site
 appliances2compare.com #Digital Window
 applicationstreamingnetwork.com #instartlogic
 applicationstreamingnetwork.info #instartlogic
@@ -653,6 +656,7 @@ georiot.com
 getclicky.com
 getdrip.com
 getphotoeffects.com #RadiumOne
+gettraff.com
 ghostery.com #Ghostery Enterprise
 gigya.com
 gimmescreenshot.com#Usabilla
@@ -696,6 +700,7 @@ hanapinmarketing.com
 hardofhearing.org
 heapanalytics.com
 heias.com
+helloworld.com #HelloWorld
 histats.com
 hlserve.com
 hochmoor.com
@@ -8638,7 +8643,7 @@ omnitagjs.com
 omniture.com #Adobe
 omtrdc.net
 onclasrv.com
-onclickads.net#Advertising Technologies
+onclickads.net #Advertising Technologies
 onestat.com
 olark.com
 online-metrix.net
@@ -8879,6 +8884,7 @@ saas-euw-1.com #Lead Forensics
 sagent.io#Sagent BV
 sail-horizon.com
 sailthru.com
+safari-code.net #Malicious Site
 sas15k01.com #Lead Forensics
 sascdn.com
 saymedia.com

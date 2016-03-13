@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="5464_0_menu_black.svg">
+   sodipodi:docname="menu_black.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -57,12 +57,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-992.3622)">
-    <path
-       sodipodi:nodetypes="ccccccc"
-       inkscape:connector-curvature="0"
-       id="path2987"
-       d="m 53.97203,1046.8985 -23.607829,-20.9921 -23.2570311,21.4205 c -2.6462219,1.4101 -5.225377,-2.0287 -3.409265,-3.5355 l 26.7374751,-24.7487 26.674341,24.4962 c 2.46348,2.1352 -1.533639,4.5804 -3.137691,3.3596 z"
-       style="color:#000000;fill:#008cd1;fill-opacity:1;fill-rule:evenodd;stroke:#008cd1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <path
        style="color:#000000;fill:#008cd1;fill-opacity:1;fill-rule:evenodd;stroke:#008cd1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="m 53.97203,1046.8985 -23.607829,-20.9921 -23.2570311,21.4205 c -2.6462219,1.4101 -5.225377,-2.0287 -3.409265,-3.5355 l 26.7374751,-24.7487 26.674341,24.4962 c 2.46348,2.1352 -1.533639,4.5804 -3.137691,3.3596 z"

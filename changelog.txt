@@ -1,3 +1,13 @@
+v0.7.7 alpha
+Added Fanboy Blocklists.
+Config Blocklists page now shows how many rules have been used.
+Subsumed System Info page into Config.
+Added ability to customise Domain BlockLists from Config page.
+*You may need to run "notrack --upgrade" again to make Domain BlockList customisation work.
+Added Download button to Custom BlockLists.
+Fixed links on Admin page.
+Corrected count for DHCP systems more than 10.
+
 v0.7.6 alpha
 New style Blocklist page, ready for new 3rd party Blocklists to be added
 Fixed broked links from stats.js -> config.php
