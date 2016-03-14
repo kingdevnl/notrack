@@ -5,7 +5,8 @@
 103bees.com
 10cms.com
 123-tracker.com #Lead Forensics
-161media.com#161 Media
+161media.com #161 Media
+1s3h4f7sl.com #HelloWorld
 1800omniture.com #Adobe
 200summit.com #Lead Forensics
 206ads.com
@@ -30,8 +31,37 @@
 51.la
 5gl1x9qc.com
 5min.com
+6000088.com #HelloWorld
+6000788.com #HelloWorld
+6001888.com #HelloWorld
+6002888.com #HelloWorld
+6003388.com #HelloWorld
+6003888.com #HelloWorld
+6004888.com #HelloWorld
+6005888.com #HelloWorld
+6006999.com #HelloWorld
+6007788.com #HelloWorld
+6007799.com #HelloWorld
+6007888.com #HelloWorld
+6008999.com #HelloWorld
+6009888.com #HelloWorld
+6009988.com #HelloWorld
 7eer.net #Impact Radius
+8000818.com #HelloWorld
+8006688.com #HelloWorld
 800omnture.com #Adobe
+8010888.com #HelloWorld
+8022888.com #HelloWorld
+8030888.com #HelloWorld
+8050888.com #HelloWorld
+8067888.com #HelloWorld
+8070888.com #HelloWorld
+8082888.com #HelloWorld
+8083888.com #HelloWorld
+8087888.com #HelloWorld
+809002.com #HelloWorld
+8096888.com #HelloWorld
+8099888.com #HelloWorld
 95095.com #Alibaba
 950958.com #Alibaba
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
@@ -117,7 +147,7 @@ adoftheyear.com
 adometry.com #Google
 adpacked.com #Adobe
 adreadytractions.com
-adrequest.net#R van Ingen
+adrequest.net #R van Ingen
 adriver.ru
 adroll.com
 adrotate.se
@@ -151,7 +181,7 @@ advertising.com
 advertserve.com
 adviva.net
 adxpose.com
-adyard.net#Ligatus GmbH
+adyard.net #Ligatus GmbH
 adzerk.com
 adzerk.net
 adzhub.com
@@ -214,16 +244,16 @@ anrdoezrs.net
 apester.com
 apnex.us #AppNexus Inc
 apnx.us #AppNexus Inc
-app-dynamics.com#AppDynamics
+app-dynamics.com #AppDynamics
 appads.com #Smaato
-appdynamics.asia#AppDynamics
-appdynamics.biz#AppDynamics
-appdynamics.com#AppDynamics
-appdynamics.info#AppDynamics
-appdynamics.mobi#AppDynamics
-appdynamics.net#AppDynamics
-appdynamics.org#AppDynamics
-appdynamics.us#AppDynamics
+appdynamics.asia #AppDynamics
+appdynamics.biz #AppDynamics
+appdynamics.com #AppDynamics
+appdynamics.info #AppDynamics
+appdynamics.mobi #AppDynamics
+appdynamics.net #AppDynamics
+appdynamics.org #AppDynamics
+appdynamics.us #AppDynamics
 appenstance.com #AppNexus Inc
 appier.net
 appinstance.com #AppNexus Inc
@@ -235,7 +265,7 @@ applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
 applift.com #AppLift
 applovin.com #AppLovin
-appsmonitoring.com#AppDynamics
+appsmonitoring.com #AppDynamics
 appnex.us #AppNexus Inc
 appnexis.com #AppNexus Inc
 appnexus.asia #AppNexus Inc
@@ -377,7 +407,7 @@ brvs.com #BrightRoll
 btstatic.com
 bugherd.com
 builfico.de
-bunchbox.co#Peaks & Pies
+bunchbox.co #Peaks & Pies
 burstnet.com
 burt.io
 buyat.com #Digital Window
@@ -617,7 +647,7 @@ edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
 elasticbeanstalk.com
-elitechnology.com#Enne Solutions
+elitechnology.com #Enne Solutions
 egeng.info #eGain Corporation
 electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
@@ -636,17 +666,19 @@ envnexus.net #AppNexus Inc
 envnxs.com #AppNexus Inc
 envnxs.net #AppNexus Inc
 epmads.com
+eprize.com #HelloWorld
+eprizefulfillment.com #HelloWorld
 eqads.com
 erne.co
 ero-advertising.com
-errorception.com#Rakesh Pai
+errorception.com #Rakesh Pai
 esearchvision.com
 esomniture.com #Adobe
 esprima.org
 esvdigital.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
-eum-appdynamics.com#AppDynamics
+eum-appdynamics.com #AppDynamics
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
 ever-track-51.com #Lead Forensics
@@ -669,6 +701,7 @@ fantuition.com #AppNexus Inc
 fastclick.net
 fastly.net #Markmonitor
 fastlylb.net #Markmonitor
+fdgkdhfgjkdfgdg.com #HelloWorld
 feedmagnet.com
 feedsportal.com
 fetchback.com
@@ -725,7 +758,7 @@ getphotoeffects.com #RadiumOne
 gettraff.com
 ghostery.com #Ghostery Enterprise
 gigya.com
-gimmescreenshot.com#Usabilla
+gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
 go-mpulse.net
@@ -762,11 +795,18 @@ gwallet.com #RadiumOne
 gwallet.net #RadiumOne
 gwallet-qa.com #RadiumOne
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
+ha44888.com #HelloWorld
 hanapinmarketing.com
 hardofhearing.org
 heapanalytics.com
 heias.com
+helloinsiders.com #HelloWorld
 helloworld.com #HelloWorld
+helloworld.com #HelloWorld
+helloworld-informatique.com #HelloWorld
+helloworldmagic.com #HelloWorld
+helloworldmail.com #HelloWorld
+helloworldptqa.com #HelloWorld
 histats.com
 hlserve.com
 hochmoor.com
@@ -793,6 +833,7 @@ html5nanovisor.us #instartlogic
 hubspot.com
 hubspot.net #Some CDN stuff provided by this tracker
 hubtraffic.com
+hw-dev.com #HelloWorld
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 i-transactads.com
@@ -907,17 +948,19 @@ lead10.com #Euclead
 leadboltmobile.net #LeadBolt
 leadforensics.com
 leadformix.com
+ledimed-ks.com #HelloWorld
 legolas-media.com
 levexis.com
 liadm.com
+lian13.com #HelloWorld
 licasd.com #Live Intent
 liftdna.com #OpenX
 liftdna.net #OpenX
-ligadx.com#Ligatus GmbH
-ligatus.biz#Ligatus GmbH
-ligatus.com#Ligatus GmbH
-ligatus.info#Ligatus GmbH
-ligatus.us#Ligatus GmbH
+ligadx.com #Ligatus GmbH
+ligatus.biz #Ligatus GmbH
+ligatus.com #Ligatus GmbH
+ligatus.info #Ligatus GmbH
+ligatus.us #Ligatus GmbH
 lijit.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
@@ -8736,13 +8779,13 @@ opinionsquare.com #TMRG
 opinionsquare.net #TMRG
 optilead.co.uk
 optinmonster.com
-optimizely.com#Optimizely
+optimizely.com #Optimizely
 optnmnstr.com
 outbrain.com
 owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
 p-td.com
-p161.net#161 Media
+p161.net #161 Media
 pages01.net
 pages02.net
 pages03.net
@@ -8784,8 +8827,8 @@ pingmemessenger.com #RadiumOne
 pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
-piwik.pro#Piwik PRO
-piwikpro.com#Piwik PRO
+piwik.pro #Piwik PRO
+piwikpro.com #Piwik PRO
 pixfuture.net
 pkrchp001.com #Lead Forensics
 playforprizes.net #Digital Window
@@ -8846,7 +8889,7 @@ r1-cdn.net #RadiumOne
 r1sdk.com #RadiumOne
 r1sdk-cdn.com #RadiumOne
 r1share.com #RadiumOne
-r42tag.com#Relay42 
+r42tag.com #Relay42 
 raasnet.com
 radicaltest.com #RadiumOne
 radium1.com #RadiumOne
@@ -8988,7 +9031,7 @@ s3network1.com #Lead Forensics
 s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
 saas-euw-1.com #Lead Forensics
-sagent.io#Sagent BV
+sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
 safari-code.net #Malicious Site
@@ -9142,7 +9185,7 @@ sw-rail-7.com #Lead Forensics
 switchadhub.com
 switchads.com
 swoop.com
-swordfishdc.com#Swordfish Inc
+swordfishdc.com #Swordfish Inc
 symcb.com #Symantec
 symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
@@ -9247,7 +9290,7 @@ uobsoe.com
 upsellit.com
 upsiloncdn.net #Verizon
 urbanairship.com
-usabilla.com#Usabilla
+usabilla.com #Usabilla
 useitbetter.com
 userstats.com
 userzoom.com
@@ -9268,7 +9311,7 @@ v12cdn.net #Verizon
 v13cdn.net #Verizon
 valdelabs.com #AppNexus Inc
 vdna-assets.com #Imagini Holdings
-veeseo.com#Veeseo
+veeseo.com #Veeseo
 veille-referencement.com
 veoxa.com
 velti.com #Velti
@@ -9308,7 +9351,7 @@ vserv.mobi #Vserv
 vservdigital.com #Vserv
 vservmobi.com #Vserv
 vservmobi.com #Vserv
-vwdservices.com#VWD Group
+vwdservices.com #VWD Group
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
 walkme.com
@@ -9401,8 +9444,8 @@ device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
 metrics.argos.co.uk
-beacon.groceries.asda.com#Asda
-omniture.groceries.asda.com
+beacon.groceries.asda.com #Asda
+omniture.groceries.asda.com #Asda
 metric.asos.com
 website-performance-beacon.autotrader.co.uk
 metrics.barclays.co.uk
