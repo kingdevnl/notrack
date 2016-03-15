@@ -113,15 +113,25 @@ Ask_DNSServer() {
     exit 1
   elif [ $Ret -eq 0 ]; then
     case "$Fun" in
-      "OpenDNS") 
-        DNSChoice1="208.67.222.222" 
-        DNSChoice2="208.67.220.220"
+      "OpenDNS")
+        if [[ $IPVersion == "IPv6" ]]; then
+          DNSChoice1="2620:0:ccc::2"
+          DNSChoice2="2620:0:ccd::2"
+        else
+          DNSChoice1="208.67.222.222" 
+          DNSChoice2="208.67.220.220"
+        fi
       ;;
-      "Google") 
-        DNSChoice1="8.8.8.8"
-        DNSChoice2="8.8.4.4"
+      "Google")
+        if [[ $IPVersion == "IPv6" ]]; then
+          DNSChoice1="2001:4860:4860::8888"
+          DNSChoice2="2001:4860:4860::8844"
+        else
+          DNSChoice1="8.8.8.8"
+          DNSChoice2="8.8.4.4"
+        fi
       ;;
-      "DNSWatch") 
+      "DNSWatch")
         if [[ $IPVersion == "IPv6" ]]; then
           DNSChoice1="2001:1608:10:25::1c04:b12f"
           DNSChoice2="2001:1608:10:25::9249:d69b"
@@ -131,8 +141,13 @@ Ask_DNSServer() {
         fi
       ;;
       "Verisign")
-        DNSChoice1="64.6.64.6"
-        DNSChoice2="64.6.65.6"
+        if [[ $IPVersion == "IPv6" ]]; then
+          DNSChoice1="2620:74:1b::1:1"
+          DNSChoice2="2620:74:1c::2:2"
+        else
+          DNSChoice1="64.6.64.6"
+          DNSChoice2="64.6.65.6"
+        fi
       ;;
       "Comodo")
         DNSChoice1="8.26.56.26"
