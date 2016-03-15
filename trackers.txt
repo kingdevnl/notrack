@@ -1,4 +1,4 @@
-#List of Ad files last updated 13 Mar 2016
+#List of Ad files last updated 15 Mar 2016
 #LatestVersion 0.7.7
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -257,7 +257,6 @@ appdynamics.us #AppDynamics
 appenstance.com #AppNexus Inc
 appier.net
 appinstance.com #AppNexus Inc
-apple-safari.info #Malicious Site
 appliances2compare.com #Digital Window
 applicationstreamingnetwork.com #instartlogic
 applicationstreamingnetwork.info #instartlogic
@@ -505,7 +504,7 @@ clksite.com #MyAdWise
 clktag.com #MyAdWise
 clkuno.com #MyAdWise
 cloud-9751.com #Lead Forensics
-cloudapp.net #Markmonitor
+cloudapp.net #Microsoft
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail2.com
@@ -576,7 +575,6 @@ datacaciques.com
 data-eroadvertising.com
 dcoengine.com
 declaredthoughtfulness.co
-deltacdn.net #Markmonitor
 demandbase.com
 demdex.com #Adobe
 demdexpartner.com #Adobe
@@ -699,8 +697,6 @@ face3media.com
 fashiona-z.com #Digital Window
 fantuition.com #AppNexus Inc
 fastclick.net
-fastly.net #Markmonitor
-fastlylb.net #Markmonitor
 fdgkdhfgjkdfgdg.com #HelloWorld
 feedmagnet.com
 feedsportal.com
@@ -727,7 +723,7 @@ forkmedia.in
 formalyzer.com
 fqtag.com #Forensiq
 frantro.de
-freeskreen.com
+freeskreen.com #SlimCut Media
 fresh8.co
 freegreatapps.com #MdotM
 freewall.com #AppNexus Inc
@@ -1018,9 +1014,9 @@ mioeverywhere.tv #Ooyala
 mixpanel.com
 #:mkt[0-8]\d{2,3}\.com #Silverpop Systems mkt001.com -> mkt8999.com
 #:mkt[3-9]1\.net #Silverpop Systems mkt31.net -> mkt91.net
-#mkt101.com #Markmonitor
+mkt101.com #Silverpop Systems
 mkt101.net #Silverpop Systems
-#mkt102.com
+mkt102.com
 mkt103.com
 mkt104.com
 mkt105.com
@@ -9034,7 +9030,6 @@ saas-euw-1.com #Lead Forensics
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
-safari-code.net #Malicious Site
 sas15k01.com #Lead Forensics
 sascdn.com
 saymedia.com
@@ -9090,7 +9085,7 @@ shwired.net #TMRG
 sid-ads.com
 siftscience.com 
 silkenthreadiness.info
-silverpop.com
+silverpop.com #Silverpop Systems
 simplereach.com
 site24x7rum.com
 sitescout.com #Rubicon
@@ -9098,6 +9093,8 @@ sitescoutadserver.com
 sitestat.com
 sitetagger.co.uk
 skimresources.com
+slimcutmedia.com #SlimCut Media
+slimcut.media #SlimCut Media
 sli-spark.com
 smaato.asia #Smaato
 smaato.com #Smaato
@@ -9192,6 +9189,7 @@ symcd.com #Symantec
 taboola.com
 taboolasyndication.com
 tacoda.net
+tagcade.com 
 tagcommander.com
 taggstar.com
 tagsrvcs.com
@@ -9229,7 +9227,6 @@ tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
-toogle.com #Malicious Site
 topfox.co.uk
 tqlkg.com
 tqn.com
