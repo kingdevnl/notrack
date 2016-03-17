@@ -9488,6 +9488,7 @@ watson.live.com #Microsoft
 s.gateway.messenger.live.com #Microsoft
 inference.location.live.net #Microsoft
 marketing.lloydsbank.co.uk
+smetrics.mcafee.com #McAfee
 bingads.microsoft.com #Microsoft
 choice.microsoft.com #Microsoft
 data.microsoft.com #Microsoft
