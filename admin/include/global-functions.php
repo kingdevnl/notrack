@@ -1,5 +1,13 @@
 <?php
 //Global Functions used in NoTrack Admin
+//Check User Session-------------------------------------------------
+function Check_SessionID() {
+  //global $Config;
+  if (isset($_SESSION['sid'])) {
+    if ($_SESSION['sid'] == 1) return true;
+  }
+  return false;
+}
 //Draw Sys Table-----------------------------------------------------
 function DrawSysTable($Title) {
   echo '<div class="sys-group"><div class="sys-title">'."\n";
@@ -7,6 +15,14 @@ function DrawSysTable($Title) {
   echo '<div class="sys-items"><table class="sys-table">'."\n";
   return null;
 }
+//Draw Sys Table with Help Button------------------------------------
+function DrawSysTableHelp($Title, $HelpPage) {
+  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+  echo '<h5>'.$Title.'&nbsp;<a href="./help.php?p='.$HelpPage.'"><img class="btn" src="./svg/button_help.svg" alt="help"></a></h5></div>'.PHP_EOL;
+  echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
+  return null;
+}
+
 //Draw Sys Row-------------------------------------------------------
 function DrawSysRow($Description, $Value) {
   echo '<tr><td>'.$Description.': </td><td>'.$Value.'</td></tr>'."\n";
@@ -20,10 +36,11 @@ function ExecAction($Action, $ExecNow, $Fork=false) {
   }
   
   if (($ExecNow) && (! $Fork)) {
-    echo "<pre>\n";
-    $Msg = shell_exec('sudo ntrk-exec 2>&1');
-    echo $Msg;
-    echo "</pre>\n";
+    exec('sudo ntrk-exec 2>&1');
+    //echo "<pre>\n";
+    //$Msg = shell_exec('sudo ntrk-exec 2>&1');
+    //echo $Msg;
+    //echo "</pre>\n";
   }
   elseif (($ExecNow) && ($Fork)) {
     exec("sudo ntrk-exec > /dev/null &");
@@ -51,6 +68,21 @@ function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
     if (is_numeric($_GET[$Str])) {
       if (($_GET[$Str] >= $Min) && ($_GET[$Str] < $Max)) {
         return intval($_GET[$Str]);
+      }
+    }
+  }
+  return $DefaltValue;
+}
+//Filter Int from POST-----------------------------------------------
+function Filter_Int_Post($Str, $Min, $Max, $DefaltValue=false) {
+  //1. Check Variable Exists
+  //2. Check Value is between $Min and $Max
+  //3. Return Value on success, and $DefaultValue on fail
+  
+  if (isset($_POST[$Str])) {
+    if (is_numeric($_POST[$Str])) {
+      if (($_POST[$Str] >= $Min) && ($_POST[$Str] < $Max)) {
+        return intval($_POST[$Str]);
       }
     }
   }
@@ -107,7 +139,10 @@ function LoadConfigFile() {
     if (!array_key_exists('NetDev', $Config)) $Config += array('NetDev' => 'eth0');
     if (!array_key_exists('IPVersion', $Config)) $Config += array('IPVersion' => 'IPv4');
     if (!array_key_exists('Status', $Config)) $Config += array('Status' => 'Enabled');
-    if (!array_key_exists('BlockMessage', $Config)) $Config += array('BlockMessage' => 'pixel');
+    if (!array_key_exists('BlockMessage', $Config)) $Config += array('BlockMessage' => 'pixel');    
+    if (!array_key_exists('Password', $Config)) $Config += array('Password' => '');
+    if (!array_key_exists('Username', $Config)) $Config += array('Username' => '');
+    if (!array_key_exists('Delay', $Config)) $Config += array('Delay' => 30);
     if (!array_key_exists('BlockList_NoTrack', $Config)) $Config += array('BlockList_NoTrack' => 1);
     if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => 1);
     if (!array_key_exists('BlockList_AdBlockManager', $Config)) $Config += array('BlockList_AdBlockManager' => 0);
@@ -126,8 +161,8 @@ function LoadConfigFile() {
     if (!array_key_exists('LatestVersion', $Config)) $Config += array('LatestVersion' => $Version); //Default to current version
     
     $Mem->set('Config', $Config, 0, 600); //1200
-  }  
-    
+  }
+  
   return null;
 }
 ?>

@@ -20,7 +20,10 @@ p {
   font-size: 1.1rem;
 }
 p.bold {
-  font-weight: bold;  
+  font-weight: bold;
+}
+p.indent {
+  margin: 0 0 1.2em 1.5em;
 }
 p.italic {
   font-style:italic;
@@ -85,7 +88,11 @@ h5 {
   background: #555;
   margin: 0 0.5em 0.5em 0;
   padding: 0.2em 0.5em;
-}  
+}
+h6 {
+  font-size: 1.2em;
+  margin: 0.3rem 0.5rem;
+}
 @media only screen and (max-width:480px), only screen and (max-device-width:480px) {
   h1 {
     font-size: 3em;
@@ -117,7 +124,7 @@ pre {
 @media only screen and (max-width:640px), only screen and (max-device-width:640px) {
   pre {width: 96%}
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
   width: 98%;
   height: 1.5em;
   font-size: 1.2em;

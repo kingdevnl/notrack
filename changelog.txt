@@ -1,3 +1,7 @@
+v0.7.8 alpha
+New Admin password feature to limit access into web config.
+Help page added, only one topic so far...
+
 v0.7.7 alpha
 Added Fanboy Blocklists.
 Config Blocklists page now shows how many rules have been used.

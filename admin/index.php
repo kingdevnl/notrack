@@ -1,3 +1,16 @@
+<?php
+require('./include/global-vars.php');
+require('./include/global-functions.php');
+require('./include/topmenu.php');
+
+LoadConfigFile();
+if ($Config['Password'] != '') {  
+  session_start();  
+  if (! Check_SessionID()) {
+    header("Location: login.php");
+  }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,12 +24,10 @@
 <body>
 <div id="main">
 <?php
-require('./include/global-vars.php');
-require('./include/global-functions.php');
-include('./include/topmenu.php');
 
+ActionTopMenu();
+DrawTopMenu();
 //Main---------------------------------------------------------------
-
 echo '<div class="row"><br />';
 
 //Tracker Blocklist
@@ -24,7 +35,7 @@ echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blockli
 
 //TLD Blocklist
 if ($Config['BlockList_TLD'] == 1) {
-  echo '<a href="./config.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
+  echo '<a href="./config.php?v=tldblack"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";
 }
 else {
   echo '<a href="./config.php"><div class="home-nav-b"><h2>TLD Blocklist</h2><div class="home-nav-left"><br /><h4>Disabled</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'."\n";

@@ -55,7 +55,14 @@ Copy_TLDWhiteList() {
     mv /tmp/tldwhitelist.txt /etc/notrack/domain-whitelist.txt    
   fi
 }
-
+#Create Access Log---------------------------------------------------
+Create_AccessLog() {
+  if [ ! -e "/var/log/ntrk-admin.log" ]; then
+    echo "Creating /var/log/ntrk-admin.log"
+    touch /var/log/ntrk-admin.log
+    chmod 666 /var/log/ntrk-admin.log
+  fi
+}
 #Delete History------------------------------------------------------
 Delete_History() {
   echo "Deleting Log Files in /var/log/notrack"
@@ -165,6 +172,9 @@ while read -r Line; do
     ;;
     copy-tldwhitelist) 
       Copy_TLDWhiteList
+    ;;
+    create-accesslog)
+      Create_AccessLog
     ;;
     delete-history)
       Delete_History

@@ -1,3 +1,16 @@
+<?php
+require('./include/global-vars.php');
+require('./include/global-functions.php');
+require('./include/topmenu.php');
+
+LoadConfigFile();
+if ($Config['Password'] != '') {  
+  session_start();
+  if (! Check_SessionID()) {
+    header("Location: login.php");
+  }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +25,8 @@
 <body>
 <div id="main">
 <?php
-require('./include/global-vars.php');
-require('./include/global-functions.php');
-include('./include/topmenu.php');
-echo "<h1>Domain Stats</h1>\n";
+ActionTopMenu();
+DrawTopMenu();
 
 $DomainList = array();
 $SortedDomainList = array();
@@ -108,16 +119,16 @@ global $DateRange, $ItemsPerPage, $SortCol, $SortDir, $StartStr, $View;
       if ($SortDir == 1) return '<input type="hidden" name="dir" value="1" />';
     break;
     case 'DR':
-      if ($DateRange != 1) return '<input type="hidden" name="dr" value="'.$DateRange.'" />';      
+      if ($DateRange != 1) return '<input type="hidden" name="dr" value="'.$DateRange.'" />';
     break;
     case 'E':
       if ($StartStr != "") return '<input type="hidden" name="e" value="'.$StartStr.'" />';
     break;
     case 'Sort':
-      if ($SortCol == 1) return '<input type="hidden" name="sort" value="1" />';      
+      if ($SortCol == 1) return '<input type="hidden" name="sort" value="1" />';
     break;
     case 'V':
-      if ($View != 1) return '<input type="hidden" name="v" value="'.$View.'" />';      
+      if ($View != 1) return '<input type="hidden" name="v" value="'.$View.'" />';
     break;
   }
   return '';
@@ -125,14 +136,13 @@ global $DateRange, $ItemsPerPage, $SortCol, $SortDir, $StartStr, $View;
 
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
-  //global $ItemsPerPage, $SortCol, $SortDir, $View;
   if ($Active) {
-    echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">';
+    echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Character.'</a></li>'.PHP_EOL;
   }
   else {
-    echo '<li><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">';
+    echo '<li><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Character.'</a></li>'.PHP_EOL;
   }  
-  echo "$Character</a></li>\n";  
+  
   return null;
 }
 
@@ -421,8 +431,7 @@ if (isset($_GET['e'])) {
   if ($StartStr != 'today') {
     if (($StartTime = strtotime($StartStr)) === false) {
       $StartTime = 0;
-      $StartStr = 'today';
-      echo "Invalid Time <br />\n";
+      $StartStr = 'today';      
     }    
   }
 }
@@ -430,7 +439,7 @@ if (isset($_GET['e'])) {
 $DateRange = Filter_Int('dr', 1, 366, 1);
 
 //-------------------------------------------------------------------
-if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                             
+if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                           
 
 //Are we loading Todays logs or Historic logs?
 if ($StartTime > (time() - 86400)) Load_TodayLog();
@@ -451,7 +460,7 @@ $ListSize = count($SortedDomainList);
 if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
 
 //Draw Filter Dropdown list------------------------------------------
-echo '<div class="sys-group"><div class="col-half">'."\n";
+echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
 echo '<form action="?" method="get">';
 echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('E').AddHiddenVar('DR');
 echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
@@ -472,7 +481,7 @@ switch ($View) {                                 //First item is unselectable, t
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select></form>'."\n";
+echo '</select></form>'.PHP_EOL;
 
 //Draw Time Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
@@ -537,20 +546,19 @@ switch ($StartStr) {                          //First item is unselectable
     echo '<option value="-8hours">8 Hours</option>';
   break;
 }
-echo '</select></form></div>'."\n";
+echo '</select></form></div>'.PHP_EOL;
 
 //Draw Calendar------------------------------------------------------
 echo '<div class="col-half"><form action="?" method="get">';
 echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /><br />';
-echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/><br /><br />'."\n";
-echo '<div class="centered"><input type="submit" value="Submit"></div>'."\n";
+echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/><br /><br />'.PHP_EOL;
+echo '<div class="centered"><input type="submit" value="Submit"></div>'.PHP_EOL;
 echo '</form></div></div>';
 
 //Draw Table Headers-------------------------------------------------
-echo '<div class="sys-group">'."\n";
+echo '<div class="sys-group">'.PHP_EOL;
 echo '<table id="domain-table">';             //Table Start
-echo "<tr>\n";
-echo "<th>#</th>\n";
+echo '<tr><th>#</th>';
 if ($SortCol == 1) {
   if ($SortDir == 0) WriteTH(1, 1, 'Domain&#x25B4;');
   else WriteTH(1, 0, 'Domain&#x25BE;');
@@ -558,7 +566,7 @@ if ($SortCol == 1) {
 else {
   WriteTH(1, $SortDir, 'Domain');
 }
-echo "<th>Action</th>\n";
+echo '<th>Action</th>';
 if ($SortCol == 0) {
   if ($SortDir == 0) WriteTH(0, 1, 'Requests&#x25BE;');
   else WriteTH(0, 0, 'Requests&#x25B4;');
@@ -566,7 +574,7 @@ if ($SortCol == 0) {
 else {
   WriteTH(0, $SortDir, 'Requests');
 }
-echo "</tr>\n";
+echo '</tr>'.PHP_EOL;
 
 //Draw Table Cells---------------------------------------------------
 $i = 1;
@@ -602,17 +610,17 @@ foreach ($SortedDomainList as $Str => $Value) {
     }
     elseif ($Action == '1') {                    //1 = Local lookup
       echo '<tr class="local">';
-      echo '<td>'.$i.'</td><td>'.$Site.'</td>';      
+      echo '<td>'.$i.'</td><td>'.$Site.'</td>';
     }
     echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
     <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
     .$ReportSiteStr;
-    echo '</td><td>'.$Value.'</td></tr>'."\n";    
+    echo '</td><td>'.$Value.'</td></tr>'.PHP_EOL;
   }  
   $i++;
 }
 
-echo "</table></div>\n";
+echo '</table></div>'.PHP_EOL;
 
 
 
@@ -627,11 +635,10 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
     }
   }
   
-  echo '<div class="sys-group"><div class="pag-nav"><ul>'."\n";
+  echo '<div class="sys-group"><div class="pag-nav"><ul>'.PHP_EOL;
   
   if ($CurPos == 1) {                            //At the beginning display blank box
-    echo '<li><span>&nbsp;&nbsp;</span></li>';
-    echo "\n";
+    echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;    
     WriteLI('1', 0, true);
   }    
   else {                                         // << Symbol & Print Box 1
@@ -686,7 +693,7 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
   if ($CurPos < $ListSize) {                     // >> Symbol for Next
     WriteLI('&#x00BB;', $ItemsPerPage * $CurPos, false);
   }	
-  echo "</ul></div></div>\n";  
+  echo '</ul></div></div>'.PHP_EOL;
 }
 
 ?>

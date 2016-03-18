@@ -1,3 +1,16 @@
+<?php
+require('./include/global-vars.php');
+require('./include/global-functions.php');
+require('./include/topmenu.php');
+
+LoadConfigFile();
+if ($Config['Password'] != '') {  
+  session_start();  
+  if (! Check_SessionID()) {
+    header("Location: login.php");
+  }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +24,8 @@
 <body>
 <div id="main">
 <?php
-require('./include/global-vars.php');
-require('./include/global-functions.php');
-include('./include/topmenu.php');
+ActionTopMenu();
+DrawTopMenu();
 echo "<h1>NoTrack Upgrade</h1>\n";
 
 

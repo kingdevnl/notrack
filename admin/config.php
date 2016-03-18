@@ -1,10 +1,19 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
+
 LoadConfigFile();
+if ($Config['Password'] != '') {
+  session_start();
+  if (! Check_SessionID()) {
+    header("Location: login.php");
+  }
+}
 
 $List = array();               //Global array for all the Block Lists
 
+//Deal with POST actions first, that way we can roload the page
+//and remove POST requests from browser history.
 if (isset($_POST['action'])) {
   switch($_POST['action']) {
     case 'blocklists':
@@ -19,16 +28,22 @@ if (isset($_POST['action'])) {
     case 'webserver':      
       UpdateWebserverConfig();
       WriteTmpConfig();
-      ExecAction('update-config', true, true);      
+      ExecAction('update-config', true, true);
       header('Location: ?');
-      break;    
+      break;
+    case 'security':
+      if (UpdateSecurityConfig()) {
+        WriteTmpConfig();
+        ExecAction('update-config', true, true);
+        header('Location: ?');
+      }
+      break;
     default:
       echo 'Unknown POST action';
       die();
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,26 +109,20 @@ function AddHiddenVar($Var) {
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active, $View) {
   if ($Active) {
-    echo '<li class="active"><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">';
+    echo '<li class="active"><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">'.$Character.'</a></li>'.PHP_EOL;
   }
   else {
-    echo '<li><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">';
+    echo '<li><a href="?v='.$View.'&amp;start='.$Start.AddGetVar('C').AddGetVar('S').'">'.$Character.'</a></li>'.PHP_EOL;
   }  
-  echo "$Character</a></li>\n";  
+  
   return null;
-}
-//Checked returns Checked if Variable is true------------------------
-function Checked($Var) {
-//Remove this function
-  if ($Var == 1) return ' checked="checked"';
-  return '';
 }
 //Draw BlockList Row-------------------------------------------------
 function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
   global $Config, $DirEtc, $DirTmp;
   
   if ($Config[$ConfBL] == 0) {
-    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'."\n";
+    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'.PHP_EOL;
   }
   else {
     $CsvFile = false;
@@ -142,7 +151,7 @@ function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
       $TotalStr = '<p class="light">? used of '.$TxtLines.'</p>';
     }
    
-    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'" checked="checked"> '.$Msg.' '.$TotalStr.'</td></tr>'."\n";    
+    echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'" checked="checked"> '.$Msg.' '.$TotalStr.'</td></tr>'.PHP_EOL;    
   }
     
   return null;
@@ -200,12 +209,11 @@ function LoadSiteList() {
   //Temporary warning to cover NoTrack pre 0.7 where blocklist was in a list file
   //Remove at Beta
   if (file_exists('/etc/notrack/tracker-quick.list')) {
-    echo '<h4>Warning: Legacy version of NoTrack created the blocklist</h4><br />'."\n";
+    echo '<h4>Warning: Legacy version of NoTrack created the blocklist</h4><br />'.PHP_EOL;
     echo '<h4>Please wait a few minutes while list is regenerated</h4><br />';
     echo '<p>If this warning persists re-run: notrack --upgrade</p>';
     ExecAction('run-notrack', false);
-    echo "<pre>\n";
-    echo 'Updating Custom blocklists in background</pre>';      
+    echo '<pre>Updating Custom blocklists in background</pre>'.PHP_EOL;      
     exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
     die();
     return null;
@@ -267,10 +275,10 @@ function DisplayBlockLists() {
                                              
   DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
-  echo "</table><br />\n";
+  echo '</table><br />'.PHP_EOL;
   
-  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'."\n";
-  echo "</div></div></form>\n";
+  echo '<div class="centered"><input type="submit" value="Save Changes"></div>'.PHP_EOL;
+  echo '</div></div></form>'.PHP_EOL;
   
   return null;
 }
@@ -296,7 +304,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
   DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
   DrawSysRow('NoTrack Version', $Version);
-  echo "</table></div></div>\n";
+  echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Dnsmasq');
   if ($PS_Dnsmasq[0] != null) DrawSysRow('Status','Dnsmasq is running');
@@ -307,7 +315,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Memory Used', $PS_Dnsmasq[3].' MB');
   DrawSysRow('Historical Logs', iterator_count($fi).' Days');
   DrawSysRow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
-  echo "</table></div></div>\n";
+  echo '</table></div></div>'.PHP_EOL;
 
   echo '<form name="blockmsg" action="?" method="post">';        //Web Server
   echo '<input type="hidden" name="action" value="webserver">';
@@ -320,8 +328,19 @@ function DisplayConfigChoices() {
   DrawSysRow('Memory Used', $PS_Lighttpd[3].' MB');
   if ($Config['BlockMessage'] == 'pixel') DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" checked onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message" onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');
   else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');  
-  echo "</table></div></div></form>\n";
+  echo '</table></div></div></form>'.PHP_EOL;
 
+  //Security
+  echo '<form name="security" action="?" method="post">';
+  echo '<input type="hidden" name="action" value="security">';
+  DrawSysTableHelp('Security', 'security');
+  DrawSysRow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'"><p><i>Optional authentication username.</i></p>');
+  DrawSysRow('NoTrack Password', '<input type="password" name="password"><p><i>Optional authentication password.</i></p>');
+  DrawSysRow('Delay', '<input type="number" name="delay" min="10" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
+  echo '<tr><td colspan="2"><div class="centered"><input type="submit" value="Save Changes"></div></td></tr>';
+  
+  echo '</table></div></div></form>'.PHP_EOL;
+  
   return null;
 }
 //-------------------------------------------------------------------
@@ -330,25 +349,25 @@ function DisplayCustomList($View) {
   
   //Needs Pagination
   
-  echo '<div class="sys-group"><div class="centered">'."\n";
+  echo '<div class="sys-group"><div class="centered">'.PHP_EOL;
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="'.$View.'">';
   if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
   else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
-  echo "</form></div></div>\n";
+  echo '</form></div></div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
-  echo '<div class="row"><br />'."\n";
-  echo '<table id="block-table">'."\n";
+  echo '<div class="row"><br />'.PHP_EOL;
+  echo '<table id="block-table">'.PHP_EOL;
   $i = 1;
 
   if ($SearchStr == '') {
     foreach ($List as $Site) {
       if ($Site[2] == true) {
-        echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'."\n";
+        echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
       }
       else {
-        echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'."\n";
+        echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
       }
       $i++;
     }
@@ -357,10 +376,10 @@ function DisplayCustomList($View) {
     foreach ($List as $Site) {
       if (strpos($Site[0], $SearchStr) !== false) {
         if ($Site[2] == true) {
-          echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'."\n";
+          echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
         }
         else {
-          echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'."\n";
+          echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
         }
       }
       $i++;
@@ -373,12 +392,12 @@ function DisplayCustomList($View) {
     echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder=".domain"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
   }
     
-  echo "</table></div></div>\n";
+  echo '</table></div></div>'.PHP_EOL;
   
-  echo '<div class="sys-group"><div class="centered">'."\n";  
+  echo '<div class="sys-group"><div class="centered">'.PHP_EOL;  
   echo '<a href="./include/downloadlist.php?v='.$View.'" class="button-grey">Download List</a>&nbsp;&nbsp;';
   echo '<a href="?v='.$View.AddGetVar('S').'&amp;action='.$View.'&amp;do=update" class="button-blue">Update Blocklists</a>';
-  echo "</div></div>\n";  
+  echo '</div></div>'.PHP_EOL;  
 }
 //-------------------------------------------------------------------
 function DisplaySiteList() {
@@ -415,50 +434,50 @@ function DisplaySiteList() {
   }
   
   echo '<div class="sys-group">';
-  echo '<div class="centered">'."\n";
+  echo '<div class="centered">'.PHP_EOL;
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="sites">';
   echo AddHiddenVar('C');
   
   if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
   else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
-  echo "</form></div>\n";
+  echo '</form></div>'.PHP_EOL;
   
   if ($ListSize > $RowsPerPage) {               //Is Pagination needed
     echo '<br /><div class="row">';
     DisplayPagination($ListSize, 'sites');
-    echo "</div>\n";
+    echo '</div>'.PHP_EOL;
   }
-  echo "</div>\n";
+  echo '</div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
   
   if ($ListSize == 0) {
-    echo 'No sites found in Block List'."\n";
+    echo 'No sites found in Block List'.PHP_EOL;
     echo '</div>';
     return;
   }
   
-  echo '<table id="block-table">'."\n";
+  echo '<table id="block-table">'.PHP_EOL;
   
   $i = $StartPoint;
 
   foreach ($List as $Site) {    
     if ($Site[1] == 'Active') {
-      echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'."\n";
+      echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'.PHP_EOL;
     }
     else {
-      echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'."\n";
+      echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'.PHP_EOL;
     }
     $i++;
   }
   
-  echo "</table></div></div>\n";
+  echo '</table></div></div>'.PHP_EOL;
   
   if ($ListSize > $RowsPerPage) {               //Is Pagination needed
     echo '<div class="sys-group">';
     DisplayPagination($ListSize, 'sites');
-    echo "</div>\n";
+    echo '</div>'.PHP_EOL;
   }
   
   return null;
@@ -477,12 +496,11 @@ function DisplayPagination($LS, $View) {
     }
   }
   
-  echo '<div class="pag-nav"><ul>'."\n";
+  echo '<div class="pag-nav"><ul>'.PHP_EOL;
   
   
   if ($CurPos == 1) {                            //At the beginning display blank box
-    echo '<li><span>&nbsp;&nbsp;</span></li>';
-    echo "\n";
+    echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;    
     WriteLI('1', 0, true, $View);
   }    
   else {                                         // << Symbol & Print Box 1
@@ -537,7 +555,7 @@ function DisplayPagination($LS, $View) {
   if ($CurPos < $ListSize) {                     // >> Symbol for Next
     WriteLI('&#x00BB;', $RowsPerPage * $CurPos, false, $View);
   }	
-  echo "</ul></div>\n";
+  echo '</ul></div>'.PHP_EOL;
 }
 //Update Block List Config-------------------------------------------
 function UpdateBlockListConfig() {
@@ -608,18 +626,17 @@ function UpdateCustomList($LongName, $ListName) {
         }             
        break;
       case 'update':
-        echo "<pre>\n";
-        echo 'Updating Custom blocklists in background</pre>';      
+        echo '<pre>Updating Custom blocklists in background</pre>'.PHP_EOL;
         ExecAction('run-notrack', true, true);
         return null;
         break;    
       default:
-        echo "Invalid request in UpdateCustomList\n";
+        echo 'Invalid request in UpdateCustomList'.PHP_EOL;
         return false;
     }
   }
   else {
-    echo "No request specified in UpdateCustomList\n";
+    echo 'No request specified in UpdateCustomList'.PHP_EOL;
     return false;
   }
   
@@ -627,15 +644,15 @@ function UpdateCustomList($LongName, $ListName) {
   $FileHandle = fopen($DirTmp.$LowercaseLongName.'.txt', 'w');
   
   //Write Usage Instructions to top of File
-  fwrite($FileHandle, "#Use this file to create your own custom ".$LongName."\n");
-  fwrite($FileHandle, "#Run notrack script (sudo notrack) after you make any changes to this file\n");
+  fwrite($FileHandle, "#Use this file to create your own custom ".$LongName.PHP_EOL);
+  fwrite($FileHandle, '#Run notrack script (sudo notrack) after you make any changes to this file'.PHP_EOL);
   
   foreach ($List as $Line) {                     //Write List Array to File
     if ($Line[2] == true) {                      //Is site enabled?
-      fwrite($FileHandle, $Line[0].' #'.$Line[1]."\n");
+      fwrite($FileHandle, $Line[0].' #'.$Line[1].PHP_EOL);
     }
     else {                                       //Site disabled, comment it out by preceding Line with #
-      fwrite($FileHandle, '# '.$Line[0].' #'.$Line[1]."\n");
+      fwrite($FileHandle, '# '.$Line[0].' #'.$Line[1].PHP_EOL);
     }    
   }
   fclose($FileHandle);                           //Close file
@@ -646,6 +663,29 @@ function UpdateCustomList($LongName, $ListName) {
   ExecAction('copy-'.$LowercaseLongName, true, true);
   
   return null;
+}
+//Update Security Config---------------------------------------------
+function UpdateSecurityConfig() {
+  global $Config;
+  
+  if ((! isset($_POST['username']) && (! isset($_POST['password'])))) return false;
+  
+  $UserName = $_POST['username'];
+  $Password = $_POST['password'];
+  
+  if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>:\,\|\/\\\\]/', $UserName) != 0) return false;
+  
+  if (($UserName == '') && ($Password == '')) {    
+    $Config['Username'] = '';
+    $Config['Password'] = '';
+  }
+  else {  
+    $Config['Username'] = $UserName;
+    $Config['Password'] = password_hash($Password, PASSWORD_DEFAULT);
+    $Config['Delay'] = Filter_Int_Post('delay', 10, 2401, 30);
+  }
+  
+  return true;
 }
 //Update Webserver Config--------------------------------------------
 function UpdateWebserverConfig() {
@@ -686,11 +726,11 @@ function WriteTmpConfig() {
   foreach ($Config as $Key => $Value) {          //Loop through Config array
     if ($Key == 'Status') {
       if ($Value != 'Enabled') {
-        fwrite($FileHandle, $Key.' = '.$Value."\n");//Write Key & Value
+        fwrite($FileHandle, $Key.' = '.$Value.PHP_EOL);//Write Key & Value
       }
     }
     else {
-      fwrite($FileHandle, $Key.' = '.$Value."\n");  //Write Key & Value
+      fwrite($FileHandle, $Key.' = '.$Value.PHP_EOL);  //Write Key & Value
     }
   }
   fclose($FileHandle);                           //Close file
