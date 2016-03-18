@@ -1,13 +1,15 @@
-#Malicious Domains last updated 21 Jan 2015 
+#Malicious Domains last updated 17 Mar 2015 
 .cf #Central African Republic
 .cricket
 .country
 .gq #Equatorial Guinea
 .kim
 .link
+.om #Oman
 .party
 .pink
 .review
 .science
+.tk #Tokelau
 .work
 .xyz
