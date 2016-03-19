@@ -2,17 +2,18 @@
 //Global Functions used in NoTrack Admin
 //Check User Session-------------------------------------------------
 function Check_SessionID() {
-  //global $Config;
   if (isset($_SESSION['sid'])) {
     if ($_SESSION['sid'] == 1) return true;
   }
+  
   return false;
 }
 //Draw Sys Table-----------------------------------------------------
 function DrawSysTable($Title) {
-  echo '<div class="sys-group"><div class="sys-title">'."\n";
-  echo '<h5>'.$Title.'</h5></div>'."\n";
-  echo '<div class="sys-items"><table class="sys-table">'."\n";
+  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+  echo '<h5>'.$Title.'</h5></div>'.PHP_EOL;
+  echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
+  
   return null;
 }
 //Draw Sys Table with Help Button------------------------------------
@@ -22,16 +23,24 @@ function DrawSysTableHelp($Title, $HelpPage) {
   echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
   return null;
 }
-
 //Draw Sys Row-------------------------------------------------------
 function DrawSysRow($Description, $Value) {
-  echo '<tr><td>'.$Description.': </td><td>'.$Value.'</td></tr>'."\n";
+  echo '<tr><td>'.$Description.': </td><td>'.$Value.'</td></tr>'.PHP_EOL;
+  
   return null;
 }
 //Execute Action-----------------------------------------------------
 function ExecAction($Action, $ExecNow, $Fork=false) {
+  //Execute Action writes a command into /tmp/ntrk-exec.txt
+  //It can then either wait inline for ntrk-exec to process command, or fork ntrk-exec
+  
+  //Options:
+  //ExecNow - false: Write Action to file and then return
+  //ExecNow - true: Run ntrk-exec and wait until its finished
+  //Fork - true: Run ntrk-exec and fork to new process
+
   global $FileTmpAction;
-  if (file_put_contents($FileTmpAction, $Action."\n", FILE_APPEND) === false) {
+  if (file_put_contents($FileTmpAction, $Action.PHP_EOL, FILE_APPEND) === false) {
     die('Unable to write to file '.$FileTmpAction);
   }
   
@@ -45,6 +54,7 @@ function ExecAction($Action, $ExecNow, $Fork=false) {
   elseif (($ExecNow) && ($Fork)) {
     exec("sudo ntrk-exec > /dev/null &");
   }
+  
   return null;    
 }
 //Filter Bool from GET-----------------------------------------------
@@ -105,6 +115,7 @@ function Filter_URL($Str) {
   //2. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
   //3. Check String matches the form of a URL "any.co"
   //Return True on success, and False on fail
+  
   if (isset($_GET[$Str])) {
     if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
       if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1) return true;
@@ -117,6 +128,7 @@ function Filter_URL_Str($Str) {
   //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
   //2. Check String matches the form of a URL "any.co"
   //Return True on success, and False on fail
+  
   if (((strlen($Str) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $Str) == 0))) {
     if (preg_match('/.*\..{2,}/', $Str) == 1) return true;    
   }  
@@ -145,6 +157,7 @@ function LoadConfigFile() {
     if (!array_key_exists('Delay', $Config)) $Config += array('Delay' => 30);
     if (!array_key_exists('BlockList_NoTrack', $Config)) $Config += array('BlockList_NoTrack' => 1);
     if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => 1);
+    if (!array_key_exists('BlockList_QMalware', $Config)) $Config += array('BlockList_QMalware' => 1);
     if (!array_key_exists('BlockList_AdBlockManager', $Config)) $Config += array('BlockList_AdBlockManager' => 0);
     if (!array_key_exists('BlockList_EasyList', $Config)) $Config += array('BlockList_EasyList' => 0);
     if (!array_key_exists('BlockList_EasyPrivacy', $Config)) $Config += array('BlockList_EasyPrivacy' => 0);
@@ -155,6 +168,7 @@ function LoadConfigFile() {
     if (!array_key_exists('BlockList_MalwareDomains', $Config)) $Config += array('BlockList_MalwareDomains' => 0);
     if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);    
     if (!array_key_exists('BlockList_SomeoneWhoCares', $Config)) $Config += array('BlockList_SomeoneWhoCares' => 0);
+    if (!array_key_exists('BlockList_Spam404', $Config)) $Config += array('BlockList_Spam404' => 0);
     if (!array_key_exists('BlockList_Winhelp2002', $Config)) $Config += array('BlockList_Winhelp2002' => 0);    
     //if (!array_key_exists('', $Config)) $Config += array('' => 0);
     
