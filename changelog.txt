@@ -1,6 +1,9 @@
 v0.7.8 alpha
 New Admin password feature to limit access into web config.
 Help page added, only one topic so far...
+New BlockList qmalware, I have removed malicious sites from the tracker list.
+ProcessEasyLists Can now extract more usable domains from EasyLists
+Spam404 BlockList added
 
 v0.7.7 alpha
 Added Fanboy Blocklists.

@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 15 Mar 2016
-#LatestVersion 0.7.7
+#NoTrack Tracker list updated 19 Mar 2016
+#LatestVersion 0.7.8
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -196,21 +196,21 @@ affiliatewindow.porn #Digital Window
 affiliatewindows.com #Digital Window
 affilliatewindow.com #Digital Window
 affluencemedia.com #AppNexus Inc
-affrh2011.com #MyAdWise
-affrh2012.com #MyAdWise
-affrh2013.com #MyAdWise
-affrh2014.com #MyAdWise
-affrh2015.com #MyAdWise
-affrh2016.com #MyAdWise
-affrh2017.com #MyAdWise
-affrh2018.com #MyAdWise
-affrh2019.com #MyAdWise
-affrh2020.com #MyAdWise
-affrh2021.com #MyAdWise
-affrh2022.com #MyAdWise
-affrh2023.com #MyAdWise
-affrh2024.com #MyAdWise
-affrh2025.com #MyAdWise
+affrh2011.com #RevenueHits
+affrh2012.com #RevenueHits
+affrh2013.com #RevenueHits
+affrh2014.com #RevenueHits
+affrh2015.com #RevenueHits
+affrh2016.com #RevenueHits
+affrh2017.com #RevenueHits
+affrh2018.com #RevenueHits
+affrh2019.com #RevenueHits
+affrh2020.com #RevenueHits
+affrh2021.com #RevenueHits
+affrh2022.com #RevenueHits
+affrh2023.com #RevenueHits
+affrh2024.com #RevenueHits
+affrh2025.com #RevenueHits
 afy11.net
 agil1.biz
 agil1.info
@@ -226,8 +226,8 @@ ahalogy.com
 aimatch.com
 akadns.net
 alertbot.co.uk
-algonetwork.com #MyAdWise
-algovise.com #MyAdWise
+algonetwork.com #RevenueHits
+algovise.com #RevenueHits
 aliunicorn.com
 alnisrgroup.com
 altabold1.com #Lead Forensics
@@ -457,52 +457,52 @@ clicktracks.com
 clickwindow.com #Digital Window
 clickwindow.net #Digital Window
 clixengine.com #Digital Window
-clk1002.com #MyAdWise
-clk1003.com #MyAdWise
-clk1004.com #MyAdWise
-clk1005.com #MyAdWise
-clk1006.com #MyAdWise
-clk1007.com #MyAdWise
-clk1008.com #MyAdWise
-clk1009.com #MyAdWise
-clk1010.com #MyAdWise
-clk1011.com #MyAdWise
-clk1012.com #MyAdWise
-clk1013.com #MyAdWise
-clk1014.com #MyAdWise
-clk1015.com #MyAdWise
-clk1016.com #MyAdWise
-clk1017.com #MyAdWise
-clk1018.com #MyAdWise
-clk1019.com #MyAdWise
-clk1020.com #MyAdWise
-clkads.com #MyAdWise
-clkbid.com #MyAdWise
-clkcln.com #MyAdWise
-clkdeals.com #MyAdWise
-clkexchange.com #MyAdWise
-clkfeed.com #MyAdWise
-clkfeed1002.com #MyAdWise
-clkfeed1003.com #MyAdWise
-clkfeed1004.com #MyAdWise
-clkfeed1005.com #MyAdWise
-clkfeed1006.com #MyAdWise
-clkfeed1007.com #MyAdWise
-clkfeed1008.com #MyAdWise
-clkfeed1009.com #MyAdWise
-clkfeed1010.com #MyAdWise
-clkini.com #MyAdWise
-clkmob.com #MyAdWise
-clkmobile.com #MyAdWise
-clkmon.com #MyAdWise
-clkmona.com #MyAdWise
-clkoffers.com #MyAdWise
-clkpback3.com #MyAdWise
-clkrev.com #MyAdWise
-clksite.com #MyAdWise
-clksite.com #MyAdWise
-clktag.com #MyAdWise
-clkuno.com #MyAdWise
+clk1002.com #RevenueHits
+clk1003.com #RevenueHits
+clk1004.com #RevenueHits
+clk1005.com #RevenueHits
+clk1006.com #RevenueHits
+clk1007.com #RevenueHits
+clk1008.com #RevenueHits
+clk1009.com #RevenueHits
+clk1010.com #RevenueHits
+clk1011.com #RevenueHits
+clk1012.com #RevenueHits
+clk1013.com #RevenueHits
+clk1014.com #RevenueHits
+clk1015.com #RevenueHits
+clk1016.com #RevenueHits
+clk1017.com #RevenueHits
+clk1018.com #RevenueHits
+clk1019.com #RevenueHits
+clk1020.com #RevenueHits
+clkads.com #RevenueHits
+clkbid.com #RevenueHits
+clkcln.com #RevenueHits
+clkdeals.com #RevenueHits
+clkexchange.com #RevenueHits
+clkfeed.com #RevenueHits
+clkfeed1002.com #RevenueHits
+clkfeed1003.com #RevenueHits
+clkfeed1004.com #RevenueHits
+clkfeed1005.com #RevenueHits
+clkfeed1006.com #RevenueHits
+clkfeed1007.com #RevenueHits
+clkfeed1008.com #RevenueHits
+clkfeed1009.com #RevenueHits
+clkfeed1010.com #RevenueHits
+clkini.com #RevenueHits
+clkmob.com #RevenueHits
+clkmobile.com #RevenueHits
+clkmon.com #RevenueHits
+clkmona.com #RevenueHits
+clkoffers.com #RevenueHits
+clkpback3.com #RevenueHits
+clkrev.com #RevenueHits
+clksite.com #RevenueHits
+clksite.com #RevenueHits
+clktag.com #RevenueHits
+clkuno.com #RevenueHits
 cloud-9751.com #Lead Forensics
 cloudapp.net #Microsoft
 clusteredcloud.com #AppNexus Inc
@@ -633,10 +633,10 @@ ebayadvertising.com
 ebayenterprise.com
 ebaypartnernetwork.com
 ebz.io
-eclkmpbn.com #MyAdWise
-eclkmpsa.com #MyAdWise
-eclkspbn.com #MyAdWise
-eclkspsa.com #MyAdWise
+eclkmpbn.com #RevenueHits
+eclkmpsa.com #RevenueHits
+eclkspbn.com #RevenueHits
+eclkspsa.com #RevenueHits
 ecopute.com #AppNexus Inc
 ecustomeropinions.com
 ed-clr-01.com #Lead Forensics
@@ -658,6 +658,7 @@ emv3.com
 en25.com #Oracle
 engagesciences.com
 engine54.com #AppNexus Inc
+trafficjunky.net #Ennova Research
 ensighten.com
 envnexus.com #AppNexus Inc
 envnexus.net #AppNexus Inc
@@ -908,6 +909,7 @@ ist-track.com
 iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 jisusaiche.com
+jpush.cn
 jpush.io
 jmxded110.net
 jumptap.com #Jumptap
@@ -8797,7 +8799,9 @@ panel100.com
 pardot.com
 parsely.com
 passionfruitads.com
-pawamedia.com #MyAdWise
+pawamedia.com #RevenueHits
+pctupd.info #Sergii Mykolaenko
+pct-upd.info #Sergii Mykolaenko
 pdxor02.com #Lead Forensics
 peer39.net
 peerius.com
@@ -8816,13 +8820,14 @@ phluant.com #Phluant
 phluantmobile.net #Phluant
 piksel.com
 pimpb.us #AppNexus Inc
-pinchoo.com #MyAdWise
+pinchoo.com #RevenueHits
 pingdom.net
 pingme.net #RadiumOne
 pingmemessenger.com #RadiumOne
 pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
+pipeaota.com
 piwik.pro #Piwik PRO
 piwikpro.com #Piwik PRO
 pixfuture.net
@@ -8902,15 +8907,15 @@ radiumone.us #RadiumOne
 radiumonelabs.com #RadiumOne
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
-rdsa2011.com #MyAdWise
-rdsa2012.com #MyAdWise
-rdsa2013.com #MyAdWise
-rdsa2014.com #MyAdWise
-rdsa2015.com #MyAdWise
-rdsa2016.com #MyAdWise
-rdsa2017.com #MyAdWise
-rdsa2018.com #MyAdWise
-rdsa2019.com #MyAdWise
+rdsa2011.com #RevenueHits
+rdsa2012.com #RevenueHits
+rdsa2013.com #RevenueHits
+rdsa2014.com #RevenueHits
+rdsa2015.com #RevenueHits
+rdsa2016.com #RevenueHits
+rdsa2017.com #RevenueHits
+rdsa2018.com #RevenueHits
+rdsa2019.com #RevenueHits
 reactful.com
 radiumone.com
 realads.com #AppNexus Inc
@@ -8922,7 +8927,7 @@ redirecting2.net
 redeye.international
 redstar.co.uk
 refinedads.com
-relatedweboffers.com #MyAdWise
+relatedweboffers.com #RevenueHits
 relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
@@ -8934,29 +8939,29 @@ research-int.com
 reson8.com.au
 responsetap.com
 revcontent.com
-revdepo.com #MyAdWise
-revenuehits.com #MyAdWise
-revenuehits.net #MyAdWise
-revenuehitscontest.com #MyAdWise
-revenuevids.com #MyAdWise
+revdepo.com #RevenueHits
+revenuehits.com #RevenueHits
+revenuehits.net #RevenueHits
+revenuehitscontest.com #RevenueHits
+revenuevids.com #RevenueHits
 revenue-tracker.com
 revsci.net
 rewardwindow.com #Digital Window
 rfihub.com
 rfihub.net
-rhbnr2002.com #MyAdWise
-rhbnr2003.com #MyAdWise
-rhbnr2004.com #MyAdWise
-rhbnr2005.com #MyAdWise
-rhbnr2006.com #MyAdWise
-rhbnr2007.com #MyAdWise
-rhbnr2008.com #MyAdWise
-rhbnr2009.com #MyAdWise
-rhbnr2010.com #MyAdWise
-rhbnr2011.com #MyAdWise
-rhextpub26.com #MyAdWise
-rhrev.com #MyAdWise
-rhtag.com #MyAdWise
+rhbnr2002.com #RevenueHits
+rhbnr2003.com #RevenueHits
+rhbnr2004.com #RevenueHits
+rhbnr2005.com #RevenueHits
+rhbnr2006.com #RevenueHits
+rhbnr2007.com #RevenueHits
+rhbnr2008.com #RevenueHits
+rhbnr2009.com #RevenueHits
+rhbnr2010.com #RevenueHits
+rhbnr2011.com #RevenueHits
+rhextpub26.com #RevenueHits
+rhrev.com #RevenueHits
+rhtag.com #RevenueHits
 rhythmxchange.com
 richrelevance.com
 rlcdn.com
@@ -8986,7 +8991,7 @@ roost.me
 route.to
 routecdn.com
 rsvpgenius.com
-rtb007.com #MyAdWise
+rtb007.com #RevenueHits
 rtbc.info #AppNexus Inc
 rtbc.mobi #AppNexus Inc
 rtbc.us #AppNexus Inc
@@ -9012,16 +9017,16 @@ rubiconproject.mobi #Rubicon
 rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
-rvfrm2002.com #MyAdWise
-rvfrm2003.com #MyAdWise
-rvfrm2004.com #MyAdWise
-rvfrm2005.com #MyAdWise
-rvfrm2006.com #MyAdWise
-rvfrm2007.com #MyAdWise
-rvfrm2008.com #MyAdWise
-rvfrm2009.com #MyAdWise
-rvfrm2010.com #MyAdWise
-rvfrm2011.com #MyAdWise
+rvfrm2002.com #RevenueHits
+rvfrm2003.com #RevenueHits
+rvfrm2004.com #RevenueHits
+rvfrm2005.com #RevenueHits
+rvfrm2006.com #RevenueHits
+rvfrm2007.com #RevenueHits
+rvfrm2008.com #RevenueHits
+rvfrm2009.com #RevenueHits
+rvfrm2010.com #RevenueHits
+rvfrm2011.com #RevenueHits
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
 s3network1.com #Lead Forensics
 s5network1.com #Lead Forensics
@@ -9057,7 +9062,7 @@ securepaths.com
 securestudies.com #TMRG
 securestudies.net #TMRG
 segment.com
-selfadvertiser.com #MyAdWise
+selfadvertiser.com #RevenueHits
 sellathon.com
 semasio.net
 sendgrid.me
@@ -9161,9 +9166,9 @@ spoteffects.net
 spotxchange.com
 springboardplatform.com
 springserve.com
-srv4pub.com #MyAdWise
+srv4pub.com #RevenueHits
 srvntrk.com
-srvpub.com #MyAdWise
+srvpub.com #RevenueHits
 statcounter.com
 staticworld.net
 steelhousemedia.com
@@ -9186,6 +9191,7 @@ swordfishdc.com #Swordfish Inc
 symcb.com #Symantec
 symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
+t4p-upd.info #Sergii Mykolaenko
 taboola.com
 taboolasyndication.com
 tacoda.net
@@ -9215,7 +9221,7 @@ thebrighttag.com
 thedailypocket.mobi #Millennial Media
 thehut.net
 therelevancegraph.mobi #Millennial Media
-theresulter.com #MyAdWise
+theresulter.com #RevenueHits
 thetacdn.net #Verizon
 thispick.com #Keywee
 ticket-genie.com #Digital Window
@@ -9253,7 +9259,7 @@ treesforknowledge.com #TMRG
 tribalfusion.com
 triggit.com
 trkme.net
-trkmob1.com #MyAdWise
+trkmob1.com #RevenueHits
 tru.am #TrueAnthem
 truste.com
 truste-svc.net
@@ -9284,6 +9290,8 @@ umhalilabs.com #AppNexus Inc
 uniqodo.com
 univide.com
 uobsoe.com
+updpct.info #Sergii Mykolaenko
+upd-pct.info #Sergii Mykolaenko
 upsellit.com
 upsiloncdn.net #Verizon
 urbanairship.com
@@ -9325,7 +9333,7 @@ viazza.com
 viazza.info
 videoadex.com
 videologygroup.com
-videorev.net #MyAdWise
+videorev.net #RevenueHits
 vidyard.com
 viglink.com
 videopostroll.com #BrightRoll
@@ -9384,6 +9392,7 @@ wistia.com
 wistia.net
 woopra.com
 wowanalytics.co.uk
+wshifen.com #Baidu
 ws-outage.com #Lead Forensics
 wt-eu02.net
 wt-safetag.com
