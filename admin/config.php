@@ -250,6 +250,8 @@ function DisplayBlockLists() {
   
   DrawBlockListRow('bl_tld', 'BlockList_TLD', 'Top Level Domain', 'Whole country and generic domains.');
   
+  DrawBlockListRow('bl_qmalware', 'BlockList_QMalware', 'Malware Sites', 'New list which seperates Malware sites from Tracker sites.');
+  
   echo '<tr><th colspan="2">Ad Block</th></tr>';
   DrawBlockListRow('bl_easylist', 'BlockList_EasyList', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
@@ -264,6 +266,8 @@ function DisplayBlockLists() {
     
   echo '<tr><th colspan="2">Malware</th></tr>';
   DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
+  
+  DrawBlockListRow('bl_spam404', 'BlockList_Spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
   
   echo '<tr><th colspan="2">Social</th></tr>';
   DrawBlockListRow('bl_fbannoyance', 'BlockList_FBAnnoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
@@ -568,6 +572,7 @@ function UpdateBlockListConfig() {
     
   $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
+  $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
   $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
   $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
   $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
@@ -578,6 +583,7 @@ function UpdateBlockListConfig() {
   $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');
   $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
   $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
+  $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
   $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
   
   //print_r($Config); 

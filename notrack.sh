@@ -11,9 +11,10 @@
 NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 IPVersion="IPv4"
 
-declare -A Config
+declare -A Config                                #Config array for Blocklists
 Config[blocklist_notrack]=1
 Config[blocklist_tld]=1
+Config[blocklist_qmalware]=1
 Config[blocklist_adblockmanager]=0
 Config[blocklist_easylist]=0
 Config[blocklist_easyprivacy]=0
@@ -21,13 +22,14 @@ Config[blocklist_fbannoyance]=0
 Config[blocklist_fbenhanced]=0
 Config[blocklist_fbsocial]=0
 Config[blocklist_hphosts]=0
+Config[blocklist_malwaredomains]=0
 Config[blocklist_pglyoyo]=0
 Config[blocklist_someonewhocares]=0
-Config[blocklist_malwaredomains]=0
+Config[blocklist_spam404]=0
 Config[blocklist_winhelp2002]=0
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.7"
+Version="0.7.8"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -39,6 +41,7 @@ ConfigFile="/etc/notrack/notrack.conf"
 declare -A URLList                               #Array of URL's
 URLList[notrack]="http://quidsup.net/trackers.txt"
 URLList[tld]="http://quidsup.net/malicious-domains.txt"
+URLList[qmalware]="http://quidsup.net/malicious-sites.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
 URLList[easyprivacy]="https://easylist-downloads.adblockplus.org/easyprivacy.txt"
@@ -47,6 +50,7 @@ URLList[fbenhanced]="https://www.fanboy.co.nz/enhancedstats.txt"
 URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
+URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
@@ -101,6 +105,7 @@ AddSite() {
   #2. Check If site name ($1) is listed in the WhiteList associative array
   #3a. If it is then add a line to CSVList Array saying Site is Disabled
   #3b. Otherwise add line to CSVList Array saying Site is Enabled, and add line to DNSList in the form of "address=/site.com/192.168.0.0"
+  
   if [ ${#1} == 0 ]; then return 0; fi           #Ignore zero length str
   
   if [ "${WhiteList[$1]}" ]; then                #Is site in WhiteList Array?    
@@ -133,6 +138,7 @@ CalculatePercentPoint() {
 #Default values are set at top of this script
 #Config File contains Key & Value on each line for some/none/or all items
 #If the Key is found in the case, then we write the value to the Variable
+
 Read_Config_File() {  
   if [ -e "$ConfigFile" ]; then
     echo "Reading Config File"
@@ -150,6 +156,7 @@ Read_Config_File() {
           LatestVersion) OldLatestVersion="$Value";;
           BlockList_NoTrack) Config[blocklist_notrack]="$Value";;
           BlockList_TLD) Config[blocklist_tld]="$Value";;
+          BlockList_QMalware) Config[blocklist_qmalware]="$Value";;
           BlockList_AdBlockManager) Config[blocklist_adblockmanager]="$Value";;
           BlockList_EasyList) Config[blocklist_easylist]="$Value";;
           BlockList_EasyPrivacy) Config[blocklist_easyprivacy]="$Value";;
@@ -160,6 +167,7 @@ Read_Config_File() {
           BlockList_MalwareDomains) Config[blocklist_malwaredomains]="$Value";;
           BlockList_PglYoyo) Config[blocklist_pglyoyo]="$Value";;
           BlockList_SomeoneWhoCares) Config[blocklist_someonewhocares]="$Value";;
+          BlockList_Spam404) Config[blocklist_spam404]="$Value";;
           BlockList_Winhelp2002) Config[blocklist_winhelp2002]="$Value";;
         esac            
       fi
@@ -403,20 +411,35 @@ GetList() {
 }
 #Process EasyList----------------------------------------------------
 Process_EasyList() {
-#||ozone.ru^$third-party,domain=~ozon.ru|~ozonru.co.il|~ozonru.com|~ozonru.eu|~ozonru.kz
-#||promotools.biz^$third-party
-#||surveysforgifts.org^$popup,third-party
-#||dt00.net^$third-party,domain=~marketgid.com|~marketgid.ru|~marketgid.ua|~mgid.com|~thechive.com
-#||pubdirecte.com^$third-party,domain=~debrideurstream.fr
+  #EasyLists contain a mixture of Element hiding rules and third party sites to block.
+  #DNS is only capable of blocking sites, therefore NoTrack can only use the lines with $third party in
+  
   #$1 = SourceFile
+  
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
     
   while IFS=$' \n' read -r Line
   do
-    if [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party$ ]]; then
-      AddSite "${Line:2:-13}" ""
+    #||somesite.com^
+    if [[ $Line =~ ^\|\|[a-z0-9\.-]*\^$ ]]; then
+      AddSite "${Line:2:-1}" ""
+    ##[href^="http://somesite.com/"]
+    elif [[ $Line =~ ^##\[href\^=\"http:\/\/[a-z0-9\.-]*\/\"\]$ ]]; then
+      #As above, but remove www.
+      if [[ $Line =~ ^##\[href\^=\"http:\/\/www\.[a-z0-9\.-]*\/\"\]$ ]]; then
+        AddSite "${Line:21:-3}" ""
+      else
+        AddSite "${Line:17:-3}" ""
+      fi
+    #||somesite.com^$third-party
+    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party$ ]]; then
+      #Basic method of ignoring IP addresses (\d doesn't work)
+      if  [[ ! $Line =~ ^\|\|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\^\$third-party$ ]]; then
+        AddSite "${Line:2:-13}" ""
+      fi
+    #||somesite.com^$popup,third-party
     elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$popup\,third-party$ ]]; then
       AddSite "${Line:2:-19}" ""
     elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party\,domain=~ ]]; then
@@ -442,7 +465,11 @@ Process_EasyList() {
 }
 #Process NoTrack List------------------------------------------------
 Process_NoTrackList() {
+  #NoTrack list is just like PlainList, but contains latest version number
+  #which is used by the Admin page to inform the user an upgrade is available
+  
   #$1 = SourceFile
+  
   DNSList+=("#Tracker Blocklist last updated $(date)")
   DNSList+=("#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead")
     
@@ -564,7 +591,7 @@ Process_TLDList() {
   
 }
 #Process UnixList 0--------------------------------------------------
-#Unix hosts file starting 0.0.0.0 site.com
+#Unix hosts file with 0 localhost have: 0.0.0.0 site.com
 Process_UnixList0() {
   #$1 = SourceFile
   CalculatePercentPoint "$1"
@@ -592,7 +619,7 @@ Process_UnixList0() {
   echo " 100%"
  }
 #Process UnixList 127------------------------------------------------
-#Unix hosts file starting 127.0.0.1 site.com
+#Unix hosts file with loopback localhost have: 127.0.0.1 site.com
 Process_UnixList127() {
   #$1 = SourceFile
   CalculatePercentPoint "$1"
@@ -835,7 +862,8 @@ fi
 GetList_BlackList                                #Process Users Blacklist
   
 GetList "tld" "tldlist" 604800                   #7 Days
-GetList "notrack" "notrack" 172800               #2 Days  
+GetList "notrack" "notrack" 172800               #2 Days
+GetList "qmalware" "plain" 345600                #4 Days
 GetList "adblockmanager" "unix127" 604800        #7 Days
 GetList "easylist" "easylist" 345600             #4 Days
 GetList "easyprivacy" "easylist" 345600          #4 Days
@@ -846,6 +874,7 @@ GetList "hphosts" "unix127" 345600               #4 Days
 GetList "malwaredomains" "plain" 345600          #4 Days
 GetList "pglyoyo" "plain" 345600                 #4 Days
 GetList "someonewhocares" "unix127" 345600       #4 Days
+GetList "spam404" "easylist" 172800              #2 Days
 GetList "winhelp2002" "unix0" 604800             #7 Days
   
 if [ ${Config[blocklist_tld]} == 0 ]; then
