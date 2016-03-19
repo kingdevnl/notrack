@@ -36,11 +36,13 @@ $Msg = '';
 if ($Config['Password'] != '') {
   session_start();  
   if (Check_SessionID()) {
-    header('Location: index.php');
+    header('Location: ./index.php');
+    exit;
   }
 }
 else {
-  header('Location: index.php');
+  header('Location: ./index.php');
+  exit;
 }
 
 if (isset($_POST['password'])) {

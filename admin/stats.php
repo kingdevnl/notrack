@@ -7,7 +7,8 @@ LoadConfigFile();
 if ($Config['Password'] != '') {  
   session_start();
   if (! Check_SessionID()) {
-    header("Location: login.php");
+    header("Location: ./login.php");
+    exit;
   }
 }
 ?>

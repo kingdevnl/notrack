@@ -6,7 +6,8 @@ LoadConfigFile();
 if ($Config['Password'] != '') {
   session_start();
   if (! Check_SessionID()) {
-    header("Location: login.php");
+    header("Location: ./login.php");
+    exit;
   }
 }
 
@@ -35,6 +36,7 @@ if (isset($_POST['action'])) {
       if (UpdateSecurityConfig()) {
         WriteTmpConfig();
         ExecAction('update-config', true, true);
+        if (session_status() == PHP_SESSION_ACTIVE) session_destroy();
         header('Location: ?');
       }
       break;
