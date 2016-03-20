@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 #Title : NoTrack Uninstaller
 #Description : This script remove the files NoTrack created, and then return dnsmasq and lighttpd to their default configuration
 #Author : QuidsUp
@@ -28,7 +28,7 @@ Error_Exit() {
   exit 2
 }
 #Copy File-----------------------------------------------------------
-CopyFile()
+CopyFile() {
   #$1 Source
   #$2 Target
   if [ -e "$1" ]; then
@@ -54,7 +54,7 @@ DeleteFolder() {
 }
 
 #Main----------------------------------------------------------------
-if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users folder
+if [ "$InstallLoc" == "/root/NoTrack" ]; then      #Change root folder to users folder
   InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
 fi
 
@@ -66,12 +66,13 @@ Show_Welcome
 
 if [[ "$(id -u)" != "0" ]]; then
   echo "Root access is required to carry out uninstall of NoTrack"
-  sudo su
+  Error_Exit "sudo bash uninstall.sh"
+  #su -c "$0" "$@" - This could be an alternative for systems without sudo
 fi
 
-if [ "$(id -u)" != "0" ]; then
-  Error_Exit "Root access hasn't been granted"
-fi
+#if [ "$(id -u)" != "0" ]; then
+#  Error_Exit "Root access hasn't been granted"
+#fi
 
 echo "Stopping Dnsmasq"
 service dnsmasq stop
@@ -91,6 +92,8 @@ echo "Restoring Dnsmasq config"
 CopyFile "/etc/dnsmasq.conf.old" "/etc/dnsmasq.conf"
 echo "Restoring Lighttpd config"
 CopyFile "/etc/lighttpd/lighttpd.conf.old" "/etc/lighttpd/lighttpd.conf"
+echo "Removing Local Hosts file"
+DeleteFile "/etc/localhosts.list"
 echo
 
 echo "Removing Log file rotator"
@@ -134,5 +137,3 @@ echo -e "\tphp-curl"
 echo -e "\tmemcached"
 echo -e "\tphp-memcache"
 echo
-
-
