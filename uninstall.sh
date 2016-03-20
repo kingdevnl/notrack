@@ -52,36 +52,7 @@ DeleteFolder() {
     rm -rf "$1"    
   fi
 }
-Install_Packages() {
-  if [ $(command -v apt-get) ]; then Install_Deb
-  elif [ $(command -v dnf) ]; then Install_Dnf
-  elif [ $(command -v yum) ]; then Install_Yum  
-  elif [ $(command -v pacman) ]; then Install_Pacman
-  else 
-    echo "Unable to work out which package manage is being used."
-    echo "Ensure you have the following packages installed:"
-    echo -e "\tdnsmasq"
-    echo -e "\tlighttpd"
-    echo -e "\tphp-cgi"
-    echo -e "\tphp-curl"
-    echo -e "\tphp-xcache"
-    echo -e "\tunzip"
-    echo
-    sleep 10s
-  fi
-}
 
-
-#NoTrack Exec--------------------------------------------------------
-Setup_NtrkExec() {
-   
-  SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
-  if [[ $SudoCheck == "" ]]; then
-    echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
-    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
-    echo
-  fi  
-}
 #Main----------------------------------------------------------------
 if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users folder
   InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
@@ -143,8 +114,6 @@ echo
 
 echo "Removing root permissions for www-data to launch ntrk-exec"
 sed -i '/www-data/d' /etc/sudoers
-"www-data ALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
-
 
 echo "Deleting /etc/notrack Folder"
 DeleteFolder "$EtcFolder/notrack"
@@ -152,5 +121,18 @@ echo
 
 echo "Deleting Install Folder"
 DeleteFolder "$InstallLoc"
+echo
+
+echo "Finished deleting all files"
+echo
+
+echo "The following packages will also need removing:"
+echo -e "\tdnsmasq"
+echo -e "\tlighttpd"
+echo -e "\tphp-cgi"
+echo -e "\tphp-curl"
+echo -e "\tmemcached"
+echo -e "\tphp-memcache"
+echo
 
 

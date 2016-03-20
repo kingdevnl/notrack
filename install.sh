@@ -286,7 +286,8 @@ Install_Packages() {
     echo -e "\tlighttpd"
     echo -e "\tphp-cgi"
     echo -e "\tphp-curl"
-    echo -e "\tphp-xcache"
+    echo -e "\tmemcached"
+    echo -e "\tphp-memcache"
     echo -e "\tunzip"
     echo
     sleep 10s
