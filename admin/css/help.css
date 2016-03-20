@@ -1,0 +1,24 @@
+@charset "utf-8";
+/*CSS to cover the extra font colours required in help*/
+code {
+  font-size: 1.1em;
+}
+span.green {
+  color: DarkGreen;
+}
+span.purple {
+  color: MediumSlateBlue;
+}
+span.red {
+  color: Maroon;
+}
+span.pink {
+  color: #F757F5;
+  font-weight: bold;
+}
+span.blue {
+  color: RoyalBlue;
+}
+span.gray {
+  color: DimGrey;
+}

@@ -17,6 +17,7 @@ if ($Config['Password'] != '') {
 <head>
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link href="./css/help.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
   <title>NoTrack Help</title>
@@ -41,6 +42,9 @@ echo '<h1>NoTrack Help</h1>'.PHP_EOL;
 
 if (isset($_GET['p'])) {
   switch($_GET['p']) {
+    case 'newblocklist':
+      LoadHelpPage('newblocklist');
+      break;
     case 'security':
       LoadHelpPage('security');
       break;
