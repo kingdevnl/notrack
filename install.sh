@@ -480,7 +480,12 @@ Setup_NtrkExec() {
     echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
     echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
     echo
-  fi  
+  fi
+  
+  Check_File_Exists "$InstallLoc/ntrk-pause.sh"
+  sudo cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
+  sudo chmod 755 /usr/local/sbin/ntrk-pause
 }
 #Main----------------------------------------------------------------
 if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users folder
