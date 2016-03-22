@@ -133,8 +133,8 @@ function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
     $TxtLines = 0;
     $FileName = '';
     $TotalStr = '';  
-  
-    $FileName = substr($BL, 3);
+    
+    $FileName = strtolower(substr($ConfBL, 10));
     $CsvFile = file_exists($DirEtc.$FileName.'.csv');
     $TxtFile = file_exists($DirTmp.$FileName.'.txt');
     
@@ -265,6 +265,8 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_fbenhanced', 'BlockList_FBEnhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
     
   echo '<tr><th colspan="2">Malware</th></tr>';
+  DrawBlockListRow('bl_dismalvertising', 'BlockList_DisconnectMalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
+  DrawBlockListRow('bl_maldomainlist', 'BlockList_MalwareDomainList', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
   DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
   
   DrawBlockListRow('bl_spam404', 'BlockList_Spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
@@ -574,13 +576,15 @@ function UpdateBlockListConfig() {
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
   $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
   $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
+  $Config['BlockList_DisconnectMalvertising'] = Filter_Config('bl_dismalvertising');
   $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
   $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
   $Config['BlockList_FBAnnoyance'] = Filter_Config('bl_fbannoyance');
   $Config['BlockList_FBEnhanced'] = Filter_Config('bl_fbenhanced');
   $Config['BlockList_FBSocial'] = Filter_Config('bl_fbsocial');
   $Config['BlockList_hpHosts'] = Filter_Config('bl_hphosts');
-  $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');
+  $Config['BlockList_MalwareDomainList'] = Filter_Config('bl_maldomainlist');
+  $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');  
   $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
   $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
   $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
