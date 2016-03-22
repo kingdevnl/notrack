@@ -2,7 +2,7 @@
 #Title : NoTrack Pause
 #Description : NoTrack Pause can pause/stop/start blocking in NoTrack. It alters the Blocking settings in /etc/notrack/notrack.conf 
 #Author : QuidsUp
-#Date : 2015-02-23
+#Date : 2016-02-23
 #Usage : ntrk-pause [--pause | --stop | --start | --status]
 
 #Settings (Leave these alone)----------------------------------------

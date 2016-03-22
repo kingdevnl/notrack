@@ -5,9 +5,13 @@
 #Date : 2016-03-22
 #Usage : ntrk-upgrade
 
+#Error Codes:
+#21 Root access required
+#22 Unable to find NoTrack
+#23 Download of NoTrack has failed
+#24 File missing
+
 #Settings (Leave these alone)----------------------------------------
-ConfigFile="/etc/notrack/notrack.conf"
-OldConfig="/etc/notrack/old.conf"
 ConfigFile="/etc/notrack/notrack.conf"
 
 #Variables-----------------------------------------------------------
@@ -18,13 +22,13 @@ UserName=""
 Check_File_Exists() {
   if [ ! -e "$1" ]; then
     echo "Error file $1 is missing.  Aborting."
-    exit 5
+    exit 24
   fi
 }
 #--------------------------------------------------------------------
 if [[ "$(id -u)" != "0" ]]; then
   echo "Root access is required to carry out upgrade of NoTrack"
-  exit 1
+  exit 21
 fi
 
 for HomeDir in /home/*; do
@@ -37,14 +41,14 @@ for HomeDir in /home/*; do
   fi
 done
 
-if [[ InstallLoc == "" ]]; then
+if [[ $InstallLoc == "" ]]; then
   if [ -d "/opt/notrack" ]; then
     InstallLoc="/opt/notrack"
     UserName="root"
   else
     echo "Error Unable to find NoTrack folder"
     echo "Aborting"
-    exit 4
+    exit 22
   fi
 else 
   UserName=$(grep "$HomeDir" /etc/passwd | cut -d : -f1)
@@ -53,6 +57,7 @@ fi
 echo "Install Location $InstallLoc"
 echo "Username: $UserName"
 
+#Alt command for sudoless systems
 #su -c "cd /home/$USERNAME/$PROJECT ; svn update" -m "$USERNAME" 
 
 sudo -u $UserName bash << ROOTLESS
@@ -76,11 +81,12 @@ else                                           #Git not installed, fallback to w
   wget -O /tmp/notrack-master.zip https://github.com/quidsup/notrack/archive/master.zip
   if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
     #Abort we can't go any further without any code from git
-    Error_Exit "Error Download from github has failed"      
+    echo "Error Download from github has failed"
+    exit 23
   fi
   
-  if [ -d "$InstallLoc" ]; then                #Check if NoTrack folder exists  
-    if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
+  if [ -d "$InstallLoc" ]; then                  #Check if NoTrack folder exists  
+    if [ -d "$InstallLoc-old" ]; then            #Delete NoTrack-old folder if it exists
       echo "Removing old NoTrack folder"
       rm -rf "$InstallLoc-old"
     fi
@@ -93,11 +99,14 @@ else                                           #Git not installed, fallback to w
   echo "Copying folder across to $InstallLoc"
   mv /tmp/notrack-master "$InstallLoc"
   echo "Removing temporary files"
-  rm /tmp/notrack-master.zip                  #Cleanup
+  rm /tmp/notrack-master.zip                     #Cleanup
 fi
 
-
 ROOTLESS
+
+if [ $? == 23 ]; then                            #Code hasn't downloaded
+  exit 23
+fi
 
 Check_File_Exists "$InstallLoc/notrack.sh"
 echo "Updating notrack.sh"
@@ -106,19 +115,19 @@ mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
 chmod 755 /usr/local/sbin/notrack
   
 Check_File_Exists "$InstallLoc/ntrk-exec.sh"
-echo "Updating ntck-exec.sh"
+echo "Updating ntrk-exec.sh"
 cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
 chmod 755 /usr/local/sbin/ntrk-exec
   
 Check_File_Exists "$InstallLoc/ntrk-pause.sh"
-echo "Updating ntck-pause.sh"
+echo "Updating ntrk-pause.sh"
 cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
 chmod 755 /usr/local/sbin/ntrk-pause
 
 Check_File_Exists "$InstallLoc/ntrk-upgrade.sh"
-echo "Updating ntck-upgrade.sh"
+echo "Updating ntrk-upgrade.sh"
 cp "$InstallLoc/ntrk-upgrade.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
 chmod 755 /usr/local/sbin/ntrk-upgrade

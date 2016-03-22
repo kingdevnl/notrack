@@ -782,7 +782,44 @@ Show_Version() {
   echo "NoTrack Version v$Version"  
   echo
 }
+#Upgrade-------------------------------------------------------------
+Upgrade() {
+  #As of v0.7.9 Upgrading is now handled by ntrk-upgrade.sh
+  #This function attempts to run it from /usr/local/sbin
+  #If that fails, then it looks in the users home folder
+  if [ -e /usr/local/sbin/ntrk-upgrade ]; then
+    echo "Running ntrk-upgrade"
+    /usr/local/sbin/ntrk-upgrade
+    exit 0
+  fi
 
+  echo "Warning. ntrk-upgrade missing from /usr/local/sbin/"
+  echo "Attempting to find alternate copy..."  
+
+  for HomeDir in /home/*; do
+    if [ -d "$HomeDir/NoTrack" ]; then 
+      InstallLoc="$HomeDir/NoTrack"
+      break
+    elif [ -d "$HomeDir/notrack" ]; then 
+      InstallLoc="$HomeDir/notrack"
+      break
+    fi
+  done
+
+  if [[ $InstallLoc == "" ]]; then
+    if [ -d "/opt/notrack" ]; then
+      InstallLoc="/opt/notrack"      
+    else
+      echo "Error Unable to find NoTrack folder"
+      echo "Aborting"
+      exit 22
+    fi
+  else    
+    Check_File_Exists "$InstallLoc/ntrk-upgrade.sh"
+    echo "Found alternate copy in $InstallLoc"
+    sudo bash "$InstallLoc/ntrk-upgrade.sh"
+  fi
+}
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
   if ! options=$(getopt -o bfhvu -l help,force,version,upgrade -- "$@"); then
@@ -807,7 +844,7 @@ if [ "$1" ]; then                                #Have any arguments been given
         exit 0
       ;;
       -u|--upgrade)
-        /usr/local/sbin/ntrk-upgrade
+        Upgrade
         exit 0
       ;;
       (--) 

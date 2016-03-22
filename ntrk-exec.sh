@@ -148,11 +148,10 @@ Update_Config() {
 Upgrade-NoTrack() {
   if [ -e /usr/local/sbin/ntrk-upgrade ]; then
     echo "Running NoTrack Upgrade"
-    /usr/local/sbin/ntrk-upgrade
+    ntrk-upgrade
   else
-    echo "Error ntrk-upgrade script missing"
-    echo "Aborting"
-    exit 20
+    echo "NoTrack Upgrade is missing, using fallback notrack.sh"
+    notrack -u
   fi
 }
 #Main----------------------------------------------------------------
