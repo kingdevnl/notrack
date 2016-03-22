@@ -16,12 +16,14 @@ Config[blocklist_notrack]=1
 Config[blocklist_tld]=1
 Config[blocklist_qmalware]=1
 Config[blocklist_adblockmanager]=0
+Config[blocklist_disconnectmalvertising]=0
 Config[blocklist_easylist]=0
 Config[blocklist_easyprivacy]=0
 Config[blocklist_fbannoyance]=0
 Config[blocklist_fbenhanced]=0
 Config[blocklist_fbsocial]=0
 Config[blocklist_hphosts]=0
+Config[blocklist_malwaredomainlist]=0
 Config[blocklist_malwaredomains]=0
 Config[blocklist_pglyoyo]=0
 Config[blocklist_someonewhocares]=0
@@ -43,12 +45,14 @@ URLList[notrack]="http://quidsup.net/trackers.txt"
 URLList[tld]="http://quidsup.net/malicious-domains.txt"
 URLList[qmalware]="http://quidsup.net/malicious-sites.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
+URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
 URLList[easyprivacy]="https://easylist-downloads.adblockplus.org/easyprivacy.txt"
 URLList[fbannoyance]="https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"
 URLList[fbenhanced]="https://www.fanboy.co.nz/enhancedstats.txt"
 URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
+URLList[malwaredomainlist]="http://www.malwaredomainlist.com/hostslist/hosts.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
 URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
@@ -157,6 +161,7 @@ Read_Config_File() {
           BlockList_NoTrack) Config[blocklist_notrack]="$Value";;
           BlockList_TLD) Config[blocklist_tld]="$Value";;
           BlockList_QMalware) Config[blocklist_qmalware]="$Value";;
+          BlockList_DisconnectMalvertising) Config[blocklist_disconnectmalvertising]="$Value";;
           BlockList_AdBlockManager) Config[blocklist_adblockmanager]="$Value";;
           BlockList_EasyList) Config[blocklist_easylist]="$Value";;
           BlockList_EasyPrivacy) Config[blocklist_easyprivacy]="$Value";;
@@ -164,7 +169,8 @@ Read_Config_File() {
           BlockList_FBEnhanced) Config[blocklist_fbenhanced]="$Value";;
           BlockList_FBSocial) Config[blocklist_fbsocial]="$Value";;
           BlockList_hpHosts) Config[blocklist_hphosts]="$Value";;
-          BlockList_MalwareDomains) Config[blocklist_malwaredomains]="$Value";;
+          BlockList_MalwareDomainList) Config[blocklist_malwaredomainlist]="$Value";;
+          BlockList_MalwareDomains) Config[blocklist_malwaredomains]="$Value";;          
           BlockList_PglYoyo) Config[blocklist_pglyoyo]="$Value";;
           BlockList_SomeoneWhoCares) Config[blocklist_someonewhocares]="$Value";;
           BlockList_Spam404) Config[blocklist_spam404]="$Value";;
@@ -591,8 +597,8 @@ Process_TLDList() {
   
 }
 #Process UnixList 0--------------------------------------------------
-#Unix hosts file with 0 localhost have: 0.0.0.0 site.com
 Process_UnixList0() {
+  #Unix hosts file with 0 localhost have: 0.0.0.0 site.com
   #$1 = SourceFile
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
@@ -604,7 +610,8 @@ Process_UnixList0() {
       Line=${Line:8}                             #Trim out 0.0.0.0
            
       if [[ ! $Line =~ ^(#|localhost|www\.|EOF|\[) ]]; then
-        Line="${Line%%\#*}"                      #Delete comments        
+        Line="${Line%%\#*}"                      #Delete comments
+        Line="${Line%%*( )}"                     #Delete trailing spaces
         AddSite "$Line" ""
       fi
     fi
@@ -619,8 +626,23 @@ Process_UnixList0() {
   echo " 100%"
  }
 #Process UnixList 127------------------------------------------------
-#Unix hosts file with loopback localhost have: 127.0.0.1 site.com
 Process_UnixList127() {
+  #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
+  #Some files are double spaced, e.g.
+  # 127.0.0.1  somesite.com
+  # 127.0.0.1 somesite.com
+  #1. Calculate Percentage and Jump points
+  #2. Read line from file
+  #3. Is it a double spaced line?
+  #3a. Trim 127.0.0.1__
+  #3b. Delete trailing comments
+  #3c. Delete trailing spaces
+  #3d. Parse Line to AddSite function
+  #4. Is line single spaced?
+  #4a. Trim 127.0.0.1_
+  #4b,c,d as above
+  #5. Display progress
+  #6. loop back to 2.
   #$1 = SourceFile
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
@@ -628,10 +650,18 @@ Process_UnixList127() {
   
   while IFS=$'\r' read -r Line _
   do
-    if [[ ${Line:0:3} == "127" ]]; then          #Does line start with 127
-      Line=${Line:10}                            #Trim 127.0.0.1
-      Line="${Line%%\#*}"                        #Delete comments
-      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[) ]]; then        
+    if [[ ${Line:0:11} == "127.0.0.1  " ]]; then #Some files have a double space
+      Line=${Line:11}                            #Crop 127.0.0.1
+      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[).*$ ]]; then
+        Line="${Line%%\#*}"                      #Delete comments
+        Line="${Line%%*( )}"                     #Delete trailing spaces
+        AddSite "$Line" ""
+      fi
+    elif [[ ${Line:0:10} == "127.0.0.1 " ]]; then
+      Line=${Line:10}                            #Crop 127.0.0.1
+      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[).*$ ]]; then
+        Line="${Line%%\#*}"                      #Delete comments
+        Line="${Line%%*( )}"                     #Delete trailing spaces
         AddSite "$Line" ""
       fi
     fi
@@ -865,12 +895,14 @@ GetList "tld" "tldlist" 604800                   #7 Days
 GetList "notrack" "notrack" 172800               #2 Days
 GetList "qmalware" "plain" 345600                #4 Days
 GetList "adblockmanager" "unix127" 604800        #7 Days
+GetList "disconnectmalvertising" "plain" 345600  #4 Days
 GetList "easylist" "easylist" 345600             #4 Days
 GetList "easyprivacy" "easylist" 345600          #4 Days
 GetList "fbannoyance" "easylist" 172800          #2 Days
 GetList "fbenhanced" "easylist" 172800           #2 Days
 GetList "fbsocial" "easylist" 345600             #4 Days
 GetList "hphosts" "unix127" 345600               #4 Days
+GetList "malwaredomainlist" "unix127" 345600     #4 Days
 GetList "malwaredomains" "plain" 345600          #4 Days
 GetList "pglyoyo" "plain" 345600                 #4 Days
 GetList "someonewhocares" "unix127" 345600       #4 Days
