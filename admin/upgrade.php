@@ -34,10 +34,10 @@ echo '<h1>NoTrack Upgrade</h1>'.PHP_EOL;
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
     echo '<div class="row"><h5>Upgrading NoTrack</h5>';
+    ExecAction('upgrade-notrack', false);
     echo '<pre>';
-    //passthru('/usr/local/sbin/notrack -b');
-    echo "Web upgrade is not implemented in this version\n";
-    echo "Execute via Bash with: notrack --upgrade";
+    $Msg = shell_exec('sudo ntrk-exec 2>&1');
+    echo $Msg;
     echo "</pre>\n";
     echo "<br /></div>\n";
     echo '<div class="centered">'."\n";          //Center div for button

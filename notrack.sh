@@ -794,11 +794,7 @@ if [ "$1" ]; then                                #Have any arguments been given
 
   while [ $# -gt 0 ]
   do
-    case $1 in
-      -b) 
-        Web_Upgrade
-        exit 0
-      ;;
+    case $1 in      
       -f|--force)
         UnixTime=2524608000     #Change time forward to Jan 2050, which will force all lists to update
       ;;
@@ -811,8 +807,7 @@ if [ "$1" ]; then                                #Have any arguments been given
         exit 0
       ;;
       -u|--upgrade)
-        Web_Upgrade
-        Full_Upgrade
+        /usr/local/sbin/ntrk-upgrade
         exit 0
       ;;
       (--) 

@@ -144,6 +144,17 @@ Update_Config() {
     echo
   fi
 }
+#Upgrade NoTrack
+Upgrade-NoTrack() {
+  if [ -e /usr/local/sbin/ntrk-upgrade ]; then
+    echo "Running NoTrack Upgrade"
+    /usr/local/sbin/ntrk-upgrade
+  else
+    echo "Error ntrk-upgrade script missing"
+    echo "Aborting"
+    exit 20
+  fi
+}
 #Main----------------------------------------------------------------
 
 if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user
@@ -209,6 +220,9 @@ while read -r Line; do
     update-config)
       Update_Config
     ;;
+    upgrade-notrack)
+      Upgrade-NoTrack
+    ;;  
     blockmsg-message)
       echo 'Setting Block message Blocked by NoTrack';
       echo '<p>Blocked by NoTrack</p>' > /var/www/html/sink/index.html
