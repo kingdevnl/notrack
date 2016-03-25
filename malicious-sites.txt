@@ -1,5 +1,7 @@
-#NoTrack Malicious Site list updated 19 Mar 2016
+#NoTrack Malicious Site list updated 24 Mar 2016
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
+abcd7777.com #Chinese Scammer
+abcdnf.com #Chinese Scammer
 apple-safari.info #Malicious Site
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
@@ -24,6 +26,7 @@ elbacom.com #Angler EK
 safari-code.net #Malicious Site
 site360.org.uk #Angler EK
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
+surveyrouter.com #Toluna Surveys
 toogle.com #Malicious Site
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V

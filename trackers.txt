@@ -70,7 +70,7 @@
 a-msedge.net #Microsoft
 a2dfp.net
 a9.com
-abetterweb.info #instartlogic
+aetterweb.info #instartlogic
 abetterweb.mobi #instartlogic
 abetterweb.org #instartlogic
 abetterweb.us #instartlogic
@@ -176,6 +176,8 @@ adsymptotic.com
 adtarget.me
 adtech.de
 adtechus.com
+adtoma.com #Adtoma
+adtomafusion.net #Adtoma
 adupclickfilter.com
 advanced-web-analytics.com
 adventori.com
@@ -327,6 +329,7 @@ azalead.com
 azera-s014.com #Lead Forensics
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 bae5tracker.com #Lead Forensics
+bandelcot.com
 basebanner.com
 batchgeo.com
 baw5tracker.com #Lead Forensics
@@ -966,6 +969,7 @@ ligatus.com #Ligatus GmbH
 ligatus.info #Ligatus GmbH
 ligatus.us #Ligatus GmbH
 lijit.com
+likemastr.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
 linkoffers.net
@@ -8761,6 +8765,7 @@ omniture.com #Adobe
 omtrdc.net
 onclasrv.com
 onclickads.net #Advertising Technologies
+onclicktop.com
 onestat.com
 olark.com
 online-metrix.net
@@ -9245,6 +9250,7 @@ tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
+toluna-analytics.com #Toluna Surveys
 topfox.co.uk
 tqlkg.com
 tqn.com
