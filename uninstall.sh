@@ -54,21 +54,33 @@ DeleteFolder() {
 }
 
 #Main----------------------------------------------------------------
-if [ "$InstallLoc" == "/root/NoTrack" ]; then      #Change root folder to users folder
-  InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
-fi
+for HomeDir in /home/*; do
+  if [ -d "$HomeDir/NoTrack" ]; then 
+    InstallLoc="$HomeDir/NoTrack"
+    break
+  elif [ -d "$HomeDir/notrack" ]; then 
+    InstallLoc="$HomeDir/notrack"
+    break
+  fi
+done
 
-if [ ! -e "$InstallLoc" ]; then
-  Error_Exit "Can't find NoTrack folder"  
+if [[ $InstallLoc == "" ]]; then
+  if [ -d "/opt/notrack" ]; then
+    InstallLoc="/opt/notrack"
+  else
+    echo "Error Unable to find NoTrack folder"
+    echo "Aborting"
+    exit 22
+  fi
 fi
-
-Show_Welcome
 
 if [[ "$(id -u)" != "0" ]]; then
   echo "Root access is required to carry out uninstall of NoTrack"
   Error_Exit "sudo bash uninstall.sh"
   #su -c "$0" "$@" - This could be an alternative for systems without sudo
 fi
+
+Show_Welcome
 
 #if [ "$(id -u)" != "0" ]; then
 #  Error_Exit "Root access hasn't been granted"
