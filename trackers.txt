@@ -111,6 +111,7 @@ adgenie.co.uk
 adglare.net
 adgrx.com
 adinfuse.com #Velti
+adio.co #Idio
 adip.ly
 adis.ws
 adition.com
@@ -118,6 +119,7 @@ adixo.com
 adizio.com
 adjug.com
 adjust.com
+adkontekst.pl
 adlansa.com
 adlegend.com
 adlibrary.org #AppNexus Inc
@@ -459,6 +461,7 @@ chrs-mln-krs.com
 clear-reports.com
 clearcode.cc
 clickfuse.com
+clickio.com
 clickshift.com
 clicktale.net
 clicktracks.com
@@ -746,6 +749,7 @@ fwmrm.net
 fyre.co
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
 gardendiscount.com #Digital Window
+gator.io
 gaug.es
 gamned.com
 gbl007.com #Lead Forensics
@@ -9317,6 +9321,7 @@ usabilla.com #Usabilla
 useitbetter.com
 userstats.com
 userzoom.com
+utarget.ru
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
 v0cdn.net #Verizon
 v1cdn.net #Verizon
