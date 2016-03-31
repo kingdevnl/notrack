@@ -1,10 +1,16 @@
-v0.7.9 (in progress)
-Fixed regex in lighttpd.conf, manual change or reinstall required to fix
-A slight performance boost can be had with the new lighttpd condfig
+v0.7.9
+NoTrack can now be upgraded from the Admin page.
+Fixed regex in /etc/lighttpd/lighttpd.conf, manual change or reinstall required to fix.
+  A slight performance boost can be had with the new lighttpd config.
+  See NoTrack/conf/lighttpd.conf line #41 for more info
 New Block list - Malvertising list by Disconnect
 New Block list - Malware Domain List
+Added region specific blocklist for China
+Added region specific blocklist for Russia
 Improved processing of Unix127 block lists
 Removed deprecated code in ntrk-exec
+Removed deprecated upgrade notifier for pre v0.5 users
+Started overhauling error exit codes used across all NoTrack scripts
 
 v0.7.8 alpha
 New Admin password feature to limit access into web config.
