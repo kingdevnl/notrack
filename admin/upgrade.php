@@ -34,7 +34,6 @@ echo '<div class="sys-items">'.PHP_EOL;
 //Main---------------------------------------------------------------
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
-    echo '<p class="indent">Running upgrade:</p>'.PHP_EOL;
     ExecAction('upgrade-notrack', false);
     echo '<pre>';
     passthru('sudo ntrk-exec 2>&1');

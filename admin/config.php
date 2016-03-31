@@ -759,7 +759,7 @@ function WriteTmpConfig() {
 //Main---------------------------------------------------------------
 
 $SearchStr = '';
-if ($_GET['s']) {
+if (isset($_GET['s'])) {
   //Allow only characters a-z A-Z 0-9 ( ) . _ - and \whitespace
   $SearchStr = preg_replace('/[^a-zA-Z0-9\(\)\.\s_-]/', '', $_GET['s']);
   $SearchStr = strtolower($SearchStr);  

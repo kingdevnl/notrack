@@ -148,7 +148,8 @@ function WriteLI($Character, $Start, $Active) {
 }
 
 //WriteTH Function for Table Header----------------------------------- 
-function WriteTH($Sort, $Dir, $Str) {  
+function WriteTH($Sort, $Dir, $Str) {
+  global $StartPoint;
   echo '<th><a href="?start='.$StartPoint.AddGetVar('C').'&amp;sort='.$Sort.'&amp;dir='.$Dir.AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Str.'</a></th>';
   return null;
 }
@@ -159,7 +160,7 @@ function Load_TLDBlockList() {
 //2. If that fails then check if DomainQuickList file exists
 //3. Read each line into TLDBlockList array and trim off \n
 //4. Once loaded store TLDBlockList array in Memcache for 20 mins
-  global $TLDBlockList, $Mem;
+  global $TLDBlockList, $Mem, $DomainQuickList;
   
   $TLDBlockList=$Mem->get('TLDBlockList');
   if (! $TLDBlockList) {
@@ -178,26 +179,30 @@ function Load_TLDBlockList() {
 //Read Day All--------------------------------------------------------
 function Read_Day_All($FileHandle) {
   global $DomainList;
+  $Dedup = '';
+  
+  
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
       $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
-      $DomainList[] = ReturnURL($Seg[5]) . '+';
-      $Dedup = $Seg[5];
-    }
-    elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
-      $DomainList[] = ReturnURL($Seg[5]) . '-';
-      $Dedup = $Seg[5];
-    }
-    elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
+    if (count($Seg) >= 4) {
+      if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
+        $DomainList[] = ReturnURL($Seg[5]) . '+';
+        $Dedup = $Seg[5];
+      }
+      elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
+        $DomainList[] = ReturnURL($Seg[5]) . '-';
+        $Dedup = $Seg[5];
+      }
+      elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
       //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-      $DomainList[] = ReturnURL($Seg[5]) . '1';
+        $DomainList[] = ReturnURL($Seg[5]) . '1';
       //$Dedup = $Seg[5];
-    }    
+      }
+    }  
   }
   return null;
 }
