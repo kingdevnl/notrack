@@ -171,12 +171,15 @@ function LoadConfigFile() {
     if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);    
     if (!array_key_exists('BlockList_SomeoneWhoCares', $Config)) $Config += array('BlockList_SomeoneWhoCares' => 0);
     if (!array_key_exists('BlockList_Spam404', $Config)) $Config += array('BlockList_Spam404' => 0);
-    if (!array_key_exists('BlockList_Winhelp2002', $Config)) $Config += array('BlockList_Winhelp2002' => 0);    
+    if (!array_key_exists('BlockList_Winhelp2002', $Config)) $Config += array('BlockList_Winhelp2002' => 0);
+    //Region Specific BlockLists
+    if (!array_key_exists('BlockList_CHNEasy', $Config)) $Config += array('BlockList_CHNEasy' => 0);
+    if (!array_key_exists('BlockList_RUSEasy', $Config)) $Config += array('BlockList_RUSEasy' => 0);
     //if (!array_key_exists('', $Config)) $Config += array('' => 0);
     
     if (!array_key_exists('LatestVersion', $Config)) $Config += array('LatestVersion' => $Version); //Default to current version
     
-    $Mem->set('Config', $Config, 0, 600); //1200
+    $Mem->set('Config', $Config, 0, 1200); 
   }
   
   return null;

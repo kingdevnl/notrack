@@ -29,9 +29,11 @@ Config[blocklist_pglyoyo]=0
 Config[blocklist_someonewhocares]=0
 Config[blocklist_spam404]=0
 Config[blocklist_winhelp2002]=0
+Config[blocklist_chneasy]=0                      #China
+Config[blocklist_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.8"
+Version="0.7.9"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -58,7 +60,8 @@ URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adbloc
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
-
+URLList[chneasy]="https://easylist-downloads.adblockplus.org/chinalist+easylist.txt"
+URLList[ruseasy]="https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt"
 
 #Global Variables----------------------------------------------------
 ChangesMade=0                                    #Number of Lists processed. If left at zero then Dnsmasq won't be restarted
@@ -175,6 +178,8 @@ Read_Config_File() {
           BlockList_SomeoneWhoCares) Config[blocklist_someonewhocares]="$Value";;
           BlockList_Spam404) Config[blocklist_spam404]="$Value";;
           BlockList_Winhelp2002) Config[blocklist_winhelp2002]="$Value";;
+          BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
+          BlockList_RUSEasy) Config[blocklist_ruseasy]="$Value";;          
         esac            
       fi
     done < $ConfigFile
@@ -940,6 +945,8 @@ GetList "pglyoyo" "plain" 345600                 #4 Days
 GetList "someonewhocares" "unix127" 345600       #4 Days
 GetList "spam404" "easylist" 172800              #2 Days
 GetList "winhelp2002" "unix0" 604800             #7 Days
+GetList "chneasy" "easylist" 345600              #China
+GetList "ruseasy" "easylist" 345600              #Russia
   
 if [ ${Config[blocklist_tld]} == 0 ]; then
   DeleteOldFile "$DomainQuickList"

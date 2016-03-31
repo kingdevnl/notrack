@@ -283,6 +283,11 @@ function DisplayBlockLists() {
                                              
   DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
+  echo '<tr><th colspan="2">Region Specific</th></tr>';
+  DrawBlockListRow('bl_chneasy', 'BlockList_CHNEasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
+  
+  DrawBlockListRow('bl_ruseasy', 'BlockList_RUSEasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
+  
   echo '</table><br />'.PHP_EOL;
   
   echo '<div class="centered"><input type="submit" value="Save Changes"></div>'.PHP_EOL;
@@ -589,6 +594,8 @@ function UpdateBlockListConfig() {
   $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
   $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
   $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
+  $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
+  $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
   
   //print_r($Config); 
   return null;
