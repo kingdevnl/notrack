@@ -1,5 +1,5 @@
 <?php
-$Version='0.7.9';
+$Version='0.7.10';
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileBlockingCSV = '/etc/notrack/blocking.csv';
