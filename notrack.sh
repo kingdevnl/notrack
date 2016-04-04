@@ -294,11 +294,11 @@ Get_IPAddress() {
   
   if [ "$IPVersion" == "IPv4" ]; then
     echo "Reading IPv4 Address from $NetDev"
-    IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
+    IPAddr=$(ip addr list eth0 | grep inet | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
     
   elif [ "$IPVersion" == "IPv6" ]; then
     echo "Reading IPv6 Address"
-    IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
+    IPAddr=$(ip addr list eth0 | grep inet6 | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
   else
     Error_Exit "Unknown IP Version"    
   fi
