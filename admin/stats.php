@@ -180,29 +180,29 @@ function Load_TLDBlockList() {
 function Read_Day_All($FileHandle) {
   global $DomainList;
   $Dedup = '';
-  
-  
+    
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
       $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
-    if (count($Seg) >= 4) {
-      if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
-        $DomainList[] = ReturnURL($Seg[5]) . '+';
-        $Dedup = $Seg[5];
-      }
-      elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
-        $DomainList[] = ReturnURL($Seg[5]) . '-';
-        $Dedup = $Seg[5];
-      }
-      elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
-      //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-        $DomainList[] = ReturnURL($Seg[5]) . '1';
-      //$Dedup = $Seg[5];
-      }
-    }  
+    
+    if (count($Seg) < 4) continue;               //Skip short lines
+    
+    if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
+      $DomainList[] = ReturnURL($Seg[5]) . '+';
+      $Dedup = $Seg[5];
+    }
+    elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
+      $DomainList[] = ReturnURL($Seg[5]) . '-';
+      $Dedup = $Seg[5];
+    }
+    elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
+    //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
+      $DomainList[] = ReturnURL($Seg[5]) . '1';
+    //$Dedup = $Seg[5];
+    }      
   }
   return null;
 }
@@ -216,6 +216,8 @@ function Read_Day_Allowed($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
+    if (count($Seg) < 4) continue;               //Skip short lines
+    
     if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
       $DomainList[] = ReturnURL($Seg[5]) . '+';
       $Dedup = $Seg[5];
@@ -226,12 +228,16 @@ function Read_Day_Allowed($FileHandle) {
 //Read Day Allowed---------------------------------------------------
 function Read_Day_Blocked($FileHandle) {
   global $DomainList;
+  $Dedup = '';
+  
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
       $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
+    
+    if (count($Seg) < 4) continue;               //Skip short lines
     
     if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
       $DomainList[] = ReturnURL($Seg[5]) . '-';
@@ -243,6 +249,8 @@ function Read_Day_Blocked($FileHandle) {
 //Read Time All--------------------------------------------------------
 function Read_Time_All($FileHandle) {
   global $DomainList, $StartTime;
+  $Dedup = '';
+  
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -250,7 +258,9 @@ function Read_Time_All($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if (strtotime($Seg[2]) >= $StartTime) {       //Check if time in log > Earliest required
+    if (count($Seg) < 4) continue;               //Skip short lines
+    
+    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
       if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
         $DomainList[] = ReturnURL($Seg[5]) . '+';
         $Dedup = $Seg[5];
@@ -271,6 +281,8 @@ function Read_Time_All($FileHandle) {
 //Read Day Allowed---------------------------------------------------
 function Read_Time_Allowed($FileHandle) {
   global $DomainList, $StartTime;
+  $Dedup = '';
+  
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     
@@ -279,7 +291,9 @@ function Read_Time_Allowed($FileHandle) {
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if (strtotime($Seg[2]) >= $StartTime) {       //Check if time in log > Earliest required
+    if (count($Seg) < 4) continue;               //Skip short lines
+    
+    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
       if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
         $DomainList[] = ReturnURL($Seg[5]) . '+';
         $Dedup = $Seg[5];
@@ -291,12 +305,16 @@ function Read_Time_Allowed($FileHandle) {
 //Read Day Allowed---------------------------------------------------
 function Read_Time_Blocked($FileHandle) {
   global $DomainList, $StartTime;
+  $Dedup = '';
+  
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
       $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
     else $Seg = explode(' ', $Line);             //Split Line into segments
+    
+    if (count($Seg) < 4) continue;               //Skip short lines
     
     if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
       if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
