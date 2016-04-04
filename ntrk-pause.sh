@@ -130,7 +130,7 @@ Pause() {
   
   echo "Running NoTrack to disable blocking"
   echo
-  notrack
+  /usr/local/sbin/notrack
   
   echo
   echo "Sleeping for $PauseTime minutes"  
@@ -146,7 +146,7 @@ Pause() {
 
   echo "Running NoTrack to enable blocking"
   echo
-  notrack
+  /usr/local/sbin/notrack
   echo
 }
 #Help----------------------------------------------------------------
@@ -216,7 +216,7 @@ Start() {
   
   echo "Running NoTrack to enable blocking"
   echo
-  notrack
+  /usr/local/sbin/notrack
   echo
 }
 #Stop----------------------------------------------------------------
@@ -262,7 +262,7 @@ Stop() {
   
   echo "Running NoTrack to disable Blocking"
   echo
-  notrack
+  /usr/local/sbin/notrack
 }
 #Main----------------------------------------------------------------
 

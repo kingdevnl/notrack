@@ -83,10 +83,10 @@ Update_Config() {
 Upgrade-NoTrack() {
   if [ -e /usr/local/sbin/ntrk-upgrade ]; then
     echo "Running NoTrack Upgrade"
-    ntrk-upgrade
+    /usr/local/sbin/ntrk-upgrade
   else
     echo "NoTrack Upgrade is missing, using fallback notrack.sh"
-    notrack -u
+    /usr/local/sbin/notrack -u
   fi
 }
 #Main----------------------------------------------------------------
@@ -125,28 +125,28 @@ while read -r Line; do
       Delete_History
     ;;
     force-notrack)
-      notrack --force
+      /usr/local/sbin/notrack --force
     ;;
     pause5)
-      ntrk-pause --pause 5
+      /usr/local/sbin/ntrk-pause --pause 5
     ;;
     pause15)
-      ntrk-pause --pause 15
+      /usr/local/sbin/ntrk-pause --pause 15
     ;;
     pause30)
-      ntrk-pause --pause 30
+      /usr/local/sbin/ntrk-pause --pause 30
     ;;
     pause60)
-      ntrk-pause --pause 60
+      /usr/local/sbin/ntrk-pause --pause 60
     ;;
     restart)
       reboot
     ;;
     start)
-      ntrk-pause --start
+      /usr/local/sbin/ntrk-pause --start
     ;;
     stop)
-      ntrk-pause --stop
+      /usr/local/sbin/ntrk-pause --stop
     ;;
     shutdown)
       shutdown now
@@ -166,7 +166,7 @@ while read -r Line; do
       echo 'Setting Block message to 1x1 pixel';
     ;;
     run-notrack)
-      notrack
+      /usr/local/sbin/notrack
     ;;
     *)
       echo "Invalid action $Line"

@@ -662,8 +662,7 @@ Setup_Lighttpd
 Setup_NoTrack
 Setup_NtrkScripts
 
-# Reload FirewallD to ensure new rules are functional
-if [ "$(command -v firewall-cmd)" ]; then
+if [ "$(command -v firewall-cmd)" ]; then        #Check FirewallD exists
   Setup_FirewallD
 fi
 
@@ -671,6 +670,6 @@ echo "Starting Services"
 sudo service lighttpd restart
 
 echo "Downloading List of Trackers"
-sudo notrack
+sudo /usr/local/sbin/notrack
 
 Show_Finish

@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 31 Mar 2016
-#LatestVersion 0.7.8
+#NoTrack Tracker list updated 04 Apr 2016
+#LatestVersion 0.7.9
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -127,10 +127,11 @@ adlooxtracking.com
 admailtiser.com
 admantx.com
 admarketplace.net
+admatic.com.tr
 admaym.com
 admediaclick.com #AppNexus Inc
 admedo.com
-admized.covm
+admized.com
 admob.com #AdMob
 adnexus.com #AppNexus Inc
 adnexus.net #AppNexus Inc
@@ -170,6 +171,7 @@ adsfac.eu
 adsignify.net
 adsmobi.com #Smaato
 adsmobi.info #Smaato
+adsnative.com
 adsonar.com
 adspdbl.com
 adspeed.net
@@ -451,6 +453,7 @@ certona.net
 cetrk.com
 chango.com
 channeladvisor.com
+channelintelligence.com
 chartbeat.com
 chartbeat.net
 chicdn.net
@@ -848,6 +851,7 @@ hxtrack.com
 i-transactads.com
 i10c.net #instartlogic
 iasds01.com
+ibillboard.com
 ib-ibi.com
 icandi.de
 idg.com

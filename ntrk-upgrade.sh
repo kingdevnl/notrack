@@ -31,27 +31,31 @@ if [[ "$(id -u)" != "0" ]]; then
   exit 21
 fi
 
-for HomeDir in /home/*; do
-  if [ -d "$HomeDir/NoTrack" ]; then 
-    InstallLoc="$HomeDir/NoTrack"
-    break
-  elif [ -d "$HomeDir/notrack" ]; then 
-    InstallLoc="$HomeDir/notrack"
-    break
-  fi
-done
+if [ -e "$(pwd)/ntrk-upgrade.sh" ]; then
+  InstallLoc="$(pwd)"  
+else
+  for HomeDir in /home/*; do
+    if [ -d "$HomeDir/NoTrack" ]; then 
+      InstallLoc="$HomeDir/NoTrack"
+      break
+    elif [ -d "$HomeDir/notrack" ]; then 
+      InstallLoc="$HomeDir/notrack"
+      break
+    fi
+  done
 
-if [[ $InstallLoc == "" ]]; then
-  if [ -d "/opt/notrack" ]; then
-    InstallLoc="/opt/notrack"
-    UserName="root"
-  else
-    echo "Error Unable to find NoTrack folder"
-    echo "Aborting"
-    exit 22
+  if [[ $InstallLoc == "" ]]; then
+    if [ -d "/opt/notrack" ]; then
+      InstallLoc="/opt/notrack"
+      UserName="root"
+    else
+      echo "Error Unable to find NoTrack folder"
+      echo "Aborting"
+      exit 22
+    fi
+  else 
+    UserName=$(grep "$HomeDir" /etc/passwd | cut -d : -f1)
   fi
-else 
-  UserName=$(grep "$HomeDir" /etc/passwd | cut -d : -f1)
 fi
 
 echo "Install Location $InstallLoc"
