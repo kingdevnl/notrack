@@ -4,6 +4,7 @@
 #Author : QuidsUp
 #Date : 2016-03-22
 #Usage : ntrk-upgrade
+#Last updated with NoTrack v0.7.10
 
 #Error Codes:
 #21 Root access required
@@ -44,6 +45,12 @@ done
 if [[ $InstallLoc == "" ]]; then
   if [ -d "/opt/notrack" ]; then
     InstallLoc="/opt/notrack"
+    UserName="root"
+  elif [ -d "/root/notrack" ]; then
+    InstallLoc="/root/notrack"
+    UserName="root"
+  elif [ -d "/notrack" ]; then
+    InstallLoc="/notrack"
     UserName="root"
   else
     echo "Error Unable to find NoTrack folder"
