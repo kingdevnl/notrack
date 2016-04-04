@@ -731,15 +731,19 @@ function UpdateWebserverConfig() {
 
 //Write Tmp Config File----------------------------------------------
 function WriteTmpConfig() {
-  //1. Open Temp Config file for writing
-  //2. Loop through Config Array
-  //3. Write all values, except for "Status = Enabled"
-  //4. Close Config File
-  //5. Delete Config Array out of Memcache, in order to force reload
-  //6. Onward process is to Display appropriate config view
+  //1. Check if Latest Version is less than Current Version
+  //2. Open Temp Config file for writing
+  //3. Loop through Config Array
+  //4. Write all values, except for "Status = Enabled"
+  //5. Close Config File
+  //6. Delete Config Array out of Memcache, in order to force reload
+  //7. Onward process is to Display appropriate config view
   
-  global $Config, $FileTmpConfig, $Mem;
-    
+  global $Config, $FileTmpConfig, $Mem, $Version;
+  
+  //Prevent wrong version being written to config file if user has just upgraded and old LatestVersion is still stored in Memcache
+  if (Check_Version($Config['LatestVersion'])) $Config['LatestVersion'] = $Version;
+  
   $FileHandle = fopen($FileTmpConfig, 'w');      //Open temp config for writing
   
   foreach ($Config as $Key => $Value) {          //Loop through Config array

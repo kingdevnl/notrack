@@ -1,5 +1,37 @@
 <?php
 //Global Functions used in NoTrack Admin
+//Check Version------------------------------------------------------
+function Check_Version($LatestVersion) {
+  //If LatestVersion is less than Current Version then function returns false
+  
+  //1. Split strings by '.'
+  //2. Combine back together and multiply with Units array
+  //e.g 1.0 - 1x10000 + 0x100 = 10,000
+  //e.g 0.8.0 - 0x10000 + 8x100 + 0x1 = 800
+  //e.g 0.7.10 - 0x10000 + 7x100 + 10x1 = 710
+  //3. If Latest < Current Version return Current Version
+  //4. Otherwise return Latest
+  
+  global $Version;
+  
+  $NumVersion = 0;
+  $NumLatest = 0;
+  $Units = array(10000,100,1);
+  
+  $SplitVersion = explode('.', $Version);
+  $SplitLatest = explode('.', $LatestVersion);
+  
+  for ($i = 0; $i < count($SplitVersion); $i++) {
+    $NumVersion += ($Units[$i] * intval($SplitVersion[$i]));
+  }
+  for ($i = 0; $i < count($SplitVersion); $i++) {
+    $NumLatest += ($Units[$i] * intval($SplitLatest[$i]));
+  }
+  
+  if ($NumLatest < $NumVersion) return false;
+  
+  return true;
+}
 //Check User Session-------------------------------------------------
 function Check_SessionID() {
   if (isset($_SESSION['sid'])) {
