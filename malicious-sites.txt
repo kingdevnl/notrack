@@ -25,6 +25,7 @@ oc.uk #Typo of .co.uk
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
 safari-code.net #Malicious Site
+simplebookmark.info #Buta Trading - leak analytics
 site360.org.uk #Angler EK
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
 surveyrouter.com #Toluna Surveys
