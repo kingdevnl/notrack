@@ -152,6 +152,8 @@ adobetag.com #Adobe
 adoftheyear.com
 adometry.com #Google
 adpacked.com #Adobe
+adrank.mobi #Zanox
+adrank.net #Zanox
 adreadytractions.com
 adrequest.net #R van Ingen
 adriver.ru
@@ -190,6 +192,13 @@ advertisers-openx.com #OpenX
 advertising.com
 advertserve.com
 adviva.net
+adwise.agency #AdWise
+adwise.co.uk #AdWise
+adwise.com #AdWise
+adwise.fr #AdWise
+adwise.mobi #AdWise
+adwise.org #AdWise
+adwise.ru #AdWise
 adxpose.com
 adyard.net #Ligatus GmbH
 adzerk.com
@@ -699,6 +708,7 @@ everestjs.net
 everesttech.net
 evyy.net #Impact Radius
 exelator.com
+exhaustionlaurenbremsstrahlung.info
 exoclick.com
 exovueplatform.com
 expandengagement.com #Adobe
@@ -734,6 +744,7 @@ force.com
 forensiq.com #Forensiq
 forensiq.net #Forensiq
 foreseeresults.com #ForeSee
+forexzone.org #Buta Trading
 forkmedia.in
 formalyzer.com
 fqtag.com #Forensiq
@@ -776,6 +787,7 @@ gldsta-02-or.com
 go-mpulse.net
 goadservices.com
 godatafeed.com
+gooanalytics.com #Buta Trading
 google-analytics.com
 #googleadservices.com
 googlesyndication.com
@@ -922,6 +934,7 @@ ioam.de
 ipccdn.co.uk
 ipromote.com
 ist-track.com
+itsfom.com #Zanox
 iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 jisusaiche.com
@@ -999,12 +1012,14 @@ madnxs.com #AppNexus Inc
 madnxs.net #AppNexus Inc
 magreprints.com
 mailadvertising.co.uk
+mailat.net #Zanox
 mailchimp.com
 mailmunch.co
 marinsm.com
 marketizator.com
 marketo.com
 marketo.net
+marktest.pt
 matheranalytics.com
 mathtag.com
 maxymiser.net
@@ -8684,6 +8699,7 @@ mojiva.net #Mojiva
 mojiva.org #Mojiva
 mon-com-01.com #Lead Forensics
 mon-com-net.com #Lead Forensics
+monefy.net #Buta Trading
 monetate.net
 mookie1.com
 mouseflow.com
@@ -8774,6 +8790,7 @@ omtrdc.net
 onclasrv.com
 onclickads.net #Advertising Technologies
 onclicktop.com
+onedmp.com
 onestat.com
 olark.com
 online-metrix.net
@@ -9427,6 +9444,7 @@ wt-safetag.com
 wtp101.com
 wunderloop.net
 wwpxl.com #AppNexus Inc
+wwwpromoter.com #WWWPromoter
 wywy.com
 #X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X
 xclicks.net
@@ -9454,7 +9472,21 @@ youramigo.com
 yuq.me
 ywxi.net #PathDefender
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
-zanox.ws
+zanox.adult #Zanox
+zanox.asia #Zanox
+zanox.biz #Zanox
+zanox.com #Zanox
+zanox.info #Zanox
+zanox.media #Zanox
+zanox.mobi #Zanox
+zanox.net #Zanox
+zanox.org #Zanox
+zanox.porn #Zanox
+zanox.sex #Zanox
+zanox.tel #Zanox
+zanox.us #Zanox
+zanox-affiliate.mobi #Zanox
+zanox-affiliate.net #Zanox
 zdbb.net #Ziff Davis
 zbuckz.com
 zedo.com
@@ -9465,6 +9497,8 @@ ziffdavisinternational.com
 zkcdn.net
 znaptag.com
 zqtk.net
+zxad.com #Zanox
+zxad.net #Zanox
 zzword.com #Adobe
 #---------------------------------------------------------
 #Analytics Domains
