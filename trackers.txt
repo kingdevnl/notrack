@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 04 Apr 2016
+#NoTrack Tracker list updated 14 Apr 2016
 #LatestVersion 0.7.9
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -96,6 +96,7 @@ adblade.com
 adbrau.com
 adbrn.com
 adbutler-tachyon.com
+adcash.com
 adcentriconline.com
 addeluxe.jp
 addmediaclick.com #AppNexus Inc
@@ -472,6 +473,7 @@ christmasalready.com #Digital Window
 chrs-mln-krs.com
 clear-reports.com
 clearcode.cc
+clicks4ads.com
 clickfuse.com
 clickio.com
 clickshift.com
@@ -941,6 +943,7 @@ jisusaiche.com
 jpush.cn
 jpush.io
 jmxded110.net
+juicyads.com
 jumptap.com #Jumptap
 jumptime.com #OpenX
 justappliances.com #Digital Window
@@ -9199,6 +9202,7 @@ specificclick.net
 speedshiftmedia.com
 spendandraise.org #Digital Window
 spendnraise.org #Digital Window
+spgo.io #SparkPost
 spoded.com #Microsoft
 spongecell.com
 spopessentials3.com
@@ -9290,6 +9294,7 @@ trackwindow.com #Digital Window
 tradeadexchange.com
 tradedoubler.com
 tradefxads.com
+trafegonacional.pt
 trafficauthority.com #Adobe
 trafficjunky.net
 trafficmanager.net
@@ -9506,6 +9511,7 @@ s0.2mdn.net #Microsoft
 static.2mdn.net #Microsoft
 dmtracking2.alibaba.com
 stat.alibaba.com
+analytics.amakings.com
 affiliate-program.amazon.co.uk
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com

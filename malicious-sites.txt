@@ -3,6 +3,7 @@
 abcd7777.com #Chinese Scammer
 abcdnf.com #Chinese Scammer
 apple-safari.info #Malicious Site
+ashleyrnadison.com #Typo
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
 com-internet.online
@@ -11,6 +12,7 @@ com-internet.online
 elbacom.com #Angler EK
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
+googele.com #Typo
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
@@ -25,6 +27,8 @@ oc.uk #Typo of .co.uk
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
 safari-code.net #Malicious Site
+searchnet.com #Malicious Site
+searchtabnew.com #Malicious Site
 simplebookmark.info #Buta Trading - leak analytics
 site360.org.uk #Angler EK
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
