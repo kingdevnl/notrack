@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 14 Apr 2016
-#LatestVersion 0.7.9
+#NoTrack Tracker list updated 26 Apr 2016
+#LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -168,6 +168,7 @@ ads-ai.com #YieldBot
 ads-creativesyndicator.com
 ads-verify.net
 adsafeprotected.com
+adsbookie.com
 adscale.de
 adsensecustomsearchads.com
 adsfac.eu
@@ -452,6 +453,7 @@ cash4clubs.com #Digital Window
 cash4fundraising.com #Digital Window
 cashbackwindow.com #Digital Window
 cashforfundraising.com #Digital Window
+cashlantis.com
 cdngc.net
 cedexis.net
 cedexis-radar.net
@@ -9261,6 +9263,7 @@ telize.com
 tellapart.com
 terraclicks.com
 testanalytics.net
+textad.net
 theadex.com
 theatre-breaks.com #Digital Window
 thebrighttag.com

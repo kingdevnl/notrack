@@ -33,7 +33,7 @@ Config[blocklist_chneasy]=0                      #China
 Config[blocklist_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.10"
+Version="0.7.11"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -43,9 +43,10 @@ DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 
 declare -A URLList                               #Array of URL's
-URLList[notrack]="http://quidsup.net/trackers.txt"
-URLList[tld]="http://quidsup.net/malicious-domains.txt"
-URLList[qmalware]="http://quidsup.net/malicious-sites.txt"
+#URLList[notrack]="http://quidsup.net/trackers.txt"
+URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
+URLList[tld]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-domains.txt"
+URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
