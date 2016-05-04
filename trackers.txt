@@ -8797,6 +8797,8 @@ onclickads.net #Advertising Technologies
 onclicktop.com
 onedmp.com
 onestat.com
+onstate.co.uk
+onstate.com
 olark.com
 online-metrix.net
 onscroll.com
@@ -9394,6 +9396,7 @@ videopreroll.com #BrightRoll
 vidlux.com
 vidmark.com
 vindicosuite.com
+virtualearth.net #Microsoft
 visitortracklog.com
 visistat.com
 visualrevenue.com
@@ -9556,6 +9559,7 @@ partner-ts.groupon.co.uk
 metric.gstatic.com #Google
 beacon.guim.co.uk #The Guardian
 ads.hearstmags.com
+bundles.api.here.com #German Maps, possible Windows 10 spying
 pixel.honestjohn.co.uk
 m.hotmail.com #Microsoft
 metrics.ikea.com #Ikea
@@ -9606,6 +9610,7 @@ h2.msn.com #Microsoft
 live.rads.msn.com #Microsoft
 preview.msn.com #Microsoft
 rad.msn.com #Microsoft
+rpt.msn.com #Microsoft
 cp1.news.com.au
 heartbeat.dm.origin.com #EA
 asset.pagefair.com
@@ -9619,7 +9624,7 @@ analytics.schoolwires.com
 analytics.faw.sky.com #Sky
 smetrics.sky.com #Sky
 apps.skype.com #Microsoft
-b.config.skype.com #Microsoft
+config.skype.com #Microsoft
 pipe.skype.com #Microsoft
 pricelist.skype.com #Microsoft
 webtrends.telegraph.co.uk #Telegraph
