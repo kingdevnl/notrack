@@ -106,6 +106,9 @@ addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
 addnow.com
 addthis.com
+adfast.net #Ad Web
+adfast.org #Ad Web
+adflight.net #Ad Web
 adform.net
 adfuture.cn
 adgenie.co.uk
@@ -194,6 +197,11 @@ advertisers-openx.com #OpenX
 advertising.com
 advertserve.com
 adviva.net
+adweb-connect.net #Ad Web
+adweb.info #Ad Web
+adwebconnect.net #Ad Web
+adwebdesign.com #Ad Web
+adwebnames.com #Ad Web
 adwise.agency #AdWise
 adwise.co.uk #AdWise
 adwise.com #AdWise
@@ -243,6 +251,8 @@ agilone.info
 agilone.us
 agkn.net
 agm1.us
+ahainternational.com #Ad Web
+ahainternational.net #Ad Web
 ahalogy.com
 aimatch.com
 akadns.net
@@ -316,6 +326,7 @@ appstreamingnetwork.org #instartlogic
 apptrade.biz #Millennial Media
 apptrade.mobi #Millennial Media
 apxlv.com
+aracea.com #Ad Web
 atdmt.com
 atemda.com
 atgsvcs.com
@@ -396,6 +407,7 @@ boostable.com
 bounceexchange.com
 brand-server.com
 brandcrumb.com
+brecon-radnor-today.co.uk #Ad Web
 bright-cove.com
 bright-cove.net
 brightcove.biz
@@ -442,6 +454,12 @@ bzgint.com  #?TBC
 c3tag.com
 callwindow.com #Digital Window
 callwindow.net #Digital Window
+candobees.com #Ad Web
+candodigital.biz #Ad Web
+candodigital.com #Ad Web
+candomedia.biz #Ad Web
+candomedia.com #Ad Web
+candomedia.net #Ad Web
 cap-mii.net
 captifymedia.com
 carambo.la
@@ -673,6 +691,8 @@ edgekey.net
 effectivemeasure.net
 elasticbeanstalk.com
 elitechnology.com #Enne Solutions
+ellard.biz #Ad Web
+ellard.net #Ad Web
 egeng.info #eGain Corporation
 electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
@@ -699,12 +719,15 @@ erne.co
 ero-advertising.com
 errorception.com #Rakesh Pai
 esearchvision.com
+esla.biz #Ad Web
 esomniture.com #Adobe
 esprima.org
 esvdigital.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
 eum-appdynamics.com #AppDynamics
+evelinecourt.com #Ad Web
+evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
 ever-track-51.com #Lead Forensics
@@ -785,6 +808,7 @@ getphotoeffects.com #RadiumOne
 gettraff.com
 ghostery.com #Ghostery Enterprise
 gigya.com
+gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
@@ -793,7 +817,6 @@ goadservices.com
 godatafeed.com
 gooanalytics.com #Buta Trading
 google-analytics.com
-#googleadservices.com
 googlesyndication.com
 googletagmanager.com
 googletagservices.com
@@ -921,6 +944,7 @@ instartlogic.mobi #instartlogic
 instartlogic.net #instartlogic
 instartlogic.org #instartlogic
 instartlogic.us #instartlogic
+instinctiveads.com
 integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
@@ -931,7 +955,7 @@ intentmedia.net
 interclick.com
 intercom.io
 intercomassets.com
-instinctiveads.com
+intothestorm.com #Ad Web
 invitemedia.com
 invoc.us
 ioam.de
@@ -950,6 +974,9 @@ jumptap.com #Jumptap
 jumptime.com #OpenX
 justappliances.com #Digital Window
 justbroadband.com #Digital Window
+justinejones.com #Ad Web
+justinejones.net #Ad Web
+justinejones.org #Ad Web
 justpremium.com
 justnavigators.com #Digital Window
 jwpltx.com
@@ -958,11 +985,13 @@ kaloo.ga#Kalooga
 kalooga.com #Kalooga
 kastatic.com
 kau.li
+kestrelfm.net #Ad Web
 keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
 kiosked.com
 kissmetrics.com
+kmockett.com #Ad Web
 komoona.com
 korrelate.com
 korrelate.net
@@ -1020,6 +1049,7 @@ mailadvertising.co.uk
 mailat.net #Zanox
 mailchimp.com
 mailmunch.co
+margree.com #Ad Web
 marinsm.com
 marketizator.com
 marketo.com
@@ -8903,6 +8933,7 @@ projectwonderful.com
 polar.me
 powertheads.com #AppNexus Inc
 powertheinternet.com #AppNexus Inc
+pressfusion.com #Ad Web
 privatescale.com #AppNexus Inc
 privatescale.net #AppNexus Inc
 ptengine.com
@@ -8969,6 +9000,7 @@ realads.com #AppNexus Inc
 realmedia.com #AppNexus Inc
 realtimerelationship.com #AppNexus Inc
 rebelmouse.com
+reclaimthenet.com #Ad Web
 reddadd.net #Smaato
 redirecting2.net
 redeye.international
@@ -9082,6 +9114,7 @@ saas-euw-1.com #Lead Forensics
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
+sarky.org #Ad Web
 sas15k01.com #Lead Forensics
 sascdn.com
 saymedia.com
@@ -9129,6 +9162,7 @@ sex-affiliation.com
 sharethis.com
 sharethrough.com
 shop2market.com
+shoppingshadow.com #ebay
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
 shrfbdg004.com #Lead Forensics
@@ -9223,6 +9257,7 @@ staticworld.net
 steelhousemedia.com
 steepto.com
 stickyadstv.com
+stormartists.com #Ad Web
 stormiq.com
 streamsend.com
 strikead.com
@@ -9256,9 +9291,10 @@ tctm.co
 tdpwap.mobi #Millennial Media
 teads.tv
 tealiumiq.com
+teaserroll.com #Inskinad
 techhive.com
 technoratimedia.com
-teaserroll.com #Inskinad
+tedglynn.com #Ad Web
 testorion.com #eGain Corporation
 televisions2compare.com #Digital Window
 telize.com
@@ -9335,6 +9371,7 @@ tyskyt.net #YieldBot
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 uadx.com
 udmserve.net
+ultimedia.com #Charles Ganem
 umbel.com
 umhali.com #AppNexus Inc
 umhali.net #AppNexus Inc
@@ -9470,6 +9507,7 @@ yarpp.org
 ybsitecenter.com
 yellgroup.com
 yellowdragonsoft.com #Adobe
+yenton.org #Ad Web
 yieldify.com
 yieldlab.net
 yieldmanager.com
@@ -9573,6 +9611,7 @@ s.gateway.messenger.live.com #Microsoft
 inference.location.live.net #Microsoft
 marketing.lloydsbank.co.uk
 smetrics.mcafee.com #McAfee
+aria.microsoft.com #Microsoft
 bingads.microsoft.com #Microsoft
 choice.microsoft.com #Microsoft
 data.microsoft.com #Microsoft
@@ -9603,6 +9642,7 @@ ads1.msn.com #Microsoft
 ads2.msn.com #Microsoft
 arc.msn.com #Microsoft
 c.msn.com #Microsoft
+cms.msn.com #Microsoft
 flex.msn.com #Microsoft
 g.msn.com #Microsoft
 h1.msn.com #Microsoft
@@ -9628,6 +9668,7 @@ config.skype.com #Microsoft
 pipe.skype.com #Microsoft
 pricelist.skype.com #Microsoft
 webtrends.telegraph.co.uk #Telegraph
+oem.twimg.com #Twitter, possible Windows spying
 analytics.twitter.com #Twitter
 feedback.windows.com #Microsoft
 analytics.yahoo.com
