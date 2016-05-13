@@ -210,7 +210,7 @@ adwise.mobi #AdWise
 adwise.org #AdWise
 adwise.ru #AdWise
 adxpose.com
-adyard.net #Ligatus GmbH
+adyard.net #Ligatus
 adzerk.com
 adzerk.net
 adzhub.com
@@ -496,7 +496,7 @@ clearcode.cc
 clicks4ads.com
 clickfuse.com
 clickio.com
-clickshift.com
+clickshift.com #WebTrends
 clicktale.net
 clicktracks.com
 clickwindow.com #Digital Window
@@ -696,6 +696,7 @@ edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
+elasticad.net #Smartkeeter
 elasticbeanstalk.com
 elitechnology.com #Enne Solutions
 ellard.biz #Ad Web
@@ -865,6 +866,9 @@ helloworld-informatique.com #HelloWorld
 helloworldmagic.com #HelloWorld
 helloworldmail.com #HelloWorld
 helloworldptqa.com #HelloWorld
+himediads.com #Hi Media
+himediads.mobi #Hi Media
+himediads.net #Hi Media
 histats.com
 hlserve.com
 hochmoor.com
@@ -1025,11 +1029,11 @@ lian13.com #HelloWorld
 licasd.com #Live Intent
 liftdna.com #OpenX
 liftdna.net #OpenX
-ligadx.com #Ligatus GmbH
-ligatus.biz #Ligatus GmbH
-ligatus.com #Ligatus GmbH
-ligatus.info #Ligatus GmbH
-ligatus.us #Ligatus GmbH
+ligadx.com #Ligatus
+ligatus.biz #Ligatus
+ligatus.com #Ligatus
+ligatus.info #Ligatus
+ligatus.us #Ligatus
 lijit.com
 likemastr.com
 linkbucks.com
@@ -9498,7 +9502,7 @@ woopra.com
 wowanalytics.co.uk
 wshifen.com #Baidu
 ws-outage.com #Lead Forensics
-wt-eu02.net
+wt-eu02.net #WebTrekk
 wt-safetag.com
 wtp101.com
 wunderloop.net
