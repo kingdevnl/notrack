@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 26 Apr 2016
+#NoTrack Tracker list updated 13 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -595,7 +595,12 @@ createabetterinternet.com #AppNexus Inc
 creative-serving.com
 creativelibrary.org #AppNexus Inc
 creatormail.co.uk
-criteo.com
+criteo.biz #Criteo
+criteo.com #Criteo
+criteo.info #Criteo
+criteo.net #Criteo
+criteo.org #Criteo
+criteo.us #Criteo
 crosspixel.net #Cross Pixel
 crowdignite.com
 crsspxl.com #Cross Pixel
@@ -632,6 +637,7 @@ devnxs.net #AppNexus Inc
 dexometer.com #Adobe
 dianalytics.com #Adobe
 dianomi.com
+digitalanalyticsdatawarehouse.com #WebTrekk
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
@@ -650,6 +656,7 @@ dmtracker.com
 dmtrk.net
 dmtry.com
 domdex.com
+dotandad.com
 dotomi.com
 doubleverify.com
 dowjoneson.com
@@ -8985,6 +8992,7 @@ radiumone.us #RadiumOne
 radiumonelabs.com #RadiumOne
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
+rcsmetrics.it #Corriere.it
 rdsa2011.com #RevenueHits
 rdsa2012.com #RevenueHits
 rdsa2013.com #RevenueHits
@@ -9161,6 +9169,7 @@ sessioncam.com
 sex-affiliation.com
 sharethis.com
 sharethrough.com
+shinystat.com
 shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
@@ -9472,10 +9481,12 @@ webrankresearch.com #TMRG
 webrankresearch.net #TMRG
 webstatsresearch.com #TMRG
 webstatsresearch.net #TMRG
-webtrekk.com
-webtrekk.net
-webtrends.com
-webtrendslive.com
+webtrekk.com #WebTrekk
+webtrekk.mobi #WebTrekk
+webtrekk.net #WebTrekk
+webtrekk.org #WebTrekk
+webtrends.com #WebTrends
+webtrendslive.com #WebTrends
 webvitality.me
 whoisvisiting.com
 whyanalytics.com #Imagini Holdings
@@ -9611,6 +9622,7 @@ s.gateway.messenger.live.com #Microsoft
 inference.location.live.net #Microsoft
 marketing.lloydsbank.co.uk
 smetrics.mcafee.com #McAfee
+webtrekk.mediaset.net #Mediaset
 aria.microsoft.com #Microsoft
 bingads.microsoft.com #Microsoft
 choice.microsoft.com #Microsoft
