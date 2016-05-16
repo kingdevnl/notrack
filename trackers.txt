@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 13 May 2016
+#NoTrack Tracker list updated 16 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -275,6 +275,7 @@ anrdoezrs.net
 apester.com
 apnex.us #AppNexus Inc
 apnx.us #AppNexus Inc
+apn.co.nz
 app-dynamics.com #AppDynamics
 appads.com #Smaato
 appdynamics.asia #AppDynamics
@@ -339,6 +340,7 @@ audiencedatamanagement.com #Adobe
 audienceiq.com
 audiencemanagementplatform.com #Adobe
 audiencemanagementplatforms.com #Adobe
+audiencemanager.de #Nano Interactive
 audiencescoring.com #Adobe
 audiencesettlement.com #Adobe
 audiencesharing.com #Adobe
@@ -454,6 +456,17 @@ bzgint.com  #?TBC
 c3tag.com
 callwindow.com #Digital Window
 callwindow.net #Digital Window
+canddi.business #CANDDi
+canddi.com #CANDDi
+canddi.deals #CANDDi
+canddi.download #CANDDi
+canddi.email #CANDDi
+canddi.guru #CANDDi
+canddi.io #CANDDi
+canddi.rocks #CANDDi
+canddianalytics.com #CANDDi
+canndi.biz #CANDDi
+canndi.company #CANDDi
 candobees.com #Ad Web
 candodigital.biz #Ad Web
 candodigital.com #Ad Web
@@ -624,6 +637,9 @@ dartsearch.net
 datacaciques.com
 data-eroadvertising.com
 dcoengine.com
+dc-storm.com
+decibelinsight.com #Decibel Insight
+decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
 demandbase.com
 demdex.com #Adobe
@@ -706,6 +722,8 @@ electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
 eloqua.com #Oracle
 emailretargeting.com
+emark.nl #Emark
+e-mark.nl #Emark
 embed.ly
 emediate.dk
 emltrk.com
@@ -877,6 +895,7 @@ hrb1tng0.com #Lead Forensics
 hs-analytics.com #Hubspot
 hs-analytics.net #Hubspot
 hscta.net
+hrb1tng0.com
 hsstatic.net
 html5nano-visor.biz #instartlogic
 html5nano-visor.com #instartlogic
@@ -1046,6 +1065,9 @@ livefyre.com
 liverail.com
 liveperson.net
 localytics.com #Localytics
+loggly.com #Loggly
+loggly.net #Loggly
+loggly.org #Loggly
 lognormal.net
 loyaltywindow.com #Digital Window
 lpsnmedia.net
@@ -9011,6 +9033,7 @@ radiumone.com
 realads.com #AppNexus Inc
 realmedia.com #AppNexus Inc
 realtimerelationship.com #AppNexus Inc
+realtime.email
 rebelmouse.com
 reclaimthenet.com #Ad Web
 reddadd.net #Smaato
@@ -9147,6 +9170,8 @@ se-core-pipe.com #Lead Forensics
 sea-nov-1.com #Lead Forensics
 search2shop.com #Digital Window
 searchmarketing.com
+searchretargeting.guru #Nano Interactive
+searchretargeting.info #Nano Interactive
 seatac15.com #Lead Forensics
 secretmedia.com
 secureadserver.com
@@ -9220,6 +9245,7 @@ snapsurveys.com
 snmmd.nl
 snorkletech.com #AppNexus Inc
 snta0034.com #Lead Forensics
+socialhoney.co
 softtrack08.com #Lead Forensics
 softwaredefined.guru #instartlogic
 softwaredefined.us #instartlogic
@@ -9439,6 +9465,7 @@ viazza.info
 videoadex.com
 videologygroup.com
 videorev.net #RevenueHits
+vidible.tv #AOL
 vidyard.com
 viglink.com
 videopostroll.com #BrightRoll
@@ -9561,6 +9588,7 @@ zepteo.com
 ziffdavisinternational.com
 zkcdn.net
 znaptag.com
+zoomanalytics.co #Zoom Analytics
 zqtk.net
 zxad.com #Zanox
 zxad.net #Zanox
