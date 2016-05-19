@@ -32,7 +32,7 @@ DrawTopMenu();
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com');
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com', 'tumblr.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //cloudfront.net - Very popular CDN, hard to back trace originating site
 //googleusercontent.com - Google+ and YouTube user content
@@ -42,6 +42,7 @@ $CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com',
 //deviantart.net - Image download from deviatart
 //deviantart.com - Each user has a different subdomain on deviantart.com
 //stackexchange.com - Community Q&A, opens a lot of subdomains per visit
+//tumblr.com - Each blog is on a different subdomain
 
 //ReturnURL - Gives a simplier formatted URL for displaying----------
 function ReturnURL($Str) {
