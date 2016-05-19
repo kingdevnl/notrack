@@ -98,6 +98,7 @@ adbrn.com
 adbutler-tachyon.com
 adcash.com
 adcentriconline.com
+adc-srv.net #ADC Media
 addeluxe.jp
 addmediaclick.com #AppNexus Inc
 addnexus.com #AppNexus Inc
@@ -173,6 +174,7 @@ ads-verify.net
 adsafeprotected.com
 adsbookie.com
 adscale.de
+adsclean.com
 adsensecustomsearchads.com
 adsfac.eu
 adsignify.net
@@ -344,7 +346,9 @@ audiencemanager.de #Nano Interactive
 audiencescoring.com #Adobe
 audiencesettlement.com #Adobe
 audiencesharing.com #Adobe
+auditorius.ru #iAge
 auditude.com
+audtd.com #iAge
 authorisationimprint.com
 aweber.com
 awin1.com #Digital Window
@@ -8940,6 +8944,7 @@ pingmemessenger.us #RadiumOne
 pipeaota.com
 piwik.pro #Piwik PRO
 piwikpro.com #Piwik PRO
+pixelunion.net
 pixfuture.net
 pkrchp001.com #Lead Forensics
 playforprizes.net #Digital Window
@@ -8951,12 +8956,14 @@ po.st
 polarmobile.com
 polyfill.io
 popads.net
+popcash.net
 popularix.com
 postrelease.com
 postroller.com #BrightRoll
 pow7.com
 ppchero.com
 ppjol.net
+pp.ru
 preroller.com #BrightRoll
 prnx.net
 primefuse.com
@@ -9131,6 +9138,7 @@ rubiconproject.mobi #Rubicon
 rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
+rutargeter.com #iAge
 rvfrm2002.com #RevenueHits
 rvfrm2003.com #RevenueHits
 rvfrm2004.com #RevenueHits
@@ -9360,6 +9368,7 @@ tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
 toluna-analytics.com #Toluna Surveys
+topad.mobi #TopAd 
 topfox.co.uk
 tqlkg.com
 tqn.com
@@ -9376,6 +9385,8 @@ tradedoubler.com
 tradefxads.com
 trafegonacional.pt
 trafficauthority.com #Adobe
+trafficfactory.biz
+traffichunt.com
 trafficjunky.net
 trafficmanager.net
 trafficshop.com
@@ -9518,6 +9529,7 @@ webtrekk.net #WebTrekk
 webtrekk.org #WebTrekk
 webtrekk-asia.net #WebTrekk
 webtrends.com #WebTrends
+web-cam-model.com #TopAd
 webtrendslive.com #WebTrends
 webvitality.me
 whoisvisiting.com
