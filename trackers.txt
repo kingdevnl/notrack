@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 16 May 2016
+#NoTrack Tracker list updated 19 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -107,6 +107,7 @@ addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
 addnow.com
 addthis.com
+addtoany.com
 adfast.net #Ad Web
 adfast.org #Ad Web
 adflight.net #Ad Web
@@ -408,6 +409,7 @@ bluevoice.biz
 bluevoice.us
 bluuadd.com #Smaato
 bombora.com
+bongacash.com
 boomads.com
 boostable.com
 bounceexchange.com
@@ -789,6 +791,7 @@ final-aws-01.com #Lead Forensics
 final-azr-01.com #Lead Forensics
 findingflowers.com #Digital Window
 fits.me
+flagcounter.com
 flashtalking.com
 flite.com
 flexlinks.com
@@ -933,6 +936,7 @@ idgpublishing.com
 iframes.us
 igodigital.com
 igsonar.com
+imgclick.net
 imiclk.com
 impact-ad.com
 impact-ad.jp
@@ -8932,6 +8936,7 @@ personalizedappsequencer.net #instartlogic
 phicdn.net #Verizon
 phluant.com #Phluant
 phluantmobile.net #Phluant
+pictela.net #AOL
 piksel.com
 pimpb.us #AppNexus Inc
 pinchoo.com #RevenueHits
@@ -8985,6 +8990,7 @@ pubexchange.com
 pulsemgr.com
 pump.to
 purplenile.com #eGain Corporation
+pussycash.com
 pvtraffic.com
 pwrads.net
 pxlsrv.com #AppNexus Inc
@@ -9390,6 +9396,7 @@ traffichunt.com
 trafficjunky.net
 trafficmanager.net
 trafficshop.com
+traffic.ru
 trail-web.com #Lead Forensics
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
@@ -9714,6 +9721,7 @@ asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net
 stats.pagefair.net
+log.pinterest.com #Pinterest
 cookiesv2.publiekeomroep.nl
 pixel.reddit.com
 pixel.redditmedia.com
