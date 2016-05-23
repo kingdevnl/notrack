@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 19 May 2016
+#NoTrack Tracker list updated 23 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -695,6 +695,7 @@ dsply.com
 dtc-330d.com #Lead Forensics
 dtc-v6t.com #Lead Forensics
 dthvdr9.com #Lead Forensics
+dtrck.net
 dtscout.com
 duba.com
 duba.net
@@ -737,7 +738,6 @@ emv3.com
 en25.com #Oracle
 engagesciences.com
 engine54.com #AppNexus Inc
-trafficjunky.net #Ennova Research
 ensighten.com
 envnexus.com #AppNexus Inc
 envnexus.net #AppNexus Inc
@@ -762,6 +762,7 @@ evelinecourt.com #Ad Web
 evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
+evergage.com
 ever-track-51.com #Lead Forensics
 everestjs.net
 everesttech.net
@@ -1085,6 +1086,7 @@ lypn.com
 madisonlogic.com
 madnxs.com #AppNexus Inc
 madnxs.net #AppNexus Inc
+magnetmail.net #Real Magnet Media
 magreprints.com
 mailadvertising.co.uk
 mailat.net #Zanox
@@ -8785,8 +8787,8 @@ mrkt.it
 msads.net
 #msecnd.net
 msedge.net
-#msftncsi.com
 msgfocus.com
+msgf.net #Adestra
 mxcdn.net
 mxlogic.com
 mxpnl.com
@@ -9001,6 +9003,7 @@ q1mediahydraplatform.com
 q4cdn.com
 q4web.com
 q4websystems.com
+qeryz.com
 qmerce.com
 qservz.com
 qsubmit.com
@@ -9393,7 +9396,7 @@ trafegonacional.pt
 trafficauthority.com #Adobe
 trafficfactory.biz
 traffichunt.com
-trafficjunky.net
+trafficjunky.net #Ennova Research
 trafficmanager.net
 trafficshop.com
 traffic.ru
@@ -9736,9 +9739,10 @@ webtrends.telegraph.co.uk #Telegraph
 oem.twimg.com #Twitter, possible Windows spying
 analytics.twitter.com #Twitter
 feedback.windows.com #Microsoft
-analytics.yahoo.com
-ads.yahoo.com
-geo.query.yahoo.com
-mc.yandex.ru
+analytics.yahoo.com #Yahoo
+ads.yahoo.com #Yahoo
+geo.query.yahoo.com #Yahoo
+pclick.yahoo.com #Yahoo
+mc.yandex.ru #Yandex
 pixel.wp.com #Wordpress
 stats.wp.com #Wordpress
