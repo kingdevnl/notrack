@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 23 May 2016
+#NoTrack Tracker list updated 24 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -417,7 +417,7 @@ bombora.com
 bongacash.com
 boomads.com
 boostable.com
-boo-boo.com
+boo-box.com #Boo Box
 bounceexchange.com
 brand-server.com
 brandcrumb.com
@@ -485,6 +485,7 @@ candodigital.com #Ad Web
 candomedia.biz #Ad Web
 candomedia.com #Ad Web
 candomedia.net #Ad Web
+candycarol.com #Boo Box
 cap-mii.net
 captifymedia.com
 carambo.la
