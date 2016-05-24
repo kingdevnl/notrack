@@ -15,6 +15,7 @@
 254a.com
 2cobrowse.com #eGain Corporation
 207.net #Adobe
+2nyan.org
 2o7.net #Adobe
 302br.net
 303br.net
@@ -77,13 +78,12 @@ abetterweb.us #instartlogic
 abmr.net
 absentvodka.com #Hacker Site
 abtasty.com
+activeconversion.com
 active-agent.com
 active-agent.net
 active-trk7.com #Lead Forensics
 acuityplatform.com
 acxiom-online.com
-ad-center.com
-ad-serverparc.nl
 ad4game.com
 adadvisor.net
 adagencyonline.biz
@@ -217,6 +217,9 @@ adyard.net #Ligatus
 adzerk.com
 adzerk.net
 adzhub.com
+ad-center.com
+ad-score.com
+ad-serverparc.nl
 aegdigitalgroup.com
 affec.tv
 affiliate-window.com #Digital Window
@@ -341,6 +344,7 @@ atwola.com
 audienceco-op.com #Adobe
 audiencedatamanagement.com #Adobe
 audienceiq.com
+audienceinsights.net
 audiencemanagementplatform.com #Adobe
 audiencemanagementplatforms.com #Adobe
 audiencemanager.de #Nano Interactive
@@ -350,6 +354,7 @@ audiencesharing.com #Adobe
 auditorius.ru #iAge
 auditude.com
 audtd.com #iAge
+augur.io
 authorisationimprint.com
 aweber.com
 awin1.com #Digital Window
@@ -412,6 +417,7 @@ bombora.com
 bongacash.com
 boomads.com
 boostable.com
+boo-boo.com
 bounceexchange.com
 brand-server.com
 brandcrumb.com
@@ -492,6 +498,7 @@ cashbackwindow.com #Digital Window
 cashforfundraising.com #Digital Window
 cashlantis.com
 cdngc.net
+cdn-net.com
 cedexis.net
 cedexis-radar.net
 celtra.com #Celtra
@@ -704,6 +711,7 @@ dwin2.com #Digital Window
 dynamicyield.com
 dyncdn.me
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
+e701.net
 ebayadvertising.com
 ebayenterprise.com
 ebaypartnernetwork.com
@@ -776,6 +784,7 @@ exponential.com
 extreme-dm.com
 eyeota.com
 eyeota.net
+eyereturn.com #EyeReturn Marketing
 ezp.bz
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 face3media.com
@@ -808,12 +817,14 @@ foreseeresults.com #ForeSee
 forexzone.org #Buta Trading
 forkmedia.in
 formalyzer.com
+forter.com
 fqtag.com #Forensiq
 frantro.de
 freeskreen.com #SlimCut Media
 fresh8.co
 freegreatapps.com #MdotM
 freewall.com #AppNexus Inc
+fraudmetrix.cn
 friendinsites.com #Keywee
 friendsinsites.com #Keywee
 frm.li
@@ -833,6 +844,7 @@ gemius.pl
 geoadnxs.com #AppNexus Inc
 geoadnxs.net #AppNexus Inc
 geoadnxs.org #AppNexus Inc
+geocomply.com
 geogslb.com #AppNexus Inc
 geogslb.net #AppNexus Inc
 georiot.com
@@ -937,6 +949,7 @@ idgpublishing.com
 iframes.us
 igodigital.com
 igsonar.com
+imedia.cz
 imgclick.net
 imiclk.com
 impact-ad.com
@@ -952,6 +965,7 @@ in2panel.com #TMRG
 in2panel.net #TMRG
 industrybrains.com
 inetwork.directory
+infernotions.com
 infinity-tracking.net
 influentialinsights.com #TMRG
 influentialinsights.net #TMRG
@@ -1080,13 +1094,16 @@ loggly.org #Loggly
 lognormal.net
 loyaltywindow.com #Digital Window
 lpsnmedia.net
+lrcdn.net
 lucidmedia.com
+lynxbroker.de
 lypn.com
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 madisonlogic.com
 madnxs.com #AppNexus Inc
 madnxs.net #AppNexus Inc
 magnetmail.net #Real Magnet Media
+magnuum.com
 magreprints.com
 mailadvertising.co.uk
 mailat.net #Zanox
@@ -1117,6 +1134,7 @@ meteora.co
 meteora.us
 metrics.nt.vc
 metricswindow.com #Digital Window
+metrigo.com
 mgid.com
 mgsvc.com
 micpn.com
@@ -8995,6 +9013,7 @@ purplenile.com #eGain Corporation
 pussycash.com
 pvtraffic.com
 pwrads.net
+pxi.pub
 pxlsrv.com #AppNexus Inc
 pxlsrv.net #AppNexus Inc
 pxlsrv.us #AppNexus Inc
@@ -9017,6 +9036,7 @@ r1-cdn.net #RadiumOne
 r1sdk.com #RadiumOne
 r1sdk-cdn.com #RadiumOne
 r1share.com #RadiumOne
+r24-tech.com
 r42tag.com #Relay42 
 raasnet.com
 radicaltest.com #RadiumOne
@@ -9163,6 +9183,7 @@ s3network1.com #Lead Forensics
 s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
 saas-euw-1.com #Lead Forensics
+sabavision.com
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
@@ -9422,6 +9443,7 @@ tumri.net
 turn.com
 tvappvertising.net #Millennial Media
 tvsquared.com
+twisto.cz
 tyroo.com
 tyroodr.com
 typekit.net #Belongs to Adobe, may or may not be a tracker
@@ -9467,6 +9489,7 @@ v11cdn.net #Verizon
 v12cdn.net #Verizon
 v13cdn.net #Verizon
 valdelabs.com #AppNexus Inc
+vcmedia.vn
 vdna-assets.com #Imagini Holdings
 veeseo.com #Veeseo
 veille-referencement.com
@@ -9621,6 +9644,8 @@ s0.2mdn.net #Microsoft
 static.2mdn.net #Microsoft
 dmtracking2.alibaba.com
 stat.alibaba.com
+infernotions.com
+g.alicdn.com
 analytics.amakings.com
 affiliate-program.amazon.co.uk
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
@@ -9642,7 +9667,12 @@ marketing-solutions.bt.com
 pixiedust.buzzfeed.com
 dw.cbsimg.net
 compatexchange.cloudapp.net
+d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
+d2ha22j8ys3e0o.cloudfront.net #Canvas Fingerprinting
+d2ymkpxi1rgldj.cloudfront.net #Canvas Fingerprinting
+d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
 d3ujids68p6xmp.cloudfront.net
+dtt617kogtcso.cloudfront.net #Canvas Fingerprinting
 data.coremetrics.com
 de.coremetrics.com
 testdata.coremetrics.com
@@ -9652,9 +9682,9 @@ stats.g.doubleclick.net #Google
 stats.l.doubleclick.net #Google
 coremetrics.com.edgekey.net #EdgeKey
 ooyala.com.edgekey.net
-ads.ebay.com
-stats.ebay.com
-pixel.facebook.com
+ads.ebay.com #eBay
+stats.ebay.com #eBay
+pixel.facebook.com #Facebook
 stats.ft.com #Financial Times
 track.ft.com #Financial Times
 collector.githubapp.com #Git
@@ -9666,6 +9696,7 @@ ads.hearstmags.com
 bundles.api.here.com #German Maps, possible Windows 10 spying
 pixel.honestjohn.co.uk
 m.hotmail.com #Microsoft
+map2.ssl.hwcdn.net #HWCDN Tracking
 metrics.ikea.com #Ikea
 adverts.itv.com #ITV
 traffic.jackpot247.com #Jackpot247
