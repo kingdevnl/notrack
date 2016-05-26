@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 24 May 2016
+#NoTrack Tracker list updated 26 May 2016
 #LatestVersion 0.7.11
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -278,6 +278,7 @@ analytics-egain.com #eGain Corporation
 and.co.uk
 angorch-cdr7.com #Lead Forensics
 anrdoezrs.net
+apero-bigdata.com #Ysance
 apester.com
 apnex.us #AppNexus Inc
 apnx.us #AppNexus Inc
@@ -575,8 +576,9 @@ clksite.com #RevenueHits
 clksite.com #RevenueHits
 clktag.com #RevenueHits
 clkuno.com #RevenueHits
-cloud-9751.com #Lead Forensics
 cloudapp.net #Microsoft
+cloud-9751.com #Lead Forensics
+cloud-et-bigdata.com #Ysance
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail2.com
@@ -642,6 +644,7 @@ custhelp.com
 customerjourney.com #eGain Corporation
 customersciences.com #Adobe
 cxense.com
+c-ctrip.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
 dakic-ia-300.com #Lead Forensics
@@ -652,6 +655,10 @@ datacaciques.com
 data-eroadvertising.com
 dcoengine.com
 dc-storm.com
+ddf-t1.com #Ysance
+ddf-t2.com #Ysance
+ddf-t2.com #Ysance
+ddf-t3.com #Ysance
 decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
@@ -671,6 +678,10 @@ digitalanalyticsdatawarehouse.com #WebTrekk
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
+digital-datafactory.com #Ysance
+digital-data-factory.com #Ysance
+digital-et-crm.com #Ysance
+digital-marketing-hub.com #Ysance
 digital-window.com #Digital Window
 direct-aws-a1.com #Lead Forensics
 direct-azr-78.com #Lead Forensics
@@ -763,6 +774,7 @@ esearchvision.com
 esla.biz #Ad Web
 esomniture.com #Adobe
 esprima.org
+estatcounter.com
 esvdigital.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
@@ -783,6 +795,7 @@ exovueplatform.com
 expandengagement.com #Adobe
 exponential.com
 extreme-dm.com
+eyenewton.ru
 eyeota.com
 eyeota.net
 eyereturn.com #EyeReturn Marketing
@@ -1051,7 +1064,11 @@ korrelate.com
 korrelate.net
 krxd.net
 ksmobile.com
+k-analytix.com
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
+labeldecisionnel.net #Ysance
+labeldecisionnel.org #Ysance
+lelabdecisionnel.com #Ysance
 ladycash.ru
 laptops2compare.com #Digital Window
 latestprizes.com #Digital Window
@@ -1118,6 +1135,7 @@ marketo.net
 marktest.pt
 matheranalytics.com
 mathtag.com
+maxmind.com
 maxymiser.net
 mcstats.org
 mdotm.com #MdotM
@@ -8855,6 +8873,8 @@ nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
 nexusapps.com #AppNexus Inc
 nmgcdn.com
+novao.com #Ysance
+novao.net #Ysance
 nster.net
 nr-data.net
 nster.net
@@ -8921,8 +8941,8 @@ optnmnstr.com
 outbrain.com
 owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
-p-td.com
 p161.net #161 Media
+p2l-menuiseries.com #Ysance
 pages01.net
 pages02.net
 pages03.net
@@ -8936,6 +8956,7 @@ paidonresults.net
 panachetech.com #AppNexus Inc
 panel100.com
 pardot.com
+paris-cto.com #Ysance
 parsely.com
 passionfruitads.com
 pawamedia.com #RevenueHits
@@ -8993,6 +9014,9 @@ pp.ru
 preroller.com #BrightRoll
 prnx.net
 primefuse.com
+profile-matching.com #Ysance
+profilmatch.com #Ysance
+profilmatching.com #Ysance
 pro-market.net
 productserve.com #Digital Window
 projectwonderful.com
@@ -9018,6 +9042,7 @@ pxi.pub
 pxlsrv.com #AppNexus Inc
 pxlsrv.net #AppNexus Inc
 pxlsrv.us #AppNexus Inc
+p-td.com
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 q1mediahydraplatform.com
 q4cdn.com
@@ -9031,6 +9056,7 @@ qualtrics.com
 quantcast.com
 quantserve.com
 qubitproducts.com
+quelhadoop.com #Ysance
 questionmarket.com
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 r1-cdn.net #RadiumOne
@@ -9089,6 +9115,7 @@ res-x.com
 research-int.com
 reson8.com.au
 responsetap.com
+retailautomata.com
 revcontent.com
 revdepo.com #RevenueHits
 revenuehits.com #RevenueHits
@@ -9096,6 +9123,7 @@ revenuehits.net #RevenueHits
 revenuehitscontest.com #RevenueHits
 revenuevids.com #RevenueHits
 revenue-tracker.com
+revmetrix.com
 revsci.net
 rewardwindow.com #Digital Window
 rfihub.com
@@ -9185,6 +9213,7 @@ s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
 saas-euw-1.com #Lead Forensics
 sabavision.com
+safe-swaps.com
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
@@ -9345,6 +9374,7 @@ subtraxion.com
 successfultogether.co.uk
 sugarops.com
 sumome.com
+survata.net
 sw-rail-7.com #Lead Forensics
 switchadhub.com
 switchads.com
@@ -9361,10 +9391,12 @@ tagcade.com
 tagcommander.com
 taggstar.com
 tagsrvcs.com
+tamobi.net
 tangiblee.com
 tapad.com #Tapad
 tapfiliate.com
 tapjoyads.com
+tbcdn.cn
 tctm.co
 tdpwap.mobi #Millennial Media
 teads.tv
@@ -9538,6 +9570,7 @@ vwdservices.com #VWD Group
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
 walkme.com
+watcheezy.net
 wci-fl.com
 web-01-gbl.com #Lead Forensics
 web-cntr-09.com #Lead Forensics
@@ -9607,8 +9640,17 @@ yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
 youramigo.com
+ys4you.com #Ysance
+ysance.com #Ysance
+ysance.net #Ysance
+ysance-bi-services.com #Ysance
+ysance-integration.com #Ysance
+ysance-labs.com #Ysance
+ysforyou.com #Ysance
+ys-game.com #Ysance
 yuq.me
 ywxi.net #PathDefender
+y-track.com #Ysance
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
 zanox.adult #Zanox
 zanox.asia #Zanox
@@ -9670,6 +9712,7 @@ dw.cbsimg.net
 compatexchange.cloudapp.net
 d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
 d2ha22j8ys3e0o.cloudfront.net #Canvas Fingerprinting
+d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
 d2ymkpxi1rgldj.cloudfront.net #Canvas Fingerprinting
 d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
 d3ujids68p6xmp.cloudfront.net
