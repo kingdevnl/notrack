@@ -10,11 +10,11 @@ IPVersion=""
 InstallLoc=""
 
 #Program Settings----------------------------------------------------
-Version="0.7.9"
-Height=$(tput lines)
-Width=$(tput cols)
-Height=$((Height / 2))
-Width=$(((Width * 2) / 3))
+Version="0.7.12"
+#Height=$(tput lines)
+#Width=$(tput cols)
+#Height=$((Height / 2))
+#Width=$(((Width * 2) / 3))
 DNSChoice1=""
 DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
@@ -38,20 +38,99 @@ Error_Exit() {
   exit "$2"
 }
 
+#Menu----------------------------------------------------------------
+Menu() {
+#Arguments passed to this function are the menu items
+#$1 = Title, $2, $3... Option 1, 2...
+#$? = Choice user made
+#1. Clear Screen
+#2. Draw menu
+#3. Read single character of user input
+#4. Evaluate user input
+#4a. Check if value is between 0-9
+#4b. Check if value is between 1 and menu size. Return out of function if sucessful
+#4c. Check if user pressed the up key (ending A), Move highlighted point
+#4d. Check if user pressed the up key (ending B), Move highlighted point
+#4e. Check if user pressed Enter key, Return out of function
+#4f. Check if user pressed Q or q, Exit out with error code 1
+#5. User failed to input valid selection. Loop back to #2
+  local Choice
+  local Highlight
+  local MenuSize
+  local Valid
+  
+  Highlight=1
+  MenuSize=0
+  clear
+  while true; do    
+    for i in "$@"; do
+      if [ $MenuSize == 0 ]; then                #$1 Is Title
+        echo -e "$1"
+        echo
+      else        
+        if [ $Highlight == $MenuSize ]; then
+          echo " * $MenuSize: $i"
+        else
+          echo "   $MenuSize: $i"
+        fi
+      fi
+      ((MenuSize++))
+    done
+        
+    read -r -sn1 Choice;
+    echo "$Choice"
+    if [[ $Choice =~ ^[0-9]+$ ]]; then           #Has the user chosen 0-9
+      if [[ $Choice -ge 1 ]] && [[ $Choice -lt $MenuSize ]]; then
+        return $Choice
+        #break;
+      fi
+    elif [[ $Choice ==  "A" ]]; then             #Up
+      if [ $Highlight -le 1 ]; then              #Loop around list
+        Highlight=$((MenuSize-1))
+        echo
+      else
+        ((Highlight--))
+      fi
+    elif [[ $Choice ==  "B" ]]; then             #Down
+      if [ $Highlight -ge $((MenuSize-1)) ]; then #Loop around list
+        Highlight=1
+        echo
+      else
+        ((Highlight++))
+      fi
+    elif [[ $Choice == "" ]]; then               #Enter
+      return $Highlight                          #Return Highlighted value
+    elif [[ $Choice == "q" ]] || [[ $Choice == "Q" ]]; then
+      exit 1
+    fi
+    #C Right, D Left
+    
+    MenuSize=0
+    clear   
+  done
+}
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
-  whiptail --msgbox --title "Welcome to NoTrack v$Version" "This installer will transform your system into a network-wide Tracker Blocker!\n\nInstall Guide: https://youtu.be/MHsrdGT5DzE" 20 $Width
-
-  whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" --yes-button "Ok" --no-button "Abort" 20 $Width
-  if (( $? == 1)) ; then                           #Abort install if user selected no
-    echo "Aborting Install"
-    exit 1
+  echo "Welcome to NoTrack v$Version"
+  echo
+  echo "This installer will transform your system into a network-wide Tracker Blocker"
+  echo "Install Guide: https://youtu.be/MHsrdGT5DzE"
+  echo
+  echo "Press any key to contine..."
+  read -n1
+  
+  
+  Menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
+  if [ $? == 2 ]; then                           #Abort install if user selected no
+    Error_Exit "Aborting Install" 1
   fi
 }
 
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
-  whiptail --msgbox --title "Install Complete" "NoTrack has been installed\nAccess the admin console at http://$(hostname)/admin" 15 $Width
+  echo "NoTrack Install Complete"
+  echo "Access the admin console at http://$(hostname)/admin"
+  echo
 }
 
 #Ask Install Location------------------------------------------------
@@ -68,33 +147,28 @@ Ask_InstallLoc() {
     fi    
   fi
   
-  Fun=$(whiptail --title "Install Folder" --radiolist "Select Install Folder" $Height $Width 2 --ok-button Select \
-   "Home" "$HomeLoc" on \
-   "Opt" "/opt" off \
-   3>&1 1>&2 2>&3) 
-  Ret=$?  
+  Menu "Select Install Folder" "Home $HomeLoc" "Opt /opt" "Cancel"
   
-  if [ $Ret == 1 ]; then
-    echo "Aborting Install"
-    exit 1
-  fi
-    
-  case "$Fun" in
-    "Home") InstallLoc="$HomeLoc/notrack" ;;
-    "Opt") 
+  case $? in
+    1) 
+      InstallLoc="$HomeLoc/notrack" 
+    ;;
+    2) 
       InstallLoc="/opt/notrack"
       SudoRequired=1
     ;;
+    3)
+      Error_Exit "Aborting Install" 1
+    ;;  
   esac
   
   if [[ $InstallLoc == "" ]]; then
     Error_Exit "Install folder not set" 15
-  fi
+  fi  
 }
 
 #Ask User Which Network device to use for DNS lookups----------------
 #Needed if user has more than one network device active on their system
-#Whiptail method here is a bit crude, perhaps it could be improved?
 Ask_NetDev() {
   local CountNetDev=0
   local Device=""
@@ -123,38 +197,13 @@ Ask_NetDev() {
     
   elif [ $CountNetDev == 1 ]; then               #1 Device
     NetDev=${ListDev[0]}                         #Simple, just set it
-    
-  elif [ $CountNetDev == 2 ]; then                 #Whiptail dialog for 2 choices    
-    Fun=$(whiptail --title "Network Device" --radiolist "Select Network Device to use for DNS Queries" $Height $Width 2 --ok-button Select \
-    "1" "${ListDev[0]}" on \
-    "2" "${ListDev[1]}" off \
-     3>&1 1>&2 2>&3) 
-    Ret=$?  
-    if [[ $Ret == 1 ]]; then
-      echo "Aborting Install"
-      exit 1
-    elif [[ $Ret == 0 ]]; then
-      NetDev="${ListDev[$Fun-1]}"    
-    fi 
-    
-  elif [ $CountNetDev == 3 ]; then               #Whiptail dialog for 3 devices    
-    Fun=$(whiptail --title "Network Device" --radiolist "Select Network Device for DNS Queries" $Height $Width 3 --ok-button Select \
-    "1" "${ListDev[0]}" on \
-    "2" "${ListDev[1]}" off \
-    "3" "${ListDev[2]}" off \
-     3>&1 1>&2 2>&3) 
-    Ret=$?  
-    if [[ $Ret == 1 ]]; then
-    echo "Aborting Install"
-    exit 1
-    elif [[ $Ret == 0 ]]; then
-      NetDev=${ListDev[$Fun-1]}    
-    fi
-  elif [ $CountNetDev -gt 3 ]; then              #4 or more use bash prompt
-    echo
+  elif [ $CountNetDev -gt 0 ]; then
+    Menu "Select Menu Device" ${ListDev[*]}
+    NetDev=$?
+  elif [ $CountNetDev -gt 9 ]; then              #9 or more use bash prompt
+    clear
     echo "Network Devices detected: ${ListDev[*]}"
-    #echo "$NetDev" | tr -s " " "\012"
-    echo -n "Type Network Device to use for DNS queries: "
+    echo -n "Select Network Device to use for DNS queries: "
     read -r Choice
     NetDev=$Choice
     echo    
@@ -162,108 +211,84 @@ Ask_NetDev() {
   
   if [[ $NetDev == "" ]]; then
     Error_Exit "Network Device not entered" 11
-  fi
+  fi  
 }
 
 #Ask user which IP Version they are using on their network-----------
 Ask_IPVersion() {
-  Fun=$(whiptail --title "IP Version" --radiolist "Select IP Version being used" $Height $Width 2 --ok-button Select \
-   IPv4 "IP Version 4 (default)" on \
-   IPv6 "IP Version 6" off \
-   3>&1 1>&2 2>&3) 
-  Ret=$?
-    
-  if [ $Ret -eq 1 ]; then
-    echo "Aborting Install"
-    exit 1
-  elif [ $Ret -eq 0 ]; then
-    case "$Fun" in
-      "IPv4") IPVersion="IPv4" ;;
-      "IPv6") IPVersion="IPv6" ;;      
-    esac 
-  fi
+  Menu "Select IP Version being used" "IP Version 4 (default)" "IP Version 6" 
+  case "$?" in
+    1) IPVersion="IPv4" ;;
+    2) IPVersion="IPv6" ;;
+    3) Error_Exit "Aborting Install" 1
+  esac   
 }
 
 #Ask user for preffered DNS server-----------------------------------
 Ask_DNSServer() {
-  Fun=$(whiptail --title "DNS Server" --radiolist "The job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best.\nChoose a better DNS server from the list below:" $Height $Width 8 --ok-button Select \
-   OpenDNS "OpenDNS" on \
-   Google "Google Public DNS" off \
-   DNSWatch "DNS.Watch" off \
-   Verisign "Verisign" off \
-   Comodo "Comodo" off \
-   FreeDNS "FreeDNS" off \
-   Yandex "Yandex DNS" off \
-   Other "Other" off \
-   3>&1 1>&2 2>&3) 
-  Ret=$?
-    
-  if [ $Ret -eq 1 ]; then
-    echo "Aborting Install"
-    exit 1
-  elif [ $Ret -eq 0 ]; then
-    case "$Fun" in
-      "OpenDNS")
-        if [[ $IPVersion == "IPv6" ]]; then
-          DNSChoice1="2620:0:ccc::2"
-          DNSChoice2="2620:0:ccd::2"
-        else
-          DNSChoice1="208.67.222.222" 
-          DNSChoice2="208.67.220.220"
-        fi
-      ;;
-      "Google")
-        if [[ $IPVersion == "IPv6" ]]; then
-          DNSChoice1="2001:4860:4860::8888"
-          DNSChoice2="2001:4860:4860::8844"
-        else
-          DNSChoice1="8.8.8.8"
-          DNSChoice2="8.8.4.4"
-        fi
-      ;;
-      "DNSWatch")
-        if [[ $IPVersion == "IPv6" ]]; then
-          DNSChoice1="2001:1608:10:25::1c04:b12f"
-          DNSChoice2="2001:1608:10:25::9249:d69b"
-        else
-          DNSChoice1="84.200.69.80"
-          DNSChoice2="84.200.70.40"
-        fi
-      ;;
-      "Verisign")
-        if [[ $IPVersion == "IPv6" ]]; then
-          DNSChoice1="2620:74:1b::1:1"
-          DNSChoice2="2620:74:1c::2:2"
-        else
-          DNSChoice1="64.6.64.6"
-          DNSChoice2="64.6.65.6"
-        fi
-      ;;
-      "Comodo")
-        DNSChoice1="8.26.56.26"
-        DNSChoice2="8.20.247.20"
-      ;;
-      "FreeDNS")
-        DNSChoice1="37.235.1.174"
-        DNSChoice2="37.235.1.177"
-      ;;
-      "Yandex")
-        if [[ $IPVersion == "IPv6" ]]; then
-          DNSChoice1="2a02:6b8::feed:bad"
-          DNSChoice2="2a02:6b8:0:1::feed:bad"
-        else
-          DNSChoice1="77.88.8.88"
-          DNSChoice2="77.88.8.2"
-        fi
-      ;;
-      "Other")
-        echo -en "DNS Server 1: "
-        read -r DNSChoice1
-        echo -en "DNS Server 2: "
-        read -r DNSChoice2
-      ;;
-    esac 
-  fi
+  Menu "Choose DNS Server\nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best." "OpenDNS" "Google Public DNS" "DNS.Watch" "Verisign" "Comodo" "FreeDNS" "Yandex DNS" "Other" 
+  
+  case "$?" in
+    1)                                           #OpenDNS
+      if [[ $IPVersion == "IPv6" ]]; then
+        DNSChoice1="2620:0:ccc::2"
+        DNSChoice2="2620:0:ccd::2"
+      else
+        DNSChoice1="208.67.222.222" 
+        DNSChoice2="208.67.220.220"
+      fi
+    ;;
+    2)                                           #Google
+      if [[ $IPVersion == "IPv6" ]]; then
+        DNSChoice1="2001:4860:4860::8888"
+        DNSChoice2="2001:4860:4860::8844"
+      else
+        DNSChoice1="8.8.8.8"
+        DNSChoice2="8.8.4.4"
+      fi
+    ;;
+    3)                                           #DNSWatch
+      if [[ $IPVersion == "IPv6" ]]; then
+        DNSChoice1="2001:1608:10:25::1c04:b12f"
+        DNSChoice2="2001:1608:10:25::9249:d69b"
+      else
+        DNSChoice1="84.200.69.80"
+        DNSChoice2="84.200.70.40"
+      fi
+    ;;
+    4)                                           #Verisign
+      if [[ $IPVersion == "IPv6" ]]; then
+        DNSChoice1="2620:74:1b::1:1"
+        DNSChoice2="2620:74:1c::2:2"
+      else
+        DNSChoice1="64.6.64.6"
+        DNSChoice2="64.6.65.6"
+      fi
+    ;;
+    5)                                           #Comodo
+      DNSChoice1="8.26.56.26"
+      DNSChoice2="8.20.247.20"
+    ;;
+    6)                                           #FreeDNS
+      DNSChoice1="37.235.1.174"
+      DNSChoice2="37.235.1.177"
+    ;;
+    7)                                           #Yandex
+      if [[ $IPVersion == "IPv6" ]]; then
+        DNSChoice1="2a02:6b8::feed:bad"
+        DNSChoice2="2a02:6b8:0:1::feed:bad"
+      else
+        DNSChoice1="77.88.8.88"
+        DNSChoice2="77.88.8.2"
+      fi
+    ;;
+    8)                                           #Other
+      echo -en "DNS Server 1: "
+      read -r DNSChoice1
+      echo -en "DNS Server 2: "
+      read -r DNSChoice2
+    ;;
+  esac   
 }
 
 #Get IP Address of System--------------------------------------------
@@ -275,18 +300,16 @@ Get_IPAddress() {
     IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
     
   elif [[ $IPVersion == "IPv6" ]]; then
-    echo "Reading IPv6 Address"
+    echo "Reading IPv6 Address from $NetDev"
     IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
   else
-    echo "Unknown IP Version"
-    exit 12
+    Error_Exit "Unknown IP Version" 12
   fi
   
   if [[ $IPAddr == "" ]]; then
     Error_Exit "Unable to detect IP Address" 13
   fi
-  
-  echo "System IP Address $IPAddr"
+   
   echo
 }
 #Install Packages----------------------------------------------------
@@ -512,7 +535,7 @@ Setup_Lighttpd() {
   sudo ln -s "$InstallLoc/sink" /var/www/html/sink #Setup symlinks for Web folders
   echo "Creating symlink from $InstallLoc/admin to /var/www/html/admin"
   sudo ln -s "$InstallLoc/admin" /var/www/html/admin
-  sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
+  sudo chmod -R 775 /var/www/html                #Give read/write/execute privilages to Web folder
   
   SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
   if [[ $SudoCheck == "" ]]; then
@@ -620,32 +643,34 @@ if [[ $(command -v sudo) == "" ]]; then
   Error_Exit "NoTrack requires sudo" 10  
 fi
 
-echo "NoTrack Install version: v$Version"
-echo
-
 Show_Welcome
 
 if [[ $InstallLoc == "" ]]; then
   Ask_InstallLoc
 fi
-echo "Installing to: $InstallLoc"
 
 if [[ $NetDev == "" ]]; then
   Ask_NetDev
 fi
-echo "Network Device set to: $NetDev"
 
 if [[ $IPVersion == "" ]]; then
   Ask_IPVersion
 fi
-echo "IPVersion set to: $IPVersion"
 
 Get_IPAddress
+sleep 2s
 
 Ask_DNSServer
+
+clear
+echo "Installing to: $InstallLoc"                #Final report before Installing
+echo "Network Device set to: $NetDev"
+echo "IPVersion set to: $IPVersion"
+echo "System IP Address $IPAddr"
 echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
+sleep 10s
 
 Install_Packages                                 #Install Apps with the appropriate package manager
 
