@@ -56,8 +56,7 @@ Menu() {
 #5. User failed to input valid selection. Loop back to #2
   local Choice
   local Highlight
-  local MenuSize
-  local Valid
+  local MenuSize  
   
   Highlight=1
   MenuSize=0
@@ -117,7 +116,7 @@ Show_Welcome() {
   echo "Install Guide: https://youtu.be/MHsrdGT5DzE"
   echo
   echo "Press any key to contine..."
-  read -n1
+  read -rn1
   
   
   Menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
@@ -139,7 +138,7 @@ Ask_InstallLoc() {
   
   if [[ $HomeLoc == "/root" ]]; then      #Change root folder to users folder
     HomeLoc="$(getent passwd $SUDO_USER | grep /home | grep -v syslog | cut -d: -f6)"    
-    if [ $(wc -w <<< $HomeLoc) -gt 1 ]; then     ##Too many sudo users
+    if [ $(wc -w <<< "$HomeLoc") -gt 1 ]; then   #Too many sudo users
       echo "Unable to estabilish which Home folder to install to"
       echo "Either run this installer without using sudo / root, or manually set the \$InstallLoc variable"
       echo "\$InstallLoc=\"/home/you/NoTrack\""
@@ -173,6 +172,7 @@ Ask_NetDev() {
   local CountNetDev=0
   local Device=""
   local -a ListDev
+  local MenuChoice
 
   if [ ! -d /sys/class/net ]; then               #Check net devices folder exists
     echo "Error. Unable to find list of Network Devices"
@@ -199,7 +199,8 @@ Ask_NetDev() {
     NetDev=${ListDev[0]}                         #Simple, just set it
   elif [ $CountNetDev -gt 0 ]; then
     Menu "Select Menu Device" ${ListDev[*]}
-    NetDev=$?
+    MenuChoice=$?
+    NetDev=${ListDev[$((MenuChoice-1))]}
   elif [ $CountNetDev -gt 9 ]; then              #9 or more use bash prompt
     clear
     echo "Network Devices detected: ${ListDev[*]}"
@@ -308,9 +309,7 @@ Get_IPAddress() {
   
   if [[ $IPAddr == "" ]]; then
     Error_Exit "Unable to detect IP Address" 13
-  fi
-   
-  echo
+  fi  
 }
 #Install Packages----------------------------------------------------
 Install_Deb() {
@@ -658,6 +657,7 @@ if [[ $IPVersion == "" ]]; then
 fi
 
 Get_IPAddress
+echo "System IP Address $IPAddr"
 sleep 2s
 
 Ask_DNSServer
