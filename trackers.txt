@@ -7,8 +7,8 @@
 123count.com #SpidersWatch
 123-tracker.com #Lead Forensics
 161media.com #161 Media
-1s3h4f7sl.com #HelloWorld
 1800omniture.com #Adobe
+1s3h4f7sl.com #HelloWorld
 200summit.com #Lead Forensics
 206ads.com
 247realmedia.com #AppNexus Inc
@@ -374,7 +374,6 @@ basebanner.com
 batchgeo.com
 baw5tracker.com #Lead Forensics
 baynote.net
-#bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
 bcplayer.net
 bdg001a.com #Lead Forensics
 beanstock.com
@@ -465,7 +464,6 @@ buyerappreciation.com
 buysellads.com
 buysub.com
 bz.io
-bzgint.com  #?TBC
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
 c3tag.com
 callwindow.com #Digital Window
@@ -929,7 +927,29 @@ hlserve.com
 hochmoor.com
 hotjar.com
 hrb1tng0.com #Lead Forensics
+hs-analytics.com #Hubspot
+hs-analytics.net #Hubspot
+hs-appstatic.com #Hubspot
+hs-static.com #Hubspot
+hsa-cdn.net #Hubspot
+hsanalytics-cdn.com #Hubspot
+hsanalytics-cdn.net #Hubspot
+hscrm01.com #Hubspot
+hscrm02.com #Hubspot
+hscrm03.com #Hubspot
+hscrm04.com #Hubspot
+hscrm05.com #Hubspot
+hscrm06.com #Hubspot
+hscrm07.com #Hubspot
+hscrm08.com #Hubspot
+hscrm09.com #Hubspot
+hscrm10.com #Hubspot
+hscrmemail.com #Hubspot
+hscrmemail.net #Hubspot
+hscrmqa01.com #Hubspot
 hsms01.com #Hubspot
+hsms01qa.net #Hubspot
+hsms02qa.net #Hubspot
 hsms02.com #Hubspot
 hsms03.com #Hubspot
 hsms04.com #Hubspot
@@ -939,8 +959,6 @@ hsms07.com #Hubspot
 hsms08.com #Hubspot
 hsms09.com #Hubspot
 hsms10.com #Hubspot
-hs-analytics.com #Hubspot
-hs-analytics.net #Hubspot
 hscta.net
 hrb1tng0.com
 hsstatic.net
@@ -958,9 +976,25 @@ html5nanovisor.mobi #instartlogic
 html5nanovisor.net #instartlogic
 html5nanovisor.org #instartlogic
 html5nanovisor.us #instartlogic
-hubspot.com
-hubspot.net #Some CDN stuff provided by this tracker
-hubtraffic.com
+hublogic.com #Hubspot
+hubspot.com #Hubspot
+hubspot.net #Hubspot
+hubspot10.com #Hubspot
+hubspot10.net #Hubspot
+hubspot3.com #Hubspot
+hubspot3.net #Hubspot
+hubspot4.com #Hubspot
+hubspot4.net #Hubspot
+hubspot5.com #Hubspot
+hubspot5.net #Hubspot
+hubspot6.net #Hubspot
+hubspot7.com #Hubspot
+hubspot8.com #Hubspot
+hubspot8.net #Hubspot
+hubspot9.com #Hubspot
+hubspot9.net #Hubspot
+hubspotanalytics.net #Hubspot
+hubtraffic.com #Hubspot
 hw-dev.com #HelloWorld
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
