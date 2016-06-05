@@ -461,7 +461,7 @@ burstnet.com
 burt.io
 buyat.com #Digital Window
 buyerappreciation.com
-buysellads.com
+buysellads.com #BySellAds
 buysub.com
 bz.io
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
@@ -804,6 +804,7 @@ ezp.bz
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 face3media.com
 fashiona-z.com #Digital Window
+fancybar.net #BuySellAds
 fantuition.com #AppNexus Inc
 fastclick.net
 fdgkdhfgjkdfgdg.com #HelloWorld
@@ -9308,7 +9309,7 @@ sensic.net
 sentifi.com
 securepaths.com #Forensiq
 servebom.com
-servedby-buysellads.com
+servedby-buysellads.com #BuySellAds
 servedbyopenx.com #OpenX
 servedbyopenx.net #OpenX
 servedbyopenx.org #OpenX
