@@ -652,13 +652,7 @@ echo '</table></div>'.PHP_EOL;
 //Pagination---------------------------------------------------------
 if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
   $ListSize = ceil($ListSize / $ItemsPerPage);   //Calculate List Size
-  $CurPos = 0;
-  while ($CurPos < $ListSize) {                  //Find Current Page
-    $CurPos++;
-    if ($StartPoint < $CurPos * $ItemsPerPage) {
-      break;					 //Leave loop when found
-    }
-  }
+  $CurPos = floor($StartPoint / $ItemsPerPage)+ 1;//Calculate Current Position
   
   echo '<div class="sys-group"><div class="pag-nav"><ul>'.PHP_EOL;
   

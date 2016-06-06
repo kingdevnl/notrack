@@ -499,15 +499,8 @@ function DisplaySiteList() {
 function DisplayPagination($LS, $View) {
   global $RowsPerPage, $StartPoint;
 
-  $ListSize = ceil($LS / $RowsPerPage);         //Calculate List Size
-  $CurPos = 0;
-  
-  while ($CurPos < $ListSize) {                  //Find Current Page
-    $CurPos++;
-    if ($StartPoint < $CurPos * $RowsPerPage) {
-      break;					 //Leave loop when found
-    }
-  }
+  $ListSize = ceil($LS / $RowsPerPage);          //Calculate List Size
+  $CurPos = floor($StartPoint / $RowsPerPage)+ 1;//Calculate Current Position
   
   echo '<div class="pag-nav"><ul>'.PHP_EOL;
   
