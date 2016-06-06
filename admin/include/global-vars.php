@@ -11,6 +11,7 @@ $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
 $FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
 $FileAccessLog = '/var/log/ntrk-admin.log';
+$LogLightyAccess = '/var/log/lighttpd/access.log';
 
 $DirTmp = '/tmp/';
 $DirEtc = '/etc/notrack/';

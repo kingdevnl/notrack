@@ -373,6 +373,22 @@ tr.dark {
   width: 18%;
   text-align: center;
 }
+#blocked-table td:nth-child(1), #blocked-table th:nth-child(1) {
+  width: 8%;
+  text-align: center;
+}
+#blocked-table td:nth-child(2), #blocked-table th:nth-child(2) {
+  width: 22%;
+  text-align: center;
+}
+#blocked-table th:nth-child(3) {
+  width: 67%;
+  text-align: center;
+}
+#blocked-table td:nth-child(3) {
+  width: 77%;
+  text-align: left;
+}
 #domain-table td:nth-child(1), #domain-table th:nth-child(1) {
   width: 11%;
   text-align: center;  
@@ -391,18 +407,18 @@ tr.dark {
 #domain-table img {
   width: 1em;
 }
-#dhcp-table td:nth-child(1), .dhcp-table th:nth-child(1) {
+#dhcp-table td:nth-child(1), #dhcp-table th:nth-child(1) {
   width: 15%;
   text-align: center;  
 }
-#dhcp-table td:nth-child(2), .dhcp-table th:nth-child(2) {
+#dhcp-table td:nth-child(2), #dhcp-table th:nth-child(2) {
   width: 35%;
 }
-#dhcp-table td:nth-child(3), .dhcp-table th:nth-child(3) {
+#dhcp-table td:nth-child(3), #dhcp-table th:nth-child(3) {
   width: 22%;  
   text-align: center;
 }
-#dhcp-table td:nth-child(4), .dhcp-table th:nth-child(4) {
+#dhcp-table td:nth-child(4), #dhcp-table th:nth-child(4) {
   width: 22%;  
   text-align: center;
 }
