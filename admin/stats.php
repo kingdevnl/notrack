@@ -400,24 +400,6 @@ function Load_TodayLog() {
 function Load_HistoricLogs() {
   global $DateRange, $StartTime, $View, $Mem, $DomainList;
   
-  //It can take a while to process days worth of logs, therefore we'll 
-  //utilise Memcache to hold the data for 10 minutes
-  //Compare $StartTime, $DateRange, and $View to the current settings.
-  //If they match then leave function without opening any files
-  //Store data in Memcache once loaded
-  
- /* $DomainList = $Mem->get('DomainList');         //Load Domain list from Memcache
-  if ($DomainList) {                             //Has array loaded?
-    if (($StartTime == $Mem->get('StartTime')) && ($DateRange == $Mem->get('DateRange')) && ($View == $Mem->get('View'))) return;
-    else {      
-      $Mem->delete('StartTime');                 //Delete old variables from Memcache
-      $Mem->delete('DateRange');
-      $Mem->delete('DomainList');
-      $Mem->delete('View');
-      $DomainList = array();                     //Delete data in array
-    }    
-  }*/
-    
   $LD = $StartTime + 86400;                      //Log files get cached the following day, so we move the start date on by 86,400 seconds (24 hours)
   for ($i = 0; $i < $DateRange; $i++) {
     if ($View == 1) Load_HistoricLog_All(date('Y-m-d', $LD));
@@ -427,12 +409,7 @@ function Load_HistoricLogs() {
     if ($LD > time() + 86400) {                  //Don't exceed today
       break;
     }
-  }
-  /*
-  $Mem->set('StartTime', $StartTime, 0, 600);    //Store variables in Memcache
-  $Mem->set('DateRange', $DateRange, 0, 600);
-  $Mem->set('DomainList', $DomainList, 0, 600);
-  $Mem->set('View', $View, 0, 600);*/
+  }  
 }
 //Main---------------------------------------------------------------
 
