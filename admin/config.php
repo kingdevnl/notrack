@@ -12,6 +12,17 @@ if ($Config['Password'] != '') {
 }
 
 $List = array();               //Global array for all the Block Lists
+$SearchEngineList = array(
+ 'Baidu',
+ 'Bing',
+ 'DuckDuckGo',
+ 'Exalead',
+ 'Gigablast',
+ 'Google',
+ 'Qwant',
+ 'Yahoo',
+ 'Yandex',
+);
 
 //Deal with POST actions first, that way we can roload the page
 //and remove POST requests from browser history.
@@ -33,13 +44,20 @@ if (isset($_POST['action'])) {
       header('Location: ?');
       break;
     case 'security':
-      if (UpdateSecurityConfig()) {
+      if (UpdateSecurityConfig()) {        
         WriteTmpConfig();
         ExecAction('update-config', true, true);
         if (session_status() == PHP_SESSION_ACTIVE) session_destroy();
         header('Location: ?');
       }
       break;
+    case 'stats':
+      if (UpdateStatsConfig()) {        
+        WriteTmpConfig();
+        ExecAction('update-config', true, true); 
+        sleep(1);                                  //Short pause to prevent race condition
+        header('Location: ?');
+      }
     default:
       echo 'Unknown POST action';
       die();
@@ -297,7 +315,7 @@ function DisplayBlockLists() {
 }
 //-------------------------------------------------------------------
 function DisplayConfigChoices() {
-  global $Config, $DirOldLogs, $Version;
+  global $Config, $DirOldLogs, $Version, $SearchEngineList;
   
   $Load = sys_getloadavg();
   $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));
@@ -343,6 +361,21 @@ function DisplayConfigChoices() {
   else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');  
   echo '</table></div></div></form>'.PHP_EOL;
 
+  //Stats
+  echo '<form name="stats" action="?" method="post">';
+  echo '<input type="hidden" name="action" value="stats">';
+  DrawSysTable('Domain Stats');
+  echo '<tr><td>Search Engine: </td>'.PHP_EOL;
+  echo '<td><select name="search" onchange="submit()">'.PHP_EOL;
+  echo '<option value="'.$Config['Search'].'">'.$Config['Search'].'</option>'.PHP_EOL;
+  foreach ($SearchEngineList as $Site) {
+    if ($Site != $Config['Search']) {
+      echo '<option value="'.$Site.'">'.$Site.'</option>'.PHP_EOL;
+    }
+  }
+  echo '</select></td></tr>'.PHP_EOL;
+  echo '</table></div></div></form>'.PHP_EOL;
+  
   //Security
   echo '<form name="security" action="?" method="post">';
   echo '<input type="hidden" name="action" value="security">';
@@ -676,6 +709,19 @@ function UpdateCustomList($LongName, $ListName) {
   
   return null;
 }
+//Update Stats Config------------------------------------------------
+function UpdateStatsConfig() {
+  global $Config, $SearchEngineList;
+  
+  if (isset($_POST['search'])) {
+    if (in_array($_POST['search'], $SearchEngineList)) {
+      $Config['Search'] = $_POST['search'];
+      $Config['SearchUrl'] = '';
+      return true;
+    }
+  }
+  return false;
+}
 //Update Security Config---------------------------------------------
 function UpdateSecurityConfig() {
   global $Config;
@@ -766,7 +812,6 @@ $StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
 
 $RowsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500); //Rows per page
 
-  
 
 if (isset($_GET['action'])) {
   switch($_GET['action']) {

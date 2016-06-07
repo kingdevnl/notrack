@@ -130,6 +130,15 @@ function Filter_Int_Post($Str, $Min, $Max, $DefaltValue=false) {
   }
   return $DefaltValue;
 }
+//Filter Int Value---------------------------------------------------
+function Filter_Int_Value($Val, $Min, $Max, $DefaultValue=0) {
+  if (is_numeric($Val)) {
+    if (($Val >= $Min) && ($Val <= $Max)) {
+      return intval($Val);
+    }
+  }
+  return $DefaltValue;
+}
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
@@ -140,6 +149,16 @@ function Filter_Str($Str) {
     if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
   }
   return false;
+}
+//Filter String Value------------------------------------------------
+function Filter_Str_Value($Str, $DefaltValue='') {
+  //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
+  //2. Return Str on success, and Default on fail
+  
+  if (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $Str) == 0) {
+    return $Str;
+  }  
+  return $DefaltValue;
 }
 //Filter URL GET-----------------------------------------------------
 function Filter_URL($Str) {
@@ -168,49 +187,165 @@ function Filter_URL_Str($Str) {
 }
 //Load Config File---------------------------------------------------
 function LoadConfigFile() {
-  global $FileConfig, $Config, $Mem, $Version;
+  //1. Attempt to load Config from Memcache
+  //2. Write DefaultConfig to Config, incase any variables are missing
+  //3. Read Config File
+  //4. Split Line between = (Var = Value)
+  //5. Filter each value
+  //6. Setup SearchUrl
+  //7. Write Config to Memcache
+
+  global $FileConfig, $Config, $DefaultConfig, $Mem, $Version;
   
   $Config=$Mem->get('Config');                   //Load array from Memcache
   
-  if (!$Config) {                                //Did it load from memory?
-    if (file_exists($FileConfig)) {              //Check file exists
-      $Config = parse_ini_file($FileConfig);     //Load array
+  if ($Config) return;                           //Did it load from memory?
+  
+  $Config = $DefaultConfig;                    //Firstly Set Default Config
+  if (file_exists($FileConfig)) {              //Check file exists      
+    $FileHandle= fopen($FileConfig, 'r');
+    while (!feof($FileHandle)) {
+      $Line = trim(fgets($FileHandle));        //Read Line of LogFile
+      if ($Line != '') {
+        $SplitLine = explode('=', $Line);
+        if (count($SplitLine == 2)) {          
+          $SplitLine[1] = trim($SplitLine[1]);
+          switch (trim($SplitLine[0])) {
+            case 'LatestVersion':
+              $Config['LatestVersion'] = Filter_Str_Value($SplitLine[1], $Version);
+              break;
+            case 'NetDev':
+              $Config['NetDev'] = Filter_Str_Value($SplitLine[1], 'eth0');
+              break;
+            case 'IPVersion':
+              $Config['IPVersion'] = Filter_Str_Value($SplitLine[1], 'IPv4');
+              break;
+            case 'Status':
+              $Config['Status'] = Filter_Str_Value($SplitLine[1], 'Enabled');
+              break;
+            case 'BlockMessage':
+              $Config['BlockMessage'] = Filter_Str_Value($SplitLine[1], 'pixel');
+              break;
+            case 'Search':
+              $Config['Search'] = Filter_Str_Value($SplitLine[1], 'Google');
+              break;
+            case 'SearchUrl':
+              $Config['SearchUrl'] = Filter_Str_Value($SplitLine[1], '');
+              break;
+            case 'WhoIs':
+              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'who.is');
+              break;
+            case 'WhoIsUrl':
+              $Config['WhoIsUrl'] = Filter_Str_Value($SplitLine[1], 'who.is');
+              break;
+            case 'Username':
+              $Config['Username'] = Filter_Str_Value($SplitLine[1], '');
+              break;
+            case 'Password':
+              $Config['Password'] = Filter_Str_Value($SplitLine[1], '');
+              break;
+            case 'Delay':
+              $Config['Delay'] = Filter_Int_Value($SplitLine[1], 0, 3600, 30);
+              break;
+            case 'BlockList_NoTrack':
+              $Config['BlockList_NoTrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+              break;
+            case 'BlockList_TLD':
+              $Config['BlockList_TLD'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+              break;
+            case 'BlockList_QMalware':
+              $Config['BlockList_QMalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+              break;
+            case 'BlockList_AdBlockManager':
+              $Config['BlockList_AdBlockManager'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_DisconnectMalvertising':
+              $Config['BlockList_DisconnectMalvertising'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_EasyList':
+              $Config['BlockList_EasyList'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_EasyPrivacy':
+              $Config['BlockList_EasyPrivacy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_FBAnnoyance':
+              $Config['BlockList_FBAnnoyance'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_FBEnhanced':
+              $Config['BlockList_FBEnhanced'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_FBSocial':
+              $Config['BlockList_FBSocial'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_hpHosts':
+              $Config['BlockList_hpHosts'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_MalwareDomainList':
+              $Config['BlockList_MalwareDomainList'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_MalwareDomains':
+              $Config['BlockList_MalwareDomains'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_PglYoyo':
+              $Config['BlockList_PglYoyo'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_SomeoneWhoCares':
+              $Config['BlockList_SomeoneWhoCares'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_Spam404':
+              $Config['BlockList_Spam404'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_Winhelp2002':
+              $Config['BlockList_Winhelp2002'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            /*case 'BlockList_':
+              $Config['BlockList_'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;*/
+            //Region Specific
+            case 'BlockList_CHNEasy':
+              $Config['BlockList_CHNEasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_RUSEasy':
+              $Config['BlockList_RUSEasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+          }
+        }
+      }
     }
-    else {
-      $Config = array();                         //No config file, zero the array
+       
+    if ($Config['SearchUrl'] == '') {     
+      switch($Config['Search']) {
+        case 'Baidu':
+          $Config['SearchUrl'] = 'https://www.baidu.com/s?wd=';
+          break;
+        case 'Bing':
+          $Config['SearchUrl'] = 'https://www.bing.com/search?q=';
+          break;
+        case 'DuckDuckGo':
+          $Config['SearchUrl'] = 'https://duckduckgo.com/?q=';
+          break;
+        case 'Exalead':
+          $Config['SearchUrl'] = 'https://www.exalead.com/search/web/results/?q=';
+          break;
+        case 'Gigablast':
+          $Config['SearchUrl'] = 'https://www.gigablast.com/search?q=';
+          break;
+        case 'Google':
+          $Config['SearchUrl'] = 'https://www.google.com/search?q=';
+          break;
+        case 'Qwant':
+          $Config['SearchUrl'] = 'https://www.qwant.com/?q=';
+          break;
+        case 'Yahoo':
+          $Config['SearchUrl'] = 'https://search.yahoo.com/search?p=';
+          break;
+        case 'Yandex':
+          $Config['SearchUrl'] = 'https://www.yandex.com/search/?text=';
+          break;
+        default:
+          $Config['SearchUrl'] = 'https://www.google.com/search?q=';          
+      }
     }
-    //Set defult values if keys don't exist
-    if (!array_key_exists('NetDev', $Config)) $Config += array('NetDev' => 'eth0');
-    if (!array_key_exists('IPVersion', $Config)) $Config += array('IPVersion' => 'IPv4');
-    if (!array_key_exists('Status', $Config)) $Config += array('Status' => 'Enabled');
-    if (!array_key_exists('BlockMessage', $Config)) $Config += array('BlockMessage' => 'pixel');    
-    if (!array_key_exists('Password', $Config)) $Config += array('Password' => '');
-    if (!array_key_exists('Username', $Config)) $Config += array('Username' => '');
-    if (!array_key_exists('Delay', $Config)) $Config += array('Delay' => 30);
-    if (!array_key_exists('BlockList_NoTrack', $Config)) $Config += array('BlockList_NoTrack' => 1);
-    if (!array_key_exists('BlockList_TLD', $Config)) $Config += array('BlockList_TLD' => 1);
-    if (!array_key_exists('BlockList_QMalware', $Config)) $Config += array('BlockList_QMalware' => 1);
-    if (!array_key_exists('BlockList_AdBlockManager', $Config)) $Config += array('BlockList_AdBlockManager' => 0);
-    if (!array_key_exists('BlockList_DisconnectMalvertising', $Config)) $Config += array('BlockList_DisconnectMalvertising' => 0);
-    if (!array_key_exists('BlockList_EasyList', $Config)) $Config += array('BlockList_EasyList' => 0);
-    if (!array_key_exists('BlockList_EasyPrivacy', $Config)) $Config += array('BlockList_EasyPrivacy' => 0);
-    if (!array_key_exists('BlockList_FBAnnoyance', $Config)) $Config += array('BlockList_FBAnnoyance' => 0);
-    if (!array_key_exists('BlockList_FBEnhanced', $Config)) $Config += array('BlockList_FBEnhanced' => 0);
-    if (!array_key_exists('BlockList_FBSocial', $Config)) $Config += array('BlockList_FBEnhanced' => 0);    
-    if (!array_key_exists('BlockList_hpHosts', $Config)) $Config += array('BlockList_hpHosts' => 0);
-    if (!array_key_exists('BlockList_MalwareDomainList', $Config)) $Config += array('BlockList_MalwareDomainList' => 0);
-    if (!array_key_exists('BlockList_MalwareDomains', $Config)) $Config += array('BlockList_MalwareDomains' => 0);
-    if (!array_key_exists('BlockList_PglYoyo', $Config)) $Config += array('BlockList_PglYoyo' => 0);    
-    if (!array_key_exists('BlockList_SomeoneWhoCares', $Config)) $Config += array('BlockList_SomeoneWhoCares' => 0);
-    if (!array_key_exists('BlockList_Spam404', $Config)) $Config += array('BlockList_Spam404' => 0);
-    if (!array_key_exists('BlockList_Winhelp2002', $Config)) $Config += array('BlockList_Winhelp2002' => 0);
-    //Region Specific BlockLists
-    if (!array_key_exists('BlockList_CHNEasy', $Config)) $Config += array('BlockList_CHNEasy' => 0);
-    if (!array_key_exists('BlockList_RUSEasy', $Config)) $Config += array('BlockList_RUSEasy' => 0);
-    //if (!array_key_exists('', $Config)) $Config += array('' => 0);
-    
-    if (!array_key_exists('LatestVersion', $Config)) $Config += array('LatestVersion' => $Version); //Default to current version
-    
     $Mem->set('Config', $Config, 0, 1200); 
   }
   

@@ -682,7 +682,7 @@ foreach ($SortedDomainList as $Str => $Value) {
     elseif ($Action == '1') {                    //1 = Local lookup
       echo '<tr class="local"><td>'.$i.'</td><td>'.$Site.'</td>';
     }
-    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
+    echo '<td><a target="_blank" href="'.$Config['SearchUrl'].$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
     <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
     .$ReportSiteStr;
     echo '</td><td>'.$Value.'</td></tr>'.PHP_EOL;
