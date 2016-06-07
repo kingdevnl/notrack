@@ -86,10 +86,10 @@ function ReturnURL($Str) {
 }
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
-  global $DateRange, $StartStr, $ItemsPerPage, $SortCol, $SortDir, $View;
+  global $DateRange, $StartStr, $RowsPerPage, $SortCol, $SortDir, $View;
   switch ($Var) {
     case 'C':
-      if ($ItemsPerPage != 500) return '&amp;c='.$ItemsPerPage;
+      if ($RowsPerPage != 500) return '&amp;c='.$RowsPerPage;
     break;
     case 'Dir':
       if ($SortDir == 1) return '&amp;dir=1';
@@ -112,10 +112,10 @@ function AddGetVar($Var) {
 
 //Add Hidden Var to Form if Variable is used-------------------------
 function AddHiddenVar($Var) {
-global $DateRange, $ItemsPerPage, $SortCol, $SortDir, $StartStr, $View;
+global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
   switch ($Var) {
     case 'C':
-      if ($ItemsPerPage != 500) return '<input type="hidden" name="c" value="'.$ItemsPerPage.'" />';
+      if ($RowsPerPage != 500) return '<input type="hidden" name="c" value="'.$RowsPerPage.'" />';
     break;
     case 'Dir':
       if ($SortDir == 1) return '<input type="hidden" name="dir" value="1" />';
@@ -160,18 +160,18 @@ function Load_TLDBlockList() {
 //1. Attempt to load TLDBlockList from Memcache
 //2. If that fails then check if DomainQuickList file exists
 //3. Read each line into TLDBlockList array and trim off \n
-//4. Once loaded store TLDBlockList array in Memcache for 20 mins
+//4. Once loaded store TLDBlockList array in Memcache for 30 mins
   global $TLDBlockList, $Mem, $DomainQuickList;
   
   $TLDBlockList=$Mem->get('TLDBlockList');
   if (! $TLDBlockList) {
     if (file_exists($DomainQuickList)) {          //Check if File Exists
-      $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open'.$DomainQuickList);
+      $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open '.$DomainQuickList);
       while (!feof($FileHandle)) {
         $TLDBlockList[] = trim(fgets($FileHandle));
       }
       fclose($FileHandle);
-      $Mem->set('TLDBlockList', $TLDBlockList, 0, 1200);
+      $Mem->set('TLDBlockList', $TLDBlockList, 0, 1800);
     }
   }
   return null;
@@ -337,6 +337,8 @@ function Load_HistoricLog_All($LogDate) {
       $DomainList[] = ReturnURL(substr($Line, 0, -1)).substr($Line, -1, 1);
     }
   }
+  
+  return null;
 }
 //Load Historic Log Allowed------------------------------------------
 function Load_HistoricLog_Allowed($LogDate) {
@@ -349,6 +351,8 @@ function Load_HistoricLog_Allowed($LogDate) {
       if (substr($Line, -1, 1) == '+') $DomainList[] = ReturnURL(substr($Line, 0, -1)).'+';
     }
   }
+  
+  return null;
 }
 //Load Historic Log Blocked------------------------------------------
 function Load_HistoricLog_Blocked($LogDate) {
@@ -379,16 +383,17 @@ function Load_TodayLog() {
   $FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
   
   if (($StartStr == '') || ($StartStr == 'today')) {
-    if ($View == 1) Read_Day_All($FileHandle);     //Read both Allow & Block
+    if ($View == 1) Read_Day_All($FileHandle);   //Read both Allow & Block
     elseif ($View == 2) Read_Day_Allowed($FileHandle);  //Read Allowed only
     elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only    
   }
   else {
     if ($View == 1) Read_Time_All($FileHandle);  //Read both Allow & Block
-    elseif ($View == 2) Read_Time_Allowed($FileHandle);  //Read Allowed only
-    elseif ($View == 3) Read_Time_Blocked($FileHandle);  //Read Blocked only    
+    elseif ($View == 2) Read_Time_Allowed($FileHandle); //Read Allowed only
+    elseif ($View == 3) Read_Time_Blocked($FileHandle); //Read Blocked only    
   }
   fclose($FileHandle);
+  
   return null;
 }
 //Load Historic Logs-------------------------------------------------
@@ -401,7 +406,7 @@ function Load_HistoricLogs() {
   //If they match then leave function without opening any files
   //Store data in Memcache once loaded
   
-  $DomainList = $Mem->get('DomainList');         //Load Domain list from Memcache
+ /* $DomainList = $Mem->get('DomainList');         //Load Domain list from Memcache
   if ($DomainList) {                             //Has array loaded?
     if (($StartTime == $Mem->get('StartTime')) && ($DateRange == $Mem->get('DateRange')) && ($View == $Mem->get('View'))) return;
     else {      
@@ -411,7 +416,7 @@ function Load_HistoricLogs() {
       $Mem->delete('View');
       $DomainList = array();                     //Delete data in array
     }    
-  }
+  }*/
     
   $LD = $StartTime + 86400;                      //Log files get cached the following day, so we move the start date on by 86,400 seconds (24 hours)
   for ($i = 0; $i < $DateRange; $i++) {
@@ -423,11 +428,11 @@ function Load_HistoricLogs() {
       break;
     }
   }
-  
+  /*
   $Mem->set('StartTime', $StartTime, 0, 600);    //Store variables in Memcache
   $Mem->set('DateRange', $DateRange, 0, 600);
   $Mem->set('DomainList', $DomainList, 0, 600);
-  $Mem->set('View', $View, 0, 600);
+  $Mem->set('View', $View, 0, 600);*/
 }
 //Main---------------------------------------------------------------
 
@@ -441,21 +446,21 @@ $SortCol = Filter_Int('sort', 0, 2, 0);
 $SortDir = Filter_Int('dir', 0, 2, 0);
 
 $StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
-
-$ItemsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500); //Rows per page
+$RowsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500);
 
 //View 1: Show All
 //View 2: Allowed only
 //View 3: Blocked only
 $View = Filter_Int('v', 1, 4, 1);
 
-$StartTime = time();
-$StartStr = '';
+$ExecTime = time();                              //Time of execution
+$StartTime = $ExecTime;
+$StartStr = 'today';
 if (isset($_GET['e'])) {
   $StartStr = $_GET['e'];
   if ($StartStr != 'today') {
     if (($StartTime = strtotime($StartStr)) === false) {
-      $StartTime = 0;
+      $StartTime = $ExecTime;
       $StartStr = 'today';      
     }    
   }
@@ -463,22 +468,85 @@ if (isset($_GET['e'])) {
 
 $DateRange = Filter_Int('dr', 1, 366, 1);
 
-//-------------------------------------------------------------------
+//Load TLD Blocklist if being used
 if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                           
 
-//Are we loading Todays logs or Historic logs?
-if ($StartTime > (time() - 86400)) Load_TodayLog();
-else Load_HistoricLogs(); 
 
-//Sort Array of Domains from log file--------------------------------
-$SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
-if ($SortCol == 1) {
-  if ($SortDir == 0) ksort($SortedDomainList);
-  else krsort($SortedDomainList);
+//Load Logs----------------------------------------------------------
+$LoadList = true;                 //Assume Logs will need loading
+$SortList = true;                 //Assume Array will need sorting
+$MemSaveTime = 60;                //How long to hold data in memory
+
+//How long to hold data in memcache based on how far back user is searching
+//Shorter time search = lower retention of Memcache
+if (($StartStr == '') || ($StartStr == 'today')) $MemSaveTime = 240;
+elseif ($StartTime >= $ExecTime - 300) $MemSaveTime = 30;    //-5 Min
+elseif ($StartTime >= $ExecTime - 1500) $MemSaveTime = 50;   //-15 Min
+elseif ($StartTime >= $ExecTime - 3600) $MemSaveTime = 90;   //-1 hour
+elseif ($StartTime >= $ExecTime - 28800) $MemSaveTime = 180; //-8 hours
+else $MemSaveTime = 600;                                     //-Days
+
+//Attempt to load SortedDomainList from Memcache
+$SortedDomainList = $Mem->get('SortedDomainList');   
+if ($SortedDomainList) {                         //Has array loaded?
+  if (($StartStr == $Mem->get('StartStr')) && 
+      ($DateRange == $Mem->get('DateRange')) && 
+      ($View == $Mem->get('View'))) {
+    if (($SortCol == $Mem->get('SortCol')) && 
+        ($SortDir == $Mem->get('SortDir'))) {    //Check if search is same
+      $SortList = false;
+      $LoadList = false;      
+    }
+    else {
+      $LoadList = false;                         //No need to load list
+      $SortedDomainList = array();               //Delete data in array     
+    }
+  }
+  else {
+    $Mem->delete('StartStr');                    //Delete old variables from Memcache
+    $Mem->delete('SortCol');
+    $Mem->delete('SortDir');
+    $Mem->delete('DateRange');
+    $Mem->delete('DomainList');
+    $Mem->delete('SortedDomainList');
+    $Mem->delete('View');
+    $SortedDomainList = array();                 //Delete data in array
+  }    
 }
-else {
-  if ($SortDir == 0) arsort($SortedDomainList);  //Sort array by highest number of hits
-  else asort($SortedDomainList);
+    
+if ($LoadList) {                                 //Load domain list from file  
+  //Are we loading Todays logs or Historic logs?
+  if ($StartTime > (time() - 86400)) Load_TodayLog();
+  else Load_HistoricLogs();
+  $Mem->set('DomainList', $DomainList, 0, $MemSaveTime);
+}
+else {                                           //Load domain list from memcache
+  $DomainList = $Mem->get('DomainList');
+  if (!$DomainList) {                            //Something wrong, get it reloaded
+    if ($StartTime > (time() - 86400)) Load_TodayLog();
+    else Load_HistoricLogs();
+    $Mem->set('DomainList', $DomainList, 0, $MemSaveTime);
+  }
+}
+
+if ($SortList) {
+  //Sort Array of Domains from log file
+  $SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
+  if ($SortCol == 1) {
+    if ($SortDir == 0) ksort($SortedDomainList);
+    else krsort($SortedDomainList);
+  }
+  else {
+    if ($SortDir == 0) arsort($SortedDomainList);//Sort array by highest number of hits
+    else asort($SortedDomainList);
+  }
+  
+  $Mem->set('StartStr', $StartStr, 0, $MemSaveTime);       //Store variables in Memcache
+  $Mem->set('SortCol', $SortCol, 0, $MemSaveTime);
+  $Mem->set('SortDir', $SortDir, 0, $MemSaveTime);
+  $Mem->set('DateRange', $DateRange, 0, $MemSaveTime);
+  $Mem->set('SortedDomainList', $SortedDomainList, 0, $MemSaveTime);
+  $Mem->set('View', $View, 0, $MemSaveTime);
 }
 
 $ListSize = count($SortedDomainList);
@@ -605,7 +673,8 @@ echo '</tr>'.PHP_EOL;
 $i = 1;
 foreach ($SortedDomainList as $Str => $Value) {
   if ($i >= $StartPoint) {                       //Start drawing the table when we reach the StartPoint of Pagination
-    if ($i >= $StartPoint + $ItemsPerPage) break;//Exit the loop at end of Pagination + Number of Items per page
+    if ($i >= $StartPoint + $RowsPerPage) break; //Exit the loop at end of Pagination + Rows per page
+    
     $Action = substr($Str,-1,1);                 //Last character tells us whether URL was blocked or not
     $Site = substr($Str, 0, -1);
     $ReportSiteStr = '';                         //Assume no Report Button
@@ -634,8 +703,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       }      
     }
     elseif ($Action == '1') {                    //1 = Local lookup
-      echo '<tr class="local">';
-      echo '<td>'.$i.'</td><td>'.$Site.'</td>';
+      echo '<tr class="local"><td>'.$i.'</td><td>'.$Site.'</td>';
     }
     echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
     <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
@@ -644,15 +712,12 @@ foreach ($SortedDomainList as $Str => $Value) {
   }  
   $i++;
 }
-
 echo '</table></div>'.PHP_EOL;
 
-
-
 //Pagination---------------------------------------------------------
-if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
-  $ListSize = ceil($ListSize / $ItemsPerPage);   //Calculate List Size
-  $CurPos = floor($StartPoint / $ItemsPerPage)+ 1;//Calculate Current Position
+if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
+  $ListSize = ceil($ListSize / $RowsPerPage);    //Calculate List Size
+  $CurPos = floor($StartPoint / $RowsPerPage)+ 1;//Calculate Current Position
   
   echo '<div class="sys-group"><div class="pag-nav"><ul>'.PHP_EOL;
   
@@ -661,56 +726,56 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
     WriteLI('1', 0, true);
   }    
   else {                                         // << Symbol & Print Box 1
-    WriteLI('&#x00AB;', $ItemsPerPage * ($CurPos - 2), false);
+    WriteLI('&#x00AB;', $RowsPerPage * ($CurPos - 2), false);
     WriteLI('1', 0, false);
   }
 
   if ($ListSize <= 4) {                          //Small Lists don't need fancy effects
     for ($i = 2; $i <= $ListSize; $i++) {	 //List of Numbers
       if ($i == $CurPos) {
-        WriteLI($i, $ItemsPerPage * ($i - 1), true);
+        WriteLI($i, $RowsPerPage * ($i - 1), true);
       }
       else {
-        WriteLI($i, $ItemsPerPage * ($i - 1), false);
+        WriteLI($i, $RowsPerPage * ($i - 1), false);
       }
     }
   }
   elseif ($ListSize > 4 && $CurPos == 1) {       // < [1] 2 3 4 T >
-    WriteLI('2', $ItemsPerPage, false);
-    WriteLI('3', $ItemsPerPage * 2, false);
-    WriteLI('4', $ItemsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $ItemsPerPage, false);
+    WriteLI('2', $RowsPerPage, false);
+    WriteLI('3', $RowsPerPage * 2, false);
+    WriteLI('4', $RowsPerPage * 3, false);
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
   }
   elseif ($ListSize > 4 && $CurPos == 2) {       // < 1 [2] 3 4 T >
-    WriteLI('2', $ItemsPerPage, true);
-    WriteLI('3', $ItemsPerPage * 2, false);
-    WriteLI('4', $ItemsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $ItemsPerPage, false);
+    WriteLI('2', $RowsPerPage, true);
+    WriteLI('3', $RowsPerPage * 2, false);
+    WriteLI('4', $RowsPerPage * 3, false);
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
   }
   elseif ($ListSize > 4 && $CurPos > $ListSize - 2) {// < 1 T-3 T-2 T-1 T > 
     for ($i = $ListSize - 3; $i <= $ListSize; $i++) {//List of Numbers
       if ($i == $CurPos) {
-        WriteLI($i, $ItemsPerPage * ($i - 1), true);
+        WriteLI($i, $RowsPerPage * ($i - 1), true);
       }
       else {
-        WriteLI($i, $ItemsPerPage * ($i - 1), false);
+        WriteLI($i, $RowsPerPage * ($i - 1), false);
     	}
       }
     }
   else {                                         // < 1 c-1 [c] c+1 T >
     for ($i = $CurPos - 1; $i <= $CurPos + 1; $i++) {//List of Numbers
       if ($i == $CurPos) {
-        WriteLI($i, $ItemsPerPage * ($i - 1), true);
+        WriteLI($i, $RowsPerPage * ($i - 1), true);
       }
       else {
-        WriteLI($i, $ItemsPerPage * ($i - 1), false);
+        WriteLI($i, $RowsPerPage * ($i - 1), false);
       }
     }
-    WriteLI($ListSize, ($ListSize - 1) * $ItemsPerPage, false);
+    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
   }
     
   if ($CurPos < $ListSize) {                     // >> Symbol for Next
-    WriteLI('&#x00BB;', $ItemsPerPage * $CurPos, false);
+    WriteLI('&#x00BB;', $RowsPerPage * $CurPos, false);
   }	
   echo '</ul></div></div>'.PHP_EOL;
 }
