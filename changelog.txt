@@ -1,4 +1,11 @@
 v0.7.11 alpha
+Performace improvement on Domain Stats
+Performace improvement on all paginated lists
+New page - blocked.php, shows the time when each site was blocked (utilises access log of lighttpd)
+Removed Whiptail based menus from Installer and replaced with my own custom menu (this will assist in development of NoTrack for FreeBSD)
+
+
+v0.7.11 alpha
 Moved Tracker downloader from quidsup.net to github
 Minor css improvements
 
