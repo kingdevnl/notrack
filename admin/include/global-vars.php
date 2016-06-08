@@ -1,5 +1,5 @@
 <?php
-$Version='0.7.11';
+$Version='0.7.12';
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileBlockingCSV = '/etc/notrack/blocking.csv';
@@ -24,9 +24,9 @@ $DefaultConfig = array(
   'IPVersion' => 'IPv4',
   'Status' => 'Enabled',
   'BlockMessage' => 'pixel',
-  'Search' => 'Google',
+  'Search' => 'DuckDuckGo',
   'SearchUrl' => '',
-  'WhoIs' => 'who.is',
+  'WhoIs' => 'Who.is',
   'WhoIsUrl' => '',
   'Username' => '',
   'Password' => '',

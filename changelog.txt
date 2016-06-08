@@ -1,9 +1,21 @@
-v0.7.11 alpha
-Performace improvement on Domain Stats
-Performace improvement on all paginated lists
-New page - blocked.php, shows the time when each site was blocked (utilises access log of lighttpd)
-Removed Whiptail based menus from Installer and replaced with my own custom menu (this will assist in development of NoTrack for FreeBSD)
+v0.7.12 alpha
+Domain Stats:
+  Performace improvement on displaying DNS lookups
+  Issue #41 - Added ability to use an alternate search engine on Domain Stats
+  Default search engine changed to DuckDuckGo
+  Added ability to use an alternate Who Is lookup on Domain Stats
 
+Config:
+  Performace improvement on displaying blocklists
+  Improved error checking when loading config file notrack.conf
+
+New:
+  Added blocked.php, shows the time when each site was blocked (utilises access log of lighttpd)
+
+Installer:
+  PHP7 will be installed on Deb based systems if it's available
+  Issue #42 - Removed Whiptail based menus from Installer and replaced with my own custom menu
+  
 
 v0.7.11 alpha
 Moved Tracker downloader from quidsup.net to github
@@ -37,58 +49,3 @@ New BlockList qmalware, I have removed malicious sites from the tracker list.
 ProcessEasyLists Can now extract more usable domains from EasyLists
 Spam404 BlockList added
 
-v0.7.7 alpha
-Added Fanboy Blocklists.
-Config Blocklists page now shows how many rules have been used.
-Subsumed System Info page into Config.
-Added ability to customise Domain BlockLists from Config page.
-*You may need to run "notrack --upgrade" again to make Domain BlockList customisation work.
-Added Download button to Custom BlockLists.
-Fixed links on Admin page.
-Corrected count for DHCP systems more than 10.
-
-v0.7.6 alpha
-New style Blocklist page, ready for new 3rd party Blocklists to be added
-Fixed broken links from stats.js -> config.php
-Fixed Issue #32 duplicate options on config change
-
-v0.7.5 alpha
-20 newly identified MS spying domains added to block list.
-Fixed Bug with blocklists not saving (introduced when Pause feature was added).
-Reduced impact of race condition when viewing Sites Blocked while NoTrack is processing Block Lists.
-New Style Config page.
-Pagination added to Sites Blocked list (Issue #23).
-
-v0.7.4 alpha
-Fixed Issue #28 - Network connection disabled in Windows
-Sites can now be Blocked from Stats page (Issue #27)
-
-v0.7.3 alpha
-Added extra time selectors in Stats page.
-Ammended the Stats table to differentiate between a Blocked site compared to an Invalid site (includes IP addresses)
-
-v0.7.2 alpha
-Pause feature implemented in Admin page (Issue #19).
-Fixed race condition bug with ntrk-pause.
-Fixed Issue #21 - Incorrect version number displayed after upgrade.
-Menu images now utilising SVG's (Scaled Vector Graphics).
-Options popup now functional.
-System Shutdown & Restart buttons added to Options popup.
-New Logo.
-
-v0.7.1 alpha
-Interim release to ease integration of New Pause feature
-New script ntrk-pause to start/stop/pause blocking (Issue #19)
-Improved styling for Tablet users
-
-v0.7 alpha
-BlackList and WhiteList can now be customised from Admin page (Issue #14).
-Speed improvements to Blocklist processing script notrack.sh.
-notrack.sh only downloads & processes blocklists when necessary 
-Fixed Issue #18 - Whitelist not working with Windows formatted Blocklists.
-Simplified Blocking message on Stats page.
-Improved Styling on Stats page.
-Improved Styling for mobile users on Index page.
-Video tutorial added to DHCP page.
-Corrected mistake with Table Row colours in the CSS.
-Installer now adds NoTrack device to Local hosts file.

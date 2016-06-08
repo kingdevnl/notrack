@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 02 June 2016
-#LatestVersion 0.7.11
+#NoTrack Tracker list updated 08 June 2016
+#LatestVersion 0.7.12
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -699,6 +699,7 @@ docalytics.com #Docalytics
 domdex.com
 dotandad.com
 dotomi.com
+doubleclickbygoogle.com #Google
 doubleverify.com
 dowjoneson.com
 dpchica.mobi #Millennial Media
@@ -841,6 +842,7 @@ fresh8.co
 freegreatapps.com #MdotM
 freewall.com #AppNexus Inc
 fraudmetrix.cn
+fredhopperservices.com
 friendinsites.com #Keywee
 friendsinsites.com #Keywee
 frm.li
@@ -1149,6 +1151,7 @@ linkednexus.com #AppNexus Inc
 linkoffers.net
 linksynergy.com
 listrakbi.com
+lithium.com
 liveadexchanger.com
 livefyre.com
 liverail.com
@@ -1183,6 +1186,7 @@ marketo.net
 marktest.pt
 matheranalytics.com
 mathtag.com
+maxgtm.net
 maxmind.com
 maxymiser.net
 mcstats.org
@@ -9477,6 +9481,7 @@ theresulter.com #RevenueHits
 thetacdn.net #Verizon
 thispick.com #Keywee
 ticket-genie.com #Digital Window
+tic-tic-toc.com
 tidaltv.com
 tiqcdn.com
 tkqlhce.com
@@ -9808,6 +9813,7 @@ s.gateway.messenger.live.com #Microsoft
 inference.location.live.net #Microsoft
 marketing.lloydsbank.co.uk
 smetrics.mcafee.com #McAfee
+analytics.ccs.mcafee.com #McAfee
 webtrekk.mediaset.net #Mediaset
 aria.microsoft.com #Microsoft
 bingads.microsoft.com #Microsoft
