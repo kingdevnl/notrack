@@ -500,6 +500,7 @@ cashforfundraising.com #Digital Window
 cashlantis.com
 cdngc.net
 cdn-net.com
+cedexis.com
 cedexis.net
 cedexis-radar.net
 celtra.com #Celtra
@@ -9792,7 +9793,8 @@ stats.ebay.com #eBay
 pixel.facebook.com #Facebook
 stats.ft.com #Financial Times
 track.ft.com #Financial Times
-collector.githubapp.com #Git
+heartbeat.flickr.com #Flickr
+collector.githubapp.com #Github
 ad.groupon.co.uk
 partner-ts.groupon.co.uk
 metric.gstatic.com #Google
