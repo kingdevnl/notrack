@@ -683,7 +683,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       echo '<tr class="local"><td>'.$i.'</td><td>'.$Site.'</td>';
     }
     echo '<td><a target="_blank" href="'.$Config['SearchUrl'].$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
-    <a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
+    <a target="_blank" href="'.$Config['WhoIsUrl'].$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
     .$ReportSiteStr;
     echo '</td><td>'.$Value.'</td></tr>'.PHP_EOL;
   }  

@@ -12,6 +12,7 @@ if ($Config['Password'] != '') {
 }
 
 $List = array();               //Global array for all the Block Lists
+//List of Selectable Search engines, corresponds with Global-Functions.php -> LoadConfigFile()
 $SearchEngineList = array(
  'Baidu',
  'Bing',
@@ -23,7 +24,14 @@ $SearchEngineList = array(
  'Qwant',
  'StartPage',
  'Yahoo',
- 'Yandex',
+ 'Yandex'
+);
+
+//List of Selectable Who Is sites, corresponds with Global-Functions.php -> LoadConfigFile()
+$WhoIsList = array(
+ 'DomainTools',
+ 'Icann',
+ 'Who.is'
 );
 
 //Deal with POST actions first, that way we can roload the page
@@ -317,7 +325,7 @@ function DisplayBlockLists() {
 }
 //-------------------------------------------------------------------
 function DisplayConfigChoices() {
-  global $Config, $DirOldLogs, $Version, $SearchEngineList;
+  global $Config, $DirOldLogs, $Version, $SearchEngineList, $WhoIsList;
   
   $Load = sys_getloadavg();
   $FreeMem = preg_split('/\s+/', exec('free -m | grep Mem'));
@@ -350,7 +358,9 @@ function DisplayConfigChoices() {
   DrawSysRow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
   echo '</table></div></div>'.PHP_EOL;
 
-  echo '<form name="blockmsg" action="?" method="post">';        //Web Server
+  
+  //Web Server
+  echo '<form name="blockmsg" action="?" method="post">';
   echo '<input type="hidden" name="action" value="webserver">';
   DrawSysTable('Lighttpd');
   if ($PS_Lighttpd[0] != null) DrawSysRow('Status','Lighttpd is running');
@@ -363,9 +373,11 @@ function DisplayConfigChoices() {
   else DrawSysRow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');  
   echo '</table></div></div></form>'.PHP_EOL;
 
+  
   //Stats
   echo '<form name="stats" action="?" method="post">';
   echo '<input type="hidden" name="action" value="stats">';
+  
   DrawSysTable('Domain Stats');
   echo '<tr><td>Search Engine: </td>'.PHP_EOL;
   echo '<td><select name="search" onchange="submit()">'.PHP_EOL;
@@ -376,7 +388,19 @@ function DisplayConfigChoices() {
     }
   }
   echo '</select></td></tr>'.PHP_EOL;
-  echo '</table></div></div></form>'.PHP_EOL;
+  
+  echo '<tr><td>Who Is Lookup: </td>'.PHP_EOL;
+  echo '<td><select name="whois" onchange="submit()">'.PHP_EOL;
+  echo '<option value="'.$Config['WhoIs'].'">'.$Config['WhoIs'].'</option>'.PHP_EOL;
+  foreach ($WhoIsList as $Site) {
+    if ($Site != $Config['WhoIs']) {
+      echo '<option value="'.$Site.'">'.$Site.'</option>'.PHP_EOL;
+    }
+  }
+  echo '</select></td></tr>'.PHP_EOL;
+  
+  echo '</table></div></div></form>'.PHP_EOL;    //End Stats
+  
   
   //Security
   echo '<form name="security" action="?" method="post">';
@@ -713,16 +737,26 @@ function UpdateCustomList($LongName, $ListName) {
 }
 //Update Stats Config------------------------------------------------
 function UpdateStatsConfig() {
-  global $Config, $SearchEngineList;
+  global $Config, $SearchEngineList, $WhoIsList;
+  
+  $Updated = false;
   
   if (isset($_POST['search'])) {
     if (in_array($_POST['search'], $SearchEngineList)) {
       $Config['Search'] = $_POST['search'];
       $Config['SearchUrl'] = '';
-      return true;
+      $Updated = true;
     }
   }
-  return false;
+  
+  if (isset($_POST['whois'])) {    
+    if (in_array($_POST['whois'], $WhoIsList)) {
+      $Config['WhoIs'] = $_POST['whois'];
+      $Config['WhoIsUrl'] = '';
+      $Updated = true;
+    }
+  }
+  return $Updated;
 }
 //Update Security Config---------------------------------------------
 function UpdateSecurityConfig() {

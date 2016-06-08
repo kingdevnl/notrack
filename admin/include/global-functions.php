@@ -227,13 +227,13 @@ function LoadConfigFile() {
               $Config['BlockMessage'] = Filter_Str_Value($SplitLine[1], 'pixel');
               break;
             case 'Search':
-              $Config['Search'] = Filter_Str_Value($SplitLine[1], 'Google');
+              $Config['Search'] = Filter_Str_Value($SplitLine[1], 'DuckDuckGo');
               break;
             case 'SearchUrl':
               $Config['SearchUrl'] = Filter_Str_Value($SplitLine[1], '');
               break;
             case 'WhoIs':
-              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'who.is');
+              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'Who.is');
               break;
             case 'WhoIsUrl':
               $Config['WhoIsUrl'] = Filter_Str_Value($SplitLine[1], 'who.is');
@@ -312,8 +312,9 @@ function LoadConfigFile() {
         }
       }
     }
-       
-    if ($Config['SearchUrl'] == '') {     
+    
+    //Set SearchUrl if User hasn't configured a custom string via notrack.conf
+    if ($Config['SearchUrl'] == '') {            
       switch($Config['Search']) {
         case 'Baidu':
           $Config['SearchUrl'] = 'https://www.baidu.com/s?wd=';
@@ -349,10 +350,28 @@ function LoadConfigFile() {
           $Config['SearchUrl'] = 'https://www.yandex.com/search/?text=';
           break;
         default:
-          $Config['SearchUrl'] = 'https://www.google.com/search?q=';          
+          $Config['SearchUrl'] = 'https://duckduckgo.com/?q=';          
       }
     }
-    $Mem->set('Config', $Config, 0, 1200); 
+    
+    //Set WhoIsUrl if User hasn't configured a custom string via notrack.conf
+    if ($Config['WhoIsUrl'] == '') {             
+      switch($Config['WhoIs']) {
+        case 'DomainTools':
+          $Config['WhoIsUrl'] = 'http://whois.domaintools.com/';
+          break;
+        case 'Icann':
+          $Config['WhoIsUrl'] = 'https://whois.icann.org/lookup?name=';
+          break;          
+        case 'Who.is':
+          $Config['WhoIsUrl'] = 'https://who.is/whois/';
+          break;
+        default:
+          $Config['WhoIsUrl'] = 'https://who.is/whois/';
+      }
+    }
+    
+    $Mem->set('Config', $Config, 0, 1200);
   }
   
   return null;
