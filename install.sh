@@ -11,10 +11,6 @@ InstallLoc=""
 
 #Program Settings----------------------------------------------------
 Version="0.7.12"
-#Height=$(tput lines)
-#Width=$(tput cols)
-#Height=$((Height / 2))
-#Width=$(((Width * 2) / 3))
 DNSChoice1=""
 DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
@@ -313,6 +309,20 @@ Get_IPAddress() {
 }
 #Install Packages----------------------------------------------------
 Install_Deb() {
+  local PHPVersion="php5"
+  local PHPMemcache="php5-memcache"
+  
+  echo "Checking to see if PHP 7.0 is available"
+  apt-cache show php7.0 &> /dev/null             #Search apt-cache and dump output to /dev/null
+  if [ $? == 0 ]; then                           #Closure code of zero indicates package is available
+    echo "Installing PHP 7.0"
+    PHPVersion="php7.0"
+    PHPMemcache="php-memcache"                   #Believe version number has now been dropped as of PHP v7
+  else
+    echo "Installing PHP 5"
+  fi
+  
+  echo
   echo "Preparing to Install Deb Packages..."
   sleep 2s
   #sudo apt-get update
@@ -325,9 +335,9 @@ Install_Deb() {
   sleep 2s
   sudo apt-get -y install dnsmasq
   echo
-  echo "Installing Lighttpd and PHP5"
+  echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo apt-get -y install lighttpd memcached php5-memcache php5-cgi php5-curl 
+  sudo apt-get -y install lighttpd memcached "$PHPMemcache" "$PHPVersion-cgi" "$PHPVersion-curl"
   echo
   echo "Restarting Lighttpd"
   sudo service lighttpd restart
@@ -670,7 +680,7 @@ echo "System IP Address $IPAddr"
 echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
-sleep 10s
+sleep 8s
 
 Install_Packages                                 #Install Apps with the appropriate package manager
 
