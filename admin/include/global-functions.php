@@ -340,7 +340,7 @@ function LoadConfigFile() {
           $Config['SearchUrl'] = 'https://www.qwant.com/?q=';
           break;
         case 'StartPage':
-          $Config['SearchUrl'] = 'https://ixquick.eu/do/search?q=%s';
+          $Config['SearchUrl'] = 'https://startpage.com/do/search?q=%s';
           break;
         case 'Yahoo':
           $Config['SearchUrl'] = 'https://search.yahoo.com/search?p=';
