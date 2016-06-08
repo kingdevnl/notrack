@@ -19,7 +19,9 @@ $SearchEngineList = array(
  'Exalead',
  'Gigablast',
  'Google',
+ 'Ixquick',
  'Qwant',
+ 'StartPage',
  'Yahoo',
  'Yandex',
 );
