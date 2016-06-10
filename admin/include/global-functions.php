@@ -239,7 +239,7 @@ function LoadConfigFile() {
               $Config['WhoIsUrl'] = Filter_Str_Value($SplitLine[1], 'who.is');
               break;
             case 'Username':
-              $Config['Username'] = Filter_Str_Value($SplitLine[1], '');
+              $Config['Username'] = $SplitLine[1];
               break;
             case 'Password':
               $Config['Password'] = $SplitLine[1];
