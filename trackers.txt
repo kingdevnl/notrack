@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 08 June 2016
+#NoTrack Tracker list updated 10 June 2016
 #LatestVersion 0.7.12
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -69,7 +69,7 @@
 95095.com #Alibaba
 950958.com #Alibaba
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
-a-msedge.net #Microsoft
+a1webstats.com #A1Webstats
 a2dfp.net
 a9.com
 aetterweb.info #instartlogic
@@ -115,6 +115,8 @@ adflight.net #Ad Web
 adform.net
 adfuture.cn
 adgenie.co.uk
+adready.com #CPXi
+adready.info #CPXi
 adglare.net
 adgrx.com
 adinfuse.com #Velti
@@ -159,8 +161,12 @@ adobetag.com #Adobe
 adoftheyear.com
 adometry.com #Google
 adpacked.com #Adobe
+adprimemedia.com #AdPrime Media
+adprimemedia.net #AdPrime Media
 adrank.mobi #Zanox
 adrank.net #Zanox
+adready.com #CPXi
+adready.info #CPXi
 adreadytractions.com
 adrequest.net #R van Ingen
 adriver.ru
@@ -169,10 +175,6 @@ adrotate.se
 adrsp.net
 adrtx.net
 ads4apps.net #Smaato
-ads-for-apps.com #Smaato
-ads-ai.com #YieldBot
-ads-creativesyndicator.com
-ads-verify.net
 adsafeprotected.com
 adsbookie.com
 adscale.de
@@ -186,8 +188,13 @@ adsnative.com
 adsonar.com
 adspdbl.com
 adspeed.net
+adspsp.com
 adsrvr.org
 adsymptotic.com
+ads-for-apps.com #Smaato
+ads-ai.com #YieldBot
+ads-creativesyndicator.com
+ads-verify.net
 adtarget.me
 adtech.de
 adtechus.com
@@ -367,6 +374,7 @@ awltovhc.com
 awmetrics.com #Digital Window
 azalead.com
 azera-s014.com #Lead Forensics
+a-msedge.net #Microsoft
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 bae5tracker.com #Lead Forensics
 bandelcot.com
@@ -9170,10 +9178,12 @@ relevantknowledge.com #TMRG
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
-res-x.com
+researchad.com #G1System
+researchad.net #G1System
 research-int.com
 reson8.com.au
 responsetap.com
+res-x.com
 retailautomata.com
 revcontent.com
 revdepo.com #RevenueHits
