@@ -242,7 +242,7 @@ function LoadConfigFile() {
               $Config['Username'] = Filter_Str_Value($SplitLine[1], '');
               break;
             case 'Password':
-              $Config['Password'] = Filter_Str_Value($SplitLine[1], '');
+              $Config['Password'] = $SplitLine[1];
               break;
             case 'Delay':
               $Config['Delay'] = Filter_Int_Value($SplitLine[1], 0, 3600, 30);
