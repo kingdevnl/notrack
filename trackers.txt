@@ -200,6 +200,7 @@ adtech.de
 adtechus.com
 adtoma.com #Adtoma
 adtomafusion.net #Adtoma
+adtruth.com #Experian
 adupclickfilter.com
 advanced-web-analytics.com
 adventori.com
@@ -433,11 +434,11 @@ brandcrumb.com
 brecon-radnor-today.co.uk #Ad Web
 bright-cove.com
 bright-cove.net
-brightcove.biz
-brightcove.com
-brightcove.net
-brightcovemedia.com
-brightcovetv.com
+brightcove.biz #Brightcove
+brightcove.com #Brightcove
+brightcove.net #Brightcove
+brightcovemedia.com #Brightcove
+brightcovetv.com #Brightcove
 brightedge.com
 brighteroption.com
 brightinfo.com #BrightInfo
@@ -506,6 +507,7 @@ cash4fundraising.com #Digital Window
 cashbackwindow.com #Digital Window
 cashforfundraising.com #Digital Window
 cashlantis.com
+ccmp.eu #Experian
 cdngc.net
 cdn-net.com
 cedexis.com
@@ -517,6 +519,7 @@ central-core-7.com #Lead Forensics
 ceros.com
 certona.net
 cetrk.com
+chameleon.ad #Chameleon
 chango.com
 channeladvisor.com
 channelintelligence.com
@@ -593,7 +596,14 @@ cmail2.com
 cmcm.bid #MobPartner
 cmcore.com
 cmmeglobal.com
+cntr-di5.com #Lead Forensics
+cntr-di7.com #Lead Forensics
 cnt-tm-1.com #Lead Forensics
+cnv001.net #Experian
+cnv002.net #Experian 
+cnv003.net #Experian
+cnv004.net #Experian
+cnv005.net #Experian
 cnzz.com
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
@@ -613,8 +623,6 @@ contentfeed.net
 contentquery.net
 contentwindow.com #Digital Window
 contextweb.com
-cntr-di5.com #Lead Forensics
-cntr-di7.com #Lead Forensics
 connct-9.com #Lead Forensics
 convertro.com
 conyak.com
@@ -624,6 +632,7 @@ cookielesstargeting.net #YieldBot
 coremetrics.eu
 corporate-ir.net
 coveritlive.com
+cpmstars.com #CPMStars
 cq.io
 cqcounter.com
 crazyegg.com
@@ -645,6 +654,12 @@ crtracklink.com
 crwdcntrl.net
 cspbuilder.info
 ctasnet.com
+ctd001.net #Experian
+ctd002.net #Experian
+ctd003.net #Experian
+ctd004.net #Experian
+ctd005.net #Experian
+ctd006.net #Experian
 cten10010.com #Lead Forensics
 ctnsnet.com
 ctscdn.com
@@ -654,6 +669,7 @@ customersciences.com #Adobe
 cxense.com
 c-ctrip.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
+d09.no
 da-ads.com
 dakic-ia-300.com #Lead Forensics
 daphnecm.com
@@ -749,12 +765,36 @@ edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
+egeng.info #eGain Corporation
+
+ekomi.asia #eKomi
+ekomi.biz #eKomi
+ekomi.com #eKomi
+ekomi.de #eKomi
+ekomi.fr #eKomi
+ekomi.info #eKomi
+ekomi.mobi #eKomi
+ekomi.tel #eKomi
+ekomi.us #eKomi
+ekomi-pl.com #eKomi
+ekomi-review.com #eKomi
+ekomi-services.com #eKomi
+ekomi-china.com #eKomi
+ekomi-japan.com #eKomi
+ekomi-australia.com #eKomi
+ekomi-argentina.com #eKomi
+ekomi-turkiye.com #eKomi
+ekomi-bulgaria.com #eKomi
+ekomi-br.com #eKomi
+ekomi-norway.com #eKomi
+ekomi-us.com #eKomi
+ekomi-brazil.com #eKomi
+ekomi-ru.com #eKomi
 elasticad.net #Smartkeeter
 elasticbeanstalk.com
 elitechnology.com #Enne Solutions
 ellard.biz #Ad Web
 ellard.net #Ad Web
-egeng.info #eGain Corporation
 electricals2compare.com #Digital Window
 electronics2compare.com #Digital Window
 eloqua.com #Oracle
@@ -1158,6 +1198,7 @@ likemastr.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
 linkoffers.net
+linkpulse.com #Linkpulse
 linksynergy.com
 listrakbi.com
 lithium.com
@@ -1171,6 +1212,7 @@ loggly.net #Loggly
 loggly.org #Loggly
 lognormal.net
 loyaltywindow.com #Digital Window
+lp4.io #Linkpulse
 lpsnmedia.net
 lrcdn.net
 lucidmedia.com
@@ -1204,6 +1246,7 @@ media.net #Yahoo
 media6degrees.com
 mediaforge.com
 medialytics.com #Medialets
+mediamond.it #Mediamond
 mediaplex.com
 mediavoice.com
 merchenta.com
@@ -8878,6 +8921,7 @@ mon-com-net.com #Lead Forensics
 monefy.net #Buta Trading
 monetate.net
 mookie1.com
+mosaicaudience.com #Experian
 mouseflow.com
 mplxtms.com
 mptracking.mobi #MobPartner
@@ -8922,12 +8966,14 @@ nanovisor.net #instartlogic
 nanovisor.org #instartlogic
 nanovisor.us #instartlogic
 nearbyad.com #Rubicon
+neodatagroup.com #NeoData Intelligence
 netcommunities.com
 netline.com #NetLine
 netmng.com
 netseer.com
 netshelter.net
 newrelic.com
+newscurve.com #NeoData Intelligence
 nexac.com
 nextbigsound.com #Pandora Media
 nextplatform.com
@@ -8976,6 +9022,7 @@ onclickads.net #Advertising Technologies
 onclicktop.com
 onedmp.com
 onestat.com
+onetag-sys.com
 onstate.co.uk
 onstate.com
 olark.com
@@ -9102,6 +9149,8 @@ pubexchange.com
 pulsemgr.com
 pump.to
 purplenile.com #eGain Corporation
+pusher.com #Pusher
+pusherapp.com #Pusher
 pussycash.com
 pvtraffic.com
 pwrads.net
@@ -9265,6 +9314,7 @@ rubiconproject.mobi #Rubicon
 rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
+runicy.com
 rutargeter.com #iAge
 rvfrm2002.com #RevenueHits
 rvfrm2003.com #RevenueHits
@@ -9309,6 +9359,7 @@ search2shop.com #Digital Window
 searchmarketing.com
 searchretargeting.guru #Nano Interactive
 searchretargeting.info #Nano Interactive
+seat.it #Seat PG
 seatac15.com #Lead Forensics
 secretmedia.com
 secureadserver.com
@@ -9330,6 +9381,7 @@ servedbyopenx.net #OpenX
 servedbyopenx.org #OpenX
 servesharp.com
 servesharp.net
+servingclks.com #CPMStars
 serving-sys.com
 sessioncam.com
 sex-affiliation.com
@@ -9473,6 +9525,7 @@ teads.tv
 tealiumiq.com
 teaserroll.com #Inskinad
 techhive.com
+technorail.com
 technoratimedia.com
 tedglynn.com #Ad Web
 testorion.com #eGain Corporation
@@ -9501,6 +9554,7 @@ tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
+tns-cs.net #Direkte
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
 topfox.co.uk
@@ -9570,6 +9624,7 @@ updpct.info #Sergii Mykolaenko
 upd-pct.info #Sergii Mykolaenko
 upsellit.com
 upsiloncdn.net #Verizon
+upstory.it #BizUp
 urbanairship.com
 usabilla.com #Usabilla
 useitbetter.com
@@ -9682,7 +9737,7 @@ wowanalytics.co.uk
 wshifen.com #Baidu
 ws-outage.com #Lead Forensics
 wt-eu02.net #WebTrekk
-wt-safetag.com
+wt-safetag.com #WebTrekk
 wtp101.com
 wunderloop.net
 wwpxl.com #AppNexus Inc
@@ -9744,6 +9799,7 @@ zbuckz.com
 zedo.com
 zemanta.com
 zenaps.com #Digital Window
+zencdn.net #Brightcove
 zepteo.com
 ziffdavisinternational.com
 zkcdn.net
@@ -9801,9 +9857,10 @@ ooyala.com.edgekey.net
 ads.ebay.com #eBay
 stats.ebay.com #eBay
 pixel.facebook.com #Facebook
+heartbeat.flickr.com #Flickr
+ads.fineco.it #Fineco
 stats.ft.com #Financial Times
 track.ft.com #Financial Times
-heartbeat.flickr.com #Flickr
 collector.githubapp.com #Github
 ad.groupon.co.uk
 partner-ts.groupon.co.uk
