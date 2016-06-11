@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 10 June 2016
+#NoTrack Tracker list updated 11 June 2016
 #LatestVersion 0.7.12
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -86,6 +86,7 @@ active-trk7.com #Lead Forensics
 acuityplatform.com
 acxiom-online.com
 ad4game.com
+adaction.mobi #AdAction
 adadvisor.net
 adagencyonline.biz
 adagencyonline.net
@@ -199,6 +200,7 @@ adtarget.me
 adtech.de
 adtechus.com
 adtoma.com #Adtoma
+adtoma.mobi #Adtoma
 adtomafusion.net #Adtoma
 adtruth.com #Experian
 adupclickfilter.com
@@ -402,6 +404,7 @@ bettertradingsolutions.com #AppNexus Inc
 bevyup.com
 bidr.io
 bidswitch.net
+bidtheatre.com #BidTheatre
 bidtrk.com
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
@@ -425,6 +428,7 @@ bluevoice.us
 bluuadd.com #Smaato
 bombora.com
 bongacash.com
+bonnieradnetwork.se #Bonnier Ad Network
 boomads.com
 boostable.com
 boo-box.com #Boo Box
@@ -467,7 +471,7 @@ bugherd.com
 builfico.de
 bunchbox.co #Peaks & Pies
 burstnet.com
-burt.io
+burt.io #Burt Corp
 buyat.com #Digital Window
 buyerappreciation.com
 buysellads.com #BySellAds
@@ -530,6 +534,7 @@ choicestream.com
 choosealoan.com #Digital Window
 christmasalready.com #Digital Window
 chrs-mln-krs.com
+citypaketet.se #City Packetet
 clear-reports.com
 clearcode.cc
 clicks4ads.com
@@ -605,6 +610,7 @@ cnv003.net #Experian
 cnv004.net #Experian
 cnv005.net #Experian
 cnzz.com
+codigo.se #Codigo
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
 collective.com
@@ -631,7 +637,7 @@ cookielesstargeting.org #YieldBot
 cookielesstargeting.net #YieldBot
 coremetrics.eu
 corporate-ir.net
-coveritlive.com
+coveritlive.com #Coverit Live
 cpmstars.com #CPMStars
 cq.io
 cqcounter.com
@@ -666,7 +672,7 @@ ctscdn.com
 custhelp.com
 customerjourney.com #eGain Corporation
 customersciences.com #Adobe
-cxense.com
+cxense.com #Cxsense
 c-ctrip.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 d09.no
@@ -683,6 +689,7 @@ ddf-t1.com #Ysance
 ddf-t2.com #Ysance
 ddf-t2.com #Ysance
 ddf-t3.com #Ysance
+de17a.com #AdAction
 decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
@@ -721,6 +728,7 @@ dmtracker.com
 dmtrk.net
 dmtry.com
 docalytics.com #Docalytics
+dohi.se #Dohi
 domdex.com
 dotandad.com
 dotomi.com
@@ -750,9 +758,10 @@ dynamicyield.com
 dyncdn.me
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 e701.net
-ebayadvertising.com
-ebayenterprise.com
-ebaypartnernetwork.com
+eacdn.com #Nicky Senyard
+ebayadvertising.com #eBay
+ebayenterprise.com #eBay
+ebaypartnernetwork.com #eBay
 ebz.io
 eclkmpbn.com #RevenueHits
 eclkmpsa.com #RevenueHits
@@ -766,7 +775,6 @@ edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
 egeng.info #eGain Corporation
-
 ekomi.asia #eKomi
 ekomi.biz #eKomi
 ekomi.com #eKomi
@@ -802,7 +810,10 @@ emailretargeting.com
 emark.nl #Emark
 e-mark.nl #Emark
 embed.ly
-emediate.dk
+emediate.com #Cxsense
+emediate.dk #Cxsense
+emediate.eu #Cxsense
+emediate.se #Cxsense
 emltrk.com
 emv3.com
 en25.com #Oracle
@@ -858,6 +869,7 @@ fancybar.net #BuySellAds
 fantuition.com #AppNexus Inc
 fastclick.net
 fdgkdhfgjkdfgdg.com #HelloWorld
+feedbackify.com #Feedbackify
 feedmagnet.com
 feedsportal.com
 fetchback.com
@@ -925,6 +937,7 @@ gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
+glimr.io #GLIMR
 go-mpulse.net
 goadservices.com
 godatafeed.com
@@ -1178,6 +1191,7 @@ lead-30.com #Euclead
 lead-analytics.biz #Euclead
 lead10.com #Euclead
 leadboltmobile.net #LeadBolt
+leadenhancer.com #Leadenhancer
 leadforensics.com
 leadformix.com
 ledimed-ks.com #HelloWorld
@@ -8888,6 +8902,7 @@ mktoresp.com
 ml314.com
 mlnadvertising.com
 mlsend2.com
+mmetrix.mobi #Mobiletech
 mmondi.com
 mmstat.com
 mnetads.com #Yahoo
@@ -8906,6 +8921,7 @@ mobilesource.net #Digital Window
 mobiletracking.com #Impact Radius
 mobilexpression.com #TMRG
 mobilexpression.net #TMRG
+mobiletech.no #Mobiletech
 moblexp.com #TMRG
 moblexp.net #TMRG
 mobpartner.com #MobPartner
@@ -8988,6 +9004,8 @@ nl04.net #NetLine
 nmgcdn.com
 novao.com #Ysance
 novao.net #Ysance
+npario.com #nPario
+npario-inc.net #nPario
 nster.net
 nr-data.net
 nster.net
@@ -9195,6 +9213,7 @@ radiumone.net #RadiumOne
 radiumone.org #RadiumOne
 radiumone.us #RadiumOne
 radiumonelabs.com #RadiumOne
+rampanel.com #Research and Analysis of Media
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
 rcsmetrics.it #Corriere.it
@@ -9229,7 +9248,8 @@ rename.net #Digital Window
 reportwindow.com #Digital Window
 researchad.com #G1System
 researchad.net #G1System
-research-int.com
+research-int.com #TNS Sifo
+research-int.se #TNS Sifo
 reson8.com.au
 responsetap.com
 res-x.com
@@ -9260,6 +9280,7 @@ rhextpub26.com #RevenueHits
 rhrev.com #RevenueHits
 rhtag.com #RevenueHits
 rhythmxchange.com
+richmetrics.com #Burt Corp
 richrelevance.com
 rlcdn.com
 rm01.net #Silverpop Systems
@@ -9287,6 +9308,7 @@ roia.biz
 roost.me
 route.to
 routecdn.com
+royapp.com #Roy App
 rsvpgenius.com
 rtb007.com #RevenueHits
 rtbc.info #AppNexus Inc
@@ -9342,6 +9364,9 @@ sascdn.com
 saymedia.com
 sayutracking.co.uk
 scarabresearch.com
+schibsted.io #Schibsted
+schibsted.media #Schibsted
+schibsted.se #Schibsted
 sch-alt-91.com #Lead Forensics
 sch-crt-91.com #Lead Forensics
 scorecardresearch.com #TMRG
@@ -9423,6 +9448,7 @@ smartadserver.mobi #Smart Ad Server
 smartadserver.net #Smart Ad Server
 smartadserver.org #Smart Ad Server
 smartadserver.us #Smart Ad Server
+smartclip.net
 smarterclick.co.uk
 smartology.co #Smartology
 smartology.net #Smartology
@@ -9488,6 +9514,7 @@ steepto.com
 stickyadstv.com
 stormartists.com #Ad Web
 stormiq.com
+storymedia.se
 streamsend.com
 strikead.com
 struq.com
@@ -9497,6 +9524,8 @@ successfultogether.co.uk
 sugarops.com
 sumome.com
 survata.net
+survio.com #Survio
+survio.se #Survio
 sw-rail-7.com #Lead Forensics
 switchadhub.com
 switchads.com
@@ -9555,6 +9584,7 @@ tmrginc.com #TMRG
 tmrginc.net #TMRG
 tns-counter.ru
 tns-cs.net #Direkte
+tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
 topfox.co.uk
@@ -9622,6 +9652,8 @@ univide.com
 uobsoe.com
 updpct.info #Sergii Mykolaenko
 upd-pct.info #Sergii Mykolaenko
+upsales.com #Upsales Nordic
+upsales.org #Upsales Nordic
 upsellit.com
 upsiloncdn.net #Verizon
 upstory.it #BizUp
@@ -9629,6 +9661,7 @@ urbanairship.com
 usabilla.com #Usabilla
 useitbetter.com
 userreplay.net
+userreport.com #User Report
 userstats.com
 userzoom.com
 utarget.ru
@@ -9717,6 +9750,7 @@ webrankresearch.net #TMRG
 websiteperform.com
 webstatsresearch.com #TMRG
 webstatsresearch.net #TMRG
+webtraffic.se #Schibsted
 webtrekk.com #WebTrekk
 webtrekk.mobi #WebTrekk
 webtrekk.net #WebTrekk
@@ -9813,6 +9847,7 @@ zzword.com #Adobe
 #Analytics Domains
 s0.2mdn.net #Microsoft
 static.2mdn.net #Microsoft
+metrics.aftonbladet.se #Aftonbladet
 dmtracking2.alibaba.com
 stat.alibaba.com
 infernotions.com
@@ -9856,6 +9891,7 @@ coremetrics.com.edgekey.net #EdgeKey
 ooyala.com.edgekey.net
 ads.ebay.com #eBay
 stats.ebay.com #eBay
+metrics.expressen.se #Expressen
 pixel.facebook.com #Facebook
 heartbeat.flickr.com #Flickr
 ads.fineco.it #Fineco
@@ -9941,6 +9977,7 @@ apps.skype.com #Microsoft
 config.skype.com #Microsoft
 pipe.skype.com #Microsoft
 pricelist.skype.com #Microsoft
+stat.swedbank.se #Swedbank
 webtrends.telegraph.co.uk #Telegraph
 oem.twimg.com #Twitter, possible Windows spying
 analytics.twitter.com #Twitter
