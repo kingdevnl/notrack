@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 11 June 2016
+#NoTrack Tracker list updated 12 June 2016
 #LatestVersion 0.7.12
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -631,6 +631,7 @@ contentwindow.com #Digital Window
 contextweb.com
 connct-9.com #Lead Forensics
 convertro.com
+conviva.com #Conviva
 conyak.com
 cookielesstargeting.info #YieldBot
 cookielesstargeting.org #YieldBot
@@ -641,7 +642,7 @@ coveritlive.com #Coverit Live
 cpmstars.com #CPMStars
 cq.io
 cqcounter.com
-crazyegg.com
+crazyegg.com #Crazy Egg
 crealytics.com
 createabetterinternet.com #AppNexus Inc
 creative-serving.com
@@ -759,6 +760,7 @@ dyncdn.me
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 e701.net
 eacdn.com #Nicky Senyard
+easyresearch.se #Questback
 ebayadvertising.com #eBay
 ebayenterprise.com #eBay
 ebaypartnernetwork.com #eBay
@@ -817,6 +819,9 @@ emediate.se #Cxsense
 emltrk.com
 emv3.com
 en25.com #Oracle
+enecto.com #Enecto
+enecto.net #Enecto
+enectoanalytics.com #Enecto
 engagesciences.com
 engine54.com #AppNexus Inc
 ensighten.com
@@ -930,6 +935,9 @@ georiot.com
 getclicky.com
 getdrip.com
 getphotoeffects.com #RadiumOne
+getsentry.com #GetSentry
+getsentry.net #GetSentry
+getsentry.org #GetSentry
 gettraff.com
 ghostery.com #Ghostery Enterprise
 gigya.com
@@ -977,6 +985,7 @@ hanapinmarketing.com
 hardofhearing.org
 heapanalytics.com
 heias.com
+hellobar.com #Crazy Egg
 helloinsiders.com #HelloWorld
 helloworld.com #HelloWorld
 helloworld.com #HelloWorld
@@ -1075,6 +1084,7 @@ idgpublishing.com
 iframes.us
 igodigital.com
 igsonar.com
+imbox.se #Imbox
 imedia.cz
 imgclick.net
 imiclk.com
@@ -8970,17 +8980,21 @@ myvserv.com #Vserv
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 n-core-pipe.com #Lead Forensics
 nanigans.com
+nanorep.com #NanoRep
+nanorep.info #NanoRep
+nanorep.org #NanoRep
+nanorep.us #NanoRep
+nanovisor.biz #instartlogic
+nanovisor.info #instartlogic
+nanovisor.net #instartlogic
+nanovisor.org #instartlogic
+nanovisor.us #instartlogic
 nano-visor.biz #instartlogic
 nano-visor.com #instartlogic
 nano-visor.info #instartlogic
 nano-visor.net #instartlogic
 nano-visor.org #instartlogic
 nano-visor.us #instartlogic
-nanovisor.biz #instartlogic
-nanovisor.info #instartlogic
-nanovisor.net #instartlogic
-nanovisor.org #instartlogic
-nanovisor.us #instartlogic
 nearbyad.com #Rubicon
 neodatagroup.com #NeoData Intelligence
 netcommunities.com
@@ -9002,6 +9016,7 @@ nl02.net #NetLine
 nl03.net #NetLine
 nl04.net #NetLine
 nmgcdn.com
+nosto.com #Nosto
 novao.com #Ysance
 novao.net #Ysance
 npario.com #nPario
@@ -9158,6 +9173,11 @@ powertheinternet.com #AppNexus Inc
 pressfusion.com #Ad Web
 privatescale.com #AppNexus Inc
 privatescale.net #AppNexus Inc
+psma01.com #AdWise
+psma02.com #AdWise
+psma03.com #AdWise
+psplugin.com #Vergic
+psplugin.net #Vergic
 ptengine.com
 pubmatic.com #PubMatic
 pubmine.com
@@ -9191,6 +9211,7 @@ quantcast.com
 quantserve.com
 qubitproducts.com
 quelhadoop.com #Ysance
+questback.com #Questback
 questionmarket.com
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 r1-cdn.net #RadiumOne
@@ -9422,10 +9443,16 @@ shwired.com #TMRG
 shwired.net #TMRG
 sid-ads.com
 siftscience.com 
+signiasweden.com #Adtoma
 silkenthreadiness.info
 silverpop.com #Silverpop Systems
 simplereach.com
 site24x7rum.com
+siteimprove.biz #SiteImprove
+siteimprove.com #SiteImprove
+siteimprove.info #SiteImprove
+siteimprove.net #SiteImprove
+siteimprove.org #SiteImprove
 sitescout.com #Rubicon
 sitescoutadserver.com
 sitestat.com
@@ -9568,6 +9595,7 @@ theadex.com
 theatre-breaks.com #Digital Window
 thebrighttag.com
 thedailypocket.mobi #Millennial Media
+thehellobar.com #Crazy Egg
 thehut.net
 therelevancegraph.mobi #Millennial Media
 theresulter.com #RevenueHits
@@ -9680,6 +9708,7 @@ v10cdn.net #Verizon
 v11cdn.net #Verizon
 v12cdn.net #Verizon
 v13cdn.net #Verizon
+valaffiliates.com #ValAffiliates
 valdelabs.com #AppNexus Inc
 vcmedia.vn
 vdna-assets.com #Imagini Holdings
@@ -9687,6 +9716,10 @@ veeseo.com #Veeseo
 veille-referencement.com
 veoxa.com
 velti.com #Velti
+vergic.com #Vergic
+vergic.net #Vergic
+vergic.org #Vergic
+vergicengage.com #Vergic
 verticaltechmedia.de
 verticalscope.com
 verityresearchpanel.com #TMRG
@@ -9731,10 +9764,6 @@ w55c.net
 walkme.com
 watcheezy.net
 wci-fl.com
-web-01-gbl.com #Lead Forensics
-web-cntr-09.com #Lead Forensics
-web-cntr-10.com #Lead Forensics
-web-cntr-11.com #Lead Forensics
 webapplicationstreamingnetwork.com #instartlogic
 webapplicationstreamingnetwork.info #instartlogic
 webapplicationstreamingnetwork.net #instartlogic
@@ -9747,6 +9776,7 @@ webgains.com
 webmd.com
 webrankresearch.com #TMRG
 webrankresearch.net #TMRG
+webserviceaward.com #Web Service Award
 websiteperform.com
 webstatsresearch.com #TMRG
 webstatsresearch.net #TMRG
@@ -9757,9 +9787,13 @@ webtrekk.net #WebTrekk
 webtrekk.org #WebTrekk
 webtrekk-asia.net #WebTrekk
 webtrends.com #WebTrends
-web-cam-model.com #TopAd
-webtrendslive.com #WebTrends
 webvitality.me
+web-01-gbl.com #Lead Forensics
+web-cam-model.com #TopAd
+web-cntr-09.com #Lead Forensics
+web-cntr-10.com #Lead Forensics
+web-cntr-11.com #Lead Forensics
+webtrendslive.com #WebTrends
 whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
