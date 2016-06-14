@@ -371,6 +371,7 @@ function LoadConfigFile() {
       }
     }
     
+    fclose($FileHandle);
     $Mem->set('Config', $Config, 0, 1200);
   }
   

@@ -147,6 +147,7 @@ function Load_Access_Log() {
         }
       }
     }
+    fclose($FileHandle);
   }
   else {                                         //Log not found
     return false;
