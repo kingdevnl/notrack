@@ -123,7 +123,6 @@ adgrx.com
 adinfuse.com #Velti
 adio.co #Idio
 adip.ly
-adis.ws
 adition.com
 adixo.com
 adizio.com
@@ -530,6 +529,7 @@ channeladvisor.com
 channelintelligence.com
 chartbeat.com
 chartbeat.net
+cheetahmail.com #Experian
 chicdn.net
 choicestream.com
 choosealoan.com #Digital Window
@@ -9659,6 +9659,7 @@ stickyadstv.com
 stormartists.com #Ad Web
 stormiq.com
 storymedia.se
+strands.com #Strands
 streamsend.com
 strikead.com
 struq.com
