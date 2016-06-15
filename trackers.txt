@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 12 June 2016
-#LatestVersion 0.7.12
+#NoTrack Tracker list updated 15 June 2016
+#LatestVersion 0.7.13
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
@@ -643,6 +643,7 @@ coveritlive.com #Coverit Live
 cpmstars.com #CPMStars
 cq.io
 cqcounter.com
+cquotient.com
 crazyegg.com #Crazy Egg
 crealytics.com
 createabetterinternet.com #AppNexus Inc
@@ -776,6 +777,7 @@ ed-clr-01.com #Lead Forensics
 edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
+eepurl.com #mailchimp
 effectivemeasure.net
 egeng.info #eGain Corporation
 ekomi.asia #eKomi
@@ -9602,6 +9604,7 @@ snmmd.nl
 snorkletech.com #AppNexus Inc
 snta0034.com #Lead Forensics
 socialhoney.co
+sociomantic.com
 softtrack08.com #Lead Forensics
 softwaredefined.guru #instartlogic
 softwaredefined.us #instartlogic
@@ -10007,6 +10010,7 @@ device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
 metrics.argos.co.uk
+beacon.asda.com #Asda
 beacon.groceries.asda.com #Asda
 omniture.groceries.asda.com #Asda
 metric.asos.com

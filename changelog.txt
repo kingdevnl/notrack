@@ -1,3 +1,8 @@
+v0.7.13 alpha
+Config:
+  Fixed issue #48 Incorrect Who Is URL
+  
+
 v0.7.12 alpha
 Domain Stats:
   Performace improvement on displaying DNS lookups
