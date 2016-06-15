@@ -155,7 +155,7 @@ function Filter_Str_Value($Str, $DefaltValue='') {
   //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
   //2. Return Str on success, and Default on fail
   
-  if (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $Str) == 0) {
+  if (preg_match('/[!\"£\$%\^&\(\)+=<>\,\|\/\\\\]/', $Str) == 0) {
     return $Str;
   }  
   return $DefaltValue;
@@ -176,13 +176,12 @@ function Filter_URL($Str) {
 }
 //Filter URL Str-----------------------------------------------------
 function Filter_URL_Str($Str) {
-  //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
+  //1. Check String Length is > 0 AND String doesn't contain !"£$^()<>,|
   //2. Check String matches the form of a URL "any.co"
   //Return True on success, and False on fail
-  
-  if (((strlen($Str) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $Str) == 0))) {
-    if (preg_match('/.*\..{2,}/', $Str) == 1) return true;    
-  }  
+  if (preg_match('/[!\"£\$\^\(\)<>\,\|]/', $Str) == 0) {
+    if (preg_match('/.*\..{2,}$/', $Str) == 1) return true;    
+  }
   return false;
 }
 //Load Config File---------------------------------------------------
@@ -199,13 +198,13 @@ function LoadConfigFile() {
   
   $Config=$Mem->get('Config');                   //Load array from Memcache
   
-  if ($Config) return;                           //Did it load from memory?
+  if (! empty($Config)) return;                  //Did it load from memory?
   
-  $Config = $DefaultConfig;                    //Firstly Set Default Config
-  if (file_exists($FileConfig)) {              //Check file exists      
+  $Config = $DefaultConfig;                      //Firstly Set Default Config
+  if (file_exists($FileConfig)) {                //Check file exists      
     $FileHandle= fopen($FileConfig, 'r');
     while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));        //Read Line of LogFile
+      $Line = trim(fgets($FileHandle));          //Read Line of LogFile
       if ($Line != '') {
         $SplitLine = explode('=', $Line);
         if (count($SplitLine == 2)) {          
@@ -229,15 +228,23 @@ function LoadConfigFile() {
             case 'Search':
               $Config['Search'] = Filter_Str_Value($SplitLine[1], 'DuckDuckGo');
               break;
-            case 'SearchUrl':
-              $Config['SearchUrl'] = Filter_Str_Value($SplitLine[1], '');
-              break;
+            /*case 'SearchUrl':              
+              if (Filter_URL_Str($SplitLine[1], true)) {
+                if (sizeof($SplitLine) == 3) $Config['SearchUrl'] = $SplitLine[1].'=';
+                else $Config['SearchUrl'] = $SplitLine[1];                
+              }
+              echo 'fail filter s';
+              break;*/
             case 'WhoIs':
-              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'Who.is');
+              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'Who.is');              
               break;
-            case 'WhoIsUrl':
-              $Config['WhoIsUrl'] = Filter_Str_Value($SplitLine[1], 'who.is');
-              break;
+            /*case 'WhoIsUrl':            
+              if (Filter_URL_Str($SplitLine[1], true)) {
+                if (sizeof($SplitLine) == 3) $Config['WhoIsUrl'] = $SplitLine[1].'=';
+                else $Config['WhoIsUrl'] = $SplitLine[1];                
+              }
+              echo 'fail filter w';
+              break;*/
             case 'Username':
               $Config['Username'] = $SplitLine[1];
               break;
@@ -314,7 +321,7 @@ function LoadConfigFile() {
     }
     
     //Set SearchUrl if User hasn't configured a custom string via notrack.conf
-    if ($Config['SearchUrl'] == '') {            
+    if ($Config['SearchUrl'] == '') {      
       switch($Config['Search']) {
         case 'Baidu':
           $Config['SearchUrl'] = 'https://www.baidu.com/s?wd=';
@@ -355,7 +362,7 @@ function LoadConfigFile() {
     }
     
     //Set WhoIsUrl if User hasn't configured a custom string via notrack.conf
-    if ($Config['WhoIsUrl'] == '') {             
+    if ($Config['WhoIsUrl'] == '') {      
       switch($Config['WhoIs']) {
         case 'DomainTools':
           $Config['WhoIsUrl'] = 'http://whois.domaintools.com/';
