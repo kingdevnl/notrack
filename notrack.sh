@@ -40,12 +40,13 @@ WhiteListFile="/etc/notrack/whitelist.txt"
 DomainBlackListFile="/etc/notrack/domain-blacklist.txt"
 DomainWhiteListFile="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
+DomainCSV="/var/www/html/admin/include/tld.csv"
 ConfigFile="/etc/notrack/notrack.conf"
 
 declare -A URLList                               #Array of URL's
 #URLList[notrack]="http://quidsup.net/trackers.txt"
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
-URLList[tld]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-domains.txt"
+#URLList[tld]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-domains.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
@@ -198,72 +199,6 @@ Read_WhiteList() {
     fi
   done < $WhiteListFile
 }
-#Generate Domain BlackList-------------------------------------------
-Generate_DomainBlackList() {
-  local -a Tmp                                   #Local array to build contents of file
-  
-  echo "Creating domain blacklist"
-  touch "$DomainBlackListFile"
-  Tmp+=("#Use this file to add additional domains to the blocklist.")
-  Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
-  Tmp+=("# I have divided the list info three different classifications:")
-  Tmp+=("# 1: Very high risk - Cheap/Free domains which attract a high number of scammers. This list gets downloaded from: ${URLList[tld]}")
-  Tmp+=("# 2: Risky - More of a mixture of legitimate to malicious domains. Consider enabling blocking of these domains, unless you live in one of the countries listed.")
-  Tmp+=("# 3: Low risk - Malicious sites do appear in these domains, but they are well in the minority.")
-  Tmp+=("# Risky domains----------------------------------------")
-  Tmp+=("#.asia #Asia-Pacific")
-  Tmp+=("#.biz #Business")
-  Tmp+=("#.cc #Cocos Islands")
-  Tmp+=("#.co #Columbia")
-  Tmp+=("#.cn #China")
-  Tmp+=("#.eu #European Union")
-  Tmp+=("#.ga # Gabonese Republic")
-  Tmp+=("#.in #India")
-  Tmp+=("#.info #Information")
-  Tmp+=("#.mobi #Mobile Devices")
-  Tmp+=("#.org #Organisations")
-  Tmp+=("#.pl #Poland")
-  Tmp+=("#.ru #Russia")
-  Tmp+=("#.us #USA")
-  Tmp+=("# Low Risk domains--------------------------------------")
-  Tmp+=("#.am #Armenia")
-  Tmp+=("#.hr #Croatia")
-  Tmp+=("#.hu #Hungary")
-  Tmp+=("#.pe #Peru")
-  Tmp+=("#.rs #Serbia")
-  Tmp+=("#.st #São Tomé and Príncipe")
-  Tmp+=("#.tc #Turks and Caicos Islands")
-  Tmp+=("#.th #Thailand")
-  Tmp+=("#.tk #Tokelau")
-  Tmp+=("#.tl #East Timor")
-  Tmp+=("#.tt #Trinidad and Tobago")
-  Tmp+=("#.tv #Tuvalu")
-  Tmp+=("#.vn #Vietnam")
-  Tmp+=("#.ws #Western Samoa")
-  printf "%s\n" "${Tmp[@]}" > $DomainBlackListFile   #Write Array to file with line seperator
-}
-#Generate Domain WhiteList-------------------------------------------
-Generate_DomainWhiteList() {
-  local -a Tmp                                   #Local array to build contents of file
-  
-  echo "Creating Domain whitelist"
-  touch "$DomainWhiteListFile"
-  Tmp+=("#Use this file to remove files malicious domains from block list")
-  Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
-  Tmp+=("#.cf #Central African Republic")
-  Tmp+=("#.cricket")
-  Tmp+=("#.country")
-  Tmp+=("#.gq #Equatorial Guinea")
-  Tmp+=("#.kim")
-  Tmp+=("#.link")
-  Tmp+=("#.party")
-  Tmp+=("#.pink")
-  Tmp+=("#.review")
-  Tmp+=("#.science")
-  Tmp+=("#.work")
-  Tmp+=("#.xyz")
-  printf "%s\n" "${Tmp[@]}" > $DomainWhiteListFile #Write Array to file with line seperator
-}
 #Generate BlackList--------------------------------------------------
 Generate_BlackList() {
   local -a Tmp                                   #Local array to build contents of file
@@ -355,8 +290,6 @@ GetList() {
   #$2 = Process Method
   #$3 = Time (in seconds) between needing to process a new list
   local Lst="$1"
-  #local Method="$2"
-  
   local CSVFile="/etc/notrack/$1.csv"
   local DLFile="/tmp/$1.txt"
   local ListFile="/etc/dnsmasq.d/$1.list"
@@ -557,50 +490,80 @@ Process_TLDList() {
   #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
   #DomainQuickList is used to speed up processing in stats.php
   
-  declare -A DomainWhiteList
+  local -A DomainWhiteList
+  local -A DomainBlackList
+  
+  Get_FileTime "$DomainWhiteListFile"
+  local DomainWhiteFileTime=$FileTime
+  Get_FileTime "$DomainCSV"
+  local DomainCSVFileTime=$FileTime
+  Get_FileTime "/etc/dnsmasq.d/tld.list"
+  local TLDListFileTime=$FileTime
+  
+  if [ ${Config[blocklist_tld]} == 0 ]; then     #Should we process this list according to the Config settings?
+    DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
+    DeleteOldFile "/etc/notrack/tld.csv"
+    DeleteOldFile "$DomainQuickList"
+    echo
+    return 0
+  fi
+  
+  CSVList=()                                     #Zero Arrays
+  DNSList=()
+  
+  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
+  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ]; then
+    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
+    echo "Top Level Domain List is in date, no need for processing"
+    echo
+    return 0    
+  fi
+  
+  echo "Processing Top Level Domain List"
   
   CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
   cat /dev/null > "$DomainQuickList"             #Empty file
   
   while IFS=$'#\n' read -r Line _
   do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+    if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
       DomainWhiteList[$Line]="$Line"             #Add domain to associative array      
     fi
   done < "$DomainWhiteListFile"
   
-  while IFS=$'#\n' read -r Line Comment _         
+  while IFS=$'#\n' read -r Line _
   do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
+    if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces            
-      if [ "${DomainWhiteList[$Line]}" ]; then
-        CSVList+=("$Line,Disabled,$Comment")
-      else
-        DNSList+=("address=/$Line/$IPAddr")
-        CSVList+=("$Line,Active,$Comment")
-        echo "$Line" >> "$DomainQuickList"
+      Line="${Line%%*( )}"                       #Delete trailing spaces
+      DomainBlackList[$Line]="$Line"             #Add domain to associative array
+    fi
+  done < "$DomainBlackListFile"
+  
+  while IFS=$',\n' read -r TLD Name Risk _; do
+    if [[ $Risk == 1 ]]; then
+      if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
+        DNSList+=("address=/$TLD/$IPAddr")
+        CSVList+=("$TLD,Active,$Name")
+        echo "$TLD" >> $DomainQuickList
+      fi    
+    else
+      if [ "${DomainBlackList[$TLD]}" ]; then
+        DNSList+=("address=/$TLD/$IPAddr")
+        CSVList+=("$TLD,Active,$Name")
+        echo "$TLD" >> $DomainQuickList
       fi
     fi
-  done < /tmp/tld.txt
+  done < "$DomainCSV"
   
-  while IFS=$'#\n' read -r Line Comment _
-  do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces            
-      if [ "${DomainWhiteList[$Line]}" ]; then
-        CSVList+=("$Line,Disabled,$Comment")
-      else
-        DNSList+=("address=/$Line/$IPAddr")
-        CSVList+=("$Line,Active,$Comment")
-        echo "$Line" >> "$DomainQuickList"
-      fi
-    fi
-  done < "$DomainBlackListFile" 
+  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"
+  printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/tld.list"
   
+  echo "Finished processing Top Level Domain List"
+  echo
+  ((ChangesMade++))
 }
 #Process UnixList 0--------------------------------------------------
 Process_UnixList0() {
@@ -681,96 +644,6 @@ Process_UnixList127() {
   done < "$1"
   echo " 100%"
  }
-#Upgrade-------------------------------------------------------------
-Web_Upgrade() {
-  if [ "$(id -u)" == "0" ]; then                 #Check if running as root
-     echo "Error do not run the upgrader as root"
-     Error_Exit "Execute with: bash notrack -b / notrack -u"     
-  fi
-  
-  Check_File_Exists "/var/www/html/admin"
-  InstallLoc=$(readlink -f /var/www/html/admin/)
-  InstallLoc=${InstallLoc/%\/admin/}             #Trim "/admin" from string
-    
-  if [ "$(command -v git)" ]; then               #Utilise Git if its installed
-    echo "Pulling latest updates of NoTrack using Git"
-    cd "$InstallLoc" || Error_Exit "Unable to cd to $InstallLoc"
-    git pull
-    if [ $? != "0" ]; then                       #Git repository not found
-      if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
-        echo "Removing old NoTrack folder"
-        rm -rf "$InstallLoc-old"
-      fi
-      echo "Moving $InstallLoc folder to $InstallLoc-old"
-      mv "$InstallLoc" "$InstallLoc-old"
-      echo "Cloning NoTrack to $InstallLoc with Git"
-      git clone --depth=1 https://github.com/quidsup/notrack.git "$InstallLoc"
-    fi
-  else                                           #Git not installed, fallback to wget
-    if [ -d "$InstallLoc" ]; then                #Check if NoTrack folder exists  
-      if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
-        echo "Removing old NoTrack folder"
-        rm -rf "$InstallLoc-old"
-      fi
-      echo "Moving $InstallLoc folder to $InstallLoc-old"
-      mv "$InstallLoc" "$InstallLoc-old"
-    fi
-
-    echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
-    wget -O /tmp/notrack-master.zip https://github.com/quidsup/notrack/archive/master.zip
-    if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
-      #Abort we can't go any further without any code from git
-      Error_Exit "Error Download from github has failed"      
-    fi
-  
-    echo "Unzipping notrack-master.zip"
-    unzip -oq /tmp/notrack-master.zip -d /tmp
-    echo "Copying folder across to $InstallLoc"
-    mv /tmp/notrack-master "$InstallLoc"
-    echo "Removing temporary files"
-    rm /tmp/notrack-master.zip                  #Cleanup
-  fi
-  echo "Upgrade complete"
-}
-
-#Full Upgrade--------------------------------------------------------
-Full_Upgrade() {
-  #This function is run after Web_Upgrade
-  #All we need to do is copy notrack.sh script to /usr/local/sbin
-  
-  InstallLoc=$(readlink -f /var/www/html/admin/)
-  InstallLoc=${InstallLoc/%\/admin/}             #Trim "/admin" from string
-  
-  Check_File_Exists "$InstallLoc/notrack.sh"
-  sudo cp "$InstallLoc/notrack.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
-  sudo chmod +x /usr/local/sbin/notrack
-  
-  Check_File_Exists "$InstallLoc/ntrk-exec.sh"
-  sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
-  sudo chmod 755 /usr/local/sbin/ntrk-exec
-  
-  Check_File_Exists "$InstallLoc/ntrk-pause.sh"
-  sudo cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
-  sudo chmod 755 /usr/local/sbin/ntrk-pause
-  
-  SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
-  if [[ $SudoCheck == "" ]]; then
-    echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
-    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
-  fi
-  
-  if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
-     echo "Removing version number from Config file"
-     sudo grep -v "LatestVersion" "$ConfigFile" > /tmp/notrack.conf
-     sudo mv /tmp/notrack.conf "$ConfigFile"
-  fi
-  
-  
-  echo "NoTrack Script updated"
-}
 #Help----------------------------------------------------------------
 Show_Help() {
   echo "Usage: notrack"
@@ -782,7 +655,6 @@ Show_Help() {
   echo -e "  -v, --version\tDisplay version information and exit"
   echo -e "  -u, --upgrade\tRun a full upgrade"
 }
-
 #Show Version--------------------------------------------------------
 Show_Version() {
   echo "NoTrack Version v$Version"  
@@ -910,26 +782,17 @@ Read_WhiteList                                 #Load Whitelist into array
 CreateFile "$BlockingCSV"
 cat /dev/null > $BlockingCSV                   #Empty csv file
   
-#Legacy files to delete, remove at RC release
-DeleteOldFile "/etc/dnsmasq.d/adsites.list"
-DeleteOldFile "/etc/dnsmasq.d/malicious-domains.list"
-DeleteOldFile "/etc/dnsmasq.d/trackers.list"
-DeleteOldFile "/etc/notrack/trackers.txt"
-DeleteOldFile "/etc/notrack/tracker-quick.list"
-
-  
 if [ ! -e "$BlackListFile" ]; then Generate_BlackList
 fi
-  
-if [ ! -e "$DomainBlackListFile" ]; then Generate_DomainBlackList
-fi
-  
-if [ ! -e "$DomainWhiteListFile" ]; then Generate_DomainWhiteList
-fi
-  
+
+#Legacy files as of v0.7.14
+DeleteOldFile /etc/notrack/domains.txt
+DeleteOldFile /tmp/tld.txt
+
+Process_TLDList
+
 GetList_BlackList                                #Process Users Blacklist
   
-GetList "tld" "tldlist" 604800                   #7 Days
 GetList "notrack" "notrack" 172800               #2 Days
 GetList "qmalware" "plain" 345600                #4 Days
 GetList "adblockmanager" "unix127" 604800        #7 Days

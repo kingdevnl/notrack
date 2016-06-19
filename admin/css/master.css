@@ -359,6 +359,13 @@ tr.local {
 tr.dark {
   background: #999;
 }
+tr.orange {
+  background: #FFA704;
+}
+tr.green {
+  background: #80FF60;
+}
+
 #block-table td:nth-child(1) {
   width: 8%;
   text-align: center;
@@ -422,6 +429,19 @@ tr.dark {
   width: 22%;  
   text-align: center;
 }
+.tld-table td:nth-child(1) {
+  width: 12%;  
+}
+.tld-table td:nth-child(2) {
+  width: 32%;
+}
+.tld-table td:nth-child(3) {
+  width: 38%;
+}
+.tld-table td:nth-child(4) {
+  width: 12%;
+  text-align: center;
+}
 .sys-table td:nth-child(1) {
   width: 25%;
   text-align: right;
@@ -474,6 +494,9 @@ tr.dark {
   height: 2.3rem;
   margin: 0.4rem 0rem 0.3rem 0rem;
   float: left;
+}
+span.dtext {
+  margin: 0 0 0 0.1em;
 }
 span.pictext {
   line-height: 2.9rem;  

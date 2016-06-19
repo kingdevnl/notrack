@@ -1,4 +1,35 @@
 <?php
+/********************************************************************
+Config.php is split out into 6 sub pages:
+ 1. General
+ 2. Block Lists
+ 3. Black List
+ 4. White List
+ 5. Domain List
+ 6. Sites Blocked
+
+Domain List
+  Reading:
+    1. Load tld.csv
+      tld.csv is updated with NoTrack upgrade. tld.csv contains risk level of each domain.
+    2. Load users Domain White List
+    3. Load users Domain Black List
+    4. Display Domain List
+      High risk domains are ticked, unless they're added to the white list
+      Medium & Low risk domains are unticked, unless they're added to the black list
+    5. Domain List contains a form with POST request. When submitted all ticked boxes (named after each domain) are sent with hidden value action=tld
+  
+  Updating:
+    1. Load tld.csv
+    2. Write White list, based on any unticked (not present in POST) high risk domains.
+    3. Write Black list, based on all ticked (present in POST) domains.
+    4. ExecAction to copy Black and White lists into /etc/notrack
+    5. sleep for 1 second to prevent race condition
+    6. Return to Reading
+    
+
+********************************************************************/
+
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 
@@ -12,6 +43,7 @@ if ($Config['Password'] != '') {
 }
 
 $List = array();               //Global array for all the Block Lists
+
 //List of Selectable Search engines, corresponds with Global-Functions.php -> LoadConfigFile()
 $SearchEngineList = array(
  'Baidu',
@@ -34,7 +66,7 @@ $WhoIsList = array(
  'Who.is'
 );
 
-//Deal with POST actions first, that way we can roload the page
+//Deal with POST actions first, that way we can reload the page
 //and remove POST requests from browser history.
 if (isset($_POST['action'])) {
   switch($_POST['action']) {
@@ -64,13 +96,23 @@ if (isset($_POST['action'])) {
     case 'stats':
       if (UpdateStatsConfig()) {        
         WriteTmpConfig();
-        ExecAction('update-config', true, true); 
-        sleep(1);                                  //Short pause to prevent race condition
+        ExecAction('update-config', true, true);
+        sleep(1);                                //Short pause to prevent race condition
         header('Location: ?');
       }
-    default:
-      echo 'Unknown POST action';
-      die();
+      break;
+    case 'tld':
+      Load_CSV($CSVTld, 'CSVTld');               //Load tld.csv
+      UpdateDomainList();
+      ExecAction('copy-tldblacklist', false);
+      ExecAction('copy-tldwhitelist', true, true);
+      $Mem->delete('TLDBlackList');              //Delete Black List from Memcache
+      $Mem->delete('TLDWhiteList');              //Delete White List from Memcache
+      sleep(1);                                  //Prevent race condition
+      header('Location: ?v=tld');                //Reload page
+      break;
+    default:      
+      die('Unknown POST action');
   }
 }
 ?>
@@ -92,8 +134,7 @@ if (isset($_POST['action'])) {
   <a href="../admin/config.php?v=blocks"><span class="pictext"><img src="./svg/menu_blocklists.svg" alt=""><span class="dtext">Block Lists</span></span></a>
   <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">Black List</span></span></a>
   <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">White List</span></span></a>
-  <a href="../admin/config.php?v=tldblack"><span class="pictext"><img src="./svg/menu_tldblack.svg" alt=""><span class="dtext">TLD Black </span></span></a>
-  <a href="../admin/config.php?v=tldwhite"><span class="pictext"><img src="./svg/menu_tldwhite.svg" alt=""><span class="dtext">TLD White </span></span></a>
+  <a href="../admin/config.php?v=tld"><span class="pictext"><img src="./svg/menu_domain.svg" alt=""><span class="dtext">Domain List</span></span></a>
   <a href="../admin/config.php?v=sites"><span class="pictext"><img src="./svg/menu_sites.svg" alt=""><span class="dtext">Sites Blocked</span></span></a>
 </div></nav>
 
@@ -149,7 +190,11 @@ function WriteLI($Character, $Start, $Active, $View) {
 }
 //Draw BlockList Row-------------------------------------------------
 function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
-  global $Config, $DirEtc, $DirTmp;
+  global $Config, $DirEtc, $DirTmp, $CSVTld;
+  //Txt File = Origniating download file
+  //Csv File = Processed file
+  //TLD Is a special case, and the Txt file used is $CSVTld
+  
   
   if ($Config[$ConfBL] == 0) {
     echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'.PHP_EOL;
@@ -163,21 +208,26 @@ function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
     $TotalStr = '';  
     
     $FileName = strtolower(substr($ConfBL, 10));
-    $CsvFile = file_exists($DirEtc.$FileName.'.csv');
-    $TxtFile = file_exists($DirTmp.$FileName.'.txt');
+    if ($ConfBL == 'BlockList_TLD') $TxtFileName = $CSVTld;
+    else $TxtFileName = $DirTmp.$FileName.'.txt';
+    
+    $CSVFileName = $DirEtc.$FileName.'.csv';    
+    
+    $CsvFile = file_exists($CSVFileName);
+    $TxtFile = file_exists($TxtFileName);
     
     if ($CsvFile && $TxtFile) {
-      $CsvLines = intval(exec('wc -l '.$DirEtc.$FileName.'.csv'));
-      $TxtLines = intval(exec('wc -l '.$DirTmp.$FileName.'.txt'));
-      if ($CsvLines > $TxtLines) $CsvLines = $TxtLines ;
+      $CsvLines = intval(exec('wc -l '.$CSVFileName));
+      $TxtLines = intval(exec('wc -l '.$TxtFileName));
+      if ($CsvLines > $TxtLines) $CsvLines = $TxtLines; //Prevent stupid result
       $TotalStr = '<p class="light">'.$CsvLines.' used of '.$TxtLines.'</p>';
     }
     elseif ($CsvFile) {
-      $CsvLines = intval(exec('wc -l '.$DirEtc.$FileName.'.csv'));
+      $CsvLines = intval(exec('wc -l '.$CSVFileName));
       $TotalStr = '<p class="light">'.$CsvLines.' used of ?</p>';
     }
     elseif ($TxtFile) {
-      $TxtLines = intval(exec('wc -l '.$DirTmp.$FileName.'.txt'));
+      $TxtLines = intval(exec('wc -l '.$TxtFileName));
       $TotalStr = '<p class="light">? used of '.$TxtLines.'</p>';
     }
    
@@ -205,7 +255,7 @@ function LoadCustomList($ListName, $FileName) {
   
   $List = $Mem->get($ListName);
   
-  if (! $List) {
+  if (empty($List)) {
     $FileHandle = fopen($FileName, 'r') or die('Error unable to open '.$FileName);
     while (!feof($FileHandle)) {
       $Line = trim(fgets($FileHandle));
@@ -227,44 +277,43 @@ function LoadCustomList($ListName, $FileName) {
   return true;  
 }  
 //-------------------------------------------------------------------
-function LoadSiteList() {
-//This function is susceptible to race condition:
-//If the User changes the BlockLists and switches to this view while NoTrack is processing $FileBlockingCSV is incomplete.
-//To combat this race condition Lists below 100 lines aren't stored in Memcache.
-//Large lists are held in Memcache for 4 minutes
-
-  global $FileBlockingCSV, $List, $Mem;
-  
-  ///////////////////////////////////////////////////////////////////
-  //Temporary warning to cover NoTrack pre 0.7 where blocklist was in a list file
-  //Remove at Beta
-  if (file_exists('/etc/notrack/tracker-quick.list')) {
-    echo '<h4>Warning: Legacy version of NoTrack created the blocklist</h4><br />'.PHP_EOL;
-    echo '<h4>Please wait a few minutes while list is regenerated</h4><br />';
-    echo '<p>If this warning persists re-run: notrack --upgrade</p>';
-    ExecAction('run-notrack', false);
-    echo '<pre>Updating Custom blocklists in background</pre>'.PHP_EOL;      
-    exec("sudo ntrk-exec > /dev/null &");      //Fork NoTrack process
-    die();
-    return null;
-  }
-  ///////////////////////////////////////////////////////////////////
-  
-  $List = $Mem->get('SiteList');
-  
-  if (! $List) {
-    //$List[] = array('Null', 'Active', 'Null');  //Bump start point to 1
-    $FileHandle = fopen($FileBlockingCSV, 'r') or die('Error unable to open '.$FileBlockingCSV);
+function Load_CSV($FileName, $ListName) {
+  global $List, $Mem;
+    
+  //$List = $Mem->get($ListName);
+  if (empty($List)) {
+    $FileHandle = fopen($FileName, 'r') or die('Error unable to open '.$FileName);
     while (!feof($FileHandle)) {
       $List[] = fgetcsv($FileHandle);
     }
     
     fclose($FileHandle);
-    if (count($List) > 100) {  //Only store decent size list in Memcache
-      $Mem->set('SiteList', $List, 0, 240);      //4 Minutes
+    if (count($List) > 50) {                     //Only store decent size list in Memcache
+      $Mem->set($ListName, $List, 0, 600);       //10 Minutes
     }
   }
-  return null;
+  
+  return true;
+}
+//-------------------------------------------------------------------
+function Load_List($FileName, $ListName) {
+  global $Mem;
+  
+  $FileArray = array();
+  
+  $FileArray = $Mem->get($ListName);
+  if (empty($FileArray)) {
+    if (file_exists($FileName)) {                //Check if File Exists
+      $FileHandle = fopen($FileName, 'r') or die('Error unable to open '.$FileName);
+      while (!feof($FileHandle)) {
+        $FileArray[] = trim(fgets($FileHandle));
+      }
+      fclose($FileHandle);
+      $Mem->set($ListName, $FileArray, 0, 600);  //Change to 1800
+    }
+  }
+  //else echo 'cache';
+  return $FileArray;
 }
 //-------------------------------------------------------------------
 function DisplayBlockLists() {
@@ -457,13 +506,9 @@ function DisplayCustomList($View) {
       $i++;
     }
   }
-  if (($View == 'black') || ($View == 'white')) {
-    echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
-  }
-  elseif (($View == 'tldblack') || ($View == 'tldwhite')) {
-    echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder=".domain"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
-  }
-    
+  
+  echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+        
   echo '</table></div></div>'.PHP_EOL;
   
   echo '<div class="sys-group"><div class="centered">'.PHP_EOL;  
@@ -622,6 +667,75 @@ function DisplayPagination($LS, $View) {
   }	
   echo '</ul></div>'.PHP_EOL;
 }
+//-------------------------------------------------------------------
+function DisplayDomainList() {
+  global $List, $FileTLDBlackList, $FileTLDWhiteList;
+  
+  //1. Load Users Domain Black list and convert into associative array
+  //2. Load Users Domain White list and convert into associative array
+  //3. Display list
+  
+  $KeyBlack = array_flip(Load_List($FileTLDBlackList, 'TLDBlackList'));
+  $KeyWhite = array_flip(Load_List($FileTLDWhiteList, 'TLDWhiteList'));
+  $ListSize = count($List);
+  
+  $FlagImage = '';  
+  $UnderscoreName = '';
+  
+  echo '<div class="sys-group">';
+  
+  if ($ListSize == 0) {
+    echo 'No sites found in Block List'.PHP_EOL;
+    echo '</div>';
+    return;
+  }
+  
+  echo '<p><b>19 June 2016 - This section is still a work in progress</b></p>';
+  echo '<p>Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';
+  echo '<br />';
+  
+  echo '<form name="tld" action="?" method="post">'.PHP_EOL;
+  echo '<input type="hidden" name="action" value="tld">'.PHP_EOL;
+  echo '<input type="submit" value="Save Changes">'.PHP_EOL;
+  
+  echo '<p><b>Old Generic Domains</b></p>'.PHP_EOL;
+  echo '<table class="tld-table">'.PHP_EOL;
+  
+  foreach ($List as $Site) {
+    if ($Site[2] == 0) {                         //Zero means draw new table
+      echo '</table>'.PHP_EOL;                   //End old table
+      echo '<br />'.PHP_EOL;
+      echo '<p><b>'.$Site[1].'</b></p>'.PHP_EOL; //Title of Table
+      echo '<table class="tld-table">'.PHP_EOL;  //New Table
+      continue;                                  //Jump to end of loop
+    }
+    
+    switch ($Site[2]) {                          //Row colour based on risk
+      case 1: echo '<tr class="invalid">'; break;
+      case 2: echo '<tr class="orange">'; break;      
+      case 3: echo '<tr>'; break;                //Use default colour for low risk
+      case 5: echo '<tr class="green">'; break;
+    }
+    
+    $UnderscoreName = str_replace(' ', '_', $Site[1]); //Flag names are seperated by underscore
+    
+    //Does a Flag image exist?
+    if (file_exists('./images/flags/Flag_of_'.$UnderscoreName.'.png')) $FlagImage = '<img src="./images/flags/Flag_of_'.$UnderscoreName.'.png" alt=""> ';
+    else $FlagImage = '';
+    
+    //(Risk 1 & NOT in White List) OR (in Black List)
+    if ((($Site[2] == 1) && (! array_key_exists($Site[0], $KeyWhite))) || (array_key_exists($Site[0], $KeyBlack))) {
+      echo '<td><b>'.$Site[0].'</b></td><td><b>'.$FlagImage.$Site[1].'</b></td><td>'.$Site[3].'</td><td><input type="checkbox" name="'.substr($Site[0], 1).'" checked="checked"></td></tr>'.PHP_EOL;
+    }
+    else {
+      echo '<td>'.$Site[0].'</td><td>'.$FlagImage.$Site[1].'</td><td>'.$Site[3].'</td><td><input type="checkbox" name="'.substr($Site[0], 1).'"></td></tr>'.PHP_EOL;
+    }    
+  }
+  
+  echo '</table></form></div>'.PHP_EOL;          //End table
+  
+  return null;
+}
 //Update Block List Config-------------------------------------------
 function UpdateBlockListConfig() {
   //Read and Filter values parsed from HTTP POST into the Config array  
@@ -648,8 +762,7 @@ function UpdateBlockListConfig() {
   $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
   $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
   $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
-  
-  //print_r($Config); 
+    
   return null;
 }
 //Update Custom List-------------------------------------------------
@@ -758,6 +871,35 @@ function UpdateStatsConfig() {
   }
   return $Updated;
 }
+//-------------------------------------------------------------------
+function UpdateDomainList() {
+  global $DirTmp, $List;
+  
+  //Start with White List
+  $FileHandle = fopen($DirTmp.'domain-whitelist.txt', 'w') or die('Unable to open '.$DirTmp.'domain-whitelist.txt');
+  
+  fwrite($FileHandle, '#Domain White list generated by config.php'.PHP_EOL);
+  
+  foreach ($List as $Site) {                     //Generate White list based on unticked Risk 1 items
+    if ($Site[2] == 1) {
+      if (! isset($_POST[substr($Site[0], 1)])) { //Check POST for domain minus preceding .
+        fwrite($FileHandle, $Site[0].PHP_EOL);   //Add domain to White list
+      }
+    }
+  }
+  fclose($FileHandle);                           //Close White List
+  
+  //Write Black List
+  $FileHandle = fopen($DirTmp.'domain-blacklist.txt', 'w') or die('Unable to open '.$DirTmp.'domain-blacklist.txt');
+    
+  fwrite($FileHandle, '#Domain Block list generated by config.php'.PHP_EOL);
+  fwrite($FileHandle, '#Do not make any changes to this file'.PHP_EOL);
+  
+  foreach ($_POST as $Key => $Value) {           //Generate Black list based on ticked items in $_POST
+    if ($Value == 'on') fwrite($FileHandle, '.'.$Key.PHP_EOL); //Add each item of POST of value is "on"
+  }
+  fclose($FileHandle);                           //Close Black List
+}
 //Update Security Config---------------------------------------------
 function UpdateSecurityConfig() {
   global $Config;
@@ -803,7 +945,6 @@ function UpdateWebserverConfig() {
     }
   }
 }
-
 //Write Tmp Config File----------------------------------------------
 function WriteTmpConfig() {
   //1. Check if Latest Version is less than Current Version
@@ -891,16 +1032,12 @@ if (isset($_GET['v'])) {
       LoadCustomList('white', $FileWhiteList);
       DisplayCustomList('white');
       break;
-    case 'tldblack':
-      LoadCustomList('tldblack', $FileTLDBlackList);
-      DisplayCustomList('tldblack');
-      break;
-    case 'tldwhite':
-      LoadCustomList('tldwhite', $FileTLDWhiteList);
-      DisplayCustomList('tldwhite');
+    case 'tld':
+      Load_CSV($CSVTld, 'CSVTld');
+      DisplayDomainList();     
       break;
     case 'sites':
-      LoadSiteList();
+      Load_CSV($CSVBlocking, 'SitesBlocked');
       DisplaySiteList();
       break;
     default:

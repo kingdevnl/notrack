@@ -2,7 +2,6 @@
 $Version='0.7.13';
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
-$FileBlockingCSV = '/etc/notrack/blocking.csv';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
 $FileTmpConfig = '/tmp/notrack.conf';
 $FileConfig = '/etc/notrack/notrack.conf';
@@ -11,6 +10,8 @@ $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
 $FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
 $FileAccessLog = '/var/log/ntrk-admin.log';
+$CSVBlocking = '/etc/notrack/blocking.csv';
+$CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
 $DirTmp = '/tmp/';

@@ -1,6 +1,19 @@
+v0.7.14 alpha
+Config:
+  New Domain Blocking page
+  
+NoTrack.sh
+  Removed legacy upgrade code
+  Domain blocking modified to work with new Config
+
+Home:
+  New icon for Sites Blocked
+  Replaced last two PNG based icons with SVG files
+  
 v0.7.13 alpha
 Config:
   Fixed issue #48 Incorrect Who Is URL
+  Fixed issue of Password not loading
   
 
 v0.7.12 alpha

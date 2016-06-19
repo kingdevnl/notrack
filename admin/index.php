@@ -32,13 +32,13 @@ DrawTopMenu();
 echo '<div class="row"><br />';
 
 //Tracker Blocklist
-echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat '.$FileBlockingCSV.' | grep -c Active'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./images/magnifying_glass.png" alt=""></div></div></a>'.PHP_EOL;
+echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -c Active '. $CSVBlocking))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
 
 //Sites Blocked
-echo '<a href="./blocked.php"><div class="home-nav-b"><h2>Sites Blocked</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -v admin /var/log/lighttpd/access.log | wc -l'))).'</h3><h4>This Week</h4></div><div class="home-nav-right"><img class="full" src="./images/globe.png" alt=""></div></div></a>'.PHP_EOL;
+echo '<a href="./blocked.php"><div class="home-nav-b"><h2>Sites Blocked</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -v admin /var/log/lighttpd/access.log | wc -l'))).'</h3><h4>This Week</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_blocked.svg" alt=""></div></div></a>'.PHP_EOL;
 
 //DNS Queries
-echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('cat /var/log/notrack.log | grep -F query[A] | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./images/home_server.png" srcset="./svg/home_server.svg"  alt=""></div></div></a>'.PHP_EOL;
+echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -F query[A] /var/log/notrack.log | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_server.svg" srcset="./svg/home_server.svg"  alt=""></div></div></a>'.PHP_EOL;
 
 //DHCP Systems
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {

@@ -38,21 +38,21 @@ Copy_WhiteList() {
 }
 #Copy TLD Black List-------------------------------------------------
 Copy_TLDBlackList() {
-  if [ -e "/tmp/tldblacklist.txt" ]; then
-    chown root:root /tmp/tldblacklist.txt
-    chmod 644 /tmp/tldblacklist.txt
-    echo "Copying /tmp/tldblacklist.txt to /etc/notrack/domain-blacklist.txt"
-    mv /tmp/tldblacklist.txt /etc/notrack/domain-blacklist.txt
+  if [ -e "/tmp/domain-blacklist.txt" ]; then
+    chown root:root /tmp/domain.txt
+    chmod 644 /tmp/domain-blacklist.txt
+    echo "Copying /tmp/domain-blacklist.txt to /etc/notrack/domain-blacklist.txt"
+    mv /tmp/domain-blacklist.txt /etc/notrack/domain-blacklist.txt
     echo
   fi
 }
 #Copy TLD White List-------------------------------------------------
 Copy_TLDWhiteList() {
-  if [ -e "/tmp/tldwhitelist.txt" ]; then
-    chown root:root /tmp/tldwhitelist.txt
-    chmod 644 /tmp/tldwhitelist.txt
-    echo "Copying /tmp/tldwhitelist.txt to /etc/notrack/domain-whitelist.txt"
-    mv /tmp/tldwhitelist.txt /etc/notrack/domain-whitelist.txt    
+  if [ -e "/tmp/domain-whitelist.txt" ]; then
+    chown root:root /tmp/domain-whitelist.txt
+    chmod 644 /tmp/domain-whitelist.txt
+    echo "Copying /tmp/domain-whitelist.txt to /etc/notrack/domain-whitelist.txt"
+    mv /tmp/domain-whitelist.txt /etc/notrack/domain-whitelist.txt    
   fi
 }
 #Create Access Log---------------------------------------------------
