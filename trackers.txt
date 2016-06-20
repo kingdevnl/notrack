@@ -1276,6 +1276,7 @@ medialytics.com #Medialets
 mediamond.it #Mediamond
 mediaplex.com
 mediavoice.com
+member-hsbc-group.com #HSBC
 merchenta.com
 messages1.com #IBM Silverpop
 messages2.com #IBM Silverpop
@@ -10134,11 +10135,13 @@ stat.swedbank.se #Swedbank
 webtrends.telegraph.co.uk #Telegraph
 oem.twimg.com #Twitter, possible Windows spying
 analytics.twitter.com #Twitter
+geoiplookup.wikimedia.org #Wikipedia
 feedback.windows.com #Microsoft
+pixel.wp.com #Wordpress
+stats.wp.com #Wordpress
 analytics.yahoo.com #Yahoo
 ads.yahoo.com #Yahoo
 geo.query.yahoo.com #Yahoo
 pclick.yahoo.com #Yahoo
 mc.yandex.ru #Yandex
-pixel.wp.com #Wordpress
-stats.wp.com #Wordpress
+
