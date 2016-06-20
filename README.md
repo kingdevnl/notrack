@@ -1,5 +1,5 @@
 # NoTrack
-Tracking is absolutely rife on the Internet, news websites are among the worst with some of them dropping over 100 cookies per visit. Sure you can block third party cookies, but that alone is not enough because many tracking sites utilise tracking pixels. The only way to stop them is to prevent your browser downloading these tiny 1 pixel images.
+Tracking is absolutely rife on the Internet, news websites are among the worst with some of them dropping over 100 cookies per visit. Sure you can block third party cookies, but that alone is not enough because many tracking sites utilise tracking pixels. The only way to stop them is to prevent your browser downloading these tiny 1 pixel images.  
 All 100 of the top 100 websites employ some form of tracking.
   
 NoTrack is a network-wide DNS server which blocks Tracking websites from creating cookies or sending tracking pixels. It does this by resolving the IP address of known tracking sites to a web server running on the NoTrack device inside your network.
