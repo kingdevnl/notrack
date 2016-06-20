@@ -1,6 +1,6 @@
 .com,Commercial,3,
 .edu,Education,5,
-.gov,Government,3,
+.gov,Government,5,
 .info,Information,2,
 .org,Organization,3,
 .mil,Military,5,
@@ -13,23 +13,25 @@
 .click,Click,1,
 .cricket,Cricket,1,"<a href=""https://www.bluecoat.com/blogs/2015-10-21/just-not-cricket-shady-tld-research-part-12"">95% of top 200</a> sites found to be shady"
 .country,Country,1,
+.date,Date,1,"<a href=""https://www.bluecoat.com/security-blog/2015-07-30/date-spammers-shady-tld-research-pt-7"">100% of top 71</a> sites found to be shady<br />At time of writing this was a new TLD, and few sites were actually live"
 .diet,Diet,1,
 .download,Download,1,At 99.52%
-.faith,Faith,1,
+.faith,Faith,1,"<a href=""https://www.bluecoat.com/security-blog/2015-08-19/everybodys-gotta-have-faith-shady-tld-research-pt-9"">99% of top 500</a> sites found to be shady"
 .kim,Kim,1,At 99.54%
 .link,Link,1,
 .loan,Loan,1,At 98%
+.ninja,Ninja,3,"<a href=""https://www.bluecoat.com/security-blog/2015-05-14/ninja-attack-another-shady-tld-report"">Less than 50%</a> of sites found to be shady"
 .party,Party,1,At 99%
 .pink,Pink,1,
 .racing,Racing,1,"<a href=""https://www.bluecoat.com/security-blog/2015-09-16/racing-top-or-bottom-shady-tld-research-pt-11"">96% of top 51</a> sites found to be shady<br />*very few .racing sites have been registered."
 .review,Review,1,At 99%
-.science,Science,1,At 99.11%
+.science,Science,1,".science initially gave out free domains<br /><a href=""https://www.bluecoat.com/security-blog/2015-03-16/science-shady-tld-use"">96% of top 200</a> sites found to be shady"
 .space,Space,1,"<a href=""https://www.bluecoat.com/security-blog/2016-01-05/lost-space-shady-tld-research-part-14"">93% of top 100</a> sites found to be shady"
 .tokyo,Tokyo,1,
 .top,Top,1,
 .win,Win,1,"<a href=""https://www.bluecoat.com/security-blog/2015-11-11/win-lose-propositions-shady-tld-research-13"">95% of top 200</a> sites found to be shady"
-.work,Work,2,
-.xyz,xyz,2,Domain owner has been clearing up malicious sites
+.work,Work,1,"<a href=""https://www.bluecoat.com/security-blog/2015-03-23/scammers-hard-work"">98% of top 250</a> sites found to be shady"
+.xyz,xyz,2,"<ahref=""https://www.bluecoat.com/security-blog/2015-07-14/exploring-xyz-another-shady-tld-report"">Historically high percentage</a> of shady sites, however Domain owner has been clearing up malicious sites"
 #,Country Domains,0,
 .ac,Ascension Island,3,Commonly used for academic websites
 .ad,Andorra,3,
@@ -74,7 +76,7 @@
 .cg,Republic of the Congo,3,
 .ch,Switzerland,3,
 .ci,Côte d'Ivoire,3,
-.ck,Cook Islands,3,
+.ck,Cook Islands,5,
 .cl,Chile,3,
 .cm,Cameroon,2,Typo of .com
 .cn,People's Republic of China,2,
@@ -110,12 +112,12 @@
 .gf,French Guiana,3,
 .gg,Guernsey,3,Commonly used in reference to the gamer slang for good game.
 .gh,Ghana,3,
-.gi,Gibraltar,3,
+.gi,Gibraltar,5,
 .gl,Greenland,3,
 .gm,Gambia,3,
 .gn,Guinea,3,
 .gp,Guadeloupe,3,
-.gq,Equatorial Guinea,1,Also used as a free domain service to the public.
+.gq,Equatorial Guinea,1,"<a href=""https://www.bluecoat.com/security-blog/2015-04-21/shady-tlds-gq-not-looking-so-dapper"">99% over past 10 years</a> of sites are shady"
 .gr,Greece,3,
 .gs,South Georgia and the South Sandwich Islands,3,
 .gt,Guatemala,3,
@@ -141,7 +143,7 @@
 .je,Jersey,3,
 .jm,Jamaica,3,
 .jo,Jordan,3,
-.jp,Japan,3,
+.jp,Japan,5,
 .ke,Kenya,3,
 .kg,Kyrgyzstan,3,
 .kh,Cambodia,3,
@@ -150,7 +152,7 @@
 .kn,Saint Kitts and Nevis,3,
 .kp,North Korea,3,
 .kr,South Korea,3,
-.kw,Kuwait,3,
+.kw,Kuwait,5,
 .ky,Cayman Islands,3,
 .kz,Kazakhstan,3,
 .la,Laos,3,
