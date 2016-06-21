@@ -1,4 +1,4 @@
-#NoTrack Malicious Site list updated 11 June 2016
+#NoTrack Malicious Site list updated 21 June 2016
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 abcd7777.com #Chinese Scammer
 abcdnf.com #Chinese Scammer
@@ -20,6 +20,7 @@ iubenda.com #Annoying Cookie Popup
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
+logme.in #Lookalike Site
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 m1ll1c4n0.com #Added May 2016
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
