@@ -1,5 +1,5 @@
 # NoTrack
-Tracking is absolutely rife on the Internet, on average 17 cookies are dropped by each website. Although you can block third party cookies, there are also more complex methods of tracking, such as:   
+Tracking is absolutely rife on the Internet, on average 17 cookies are dropped by each website. Although you can block third party cookies, there are also more complex methods of tracking, such as:
  * Tracking Pixels 
  * HTML5 Canvas Fingerprinting 
  * AudioContext Fingerprinting 
