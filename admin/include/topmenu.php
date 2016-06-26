@@ -60,7 +60,7 @@ function DrawTopMenu() {
   
   if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php only
     echo '<div id="menu-top"><div id="menu-logo">'.PHP_EOL;
-    echo '<a href="../admin/"><img src="./svg/ntrklogo2.svg" alt=""></a></div>'.PHP_EOL;
+    echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
   
     echo '<div id="menu-top-right">'.PHP_EOL;
     
