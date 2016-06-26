@@ -4,6 +4,7 @@ Tracking is absolutely rife on the Internet, on average 17 cookies are dropped b
  * HTML5 Canvas Fingerprinting 
  * AudioContext Fingerprinting 
  * WebRTC Local IP Discovery  
+  
 All 100 of the top 100 websites employ one or more of these forms of tracking.
   
 NoTrack is a network-wide DNS server which blocks Tracking websites from creating cookies or sending tracking pixels. It does this by resolving the IP address of known tracking sites to a web server running on the NoTrack device inside your network.
