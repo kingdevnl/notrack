@@ -2,6 +2,7 @@
 1. User aborted
 2. Old config exists, but status unknown
 3. NoTrack already running
+4. Command run as root
 10. Sudo command missing
 11. Unknown Network Device
 12. Unknown IP Version
@@ -17,6 +18,11 @@
 26. ntrk-exec missing
 27. ntrk-pause missing
 28. ntrk-upgrade missing
+41. Create SSL Cert - Lighttpd missing
+42. Create SSL Cert - OpenSSL missing
+43. Create SSL Cert - Certificate file not created
+44. Create SSL Cert - Serious failure
+45. Create SSL Cert - Failed, but Lighttpd restored
 100. Blocking Paused
 101. Blocking Disabled
 
