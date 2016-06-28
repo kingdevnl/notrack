@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 15 June 2016
+#NoTrack Tracker list updated 28 June 2016
 #LatestVersion 0.7.13
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1230,6 +1230,7 @@ linksynergy.com
 listrakbi.com
 lithium.com
 liveadexchanger.com
+liveadvert.com
 livefyre.com
 liverail.com
 liveperson.net
