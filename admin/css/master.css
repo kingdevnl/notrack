@@ -335,8 +335,8 @@ table {
   width: 100%;
 }
 td, th {  
-  overflow: auto;  
-  padding: 5px 7px; 
+  overflow: auto;
+  padding: 5px 7px;
 }
 th {
   background-color: #97D9FF;
@@ -351,7 +351,7 @@ tr.blocked {
   background: #EB5D66;
 }
 tr.invalid {
-  background: #EE202B;
+  background: #EE202B;  
 }
 tr.local {
   background: #93A0FF;

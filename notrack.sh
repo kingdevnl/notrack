@@ -28,6 +28,8 @@ Config[blocklist_malwaredomains]=0
 Config[blocklist_pglyoyo]=0
 Config[blocklist_someonewhocares]=0
 Config[blocklist_spam404]=0
+Config[blocklist_swissransom]=0
+Config[blocklist_swisszeus]=0
 Config[blocklist_winhelp2002]=0
 Config[blocklist_chneasy]=0                      #China
 Config[blocklist_ruseasy]=0                      #Russia
@@ -59,6 +61,8 @@ URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomainlist]="http://www.malwaredomainlist.com/hostslist/hosts.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
 URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
+URLList[swissransom]="https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt"
+URLList[swisszeus]="https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist"
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
@@ -179,6 +183,8 @@ Read_Config_File() {
           BlockList_PglYoyo) Config[blocklist_pglyoyo]="$Value";;
           BlockList_SomeoneWhoCares) Config[blocklist_someonewhocares]="$Value";;
           BlockList_Spam404) Config[blocklist_spam404]="$Value";;
+          BlockList_SwissRansom) Config[blocklist_swissransom]="$Value";;
+          BlockList_SwissZeus) Config[blocklist_swisszeus]="$Value";;
           BlockList_Winhelp2002) Config[blocklist_winhelp2002]="$Value";;
           BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
           BlockList_RUSEasy) Config[blocklist_ruseasy]="$Value";;          
@@ -808,6 +814,8 @@ GetList "malwaredomains" "plain" 345600          #4 Days
 GetList "pglyoyo" "plain" 345600                 #4 Days
 GetList "someonewhocares" "unix127" 345600       #4 Days
 GetList "spam404" "easylist" 172800              #2 Days
+GetList "swissransom" "plain" 86400              #1 Day
+GetList "swisszeus" "plain" 86400                #1 Day
 GetList "winhelp2002" "unix0" 604800             #7 Days
 GetList "chneasy" "easylist" 345600              #China
 GetList "ruseasy" "easylist" 345600              #Russia

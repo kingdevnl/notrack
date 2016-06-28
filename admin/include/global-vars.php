@@ -48,6 +48,8 @@ $DefaultConfig = array(
   'BlockList_PglYoyo' => 0,
   'BlockList_SomeoneWhoCares' => 0,
   'BlockList_Spam404' => 0,
+  'BlockList_SwissRansom' => 0,
+  'BlockList_SwissZeus' => 0,
   'BlockList_Winhelp2002' => 0,
   //Region Specific BlockLists
   'BlockList_CHNEasy' => 0,

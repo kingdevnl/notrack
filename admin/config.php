@@ -348,6 +348,10 @@ function DisplayBlockLists() {
   
   DrawBlockListRow('bl_spam404', 'BlockList_Spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
   
+  DrawBlockListRow('bl_swissransom', 'BlockList_SwissRansom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/">(abuse.ch)</a>');
+  
+  DrawBlockListRow('bl_swisszeus', 'BlockList_SwissZeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/">(abuse.ch)</a>');
+  
   echo '<tr><th colspan="2">Social</th></tr>';
   DrawBlockListRow('bl_fbannoyance', 'BlockList_FBAnnoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
   
@@ -741,7 +745,7 @@ function UpdateBlockListConfig() {
   //Read and Filter values parsed from HTTP POST into the Config array  
   //After this function WriteTmpConfig is run
   
-  global $Config, $FileTmpConfig, $Mem;
+  global $Config;
     
   $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
@@ -759,6 +763,8 @@ function UpdateBlockListConfig() {
   $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
   $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
   $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
+  $Config['BlockList_SwissRansom'] = Filter_Config('bl_swissransom');
+  $Config['BlockList_SwissZeus'] = Filter_Config('bl_swisszeus');
   $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
   $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
   $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');

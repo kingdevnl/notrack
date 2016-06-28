@@ -1,3 +1,7 @@
+Development
+Config:
+  New blocklists from Swiss Security
+
 v0.7.14 alpha
 Config:
   New Domain Blocking page

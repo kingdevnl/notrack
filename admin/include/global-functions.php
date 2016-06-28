@@ -302,6 +302,12 @@ function LoadConfigFile() {
             case 'BlockList_Spam404':
               $Config['BlockList_Spam404'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
+            case 'BlockList_SwissRansom':
+              $Config['BlockList_SwissRansom'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'BlockList_SwissZeus':
+              $Config['BlockList_SwissZeus'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
             case 'BlockList_Winhelp2002':
               $Config['BlockList_Winhelp2002'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
