@@ -15,22 +15,23 @@
 .country,Country,1,
 .date,Date,1,"<a href=""https://www.bluecoat.com/security-blog/2015-07-30/date-spammers-shady-tld-research-pt-7"">100% of top 71</a> sites found to be shady<br />At time of writing this was a new TLD, and few sites were actually live"
 .diet,Diet,1,
-.download,Download,1,At 99.52%
+.download,Download,1,55% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .faith,Faith,1,"<a href=""https://www.bluecoat.com/security-blog/2015-08-19/everybodys-gotta-have-faith-shady-tld-research-pt-9"">99% of top 500</a> sites found to be shady"
+.gdn,GDN,1,55% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .kim,Kim,1,At 99.54%
-.link,Link,1,
+.link,Link,1,43% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .loan,Loan,1,At 98%
 .ninja,Ninja,3,"<a href=""https://www.bluecoat.com/security-blog/2015-05-14/ninja-attack-another-shady-tld-report"">Less than 50%</a> of sites found to be shady"
 .party,Party,1,At 99%
 .pink,Pink,1,
 .racing,Racing,1,"<a href=""https://www.bluecoat.com/security-blog/2015-09-16/racing-top-or-bottom-shady-tld-research-pt-11"">96% of top 51</a> sites found to be shady<br />*very few .racing sites have been registered."
-.review,Review,1,At 99%
+.review,Review,1,50% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .science,Science,1,".science initially gave out free domains<br /><a href=""https://www.bluecoat.com/security-blog/2015-03-16/science-shady-tld-use"">96% of top 200</a> sites found to be shady"
 .space,Space,1,"<a href=""https://www.bluecoat.com/security-blog/2016-01-05/lost-space-shady-tld-research-part-14"">93% of top 100</a> sites found to be shady"
-.tokyo,Tokyo,1,
+.tokyo,Tokyo,1,62% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .top,Top,1,
 .win,Win,1,"<a href=""https://www.bluecoat.com/security-blog/2015-11-11/win-lose-propositions-shady-tld-research-13"">95% of top 200</a> sites found to be shady"
-.work,Work,1,"<a href=""https://www.bluecoat.com/security-blog/2015-03-23/scammers-hard-work"">98% of top 250</a> sites found to be shady"
+.work,Work,1,58% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .xyz,xyz,2,"<ahref=""https://www.bluecoat.com/security-blog/2015-07-14/exploring-xyz-another-shady-tld-report"">Historically high percentage</a> of shady sites, however Domain owner has been clearing up malicious sites"
 #,Country Domains,0,
 .ac,Ascension Island,3,Commonly used for academic websites
@@ -45,7 +46,7 @@
 .aq,Antarctica,3,
 .ar,Argentina,3,
 .as,American Samoa,3,
-.asia,Asia Pacific,2,
+.asia,Asia Pacific,2,15% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .at,Austria,3,
 .au,Australia,3,
 .aw,Aruba,3,"Restricted to registered Aruban companies, organisations and citizens"
@@ -200,7 +201,7 @@
 .nr,Nauru,2,Also used as a free domain service to the public as co.nr.
 .nu,Niue,3,"Commonly used by Danish, Dutch and Swedish websites, because in those languages ""nu"" means ""now""."
 .nz,New Zealand,3,
-.om,Oman,1,Typo of .com
+.om,Oman,1,Used for <a href="https://www.endgame.com/blog/what-does-oman-house-cards-and-typosquatting-have-common-om-domain-and-dangers-typosquatting">Typo squatting</a> of .com domains
 .pa,Panama,3,
 .pe,Peru,3,
 .pf,French Polynesia,3,
