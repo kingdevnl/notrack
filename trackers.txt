@@ -79,6 +79,7 @@ abetterweb.us #instartlogic
 abmr.net
 absentvodka.com #Hacker Site
 abtasty.com
+acekhor.com #SpyVisit
 activeconversion.com
 active-agent.com
 active-agent.net
@@ -602,6 +603,7 @@ cmail2.com
 cmcm.bid #MobPartner
 cmcore.com
 cmmeglobal.com
+cnt1.net #Luna-Park
 cntr-di5.com #Lead Forensics
 cntr-di7.com #Lead Forensics
 cnt-tm-1.com #Lead Forensics
@@ -672,6 +674,10 @@ ctd006.net #Experian
 cten10010.com #Lead Forensics
 ctnsnet.com
 ctscdn.com
+curalate.info #Curulate
+curalate.net #Curulate
+curalate.org #Curulate
+curulate.com #Curulate
 custhelp.com
 customerjourney.com #eGain Corporation
 customersciences.com #Adobe
@@ -708,6 +714,7 @@ devnxs.net #AppNexus Inc
 dexometer.com #Adobe
 dianalytics.com #Adobe
 dianomi.com
+digidip.net #My Dealz
 digitalanalyticsdatawarehouse.com #WebTrekk
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
@@ -880,6 +887,7 @@ fdgkdhfgjkdfgdg.com #HelloWorld
 feedbackify.com #Feedbackify
 feedmagnet.com
 feedsportal.com
+feng-gui.com #Feng GUI
 fetchback.com
 fidelity-media.com
 fimserve.com
@@ -921,6 +929,7 @@ futureusmedia.com
 fwmrm.net
 fyre.co
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
+gaheatmaps.com #PTEngine
 gardendiscount.com #Digital Window
 gator.io
 gaug.es
@@ -987,6 +996,8 @@ ha44888.com #HelloWorld
 hanapinmarketing.com
 hardofhearing.org
 heapanalytics.com
+heatmap.it #Heatmap
+heatmap.me #Heatmap
 heias.com
 hellobar.com #Crazy Egg
 helloinsiders.com #HelloWorld
@@ -1002,7 +1013,7 @@ himediads.net #Hi Media
 histats.com
 hlserve.com
 hochmoor.com
-hotjar.com
+hotjar.com #Hotjar
 hrb1tng0.com #Lead Forensics
 hs-analytics.com #Hubspot
 hs-analytics.net #Hubspot
@@ -1127,6 +1138,7 @@ inskinad.com #Inskinad
 inskindemo.com #Inskinad
 inskinmedia.com #Inskinad
 inskinads.com #Inskinad
+inspectlet.com #Inspectlet
 insnw.net #instartlogic
 instartcloud.com #instartlogic
 instartlogic.biz #instartlogic
@@ -1193,6 +1205,7 @@ k-analytix.com
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
 labeldecisionnel.net #Ysance
 labeldecisionnel.org #Ysance
+labsmedia.com #ClickHeat
 lelabdecisionnel.com #Ysance
 ladycash.ru
 laptops2compare.com #Digital Window
@@ -9066,7 +9079,10 @@ monefy.net #Buta Trading
 monetate.net
 mookie1.com
 mosaicaudience.com #Experian
-mouseflow.com
+mouseflow.com #Mouseflow
+mouseflow.net #Mouseflow
+mouseflow.org #Mouseflow
+mouseflow.us #Mouseflow
 mplxtms.com
 mptracking.mobi #MobPartner
 mrkt.it
@@ -9081,6 +9097,7 @@ mxpnl.com
 mxptint.net
 myads.com #Rubicon
 myapptv.net #Millennial Media
+myaudience.de
 mybuys.com
 mydas.mobi
 mydas.mobi #Millennial Media
@@ -9241,6 +9258,7 @@ permissionresearch.com #TMRG
 permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
+petametrics.com #Petametrics
 phicdn.net #Verizon
 phluant.com #Phluant
 phluantmobile.net #Phluant
@@ -9297,7 +9315,10 @@ psma02.com #AdWise
 psma03.com #AdWise
 psplugin.com #Vergic
 psplugin.net #Vergic
-ptengine.com
+ptcolor.com #PTEngine
+ptengine.com #PTEngine
+ptengine.net #PTEngine
+ptmind.com #PTEngine
 pubmatic.com #PubMatic
 pubmine.com
 pubnation.com #Not sure
@@ -9500,7 +9521,7 @@ sail-horizon.com
 sailthru.com
 sarky.org #Ad Web
 sas15k01.com #Lead Forensics
-sascdn.com
+sascdn.com #Smart Ad Server
 saymedia.com
 sayutracking.co.uk
 scarabresearch.com
@@ -9565,6 +9586,7 @@ siftscience.com
 signiasweden.com #Adtoma
 silkenthreadiness.info
 silverpop.com #IBM Silverpop
+simpleheatmaps.com
 simplereach.com
 site24x7rum.com
 siteimprove.biz #SiteImprove
@@ -9651,6 +9673,7 @@ spoteffects.net
 spotxchange.com
 springboardplatform.com
 springserve.com
+spyvisit.com #SpyVisit
 srv4pub.com #RevenueHits
 srvntrk.com
 srvpub.com #RevenueHits
@@ -9670,7 +9693,7 @@ sub2tech.com
 subtraxion.com
 successfultogether.co.uk
 sugarops.com
-sumome.com
+sumome.com #SumoMe
 survata.net
 survio.com #Survio
 survio.se #Survio
@@ -9725,6 +9748,7 @@ thispick.com #Keywee
 ticket-genie.com #Digital Window
 tic-tic-toc.com
 tidaltv.com
+tifbs.net #United Internet Media
 tiqcdn.com
 tkqlhce.com
 tl813.com
@@ -9737,6 +9761,7 @@ tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
 topfox.co.uk
+topquantnetwork.com
 tqlkg.com
 tqn.com
 trackalyzer.com
@@ -9848,6 +9873,7 @@ verityresearchpanel.net #TMRG
 vertmarkets.com
 veruta.com
 venturead.com
+vgwort.de
 viafoura.com
 viame-cdn.com #RadiumOne
 viazza.com
