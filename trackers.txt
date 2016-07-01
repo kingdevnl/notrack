@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 28 June 2016
+#NoTrack Tracker list updated 01 July 2016
 #LatestVersion 0.7.13
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -785,7 +785,8 @@ edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 eepurl.com #mailchimp
-effectivemeasure.net
+effectivemeasure.com #Effective Measure
+effectivemeasure.net #Effective Measure
 egeng.info #eGain Corporation
 ekomi.asia #eKomi
 ekomi.biz #eKomi
@@ -9900,6 +9901,7 @@ voucher-club.com #Digital Window
 voucheralley.com #Digital Window
 vouchercodeclub.com #Digital Window
 voucherwindow.com #Digital Window
+voxmedia.com #Vox Media
 voycme.com #eGain Corporation
 vserv.mobi #Vserv
 vservdigital.com #Vserv
@@ -9949,6 +9951,7 @@ wistia.com
 wistia.net
 woopra.com
 wowanalytics.co.uk
+wrightsmedia.com
 wshifen.com #Baidu
 ws-outage.com #Lead Forensics
 wt-eu02.net #WebTrekk
