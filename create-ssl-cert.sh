@@ -32,7 +32,10 @@ fi
 Check_AppsInstalled                              #Check if required apps are installed
 
 clear
-echo "This installer will create an SSL Certificate on your NoTrack Webserver - Lighttpd"
+echo "This installer will generate a self-signed SSL Certificate on your NoTrack Webserver - Lighttpd."
+echo
+echo "Internet Browsers will throw display Connection Untrusted against this self-signed certificate."
+echo "Even if you purchase a legitimate SSL certificate it will still be invalid on NoTrack, because of the way it sink-holes multiple domains." 
 echo
 
 echo "Example details required to create an SSL Certificate:"
