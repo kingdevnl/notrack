@@ -2,31 +2,16 @@
 #Title : NoTrack Uninstaller
 #Description : This script remove the files NoTrack created, and then return dnsmasq and lighttpd to their default configuration
 #Author : QuidsUp
-#Usage : bash uninstall.sh
+#Usage : sudo bash uninstall.sh
 
 #User Configerable variables-----------------------------------------
 SBinFolder="/usr/local/sbin"
 EtcFolder="/etc"
 
 #Program Settings----------------------------------------------------
-Width=$(tput cols)
-Width=$(((Width * 2) / 3))
 InstallLoc="${HOME}/NoTrack"
 
-#Welcome Dialog------------------------------------------------------
-Show_Welcome() {
-  whiptail --title "Farewell to NoTrack" --yesno "This script will remove the files created by NoTrack, and then return dnsmasq and lighttpd to their default configuration" --yes-button "Ok" --no-button "Abort" 20 $Width
-  if (( $? == 1)) ; then                           #Abort install if user selected no
-    echo "Aborting Uninstall"
-    exit 1
-  fi
-}
-#Error_Exit----------------------------------------------------------
-Error_Exit() {
-  echo "$1"
-  echo "Aborting"
-  exit 2
-}
+
 #Copy File-----------------------------------------------------------
 CopyFile() {
   #$1 Source
@@ -52,39 +37,63 @@ DeleteFolder() {
     rm -rf "$1"    
   fi
 }
+#Find NoTrack--------------------------------------------------------
+Find_NoTrack() {
+  #This function finds where NoTrack is installed
+  #1. Check current folder
+  #2. Check users home folders
+  #3. Check /opt/notrack
+  #4. If not found then abort
+  
+  if [ -e "$(pwd)/notrack.sh" ]; then
+    InstallLoc="$(pwd)"  
+    return 1
+  fi
+  
+  for HomeDir in /home/*; do
+    if [ -d "$HomeDir/NoTrack" ]; then 
+      InstallLoc="$HomeDir/NoTrack"
+      break
+    elif [ -d "$HomeDir/notrack" ]; then 
+      InstallLoc="$HomeDir/notrack"
+      break
+    fi
+  done
+
+  if [[ $InstallLoc == "" ]]; then
+    if [ -d "/opt/notrack" ]; then
+      InstallLoc="/opt/notrack"
+    else
+      echo "Error Unable to find NoTrack folder"
+      echo "Aborting"
+      exit 22
+    fi
+  fi
+  
+  return 1
+}
 
 #Main----------------------------------------------------------------
-for HomeDir in /home/*; do
-  if [ -d "$HomeDir/NoTrack" ]; then 
-    InstallLoc="$HomeDir/NoTrack"
-    break
-  elif [ -d "$HomeDir/notrack" ]; then 
-    InstallLoc="$HomeDir/notrack"
-    break
-  fi
-done
 
-if [[ $InstallLoc == "" ]]; then
-  if [ -d "/opt/notrack" ]; then
-    InstallLoc="/opt/notrack"
-  else
-    echo "Error Unable to find NoTrack folder"
-    echo "Aborting"
-    exit 22
-  fi
-fi
+Find_NoTrack                                     #Where is NoTrack located?
 
 if [[ "$(id -u)" != "0" ]]; then
   echo "Root access is required to carry out uninstall of NoTrack"
-  Error_Exit "sudo bash uninstall.sh"
+  echo "sudo bash uninstall.sh"
+  exit 5
   #su -c "$0" "$@" - This could be an alternative for systems without sudo
 fi
 
-Show_Welcome
+echo "This script will remove the files created by NoTrack, and then returns dnsmasq and lighttpd to their default configuration"
+echo "NoTrack Installation Folder: $InstallLoc"
+echo
+read -p "Continue (Y/n)? " -n1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  echo "Aborting"
+  exit 1
+fi
 
-#if [ "$(id -u)" != "0" ]; then
-#  Error_Exit "Root access hasn't been granted"
-#fi
 
 echo "Stopping Dnsmasq"
 service dnsmasq stop
@@ -144,6 +153,7 @@ echo
 echo "The following packages will also need removing:"
 echo -e "\tdnsmasq"
 echo -e "\tlighttpd"
+echo -e "\tphp"
 echo -e "\tphp-cgi"
 echo -e "\tphp-curl"
 echo -e "\tmemcached"
