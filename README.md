@@ -13,6 +13,7 @@ NoTrack currently works in Debian, Ubuntu, Arch, Redhat, and Fedora based Linux 
 You can use it on a Raspberry Pi with a fresh install of Raspbian Lite to create a low power DNS server, which is more than capable of answering the DNS requests of multiple systems.
   
 # To Install:  
+Tutorial Guide: https://youtu.be/MHsrdGT5DzE  
 wget https://raw.githubusercontent.com/quidsup/notrack/master/install.sh  
 bash install.sh
 
