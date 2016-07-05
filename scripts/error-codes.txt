@@ -2,7 +2,8 @@
 1. User aborted
 2. Old config exists, but status unknown
 3. NoTrack already running
-4. Command run as root
+4. Command shouldn't be run as root
+5. Command should be run as root
 10. Sudo command missing
 11. Unknown Network Device
 12. Unknown IP Version
