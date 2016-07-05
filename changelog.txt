@@ -2,6 +2,13 @@ Development
 Config:
   New blocklists from Swiss Security
 
+Create SSL Cert:
+  Removed Whiptail dependancy
+
+Uninstall:
+  Removed Whiptail dependancy
+  
+  
 v0.7.14 alpha
 Config:
   New Domain Blocking page
