@@ -80,6 +80,7 @@ abmr.net
 absentvodka.com #Hacker Site
 abtasty.com
 acekhor.com #SpyVisit
+acexedge.com #WhiteOps
 activeconversion.com
 active-agent.com
 active-agent.net
@@ -137,6 +138,7 @@ adlooxtracking.com
 admailtiser.com
 admantx.com
 admarketplace.net
+admathhd.com #WhiteOps
 admatic.com.tr
 admaym.com
 admediaclick.com #AppNexus Inc
@@ -156,6 +158,7 @@ adnxs.net #AppNexus Inc
 adnxs.nyc #AppNexus Inc
 adnxs.org #AppNexus Inc
 adnxs.us #AppNexus Inc
+adnxtr.com #WhiteOps
 adnxus.com #AppNexus Inc
 adobedtm.com #Adobe
 adobetag.com #Adobe
@@ -191,6 +194,7 @@ adspdbl.com
 adspeed.net
 adspsp.com
 adsrvr.org
+adsrvs.com #WhiteOps
 adsymptotic.com
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
@@ -537,11 +541,13 @@ choosealoan.com #Digital Window
 christmasalready.com #Digital Window
 chrs-mln-krs.com
 citypaketet.se #City Packetet
+cj.com #Conversant Media
 clear-reports.com
 clearcode.cc
-clicks4ads.com
+clickadu.com #Clickadu
 clickfuse.com
 clickio.com
+clicks4ads.com
 clickshift.com #WebTrends
 clicktale.net
 clicktracks.com
@@ -853,6 +859,8 @@ esomniture.com #Adobe
 esprima.org
 estatcounter.com
 esvdigital.com
+et.lv
+etahub.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
 eum-appdynamics.com #AppDynamics
@@ -938,6 +946,7 @@ gamned.com
 gbl007.com #Lead Forensics
 gblwebcen.com #Lead Forensics
 gemius.pl
+genericlink.com
 geoadnxs.com #AppNexus Inc
 geoadnxs.net #AppNexus Inc
 geoadnxs.org #AppNexus Inc
@@ -1008,6 +1017,7 @@ helloworld-informatique.com #HelloWorld
 helloworldmagic.com #HelloWorld
 helloworldmail.com #HelloWorld
 helloworldptqa.com #HelloWorld
+hilltopads.net #HillTopAds
 himediads.com #Hi Media
 himediads.mobi #Hi Media
 himediads.net #Hi Media
@@ -9139,6 +9149,7 @@ netline.com #NetLine
 netmng.com
 netseer.com
 netshelter.net
+net.ar
 newrelic.com
 newscurve.com #NeoData Intelligence
 nexac.com
@@ -9147,6 +9158,7 @@ nextplatform.com
 nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
 nexusapps.com #AppNexus Inc
+ninjapd.com #WhiteOps
 nl00.net #NetLine
 nl01.net #NetLine
 nl02.net #NetLine
@@ -9279,6 +9291,7 @@ piwikpro.com #Piwik PRO
 pixelunion.net
 pixfuture.net
 pkrchp001.com #Lead Forensics
+pkthop.com #WhiteOps
 playforprizes.net #Digital Window
 plista.com
 plugerr.com
@@ -9334,6 +9347,8 @@ pussycash.com
 pvtraffic.com
 pwrads.net
 pxi.pub
+pxlad.io
+pxltgr.com #WhiteOps
 pxlsrv.com #AppNexus Inc
 pxlsrv.net #AppNexus Inc
 pxlsrv.us #AppNexus Inc
@@ -9713,7 +9728,7 @@ tacoda.net
 tagcade.com 
 tagcommander.com
 taggstar.com
-tagsrvcs.com
+tagsrvcs.com #WhiteOps
 tamobi.net
 tangiblee.com
 tapad.com #Tapad
@@ -9779,6 +9794,7 @@ tradefxads.com
 trafegonacional.pt
 trafficauthority.com #Adobe
 trafficfactory.biz
+traffichaus.com #TrafficHaus
 traffichunt.com
 trafficjunky.net #Ennova Research
 trafficmanager.net
@@ -9807,6 +9823,7 @@ turn.com
 tvappvertising.net #Millennial Media
 tvsquared.com
 twisto.cz
+tworismo.com #WhiteOps
 tyroo.com
 tyroodr.com
 typekit.net #Belongs to Adobe, may or may not be a tracker
@@ -10091,6 +10108,7 @@ ads.hearstmags.com
 bundles.api.here.com #German Maps, possible Windows 10 spying
 pixel.honestjohn.co.uk
 m.hotmail.com #Microsoft
+marketinghub.hp.com #HP
 map2.ssl.hwcdn.net #HWCDN Tracking
 metrics.ikea.com #Ikea
 adverts.itv.com #ITV
