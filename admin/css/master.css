@@ -206,6 +206,10 @@ a.button-danger {
 .button-danger:hover {
   background-color: #C8372C;  
 }
+.button-options {
+  margin: 0.5em 0em;
+  width: 9.2em;
+}
 .row {
   width:100%;
   float:left;
@@ -727,9 +731,9 @@ span.filter {
   margin-bottom: 1em;
 }
 #options {
-  width: 30em;
-  height: 20em;
-  margin: -10em 0 0 -15em;  
+  width: 22em;
+  height: 18em;
+  margin: -10em 0 0 -11em;
 }
 #options span {
   margin: 0.8em 0 0.5em 0.5em;  

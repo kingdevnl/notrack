@@ -116,16 +116,16 @@ function DrawTopMenu() {
   echo '<div class="dialog-bar">NoTrack</div>'.PHP_EOL;
   echo '<span id="dialogmsg">Doing something</span>'.PHP_EOL;
   echo '<div class="centered"><img src="./images/progress.gif" alt=""></div>'.PHP_EOL;
-  echo "</div></div>\n";
+  echo '</div></div>'.PHP_EOL;
 
   echo '<div id="centerpoint2"><div id="options">'.PHP_EOL;
   echo '<div class="dialog-bar">Options</div>'.PHP_EOL;
-  echo "<br /><br />\n";
-  echo '<span><a href="#" onclick="PauseNoTrack(\'force-notrack\')" class="button-grey">Update Blocklist</a></span><br />'.PHP_EOL;
-  echo '<span><a href="#" onclick="PauseNoTrack(\'restart\')" class="button-grey">Restart</a></span>'.PHP_EOL;
-  echo '<span><a href="#" onclick="PauseNoTrack(\'shutdown\')" class="button-danger">Shutdown</a></span><br />'.PHP_EOL;
+  echo '<div class="centered">'.PHP_EOL;
+  echo '<span><a href="#" onclick="PauseNoTrack(\'force-notrack\')" title="Force Download and Update Blocklist" class="button-grey button-options">Update Blocklist</a></span>'.PHP_EOL;
+  echo '<span><a href="#" onclick="PauseNoTrack(\'restart\')" class="button-grey button-options">Restart System</a></span>'.PHP_EOL;
+  echo '<span><a href="#" onclick="PauseNoTrack(\'shutdown\')" class="button-danger button-options">Shutdown System</a></span>'.PHP_EOL;
   echo '<div class="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close"></a></div>'.PHP_EOL;
-  echo "</div></div>\n";
+  echo '</div></div></div>'.PHP_EOL;
 
   echo '<div id="fade"></div>'.PHP_EOL;
 }
