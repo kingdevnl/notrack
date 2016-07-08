@@ -685,18 +685,42 @@ function DisplayDomainList() {
   
   $FlagImage = '';  
   $UnderscoreName = '';
+
+  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<span class="key key-red">High</span>'.PHP_EOL;
+  echo '<p>High risk domains are home to a high percentage of Malicious sites compared to legitimate sites. Often they are cheap / free to buy and not well policed.<br />'.PHP_EOL;
+  echo 'High risk domains are automatically blocked, unless you specifically untick them.</p>'.PHP_EOL;
+  echo '<br />'.PHP_EOL;
   
-  echo '<div class="sys-group">';
+  echo '<span class="key key-orange">Medium</span>'.PHP_EOL;
+  echo '<p>Medium risk domains are home to a significant number of malicious sites, but are outnumbered by legitimate sites. You may want to consider blocking these, unless you live in, or utilise the websites of the affected country.</p>'.PHP_EOL;
+  echo '<p>e.g. .pl (Poland) domain used to house a large number of Exploit kits which sat short lived randomly named sites. Traditional blocking is impossible, therefore it can be safer to block the entire .pl domain.</p>'.PHP_EOL;
+  echo '<br />'.PHP_EOL;
+  
+  echo '<span class="key">Low</span>'.PHP_EOL;
+  echo '<p>Low risk may still house some malicious sites, but they are vastly outnumbered by legitimate sites.</p>'.PHP_EOL;
+  echo '<br />'.PHP_EOL;
+  
+  echo '<span class="key key-green">Negligible</span>'.PHP_EOL;
+  echo '<p>These domains are not open to the public, therefore extremely unlikely to contain malicious sites.</p>'.PHP_EOL;
+  echo '<br />'.PHP_EOL;
+  
+  echo '<p><b>Shady Domains</b><br />'.PHP_EOL;
+  echo 'Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';  
+  
+  echo '</div>'.PHP_EOL;
+  
+  
+  //Tables
+  echo '<div class="sys-group">'.PHP_EOL;
   
   if ($ListSize == 0) {
     echo 'No sites found in Block List'.PHP_EOL;
     echo '</div>';
     return;
   }
+   
   
-  echo '<p><b>19 June 2016 - This section is still a work in progress</b></p>';
-  echo '<p>Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';
-  echo '<br />';
   
   echo '<form name="tld" action="?" method="post">'.PHP_EOL;
   echo '<input type="hidden" name="action" value="tld">'.PHP_EOL;
