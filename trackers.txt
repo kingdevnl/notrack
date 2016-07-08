@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 01 July 2016
+#NoTrack Tracker list updated 08 July 2016
 #LatestVersion 0.7.13
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -355,6 +355,7 @@ atdmt.com
 atemda.com
 atgsvcs.com
 ati-host.net
+atomz.com #Adobe
 atl-6-ga.com #Lead Forensics
 attraqt.com
 atwola.com
@@ -908,6 +909,7 @@ flagcounter.com
 flashtalking.com
 flite.com
 flexlinks.com
+flix360.com #Flix 360
 flx1.com
 followistic.com
 footprint.net #Level3
@@ -1139,6 +1141,7 @@ inmobicdn.net #InMobi
 inmobipso.com #InMobi
 inner-active.mobi #Inneractive
 innometrics.com #Swordfish Inc
+inq.com #Touch Commerce
 inscname.net #instartlogic
 inscname2.net #instartlogic
 insdns.net #instartlogic
@@ -9119,6 +9122,7 @@ mystats.in
 myswitchads.com
 mythings.com
 mytrafficvalue.commsedge.net
+mytrix.com #OpenStat
 myvirtualdisc.com #TMRG
 myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
@@ -9220,6 +9224,9 @@ openadstreamcentral.net #AppNexus Inc
 openadsystem.com #AppNexus Inc
 openadsystems.com #AppNexus Inc
 openadsystems.net #AppNexus Inc
+openstat.com #OpenStat
+openstat.net #OpenStat
+openstat.org #OpenStat
 openx.com #OpenX
 openx.net #OpenX
 openx.org #OpenX
@@ -9404,7 +9411,6 @@ rdsa2017.com #RevenueHits
 rdsa2018.com #RevenueHits
 rdsa2019.com #RevenueHits
 reactful.com
-radiumone.com
 realads.com #AppNexus Inc
 realmedia.com #AppNexus Inc
 realtimerelationship.com #AppNexus Inc
@@ -9415,6 +9421,7 @@ reddadd.net #Smaato
 redirecting2.net
 redeye.international
 redstar.co.uk
+reevoo.com
 refinedads.com
 relatedweboffers.com #RevenueHits
 relestar.com
@@ -9689,6 +9696,7 @@ spoteffects.net
 spotxchange.com
 springboardplatform.com
 springserve.com
+spylog.com #OpenStat
 spyvisit.com #SpyVisit
 srv4pub.com #RevenueHits
 srvntrk.com
@@ -9778,6 +9786,8 @@ toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
 topfox.co.uk
 topquantnetwork.com
+touchcommerce.com #Touch Commerce
+touchcommerce.london #Touch Commerce
 tqlkg.com
 tqn.com
 trackalyzer.com
