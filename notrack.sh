@@ -46,9 +46,8 @@ DomainCSV="/var/www/html/admin/include/tld.csv"
 ConfigFile="/etc/notrack/notrack.conf"
 
 declare -A URLList                               #Array of URL's
-#URLList[notrack]="http://quidsup.net/trackers.txt"
+#URLList[notrack]="http://quidsup.net/trackers.txt" - Deprecated
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
-#URLList[tld]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-domains.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
@@ -186,7 +185,7 @@ Read_Config_File() {
           BlockList_SwissRansom) Config[blocklist_swissransom]="$Value";;
           BlockList_SwissZeus) Config[blocklist_swisszeus]="$Value";;
           BlockList_Winhelp2002) Config[blocklist_winhelp2002]="$Value";;
-          BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
+          #BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
           BlockList_RUSEasy) Config[blocklist_ruseasy]="$Value";;          
         esac            
       fi
@@ -656,15 +655,51 @@ Show_Help() {
   echo "Downloads and Installs updated tracker lists"
   echo
   echo "The following options can be specified:"
-  echo -e "  -b\t\tUpgrade web pages only"
   echo -e "  -h, --help\tDisplay this help and exit"
+  echo -e "  -t, --test\tConfig Test"
   echo -e "  -v, --version\tDisplay version information and exit"
   echo -e "  -u, --upgrade\tRun a full upgrade"
 }
 #Show Version--------------------------------------------------------
 Show_Version() {
-  echo "NoTrack Version v$Version"  
+  echo "NoTrack Version v$Version"
   echo
+}
+#Test----------------------------------------------------------------
+Test() {
+  echo "NoTrack Config Test"
+  echo
+  echo "NoTrack version v$Version"
+  if [ -e "$ConfigFile" ]; then
+    echo "Config file $ConfigFile"
+  else
+    echo "No Config file available"
+  fi
+  Read_Config_File                               #Load saved variables
+  Get_IPAddress                                  #Read IP Address of NetDev
+  
+  echo "BlockLists Utilised:"
+  echo "BlockList_NoTrack ${Config[blocklist_notrack]}"
+  echo "BlockList_TLD ${Config[blocklist_tld]}"
+  echo "BlockList_QMalware ${Config[blocklist_qmalware]}"
+  echo "BlockList_AdBlockManager ${Config[blocklist_adblockmanager]}"
+  echo "BlockList_DisconnectMalvertising ${Config[blocklist_disconnectmalvertising]}"
+  echo "BlockList_EasyList ${Config[blocklist_easylist]}"
+  echo "BlockList_EasyPrivacy ${Config[blocklist_easyprivacy]}"
+  echo "BlockList_FBAnnoyance ${Config[blocklist_fbannoyance]}"
+  echo "BlockList_FBEnhanced ${Config[blocklist_fbenhanced]}"
+  echo "BlockList_FBSocial ${Config[blocklist_fbsocial]}"
+  echo "BlockList_hpHosts ${Config[blocklist_hphosts]}"
+  echo "BlockList_MalwareDomainList ${Config[blocklist_malwaredomainlist]}"
+  echo "BlockList_MalwareDomains ${Config[blocklist_malwaredomains]}"
+  echo "BlockList_PglYoyo ${Config[blocklist_pglyoyo]}"
+  echo "BlockList_SomeoneWhoCares ${Config[blocklist_someonewhocares]}"
+  echo "BlockList_Spam404 ${Config[blocklist_spam404]}"
+  echo "BlockList_SwissRansom ${Config[blocklist_swissransom]}"
+  echo "BlockList_SwissZeus ${Config[blocklist_swisszeus]}"
+  echo "BlockList_Winhelp2002 ${Config[blocklist_winhelp2002]}"
+  echo "BlockList_CHNEasy ${Config[blocklist_chneasy]}"
+  echo "BlockList_RUSEasy ${Config[blocklist_ruseasy]}"
 }
 #Upgrade-------------------------------------------------------------
 Upgrade() {
@@ -706,7 +741,7 @@ Upgrade() {
 }
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o bfhvu -l help,force,version,upgrade -- "$@"); then
+  if ! options=$(getopt -o fhvtu -l help,force,version,upgrade,test -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -721,6 +756,10 @@ if [ "$1" ]; then                                #Have any arguments been given
       ;;
       -h|--help) 
         Show_Help
+        exit 0
+      ;;
+      -t|--test)
+        Test
         exit 0
       ;;
       -v|--version) 
