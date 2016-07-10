@@ -214,7 +214,7 @@ function LoadConfigFile() {
               $Config['LatestVersion'] = Filter_Str_Value($SplitLine[1], $Version);
               break;
             case 'NetDev':
-              $Config['NetDev'] = Filter_Str_Value($SplitLine[1], 'eth0');
+              $Config['NetDev'] = $SplitLine[1];
               break;
             case 'IPVersion':
               $Config['IPVersion'] = Filter_Str_Value($SplitLine[1], 'IPv4');
