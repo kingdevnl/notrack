@@ -9,6 +9,9 @@
 #User Configerable Settings (in case config file is missing)---------
 #Set NetDev to the name of network device e.g. "eth0" IF you have multiple network cards
 NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
+
+#If NetDev fails to recognise a Local Area Network IP Address, then you can use IPVersion to assign a custom IP Address in /etc/notrack/notrack.conf
+#e.g. IPVersion = 192.168.1.2
 IPVersion="IPv4"
 
 declare -A Config                                #Config array for Blocklists
@@ -230,20 +233,21 @@ Generate_WhiteList() {
   printf "%s\n" "${Tmp[@]}" > $WhiteListFile     #Write Array to file with line seperator
 }
 #Get IP Address of System--------------------------------------------
-Get_IPAddress() {
-  echo "IP Version: $IPVersion"
-  
+Get_IPAddress() {    
   if [ "$IPVersion" == "IPv4" ]; then
+    echo "Internet Protocol Version 4 (IPv4)"
     echo "Reading IPv4 Address from $NetDev"
     IPAddr=$(ip addr list "$NetDev" | grep inet | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
     
   elif [ "$IPVersion" == "IPv6" ]; then
+    echo "Internet Protocol Version 6 (IPv6)"
     echo "Reading IPv6 Address"
     IPAddr=$(ip addr list "$NetDev" | grep inet6 | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
   else
-    Error_Exit "Unknown IP Version"    
+    echo "Custom IP Address used"
+    IPAddr="$IPVersion";                         #Use IPVersion to assign a manual IP Address
   fi
-  echo "System IP Address $IPAddr"
+  echo "System IP Address: $IPAddr"
   echo
 }
 #Get File Time-------------------------------------------------------

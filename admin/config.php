@@ -392,12 +392,21 @@ function DisplayConfigChoices() {
   
   DrawSysTable('Server');
   DrawSysRow('Name', gethostname());
-  DrawSysRow('IP Address', $_SERVER['SERVER_ADDR']);
+  DrawSysRow('Network Device', $Config['NetDev']);
+  if (($Config['IPVersion'] == 'IPv4') || ($Config['IPVersion'] == 'IPv6')) {
+    DrawSysRow('Internet Protocol', $Config['IPVersion']);
+    DrawSysRow('IP Address', $_SERVER['SERVER_ADDR']);
+  }
+  else {
+    DrawSysRow('IP Address', $Config['IPVersion']);
+  }
+  
   DrawSysRow('Sysload', $Load[0].' | '.$Load[1].' | '.$Load[2]);
   DrawSysRow('Memory Used', $FreeMem[2].' MB');
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
   DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
   DrawSysRow('NoTrack Version', $Version);
+  DrawSysRow('Updates', '<a class="button-blue" href="./upgrade.php">Check for Updates</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Dnsmasq');

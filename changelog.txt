@@ -1,25 +1,25 @@
-Development
+v0.7.14 alpha
 Config:
+  New Domain Blocking page
   New blocklists from Swiss Security
+  Fixed Issue #53 New link for EasyList China
+  
+NoTrack.sh
+  Removed legacy upgrade code
+  Domain blocking modified to work with new Config
+  Further fix to Issue #39 - Allow custom IP for a VPS
 
+Home:
+  New icon for Sites Blocked
+  Modified NoTrack Logo
+  Replaced last two PNG based icons with SVG files
+  
 Create SSL Cert:
   Removed Whiptail dependancy
 
 Uninstall:
   Removed Whiptail dependancy
-  
-  
-v0.7.14 alpha
-Config:
-  New Domain Blocking page
-  
-NoTrack.sh
-  Removed legacy upgrade code
-  Domain blocking modified to work with new Config
 
-Home:
-  New icon for Sites Blocked
-  Replaced last two PNG based icons with SVG files
   
 v0.7.13 alpha
 Config:

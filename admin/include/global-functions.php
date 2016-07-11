@@ -142,11 +142,11 @@ function Filter_Int_Value($Val, $Min, $Max, $DefaultValue=0) {
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
-  //2. Check String doesn't contain !"£$%^&*()[]+=<>,|/\
+  //2. Check String doesn't contain !"£$%^&*()[]+=<>|/\
   //Return True on success, and False on fail
 
   if (isset($_GET[$Str])) {
-    if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
+    if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
   }
   return false;
 }
@@ -155,7 +155,7 @@ function Filter_Str_Value($Str, $DefaltValue='') {
   //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
   //2. Return Str on success, and Default on fail
   
-  if (preg_match('/[!\"£\$%\^&\(\)+=<>\,\|\/\\\\]/', $Str) == 0) {
+  if (preg_match('/[!\"£\$%\^&\(\)+=<>\|\/\\\\]/', $Str) == 0) {
     return $Str;
   }  
   return $DefaltValue;
@@ -168,7 +168,7 @@ function Filter_URL($Str) {
   //Return True on success, and False on fail
   
   if (isset($_GET[$Str])) {
-    if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>:\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
+    if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
       if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1) return true;
     }
   }
@@ -217,7 +217,7 @@ function LoadConfigFile() {
               $Config['NetDev'] = $SplitLine[1];
               break;
             case 'IPVersion':
-              $Config['IPVersion'] = Filter_Str_Value($SplitLine[1], 'IPv4');
+              $Config['IPVersion'] = $SplitLine[1];
               break;
             case 'Status':
               $Config['Status'] = Filter_Str_Value($SplitLine[1], 'Enabled');
