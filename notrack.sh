@@ -65,7 +65,7 @@ URLList[swisszeus]="https://zeustracker.abuse.ch/blocklist.php?download=domainbl
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
-URLList[chneasy]="https://easylist-downloads.adblockplus.org/chinalist+easylist.txt"
+URLList[chneasy]="https://easylist-downloads.adblockplus.org/easylistchina.txt"
 URLList[ruseasy]="https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt"
 
 #Global Variables----------------------------------------------------
@@ -185,7 +185,7 @@ Read_Config_File() {
           BlockList_SwissRansom) Config[blocklist_swissransom]="$Value";;
           BlockList_SwissZeus) Config[blocklist_swisszeus]="$Value";;
           BlockList_Winhelp2002) Config[blocklist_winhelp2002]="$Value";;
-          #BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
+          BlockList_CHNEasy) Config[blocklist_chneasy]="$Value";;
           BlockList_RUSEasy) Config[blocklist_ruseasy]="$Value";;          
         esac            
       fi
