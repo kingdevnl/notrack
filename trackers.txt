@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 08 July 2016
+#NoTrack Tracker list updated 12 July 2016
 #LatestVersion 0.7.13
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -51,6 +51,7 @@
 6009888.com #HelloWorld
 6009988.com #HelloWorld
 7eer.net #Impact Radius
+778669.com  #Advertising
 8000818.com #HelloWorld
 8006688.com #HelloWorld
 800omnture.com #Adobe
@@ -71,6 +72,7 @@
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a1webstats.com #A1Webstats
 a2dfp.net
+a8bt.com  #Advertising
 a9.com
 aetterweb.info #instartlogic
 abetterweb.mobi #instartlogic
@@ -945,6 +947,7 @@ gardendiscount.com #Digital Window
 gator.io
 gaug.es
 gamned.com
+analytics.gandi.net #Gandi
 gbl007.com #Lead Forensics
 gblwebcen.com #Lead Forensics
 gemius.pl
@@ -1188,6 +1191,7 @@ jpush.cn
 jpush.io
 jmxded110.net
 juicyads.com
+c.ju33.com #Advertising
 jumptap.com #Jumptap
 jumptime.com #OpenX
 justappliances.com #Digital Window
@@ -9054,6 +9058,7 @@ mkt7708.com #IBM Silverpop
 mkt7709.com #IBM Silverpop
 mkt7710.com #IBM Silverpop
 mktoresp.com
+dyn.mktoweb.com #Marketo
 ml314.com
 mlnadvertising.com
 mlsend2.com
@@ -9339,6 +9344,7 @@ psplugin.net #Vergic
 ptcolor.com #PTEngine
 ptengine.com #PTEngine
 ptengine.net #PTEngine
+ptvmediaservices.cz #Advertising
 ptmind.com #PTEngine
 pubmatic.com #PubMatic
 pubmine.com
@@ -9545,6 +9551,7 @@ sailthru.com
 sarky.org #Ad Web
 sas15k01.com #Lead Forensics
 sascdn.com #Smart Ad Server
+bars.sapo.pt #PT Telecomunicações
 saymedia.com
 sayutracking.co.uk
 scarabresearch.com
@@ -9608,6 +9615,7 @@ sid-ads.com
 siftscience.com 
 signiasweden.com #Adtoma
 silkenthreadiness.info
+silktide.com
 silverpop.com #IBM Silverpop
 simpleheatmaps.com
 simplereach.com
@@ -9701,6 +9709,7 @@ spyvisit.com #SpyVisit
 srv4pub.com #RevenueHits
 srvntrk.com
 srvpub.com #RevenueHits
+sscefsol.com  #Advertising
 statcounter.com
 staticworld.net
 steelhousemedia.com
@@ -10046,6 +10055,7 @@ zemanta.com
 zenaps.com #Digital Window
 zencdn.net #Brightcove
 zepteo.com
+zhongzifuli.com  #Advertising
 ziffdavisinternational.com
 zkcdn.net
 znaptag.com
@@ -10203,4 +10213,3 @@ ads.yahoo.com #Yahoo
 geo.query.yahoo.com #Yahoo
 pclick.yahoo.com #Yahoo
 mc.yandex.ru #Yandex
-
