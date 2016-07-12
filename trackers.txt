@@ -548,6 +548,7 @@ cj.com #Conversant Media
 clear-reports.com
 clearcode.cc
 clickadu.com #Clickadu
+clickbank.net
 clickfuse.com
 clickio.com
 clicks4ads.com
@@ -947,7 +948,6 @@ gardendiscount.com #Digital Window
 gator.io
 gaug.es
 gamned.com
-analytics.gandi.net #Gandi
 gbl007.com #Lead Forensics
 gblwebcen.com #Lead Forensics
 gemius.pl
@@ -1191,7 +1191,7 @@ jpush.cn
 jpush.io
 jmxded110.net
 juicyads.com
-c.ju33.com #Advertising
+ju33.com #Advertising
 jumptap.com #Jumptap
 jumptime.com #OpenX
 justappliances.com #Digital Window
@@ -9058,7 +9058,7 @@ mkt7708.com #IBM Silverpop
 mkt7709.com #IBM Silverpop
 mkt7710.com #IBM Silverpop
 mktoresp.com
-dyn.mktoweb.com #Marketo
+mktoweb.com #Marketo
 ml314.com
 mlnadvertising.com
 mlsend2.com
@@ -10119,6 +10119,7 @@ heartbeat.flickr.com #Flickr
 ads.fineco.it #Fineco
 stats.ft.com #Financial Times
 track.ft.com #Financial Times
+analytics.gandi.net #Gandi
 collector.githubapp.com #Github
 ad.groupon.co.uk
 partner-ts.groupon.co.uk

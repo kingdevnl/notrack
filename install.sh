@@ -400,11 +400,30 @@ Install_Yum() {
   echo
 }
 #--------------------------------------------------------------------
+Install_Apk() {
+  echo "Preparing to install packages using Apk..."
+  sleep 2s
+  sudo apk update
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo apk add unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo apk add dnsmasq
+  echo
+  echo "Installing Lighttpd and PHP"
+  sudo apk add lighttpd php5 memcached                  #Having issues here
+  echo
+}
+#--------------------------------------------------------------------
 Install_Packages() {
   if [ "$(command -v apt-get)" ]; then Install_Deb
   elif [ "$(command -v dnf)" ]; then Install_Dnf
   elif [ "$(command -v yum)" ]; then Install_Yum  
   elif [ "$(command -v pacman)" ]; then Install_Pacman
+  elif [ "$(command -v apk)"]; then Install_Apk
   else 
     echo "Unable to work out which package manage is being used."
     echo "Ensure you have the following packages installed:"
