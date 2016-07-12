@@ -481,14 +481,17 @@ function DisplayConfigChoices() {
 function DisplayCustomList($View) {
   global $List, $SearchStr;
   
-  //Needs Pagination
-  
-  echo '<div class="sys-group"><div class="centered">'.PHP_EOL;
+  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+  echo '<h5>'.ucfirst($View).' List</h5>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
+  echo '<div class="sys-items">'.PHP_EOL;
+  echo '<div class="centered">'.PHP_EOL;
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="'.$View.'">';
-  if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">';
-  else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">';
-  echo '</form></div></div>'.PHP_EOL;
+  if ($SearchStr == '') echo '<input type="text" name="s" id="search" placeholder="Search">'.PHP_EOL;
+  else echo '<input type="text" name="s" id="search" value="'.$SearchStr.'">'.PHP_EOL;
+  echo '</form>'.PHP_EOL;
+  echo '</div></div></div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
   echo '<div class="row"><br />'.PHP_EOL;
@@ -695,7 +698,10 @@ function DisplayDomainList() {
   $FlagImage = '';  
   $UnderscoreName = '';
 
-  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+  echo '<h5>Domain Blocking</h5>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
+  echo '<div class="sys-items">'.PHP_EOL;
   echo '<span class="key key-red">High</span>'.PHP_EOL;
   echo '<p>High risk domains are home to a high percentage of Malicious sites compared to legitimate sites. Often they are cheap / free to buy and not well policed.<br />'.PHP_EOL;
   echo 'High risk domains are automatically blocked, unless you specifically untick them.</p>'.PHP_EOL;
@@ -717,7 +723,7 @@ function DisplayDomainList() {
   echo '<p><b>Shady Domains</b><br />'.PHP_EOL;
   echo 'Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';  
   
-  echo '</div>'.PHP_EOL;
+  echo '</div></div>'.PHP_EOL;
   
   
   //Tables
