@@ -674,7 +674,7 @@ Setup_FirewallD() {
 }
 #Main----------------------------------------------------------------
 if [[ $(command -v sudo) == "" ]]; then
-  Error_Exit "NoTrack requires sudo" 10  
+  Error_Exit "NoTrack requires Sudo to be installed for Admin functionality" 10  
 fi
 
 Show_Welcome
