@@ -9,6 +9,7 @@
 
 #Settings------------------------------------------------------------
 ConfigFile="/etc/notrack/notrack.conf"
+ExecFile="/tmp/ntrk-exec.txt"
 
 #Check File Exists---------------------------------------------------
 Check_File_Exists() {
@@ -102,7 +103,7 @@ if [[ "$(id -u)" != "0" ]]; then                 #Check if running as root
   exit 2
 fi
 
-Check_File_Exists "/tmp/ntrk-exec.txt"
+Check_File_Exists "$ExecFile"
 
 while read -r Line; do  
   case "$Line" in
@@ -158,12 +159,32 @@ while read -r Line; do
       Upgrade-NoTrack
     ;;  
     blockmsg-message)
-      echo 'Setting Block message Blocked by NoTrack';
-      echo '<p>Blocked by NoTrack</p>' > /var/www/html/sink/index.html
+      if [ -L /var/www/html/sink ]; then         #Remove at RC
+        echo "Removing old symbolic link folder"
+        rm /var/www/html/sink
+      fi
+      if [ ! -d  /var/www/html/sink ]; then
+        echo "Creating Sink Folder"
+        mkdir /var/www/html/sink
+      fi
+      echo 'Setting Block message Blocked by NoTrack'
+      echo '<p>Blocked by NoTrack</p>' | tee /var/www/html/sink/index.html &> /dev/null
+      sudo chown -hR www-data:www-data /var/www/html/sink
+      sudo chmod -R 775 /var/www/html/sink
     ;;
     blockmsg-pixel)
-      echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' > /var/www/html/sink/index.html
-      echo 'Setting Block message to 1x1 pixel';
+      if [ -L /var/www/html/sink ]; then         #Remove at RC
+        echo "Removing old symbolic link folder"
+        rm /var/www/html/sink        
+      fi
+      if [ ! -d  /var/www/html/sink ]; then
+        echo "Creating Sink Folder"
+        mkdir /var/www/html/sink        
+      fi
+      echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
+      sudo chown -hR www-data:www-data /var/www/html/sink
+      sudo chmod -R 775 /var/www/html/sink
+      echo 'Setting Block message to 1x1 pixel'
     ;;
     run-notrack)
       /usr/local/sbin/notrack
@@ -171,9 +192,9 @@ while read -r Line; do
     *)
       echo "Invalid action $Line"
   esac
-done < /tmp/ntrk-exec.txt
+done < "$ExecFile"
 
 if [ -e /tmp/ntrk-exec.txt ]; then
-  echo "Deleting /tmp/ntrk-exec.txt" 
-  rm /tmp/ntrk-exec.txt
+  echo "Deleting $ExecFile"
+  rm "$ExecFile"
 fi
