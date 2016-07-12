@@ -3,6 +3,7 @@ Config:
   New Domain Blocking page
   New blocklists from Swiss Security
   Fixed Issue #53 New link for EasyList China
+  Fixed bug with Block Message not saving
   
 NoTrack.sh
   Removed legacy upgrade code

@@ -38,7 +38,7 @@ Config[blocklist_chneasy]=0                      #China
 Config[blocklist_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.13"
+Version="0.7.14"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"

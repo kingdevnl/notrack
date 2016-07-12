@@ -10,7 +10,7 @@ IPVersion=""
 InstallLoc=""
 
 #Program Settings----------------------------------------------------
-Version="0.7.12"
+Version="0.7.14"
 DNSChoice1=""
 DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
@@ -551,16 +551,22 @@ Setup_Lighttpd() {
     sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
   fi
   
-  if [ -e /var/www/html/sink ]; then             #Remove old symlinks
-    echo "Removing old file: /var/www/html/sink"
-    sudo rm /var/www/html/sink
+  if [ -d /var/www/html/sink ]; then             #Remove Sink folder
+    echo "Removing old folder: /var/www/html/sink"
+    sudo rm -r /var/www/html/sink
   fi
-  if [ -e /var/www/html/admin ]; then
+  if [ -e /var/www/html/admin ]; then            #Remove old symlinks
     echo "Removing old file: /var/www/html/admin"
     sudo rm /var/www/html/admin
   fi
-  echo "Creating symlink from $InstallLoc/sink to /var/www/html/sink"
-  sudo ln -s "$InstallLoc/sink" /var/www/html/sink #Setup symlinks for Web folders
+  echo "Creating Sink Folder"
+  sudo mkdir /var/www/html/sink
+  echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | sudo tee /var/www/html/sink/index.html &> /dev/null
+  echo "Changing ownership of sink folder to www-data"
+  sudo chown -hR www-data:www-data /var/www/html/sink
+  sudo chmod -R 775 /var/www/html/sink
+  echo 'Setting Block message to 1x1 pixel'
+    
   echo "Creating symlink from $InstallLoc/admin to /var/www/html/admin"
   sudo ln -s "$InstallLoc/admin" /var/www/html/admin
   sudo chmod -R 775 /var/www/html                #Give read/write/execute privilages to Web folder
