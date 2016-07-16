@@ -68,7 +68,17 @@ Create_AccessLog() {
 Delete_History() {
   echo "Deleting Log Files in /var/log/notrack"
   rm /var/log/notrack/*                          #Delete all files in notrack log folder
-  cat /dev/null > /var/log/notrack.log           #Zero out live log
+  touch /var/log/notrack.log
+  chown root:root /var/log/lighttpd/notrack.log
+  chmod 644 /var/log/lighttpd/notrack.log
+  echo "Deleting Log Files in /var/log/lighttpd"
+  rm /var/log/lighttpd/*                         #Delete all files in lighttpd log folder
+  touch /var/log/lighttpd/access.log             #Create new access log and set privileges
+  chown www-data:root /var/log/lighttpd/access.log
+  chmod 644 /var/log/lighttpd/access.log
+  touch /var/log/lighttpd/error.log              #Create new error log and set privileges
+  chown www-data:root /var/log/lighttpd/error.log
+  chmod 644 /var/log/lighttpd/error.log
 }
 #Update Config-------------------------------------------------------
 Update_Config() {
