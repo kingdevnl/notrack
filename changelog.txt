@@ -1,3 +1,12 @@
+v0.7.15 alpha
+Home:
+  Static top menu
+
+Upgrade:
+  Can now upgrade to Development version of NoTrack
+  Styled like the Config page
+  
+
 v0.7.14 alpha
 Config:
   New Domain Blocking page
@@ -27,55 +36,4 @@ Config:
   Fixed issue #48 Incorrect Who Is URL
   Fixed issue of Password not loading
   
-
-v0.7.12 alpha
-Domain Stats:
-  Performace improvement on displaying DNS lookups
-  Issue #41 - Added ability to use an alternate search engine on Domain Stats
-  Default search engine changed to DuckDuckGo
-  Added ability to use an alternate Who Is lookup on Domain Stats
-
-Config:
-  Performace improvement on displaying blocklists
-  Improved error checking when loading config file notrack.conf
-
-New:
-  Added blocked.php, shows the time when each site was blocked (utilises access log of lighttpd)
-
-Installer:
-  PHP7 will be installed on Deb based systems if it's available
-  Issue #42 - Removed Whiptail based menus from Installer and replaced with my own custom menu
-  
-
-v0.7.11 alpha
-Moved Tracker downloader from quidsup.net to github
-Minor css improvements
-
-v0.7.10 alpha
-Bug fixes for Redhat / Fedora based systems.
-Fixed Issue #40 wrong version displayed after upgrade
-Partial fix for Issue #39 NoTrack on a VPS
-Testing out count of Trackers Blocked Issue #37
-Minor bug fixes in stats.php
-
-v0.7.9 alpha
-NoTrack can now be upgraded from the Admin page.
-Fixed regex in /etc/lighttpd/lighttpd.conf, manual change or reinstall required to fix.
-  A slight performance boost can be had with the new lighttpd config.
-  See NoTrack/conf/lighttpd.conf line #41 for more info
-New Block list - Malvertising list by Disconnect
-New Block list - Malware Domain List
-Added region specific blocklist for China
-Added region specific blocklist for Russia
-Improved processing of Unix127 block lists
-Removed deprecated code in ntrk-exec
-Removed deprecated upgrade notifier for pre v0.5 users
-Started overhauling error exit codes used across all NoTrack scripts
-
-v0.7.8 alpha
-New Admin password feature to limit access into web config.
-Help page added, only one topic so far...
-New BlockList qmalware, I have removed malicious sites from the tracker list.
-ProcessEasyLists Can now extract more usable domains from EasyLists
-Spam404 BlockList added
 
