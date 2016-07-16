@@ -27,45 +27,46 @@ if ($Config['Password'] != '') {
 <?php
 ActionTopMenu();
 DrawTopMenu();
-echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
-echo '<h5>NoTrack Upgrade</h5></div>'.PHP_EOL;
-echo '<div class="sys-items">'.PHP_EOL;
 
 //Main---------------------------------------------------------------
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
+    echo '<div class="sys-group">'.PHP_EOL;
+    echo '<h5>NoTrack Upgrade</h5></div>'.PHP_EOL;
+    
     ExecAction('upgrade-notrack', false);
     echo '<pre>';
     passthru('sudo ntrk-exec 2>&1');
     //echo $Msg;
     echo '</pre>'.PHP_EOL;
-    echo '<br />'.PHP_EOL;
-    echo '<div class="centered">'.PHP_EOL;          //Center div for button
-    echo '<button class="button-blue" type="reset"   onclick="window.location=\'./\'">Back</button>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
+    
+    echo '<div class="sys-group">'.PHP_EOL;
+    echo '<div class="centered">'.PHP_EOL;       //Center div for button
+    echo '<button class="button-blue" onclick="window.location=\'./\'">Back</button>'.PHP_EOL;    
     echo '</div></div>'.PHP_EOL;
+    $Mem->delete('Config');                      //Delete config from Memcache
+  }
+  else {
+    echo 'Invalid upgrade request';
   }
 }
-else {                                       //Just displaying status
-  
+
+else {                                           //Just displaying status
   if ($Version == $Config['LatestVersion']) {    //See if upgrade Needed
-    echo '<p class="indent">You&#39;re running the latest version v'.$Version.'</p><br />';
-    echo '<div class="centered">'.PHP_EOL;       //Center div for button
-    echo '<button class="button-blue" type="reset"   onclick="window.location=\'./\'">Back</button>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
+    DrawSysTable('NoTrack Upgrade');
+    DrawSysRow('Status', 'Running the latest version v'.$Version);
+    DrawSysRow('Force Upgrade', 'Force upgrade to Development version of NoTrack<br /><button class="button-danger" onclick="window.location=\'?u=1\'">Upgrade</button>');
+    echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
   }
-  else { 
-    echo '<p class="indent">Currently running version: v'.$Version.'</p>';
-    echo '<p class="indent">Latest version available: v'.$Config['LatestVersion'].'</p>'.PHP_EOL;
-    echo '<br />'.PHP_EOL;
-    
-    echo '<div class="centered">'.PHP_EOL;
-    echo '<button class="button-grey" type="reset"   onclick="window.location=\'?u=1\'">Upgrade</button>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
-    
+  else {
+    DrawSysTable('NoTrack Upgrade');
+    DrawSysRow('Status', 'Running version v'.$Version.'<br />Latest version available: v'.$Config['LatestVersion']);    
+    DrawSysRow('Commence Upgrade', '<button class="button-blue" onclick="window.location=\'?u=1\'">Upgrade</button>');
+    echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
-    
+
+    //Display changelog
     if (extension_loaded('curl')) {              //Check if user has Curl installed
       $ch = curl_init();                         //Initiate curl
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -77,8 +78,8 @@ else {                                       //Just displaying status
       echo '<pre>'.PHP_EOL;
       echo $Data;
       echo '</pre>'.PHP_EOL;;
-    }    
-  }  
+    }
+  }
 }
 ?> 
 </div>
