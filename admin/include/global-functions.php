@@ -228,23 +228,9 @@ function LoadConfigFile() {
             case 'Search':
               $Config['Search'] = Filter_Str_Value($SplitLine[1], 'DuckDuckGo');
               break;
-            /*case 'SearchUrl':              
-              if (Filter_URL_Str($SplitLine[1], true)) {
-                if (sizeof($SplitLine) == 3) $Config['SearchUrl'] = $SplitLine[1].'=';
-                else $Config['SearchUrl'] = $SplitLine[1];                
-              }
-              echo 'fail filter s';
-              break;*/
             case 'WhoIs':
               $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'Who.is');              
               break;
-            /*case 'WhoIsUrl':            
-              if (Filter_URL_Str($SplitLine[1], true)) {
-                if (sizeof($SplitLine) == 3) $Config['WhoIsUrl'] = $SplitLine[1].'=';
-                else $Config['WhoIsUrl'] = $SplitLine[1];                
-              }
-              echo 'fail filter w';
-              break;*/
             case 'Username':
               $Config['Username'] = $SplitLine[1];
               break;
@@ -253,6 +239,9 @@ function LoadConfigFile() {
               break;
             case 'Delay':
               $Config['Delay'] = Filter_Int_Value($SplitLine[1], 0, 3600, 30);
+              break;
+            case 'Suppress':
+              $Config['Suppress'] = Filter_Str_Value($SplitLine[1], '');
               break;
             case 'BlockList_NoTrack':
               $Config['BlockList_NoTrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);

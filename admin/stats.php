@@ -32,7 +32,8 @@ DrawTopMenu();
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com', 'tumblr.com');
+$CommonSites = array();                          //Merge Common sites list with Users Suppress list
+$CommonSitesList = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com', 'tumblr.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //cloudfront.net - Very popular CDN, hard to back trace originating site
 //googleusercontent.com - Google+ and YouTube user content
@@ -447,6 +448,11 @@ $DateRange = Filter_Int('dr', 1, 366, 1);
 
 //Load TLD Blocklist if being used
 if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                           
+
+//Merge Users Config of Suppress List with CommonSitesList
+if ($Config['Suppress'] == '') $CommonSites = array_merge($CommonSitesList);
+else $CommonSites = array_merge($CommonSitesList, explode(',', $Config['Suppress']));
+unset($CommonSitesList);
 
 
 //Load Logs----------------------------------------------------------

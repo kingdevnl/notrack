@@ -32,6 +32,7 @@ $DefaultConfig = array(
   'Username' => '',
   'Password' => '',
   'Delay' => 30,
+  'Suppress' => '',
   'BlockList_NoTrack' => 1,
   'BlockList_TLD' => 1,
   'BlockList_QMalware' => 1,
@@ -54,7 +55,7 @@ $DefaultConfig = array(
   //Region Specific BlockLists
   'BlockList_CHNEasy' => 0,
   'BlockList_RUSEasy' => 0,
-  'LatestVersion' => $Version
+  'LatestVersion' => $Version  
 );
 
 if (!extension_loaded('memcache')) die('NoTrack requires memcached and php-memcache to be installed');

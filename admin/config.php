@@ -1,12 +1,13 @@
 <?php
 /********************************************************************
-Config.php is split out into 6 sub pages:
+Config.php is split out into 7 sub pages:
  1. General
  2. Block Lists
  3. Black List
  4. White List
  5. Domain List
  6. Sites Blocked
+ 7. Advanced
 
 Domain List
   Reading:
@@ -70,6 +71,14 @@ $WhoIsList = array(
 //and remove POST requests from browser history.
 if (isset($_POST['action'])) {
   switch($_POST['action']) {
+    case 'advanced':
+      if (UpdateAdvancedConfig()) {        
+        WriteTmpConfig();
+        ExecAction('update-config', true, true);
+      }
+      sleep(1);                                  //Short pause to prevent race condition
+      header('Location: ?v=advanced');           //Reload page
+      break;
     case 'blocklists':
       UpdateBlockListConfig();
       WriteTmpConfig();
@@ -94,7 +103,7 @@ if (isset($_POST['action'])) {
       }
       break;
     case 'stats':
-      if (UpdateStatsConfig()) {        
+      if (UpdateStatsConfig()) {
         WriteTmpConfig();
         ExecAction('update-config', true, true);
         sleep(1);                                //Short pause to prevent race condition
@@ -132,10 +141,11 @@ if (isset($_POST['action'])) {
   <a href="../admin"><span class="pictext"><img src="./svg/menu_home.svg" alt=""></span></a>
   <a href="../admin/config.php"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">General</span></span></a>
   <a href="../admin/config.php?v=blocks"><span class="pictext"><img src="./svg/menu_blocklists.svg" alt=""><span class="dtext">Block Lists</span></span></a>
-  <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">Black List</span></span></a>
-  <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">White List</span></span></a>
-  <a href="../admin/config.php?v=tld"><span class="pictext"><img src="./svg/menu_domain.svg" alt=""><span class="dtext">Domain List</span></span></a>
+  <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">BlackList</span></span></a>
+  <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">WhiteList</span></span></a>
+  <a href="../admin/config.php?v=tld"><span class="pictext"><img src="./svg/menu_domain.svg" alt=""><span class="dtext">Domains</span></span></a>
   <a href="../admin/config.php?v=sites"><span class="pictext"><img src="./svg/menu_sites.svg" alt=""><span class="dtext">Sites Blocked</span></span></a>
+  <a href="../admin/config.php?v=advanced"><span class="pictext"><img src="./svg/menu_advanced.svg" alt=""><span class="dtext">Advanced</span></span></a>
 </div></nav>
 
 <?php
@@ -314,6 +324,18 @@ function Load_List($FileName, $ListName) {
   }
   //else echo 'cache';
   return $FileArray;
+}
+//-------------------------------------------------------------------
+function DisplayAdvanced() {
+  global $Config;
+  echo '<form action="?v=advanced" method="post">'.PHP_EOL;
+  echo '<input type="hidden" name="action" value="advanced">';
+  DrawSysTable('Advanced Settings');
+  DrawSysRow('Suppress Domains <img class="btn" src="./svg/button_help.svg" alt="help" title="Group together certain domains on the Stats page">', '<textarea rows="5" name="suppress">'.$Config['Suppress'].'</textarea>');
+  echo '<tr><td colspan="2"><div class="centered"><input type="submit" value="Save Changes"></div></td></tr>'.PHP_EOL;
+  echo '</table>'.PHP_EOL;
+  echo '</div></div>'.PHP_EOL;
+  echo '</form>'.PHP_EOL;
 }
 //-------------------------------------------------------------------
 function DisplayBlockLists() {
@@ -567,6 +589,7 @@ function DisplaySiteList() {
   }
   
   echo '<div class="sys-group">';
+  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
   echo '<div class="centered">'.PHP_EOL;
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="sites">';
@@ -810,6 +833,37 @@ function UpdateBlockListConfig() {
     
   return null;
 }
+//-------------------------------------------------------------------
+function UpdateAdvancedConfig() {
+  //1. Make sure Suppress list is valid
+  // 1a. Replace new line and space with commas
+  // 1b. If string too short, set to '' then leave
+  // 1c. Copy Valid URL's to a ValidList array
+  // 1d. Write valid URL's to Config Suppress string seperated by commas 
+  global $Config;
+  
+  $SuppressStr = '';
+  $SuppressList = array();
+  $ValidList = array();
+  if (isset($_POST['suppress'])) {
+    $SuppressStr = preg_replace('#\s+#',',',trim($_POST['suppress'])); //Split array
+    if (strlen($SuppressStr) <= 2) {             //Is string too short?
+      $Config['Suppress'] = '';
+      return true;
+    }
+    
+    $SuppressList = explode(',', $SuppressStr);  //Split string into array
+    foreach ($SuppressList as $Site) {           //Check if each item is a valid URL
+      if (Filter_URL_Str($Site)) {
+        $ValidList[] = $Site;
+      }
+    }
+    if (sizeof($ValidList) == 0) $Config['Suppress'] = '';
+    else $Config['Suppress'] = implode(',', $ValidList);
+  }
+  
+  return true;
+}
 //Update Custom List-------------------------------------------------
 function UpdateCustomList($LongName, $ListName) {
   //Works for either BlackList or WhiteList
@@ -1000,7 +1054,7 @@ function WriteTmpConfig() {
   //6. Delete Config Array out of Memcache, in order to force reload
   //7. Onward process is to Display appropriate config view
   
-  global $Config, $FileTmpConfig, $Mem, $Version;
+  global $Config, $FileTmpConfig, $Mem, $Version;  
   
   //Prevent wrong version being written to config file if user has just upgraded and old LatestVersion is still stored in Memcache
   if (Check_Version($Config['LatestVersion'])) $Config['LatestVersion'] = $Version;
@@ -1084,6 +1138,9 @@ if (isset($_GET['v'])) {
     case 'sites':
       Load_CSV($CSVBlocking, 'SitesBlocked');
       DisplaySiteList();
+      break;
+    case 'advanced':
+      DisplayAdvanced();
       break;
     default:
       DisplayConfigChoices();
