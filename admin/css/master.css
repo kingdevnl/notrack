@@ -150,7 +150,7 @@ select, input[type="date"], input[type="number"] {
   font-size: 1.1em;
   text-align: center;
   background-color: #008CBA;
-  color: white;  
+  color: #00000A;
   border: none;
   border-radius: 4px;
   box-shadow: inset 0 0 10px #111;
@@ -191,17 +191,17 @@ a.button-blue, a.button-grey {
 .button-danger {
   font-size: 1.1em;
   text-align: center;
-  color: white;
+  color: #00000A;
   background-color: #F44336;
   border: none;
   border-radius: 4px;
   box-shadow: inset 0 0 10px #000000;
-  padding: 0.5em 1.5em;
+  padding: 0.5rem 1.5rem;
   display: inline-block;
   cursor: pointer;
 }
 a.button-danger {
-  color: white;
+  color: #00000A;
 }
 .button-danger:hover {
   background-color: #C8372C;  
@@ -272,6 +272,7 @@ a.button-danger {
 }
 #main {
   width: 100%;
+  padding-top: 3rem;
 }
 
 .pag-nav {
@@ -479,10 +480,14 @@ span.key-red {background: #EE202B;}
 span.key-orange {background: #FFA704;}
 span.key-green {background: #80FF60;}
 /*Main Menu*********************************************************/
-#menu-top {
-  width: 100%;  
+#menu-top {  
+  width: 100%;
   background-color: #262626;  
-  height: 6rem;
+  height: 9rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 1.1em;
 }
 #menu-logo {
   float: left;
@@ -500,16 +505,29 @@ span.key-green {background: #80FF60;}
   height: 2.2rem;
 }
 #main-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 3.0rem;
-  font-size: 1.1em;  
-  background-color: #262626;
+  height: 3.0rem;  
+  background-color: #262626;  
+  z-index: 100;
+}
+/*main-menu-padded is used on the index.php to shift the menu down below the logo*/
+#main-menu-padded {
+position: fixed;
+  top: 6rem;
+  left: 0;
+  width: 100%;
+  height: 3.0rem;  
+  background-color: #262626;  
+  z-index: 101;  
 }
 #main-menu span:hover, #main-menu a:hover, #dropbutton:hover {
   background-color: #3B3B3B;
 }
-#main-menu img {
-  width: 2.3rem;
+#main-menu img, #main-menu-padded img {
+  width: 2.3em;
   height: 2.3rem;
   margin: 0.4rem 0rem 0.3rem 0rem;
   float: left;
@@ -561,7 +579,7 @@ span.timer {
 }
 #pause-menu {
   position: absolute;
-  z-index: 1;
+  z-index: 102;
   margin: 1em 0 0 -10em;
   opacity: 0;    /* use opacity to fake immediate toggle */
   visibility: hidden;
@@ -578,6 +596,10 @@ span.timer {
   padding: 0.5rem 0 0.5rem 0.8rem;
   line-height: 1.1em;
 }
+#top-padding {
+  height: 7rem;
+  width: 100%;
+}
 @media only screen and (max-width:900px), only screen and (max-device-width:900px) {  /*Tablet view for Menu*/
   .dtext {
     display: none;
@@ -590,14 +612,17 @@ span.timer {
   .row-mobile {
     display: inline;
   }
-  #main-menu {
+  #main {
+    padding-top: 4.8rem;
+  }
+  #main-menu, #main-menu-padded {
     height: 4.8rem;
     font-size: 2rem;
   }
   span.dtext {
     display: none;
   }
-  #main-menu img {
+  #main-menu img, #main-menu-padded img {
     width: 4rem;
     height: 4rem;
   }
@@ -611,7 +636,7 @@ span.timer {
   }
   #pause-menu {
     font-size: 2rem;
-  }
+  }  
 }
 /*Home Nav**********************************************************/
 .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
@@ -673,7 +698,7 @@ span.filter {
   }  
 }
 @media only print {
-  #main-menu, #menu-top {
+  #main-menu, #menu-top #main-menu-padded {
     display: none;                     /*Hide menu on Print view*/
   }
 }
@@ -713,7 +738,7 @@ span.filter {
   text-align: center;
 }
 #dialog span {
-  font-size: 1.6em;
+  /*font-size: 1.6em;*/
   margin-bottom: 1em;
   display: block;
 }

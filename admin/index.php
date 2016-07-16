@@ -29,7 +29,8 @@ if ($Config['Password'] != '') {
 ActionTopMenu();
 DrawTopMenu();
 //Main---------------------------------------------------------------
-echo '<div class="row"><br />';
+echo '<div id="top-padding"></div>';
+echo '<div class="row">';
 
 //Tracker Blocklist
 echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -c Active '. $CSVBlocking))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;

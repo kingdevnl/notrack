@@ -57,24 +57,25 @@ function ActionTopMenu() {
 //-------------------------------------------------------------------
 function DrawTopMenu() {
   global $Config, $Mem;
-  
+      
   if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php only
-    echo '<div id="menu-top"><div id="menu-logo">'.PHP_EOL;
+    echo '<nav><div id="menu-top"><div id="menu-logo">'.PHP_EOL;
     echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
   
     echo '<div id="menu-top-right">'.PHP_EOL;
-    
-     
     echo '<a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>'.PHP_EOL;
     echo '<a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>'.PHP_EOL;
     echo '<a href="https://www.youtube.com/user/quidsup" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>'.PHP_EOL;
     echo '<a href="https://www.twitter.com/quidsup" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>'.PHP_EOL;
-    echo "</div></div>\n";
+    echo '</div></div>'.PHP_EOL;
+    echo '<div id="main-menu-padded">'.PHP_EOL;;
   }
-
-  echo '<nav><div id="main-menu">'.PHP_EOL;
+  else {
+    echo '<nav><div id="main-menu">'.PHP_EOL;
+  }
+  
   echo '<a href="../admin"><span class="pictext"><img src="./svg/menu_home.svg" alt=""></span></a>'.PHP_EOL;
-  echo '<a href="../admin/stats.php"><span class="pictext"><img src="./svg/menu_stats.svg" alt=""><span class="dtext">Domain Stats</span></span></a>'.PHP_EOL;
+  echo '<a href="../admin/stats.php"><span class="pictext"><img src="./svg/menu_stats.svg" alt=""><span class="dtext">Stats</span></span></a>'.PHP_EOL;
   echo '<a href="../admin/dhcpleases.php"><span class="pictext"><img src="./svg/menu_dhcp.svg" alt=""><span class="dtext">DHCP</span></span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">Config</span></span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php"><span class="pictext"><img src="./svg/menu_help.svg" alt=""><span class="dtext">Help</span></span></a>'.PHP_EOL;
@@ -109,7 +110,8 @@ function DrawTopMenu() {
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 30)"><span>Pause for 30 minutes</span></a>'.PHP_EOL;
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 60)"><span>Pause for 1 Hour</span></a>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
-  echo '</div></div></nav>'.PHP_EOL;
+  echo '</div></div>'.PHP_EOL;
+  echo '</nav>'.PHP_EOL;
 
   //Dialogs----------------------------------------------------------
   echo '<div id="centerpoint1"><div id="dialog">'.PHP_EOL;

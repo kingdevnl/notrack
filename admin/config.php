@@ -406,7 +406,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
   DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
   DrawSysRow('NoTrack Version', $Version);
-  DrawSysRow('Updates', '<a class="button-blue" href="./upgrade.php">Check for Updates</a>');
+  DrawSysRow('Updates', '<button class="button-blue" onclick="window.location=\'./upgrade.php\'">Check for Updates</button>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Dnsmasq');
@@ -597,15 +597,15 @@ function DisplaySiteList() {
 
   foreach ($List as $Site) {    
     if ($Site[1] == 'Active') {
-      echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'" checked="checked"></td></tr>'.PHP_EOL;
+      echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td></td></tr>'.PHP_EOL;
     }
     else {
-      echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[2].'<td><input type="checkbox" name="'.$Site[0].'"></td></tr>'.PHP_EOL;
+      echo '<tr class="dark"><td>'.$i.'</td><td><s>'.$Site[0].'</s></td><td><s>'.$Site[2].'</s><td></td></tr>'.PHP_EOL;
     }
     $i++;
   }
   
-  echo '</table></div></div>'.PHP_EOL;
+  echo '</table></div>'.PHP_EOL;
   
   if ($ListSize > $RowsPerPage) {               //Is Pagination needed
     echo '<div class="sys-group">';
@@ -1019,7 +1019,7 @@ function WriteTmpConfig() {
   }
   fclose($FileHandle);                           //Close file
   
-  $Mem->delete('Config');                        //Delete config from Memcache  
+  $Mem->delete('Config');                        //Delete config from Memcache
 }
 //Main---------------------------------------------------------------
 
