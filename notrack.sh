@@ -308,17 +308,16 @@ function Get_Custom() {
 
   if [[ ${Config[bl_custom]} == "" ]]; then
     echo "No Custom Blocklists in use"
-    for FileName in /etc/dnsmasq.d/custom_*; do    #Clean up old custom lists
-      FileName=${FileName##*/}                     #Get filename from path
-      FileName=${FileName%.*}                      #Remove file extension
-      FileName=${FileName:7}                       #Remove custom_    
-      DeleteOldFile "/etc/dnsmasq.d/custom_$FileName.list"
-      DeleteOldFile "/etc/notrack/custom_$FileName.csv"    
+    for FileName in /etc/dnsmasq.d/custom_*; do  #Clean up old custom lists
+      FileName=${FileName##*/}                   #Get filename from path
+      FileName=${FileName%.*}                    #Remove file extension
+      DeleteOldFile "/etc/dnsmasq.d/$FileName.list"
+      DeleteOldFile "/etc/notrack/$FileName.csv"    
     done
     return
   fi
   
-  #Split comma seperated list
+  #Split comma seperated list into individual URL's
   IFS=',' read -ra CustomList <<< "${Config[bl_custom]}"
   for ListUrl in "${CustomList[@]}"; do
     echo "$ListUrl"
@@ -333,19 +332,19 @@ function Get_Custom() {
     
     if [ ! -e "$DLFile" ]; then                  #Has file been downloaded
       echo "Downloading $FileName"
-      wget -qO "$DLFile" "$ListUrl"
+      wget -qO "$DLFile" "$ListUrl"              #No, download it
     else
       echo "$FileName already downloaded"
     fi
     
     if [ -s "$DLFile" ]; then                    #Only process if filesize > 0
-      Line1=$(head -n1 "$DLFile")
+      Line1=$(head -n1 "$DLFile")                #What is on the first line?
       if [[ ${Line1:0:13} == "[Adblock Plus" ]]; then
-        ListType="easylist"
+        ListType="easylist"                      #First line identified as EasyList
         echo "Blocklist identified as Adblock Plus EasyList"
-      fi      
+      fi
       
-      if [[ $ListType != "" ]]; then
+      if [[ $ListType != "" ]]; then             #Has List been indentified?
         CSVList=()                               #Zero Arrays
         DNSList=()  
         case $ListType in                        #What type of processing is required?
@@ -359,14 +358,16 @@ function Get_Custom() {
         esac
         CreateFile "$CSVFile"                    #Create CSV File
         CreateFile "$ListFile"                   #Create List File  
-        printf "%s\n" "${CSVList[@]}" > "$CSVFile"
+        printf "%s\n" "${CSVList[@]}" > "$CSVFile" #Output arrays to file
         printf "%s\n" "${DNSList[@]}" > "$ListFile"
         cat "$CSVFile" >> "$BlockingCSV"
         echo "Finished processing $FileName"
         echo
         ((ChangesMade++))
+      else                                       #Unable to indentify list type
+        echo "Unable to identify list type"
       fi
-    else
+    else                                         #File not downloaded
       echo "Error downloading $DLFile"
     fi
   done
