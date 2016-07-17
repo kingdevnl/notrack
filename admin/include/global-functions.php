@@ -142,20 +142,20 @@ function Filter_Int_Value($Val, $Min, $Max, $DefaultValue=0) {
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
-  //2. Check String doesn't contain !"£$%^&*()[]+=<>|/\
+  //2. Check String doesn't contain !"£$%^*()[]<>|/\
   //Return True on success, and False on fail
 
   if (isset($_GET[$Str])) {
-    if (preg_match('/[!\"£\$%\^&\*\(\)\[\]+=<>\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
+    if (preg_match('/[!\"£\$%\^\*\(\)\[\]<>\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
   }
   return false;
 }
 //Filter String Value------------------------------------------------
 function Filter_Str_Value($Str, $DefaltValue='') {
-  //1. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
+  //1. Check String Length is > 0 AND String doesn't contain !"<>,|/\
   //2. Return Str on success, and Default on fail
   
-  if (preg_match('/[!\"£\$%\^&\(\)+=<>\|\/\\\\]/', $Str) == 0) {
+  if (preg_match('/[!\"<>\|]/', $Str) == 0) {
     return $Str;
   }  
   return $DefaltValue;
@@ -242,6 +242,9 @@ function LoadConfigFile() {
               break;
             case 'Suppress':
               $Config['Suppress'] = Filter_Str_Value($SplitLine[1], '');
+              break;
+            case 'BL_Custom':
+              $Config['BL_Custom'] = Filter_Str_Value($SplitLine[1], '');
               break;
             case 'BlockList_NoTrack':
               $Config['BlockList_NoTrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);

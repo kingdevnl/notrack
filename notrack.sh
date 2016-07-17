@@ -15,6 +15,7 @@ NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
 IPVersion="IPv4"
 
 declare -A Config                                #Config array for Blocklists
+Config[bl_custom]=""
 Config[blocklist_notrack]=1
 Config[blocklist_tld]=1
 Config[blocklist_qmalware]=1
@@ -169,6 +170,7 @@ Read_Config_File() {
           IPVersion) IPVersion="$Value";;
           NetDev) NetDev="$Value";;
           LatestVersion) OldLatestVersion="$Value";;
+          BL_Custom) Config[bl_custom]="$Value";;
           BlockList_NoTrack) Config[blocklist_notrack]="$Value";;
           BlockList_TLD) Config[blocklist_tld]="$Value";;
           BlockList_QMalware) Config[blocklist_qmalware]="$Value";;
@@ -293,6 +295,95 @@ GetList_BlackList() {
   echo
   ((ChangesMade++))
 }
+#Get Custom----------------------------------------------------------
+function Get_Custom() {
+  local CSVFile=""
+  local DLFile=""
+  local ListFile=""
+  local DLFileTime=0                             #Downloaded File Time
+  local ListFileTime=0                           #Processed List File Time
+  local ListType=""
+  local Line1=""
+  local -A CustomListArray
+
+  if [[ ${Config[bl_custom]} == "" ]]; then
+    echo "No Custom Blocklists in use"
+    for FileName in /etc/dnsmasq.d/custom_*; do    #Clean up old custom lists
+      FileName=${FileName##*/}                     #Get filename from path
+      FileName=${FileName%.*}                      #Remove file extension
+      FileName=${FileName:7}                       #Remove custom_    
+      DeleteOldFile "/etc/dnsmasq.d/custom_$FileName.list"
+      DeleteOldFile "/etc/notrack/custom_$FileName.csv"    
+    done
+    return
+  fi
+  
+  #Split comma seperated list
+  IFS=',' read -ra CustomList <<< "${Config[bl_custom]}"
+  for ListUrl in "${CustomList[@]}"; do
+    echo "$ListUrl"
+    FileName=${ListUrl##*/}                      #Get filename from URL
+    DLFile="/tmp/custom_$FileName"
+    FileName=${FileName%.*}                      #Remove file extension
+    CSVFile="/etc/notrack/custom_$FileName.csv"
+    ListFile="/etc/dnsmasq.d/custom_$FileName.list"
+    ListType=""
+    CustomListArray[$FileName]="$FileName"       #Used later
+    
+    
+    if [ ! -e "$DLFile" ]; then                  #Has file been downloaded
+      echo "Downloading $FileName"
+      wget -qO "$DLFile" "$ListUrl"
+    else
+      echo "$FileName already downloaded"
+    fi
+    
+    if [ -s "$DLFile" ]; then                    #Only process if filesize > 0
+      Line1=$(head -n1 "$DLFile")
+      if [[ ${Line1:0:13} == "[Adblock Plus" ]]; then
+        ListType="easylist"
+        echo "Blocklist identified as Adblock Plus EasyList"
+      fi      
+      
+      if [[ $ListType != "" ]]; then
+        CSVList=()                               #Zero Arrays
+        DNSList=()  
+        case $ListType in                        #What type of processing is required?
+          "easylist") Process_EasyList "$DLFile" ;;
+          "plain") Process_PlainList "$DLFile" ;;
+          "notrack") Process_NoTrackList "$DLFile" ;;
+          "tldlist") Process_TLDList ;;
+          "unix127") Process_UnixList127 "$DLFile" ;;
+          "unix0") Process_UnixList0 "$DLFile" ;;
+          *) echo "Unable to identify list type"
+        esac
+        CreateFile "$CSVFile"                    #Create CSV File
+        CreateFile "$ListFile"                   #Create List File  
+        printf "%s\n" "${CSVList[@]}" > "$CSVFile"
+        printf "%s\n" "${DNSList[@]}" > "$ListFile"
+        cat "$CSVFile" >> "$BlockingCSV"
+        echo "Finished processing $FileName"
+        echo
+        ((ChangesMade++))
+      fi
+    else
+      echo "Error downloading $DLFile"
+    fi
+  done
+  
+  
+  for FileName in /etc/dnsmasq.d/custom_*; do    #Clean up old custom lists
+    FileName=${FileName##*/}                     #Get filename from path
+    FileName=${FileName%.*}                      #Remove file extension
+    FileName=${FileName:7}                       #Remove custom_    
+    if [ ! ${CustomListArray[$FileName]} ]; then
+      DeleteOldFile "/etc/dnsmasq.d/custom_$FileName.list"
+      DeleteOldFile "/etc/notrack/custom_$FileName.csv"
+    fi
+  done
+  
+  exit
+}
 #GetList-------------------------------------------------------------
 GetList() {
   #$1 = List to be Processed
@@ -333,7 +424,7 @@ GetList() {
     wget -qO "$DLFile" "${URLList[$Lst]}"
   fi
   
-  if [ ! -e "$DLFile" ]; then                    #Check if list has been downloaded
+  if [ ! -s "$DLFile" ]; then                    #Check if list has been downloaded
     echo "File not downloaded"
     return 1
   fi
@@ -356,8 +447,8 @@ GetList() {
   esac
   
   #Write arrays to file
-  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/$Lst.csv"
-  printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/$Lst.list"
+  printf "%s\n" "${CSVList[@]}" > "$CSVFile"
+  printf "%s\n" "${DNSList[@]}" > "$ListFile"
   cat "/etc/notrack/$Lst.csv" >> "$BlockingCSV"
   echo "Finished processing $Lst"
   echo
@@ -704,6 +795,7 @@ Test() {
   echo "BlockList_Winhelp2002 ${Config[blocklist_winhelp2002]}"
   echo "BlockList_CHNEasy ${Config[blocklist_chneasy]}"
   echo "BlockList_RUSEasy ${Config[blocklist_ruseasy]}"
+  echo "Custom ${Config[bl_custom]}"
 }
 #Upgrade-------------------------------------------------------------
 Upgrade() {
@@ -839,7 +931,6 @@ DeleteOldFile /etc/notrack/domains.txt
 DeleteOldFile /tmp/tld.txt
 
 Process_TLDList
-
 GetList_BlackList                                #Process Users Blacklist
   
 GetList "notrack" "notrack" 172800               #2 Days
@@ -862,7 +953,9 @@ GetList "swisszeus" "plain" 86400                #1 Day
 GetList "winhelp2002" "unix0" 604800             #7 Days
 GetList "chneasy" "easylist" 345600              #China
 GetList "ruseasy" "easylist" 345600              #Russia
-  
+
+Get_Custom                                   #Process Custom Block lists
+
 if [ ${Config[blocklist_tld]} == 0 ]; then
   DeleteOldFile "$DomainQuickList"
 fi

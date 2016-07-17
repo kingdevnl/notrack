@@ -33,6 +33,7 @@ $DefaultConfig = array(
   'Password' => '',
   'Delay' => 30,
   'Suppress' => '',
+  'BL_Custom' => '',
   'BlockList_NoTrack' => 1,
   'BlockList_TLD' => 1,
   'BlockList_QMalware' => 1,

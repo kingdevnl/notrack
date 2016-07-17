@@ -28,6 +28,14 @@ Domain List
     5. sleep for 1 second to prevent race condition
     6. Return to Reading
     
+Advanced
+  Reading:
+    1. Display options
+    (Future option - Use JS to validate list as its being typed)
+  
+  Updating:
+    1. Validate list of suppressed sites
+    2. Write to file
 
 ********************************************************************/
 
@@ -43,6 +51,7 @@ if ($Config['Password'] != '') {
   }
 }
 
+//-------------------------------------------------------------------
 $List = array();               //Global array for all the Block Lists
 
 //List of Selectable Search engines, corresponds with Global-Functions.php -> LoadConfigFile()
@@ -67,16 +76,16 @@ $WhoIsList = array(
  'Who.is'
 );
 
-//Deal with POST actions first, that way we can reload the page
-//and remove POST requests from browser history.
+//-------------------------------------------------------------------
+//Deal with POST actions first, that way we can reload the page and remove POST requests from browser history.
 if (isset($_POST['action'])) {
   switch($_POST['action']) {
     case 'advanced':
-      if (UpdateAdvancedConfig()) {        
-        WriteTmpConfig();
+      if (UpdateAdvancedConfig()) {              //Are users settings valid?
+        WriteTmpConfig();                        //If ok, then write the Config file
         ExecAction('update-config', true, true);
-      }
-      sleep(1);                                  //Short pause to prevent race condition
+        sleep(1);                                //Short pause to prevent race condition
+      }      
       header('Location: ?v=advanced');           //Reload page
       break;
     case 'blocklists':
@@ -84,6 +93,7 @@ if (isset($_POST['action'])) {
       WriteTmpConfig();
       ExecAction('update-config', false);
       ExecAction('run-notrack', true, true);
+      //ExecAction('update-config', true, true);
       $Mem->delete('SiteList');                  //Delete Site Blocked from Memcache
       sleep(1);                                  //Short pause to prevent race condition
       header('Location: ?v=blocks');             //Reload page
@@ -124,6 +134,7 @@ if (isset($_POST['action'])) {
       die('Unknown POST action');
   }
 }
+//-------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
 <html>
@@ -390,6 +401,9 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_chneasy', 'BlockList_CHNEasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
   
   DrawBlockListRow('bl_ruseasy', 'BlockList_RUSEasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
+  
+  echo '<tr><th colspan="2">Custom</th></tr>';
+  DrawSysRow('Custom Block Lists', 'This feature is in development, only ABP lists will work<br /><textarea rows="5" name="bl_custom">'.$Config['BL_Custom'].'</textarea>');
   
   echo '</table><br />'.PHP_EOL;
   
@@ -802,37 +816,6 @@ function DisplayDomainList() {
   
   return null;
 }
-//Update Block List Config-------------------------------------------
-function UpdateBlockListConfig() {
-  //Read and Filter values parsed from HTTP POST into the Config array  
-  //After this function WriteTmpConfig is run
-  
-  global $Config;
-    
-  $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
-  $Config['BlockList_TLD'] = Filter_Config('bl_tld');
-  $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
-  $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
-  $Config['BlockList_DisconnectMalvertising'] = Filter_Config('bl_dismalvertising');
-  $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
-  $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
-  $Config['BlockList_FBAnnoyance'] = Filter_Config('bl_fbannoyance');
-  $Config['BlockList_FBEnhanced'] = Filter_Config('bl_fbenhanced');
-  $Config['BlockList_FBSocial'] = Filter_Config('bl_fbsocial');
-  $Config['BlockList_hpHosts'] = Filter_Config('bl_hphosts');
-  $Config['BlockList_MalwareDomainList'] = Filter_Config('bl_maldomainlist');
-  $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');  
-  $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
-  $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
-  $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
-  $Config['BlockList_SwissRansom'] = Filter_Config('bl_swissransom');
-  $Config['BlockList_SwissZeus'] = Filter_Config('bl_swisszeus');
-  $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
-  $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
-  $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
-    
-  return null;
-}
 //-------------------------------------------------------------------
 function UpdateAdvancedConfig() {
   //1. Make sure Suppress list is valid
@@ -863,6 +846,41 @@ function UpdateAdvancedConfig() {
   }
   
   return true;
+}
+//Update Block List Config-------------------------------------------
+function UpdateBlockListConfig() {
+  //Read and Filter values parsed from HTTP POST into the Config array  
+  //After this function WriteTmpConfig is run
+  
+  global $Config;
+    
+  $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
+  $Config['BlockList_TLD'] = Filter_Config('bl_tld');
+  $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
+  $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
+  $Config['BlockList_DisconnectMalvertising'] = Filter_Config('bl_dismalvertising');
+  $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
+  $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
+  $Config['BlockList_FBAnnoyance'] = Filter_Config('bl_fbannoyance');
+  $Config['BlockList_FBEnhanced'] = Filter_Config('bl_fbenhanced');
+  $Config['BlockList_FBSocial'] = Filter_Config('bl_fbsocial');
+  $Config['BlockList_hpHosts'] = Filter_Config('bl_hphosts');
+  $Config['BlockList_MalwareDomainList'] = Filter_Config('bl_maldomainlist');
+  $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');  
+  $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
+  $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
+  $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
+  $Config['BlockList_SwissRansom'] = Filter_Config('bl_swissransom');
+  $Config['BlockList_SwissZeus'] = Filter_Config('bl_swisszeus');
+  $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
+  $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
+  $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
+  
+  if (isset($_POST['bl_custom'])) {
+    $Config['BL_Custom'] = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array        
+  }
+    
+  return null;
 }
 //Update Custom List-------------------------------------------------
 function UpdateCustomList($LongName, $ListName) {
