@@ -51,6 +51,7 @@
 6009888.com #HelloWorld
 6009988.com #HelloWorld
 7eer.net #Impact Radius
+7pud.com #Advertising
 778669.com  #Advertising
 8000818.com #HelloWorld
 8006688.com #HelloWorld
@@ -294,6 +295,7 @@ amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
 and.co.uk
+anreson.net #Advertising
 angorch-cdr7.com #Lead Forensics
 anrdoezrs.net
 apero-bigdata.com #Ysance
@@ -414,6 +416,7 @@ bidr.io
 bidswitch.net
 bidtheatre.com #BidTheatre
 bidtrk.com
+bigbos.top #Advertising
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 bing.net #Microsoft
@@ -539,6 +542,7 @@ chartbeat.com
 chartbeat.net
 cheetahmail.com #Experian
 chicdn.net
+chinashoesking.com #Advertising
 choicestream.com
 choosealoan.com #Digital Window
 christmasalready.com #Digital Window
@@ -724,6 +728,7 @@ devnxs.net #AppNexus Inc
 dexometer.com #Adobe
 dianalytics.com #Adobe
 dianomi.com
+diaobanstudio.com #Advertising
 digidip.net #My Dealz
 digitalanalyticsdatawarehouse.com #WebTrekk
 digitalreflectionpanel.com #TMRG
@@ -744,6 +749,7 @@ displaywords.com #AppNexus Inc
 displaywords.net #AppNexus Inc
 dlqm.net
 dl-rms.com
+dleke.com #Advertising
 dmtracker.com
 dmtrk.net
 dmtry.com
@@ -1114,6 +1120,7 @@ idgpublishing.com
 iframes.us
 igodigital.com
 igsonar.com
+images9999.com  #Advertising
 imbox.se #Imbox
 imedia.cz
 imgclick.net
@@ -1127,6 +1134,7 @@ impactradius.com #Impact Radius
 impdesk.com
 impressiondesk.com
 imrworldwide.com
+tfsrv.x.incapdns.net #FireEye
 in2panel.com #TMRG
 in2panel.net #TMRG
 industrybrains.com
@@ -1190,6 +1198,7 @@ jisusaiche.com
 jpush.cn
 jpush.io
 jmxded110.net
+ecomcbjs.jomodns.com #Baidu
 juicyads.com
 ju33.com #Advertising
 jumptap.com #Jumptap
@@ -1207,6 +1216,7 @@ kaloo.ga#Kalooga
 kalooga.com #Kalooga
 kastatic.com
 kau.li
+keen.io #Keen IO (analytics)
 kestrelfm.net #Ad Web
 keyweego.com #Keywee
 keywords.com #Microsoft
@@ -9102,6 +9112,7 @@ mouseflow.com #Mouseflow
 mouseflow.net #Mouseflow
 mouseflow.org #Mouseflow
 mouseflow.us #Mouseflow
+moutaihotel.cn #Advertising
 mplxtms.com
 mptracking.mobi #MobPartner
 mrkt.it
@@ -9365,6 +9376,7 @@ pxltgr.com #WhiteOps
 pxlsrv.com #AppNexus Inc
 pxlsrv.net #AppNexus Inc
 pxlsrv.us #AppNexus Inc
+pxstda.com #Advertising
 p-td.com
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 q1mediahydraplatform.com
@@ -9433,6 +9445,7 @@ relatedweboffers.com #RevenueHits
 relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
+remove--google-analytics.com #Google Analytics
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -9601,6 +9614,7 @@ servingclks.com #CPMStars
 serving-sys.com
 sessioncam.com
 sex-affiliation.com
+shadowsmell.com #Advertising
 sharethis.com
 sharethrough.com
 shinystat.com
@@ -10003,7 +10017,9 @@ xct31.net #IBM Silverpop
 xct32.net #IBM Silverpop
 xct33.net #IBM Silverpop
 xg4ken.com
+xibei70.com #Adverising
 xiti.com
+pubs.xl.pt #Adverts of the XL's news papers (do not remove top domain name)
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
 yadro.ru
 yarpp.org
@@ -10020,6 +10036,7 @@ yieldpartners.com
 yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
+ynwqls.com #Advertising
 youramigo.com
 ys4you.com #Ysance
 ysance.com #Ysance
