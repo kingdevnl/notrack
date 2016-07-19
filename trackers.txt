@@ -983,6 +983,7 @@ go-mpulse.net
 goadservices.com
 godatafeed.com
 gooanalytics.com #Buta Trading
+goodemc.com #Advertising
 google-analytics.com
 googlesyndication.com
 googletagmanager.com
@@ -1108,6 +1109,7 @@ hubtraffic.com #Hubspot
 hw-dev.com #HelloWorld
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
+iiad.com  #Avertising
 i-transactads.com
 i10c.net #instartlogic
 iasds01.com
@@ -9144,6 +9146,7 @@ myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
 myvirtualdisk.net #TMRG
 myvserv.com #Vserv
+myyage.com #Advertising
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 n-core-pipe.com #Lead Forensics
 nanigans.com
@@ -9384,6 +9387,7 @@ q4cdn.com
 q4web.com
 q4websystems.com
 qeryz.com
+qingcdn.com #Advertising
 qmerce.com
 qservz.com
 qsubmit.com
@@ -9633,6 +9637,7 @@ silktide.com
 silverpop.com #IBM Silverpop
 simpleheatmaps.com
 simplereach.com
+sinaimg.cn #Advertising
 site24x7rum.com
 siteimprove.biz #SiteImprove
 siteimprove.com #SiteImprove
@@ -9749,6 +9754,7 @@ switchadhub.com
 switchads.com
 swoop.com
 swordfishdc.com #Swordfish Inc
+sxxjdz.com #Advertising
 symcb.com #Symantec
 symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
