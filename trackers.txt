@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 12 July 2016
+#NoTrack Tracker list updated 19 July 2016
 #LatestVersion 0.7.14
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1136,7 +1136,7 @@ impactradius.com #Impact Radius
 impdesk.com
 impressiondesk.com
 imrworldwide.com
-tfsrv.x.incapdns.net #FireEye
+#tfsrv.x.incapdns.net #FireEye
 in2panel.com #TMRG
 in2panel.net #TMRG
 industrybrains.com
@@ -9449,7 +9449,6 @@ relatedweboffers.com #RevenueHits
 relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
-remove--google-analytics.com #Google Analytics
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -9798,7 +9797,7 @@ therelevancegraph.mobi #Millennial Media
 theresulter.com #RevenueHits
 thetacdn.net #Verizon
 thispick.com #Keywee
-mobi-security.timechange.space #Missleading "adverts"/Scam
+timechange.space #Missleading "adverts"/Scam
 ticket-genie.com #Digital Window
 tic-tic-toc.com
 tidaltv.com
