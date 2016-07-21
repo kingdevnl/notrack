@@ -3,6 +3,7 @@
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com
+105app.com #Tracker Unknown
 10cms.com
 123count.com #SpidersWatchp
 123-tracker.com #Lead Forensics
@@ -11,8 +12,11 @@
 1s3h4f7sl.com #HelloWorld
 200summit.com #Lead Forensics
 206ads.com
+247inc.net #[24]7
 247realmedia.com #AppNexus Inc
 247realmedia.org #AppNexus Inc
+247-inc.com #[24]7
+247-inc.net #[24]7
 254a.com
 2cobrowse.com #eGain Corporation
 207.net #Adobe
@@ -103,6 +107,7 @@ adblade.com
 adbrau.com
 adbrn.com
 adbutler-tachyon.com
+adbutter.net #Makazi Group
 adcash.com
 adcentriconline.com
 adc-srv.net #ADC Media
@@ -119,8 +124,11 @@ adfast.net #Ad Web
 adfast.org #Ad Web
 adflight.net #Ad Web
 adform.net
+adfront.org #BuySellAds
 adfuture.cn
 adgenie.co.uk
+adgibbon.com #AdGibbon
+adgibbon.mobi #AdGibbon
 adready.com #CPXi
 adready.info #CPXi
 adglare.net
@@ -171,6 +179,13 @@ adobedtm.com #Adobe
 adobetag.com #Adobe
 adoftheyear.com
 adometry.com #Google
+adomify.com #Adomik
+adomify.org #Adomik
+adomik.biz #Adomik
+adomik.com #Adomik
+adomik.info #Adomik
+adomik.net #Adomik
+adomik.org #Adomik
 adpacked.com #Adobe
 adprimemedia.com #AdPrime Media
 adprimemedia.net #AdPrime Media
@@ -180,6 +195,7 @@ adready.com #CPXi
 adready.info #CPXi
 adreadytractions.com
 adrequest.net #R van Ingen
+adrichweb.com #Adrich
 adriver.ru
 adroll.com
 adrotate.se
@@ -189,6 +205,7 @@ ads4apps.net #Smaato
 adsafeprotected.com
 adsbookie.com
 adscale.de
+adscience.nl #Adscience
 adsclean.com
 adsensecustomsearchads.com
 adsfac.eu
@@ -202,6 +219,10 @@ adspeed.net
 adspsp.com
 adsrvr.org
 adsrvs.com #WhiteOps
+adswizz.com #AdsWizz
+adswizz.net #AdsWizz
+adunity.com #AdUnity
+adunity.net #AdUnity
 adsymptotic.com
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
@@ -222,6 +243,7 @@ advertisers-openx.com #OpenX
 advertising.com
 advertserve.com
 adviva.net
+advolution.de
 adweb-connect.net #Ad Web
 adweb.info #Ad Web
 adwebconnect.net #Ad Web
@@ -234,11 +256,12 @@ adwise.fr #AdWise
 adwise.mobi #AdWise
 adwise.org #AdWise
 adwise.ru #AdWise
-adxpose.com
+adxpose.com #ComScore
 adyard.net #Ligatus
 adzerk.com
 adzerk.net
 adzhub.com
+adzip.co #Adbox Digital
 ad-center.com
 ad-score.com
 ad-serverparc.nl
@@ -372,6 +395,7 @@ aracea.com #Ad Web
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
+astutemetrics.com #Astute Trackr
 atdmt.com
 atemda.com
 atgsvcs.com
@@ -428,6 +452,7 @@ bettermarketplaces.com #AppNexus Inc
 betterprogrammatic.com #AppNexus Inc
 bettertargeting.com #AppNexus Inc
 bettertradingsolutions.com #AppNexus Inc
+betweendigital.com #Between Digital
 bevyup.com
 bidr.io
 bidswitch.net
@@ -454,6 +479,8 @@ bluesnapper.com
 bluesnapper.com.au
 bluevoice.biz
 bluevoice.us
+blutonic.net #bluTonic
+blutonic-ads.com #bluTonic
 bluuadd.com #Smaato
 bombora.com
 bongacash.com
@@ -525,7 +552,8 @@ burstnet.com
 burt.io #Burt Corp
 buyat.com #Digital Window
 buyerappreciation.com
-buysellads.com #BySellAds
+buysellads.com #BuySellAds
+buysellads.net #BuySellAds
 buysub.com
 bz.io
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
@@ -791,6 +819,7 @@ crosspixel.net #Cross Pixel
 crowdignite.com
 crsspxl.com #Cross Pixel
 crtracklink.com
+crushads.com #bluTonic
 crwdcntrl.net
 cspbuilder.info
 ctasnet.com
@@ -1354,6 +1383,7 @@ integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
 intellitxt.com
+intency.com #Between Digital
 intenta.io
 intentiq.com
 intentmedia.net
@@ -9279,6 +9309,9 @@ mktoweb.com #Marketo
 ml314.com
 mlnadvertising.com
 mlsend2.com
+mmetrics.com #ComScore
+mmetrics.mobi #ComScore
+mmetrics.net #ComScore
 mmetrix.mobi #Mobiletech
 mmondi.com
 mmstat.com
@@ -9585,6 +9618,7 @@ pubmine.com
 pubnation.com #Not sure
 pubsqrd.com
 pubexchange.com
+pubzip.net #Adbox Digital
 pulsemgr.com
 pump.to
 purplenile.com #eGain Corporation
@@ -9602,6 +9636,7 @@ pxlsrv.us #AppNexus Inc
 pxstda.com #Advertising
 p-td.com
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
+q1media.com #Q1Media
 q1mediahydraplatform.com
 q4cdn.com
 q4web.com
@@ -9975,6 +10010,7 @@ surveybit.com #Campaign Monitor Pty
 surveybus.com #Campaign Monitor Pty
 surveyi.com #Surveyi
 surveyrocket.com #Campaign Monitor Pty
+survey-poll.com #ComScore
 survio.com #Survio
 survio.se #Survio
 sw-rail-7.com #Lead Forensics
@@ -10013,6 +10049,7 @@ testorion.com #eGain Corporation
 televisions2compare.com #Digital Window
 telize.com
 tellapart.com
+tellme.com #[24]7
 terraclicks.com
 testanalytics.net
 textad.net
