@@ -50,6 +50,7 @@ DomainCSV="/var/www/html/admin/include/tld.csv"
 ConfigFile="/etc/notrack/notrack.conf"
 
 declare -A URLList                               #Array of URL's
+
 #URLList[notrack]="http://quidsup.net/trackers.txt" - Deprecated
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
@@ -77,12 +78,16 @@ ChangesMade=0                                    #Number of Lists processed. If 
 FileTime=0                                       #Return value from Get_FileTime
 OldLatestVersion="$Version"
 UnixTime=$(date +%s)                             #Unix time now
-declare -A WhiteList                             #associative array
-WhiteListFileTime=0
-declare -a CSVList                               #Array to store each list
-declare -a DNSList
 JumpPoint=0                                      #Percentage increment
 PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
+WhiteListFileTime=0
+declare -A WhiteList                             #associative array
+declare -a CSVList                               #Array to store each list
+declare -a DNSList
+declare -A DomainList
+declare -A SiteList
+declare -i Dedup=0                               #Count of Deduplication
+
 
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
@@ -122,13 +127,32 @@ AddSite() {
   #3a. If it is then add a line to CSVList Array saying Site is Disabled
   #3b. Otherwise add line to CSVList Array saying Site is Enabled, and add line to DNSList in the form of "address=/site.com/192.168.0.0"
   
-  if [ ${#1} == 0 ]; then return 0; fi           #Ignore zero length str
+  local Site="$1"
   
-  if [ "${WhiteList[$1]}" ]; then                #Is site in WhiteList Array?    
-    CSVList+=("$1,Disabled,$2")
+  if [ ${#Site} == 0 ]; then return 0; fi        #Ignore zero length str
+  
+  if [ "${DomainList[.${Site##*.}]}" ]; then     #Drop if TLD appears in Domain List
+    #echo "$Site"
+    ((Dedup++))
+    return 0
+  fi
+  
+  if [ "${SiteList[${Site#*.}]}" ]; then         #Drop if Site.Domain has been added    
+    ((Dedup++))
+    return 0
+  fi
+  #echo "1 ${1#*.}" #Exclude first
+  #echo "2 ${1##*.}" #Last
+  
+  #echo "6 ${1%.*}" #Up to last
+  
+  
+  if [ "${WhiteList[$Site]}" ]; then             #Is site in WhiteList Array?    
+    CSVList+=("$Site,Disabled,$2")
   else                                           #No match in whitelist    
-    DNSList+=("address=/$1/$IPAddr")
-    CSVList+=("$1,Active,$2")
+    DNSList+=("address=/$Site/$IPAddr")
+    CSVList+=("$Site,Active,$2")
+    SiteList[$Site]=0
   fi
 }
 #Calculate Percent Point in list files-------------------------------
@@ -142,7 +166,7 @@ CalculatePercentPoint() {
   local NumLines=0
   
   NumLines=$(wc -l "$1" | cut -d " " -f 1)       #Count number of lines
-  if [ $NumLines -ge 100 ]; then
+  if [ "$NumLines" -ge 100 ]; then
     PercentPoint=$((NumLines/100))
     JumpPoint=1
   else
@@ -205,7 +229,7 @@ Read_WhiteList() {
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
-      WhiteList[$Line]="$Line"
+      WhiteList[$Line]=1
     fi
   done < $WhiteListFile
 }
@@ -274,7 +298,7 @@ GetList_BlackList() {
   
   #Are the Whitelist & Blacklist older than 36 Hours, and the Processed List of any age?
   if [ $WhiteListFileTime -lt $((UnixTime-187200)) ] && [ $BlFileTime -lt $((UnixTime-187200)) ] && [ $ListFileTime -gt 0 ]; then
-    if [ $(wc -l /etc/notrack/custom.csv | cut -d " " -f 1) -gt 1 ]; then
+    if [ "$(wc -l /etc/notrack/custom.csv | cut -d " " -f 1)" -gt 1 ]; then
       cat /etc/notrack/custom.csv >> "$BlockingCSV"
     fi
     echo "Custom Black List is in date, no need for processing"
@@ -288,7 +312,7 @@ GetList_BlackList() {
   
   printf "%s\n" "${CSVList[@]}" > "/etc/notrack/custom.csv"
   printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/custom.list"
-  if [ $(wc -l /etc/notrack/custom.csv | cut -d " " -f 1) -gt 1 ]; then
+  if [ "$(wc -l /etc/notrack/custom.csv | cut -d " " -f 1)" -gt 1 ]; then
     cat /etc/notrack/custom.csv >> "$BlockingCSV"
   fi
   echo "Finished processing Custom Black List"
@@ -377,7 +401,7 @@ function Get_Custom() {
     FileName=${FileName##*/}                     #Get filename from path
     FileName=${FileName%.*}                      #Remove file extension
     FileName=${FileName:7}                       #Remove custom_    
-    if [ ! ${CustomListArray[$FileName]} ]; then
+    if [ ! "${CustomListArray[$FileName]}" ]; then
       DeleteOldFile "/etc/dnsmasq.d/custom_$FileName.list"
       DeleteOldFile "/etc/notrack/custom_$FileName.csv"
     fi
@@ -397,7 +421,7 @@ GetList() {
   local DLFileTime=0                             #Downloaded File Time
   local ListFileTime=0                           #Processed List File Time
   
-  if [ ${Config[blocklist_$Lst]} == 0 ]; then    #Should we process this list according to the Config settings?
+  if [ "${Config[blocklist_$Lst]}" == 0 ]; then    #Should we process this list according to the Config settings?
     DeleteOldFile "$ListFile"                    #If not delete the old file, then leave the function
     DeleteOldFile "$CSVFile"
     DeleteOldFile "$DLFile"
@@ -502,7 +526,7 @@ Process_EasyList() {
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + $JumpPoint))
+      j=$((j + JumpPoint))
       i=0
     fi
     ((i++))
@@ -536,7 +560,7 @@ Process_NoTrackList() {
         #Check if config line LatestVersion exists
         #If not add it in with tee
         #If it does then use sed to update it
-        if [[ $(cat "$ConfigFile" | grep LatestVersion) == "" ]]; then
+        if [[ $(grep "LatestVersion" "$ConfigFile") == "" ]]; then
           echo "LatestVersion = $LatestVersion" | sudo tee -a "$ConfigFile"
         else
           sed -i "s/^\(LatestVersion *= *\).*/\1$LatestVersion/" $ConfigFile
@@ -546,7 +570,7 @@ Process_NoTrackList() {
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + $JumpPoint))
+      j=$((j + JumpPoint))
       i=0
     fi
     ((i++))
@@ -575,7 +599,7 @@ Process_PlainList() {
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + $JumpPoint))
+      j=$((j + JumpPoint))
       i=0
     fi
     ((i++))
@@ -591,9 +615,9 @@ Process_TLDList() {
   #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
   #DomainQuickList is used to speed up processing in stats.php
   
-  local -A DomainWhiteList
   local -A DomainBlackList
-  
+  local -A DomainWhiteList
+    
   Get_FileTime "$DomainWhiteListFile"
   local DomainWhiteFileTime=$FileTime
   Get_FileTime "$DomainCSV"
@@ -601,7 +625,7 @@ Process_TLDList() {
   Get_FileTime "/etc/dnsmasq.d/tld.list"
   local TLDListFileTime=$FileTime
   
-  if [ ${Config[blocklist_tld]} == 0 ]; then     #Should we process this list according to the Config settings?
+  if [ "${Config[blocklist_tld]}" == 0 ]; then     #Should we process this list according to the Config settings?
     DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
     DeleteOldFile "/etc/notrack/tld.csv"
     DeleteOldFile "$DomainQuickList"
@@ -611,15 +635,7 @@ Process_TLDList() {
   
   CSVList=()                                     #Zero Arrays
   DNSList=()
-  
-  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
-  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ]; then
-    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
-    echo "Top Level Domain List is in date, no need for processing"
-    echo
-    return 0    
-  fi
-  
+      
   echo "Processing Top Level Domain List"
   
   CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
@@ -639,7 +655,7 @@ Process_TLDList() {
     if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
-      DomainBlackList[$Line]="$Line"             #Add domain to associative array
+      DomainBlackList[$Line]="$Line"             #Add domain to associative array      
     fi
   done < "$DomainBlackListFile"
   
@@ -648,17 +664,27 @@ Process_TLDList() {
       if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
         DNSList+=("address=/$TLD/$IPAddr")
         CSVList+=("$TLD,Active,$Name")
-        echo "$TLD" >> $DomainQuickList
+        DomainList[$TLD]=1        
       fi    
     else
       if [ "${DomainBlackList[$TLD]}" ]; then
         DNSList+=("address=/$TLD/$IPAddr")
         CSVList+=("$TLD,Active,$Name")
-        echo "$TLD" >> $DomainQuickList
+        DomainList[$TLD]=1        
       fi
     fi
   done < "$DomainCSV"
   
+  
+  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
+  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ]; then
+    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
+    echo "Top Level Domain List is in date, not saving"
+    echo
+    return 0    
+  fi
+  
+  printf "%s\n" "${!DomainList[@]}" > $DomainQuickList
   printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"
   printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/tld.list"
   
@@ -688,7 +714,7 @@ Process_UnixList0() {
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + $JumpPoint))
+      j=$((j + JumpPoint))
       i=0
     fi
     ((i++))
@@ -738,7 +764,7 @@ Process_UnixList127() {
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + $JumpPoint))
+      j=$((j + JumpPoint))
       i=0
     fi
     ((i++))
@@ -838,7 +864,7 @@ Upgrade() {
 }
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o fhvtu -l help,force,version,upgrade,test -- "$@"); then
+  if ! options="$(getopt -o fhvtu -l help,force,version,upgrade,test -- "$@")"; then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -955,14 +981,16 @@ GetList "winhelp2002" "unix0" 604800             #7 Days
 GetList "chneasy" "easylist" 345600              #China
 GetList "ruseasy" "easylist" 345600              #Russia
 
-Get_Custom                                   #Process Custom Block lists
+Get_Custom                                       #Process Custom Block lists
 
 if [ ${Config[blocklist_tld]} == 0 ]; then
   DeleteOldFile "$DomainQuickList"
 fi
   
-echo "Imported $(cat "$BlockingCSV" | grep -c Active) Domains into Block List"
-  
+echo "Imported $(grep -c "Active" "$BlockingCSV") Domains into Block List"
+echo "Deduplicated $Dedup Domains"
+echo
+
 if [ $ChangesMade -gt 0 ]; then                  #Have any lists been processed?
   echo "Restarting Dnsnmasq"
   service dnsmasq restart                        #Restart dnsmasq  
