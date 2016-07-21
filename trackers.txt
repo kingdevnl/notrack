@@ -2,37 +2,38 @@
 #LatestVersion 0.7.14
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
-103bees.com
+103bees.com #Tracker Unknown
 105app.com #Tracker Unknown
-10cms.com
+10cms.com #Amplience
 123count.com #SpidersWatchp
 123-tracker.com #Lead Forensics
 161media.com #161 Media
 1800omniture.com #Adobe
 1s3h4f7sl.com #HelloWorld
 200summit.com #Lead Forensics
-206ads.com
+206ads.com #Advertising Unknown
 247inc.net #[24]7
 247realmedia.com #AppNexus Inc
 247realmedia.org #AppNexus Inc
 247-inc.com #[24]7
 247-inc.net #[24]7
-254a.com
+254a.com #Advertising Unknown
 2cobrowse.com #eGain Corporation
 207.net #Adobe
 2nyan.org
 2o7.net #Adobe
-302br.net
-303br.net
-304br.net
-305br.net
-306br.net
-307br.net
-308br.net
-309br.net
-33across.com
-360yield.com
-3lift.com
+302br.net #Integral Ad Science
+303br.net #Integral Ad Science
+304br.net #Integral Ad Science
+305br.net #Integral Ad Science
+306br.net #Integral Ad Science
+307br.net #Integral Ad Science
+308br.net #Integral Ad Science
+309br.net #Integral Ad Science
+33across.com #33Across
+360yield.com #Improve digital
+360yieldplatform.com #Improve digital
+3lift.com #Triple Lift
 4dsply.com
 4nabs.com
 51yes.com
@@ -327,7 +328,7 @@ altabold1.com #Lead Forensics
 amap.com
 amazon-adsystem.com
 amgdgt.com
-amplience.com
+amplience.com #Amplience
 amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
