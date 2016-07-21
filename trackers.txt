@@ -10377,7 +10377,6 @@ pixel.brit.co
 marketing-solutions.bt.com
 pixiedust.buzzfeed.com
 dw.cbsimg.net
-compatexchange.cloudapp.net
 d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
 d2ha22j8ys3e0o.cloudfront.net #Canvas Fingerprinting
 d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
