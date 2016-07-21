@@ -38,6 +38,7 @@
 4nabs.com
 51yes.com
 51.la
+52tyd.com #Advertising
 5gl1x9qc.com
 5min.com
 6000088.com #HelloWorld
@@ -471,6 +472,7 @@ blackholemyemail.com #Campaign Monitor Pty
 blinkx.com
 blocwhite7.com #Lead Forensics
 blogherads.com
+bolimubei.com #Advertising
 bosctrl32.com #Lead Forensics
 bluebillywig.com
 bluekai.com #Oracle
@@ -593,6 +595,7 @@ cashbackwindow.com #Digital Window
 cashforfundraising.com #Digital Window
 cashlantis.com
 ccmp.eu #Experian
+cctyly.com #Advertising
 cdngc.net
 cdn-net.com
 cedexis.com
@@ -823,6 +826,7 @@ crtracklink.com
 crushads.com #bluTonic
 crwdcntrl.net
 cspbuilder.info
+cstoa.com
 ctasnet.com
 ctd001.net #Experian
 ctd002.net #Experian
@@ -1071,6 +1075,7 @@ evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
 evergage.com
+ever-lohas.com #Advetising
 ever-track-51.com #Lead Forensics
 everestjs.net
 everesttech.net
@@ -1425,6 +1430,7 @@ kastatic.com
 kau.li
 keen.io #Keen IO (analytics)
 kestrelfm.net #Ad Web
+keytui.com #Advertising
 keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
@@ -1557,6 +1563,7 @@ mediamond.it #Mediamond
 mediaplex.com
 mediavoice.com
 member-hsbc-group.com #HSBC
+mengmob.com #Advertising
 merchenta.com
 messages1.com #IBM Silverpop
 messages2.com #IBM Silverpop
@@ -9645,6 +9652,7 @@ q4websystems.com
 qeryz.com
 qingcdn.com #Advertising
 qmerce.com
+mp.weixin.qq.com #Advetising, altough TLD name qq.com seems a legit search engine.
 qservz.com
 qsubmit.com
 qualtrics.com
@@ -9705,6 +9713,7 @@ relatedweboffers.com #RevenueHits
 relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
+reliancevalve.com #Advertising
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -9882,6 +9891,7 @@ shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
+shuhenelk.com #Advertising
 shrfbdg004.com #Lead Forensics
 shwired.com #TMRG
 shwired.net #TMRG
@@ -10136,6 +10146,7 @@ typekit.net #Belongs to Adobe, may or may not be a tracker
 tynt.com
 tyskyt.com #YieldBot
 tyskyt.net #YieldBot
+tzcccm.com #Advertising
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 uadx.com
 udmserve.net
@@ -10329,6 +10340,7 @@ xct33.net #IBM Silverpop
 xg4ken.com
 xibei70.com #Adverising
 xiti.com
+xixiwan.net #Advertising
 pubs.xl.pt #Adverts of the XL's news papers (do not remove top domain name)
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
 yadro.ru
@@ -10344,6 +10356,7 @@ yieldmanager.com
 yieldmo.com #Yieldmo
 yieldoptimizer.com
 yieldpartners.com
+yijia2009.com  #Advetising
 yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
