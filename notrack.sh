@@ -983,7 +983,7 @@ GetList "ruseasy" "easylist" 345600              #Russia
 
 Get_Custom                                       #Process Custom Block lists
 
-if [ ${Config[blocklist_tld]} == 0 ]; then
+if [ "${Config[blocklist_tld]}" == 0 ]; then
   DeleteOldFile "$DomainQuickList"
 fi
   
