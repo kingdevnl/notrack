@@ -376,8 +376,7 @@ function Get_Custom() {
           "plain") Process_PlainList "$DLFile" ;;
           "notrack") Process_NoTrackList "$DLFile" ;;
           "tldlist") Process_TLDList ;;
-          "unix127") Process_UnixList127 "$DLFile" ;;
-          "unix0") Process_UnixList0 "$DLFile" ;;
+          "unix") Process_UnixList "$DLFile" ;;          
           *) echo "Unable to identify list type"
         esac
         CreateFile "$CSVFile"                    #Create CSV File
@@ -421,7 +420,7 @@ GetList() {
   local DLFileTime=0                             #Downloaded File Time
   local ListFileTime=0                           #Processed List File Time
   
-  if [ "${Config[blocklist_$Lst]}" == 0 ]; then    #Should we process this list according to the Config settings?
+  if [ "${Config[blocklist_$Lst]}" == 0 ]; then  #Should we process this list according to the Config settings?
     DeleteOldFile "$ListFile"                    #If not delete the old file, then leave the function
     DeleteOldFile "$CSVFile"
     DeleteOldFile "$DLFile"
@@ -466,8 +465,7 @@ GetList() {
     "plain") Process_PlainList "$DLFile" ;;
     "notrack") Process_NoTrackList "$DLFile" ;;
     "tldlist") Process_TLDList ;;
-    "unix127") Process_UnixList127 "$DLFile" ;;
-    "unix0") Process_UnixList0 "$DLFile" ;;
+    "unix") Process_UnixList "$DLFile" ;;    
     *) Error_Exit "Unknown option $2"
   esac
   
@@ -617,7 +615,7 @@ Process_TLDList() {
   
   local -A DomainBlackList
   local -A DomainWhiteList
-    
+  
   Get_FileTime "$DomainWhiteListFile"
   local DomainWhiteFileTime=$FileTime
   Get_FileTime "$DomainCSV"
@@ -635,7 +633,7 @@ Process_TLDList() {
   
   CSVList=()                                     #Zero Arrays
   DNSList=()
-      
+    
   echo "Processing Top Level Domain List"
   
   CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
@@ -692,75 +690,29 @@ Process_TLDList() {
   echo
   ((ChangesMade++))
 }
-#Process UnixList 0--------------------------------------------------
-Process_UnixList0() {
-  #Unix hosts file with 0 localhost have: 0.0.0.0 site.com
-  #$1 = SourceFile
-  CalculatePercentPoint "$1"
-  i=1                                            #Progress counter
-  j=$JumpPoint                                   #Jump in percent
-  
-  while IFS=$'\r' read -r Line _
-  do
-    if [[ ${Line:0:3} == "0.0" ]]; then          #Does line start with 0.0
-      Line=${Line:8}                             #Trim out 0.0.0.0
-           
-      if [[ ! $Line =~ ^(#|localhost|www\.|EOF|\[) ]]; then
-        Line="${Line%%\#*}"                      #Delete comments
-        Line="${Line%%*( )}"                     #Delete trailing spaces
-        AddSite "$Line" ""
-      fi
-    fi
-    
-    if [ $i -ge $PercentPoint ]; then            #Display progress
-      echo -ne " $j%  \r"                        #Echo without return
-      j=$((j + JumpPoint))
-      i=0
-    fi
-    ((i++))
-  done < "$1"
-  echo " 100%"
- }
-#Process UnixList 127------------------------------------------------
-Process_UnixList127() {
+#Process UnixList----------------------------------------------------
+Process_UnixList() {
   #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
-  #Some files are double spaced, e.g.
-  # 127.0.0.1  somesite.com
-  # 127.0.0.1 somesite.com
   #1. Calculate Percentage and Jump points
-  #2. Read line from file
-  #3. Is it a double spaced line?
-  #3a. Trim 127.0.0.1__
-  #3b. Delete trailing comments
-  #3c. Delete trailing spaces
-  #3d. Parse Line to AddSite function
-  #4. Is line single spaced?
-  #4a. Trim 127.0.0.1_
-  #4b,c,d as above
+  #2. Read IP, Line, Comment, from file  
+  #3. Parse Line and Comment to AddSite
   #5. Display progress
   #6. loop back to 2.
+  
   #$1 = SourceFile
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
   
-  while IFS=$'\r' read -r Line _
-  do
-    if [[ ${Line:0:11} == "127.0.0.1  " ]]; then #Some files have a double space
-      Line=${Line:11}                            #Crop 127.0.0.1
-      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[).*$ ]]; then
+  while IFS=$' \t#\r' read -r IP Line Comment _  #Space, Tab, Hash, Return
+  do    
+    if [[ ${IP:0:9} == "127.0.0.1" ]] || [[ ${IP:0:7} == "0.0.0.0" ]]; then  #Is line IP or comment?      
+      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[).*$ ]]; then  #Negate localhost, www*, and EOF
         Line="${Line%%\#*}"                      #Delete comments
         Line="${Line%%*( )}"                     #Delete trailing spaces
-        AddSite "$Line" ""
+        AddSite "$Line" $Comment
       fi
-    elif [[ ${Line:0:10} == "127.0.0.1 " ]]; then
-      Line=${Line:10}                            #Crop 127.0.0.1
-      if [[ ! $Line =~ ^(#|localhost|www|EOF|\[).*$ ]]; then
-        Line="${Line%%\#*}"                      #Delete comments
-        Line="${Line%%*( )}"                     #Delete trailing spaces
-        AddSite "$Line" ""
-      fi
-    fi
+    fi   
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
@@ -946,12 +898,15 @@ WhiteListFileTime=$FileTime
 if [ ! -e $WhiteListFile ]; then Generate_WhiteList
 fi
   
-Read_WhiteList                                 #Load Whitelist into array
+Read_WhiteList                                   #Load Whitelist into array
 CreateFile "$BlockingCSV"
-cat /dev/null > $BlockingCSV                   #Empty csv file
+cat /dev/null > $BlockingCSV                     #Empty csv file
   
 if [ ! -e "$BlackListFile" ]; then Generate_BlackList
 fi
+
+CreateFile "$DomainWhiteListFile"                #Create Black & White lists
+CreateFile "$DomainBlackListFile"
 
 #Legacy files as of v0.7.14
 DeleteOldFile /etc/notrack/domains.txt
@@ -962,22 +917,22 @@ GetList_BlackList                                #Process Users Blacklist
   
 GetList "notrack" "notrack" 172800               #2 Days
 GetList "qmalware" "plain" 345600                #4 Days
-GetList "adblockmanager" "unix127" 604800        #7 Days
+GetList "adblockmanager" "unix" 604800           #7 Days
 GetList "disconnectmalvertising" "plain" 345600  #4 Days
 GetList "easylist" "easylist" 345600             #4 Days
 GetList "easyprivacy" "easylist" 345600          #4 Days
 GetList "fbannoyance" "easylist" 172800          #2 Days
 GetList "fbenhanced" "easylist" 172800           #2 Days
 GetList "fbsocial" "easylist" 345600             #4 Days
-GetList "hphosts" "unix127" 345600               #4 Days
-GetList "malwaredomainlist" "unix127" 345600     #4 Days
+GetList "hphosts" "unix" 345600                  #4 Days
+GetList "malwaredomainlist" "unix" 345600        #4 Days
 GetList "malwaredomains" "plain" 345600          #4 Days
 GetList "pglyoyo" "plain" 345600                 #4 Days
-GetList "someonewhocares" "unix127" 345600       #4 Days
+GetList "someonewhocares" "unix" 345600          #4 Days
 GetList "spam404" "easylist" 172800              #2 Days
 GetList "swissransom" "plain" 86400              #1 Day
 GetList "swisszeus" "plain" 86400                #1 Day
-GetList "winhelp2002" "unix0" 604800             #7 Days
+GetList "winhelp2002" "unix" 604800              #7 Days
 GetList "chneasy" "easylist" 345600              #China
 GetList "ruseasy" "easylist" 345600              #Russia
 
