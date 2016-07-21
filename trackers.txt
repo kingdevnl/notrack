@@ -2,37 +2,43 @@
 #LatestVersion 0.7.14
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
-103bees.com
-10cms.com
+103bees.com #Tracker Unknown
+105app.com #Tracker Unknown
+10cms.com #Amplience
 123count.com #SpidersWatchp
 123-tracker.com #Lead Forensics
 161media.com #161 Media
 1800omniture.com #Adobe
 1s3h4f7sl.com #HelloWorld
 200summit.com #Lead Forensics
-206ads.com
+206ads.com #Advertising Unknown
+247inc.net #[24]7
 247realmedia.com #AppNexus Inc
 247realmedia.org #AppNexus Inc
-254a.com
+247-inc.com #[24]7
+247-inc.net #[24]7
+254a.com #Advertising Unknown
 2cobrowse.com #eGain Corporation
 207.net #Adobe
 2nyan.org
 2o7.net #Adobe
-302br.net
-303br.net
-304br.net
-305br.net
-306br.net
-307br.net
-308br.net
-309br.net
-33across.com
-360yield.com
-3lift.com
+302br.net #Integral Ad Science
+303br.net #Integral Ad Science
+304br.net #Integral Ad Science
+305br.net #Integral Ad Science
+306br.net #Integral Ad Science
+307br.net #Integral Ad Science
+308br.net #Integral Ad Science
+309br.net #Integral Ad Science
+33across.com #33Across
+360yield.com #Improve digital
+360yieldplatform.com #Improve digital
+3lift.com #Triple Lift
 4dsply.com
 4nabs.com
 51yes.com
 51.la
+52tyd.com #Advertising
 5gl1x9qc.com
 5min.com
 6000088.com #HelloWorld
@@ -103,6 +109,7 @@ adblade.com
 adbrau.com
 adbrn.com
 adbutler-tachyon.com
+adbutter.net #Makazi Group
 adcash.com
 adcentriconline.com
 adc-srv.net #ADC Media
@@ -119,13 +126,17 @@ adfast.net #Ad Web
 adfast.org #Ad Web
 adflight.net #Ad Web
 adform.net
+adfront.org #BuySellAds
 adfuture.cn
 adgenie.co.uk
+adgibbon.com #AdGibbon
+adgibbon.mobi #AdGibbon
 adready.com #CPXi
 adready.info #CPXi
 adglare.net
 adgrx.com
 adinfuse.com #Velti
+adingo.jp #Voyage Group
 adio.co #Idio
 adip.ly
 adition.com
@@ -144,9 +155,12 @@ admarketplace.net
 admathhd.com #WhiteOps
 admatic.com.tr
 admaym.com
+admedia.com #AdMedia
 admediaclick.com #AppNexus Inc
 admedo.com
+admeld.com #Google
 admized.com
+admo.tv #Clickon
 admob.com #AdMob
 adnexus.com #AppNexus Inc
 adnexus.net #AppNexus Inc
@@ -167,6 +181,13 @@ adobedtm.com #Adobe
 adobetag.com #Adobe
 adoftheyear.com
 adometry.com #Google
+adomify.com #Adomik
+adomify.org #Adomik
+adomik.biz #Adomik
+adomik.com #Adomik
+adomik.info #Adomik
+adomik.net #Adomik
+adomik.org #Adomik
 adpacked.com #Adobe
 adprimemedia.com #AdPrime Media
 adprimemedia.net #AdPrime Media
@@ -176,6 +197,7 @@ adready.com #CPXi
 adready.info #CPXi
 adreadytractions.com
 adrequest.net #R van Ingen
+adrichweb.com #Adrich
 adriver.ru
 adroll.com
 adrotate.se
@@ -185,6 +207,7 @@ ads4apps.net #Smaato
 adsafeprotected.com
 adsbookie.com
 adscale.de
+adscience.nl #Adscience
 adsclean.com
 adsensecustomsearchads.com
 adsfac.eu
@@ -198,6 +221,10 @@ adspeed.net
 adspsp.com
 adsrvr.org
 adsrvs.com #WhiteOps
+adswizz.com #AdsWizz
+adswizz.net #AdsWizz
+adunity.com #AdUnity
+adunity.net #AdUnity
 adsymptotic.com
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
@@ -218,6 +245,7 @@ advertisers-openx.com #OpenX
 advertising.com
 advertserve.com
 adviva.net
+advolution.de
 adweb-connect.net #Ad Web
 adweb.info #Ad Web
 adwebconnect.net #Ad Web
@@ -230,11 +258,12 @@ adwise.fr #AdWise
 adwise.mobi #AdWise
 adwise.org #AdWise
 adwise.ru #AdWise
-adxpose.com
+adxpose.com #ComScore
 adyard.net #Ligatus
 adzerk.com
 adzerk.net
 adzhub.com
+adzip.co #Adbox Digital
 ad-center.com
 ad-score.com
 ad-serverparc.nl
@@ -300,7 +329,7 @@ altabold1.com #Lead Forensics
 amap.com
 amazon-adsystem.com
 amgdgt.com
-amplience.com
+amplience.com #Amplience
 amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
@@ -368,6 +397,7 @@ aracea.com #Ad Web
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
+astutemetrics.com #Astute Trackr
 atdmt.com
 atemda.com
 atgsvcs.com
@@ -424,6 +454,7 @@ bettermarketplaces.com #AppNexus Inc
 betterprogrammatic.com #AppNexus Inc
 bettertargeting.com #AppNexus Inc
 bettertradingsolutions.com #AppNexus Inc
+betweendigital.com #Between Digital
 bevyup.com
 bidr.io
 bidswitch.net
@@ -441,6 +472,7 @@ blackholemyemail.com #Campaign Monitor Pty
 blinkx.com
 blocwhite7.com #Lead Forensics
 blogherads.com
+bolimubei.com #Advertising
 bosctrl32.com #Lead Forensics
 bluebillywig.com
 bluekai.com #Oracle
@@ -450,12 +482,16 @@ bluesnapper.com
 bluesnapper.com.au
 bluevoice.biz
 bluevoice.us
+blutonic.net #bluTonic
+blutonic-ads.com #bluTonic
 bluuadd.com #Smaato
 bombora.com
 bongacash.com
 bonnieradnetwork.se #Bonnier Ad Network
 boomads.com
 boostable.com
+boostadvtrack.com #MainAd
+boostadvtracking.com #MainAd
 boo-box.com #Boo Box
 bounceexchange.com
 brand-server.com
@@ -519,7 +555,8 @@ burstnet.com
 burt.io #Burt Corp
 buyat.com #Digital Window
 buyerappreciation.com
-buysellads.com #BySellAds
+buysellads.com #BuySellAds
+buysellads.net #BuySellAds
 buysub.com
 bz.io
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
@@ -558,6 +595,7 @@ cashbackwindow.com #Digital Window
 cashforfundraising.com #Digital Window
 cashlantis.com
 ccmp.eu #Experian
+cctyly.com #Advertising
 cdngc.net
 cdn-net.com
 cedexis.com
@@ -785,8 +823,10 @@ crosspixel.net #Cross Pixel
 crowdignite.com
 crsspxl.com #Cross Pixel
 crtracklink.com
+crushads.com #bluTonic
 crwdcntrl.net
 cspbuilder.info
+cstoa.com
 ctasnet.com
 ctd001.net #Experian
 ctd002.net #Experian
@@ -1035,6 +1075,7 @@ evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
 evergage.com
+ever-lohas.com #Advetising
 ever-track-51.com #Lead Forensics
 everestjs.net
 everesttech.net
@@ -1348,6 +1389,7 @@ integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
 intellitxt.com
+intency.com #Between Digital
 intenta.io
 intentiq.com
 intentmedia.net
@@ -1388,6 +1430,7 @@ kastatic.com
 kau.li
 keen.io #Keen IO (analytics)
 kestrelfm.net #Ad Web
+keytui.com #Advertising
 keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
@@ -1495,6 +1538,7 @@ mailshield.com #Aurea
 mailshield.net #Aurea
 mailchimp.com
 mailmunch.co
+maintrack.us #MainAd
 margree.com #Ad Web
 marinsm.com
 marketinghq.net #Aurea
@@ -1519,6 +1563,7 @@ mediamond.it #Mediamond
 mediaplex.com
 mediavoice.com
 member-hsbc-group.com #HSBC
+mengmob.com #Advertising
 merchenta.com
 messages1.com #IBM Silverpop
 messages2.com #IBM Silverpop
@@ -9272,6 +9317,9 @@ mktoweb.com #Marketo
 ml314.com
 mlnadvertising.com
 mlsend2.com
+mmetrics.com #ComScore
+mmetrics.mobi #ComScore
+mmetrics.net #ComScore
 mmetrix.mobi #Mobiletech
 mmondi.com
 mmstat.com
@@ -9578,6 +9626,7 @@ pubmine.com
 pubnation.com #Not sure
 pubsqrd.com
 pubexchange.com
+pubzip.net #Adbox Digital
 pulsemgr.com
 pump.to
 purplenile.com #eGain Corporation
@@ -9595,6 +9644,7 @@ pxlsrv.us #AppNexus Inc
 pxstda.com #Advertising
 p-td.com
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
+q1media.com #Q1Media
 q1mediahydraplatform.com
 q4cdn.com
 q4web.com
@@ -9602,6 +9652,7 @@ q4websystems.com
 qeryz.com
 qingcdn.com #Advertising
 qmerce.com
+mp.weixin.qq.com #Advetising, altough TLD name qq.com seems a legit search engine.
 qservz.com
 qsubmit.com
 qualtrics.com
@@ -9662,6 +9713,7 @@ relatedweboffers.com #RevenueHits
 relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
+reliancevalve.com #Advertising
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -9839,6 +9891,7 @@ shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
+shuhenelk.com #Advertising
 shrfbdg004.com #Lead Forensics
 shwired.com #TMRG
 shwired.net #TMRG
@@ -9968,6 +10021,7 @@ surveybit.com #Campaign Monitor Pty
 surveybus.com #Campaign Monitor Pty
 surveyi.com #Surveyi
 surveyrocket.com #Campaign Monitor Pty
+survey-poll.com #ComScore
 survio.com #Survio
 survio.se #Survio
 sw-rail-7.com #Lead Forensics
@@ -10006,6 +10060,7 @@ testorion.com #eGain Corporation
 televisions2compare.com #Digital Window
 telize.com
 tellapart.com
+tellme.com #[24]7
 terraclicks.com
 testanalytics.net
 textad.net
@@ -10091,6 +10146,7 @@ typekit.net #Belongs to Adobe, may or may not be a tracker
 tynt.com
 tyskyt.com #YieldBot
 tyskyt.net #YieldBot
+tzcccm.com #Advertising
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 uadx.com
 udmserve.net
@@ -10284,6 +10340,7 @@ xct33.net #IBM Silverpop
 xg4ken.com
 xibei70.com #Adverising
 xiti.com
+xixiwan.net #Advertising
 pubs.xl.pt #Adverts of the XL's news papers (do not remove top domain name)
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
 yadro.ru
@@ -10299,6 +10356,7 @@ yieldmanager.com
 yieldmo.com #Yieldmo
 yieldoptimizer.com
 yieldpartners.com
+yijia2009.com  #Advetising
 yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
