@@ -229,11 +229,6 @@ a.button-danger {
   float: left;
   display: inline;
 }
-.row-padded {
-  width: 100%;
-  float: left;  
-  padding: 0em 1em;
-}
 .row-mobile {
   display: none;
 }
@@ -284,7 +279,11 @@ a.button-danger {
   width: 100%;
   padding-top: 3rem;
 }
-
+@media only print {
+  #main {
+    padding-top: 0;
+  }
+}
 .pag-nav {
   font-size: 0.9em;
   padding: 0 0 5px 10px;
@@ -492,7 +491,7 @@ span.key-green {background: #80FF60;}
 /*Main Menu*********************************************************/
 #menu-top {  
   width: 100%;
-  background-color: #262626;  
+  background-color: #262626;
   height: 9rem;
   position: fixed;
   top: 0;
@@ -648,6 +647,57 @@ span.timer {
     font-size: 2rem;
   }  
 }
+@media only print {
+  #main-menu, #menu-top #main-menu-padded {
+    display: none;                     /*Hide menu on Print view*/
+  }
+}
+/*Config Menu*******************************************************/
+#config-menu {
+  width: 11em;
+  height: 100vh;
+  padding-top: 4em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #262626;
+}
+#config-page {
+  width: auto;
+  padding: 3em 0 0 10em;
+}
+#config-menu span {
+  display: block;
+  font-size: 1.2em;
+  line-height: 2em;
+  padding-left: 0.5em;  
+}
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {
+  #config-menu {
+    width: 100%;
+    height: auto;
+    padding-top: 6em;
+    position: relative;
+  }
+  #config-page {
+    width: 100%;
+    padding: 0;
+  }
+  #config-menu span {
+    font-size: 2.5em;
+    line-height: 1.9em;
+    padding-left: 2em;
+  }
+}
+@media only print {
+  #config-menu {
+    display: none;
+  }
+  #config-page {
+    width: 100%;
+    padding: 0;
+  }
+}
 /*Home Nav**********************************************************/
 .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y, .home-nav-p {
   width: 23%;
@@ -707,12 +757,7 @@ span.filter {
     margin: 1em 4%;
   }  
 }
-@media only print {
-  #main-menu, #menu-top #main-menu-padded {
-    display: none;                     /*Hide menu on Print view*/
-  }
-}
-
+/*Top Menu Popups***************************************************/
 #fade {
   display: none;
   position: absolute;

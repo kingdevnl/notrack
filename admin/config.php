@@ -41,6 +41,7 @@ Advanced
 
 require('./include/global-vars.php');
 require('./include/global-functions.php');
+require('./include/topmenu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {
@@ -143,22 +144,27 @@ if (isset($_POST['action'])) {
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/config.js"></script>
+  <script src="./include/menu.js"></script>
   <title>NoTrack - Config</title>  
 </head>
 
 <body>
-<div id="main">
-<nav><div id="main-menu">
-  <a href="../admin"><span class="pictext"><img src="./svg/menu_home.svg" alt=""></span></a>
-  <a href="../admin/config.php"><span class="pictext"><img src="./svg/menu_config.svg" alt=""><span class="dtext">General</span></span></a>
-  <a href="../admin/config.php?v=blocks"><span class="pictext"><img src="./svg/menu_blocklists.svg" alt=""><span class="dtext">Block Lists</span></span></a>
-  <a href="../admin/config.php?v=black"><span class="pictext"><img src="./svg/menu_black.svg" alt=""><span class="dtext">BlackList</span></span></a>
-  <a href="../admin/config.php?v=white"><span class="pictext"><img src="./svg/menu_white.svg" alt=""><span class="dtext">WhiteList</span></span></a>
-  <a href="../admin/config.php?v=tld"><span class="pictext"><img src="./svg/menu_domain.svg" alt=""><span class="dtext">Domains</span></span></a>
-  <a href="../admin/config.php?v=sites"><span class="pictext"><img src="./svg/menu_sites.svg" alt=""><span class="dtext">Sites Blocked</span></span></a>
-  <a href="../admin/config.php?v=advanced"><span class="pictext"><img src="./svg/menu_advanced.svg" alt=""><span class="dtext">Advanced</span></span></a>
+<?php
+ActionTopMenu();
+DrawTopMenu();
+?>
+
+<nav><div id="config-menu">
+  <a href="../admin/config.php"><span>General</span></a>
+  <a href="../admin/config.php?v=blocks"><span>Block Lists</span></a>
+  <a href="../admin/config.php?v=black"><span>BlackList</span></a>
+  <a href="../admin/config.php?v=white"><span>WhiteList</span></a>
+  <a href="../admin/config.php?v=tld"><span>Domains</span></a>
+  <a href="../admin/config.php?v=sites"><span>Sites Blocked</span></a>
+  <a href="../admin/config.php?v=advanced"><span>Advanced</span></a>  
 </div></nav>
 
+<div id="config-page">
 <?php
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
