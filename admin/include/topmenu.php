@@ -11,10 +11,30 @@ function ActionTopMenu() {
   //3. Sleep for 5 seconds to prevent a Race Condition occuring where new config could be loaded before ntrk-pause has been able to modify /etc/notrack/notrack.conf
   //   5 seconds is too much for an x86 based server, but for a Raspberry Pi 1 its just enough.
   
-    
-  if (isset($_GET['a'])) {
+  if (isset($_POST['operation'])) {
+    switch ($_POST['operation']) {
+      case 'force-notrack':
+        ExecAction('force-notrack', true, true);
+        sleep(5);
+        header("Location: ?");
+        break;
+      case 'restart':
+        sleep(2);
+        ExecAction('restart', true, true);
+        exit(0);
+        break;
+      case 'shutdown':
+        sleep(2);
+        ExecAction('shutdown', true, true);
+        exit(0);
+        break;      
+    }
+  }
+  
+  //if (isset($_GET['a'])) {
+  if (isset($_POST['pause-time'])) {  
     $Mem->delete('Config');                      //Force reload of config    
-    switch ($_GET['a']) {      
+    switch ($_POST['pause-time']) {
       case 'pause5':      
         ExecAction('pause5', true, true);
         break;
@@ -33,26 +53,29 @@ function ActionTopMenu() {
         break;
       case 'stop':
         ExecAction('stop', true, true);
-        break;
-      case 'force-notrack':
-        ExecAction('force-notrack', true, true);
-        break;
-      case 'restart':
-        sleep(2);
-        ExecAction('restart', true, true);
-        exit(0);
-        break;
-      case 'shutdown':
-        sleep(2);
-        ExecAction('shutdown', true, true);
-        exit(0);
-        break;
+        break;      
       default:
         return false;
-    }    
-    sleep(5);    
+    }
+    sleep(5);
+    header("Location: ?");
   }
-  return false;
+  return true;
+}
+//-------------------------------------------------------------------
+function DrawConfigMenu() {
+  echo '<nav><div id="config-menu">'.PHP_EOL;
+  echo '<a href="../admin/config.php"><span>General</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=blocks"><span>Block Lists</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=black"><span>BlackList</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=white"><span>WhiteList</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=tld"><span>Domains</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=sites"><span>Sites Blocked</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=advanced"><span>Advanced</span></a>'.PHP_EOL;
+  echo '<a href="../admin/upgrade.php"><span>Upgrade</span></a>'.PHP_EOL;
+  echo '</div></nav>'.PHP_EOL;
+  echo PHP_EOL;
+  echo '<div id="config-page">'.PHP_EOL;;
 }
 //-------------------------------------------------------------------
 function DrawTopMenu() {
@@ -92,6 +115,8 @@ function DrawTopMenu() {
   }
 
   echo '<div id="pause">'.PHP_EOL;
+  echo '<form id="pause-form" action="?" method="post">'.PHP_EOL;
+  echo '<input type="hidden" name="pause-time" id="pause-time" value="">'.PHP_EOL;
   if (substr($Config['Status'], 0, 6) == 'Paused') {
     echo '<span class="timer" title="Paused until">'.date('H:i', substr($Config['Status'], 6)).'</span>'.PHP_EOL;
     echo '<a href="#" onclick="PauseNoTrack(\'start\')"><span class="pbutton" title="Enable Blocking">&#9654;</span></a>'.PHP_EOL;
@@ -104,13 +129,13 @@ function DrawTopMenu() {
     echo '<a href="#" onclick="PauseNoTrack(\'stop\')"><span class="pbutton" title="Disable Blocking">&#8545;</span></a>'.PHP_EOL;
   }
   echo '<div tabindex="1" id="dropbutton">&#x25BC;'.PHP_EOL;
-  echo '<div id="pause-menu">'.PHP_EOL;
+  echo '<div id="pause-menu">'.PHP_EOL;  
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 5)"><span>Pause for 5 minutes</span></a>'.PHP_EOL;
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 15)"><span>Pause for 15 minutes</span></a>'.PHP_EOL;
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 30)"><span>Pause for 30 minutes</span></a>'.PHP_EOL;
   echo '<a href="#" onclick="PauseNoTrack(\'pause\', 60)"><span>Pause for 1 Hour</span></a>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
-  echo '</div></div>'.PHP_EOL;
+  echo '</form></div></div>'.PHP_EOL;
   echo '</nav>'.PHP_EOL;
 
   //Dialogs----------------------------------------------------------
@@ -120,12 +145,18 @@ function DrawTopMenu() {
   echo '<div class="centered"><img src="./images/progress.gif" alt=""></div>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
 
+  //Operations
   echo '<div id="centerpoint2"><div id="options">'.PHP_EOL;
   echo '<div class="dialog-bar">Options</div>'.PHP_EOL;
   echo '<div class="centered">'.PHP_EOL;
+  
+  echo '<form id="operation-form" action="?" method="post">'.PHP_EOL;
+  echo '<input type="hidden" name="operation" id="operation" value="">'.PHP_EOL;
   echo '<span><a href="#" onclick="PauseNoTrack(\'force-notrack\')" title="Force Download and Update Blocklist" class="button-grey button-options">Update Blocklist</a></span>'.PHP_EOL;
   echo '<span><a href="#" onclick="PauseNoTrack(\'restart\')" class="button-grey button-options">Restart System</a></span>'.PHP_EOL;
   echo '<span><a href="#" onclick="PauseNoTrack(\'shutdown\')" class="button-danger button-options">Shutdown System</a></span>'.PHP_EOL;
+  echo '</form>'.PHP_EOL;
+  
   echo '<div class="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close"></a></div>'.PHP_EOL;
   echo '</div></div></div>'.PHP_EOL;
 
