@@ -5,6 +5,7 @@ NoTrack
   
 Home:
   Static top menu
+  Top menu commands changed from GET to POST
 
 Config:
   New style side menu
