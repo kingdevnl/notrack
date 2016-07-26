@@ -23,10 +23,10 @@ if ($Config['Password'] != '') {
 </head>
 
 <body>
-<div id="main">
 <?php
 ActionTopMenu();
 DrawTopMenu();
+DrawConfigMenu();
 
 //Main---------------------------------------------------------------
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
