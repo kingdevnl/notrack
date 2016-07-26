@@ -152,20 +152,8 @@ if (isset($_POST['action'])) {
 <?php
 ActionTopMenu();
 DrawTopMenu();
-?>
+DrawConfigMenu();
 
-<nav><div id="config-menu">
-  <a href="../admin/config.php"><span>General</span></a>
-  <a href="../admin/config.php?v=blocks"><span>Block Lists</span></a>
-  <a href="../admin/config.php?v=black"><span>BlackList</span></a>
-  <a href="../admin/config.php?v=white"><span>WhiteList</span></a>
-  <a href="../admin/config.php?v=tld"><span>Domains</span></a>
-  <a href="../admin/config.php?v=sites"><span>Sites Blocked</span></a>
-  <a href="../admin/config.php?v=advanced"><span>Advanced</span></a>  
-</div></nav>
-
-<div id="config-page">
-<?php
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
   global $RowsPerPage, $SearchStr, $StartPoint;
@@ -447,8 +435,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Memory Used', $FreeMem[2].' MB');
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
   DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
-  DrawSysRow('NoTrack Version', $Version);
-  DrawSysRow('Updates', '<button class="button-blue" onclick="window.location=\'./upgrade.php\'">Check for Updates</button>');
+  DrawSysRow('NoTrack Version', $Version); 
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Dnsmasq');
@@ -738,6 +725,10 @@ function DisplayDomainList() {
   $KeyWhite = array_flip(Load_List($FileTLDWhiteList, 'TLDWhiteList'));
   $ListSize = count($List);
   
+  if ($List[$ListSize-1][0] == '') {             //Last line is sometimes blank
+    array_splice($List, $ListSize-1);            //Cut last line out
+  }
+  
   $FlagImage = '';  
   $UnderscoreName = '';
 
@@ -771,19 +762,15 @@ function DisplayDomainList() {
   
   //Tables
   echo '<div class="sys-group">'.PHP_EOL;
-  
-  if ($ListSize == 0) {
-    echo 'No sites found in Block List'.PHP_EOL;
+  if ($ListSize == 0) {                          //Is List blank?
+    echo 'No sites found in Block List'.PHP_EOL; //Yes, display error, then leave
     echo '</div>';
     return;
   }
-   
-  
   
   echo '<form name="tld" action="?" method="post">'.PHP_EOL;
   echo '<input type="hidden" name="action" value="tld">'.PHP_EOL;
-  echo '<input type="submit" value="Save Changes">'.PHP_EOL;
-  
+    
   echo '<p><b>Old Generic Domains</b></p>'.PHP_EOL;
   echo '<table class="tld-table">'.PHP_EOL;
   
@@ -818,7 +805,11 @@ function DisplayDomainList() {
     }    
   }
   
-  echo '</table></form></div>'.PHP_EOL;          //End table
+  echo '</table>'.PHP_EOL;
+  echo '<div class="centered"><br />'.PHP_EOL;
+  echo '<input type="submit" value="Save Changes">'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
+  echo '</form></div>'.PHP_EOL;          //End table
   
   return null;
 }
