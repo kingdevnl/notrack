@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 19 July 2016
+#NoTrack Tracker list updated 29 July 2016
 #LatestVersion 0.7.14
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -97,6 +97,7 @@ active-trk7.com #Lead Forensics
 acuityplatform.com
 acxiom-online.com
 ad4game.com
+adacado.com #Adacado
 adaction.mobi #AdAction
 adadvisor.net
 adagencyonline.biz
@@ -121,6 +122,7 @@ addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
 addnow.com
 addthis.com
+addthisedge.com #Oracle
 addtoany.com
 adfast.net #Ad Web
 adfast.org #Ad Web
@@ -205,6 +207,7 @@ adrsp.net
 adrtx.net
 ads4apps.net #Smaato
 adsafeprotected.com
+adsafety.net #Online Solution Int
 adsbookie.com
 adscale.de
 adscience.nl #Adscience
@@ -334,6 +337,7 @@ amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
 and.co.uk
+anm.co.uk #Associated Newspapers Limited
 anreson.net #Advertising
 angorch-cdr7.com #Lead Forensics
 anrdoezrs.net
@@ -434,6 +438,7 @@ a-msedge.net #Microsoft
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 bae5tracker.com #Lead Forensics
 bandelcot.com
+bannerflow.com #Bannerflow
 basebanner.com
 batchgeo.com
 baw5tracker.com #Lead Forensics
@@ -461,6 +466,7 @@ bidswitch.net
 bidtheatre.com #BidTheatre
 bidtrk.com
 bigbos.top #Advertising
+bigcommerce.com #BigCommerce
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 bing.net #Microsoft
@@ -953,6 +959,7 @@ dwin1.com #Digital Window
 dwin2.com #Digital Window
 dynamicyield.com
 dyncdn.me
+dyntrk.com #DynAdmic
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 e701.net
 eacdn.com #Nicky Senyard
@@ -960,6 +967,7 @@ easyresearch.se #Questback
 ebayadvertising.com #eBay
 ebayenterprise.com #eBay
 ebaypartnernetwork.com #eBay
+ebdr3.com #Unknown Tracker
 ebz.io
 echodevconfirmsubscription.com #Campaign Monitor Pty
 echodevcreatesend.com #Campaign Monitor Pty
@@ -1096,6 +1104,7 @@ eyeota.net
 eyereturn.com #EyeReturn Marketing
 ezp.bz
 e-mark.nl #Emark
+e-webtrack.net #WebTrack
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 face3media.com
 facetz.net #Exebid DCA
@@ -1197,6 +1206,7 @@ googletagservices.com
 gorillanation.com
 goroost.com
 gosquared.com
+gotraffic.net #Unknown Tracker
 gpwebsolutions.co.uk
 grapeshot.co.uk
 gravity.com
@@ -1327,6 +1337,7 @@ icandi.de
 idg.com
 idgknowledgehub.com
 idgpublishing.com
+idio.co #Idio
 iframes.us
 igodigital.com
 igsonar.com
@@ -1344,7 +1355,6 @@ impactradius.com #Impact Radius
 impdesk.com
 impressiondesk.com
 imrworldwide.com
-#tfsrv.x.incapdns.net #FireEye
 in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
@@ -1389,6 +1399,7 @@ integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
 intellitxt.com
+intelli-direct.com #Cognesia
 intency.com #Between Digital
 intenta.io
 intentiq.com
@@ -1436,6 +1447,9 @@ keywords.com #Microsoft
 kiespr.com #TMRG
 kiosked.com
 kissmetrics.com
+klick2contact.com #Eckoh
+klick2contact.mobi #Eckoh
+klick2contact.net #Eckoh
 kmockett.com #Ad Web
 komoona.com
 korrelate.com
@@ -1557,7 +1571,7 @@ mcstats.org
 mdotm.com #MdotM
 media.net #Yahoo
 media6degrees.com
-mediaforge.com
+mediaforge #Rakuten
 medialytics.com #Medialets
 mediamond.it #Mediamond
 mediaplex.com
@@ -9332,7 +9346,8 @@ mmtrack77.co.uk #Mailing Manager
 mmtrack78.co.uk #Mailing Manager
 mmtrack79.co.uk #Mailing Manager
 mnetads.com #Yahoo
-moatads.com
+moatads.com #Moat
+moatpixel.com #Moat
 mobclix.com #Velti
 mobfactory.info
 mobfox.biz #MobFox
@@ -9440,6 +9455,8 @@ nextplatform.com
 nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
 nexusapps.com #AppNexus Inc
+nicecdn01.com #Nice People At Work
+nicecdn02.com #Nice People At Work
 ninjapd.com #WhiteOps
 nl00.net #NetLine
 nl01.net #NetLine
@@ -9452,6 +9469,7 @@ novao.com #Ysance
 novao.net #Ysance
 npario.com #nPario
 npario-inc.net #nPario
+npaw.com #Nice People At Work
 nster.net
 nr-data.net
 nster.net
@@ -9533,6 +9551,8 @@ pages06.net #IBM Silverpop
 pages07.net #IBM Silverpop
 pages08.net #IBM Silverpop
 pages09.net #IBM Silverpop
+pagefair.com #Pagefair
+pagefair.net #Pagefair
 paidonresults.net
 panachetech.com #AppNexus Inc
 panel100.com
@@ -9549,9 +9569,12 @@ peerius.com
 pepperjamnetwork.com
 perfb.com #Digital Window
 perfectaudience.com
+perfectmarket.com #Taboola
 perfiliate.com #Digital Window
 performancemail.com #Aurea
 performancemail.net #Aurea
+performfeeds.com #Perform Group
+performgroup.com #Perform Group
 permission-research.com #TMRG
 permission-research.net #TMRG
 permissionresearch.com #TMRG
@@ -9573,6 +9596,7 @@ pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
 pipeaota.com
+pippio.com #Arbor
 piwik.pro #Piwik PRO
 piwikpro.com #Piwik PRO
 pixelunion.net
@@ -9580,7 +9604,13 @@ pixfuture.net
 pkrchp001.com #Lead Forensics
 pkthop.com #WhiteOps
 playforprizes.net #Digital Window
-plista.com
+plista.biz #Plista
+plista.com #Plista
+plista.info #Plista
+plista.mobi #Plista
+plista.net #Plista
+plista.org #Plista
+plista.us #Plista
 plugerr.com
 plymedia.com
 pointroll.com
@@ -9656,8 +9686,11 @@ mp.weixin.qq.com #Advetising, altough TLD name qq.com seems a legit search engin
 qservz.com
 qsubmit.com
 qualtrics.com
-quantcast.com
-quantserve.com
+quantcast.com #Quantcast
+quantcast.net #Quantcast
+quantcount.com #Quantcast
+quantserve.com #Quantcast
+quantserve.net #Quantcast
 qubitproducts.com
 quelhadoop.com #Ysance
 questback.com #Questback
@@ -9775,6 +9808,8 @@ rm0008.net #IBM Silverpop
 rm0009.net #IBM Silverpop
 rm0010.net #IBM Silverpop
 rng-snp-003.com #Lead Forensics
+rockabox.co #Scoota
+rockabox.com #Scoota
 roia.biz
 roost.me
 route.to
@@ -10250,6 +10285,7 @@ viame-cdn.com #RadiumOne
 viazza.com
 viazza.info
 videoadex.com
+videoamp.com #VideoAmp
 videologygroup.com
 videorev.net #RevenueHits
 vidible.tv #AOL
@@ -10298,6 +10334,11 @@ webrankresearch.com #TMRG
 webrankresearch.net #TMRG
 webserviceaward.com #Web Service Award
 websiteperform.com
+webspectator.biz #WebSpectator
+webspectator.com #WebSpectator
+webspectator.info #WebSpectator
+webspectator.mobi #WebSpectator
+webspectator.us #WebSpectator
 webstatsresearch.com #TMRG
 webstatsresearch.net #TMRG
 webtraffic.se #Schibsted
@@ -10361,6 +10402,8 @@ yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
 ynwqls.com #Advertising
+youborafds01.com #Nice People At Work
+youboranqs01.com #Nice People At Work
 youramigo.com
 ys4you.com #Ysance
 ysance.com #Ysance
@@ -10412,7 +10455,6 @@ static.2mdn.net #Microsoft
 metrics.aftonbladet.se #Aftonbladet
 dmtracking2.alibaba.com
 stat.alibaba.com
-infernotions.com
 g.alicdn.com
 analytics.amakings.com
 affiliate-program.amazon.co.uk
@@ -10526,10 +10568,6 @@ rad.msn.com #Microsoft
 rpt.msn.com #Microsoft
 cp1.news.com.au
 heartbeat.dm.origin.com #EA
-asset.pagefair.com
-stats.pagefair.com
-asset.pagefair.net
-stats.pagefair.net
 log.pinterest.com #Pinterest
 cookiesv2.publiekeomroep.nl
 pixel.reddit.com
