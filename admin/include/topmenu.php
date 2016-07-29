@@ -86,7 +86,8 @@ function DrawTopMenu() {
     echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
   
     echo '<div id="menu-top-right">'.PHP_EOL;
-    echo '<a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>'.PHP_EOL;
+    echo '<a href="https://quidsup.net/donate/?ref=ntrk"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
+    echo '<a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github" title="Github"></a>'.PHP_EOL;
     echo '<a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>'.PHP_EOL;
     echo '<a href="https://www.youtube.com/user/quidsup" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>'.PHP_EOL;
     echo '<a href="https://www.twitter.com/quidsup" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>'.PHP_EOL;
