@@ -39,7 +39,7 @@ Config[blocklist_chneasy]=0                      #China
 Config[blocklist_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.14"
+Version="0.7.15"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlackListFile="/etc/notrack/blacklist.txt"
 WhiteListFile="/etc/notrack/whitelist.txt"
@@ -565,32 +565,27 @@ Process_EasyList() {
   while IFS=$' \n' read -r Line
   do
     #||somesite.com^ or ||somesite.com/
-    if [[ $Line =~ ^\|\|[a-z0-9\.-]*\^?/?$ ]]; then
+    if [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^?/?$ ]]; then
       AddSite "${Line:2:-1}" ""
     ##[href^="http://somesite.com/"]
-    elif [[ $Line =~ ^##\[href\^=\"http:\/\/[a-z0-9\.-]*\/\"\]$ ]]; then
-      #As above, but remove www.
-      #if [[ $Line =~ ^##\[href\^=\"http:\/\/www\.[a-z0-9\.-]*\/\"\]$ ]]; then
-      #  AddSite "${Line:21:-3}" ""
-      #else
-        AddSite "${Line:17:-3}" ""
-      #fi
+    elif [[ $Line =~ ^##\[href\^=\"http:\/\/[a-z0-9\.\-]*\/\"\]$ ]]; then
+      AddSite "${Line:17:-3}" ""      
     #||somesite.com^$third-party
-    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party$ ]]; then
+    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$third-party$ ]]; then
       #Basic method of ignoring IP addresses (\d doesn't work)
       if  [[ ! $Line =~ ^\|\|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\^\$third-party$ ]]; then
         AddSite "${Line:2:-13}" ""
       fi
     #||somesite.com^$popup,third-party
-    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$popup\,third-party$ ]]; then
+    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$popup\,third-party$ ]]; then
       AddSite "${Line:2:-19}" ""
-    elif [[ $Line =~ ^\|\|[a-z0-9\.-]*\^\$third-party\,domain=~ ]]; then
+    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$third-party\,domain=~ ]]; then
       #^$third-party,domain= apepars mid line, we need to replace it with a | pipe seperator like the rest of the line has
       Line=$(sed "s/\^$third-party,domain=~/\|/g" <<< "$Line")
       IFS='|~', read -r -a ArrayOfLine <<< "$Line" #Explode into array using seperator | or ~
       for Line in "${ArrayOfLine[@]}"            #Loop through array
       do
-        if [[ $Line =~ ^\|\|[a-z0-9\.-]*$ ]]; then #Check Array line is a URL
+        if [[ $Line =~ ^\|\|[a-z0-9\.\-]*$ ]]; then #Check Array line is a URL
           AddSite "$Line" ""
         fi
       done  

@@ -1,5 +1,5 @@
 <?php
-$Version='0.7.14';
+$Version='0.7.15';
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
