@@ -2,15 +2,20 @@ v0.7.15 alpha
 NoTrack
   Added Deduplication - You will see a substantial drop in blocked domains
   Improved processing of Unix lists
+  Improved processing of Easy lists
+  Improved White list recognition
+  Added ability to process Custom block lists
   
 Home:
   Static top menu
   Top menu commands changed from GET to POST
+  Donate button added
 
 Config:
   New style side menu
-  Issue #58 - Remove Sites blocked access list when Purging history
-  Issue #59 - Option to Suppress custom Domains on Stats page
+  New feature Issue #55 - Added support for Custom Block Lists
+  Fixed Issue #58 - Sites blocked access list doesn't delete when Purging history
+  New feature Issue #59 - Option to Suppress Custom Domains on Stats page  
   
 Upgrade:
   Option to upgrade to Development version of NoTrack
