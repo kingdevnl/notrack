@@ -336,7 +336,7 @@ function DisplayAdvanced() {
   echo '<form action="?v=advanced" method="post">'.PHP_EOL;
   echo '<input type="hidden" name="action" value="advanced">';
   DrawSysTable('Advanced Settings');
-  DrawSysRow('Suppress Domains <img class="btn" src="./svg/button_help.svg" alt="help" title="Group together certain domains on the Stats page">', '<textarea rows="5" name="suppress">'.$Config['Suppress'].'</textarea>');
+  DrawSysRow('Suppress Domains <img class="btn" src="./svg/button_help.svg" alt="help" title="Group together certain domains on the Stats page">', '<textarea rows="5" name="suppress">'.str_replace(',', PHP_EOL, $Config['Suppress']).'</textarea>');
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" value="Save Changes"></div></td></tr>'.PHP_EOL;
   echo '</table>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
@@ -397,7 +397,7 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_ruseasy', 'BlockList_RUSEasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
   
   echo '<tr><th colspan="2">Custom</th></tr>';
-  DrawSysRow('Custom Block Lists', 'This feature is in development, only ABP lists will work<br /><textarea rows="5" name="bl_custom">'.$Config['BL_Custom'].'</textarea>');
+  DrawSysRow('Custom Block Lists', 'Use either Downloadable or Localy stored Block Lists<br /><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['BL_Custom']).'</textarea>');
   
   echo '</table><br />'.PHP_EOL;
   
@@ -850,6 +850,9 @@ function UpdateBlockListConfig() {
   //After this function WriteTmpConfig is run
   
   global $Config;
+  $CustromStr = '';
+  $CustromList = array();
+  $ValidList = array();
     
   $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
@@ -873,8 +876,19 @@ function UpdateBlockListConfig() {
   $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
   $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
   
-  if (isset($_POST['bl_custom'])) {
-    $Config['BL_Custom'] = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array        
+  if (isset($_POST['bl_custom'])) {    
+    $CustomStr = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array
+    $CustomList = explode(',', $CustomStr);      //Split string into array
+    foreach ($CustomList as $Site) {             //Check if each item is a valid URL
+      if (Filter_URL_Str($Site)) {
+        $ValidList[] = $Site;
+      }
+    }
+    if (sizeof($ValidList) == 0) $Config['BL_Custom'] = '';
+    else $Config['BL_Custom'] = implode(',', $ValidList);
+  }
+  else {
+    $Config['BL_Custom'] = "";
   }
     
   return null;
