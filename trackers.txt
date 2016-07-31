@@ -133,8 +133,6 @@ adfuture.cn
 adgenie.co.uk
 adgibbon.com #AdGibbon
 adgibbon.mobi #AdGibbon
-adready.com #CPXi
-adready.info #CPXi
 adglare.net
 adgrx.com
 adinfuse.com #Velti
@@ -688,7 +686,6 @@ clkoffers.com #RevenueHits
 clkpback3.com #RevenueHits
 clkrev.com #RevenueHits
 clksite.com #RevenueHits
-clksite.com #RevenueHits
 clktag.com #RevenueHits
 clkuno.com #RevenueHits
 cloudapp.net #Microsoft
@@ -867,7 +864,6 @@ data-eroadvertising.com
 dcoengine.com
 dc-storm.com #Rakuten 
 ddf-t1.com #Ysance
-ddf-t2.com #Ysance
 ddf-t2.com #Ysance
 ddf-t3.com #Ysance
 de17a.com #AdAction
@@ -1241,7 +1237,6 @@ heias.com
 hellobar.com #Crazy Egg
 helloinsiders.com #HelloWorld
 helloworld.com #HelloWorld
-helloworld.com #HelloWorld
 helloworld-informatique.com #HelloWorld
 helloworldmagic.com #HelloWorld
 helloworldmail.com #HelloWorld
@@ -1571,7 +1566,7 @@ mcstats.org
 mdotm.com #MdotM
 media.net #Yahoo
 media6degrees.com
-mediaforge #Rakuten
+mediaforge.com #Rakuten
 medialytics.com #Medialets
 mediamond.it #Mediamond
 mediaplex.com
@@ -9470,7 +9465,6 @@ novao.net #Ysance
 npario.com #nPario
 npario-inc.net #nPario
 npaw.com #Nice People At Work
-nster.net
 nr-data.net
 nster.net
 nuggad.net
@@ -10312,7 +10306,6 @@ voycme.com #eGain Corporation
 vserv.mobi #Vserv
 vservdigital.com #Vserv
 vservmobi.com #Vserv
-vservmobi.com #Vserv
 vwdservices.com #VWD Group
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
@@ -10532,7 +10525,7 @@ choice.microsoft.com #Microsoft
 data.microsoft.com #Microsoft
 diagnostics.support.microsoft.com #Microsoft
 dl.delivery.mp.microsoft.com #Microsoft
-dmd.metaservices.microsoft.com	
+dmd.metaservices.microsoft.com
 feedback.search.microsoft.com #Microsoft
 geo-prod.do.dsp.mp.microsoft.com #Microsoft
 glbdns2.microsoft.com #Microsoft
