@@ -1098,6 +1098,7 @@ eyenewton.ru
 eyeota.com
 eyeota.net
 eyereturn.com #EyeReturn Marketing
+eyeviewads.com #EyeView
 ezp.bz
 e-mark.nl #Emark
 e-webtrack.net #WebTrack
@@ -9380,6 +9381,7 @@ mouseflow.org #Mouseflow
 mouseflow.us #Mouseflow
 moutaihotel.cn #Advertising
 mplxtms.com
+mpstat.us #SOASTA
 mptracking.mobi #MobPartner
 mrkt.it
 msads.net
@@ -10150,6 +10152,8 @@ travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
 trees4knowledge.com #TMRG
 treesforknowledge.com #TMRG
+tremorhub.com #Tremor Video
+tremorvideo.com #Tremor Video
 tribalfusion.com
 triggit.com
 trkme.net
@@ -10187,6 +10191,8 @@ umhali.org #AppNexus Inc
 umhalilabs.com #AppNexus Inc
 uniqodo.com
 univide.com
+unruly.co #Unruly
+unrulymedia.com #Unruly
 unsubscribe1.com #Campaign Monitor Pty
 unsubscribe10.com #Campaign Monitor Pty
 unsubscribe11.com #Campaign Monitor Pty
