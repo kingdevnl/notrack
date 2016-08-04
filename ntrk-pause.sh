@@ -8,12 +8,21 @@
 #Settings (Leave these alone)----------------------------------------
 ConfigFile="/etc/notrack/notrack.conf"
 OldConfig="/etc/notrack/old.conf"
+BlockingListFile="/etc/dnsmasq.d/notrack.list"
 
 #Global Variables----------------------------------------------------
 PauseTime=0
 
+#Delete old file if it Exists----------------------------------------
+function DeleteOldFile() {
+  #$1 File to delete
+  if [ -e "$1" ]; then                           #Does file exist?
+    echo "Deleting file $1"
+    rm "$1"                                      #If yes then delete it
+  fi
+}
 #Backup Config-------------------------------------------------------
-BackupConfig() {
+function BackupConfig() {
   #1. Check if Config file exists
   #2. If it does then:
   #  2a. Copy Config to a temp file
@@ -30,7 +39,7 @@ BackupConfig() {
     echo "Reading temporary Config file"
     while IFS=$'\n' read -r Line _
     do
-      if [[ ${Line:0:9} != "BlockList" ]]; then  #Exclude Blocklist lines
+      if [[ ! $Line =~ ^(BlockList_|BL_) ]]; then  #Exclude Blocklist lines
         echo "$Line" >> $ConfigFile              #Copy old line to Config
       fi
     done < "$OldConfig"
@@ -41,45 +50,48 @@ BackupConfig() {
   fi
 }
 #Check if running as Root--------------------------------------------
-CheckRoot() {
+function CheckRoot() {
+  local Pid=""
+  Pid=$(pgrep ntrk-pause | head -n 1)            #Get PID of first ntrk-pause process
+
   if [[ "$(id -u)" != "0" ]]; then
     echo "Error this script must be run as root"
-    exit 2
+    exit 5
   fi
   
   #Check if another copy of ntrk-pause is running, and terminate it 
-  if [[ $(pgrep ntrk-pause | head -n 1) != "$$" ]]; then  #$$ = This PID
-    echo "Ending ntrk-pause process $(pgrep ntrk-pause | head -n 1)"
-    kill -9 "$(pgrep ntrk-pause | head -n 1)"
+  if [[ $Pid != "$$" ]] && [[ -n $Pid ]] ; then  #$$ = This PID    
+    echo "Ending ntrk-pause process $Pid"
+    kill -9 "$Pid"
   fi
 }
 #GetStatus-----------------------------------------------------------
-GetStatus() {
+function GetStatus() {
 #? 0 = NoTrack Running with Blocking Enabled
-#? 2 = Error Unknown Status
-#? 3 = NoTrack Running
 #? 100 = Blocking Paused
 #? 101 = Blocking Disabled
+#? 102 = Error Unknown Status
+#? 103 = NoTrack Running
   if [[ $(pgrep notrack) != "" ]]; then
-    return 3
+    return 103
   fi
   
   if [ -e "$OldConfig" ]; then
     if [ -e "$ConfigFile" ]; then
-      if [[ $(cat "$ConfigFile" | grep "Status = Paused") != "" ]]; then
+      if [[ $(grep "Status = Paused" "$ConfigFile") != "" ]]; then
         return 100
-      elif [[ $(cat "$ConfigFile" | grep "Status = Stop") != "" ]]; then
+      elif [[ $(grep "Status = Stop" "$ConfigFile") != "" ]]; then
         return 101
       fi
     else
-      return 2
+      return 102
     fi
   else 
     return 0
   fi
 }
 #Pause---------------------------------------------------------------
-Pause() {
+function Pause() {
   #1. Calculate unpause time, based on (Current Epoch time + (ntrk-pause $1 * 60))
   #2. Check if running as Root user
   #3. Get Status of ntrk-pause
@@ -110,14 +122,6 @@ Pause() {
       echo "BlockList_TLD = 0" >> $ConfigFile
       echo "Status = Paused$UnPauseTime" >> $ConfigFile
       ;;    
-    2)
-      echo "Old config exists, but status unknown"
-      exit 2
-      ;;
-    3)
-      echo "NoTrack already running"
-      exit 3
-      ;;
     100)
       echo "Changing Pause time"
       sed -i "s/^\(Status *= *\).*/\1Paused$UnPauseTime/" $ConfigFile
@@ -126,11 +130,24 @@ Pause() {
       echo "Switching from Disabled to Paused"
       sed -i "s/^\(Status *= *\).*/\1Paused$UnPauseTime/" $ConfigFile
       ;;
+    102)
+      echo "Old config exists, but status unknown"
+      exit 102
+      ;;
+    103)
+      echo "NoTrack already running"
+      exit 103
+      ;;
   esac
   
-  echo "Running NoTrack to disable blocking"
-  echo
-  /usr/local/sbin/notrack
+  #echo "Running NoTrack to disable blocking"
+  #echo
+  #/usr/local/sbin/notrack
+  
+  echo "Deleting NoTrack block list"
+  DeleteOldFile "$BlockingListFile" 
+  echo "Restarting Dnsnmasq"
+  service dnsmasq restart                          #Restart dnsmasq
   
   echo
   echo "Sleeping for $PauseTime minutes"  
@@ -170,26 +187,26 @@ ShowStatus() {
   case $? in
     0)
       echo "Status 0: Blocking Enabled"
-      ;;
-    2)
-      echo "Status 2: Old config exists, but status unknown"      
-      ;;
-    3)
-      echo "Status 3: NoTrack already running"      
-      ;;
+      ;;    
     100)
       echo "Status 100: Blocking Paused"
       ;;
     101)
       echo "Status 101: Blocking Disabled"
       ;;
+    102)
+      echo "Status 102: Old config exists, but status unknown"      
+      ;;
+    103)
+      echo "Status 103: NoTrack already running"      
+      ;;
   esac
   exit 0
 }  
 #Start---------------------------------------------------------------
-Start() {
+function Start() {
   #1. Get Status of ntrk-pause
-  #2. Exit if Status = 3 (NoTrack already running)
+  #2. Exit if Status = 103 (NoTrack already running)
   #3. Check if running as Root user
   #4a. Move old Config file back if it existed
   #4b. Or Check if there is a Status line in Config file.
@@ -197,9 +214,9 @@ Start() {
   #4c. Blocking is enabled, don't change anything
   #5. Run NoTrack
   GetStatus
-  if [ $? == 3 ]; then
+  if [ $? == 103 ]; then
     echo "NoTrack already running"
-    exit 3
+    exit 103
   fi
   
   CheckRoot
@@ -207,7 +224,7 @@ Start() {
   if [ -e "$OldConfig" ]; then
     echo "Copying $OldConfig to $ConfigFile"
     mv "$OldConfig" "$ConfigFile"
-  elif [[ $(cat "$ConfigFile" | grep Status) != "" ]]; then
+  elif [[ $(grep "Status" "$ConfigFile") != "" ]]; then
     echo "Deleting Config file and resuming default values"
     rm "$ConfigFile"    
   else
@@ -242,27 +259,31 @@ Stop() {
       echo "BlockList_TLD = 0" >> $ConfigFile
       echo "Status = Stop" >> $ConfigFile
       ;;
-    2)
-      echo "Old config exists, but status unknown"
-      exit 2
-      ;;
-    3)
-      echo "NoTrack already running"
-      exit 3
-      ;;
     100)
       echo "Switching from Paused to Stop"
       sed -i "s/^\(Status *= *\).*/\1Stop/" $ConfigFile
       ;;
     101)
       echo "NoTrack blocking already Disabled"
-      return 1
+      return 101
+      ;;
+    102)
+      echo "Old config exists, but status unknown"
+      exit 102
+      ;;
+    103)
+      echo "NoTrack already running"
+      exit 103
       ;;
   esac
   
-  echo "Running NoTrack to disable Blocking"
-  echo
-  /usr/local/sbin/notrack
+  #echo "Running NoTrack to disable Blocking"
+  #echo
+  #/usr/local/sbin/notrack
+  echo "Deleting NoTrack block list"
+  DeleteOldFile "$BlockingListFile"
+  echo "Restarting Dnsnmasq"
+  service dnsmasq restart                          #Restart dnsmasq
 }
 #Main----------------------------------------------------------------
 
@@ -295,7 +316,7 @@ if [ "$1" ]; then                         #Have any arguments been given
         ShowStatus
         ;;
       (--) shift; break;;
-      (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
+      (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
       (*) break;;
     esac
     shift
@@ -313,17 +334,17 @@ else                                             #No commands passed
     0)
       PauseTime=15
       Pause
-      ;;
-    2)
-      echo "Status unknown. Forcing old Config back into use"
-      Start
-      ;;
+      ;;    
     100)
       echo "Unpausing NoTrack"
       Start
       ;;
     101)
       echo "Enabling NoTrack"
+      Start
+      ;;
+    102)
+      echo "Status unknown. Forcing old Config back into use"
       Start
       ;;
   esac  
