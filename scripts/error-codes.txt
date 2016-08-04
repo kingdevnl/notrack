@@ -1,16 +1,16 @@
 0. All good
 1. User aborted
-2. Old config exists, but status unknown
-3. NoTrack already running
 4. Command shouldn't be run as root
 5. Command should be run as root
+6. Unknown command
+7. Unknown Block list setting
 10. Sudo command missing
 11. Unknown Network Device
 12. Unknown IP Version
 13. Unable to Detect IP Address
 14. Download of NoTrack failed
 15. Unable to work out Install folder
-20. Can't find ntrk-upgrade - deprecated
+20. Can't find ntrk-upgrade
 21. ntrk-upgrade requires Root access
 22. Unable to find NoTrack folder
 23. Download of NoTrack has failed
@@ -26,5 +26,5 @@
 45. Create SSL Cert - Failed, but Lighttpd restored
 100. Blocking Paused
 101. Blocking Disabled
-
-
+102. Old config exists, but status unknown
+103. NoTrack already running
