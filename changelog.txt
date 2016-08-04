@@ -1,3 +1,10 @@
+Development
+NoTrack
+  Enhanced Deduplication
+  Block list files consolidated
+  Smarter updating of Block lists
+  Fixed Issue #67 Custom block lists not disabled on Pause
+  
 v0.7.15 alpha
 NoTrack
   Added Deduplication - You will see a substantial drop in blocked domains
