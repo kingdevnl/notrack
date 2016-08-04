@@ -256,7 +256,7 @@ function LoadConfigFile() {
               $Config['BlockList_QMalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_Hexxium':
-              $Config['BlockList_QMalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+              $Config['BlockList_Hexxium'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_AdBlockManager':
               $Config['BlockList_AdBlockManager'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
