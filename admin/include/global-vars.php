@@ -37,6 +37,7 @@ $DefaultConfig = array(
   'BlockList_NoTrack' => 1,
   'BlockList_TLD' => 1,
   'BlockList_QMalware' => 1,
+  'BlockList_Hexxium' => 1,
   'BlockList_AdBlockManager' => 0,
   'BlockList_DisconnectMalvertising' => 0,
   'BlockList_EasyList' => 0,

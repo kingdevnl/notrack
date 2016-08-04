@@ -369,6 +369,8 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_fbenhanced', 'BlockList_FBEnhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
     
   echo '<tr><th colspan="2">Malware</th></tr>';
+  DrawBlockListRow('bl_hexxium', 'BlockList_Hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/">(hexxiumcreations.com)</a>');
+  
   DrawBlockListRow('bl_dismalvertising', 'BlockList_DisconnectMalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
   DrawBlockListRow('bl_maldomainlist', 'BlockList_MalwareDomainList', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
   DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
@@ -857,6 +859,7 @@ function UpdateBlockListConfig() {
   $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
   $Config['BlockList_TLD'] = Filter_Config('bl_tld');
   $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
+  $Config['BlockList_Hexxium'] = Filter_Config('bl_hexxium');
   $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
   $Config['BlockList_DisconnectMalvertising'] = Filter_Config('bl_dismalvertising');
   $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');

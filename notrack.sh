@@ -19,6 +19,7 @@ Config[bl_custom]=""
 Config[bl_notrack]=1
 Config[bl_tld]=1
 Config[bl_qmalware]=1
+Config[bl_hexxium]=1
 Config[bl_adblockmanager]=0
 Config[bl_disconnectmalvertising]=0
 Config[bl_easylist]=0
@@ -55,6 +56,7 @@ CheckTime=345600                                 #Time in Seconds between downlo
 declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
+URLList[hexxium]="https://hexxiumcreations.github.io/threat-list/hexxiumthreatlist.txt"
 URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
@@ -209,6 +211,7 @@ function Read_Config_File() {
           BlockList_NoTrack) Config[bl_notrack]="$Value";;
           BlockList_TLD) Config[bl_tld]="$Value";;
           BlockList_QMalware) Config[bl_qmalware]="$Value";;
+          BlockList_Hexxium) Config[bl_hexxium]="$Value";;
           BlockList_DisconnectMalvertising) Config[bl_disconnectmalvertising]="$Value";;
           BlockList_AdBlockManager) Config[bl_adblockmanager]="$Value";;
           BlockList_EasyList) Config[bl_easylist]="$Value";;
@@ -1071,6 +1074,7 @@ GetList_BlackList                                #Process Users Blacklist
   
 GetList "notrack" "notrack"
 GetList "qmalware" "plain"
+GetList "hexxium" "easylist"
 GetList "adblockmanager" "unix"
 GetList "disconnectmalvertising" "plain"
 GetList "easylist" "easylist"
