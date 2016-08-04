@@ -22,7 +22,7 @@ Check_File_Exists() {
   #$2 Exit Code
   if [ ! -e "$1" ]; then
     echo "Error. File $1 is missing.  Aborting."
-    exit "$2"
+    exit "$2" 
   fi
 }
 #Error Exit 2nd generation--------------------------------------------
@@ -730,6 +730,6 @@ echo "Starting Services"
 sudo service lighttpd restart
 
 echo "Downloading List of Trackers"
-sudo /usr/local/sbin/notrack
+sudo /usr/local/sbin/notrack -f
 
 Show_Finish
