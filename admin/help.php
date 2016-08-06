@@ -24,9 +24,8 @@ if ($Config['Password'] != '') {
 </head>
 
 <body>
-<div id="main">
 <?php
-
+//-------------------------------------------------------------------
 function LoadHelpPage($Page) {  
   if (file_exists('./help/'.$Page.'.html')) {
     echo file_get_contents('./help/'.$Page.'.html');
@@ -35,13 +34,16 @@ function LoadHelpPage($Page) {
     echo 'Error: File not found'.PHP_EOL;
   }
 }
-
+//-------------------------------------------------------------------
 ActionTopMenu();
 DrawTopMenu();
-echo '<h1>NoTrack Help</h1>'.PHP_EOL;
+DrawHelpMenu();
 
 if (isset($_GET['p'])) {
   switch($_GET['p']) {
+    case 'position':
+      LoadHelpPage('position');
+      break;
     case 'newblocklist':
       LoadHelpPage('newblocklist');
       break;

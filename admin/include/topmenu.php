@@ -75,7 +75,18 @@ function DrawConfigMenu() {
   echo '<a href="../admin/upgrade.php"><span>Upgrade</span></a>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
-  echo '<div id="config-page">'.PHP_EOL;;
+  echo '<div id="config-page">'.PHP_EOL;
+}
+//-------------------------------------------------------------------
+function DrawHelpMenu() {
+  echo '<nav><div id="config-menu">'.PHP_EOL;  
+  echo '<a href="../admin/help.php"><span>Help</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php?p=security"><span>Security</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php?p=position" title="Where To Position NoTrack Device"><span>Positioning Device</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php?p=newblocklist" title="Programming in new block lists"><span>New block lists</span></a>'.PHP_EOL;
+  echo '</div></nav>'.PHP_EOL;
+  echo PHP_EOL;
+  echo '<div id="config-page">'.PHP_EOL;
 }
 //-------------------------------------------------------------------
 function DrawTopMenu() {
