@@ -28,8 +28,10 @@ if ($Config['Password'] != '') {
 ActionTopMenu();
 DrawTopMenu();
 
-echo '<h1>DHCP Leases</h1>'.PHP_EOL;
-echo '<div class="sys-group">'.PHP_EOL;
+echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+echo '<h5>DHCP Leases</h5>'.PHP_EOL;
+echo '</div>'.PHP_EOL;
+echo '<div class="sys-items">'.PHP_EOL;
 
 //Is DHCP Active?
 if (file_exists('/var/lib/misc/dnsmasq.leases')) {
@@ -60,7 +62,7 @@ else {
   echo '<iframe width="640" height="360" src="https://www.youtube.com/embed/a5dUJ0SlGP0" frameborder="0" allowfullscreen></iframe>'.PHP_EOL;  
 }
 ?>
-</div>
+</div></div>
 </div>
 </body>
 </html>
