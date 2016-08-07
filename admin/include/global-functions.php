@@ -193,6 +193,7 @@ function LoadConfigFile() {
   //5. Filter each value
   //6. Setup SearchUrl
   //7. Write Config to Memcache
+  //As of v0.7.16 blocklists were renamed to bl_
 
   global $FileConfig, $Config, $DefaultConfig, $Mem, $Version;
   
@@ -243,78 +244,113 @@ function LoadConfigFile() {
             case 'Suppress':
               $Config['Suppress'] = Filter_Str_Value($SplitLine[1], '');
               break;
-            case 'BL_Custom':
-              $Config['BL_Custom'] = Filter_Str_Value($SplitLine[1], '');
+            case 'BL_Custom': 
+            case 'bl_custom':
+              $Config['bl_custom'] = Filter_Str_Value($SplitLine[1], '');
               break;
             case 'BlockList_NoTrack':
-              $Config['BlockList_NoTrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+            case 'bl_notrack':
+              $Config['bl_notrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_TLD':
-              $Config['BlockList_TLD'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+            case 'bl_tld':
+              $Config['bl_tld'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_QMalware':
-              $Config['BlockList_QMalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+            case 'bl_qmalware':
+              $Config['bl_qmalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_Hexxium':
-              $Config['BlockList_Hexxium'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+            case 'bl_hexxium':
+              $Config['bl_hexxium'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
               break;
             case 'BlockList_AdBlockManager':
-              $Config['BlockList_AdBlockManager'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_adblockmanager':
+              $Config['bl_adblockmanager'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_DisconnectMalvertising':
-              $Config['BlockList_DisconnectMalvertising'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_disconnectmalvertising':
+              $Config['bl_disconnectmalvertising'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_EasyList':
-              $Config['BlockList_EasyList'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_easylist':
+              $Config['bl_easylist'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_EasyPrivacy':
-              $Config['BlockList_EasyPrivacy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_easyprivacy':
+              $Config['bl_easyprivacy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_FBAnnoyance':
-              $Config['BlockList_FBAnnoyance'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_fbannoyance':
+              $Config['bl_fbannoyance'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_FBEnhanced':
-              $Config['BlockList_FBEnhanced'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_fbenhanced':
+              $Config['bl_fbenhanced'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_FBSocial':
-              $Config['BlockList_FBSocial'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_fbsocial':
+              $Config['bl_fbsocial'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_hpHosts':
-              $Config['BlockList_hpHosts'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_hphosts':
+              $Config['bl_hphosts'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_MalwareDomainList':
-              $Config['BlockList_MalwareDomainList'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_hphosts':
+              $Config['bl_malwaredomainlist'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_MalwareDomains':
-              $Config['BlockList_MalwareDomains'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_malwaredomains':
+              $Config['bl_malwaredomains'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_PglYoyo':
-              $Config['BlockList_PglYoyo'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_pglyoyo':
+              $Config['bl_pglyoyo'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'bl_securemecca':
+              $Config['bl_securemecca'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_SomeoneWhoCares':
-              $Config['BlockList_SomeoneWhoCares'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_someonewhocares':
+              $Config['bl_someonewhocares'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_Spam404':
-              $Config['BlockList_Spam404'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_spam404':
+              $Config['bl_spam404'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_SwissRansom':
-              $Config['BlockList_SwissRansom'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_swissransom':
+              $Config['bl_swissransom'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_SwissZeus':
-              $Config['BlockList_SwissZeus'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_swisszeus':
+              $Config['bl_swisszeus'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_Winhelp2002':
-              $Config['BlockList_Winhelp2002'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_winhelp2002':
+              $Config['bl_winhelp2002'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
-            /*case 'BlockList_':
-              $Config['BlockList_'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            /*case 'bl_':
+              $Config['bl_'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;*/
             //Region Specific
+            case 'bl_areasy':
+              $Config['bl_areasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
             case 'BlockList_CHNEasy':
-              $Config['BlockList_CHNEasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_chneasy':
+              $Config['bl_chneasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'bl_deueasy':
+              $Config['bl_deueasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
+            case 'bl_dnkeasy':
+              $Config['bl_dnkeasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_RUSEasy':
-              $Config['BlockList_RUSEasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+            case 'bl_ruseasy':
+              $Config['bl_ruseasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
           }
         }

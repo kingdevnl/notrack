@@ -31,12 +31,16 @@ Config[bl_hphosts]=0
 Config[bl_malwaredomainlist]=0
 Config[bl_malwaredomains]=0
 Config[bl_pglyoyo]=0
+Config[bl_securemecca]=0
 Config[bl_someonewhocares]=0
 Config[bl_spam404]=0
 Config[bl_swissransom]=0
 Config[bl_swisszeus]=0
 Config[bl_winhelp2002]=0
+Config[bl_areasy]=0                       #Arab
 Config[bl_chneasy]=0                      #China
+Config[bl_deueasy]=0                      #Germany
+Config[bl_dnkeasy]=0                      #Denmark
 Config[bl_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
@@ -67,13 +71,17 @@ URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomainlist]="http://www.malwaredomainlist.com/hostslist/hosts.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
+URLList[securemecca]="http://securemecca.com/Downloads/hosts.txt"
 URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
 URLList[swissransom]="https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt"
 URLList[swisszeus]="https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist"
 URLList[pglyoyo]="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=;mimetype=plaintext"
 URLList[someonewhocares]="http://someonewhocares.org/hosts/hosts"
 URLList[winhelp2002]="http://winhelp2002.mvps.org/hosts.txt"
+URLList[areasy]="https://easylist-downloads.adblockplus.org/Liste_AR.txt"
 URLList[chneasy]="https://easylist-downloads.adblockplus.org/easylistchina.txt"
+URLList[deueasy]="https://easylist-downloads.adblockplus.org/easylistgermany.txt"
+URLList[dnkeasy]="https://adblock.dk/block.csv"
 URLList[ruseasy]="https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt"
 
 #Global Variables----------------------------------------------------
@@ -207,29 +215,33 @@ function Read_Config_File() {
           IPVersion) IPVersion="$Value";;
           NetDev) NetDev="$Value";;
           LatestVersion) OldLatestVersion="$Value";;
-          BL_Custom) Config[bl_custom]="$Value";;
-          BlockList_NoTrack) Config[bl_notrack]="$Value";;
-          BlockList_TLD) Config[bl_tld]="$Value";;
-          BlockList_QMalware) Config[bl_qmalware]="$Value";;
-          BlockList_Hexxium) Config[bl_hexxium]="$Value";;
-          BlockList_DisconnectMalvertising) Config[bl_disconnectmalvertising]="$Value";;
-          BlockList_AdBlockManager) Config[bl_adblockmanager]="$Value";;
-          BlockList_EasyList) Config[bl_easylist]="$Value";;
-          BlockList_EasyPrivacy) Config[bl_easyprivacy]="$Value";;
-          BlockList_FBAnnoyance) Config[bl_fbannoyance]="$Value";;
-          BlockList_FBEnhanced) Config[bl_fbenhanced]="$Value";;
-          BlockList_FBSocial) Config[bl_fbsocial]="$Value";;
-          BlockList_hpHosts) Config[bl_hphosts]="$Value";;
-          BlockList_MalwareDomainList) Config[bl_malwaredomainlist]="$Value";;
-          BlockList_MalwareDomains) Config[bl_malwaredomains]="$Value";;          
-          BlockList_PglYoyo) Config[bl_pglyoyo]="$Value";;
-          BlockList_SomeoneWhoCares) Config[bl_someonewhocares]="$Value";;
-          BlockList_Spam404) Config[bl_spam404]="$Value";;
-          BlockList_SwissRansom) Config[bl_swissransom]="$Value";;
-          BlockList_SwissZeus) Config[bl_swisszeus]="$Value";;
-          BlockList_Winhelp2002) Config[bl_winhelp2002]="$Value";;
-          BlockList_CHNEasy) Config[bl_chneasy]="$Value";;
-          BlockList_RUSEasy) Config[bl_ruseasy]="$Value";;          
+          bl_custom) Config[bl_custom]="$Value";;
+          bl_notrack) Config[bl_notrack]="$Value";;
+          bl_tld) Config[bl_tld]="$Value";;
+          bl_qmalware) Config[bl_qmalware]="$Value";;
+          bl_hexxium) Config[bl_hexxium]="$Value";;
+          bl_disconnectmalvertising) Config[bl_disconnectmalvertising]="$Value";;
+          bl_adblockmanager) Config[bl_adblockmanager]="$Value";;
+          bl_easylist) Config[bl_easylist]="$Value";;
+          bl_easyprivacy) Config[bl_easyprivacy]="$Value";;
+          bl_fbannoyance) Config[bl_fbannoyance]="$Value";;
+          bl_fbenhanced) Config[bl_fbenhanced]="$Value";;
+          bl_fbsocial) Config[bl_fbsocial]="$Value";;
+          bl_hphosts) Config[bl_hphosts]="$Value";;
+          bl_malwaredomainlist) Config[bl_malwaredomainlist]="$Value";;
+          bl_malwaredomains) Config[bl_malwaredomains]="$Value";;          
+          bl_pglyoyo) Config[bl_pglyoyo]="$Value";;
+          bl_securemecca) Config[bl_securemecca]="$Value";;
+          bl_someonewhocares) Config[bl_someonewhocares]="$Value";;
+          bl_spam404) Config[bl_spam404]="$Value";;
+          bl_swissransom) Config[bl_swissransom]="$Value";;
+          bl_swisszeus) Config[bl_swisszeus]="$Value";;
+          bl_winhelp2002) Config[bl_winhelp2002]="$Value";;
+          bl_areasy) Config[bl_areasy]="$Value";;
+          bl_chneasy) Config[bl_chneasy]="$Value";;
+          bl_deueasy) Config[bl_deueasy]="$Value";;
+          bl_dnkeasy) Config[bl_dnkeasy]="$Value";;
+          bl_ruseasy) Config[bl_ruseasy]="$Value";;          
         esac            
       fi
     done < $ConfigFile
@@ -828,27 +840,32 @@ function Test() {
   Get_IPAddress                                  #Read IP Address of NetDev
   
   echo "Block Lists Utilised:"
-  echo "BlockList_NoTrack ${Config[bl_notrack]}"
-  echo "BlockList_TLD ${Config[bl_tld]}"
-  echo "BlockList_QMalware ${Config[bl_qmalware]}"
-  echo "BlockList_AdBlockManager ${Config[bl_adblockmanager]}"
-  echo "BlockList_DisconnectMalvertising ${Config[bl_disconnectmalvertising]}"
-  echo "BlockList_EasyList ${Config[bl_easylist]}"
-  echo "BlockList_EasyPrivacy ${Config[bl_easyprivacy]}"
-  echo "BlockList_FBAnnoyance ${Config[bl_fbannoyance]}"
-  echo "BlockList_FBEnhanced ${Config[bl_fbenhanced]}"
-  echo "BlockList_FBSocial ${Config[bl_fbsocial]}"
-  echo "BlockList_hpHosts ${Config[bl_hphosts]}"
-  echo "BlockList_MalwareDomainList ${Config[bl_malwaredomainlist]}"
-  echo "BlockList_MalwareDomains ${Config[bl_malwaredomains]}"
-  echo "BlockList_PglYoyo ${Config[bl_pglyoyo]}"
-  echo "BlockList_SomeoneWhoCares ${Config[bl_someonewhocares]}"
-  echo "BlockList_Spam404 ${Config[bl_spam404]}"
-  echo "BlockList_SwissRansom ${Config[bl_swissransom]}"
-  echo "BlockList_SwissZeus ${Config[bl_swisszeus]}"
-  echo "BlockList_Winhelp2002 ${Config[bl_winhelp2002]}"
-  echo "BlockList_CHNEasy ${Config[bl_chneasy]}"
-  echo "BlockList_RUSEasy ${Config[bl_ruseasy]}"
+  echo "NoTrack ${Config[bl_notrack]}"
+  echo "TLD ${Config[bl_tld]}"
+  echo "Hexxium ${Config[bl_hexxium]}"
+  echo "QMalware ${Config[bl_qmalware]}"
+  echo "AdBlockManager ${Config[bl_adblockmanager]}"
+  echo "DisconnectMalvertising ${Config[bl_disconnectmalvertising]}"
+  echo "EasyList ${Config[bl_easylist]}"
+  echo "EasyPrivacy ${Config[bl_easyprivacy]}"
+  echo "FBAnnoyance ${Config[bl_fbannoyance]}"
+  echo "FBEnhanced ${Config[bl_fbenhanced]}"
+  echo "FBSocial ${Config[bl_fbsocial]}"
+  echo "hpHosts ${Config[bl_hphosts]}"
+  echo "MalwareDomainList ${Config[bl_malwaredomainlist]}"
+  echo "MalwareDomains ${Config[bl_malwaredomains]}"
+  echo "PglYoyo ${Config[bl_pglyoyo]}"
+  echo "Secure Mecca ${Config[bl_securemecca]}"
+  echo "SomeoneWhoCares ${Config[bl_someonewhocares]}"
+  echo "Spam404 ${Config[bl_spam404]}"
+  echo "SwissRansom ${Config[bl_swissransom]}"
+  echo "SwissZeus ${Config[bl_swisszeus]}"
+  echo "Winhelp2002 ${Config[bl_winhelp2002]}"
+  echo "AR Easy ${Config[bl_areasy]}"
+  echo "CHN Easy ${Config[bl_chneasy]}"
+  echo "DEU Easy ${Config[bl_chneasy]}"
+  echo "DNK Easy ${Config[bl_dnkeasy]}"
+  echo "RUS Easy ${Config[bl_ruseasy]}"
   echo "Custom ${Config[bl_custom]}"
 }
 #Check Update Required----------------------------------------------
@@ -1086,12 +1103,16 @@ GetList "hphosts" "unix"
 GetList "malwaredomainlist" "unix"
 GetList "malwaredomains" "plain"
 GetList "pglyoyo" "plain"
+GetList "securemecca" "unix"
 GetList "someonewhocares" "unix"
 GetList "spam404" "easylist"
 GetList "swissransom" "plain"
 GetList "swisszeus" "plain"
 GetList "winhelp2002" "unix"
+GetList "areasy" "easylist"
 GetList "chneasy" "easylist"
+GetList "deueasy" "easylist"
+GetList "dnkeasy" "easylist"
 GetList "ruseasy" "easylist"
  
 Get_Custom                                       #Process Custom Block lists

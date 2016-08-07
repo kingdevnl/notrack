@@ -2,8 +2,8 @@ Development
 **********************
 *IMPORTANT NOTE!!!   *
 **********************
-Block lists have now been consolidated.
-You will need to re-run NoTrack.sh after this update: Options > Update Block list
+Block lists have now been re-named and consolidated.
+Go to: Config > Block Lists > Save Changes
 
 Admin:
   New style cards on home page
@@ -15,8 +15,12 @@ NoTrack
   Smarter updating of Block lists
   Fixed Issue #67 Custom block lists not disabled on Pause
 
-Block lists:
-  Hexxium malware list added Issue #50
+New Block lists:
+  Hexxium malware list (Issue #50)
+  Secure Mecca
+  Arab Easy List
+  German Easy List
+  Denmark Schacks Adblock Plus liste
   
   
 v0.7.15 alpha
@@ -30,7 +34,7 @@ NoTrack
 Home:
   Static top menu
   Top menu commands changed from GET to POST
-  Donate button added
+  Donate button added 
 
 Config:
   New style side menu

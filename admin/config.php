@@ -204,14 +204,14 @@ function WriteLI($Character, $Start, $Active, $View) {
   return null;
 }
 //Draw BlockList Row-------------------------------------------------
-function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
+function DrawBlockListRow($BL, $Item, $Msg) {
   global $Config, $DirEtc, $DirTmp, $CSVTld;
   //Txt File = Origniating download file
   //Csv File = Processed file
   //TLD Is a special case, and the Txt file used is $CSVTld
   
   
-  if ($Config[$ConfBL] == 0) {
+  if ($Config[$BL] == 0) {
     echo '<tr><td>'.$Item.':</td><td><input type="checkbox" name="'.$BL.'"> '.$Msg.'</td></tr>'.PHP_EOL;
   }
   else {
@@ -222,8 +222,8 @@ function DrawBlockListRow($BL, $ConfBL, $Item, $Msg) {
     $FileName = '';
     $TotalStr = '';  
     
-    $FileName = strtolower(substr($ConfBL, 10));
-    if ($ConfBL == 'BlockList_TLD') $TxtFileName = $CSVTld;
+    $FileName = strtolower(substr($BL, 3));
+    if ($BL == 'bl_tld') $TxtFileName = $CSVTld;
     else $TxtFileName = $DirTmp.$FileName.'.txt';
     
     $CSVFileName = $DirEtc.$FileName.'.csv';    
@@ -350,56 +350,62 @@ function DisplayBlockLists() {
   echo '<input type="hidden" name="action" value="blocklists">';
   DrawSysTable('Block Lists');  
   
-  DrawBlockListRow('bl_notrack', 'BlockList_NoTrack', 'NoTrack', 'Default List, containing mixture of Trackers and Ad sites.'); 
+  DrawBlockListRow('bl_notrack', 'NoTrack', 'Default List, containing mixture of Trackers and Ad sites.'); 
   
-  DrawBlockListRow('bl_tld', 'BlockList_TLD', 'Top Level Domain', 'Whole country and generic domains.');
+  DrawBlockListRow('bl_tld', 'Top Level Domain', 'Whole country and generic domains.');
   
-  DrawBlockListRow('bl_qmalware', 'BlockList_QMalware', 'Malware Sites', 'New list which seperates Malware sites from Tracker sites.');
+  DrawBlockListRow('bl_qmalware', 'Malware Sites', 'New list which seperates Malware sites from Tracker sites.');
   
   echo '<tr><th colspan="2">Ad Block</th></tr>';
-  DrawBlockListRow('bl_easylist', 'BlockList_EasyList', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_easylist', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
-  DrawBlockListRow('bl_pglyoyo', 'BlockList_PglYoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
+  DrawBlockListRow('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
   
-  DrawBlockListRow('bl_adblockmanager', 'BlockList_AdBlockManager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
+  DrawBlockListRow('bl_adblockmanager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   
   echo '<tr><th colspan="2">Privacy</th></tr>';
-  DrawBlockListRow('bl_easyprivacy', 'BlockList_EasyPrivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_easyprivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
   
-  DrawBlockListRow('bl_fbenhanced', 'BlockList_FBEnhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_fbenhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
     
   echo '<tr><th colspan="2">Malware</th></tr>';
-  DrawBlockListRow('bl_hexxium', 'BlockList_Hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/">(hexxiumcreations.com)</a>');
+  DrawBlockListRow('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/">(hexxiumcreations.com)</a>');
   
-  DrawBlockListRow('bl_dismalvertising', 'BlockList_DisconnectMalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
-  DrawBlockListRow('bl_maldomainlist', 'BlockList_MalwareDomainList', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
-  DrawBlockListRow('bl_malwaredomains', 'BlockList_MalwareDomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
+  DrawBlockListRow('bl_dismalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
+  DrawBlockListRow('bl_maldomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
+  DrawBlockListRow('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
   
-  DrawBlockListRow('bl_spam404', 'BlockList_Spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
+  DrawBlockListRow('bl_spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
   
-  DrawBlockListRow('bl_swissransom', 'BlockList_SwissRansom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/">(abuse.ch)</a>');
+  DrawBlockListRow('bl_swissransom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/">(abuse.ch)</a>');
   
-  DrawBlockListRow('bl_swisszeus', 'BlockList_SwissZeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/">(abuse.ch)</a>');
+  DrawBlockListRow('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/">(abuse.ch)</a>');
   
   echo '<tr><th colspan="2">Social</th></tr>';
-  DrawBlockListRow('bl_fbannoyance', 'BlockList_FBAnnoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_fbannoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
   
-  DrawBlockListRow('bl_fbsocial', 'BlockList_FBSocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_fbsocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz">(fanboy.co.nz)</a>');
   
   echo '<tr><th colspan="2">Multipurpose</th></tr>';
-  DrawBlockListRow('bl_someonewhocares', 'BlockList_SomeoneWhoCares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts">(someonewhocares.org)</a>');
+  DrawBlockListRow('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts">(someonewhocares.org)</a>');
   
-  DrawBlockListRow('bl_hphosts', 'BlockList_hpHosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
+  DrawBlockListRow('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
+  
+  DrawBlockListRow('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/">(securemecca.com)</a>');
                                              
-  DrawBlockListRow('bl_winhelp2002', 'BlockList_Winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
+  DrawBlockListRow('bl_winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
   echo '<tr><th colspan="2">Region Specific</th></tr>';
-  DrawBlockListRow('bl_chneasy', 'BlockList_CHNEasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
+  DrawBlockListRow('bl_areasy', 'AR EasyList', 'EasyList Arab (عربي)‎ <a href="https://forums.lanik.us/viewforum.php?f=98">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
   
-  DrawBlockListRow('bl_ruseasy', 'BlockList_RUSEasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/">(henrik.schack.dk)</a>');
+  
+  DrawBlockListRow('bl_ruseasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
   
   echo '<tr><th colspan="2">Custom</th></tr>';
-  DrawSysRow('Custom Block Lists', 'Use either Downloadable or Localy stored Block Lists<br /><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['BL_Custom']).'</textarea>');
+  DrawSysRow('Custom Block Lists', 'Use either Downloadable or Localy stored Block Lists<br /><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['bl_custom']).'</textarea>');
   
   echo '</table><br />'.PHP_EOL;
   
@@ -856,28 +862,32 @@ function UpdateBlockListConfig() {
   $CustromList = array();
   $ValidList = array();
     
-  $Config['BlockList_NoTrack'] = Filter_Config('bl_notrack');
-  $Config['BlockList_TLD'] = Filter_Config('bl_tld');
-  $Config['BlockList_QMalware'] = Filter_Config('bl_qmalware');
-  $Config['BlockList_Hexxium'] = Filter_Config('bl_hexxium');
-  $Config['BlockList_AdBlockManager'] = Filter_Config('bl_adblockmanager');
-  $Config['BlockList_DisconnectMalvertising'] = Filter_Config('bl_dismalvertising');
-  $Config['BlockList_EasyList'] = Filter_Config('bl_easylist');
-  $Config['BlockList_EasyPrivacy'] = Filter_Config('bl_easyprivacy');
-  $Config['BlockList_FBAnnoyance'] = Filter_Config('bl_fbannoyance');
-  $Config['BlockList_FBEnhanced'] = Filter_Config('bl_fbenhanced');
-  $Config['BlockList_FBSocial'] = Filter_Config('bl_fbsocial');
-  $Config['BlockList_hpHosts'] = Filter_Config('bl_hphosts');
-  $Config['BlockList_MalwareDomainList'] = Filter_Config('bl_maldomainlist');
-  $Config['BlockList_MalwareDomains'] = Filter_Config('bl_malwaredomains');  
-  $Config['BlockList_PglYoyo'] = Filter_Config('bl_pglyoyo');
-  $Config['BlockList_SomeoneWhoCares'] = Filter_Config('bl_someonewhocares');
-  $Config['BlockList_Spam404'] = Filter_Config('bl_spam404');
-  $Config['BlockList_SwissRansom'] = Filter_Config('bl_swissransom');
-  $Config['BlockList_SwissZeus'] = Filter_Config('bl_swisszeus');
-  $Config['BlockList_Winhelp2002'] = Filter_Config('bl_winhelp2002');
-  $Config['BlockList_CHNEasy'] = Filter_Config('bl_chneasy');
-  $Config['BlockList_RUSEasy'] = Filter_Config('bl_ruseasy');
+  $Config['bl_notrack'] = Filter_Config('bl_notrack');
+  $Config['bl_tld'] = Filter_Config('bl_tld');
+  $Config['bl_qmalware'] = Filter_Config('bl_qmalware');
+  $Config['bl_hexxium'] = Filter_Config('bl_hexxium');
+  $Config['bl_adblockmanager'] = Filter_Config('bl_adblockmanager');
+  $Config['bl_disconnectmalvertising'] = Filter_Config('bl_dismalvertising');
+  $Config['bl_easylist'] = Filter_Config('bl_easylist');
+  $Config['bl_easyprivacy'] = Filter_Config('bl_easyprivacy');
+  $Config['bl_fbannoyance'] = Filter_Config('bl_fbannoyance');
+  $Config['bl_fbenhanced'] = Filter_Config('bl_fbenhanced');
+  $Config['bl_fbsocial'] = Filter_Config('bl_fbsocial');
+  $Config['bl_hphosts'] = Filter_Config('bl_hphosts');
+  $Config['bl_malwaredomainlist'] = Filter_Config('bl_maldomainlist');
+  $Config['bl_malwaredomains'] = Filter_Config('bl_malwaredomains');  
+  $Config['bl_pglyoyo'] = Filter_Config('bl_pglyoyo');
+  $Config['bl_someonewhocares'] = Filter_Config('bl_someonewhocares');
+  $Config['bl_securemecca'] = Filter_Config('bl_securemecca');
+  $Config['bl_spam404'] = Filter_Config('bl_spam404');
+  $Config['bl_swissransom'] = Filter_Config('bl_swissransom');
+  $Config['bl_swisszeus'] = Filter_Config('bl_swisszeus');
+  $Config['bl_winhelp2002'] = Filter_Config('bl_winhelp2002');
+  $Config['bl_areasy'] = Filter_Config('bl_areasy');
+  $Config['bl_chneasy'] = Filter_Config('bl_chneasy');
+  $Config['bl_deueasy'] = Filter_Config('bl_deueasy');
+  $Config['bl_dnkeasy'] = Filter_Config('bl_dnkeasy');
+  $Config['bl_ruseasy'] = Filter_Config('bl_ruseasy');
   
   if (isset($_POST['bl_custom'])) {    
     $CustomStr = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array
@@ -887,11 +897,11 @@ function UpdateBlockListConfig() {
         $ValidList[] = $Site;
       }
     }
-    if (sizeof($ValidList) == 0) $Config['BL_Custom'] = '';
-    else $Config['BL_Custom'] = implode(',', $ValidList);
+    if (sizeof($ValidList) == 0) $Config['bl_custom'] = '';
+    else $Config['bl_custom'] = implode(',', $ValidList);
   }
   else {
-    $Config['BL_Custom'] = "";
+    $Config['bl_custom'] = "";
   }
     
   return null;
