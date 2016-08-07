@@ -14,8 +14,10 @@ You can use it on a Raspberry Pi with a fresh install of Raspbian Lite to create
   
 # To Install:  
 Tutorial Guide: https://youtu.be/MHsrdGT5DzE  
+```bash
 wget https://raw.githubusercontent.com/quidsup/notrack/master/install.sh  
 bash install.sh
+```
 
 Point the DNS IP of all your systems to your NoTrack device.
 Or setup DHCP on your NoTrack device using the instructional YouTube video provided.
