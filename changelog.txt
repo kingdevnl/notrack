@@ -1,9 +1,23 @@
 Development
+**********************
+*IMPORTANT NOTE!!!   *
+**********************
+Block lists have now been consolidated.
+You will need to re-run NoTrack.sh after this update: Options > Update Block list
+
+Admin:
+  New style cards on home page
+  Active and Last updated cards added  
+
 NoTrack
   Enhanced Deduplication
   Block list files consolidated
   Smarter updating of Block lists
   Fixed Issue #67 Custom block lists not disabled on Pause
+
+Block lists:
+  Hexxium malware list added Issue #50
+  
   
 v0.7.15 alpha
 NoTrack
