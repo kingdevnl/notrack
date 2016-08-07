@@ -13,7 +13,7 @@
    height="64px"
    id="svg2985"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="home_config.svg"
    inkscape:export-filename="/home/quids/Pictures/menu_home.png"
    inkscape:export-xdpi="126.56"
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.5"
-     inkscape:cx="-17.566228"
+     inkscape:cx="-33.475319"
      inkscape:cy="-2.5296667"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
      inkscape:grid-bbox="true"
-     inkscape:window-width="1856"
-     inkscape:window-height="1080"
-     inkscape:window-x="64"
+     inkscape:window-width="1860"
+     inkscape:window-height="1064"
+     inkscape:window-x="60"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -58,57 +58,57 @@
     <g
        id="g3848"
        transform="matrix(-0.20239417,0,0,0.20239417,62.470328,1.0393388)"
-       style="fill:#00000a;fill-opacity:1">
+       style="fill:#262626;fill-opacity:1">
       <path
          id="path3810"
          d="M 298.604,64.209 248.626,114.188 204.907,98.57 189.29,54.852 239.269,4.873 c -32.791,-10.97 -70.418,-3.42 -96.529,22.692 -25.629,25.629 -33.373,62.349 -23.281,94.704 -1.359,1.07 -2.676,2.222 -3.93,3.476 L 12.884,228.389 c -17.178,17.177 -17.178,45.027 0,62.205 17.178,17.178 45.029,17.178 62.207,0 L 177.736,187.949 c 1.254,-1.254 2.404,-2.57 3.475,-3.929 32.355,10.092 69.074,2.347 94.703,-23.282 26.11,-26.112 33.661,-63.737 22.69,-96.529 z"
          inkscape:connector-curvature="0"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3812"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3814"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3816"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3818"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3820"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3822"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3824"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3826"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3828"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3830"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3832"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3834"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3836"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3838"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
       <g
          id="g3840"
-         style="fill:#00000a;fill-opacity:1" />
+         style="fill:#262626;fill-opacity:1" />
     </g>
   </g>
 </svg>

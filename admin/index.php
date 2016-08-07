@@ -29,38 +29,79 @@ if ($Config['Password'] != '') {
 ActionTopMenu();
 DrawTopMenu();
 //Main---------------------------------------------------------------
-echo '<div id="top-padding"></div>';
-echo '<div class="row">';
 
-if (file_exists($CSVBlocking)) {                 //Tracker Blocklist
-  if(filemtime($CSVBlocking) + 20 > time()) {    //Is notrack writing to CSV File?
-    echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><br /><h2>Processing</h2></div><div class="home-nav-right"><img class="full" src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
-  } 
-  else {                                         //NoTrack not writing to CSV File
-    echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /etc/dnsmasq.d/notrack.list | cut -d\  -f 1'))).'</h3><h4>Domains</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+$BlockListDate = 0;
+$StatusStr = '';
+$DateStr = '';
+$DateSubStr = '<h2>Block list is in date</h2>';
+$CurrentTime = time();
+
+if (substr($Config['Status'], 0, 6) == 'Paused') {
+  $StatusStr = '<h4>Paused</h4>';
+  $DateStr = '<h2>---</h2>';
+  $DateSubStr = '';
+}
+elseif ($Config['Status'] == 'Stop') {
+  $StatusStr = '<h6>Disabled</h6>';
+  $DateStr = '<h2>---</h2>';
+  $DateSubStr = '';
+}
+else {
+  $StatusStr = '<h3>Active</h3>';
+}
+
+if (file_exists($FileBlockList)) {
+  $BlockListDate = filemtime($FileBlockList);
+  if ($BlockListDate > $CurrentTime - 86400) $DateStr = '<h3>Today</h3>';
+  elseif ($BlockListDate > $CurrentTime - 172800) $DateStr = '<h3>2 Days ago</h3>';
+  elseif ($BlockListDate > $CurrentTime - 259200) $DateStr = '<h3>3 Days ago</h3>';
+  elseif ($BlockListDate > $CurrentTime - 345600) $DateStr = '<h4>4 Days ago</h4>';
+  else {
+    $DateStr = '<h6>'.date('d M', $BlockListDate).'</h6>';
+    $DateSubStr = '<h6>Out of date</h6>';
+  }
+}  
+else {
+  if ($StatusStr == 'Active') {
+    $StatusStr = 'Block List Missing';
+    $DateStr = 'Unknown';
   }
 }
-else {                                           //Tracker Blocklist missing
-  echo '<a href="./config.php?v=sites"><div class="home-nav-r"><h2>Tracker Blocklist</h2><div class="home-nav-left"><br /><h4>File Not Found</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+echo '<div id="top-padding"></div>';
+echo '<div class="home-nav-container">';
+
+echo '<a href="#"><div class="home-nav"><h2>Status</h2><hr /><br />'.$StatusStr.'</div></a>'.PHP_EOL;
+echo '<a href="#"><div class="home-nav"><h2>Last Updated</h2><hr /><br />'.$DateStr.$DateSubStr.'</div></a>'.PHP_EOL;
+
+if (file_exists($CSVBlocking)) {                 //Block List
+  if(filemtime($CSVBlocking) + 20 > time()) {    //Is notrack writing to CSV File?
+    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+  } 
+  else {                                         //NoTrack not writing to CSV File
+    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval(exec('wc -l /etc/dnsmasq.d/notrack.list | cut -d\  -f 1'))).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+  }
+}
+else {                                           //Block List missing
+  echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><h6>File Not Found</h6><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 
 //Sites Blocked
-echo '<a href="./blocked.php"><div class="home-nav-b"><h2>Sites Blocked</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -v admin /var/log/lighttpd/access.log | wc -l'))).'</h3><h4>This Week</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_blocked.svg" alt=""></div></div></a>'.PHP_EOL;
+echo '<a href="./blocked.php"><div class="home-nav"><h2>Sites Blocked</h2><hr /><span>'.number_format(floatval(exec('grep -v admin /var/log/lighttpd/access.log | wc -l'))).'<br />This Week</span><div class="icon-box"><img src="./svg/home_blocked.svg" alt=""></div></div></a>'.PHP_EOL;
 
 //DNS Queries
-echo '<a href="./stats.php"><div class="home-nav-g"><h2>DNS Queries</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('grep -F query[A] /var/log/notrack.log | wc -l'))).'</h3><h4>Today</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_server.svg" srcset="./svg/home_server.svg"  alt=""></div></div></a>'.PHP_EOL;
+echo '<a href="./stats.php"><div class="home-nav"><h2>DNS Queries</h2><hr /><span>'.number_format(floatval(exec('grep -F query[A] /var/log/notrack.log | wc -l'))).'<br />Today</span><div class="icon-box"><img src="./svg/home_server.svg" srcset="./svg/home_server.svg"  alt=""></div></div></a>'.PHP_EOL;
 
 if (file_exists('/var/lib/misc/dnsmasq.leases')) { //DHCP Active
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'</h3><h4>Systems</h4></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>DHCP</h2><hr /><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br />Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 else {                                           //DHCP Disabled
-  echo '<a href="./dhcpleases.php"><div class="home-nav-y"><h2>DHCP</h2><div class="home-nav-left"><h3>N/A</h3></div><div class="home-nav-right"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>DHCP</h2><hr /><span>N/A</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
 }
-echo '</div>'.PHP_EOL;
 
-echo '<div class="row-mobile">';                 //Row visible for Mobiles
+
+/*echo '<div class="row-mobile">';                 //Row visible for Mobiles
 echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./svg/home_config.svg" alt=""></div></div></a>'.PHP_EOL;
-
+*/
 echo '</div>'.PHP_EOL;
 echo '<div class="row"><br /></div>'.PHP_EOL;
 

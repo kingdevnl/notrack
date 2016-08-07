@@ -5,6 +5,7 @@ $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
 $FileTmpConfig = '/tmp/notrack.conf';
 $FileConfig = '/etc/notrack/notrack.conf';
+$FileBlockList = '/etc/dnsmasq.d/notrack.list';
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
