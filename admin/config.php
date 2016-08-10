@@ -371,8 +371,8 @@ function DisplayBlockLists() {
   echo '<tr><th colspan="2">Malware</th></tr>';
   DrawBlockListRow('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/">(hexxiumcreations.com)</a>');
   
-  DrawBlockListRow('bl_dismalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
-  DrawBlockListRow('bl_maldomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
+  DrawBlockListRow('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
+  DrawBlockListRow('bl_malwaredomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
   DrawBlockListRow('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
   
   DrawBlockListRow('bl_spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
@@ -867,14 +867,14 @@ function UpdateBlockListConfig() {
   $Config['bl_qmalware'] = Filter_Config('bl_qmalware');
   $Config['bl_hexxium'] = Filter_Config('bl_hexxium');
   $Config['bl_adblockmanager'] = Filter_Config('bl_adblockmanager');
-  $Config['bl_disconnectmalvertising'] = Filter_Config('bl_dismalvertising');
+  $Config['bl_disconnectmalvertising'] = Filter_Config('bl_disconnectmalvertising');
   $Config['bl_easylist'] = Filter_Config('bl_easylist');
   $Config['bl_easyprivacy'] = Filter_Config('bl_easyprivacy');
   $Config['bl_fbannoyance'] = Filter_Config('bl_fbannoyance');
   $Config['bl_fbenhanced'] = Filter_Config('bl_fbenhanced');
   $Config['bl_fbsocial'] = Filter_Config('bl_fbsocial');
   $Config['bl_hphosts'] = Filter_Config('bl_hphosts');
-  $Config['bl_malwaredomainlist'] = Filter_Config('bl_maldomainlist');
+  $Config['bl_malwaredomainlist'] = Filter_Config('bl_malwaredomainlist');
   $Config['bl_malwaredomains'] = Filter_Config('bl_malwaredomains');  
   $Config['bl_pglyoyo'] = Filter_Config('bl_pglyoyo');
   $Config['bl_someonewhocares'] = Filter_Config('bl_someonewhocares');

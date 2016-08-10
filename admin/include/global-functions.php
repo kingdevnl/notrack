@@ -297,7 +297,7 @@ function LoadConfigFile() {
               $Config['bl_hphosts'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_MalwareDomainList':
-            case 'bl_hphosts':
+            case 'bl_malwaredomainlist':
               $Config['bl_malwaredomainlist'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
             case 'BlockList_MalwareDomains':
