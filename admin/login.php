@@ -86,7 +86,7 @@ if (isset($_POST['password'])) {
 <body>
 <div id="main">
 <div id="menu-top">
-<div id="menu-logo"><img src="./svg/ntrklogo2.svg" alt=""></div>
+<div id="menu-logo"><img src="./svg/ntrklogo.svg" alt=""></div>
 <div id="menu-top-right">
 <a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>
 <a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>
