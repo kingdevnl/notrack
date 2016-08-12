@@ -307,10 +307,7 @@ function LoadConfigFile() {
             case 'BlockList_PglYoyo':
             case 'bl_pglyoyo':
               $Config['bl_pglyoyo'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_securemecca':
-              $Config['bl_securemecca'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
+              break;            
             case 'BlockList_SomeoneWhoCares':
             case 'bl_someonewhocares':
               $Config['bl_someonewhocares'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);

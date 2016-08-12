@@ -391,7 +391,7 @@ function DisplayBlockLists() {
   
   DrawBlockListRow('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
   
-  DrawBlockListRow('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/">(securemecca.com)</a>');
+  //DrawBlockListRow('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/">(securemecca.com)</a>');
                                              
   DrawBlockListRow('bl_winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
   
@@ -878,7 +878,7 @@ function UpdateBlockListConfig() {
   $Config['bl_malwaredomains'] = Filter_Config('bl_malwaredomains');  
   $Config['bl_pglyoyo'] = Filter_Config('bl_pglyoyo');
   $Config['bl_someonewhocares'] = Filter_Config('bl_someonewhocares');
-  $Config['bl_securemecca'] = Filter_Config('bl_securemecca');
+  //$Config['bl_securemecca'] = Filter_Config('bl_securemecca');
   $Config['bl_spam404'] = Filter_Config('bl_spam404');
   $Config['bl_swissransom'] = Filter_Config('bl_swissransom');
   $Config['bl_swisszeus'] = Filter_Config('bl_swisszeus');

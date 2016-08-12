@@ -31,7 +31,7 @@ Config[bl_hphosts]=0
 Config[bl_malwaredomainlist]=0
 Config[bl_malwaredomains]=0
 Config[bl_pglyoyo]=0
-Config[bl_securemecca]=0
+#Config[bl_securemecca]=0
 Config[bl_someonewhocares]=0
 Config[bl_spam404]=0
 Config[bl_swissransom]=0
@@ -71,7 +71,7 @@ URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomainlist]="http://www.malwaredomainlist.com/hostslist/hosts.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
-URLList[securemecca]="http://securemecca.com/Downloads/hosts.txt"
+#URLList[securemecca]="http://securemecca.com/Downloads/hosts.txt"
 URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
 URLList[swissransom]="https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt"
 URLList[swisszeus]="https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist"
@@ -231,7 +231,7 @@ function Read_Config_File() {
           bl_malwaredomainlist) Config[bl_malwaredomainlist]="$Value";;
           bl_malwaredomains) Config[bl_malwaredomains]="$Value";;          
           bl_pglyoyo) Config[bl_pglyoyo]="$Value";;
-          bl_securemecca) Config[bl_securemecca]="$Value";;
+          #bl_securemecca) Config[bl_securemecca]="$Value";;
           bl_someonewhocares) Config[bl_someonewhocares]="$Value";;
           bl_spam404) Config[bl_spam404]="$Value";;
           bl_swissransom) Config[bl_swissransom]="$Value";;
@@ -855,7 +855,7 @@ function Test() {
   echo "MalwareDomainList ${Config[bl_malwaredomainlist]}"
   echo "MalwareDomains ${Config[bl_malwaredomains]}"
   echo "PglYoyo ${Config[bl_pglyoyo]}"
-  echo "Secure Mecca ${Config[bl_securemecca]}"
+  #echo "Secure Mecca ${Config[bl_securemecca]}"
   echo "SomeoneWhoCares ${Config[bl_someonewhocares]}"
   echo "Spam404 ${Config[bl_spam404]}"
   echo "SwissRansom ${Config[bl_swissransom]}"
@@ -1103,7 +1103,7 @@ GetList "hphosts" "unix"
 GetList "malwaredomainlist" "unix"
 GetList "malwaredomains" "plain"
 GetList "pglyoyo" "plain"
-GetList "securemecca" "unix"
+#GetList "securemecca" "unix"
 GetList "someonewhocares" "unix"
 GetList "spam404" "easylist"
 GetList "swissransom" "plain"
