@@ -37,35 +37,35 @@ function ReportSite(Site, Remove) {
     Msg = "<p>Unable to Block IP addresses.<br />You could add it to your Firewall instead</p>";
   }
   else if (Remove) {                             //Difficult to deal with Whitelisting / Removing sites from BlackList, it requires a greater interaction with Data on the server
-    Report= '<a class="button-blue" href="http://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList';
+    Report= '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
   }
   else {                                         //At this point we are dealing with Adding a site to BlackList
-    Report = '<a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain';
+    Report = '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';
     
     if (SplitLength == 2) {                      //Single domain
-      Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';      
+      Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List</p>';
     }
     else {     
       if (SplitLength >= 3) {                    //Three or more splits maybe a .co domain
         if (Split[SplitLength-2] == "co") {      //Is it a .co domain?
   	  if (SplitLength == 3) {                //Single domain
-	    Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List';
+	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List</p>';
 	  }
 	  else if (SplitLength > 3) {            //Dealing with a .co domain with subdomains
-	    Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1];
-	    Block2 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
+	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'</p>';
+	    Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';
 	  }
         }
         else {                                   //Dealing with a non .co domain with subdomains
-	  Block1 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-2]+'.'+Split[SplitLength-1];
-	  Block2 = '<a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List';
-	}
+	  Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'</p>';
+	  Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';
+	    }
       }
     }
   }
   
   //Modify DOM elements depending on whether a string has been set.
-  document.getElementById("sitename").innerHTML = "<p>"+Site+"</p>";
+  document.getElementById("sitename").innerHTML = "<h2>"+Site+"</h2>";
   
   if (Msg == "") {
     document.getElementById("statsmsg").style.display = "none";
@@ -103,12 +103,67 @@ function ReportSite(Site, Remove) {
     document.getElementById("statsreport").innerHTML = Report;
   }
   
+  //Position Fade and Stats box
+  document.getElementById('fade').style.top=window.pageYOffset+"px";
   document.getElementById('fade').style.display = "block";
-  document.getElementById('stats-center').style.display = "block";  
+    
+  document.getElementById('stats-box').style.top = (window.pageYOffset + (window.innerHeight / 2))+"px";
+  document.getElementById('stats-box').style.left = (window.innerWidth / 2)+"px";
+  document.getElementById('stats-box').style.display = "block";
+
+  
 }
 //-------------------------------------------------------------------
 function HideStatsBox() {
-  document.getElementById('stats-center').style.display = "none";
+  document.getElementById('stats-box').style.display = "none";
   document.getElementById('fade').style.display = "none";
 }
 //-------------------------------------------------------------------
+function ScrollToBottom() {  
+  window.scrollTo(0, document.body.scrollHeight);
+  
+  //Animated http://jsfiddle.net/forestrf/tPQSv/2/
+}  
+//-------------------------------------------------------------------
+function ScrollToTop() {
+  window.scrollTo(0, 0);
+}  
+//-------------------------------------------------------------------
+window.onscroll = function() {Scroll()};         //OnScroll Event
+
+function Scroll() {
+  //Show Scroll button depending on certain conditions:
+  //1: Under 100 pixels from Top - None
+  //2: Over 100 pixels from Top and Under 60% - Scroll Down
+  //3: Over 60% - Scroll Up
+  
+  var Y = document.body.scrollHeight / 10;
+  
+  if (window.pageYOffset > 100 && window.pageYOffset < Y * 6) {
+    document.getElementById('scrollup').style.display = "none";
+    document.getElementById('scrolldown').style.display = "block";
+  }
+  else if (window.pageYOffset >= (Y * 6)) {
+    document.getElementById('scrollup').style.display = "block";
+    document.getElementById('scrolldown').style.display = "none";
+  }
+  else {
+    document.getElementById('scrollup').style.display = "none";
+    document.getElementById('scrolldown').style.display = "none";
+  }
+  
+  //Lock Stats box and Fade in place if visible
+  if (document.getElementById('stats-box').style.display == "block") {
+    document.getElementById('fade').style.top=window.pageYOffset+"px";
+      
+    document.getElementById('stats-box').style.top = (window.pageYOffset + (window.innerHeight / 2))+"px";
+    document.getElementById('stats-box').style.left = (window.innerWidth / 2)+"px";
+  }
+  //Lock Options box in place if visible
+  if (document.getElementById('options-box').style.display == "block") {
+    document.getElementById('fade').style.top=window.pageYOffset+"px";
+      
+    document.getElementById('options-box').style.top = (window.pageYOffset + (window.innerHeight / 2))+"px";
+    document.getElementById('options-box').style.left = (window.innerWidth / 2)+"px";
+  }
+}

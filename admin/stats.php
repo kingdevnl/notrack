@@ -663,8 +663,8 @@ foreach ($SortedDomainList as $Str => $Value) {
     $ReportSiteStr = '';                         //Assume no Report Button
     
     if ($Action == '+') {                        //+ = Allowed      
-      echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';
-      $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', false)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+      echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';      
+      $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', false)">';
     }
     elseif ($Action == '-') {                    //- = Blocked
       $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
@@ -682,7 +682,7 @@ foreach ($SortedDomainList as $Str => $Value) {
       }
       else {
         echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'</td>';
-        $ReportSiteStr = '&nbsp;<a href="#" onclick="ReportSite(\''.$Site.'\', true)"><img src="./images/report_icon.png" alt="Rep" title="Report Site"></a>';
+        $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', true)">';
       }      
     }
     elseif ($Action == '1') {                    //1 = Local lookup
@@ -766,7 +766,10 @@ if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
 ?>
 </div>
 
-<div id="stats-center"><div id="stats-box">
+<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></a></div>
+<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></a></div>
+
+<div id="stats-box">
 <div class="dialog-bar">Report</div>
 <span id="sitename">site</span>
 <span id="statsmsg">something</span>
@@ -774,9 +777,9 @@ if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
 <span id="statsblock2"><a class="button-blue" href="#">Block Sub</a> Block just the subdomain</span>
 <span id="statsreport"><a class="button-blue" href="#">Report</a></span>
 <br />
-<div class="centered"><a class="button-grey" href="#" onclick="HideStatsBox()">Cancel</a></div>
-<div class="close-button"><a href="#" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></a></div>
-</div></div>
+<div class="centered"><h6 class="button-grey" onclick="HideStatsBox()">Cancel</h6></div>
+<div class="close-button" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></a></div>
+</div>
 
 </body>
 </html>
