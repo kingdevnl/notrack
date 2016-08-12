@@ -118,7 +118,7 @@ function DrawTopMenu() {
   if ($Config['Password'] != '') {               //Only do Logout if there is a password
     echo '<a href="../admin/logout.php"><span class="pictext"><img src="./svg/menu_logout.svg" alt=""><span class="dtext">Logout</span></span></a>'.PHP_EOL;
   }
-  echo '<a href="#" onclick="ShowOptions()"><span class="pictext rightpictext"><img src="./svg/menu_option.svg" alt=""><span class="dtext">Options</span></span></a>'.PHP_EOL;
+  echo '<span class="pictext rightpictext pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt=""><span class="dtext">Options</span></span>'.PHP_EOL;
 
   //If Status = Paused & Enable Time < Now then switch Status to Enabled
   if ((substr($Config['Status'], 0, 6) == 'Paused') && (floatval(substr($Config['Status'], 6))) < (time()+60)) {
@@ -131,34 +131,34 @@ function DrawTopMenu() {
   echo '<input type="hidden" name="pause-time" id="pause-time" value="">'.PHP_EOL;
   if (substr($Config['Status'], 0, 6) == 'Paused') {
     echo '<span class="timer" title="Paused until">'.date('H:i', substr($Config['Status'], 6)).'</span>'.PHP_EOL;
-    echo '<a href="#" onclick="PauseNoTrack(\'start\')"><span class="pbutton" title="Enable Blocking">&#9654;</span></a>'.PHP_EOL;
+    echo '<span class="pbutton pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
   }
   elseif ($Config['Status'] == 'Stop') {
     echo '<span class="timer" title="NoTrack Disabled">----</span>'.PHP_EOL;
-    echo '<a href="#" onclick="PauseNoTrack(\'start\')"><span class="pbutton" title="Enable Blocking">&#9654;</span></a>'.PHP_EOL;
+    echo '<span class="pbutton pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
   }
   else {
-    echo '<a href="#" onclick="PauseNoTrack(\'stop\')"><span class="pbutton" title="Disable Blocking">&#8545;</span></a>'.PHP_EOL;
+    echo '<span class="pbutton pointer" title="Disable Blocking" onclick="PauseNoTrack(\'stop\')">&#8545;</span>'.PHP_EOL;
   }
-  echo '<div tabindex="1" id="dropbutton">&#x25BC;'.PHP_EOL;
+  echo '<div tabindex="1" id="dropbutton" title="Pause for..."><span class="pointer">&#x25BC;</span>'.PHP_EOL;
   echo '<div id="pause-menu">'.PHP_EOL;  
-  echo '<a href="#" onclick="PauseNoTrack(\'pause\', 5)"><span>Pause for 5 minutes</span></a>'.PHP_EOL;
-  echo '<a href="#" onclick="PauseNoTrack(\'pause\', 15)"><span>Pause for 15 minutes</span></a>'.PHP_EOL;
-  echo '<a href="#" onclick="PauseNoTrack(\'pause\', 30)"><span>Pause for 30 minutes</span></a>'.PHP_EOL;
-  echo '<a href="#" onclick="PauseNoTrack(\'pause\', 60)"><span>Pause for 1 Hour</span></a>'.PHP_EOL;
+  echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 5)">Pause for 5 minutes</span>'.PHP_EOL;
+  echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 15)">Pause for 15 minutes</span>'.PHP_EOL;
+  echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 30)">Pause for 30 minutes</span>'.PHP_EOL;
+  echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 60)">Pause for 1 Hour</span>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
   echo '</form></div></div>'.PHP_EOL;
   echo '</nav>'.PHP_EOL;
 
   //Dialogs----------------------------------------------------------
-  echo '<div id="centerpoint1"><div id="dialog">'.PHP_EOL;
+  echo '<div id="dialog-box">'.PHP_EOL;
   echo '<div class="dialog-bar">NoTrack</div>'.PHP_EOL;
   echo '<span id="dialogmsg">Doing something</span>'.PHP_EOL;
   echo '<div class="centered"><img src="./images/progress.gif" alt=""></div>'.PHP_EOL;
-  echo '</div></div>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
 
   //Operations
-  echo '<div id="centerpoint2"><div id="options">'.PHP_EOL;
+  echo '<div id="options-box">'.PHP_EOL;
   echo '<div class="dialog-bar">Options</div>'.PHP_EOL;
   echo '<div class="centered">'.PHP_EOL;
   
@@ -169,8 +169,8 @@ function DrawTopMenu() {
   echo '<span><a href="#" onclick="PauseNoTrack(\'shutdown\')" class="button-danger button-options">Shutdown System</a></span>'.PHP_EOL;
   echo '</form>'.PHP_EOL;
   
-  echo '<div class="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close"></a></div>'.PHP_EOL;
-  echo '</div></div></div>'.PHP_EOL;
+  echo '<div class="close-button"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close" onclick="HideOptions()"></div>'.PHP_EOL;
+  echo '</div></div>'.PHP_EOL;
 
   echo '<div id="fade"></div>'.PHP_EOL;
 }

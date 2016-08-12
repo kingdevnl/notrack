@@ -7,7 +7,7 @@
  * Primary: #008CD1          *
  * Dark Primary: #004F75     *
  * Secondary: #21BBFF        *
- * Inverse: #DA4453          */
+ * Inverse: #B1244A          */
 body {
   font-size: 1.0em;
   font-family: Arial, Helvetica, sans-serif;
@@ -26,7 +26,7 @@ a:hover {
 }
 p {
   margin: 0 0 0.5em 0;
-  font-size: 1.1rem;
+  font-size: 1em;
 }
 p.bold {
   font-weight: bold;
@@ -55,6 +55,9 @@ img.btn {
 }
 img.full {  
   width: 100%;
+}
+span.pointer {
+  cursor: pointer;
 }
 h1 {
   font-size: 2.1em;
@@ -109,9 +112,6 @@ h6 {
     margin: 0 0 2rem 0; 
     padding: 0.5rem;  
   } 
-  h2 {font-size: 3.8em;}
-  h3 {font-size: 4.7em;}
-  h4 {font-size: 3.2em;}
 }
 ul, ol {
   margin: 0;
@@ -178,8 +178,8 @@ textarea {
 }
 .button-blue {background-color: #008CD1;}
 .button-blue:hover {background-color: #007298;}
-.button-danger {background-color: #DA4453;}
-.button-danger:hover {background-color: #AD3541;}
+.button-danger {background-color: #B1244A;}
+.button-danger:hover {background-color: #8B1D3A;}
 .button-grey, input[type="submit"] {background-color: #C0C0C0;}
 .button-small {
   font-size: 1.1em;
@@ -201,6 +201,25 @@ a.button-blue, a.button-grey, a.button-danger {
 .button-options {
   margin: 0.5em 0em;
   width: 9.2em;
+}
+.button-scroll {
+  position: fixed;
+  bottom: 1.2em;
+  right: 1.2em;
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
+  z-index: 200;
+  display: none;  
+  background: #B1244A; 
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, .5);
+}
+.button-scroll img {
+  width: 100%;  
+}
+.button-scroll:active {
+  bottom: 1.1em;
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, .5);
 }
 .row {
   width:100%;
@@ -525,6 +544,9 @@ position: fixed;
   margin: 0.4rem 0rem 0.3rem 0rem;
   float: left;
 }
+#main-menu span, #main-menu-padded span {  
+  color: #008CD1;
+}
 span.dtext {
   margin: 0 0 0 0.1em;
 }
@@ -542,22 +564,23 @@ span.rightpictext {
   padding: 0.3rem 0.5rem;
   margin: 0.1em 0.5em;
   background-color: #191919;
-  border-radius: 8px;
-  border: 1px solid #050505;
+  border-radius: 6px;
+  border: 1px solid #050505;  
+  color: #008CD1;
 }
 #dropbutton {
   display: inline-block;
 }
 span.pbutton, #dropbutton {  
-  padding: 0.2rem 0.4rem;
-  color: #008DC1;
+  padding: 0.2rem 0.4rem;  
   border-radius: 2px;
+/*   cursor: pointer; */
 }
 span.pbutton {
-  font-weight: bold;
+  font-weight: bold;  
 }
 span.timer {
-  background-color: #F1F1F1;
+/*   background-color: #F1F1F1; */
   margin-right: 0.2rem;
   padding: 0 0.1rem;
   line-height: 1.4rem;
@@ -577,7 +600,7 @@ span.timer {
   opacity: 0;    /* use opacity to fake immediate toggle */
   visibility: hidden;
   transition: visibility 0.5s;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 5px;
   background-color: #262626;
   font-size: 1.1rem;
@@ -804,42 +827,51 @@ span.filter {
   position: absolute;
   display: none;  
 }
-#centerpoint1 {z-index: 1001;}
-#centerpoint2 {z-index: 1002;}
-#stats-center {z-index: 1002;}
-#dialog, #options, #stats-box {
-  position: relative;
+/* #centerpoint1 {z-index: 1001;} */
+/* #centerpoint2 {z-index: 1002;} */
+/* #stats-center {z-index: 1002;} */
+#dialog-box, #options-box, #stats-box {
+  position: absolute;
+  display: none;
   background-color: #F1F1F1;
   border: 2px solid #21BBFF;
   border-radius: 5px;
   box-shadow: 1px 2px 10px #21BBFF;
 }
-#dialog {
+#dialog-box {
   width: 30em;
   height: 12em;
   margin: -10em 0 0 -15em;
   text-align: center;
+  z-index: 1001;
 }
-#dialog span {  
+#dialog-box span {  
   margin-bottom: 1em;
   display: block;
 }
-#stats-box {
+#stats-box {    
   width: 36em;
   height: auto;
-  margin: -50% 0 0 -18em;
+  margin: -12em 0 0 -18em;
   padding-bottom: 0.5em;
+  z-index: 1003;  
 }
 #stats-box a {
   width: 10em;
   padding: 0.5em 0;
 }
-#stats-box p {
-  margin: 0.5em;
-}
 #stats-box span {
   margin: 1em 0.5em 1em 0.5em;
   display: block;
+}
+#stats-box h2 {
+  font-size: 1.2em;
+  margin: 0 0 0.5rem 0.8em;
+}
+#stats-box h6 {
+  font-size: 1.1em;
+  font-weight: normal;
+  width: 8rem;
 }
 .dialog-bar {
   font-size: 1.4em;
@@ -852,12 +884,13 @@ span.filter {
   border-top-right-radius: 5px;  
   margin: -1px 0 1em 0;
 }
-#options {
+#options-box {
   width: 24em;
   height: 18em;
   margin: -10em 0 0 -12em;
+  z-index: 1003;
 }
-#options span {
+#options-box span {
   margin: 0.8em 0 0.5em 0.5em;  
   display: block;
 }
@@ -865,6 +898,7 @@ span.filter {
   position: absolute;
   right: 0.4em;
   top: 0.4em;
+  cursor: pointer;
 }
 .close-button img {
   width: 1.5em;
