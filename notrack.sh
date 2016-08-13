@@ -196,6 +196,17 @@ function CalculatePercentPoint() {
     JumpPoint=$((100/NumLines))
   fi
 }
+#Count Lines---------------------------------------------------------
+function CountLines() {
+  local ListFile=""
+  local LineCount=0
+  
+  for ListFile in /etc/dnsmasq.d/*.list; do    
+    let "LineCount += $(wc -l "$ListFile" | cut -d\  -f 1)"
+  done
+  
+  echo "$LineCount"
+}
 #Read Config File----------------------------------------------------
 #Default values are set at top of this script
 #Config File contains Key & Value on each line for some/none/or all items
@@ -820,6 +831,7 @@ function Show_Help() {
   echo -e "  -t, --test\tConfig Test"
   echo -e "  -v, --version\tDisplay version information and exit"
   echo -e "  -u, --upgrade\tRun a full upgrade"
+  echo -e "  --count\tCount number of sites in active Block lists"
 }
 #Show Version--------------------------------------------------------
 function Show_Version() {
@@ -966,7 +978,7 @@ function Upgrade() {
 }
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options="$(getopt -o fhvtu -l help,force,version,upgrade,test -- "$@")"; then
+  if ! options="$(getopt -o fhvtu -l count,help,force,version,upgrade,test -- "$@")"; then
     # something went wrong, getopt will put out an error message for us
     exit 6
   fi
@@ -975,7 +987,11 @@ if [ "$1" ]; then                                #Have any arguments been given
 
   while [ $# -gt 0 ]
   do
-    case $1 in      
+    case $1 in
+      --count)
+        CountLines
+        exit 0
+      ;;
       -f|--force)
         Force=1        
       ;;
