@@ -1,4 +1,4 @@
-Development
+v0.7.16 alpha
 **********************
 *IMPORTANT NOTE!!!   *
 **********************
@@ -7,20 +7,27 @@ Go to: Config > Block Lists > Save Changes
 
 Admin:
   New style cards on home page
-  Active and Last updated cards added  
+  Active and Last updated cards added
+  Fixed Issue #74 - Missing Image on Login
+  New CSS Styling
+  Scroll button added to Stats page
+  Popup boxes no longer cause page to scroll up
 
 NoTrack
   Enhanced Deduplication
   Block list files consolidated
   Smarter updating of Block lists
   Fixed Issue #67 Custom block lists not disabled on Pause
-
+  
 New Block lists:
   Hexxium malware list (Issue #50)
-  Secure Mecca
+  Secure Mecca - Removed, it caused .de domain to be blocked (Issue #72)
   Arab Easy List
   German Easy List
   Denmark Schacks Adblock Plus liste
+
+Upgrade:
+  Change log displayed all the time
   
   
 v0.7.15 alpha
