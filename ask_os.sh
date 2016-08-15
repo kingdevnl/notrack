@@ -11,9 +11,9 @@ Ask_Os(){
         Os_Description=$(cat /etc/lsb-release | grep "DISTRIB_DESCRIPTION" | cut -d "=" -f 2 | cut -d "\"" -f 2)
     elif [ -e /etc/os-release ]; then
         #Raspbian Jessie
-        Os_Id=$(cat /etc/lsb-release | grep "^ID=" | cut -d "=" -f 2)
-        Os_Version=$(cat /etc/lsb-release | grep "VERSION_ID" | cut -d "=" -f 2 | cut -d "\"" -f 2)
-        Os_Description=$(cat /etc/lsb-release | grep "PRETTY_NAME" | cut -d "=" -f 2 | cut -d "\"" -f 2)
+        Os_Id=$(cat /etc/os-release | grep "^ID=" | cut -d "=" -f 2)
+        Os_Version=$(cat /os/lsb-release | grep "VERSION_ID" | cut -d "=" -f 2 | cut -d "\"" -f 2)
+        Os_Description=$(cat /os/lsb-release | grep "PRETTY_NAME" | cut -d "=" -f 2 | cut -d "\"" -f 2)
     else
         echo "Warning: Unable to determine OS"
     fi
