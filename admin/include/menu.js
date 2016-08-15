@@ -28,6 +28,8 @@ function PauseNoTrack(Action, PauseTime) {
   
   document.getElementById("fade").style.top=window.pageYOffset+"px";
   document.getElementById("fade").style.display = "block";
+  
+  document.getElementById("options-box").style.display = "none";
     
   document.getElementById("dialog-box").style.top = (window.pageYOffset + (window.innerHeight / 2))+"px";
   document.getElementById("dialog-box").style.left = (window.innerWidth / 2)+"px";
