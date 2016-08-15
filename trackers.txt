@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 31 July 2016
+#NoTrack Tracker list updated 15 August 2016
 #LatestVersion 0.7.15
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -422,6 +422,7 @@ auditorius.ru #iAge
 auditude.com
 audtd.com #iAge
 augur.io
+autenticadas.com #Advertising Unknown
 authorisationimprint.com
 aweber.com
 awin1.com #Digital Window
@@ -10014,6 +10015,7 @@ specificclick.net
 speedshiftmedia.com
 spendandraise.org #Digital Window
 spendnraise.org #Digital Window
+spexaccess.net #Spex Access
 spgo.io #SparkPost
 spiderwatch.com #SpidersWatch
 spoded.com #Microsoft
@@ -10047,6 +10049,7 @@ subtraxion.com
 successfultogether.co.uk
 sugarops.com
 sumome.com #SumoMe
+sumologic.com #Sumo Logic
 survata.net
 surveybit.com #Campaign Monitor Pty
 surveybus.com #Campaign Monitor Pty
