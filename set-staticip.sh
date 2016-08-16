@@ -36,6 +36,10 @@ Get_Os(){
 
   echo "Running on $Os_Description"
   echo
+
+  if [ $Os_Id != "Raspbian" ]; then
+    Error_Exit "Only Raspbian supported" 1
+  fi
 }
 
 
@@ -79,10 +83,8 @@ Set_StaticIp(){
   echo "Enter internet gateway address:"
   read RouterIPAddr
 
-  if [ $Os_Id = "raspbian" ]; then
+  if [ $Os_Id = "Raspbian" ]; then
     Set_StaticIp_Raspbian_Jessie
-  else
-    Error_Exit "Only Raspbian supported" 1
   fi
 }
 
