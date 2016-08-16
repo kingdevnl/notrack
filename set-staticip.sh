@@ -30,9 +30,9 @@ Check_File_Exists() {
 
 #Get Operating System-------------------------------------------------
 Get_Os(){
-  Os_Id=$(lsb_release -i | cut -d ":" -f 2 | tr -d [[:space:]])
-  Os_Version=$(lsb_release -r | cut -d ":" -f 2 | tr -d [[:space:]])
-  Os_Description=$(lsb_release -d | cut -d ":" -f 2 | tr -d [[:space:]])
+  Os_Id=$(lsb_release -i | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
+  Os_Version=$(lsb_release -r | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
+  Os_Description=$(lsb_release -d | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
 
   echo "Running on $Os_Description"
   echo
