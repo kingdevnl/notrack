@@ -30,22 +30,9 @@ Check_File_Exists() {
 
 #Get Operating System-------------------------------------------------
 Get_Os(){
-  Os_Id=""
-  Os_Version=""
-  Os_Description=""
-    
-  if [ -e /etc/lsb-release ]; then
-    Os_Id=$(cat /etc/lsb-release | grep "DISTRIB_ID" | cut -d "=" -f 2)
-    Os_Version=$(cat /etc/lsb-release | grep "DISTRIB_RELEASE" | cut -d "=" -f 2)
-    Os_Description=$(cat /etc/lsb-release | grep "DISTRIB_DESCRIPTION" | cut -d "=" -f 2 | cut -d "\"" -f 2)
-  elif [ -e /etc/os-release ]; then
-  #Raspbian Jessie
-    Os_Id=$(cat /etc/os-release | grep "^ID=" | cut -d "=" -f 2)
-    Os_Version=$(cat /etc/os-release | grep "VERSION_ID" | cut -d "=" -f 2 | cut -d "\"" -f 2)
-    Os_Description=$(cat /etc/os-release | grep "PRETTY_NAME" | cut -d "=" -f 2 | cut -d "\"" -f 2)
-  else
-    Error_Exit "Warning: Unable to determine OS" 1
-  fi
+  Os_Id=$(lsb_release -i | cut -d ":" -f 2 | tr -d [[:space:]])
+  Os_Version=$(lsb_release -r | cut -d ":" -f 2 | tr -d [[:space:]])
+  Os_Description=$(lsb_release -d | cut -d ":" -f 2 | tr -d [[:space:]])
 
   echo "Running on $Os_Description"
   echo
