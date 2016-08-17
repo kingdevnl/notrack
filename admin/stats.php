@@ -49,41 +49,20 @@ $CommonSitesList = array('cloudfront.net','googleusercontent.com','googlevideo.c
 function ReturnURL($Str) {
   //Conditions:
   //1: Drop www (its unnecessary and not all websites use it now)
-  //2: Domain length of 0 or 1 is sent straight onto DNS server
-  //   Return it without comparing it against common sites
-  //3: Check domain against CommonSites, if there is a match then
-  //   return '*.' for the subdomains
-  //4: .co.xx, .com.xx, .net.xx need to be evaluated as a single TLD
+  //2. Extract domain.tld, including double-barrelled domains
+  //3. Check if site is to be suppressed (present in Common sites)
   global $CommonSites;
-  
+      
+    
   if (substr($Str,0,4) == 'www.') $Site = substr($Str,4); 
   else $Site = $Str;
   
-  $Split = explode('.', $Site);
-  $c = count($Split) - 1;
-  
-  if ($c < 2) {
-    return $Site;
-  }
-  elseif ($c == 2) {
-    if (in_array($Split[1].'.'.$Split[2], $CommonSites)) return '*.'.$Split[1].'.'.$Split[2];
+  if (preg_match('/[A-Za-z1-9-]{2,63}\.(org\.|co\.|au\.)?[A-Za-z1-9-]{2,63}$/', $Site, $Match) == 1) {
+    if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
     else return $Site;
   }
-  else {
-    switch ($Split[$c-1]) {
-      case 'co':
-      case 'com':
-      case 'net':
-        if (in_array($Split[$c-2].'.'.$Split[$c-1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c-2].'.'.$Split[$c-1].'.'.$Split[$c];
-        break;
-      default:        
-        if (in_array($Split[$c-1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c-1].'.'.$Split[$c];
-        break;
-    }    
-    return $Site;
-  }
-  
-  return 'Error in URL String';
+ 
+  return $Site;
 }
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
@@ -447,7 +426,7 @@ if (isset($_GET['e'])) {
 $DateRange = Filter_Int('dr', 1, 366, 1);
 
 //Load TLD Blocklist if being used
-if ($Config['BlockList_TLD'] == 1) Load_TLDBlockList();                           
+if ($Config['bl_tld'] == 1) Load_TLDBlockList();                           
 
 //Merge Users Config of Suppress List with CommonSitesList
 if ($Config['Suppress'] == '') $CommonSites = array_merge($CommonSitesList);
