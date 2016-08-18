@@ -163,6 +163,10 @@ show_end() {
 #######################################
 show_welcome
 
+if [ ! -e $DHCPCD_CONF_PATH ]; then
+  error_exit "Currently only Raspbian Jessie supported" 13
+fi
+
 prompt_ip_version
 
 if [[ $IP_VERSION != $IP_V4 ]]; then
