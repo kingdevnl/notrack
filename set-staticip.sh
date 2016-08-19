@@ -155,7 +155,7 @@ show_end() {
   echo
   echo "Static IP Address:  $IP_ADDRESS"
   echo "Internet Gateway:   $GATEWAY_ADDRESS"
-  echo "DNS Server:         $DNS_SERVER_1"
+  echo "DNS Server:         $DNS_SERVER_1 $DNS_SERVER_2"
   echo
   echo "Reboot required for changes to take effect"
   echo "Run sudo reboot"
