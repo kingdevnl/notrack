@@ -111,9 +111,13 @@ set_static_ip_dhcpcd(){
   sudo sed -i -e "\$a\ " $DHCPCD_CONF_PATH
   sudo sed -i -e "\$a#Static Ip Address" $DHCPCD_CONF_PATH
   sudo sed -i -e "\$ainterface $NETWORK_DEVICE" $DHCPCD_CONF_PATH
-  sudo sed -i -e "\$astatic ip_address=$IP_ADDRESS/24" $DHCPCD_CONF_PATH
+  if [[ $IP_VERSION = $IP_V4 ]]; then
+    sudo sed -i -e "\$astatic ip_address=$IP_ADDRESS/24" $DHCPCD_CONF_PATH
+  else
+    sudo sed -i -e "\$astatic ip_address=$IP_ADDRESS/64" $DHCPCD_CONF_PATH
+  fi
   sudo sed -i -e "\$astatic routers="$GATEWAY_ADDRESS $DHCPCD_CONF_PATH
-  sudo sed -i -e "\$astatic domain_name_servers=$DNS_SERVER_1" $DHCPCD_CONF_PATH
+  sudo sed -i -e "\$astatic domain_name_servers=$DNS_SERVER_1 $DNS_SERVER_2" $DHCPCD_CONF_PATH
 }
 
 
@@ -168,11 +172,6 @@ if [ ! -e $DHCPCD_CONF_PATH ]; then
 fi
 
 prompt_ip_version
-
-if [[ $IP_VERSION != $IP_V4 ]]; then
-  # TODO: Test and verify IPv6 functionality
-  error_exit "Only IPv4 supported for now" 1
-fi
 
 prompt_network_device
 
