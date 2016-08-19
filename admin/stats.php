@@ -156,156 +156,6 @@ function Load_TLDBlockList() {
   }
   return null;
 }
-
-//Read Day All--------------------------------------------------------
-function Read_Day_All($FileHandle) {
-  global $DomainList;
-  $Dedup = '';
-    
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
-      $DomainList[] = ReturnURL($Seg[5]) . '+';
-      $Dedup = $Seg[5];
-    }
-    elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
-      $DomainList[] = ReturnURL($Seg[5]) . '-';
-      $Dedup = $Seg[5];
-    }
-    elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
-    //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-      $DomainList[] = ReturnURL($Seg[5]) . '1';
-    //$Dedup = $Seg[5];
-    }      
-  }
-  return null;
-}
-//Read Day Allowed---------------------------------------------------
-function Read_Day_Allowed($FileHandle) {
-  global $DomainList;
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
-      $DomainList[] = ReturnURL($Seg[5]) . '+';
-      $Dedup = $Seg[5];
-    }    
-  }
-  return null;
-}
-//Read Day Allowed---------------------------------------------------
-function Read_Day_Blocked($FileHandle) {
-  global $DomainList;
-  $Dedup = '';
-  
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
-      $DomainList[] = ReturnURL($Seg[5]) . '-';
-      $Dedup = $Seg[5];
-    }
-  }
-  return null;
-}
-//Read Time All--------------------------------------------------------
-function Read_Time_All($FileHandle) {
-  global $DomainList, $StartTime;
-  $Dedup = '';
-  
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
-      if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
-        $DomainList[] = ReturnURL($Seg[5]) . '+';
-        $Dedup = $Seg[5];
-      }
-      elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
-        $DomainList[] = ReturnURL($Seg[5]) . '-';
-        $Dedup = $Seg[5];
-      }
-      elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
-        //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-        $DomainList[] = ReturnURL($Seg[5]) . '1';
-      //$Dedup = $Seg[5];
-      }    
-    }
-  }
-  return null;
-}
-//Read Day Allowed---------------------------------------------------
-function Read_Time_Allowed($FileHandle) {
-  global $DomainList, $StartTime;
-  $Dedup = '';
-  
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
-      if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
-        $DomainList[] = ReturnURL($Seg[5]) . '+';
-        $Dedup = $Seg[5];
-      }
-    }    
-  }
-  return null;
-}
-//Read Day Allowed---------------------------------------------------
-function Read_Time_Blocked($FileHandle) {
-  global $DomainList, $StartTime;
-  $Dedup = '';
-  
-  while (!feof($FileHandle)) {
-    $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(' ', str_replace('  ', ' ', $Line));
-    }
-    else $Seg = explode(' ', $Line);             //Split Line into segments
-    
-    if (count($Seg) < 4) continue;               //Skip short lines
-    
-    if (strtotime($Seg[2]) >= $StartTime) {      //Check if time in log > Earliest required
-      if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
-        $DomainList[] = ReturnURL($Seg[5]) . '-';
-        $Dedup = $Seg[5];
-      }
-    }
-  }
-  return null;
-}
 //Load Historic Log All----------------------------------------------
 function Load_HistoricLog_All($LogDate) {
   global $DomainList;
@@ -350,27 +200,68 @@ function Load_HistoricLog_Blocked($LogDate) {
 //Load Todays LogFile------------------------------------------------
 function Load_TodayLog() {
 //Dnsmasq log line consists of:
-//0 - Month
-//1 - Day
-//2 - Time
-//3 - dnsmasq[pid]
+//0 - Month (3 characters)
+//1 - Day (d or dd)
+//2 - Time (dd:dd:dd)
+//3 - dnsmasq[d{1-6}]
 //4 - Function (query, forwarded, reply, cached, config)
 //5 - Website Requested
-//6 - "is"
+//6 - is
 //7 - IP Returned
-//The functions are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
-  global $StartTime, $StartStr, $View;
+
+  global $DomainList, $StartTime, $StartStr, $View;
+  $Dedup = '';
+  $Pattern = '';
+  
   $FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
   
   if (($StartStr == '') || ($StartStr == 'today')) {
-    if ($View == 1) Read_Day_All($FileHandle);   //Read both Allow & Block
-    elseif ($View == 2) Read_Day_Allowed($FileHandle);  //Read Allowed only
-    elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only    
+    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/'; 
+    
+    while (!feof($FileHandle)) {
+      $Line = fgets($FileHandle);                  //Read Line of LogFile
+      if (preg_match($Pattern, $Line, $Matches) > 0) {      
+        if (($Matches[1] == 'reply') && ($Matches[2] != $Dedup)) {
+          $DomainList[] = ReturnURL($Matches[2]) . '+';
+          $Dedup = $Matches[2];
+        }
+        elseif (($Matches[1] == 'config') && ($Matches[2] != $Dedup)) {
+          $DomainList[] = ReturnURL($Matches[2]) . '-';
+          $Dedup = $Matches[2];
+        }
+        elseif (($Matches[1] == '/etc/localhosts.list') && (substr($Matches[2], 0, 1) != '1')) {
+          //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
+          $DomainList[] = ReturnURL($Matches[2]) . '1';      
+        }    
+      }
+    }
   }
-  else {
-    if ($View == 1) Read_Time_All($FileHandle);  //Read both Allow & Block
-    elseif ($View == 2) Read_Time_Allowed($FileHandle); //Read Allowed only
-    elseif ($View == 3) Read_Time_Blocked($FileHandle); //Read Blocked only    
+  else {                                         //Load last x minutes
+    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/';
+  
+    while (!feof($FileHandle)) {
+      $Line = fgets($FileHandle);                  //Read Line of LogFile
+      if (preg_match($Pattern, $Line, $Matches) > 0) {    
+        if (strtotime($Matches[1]) >= $StartTime) {      //Check if time in log > Earliest
+          if (($Matches[2] == 'reply') && ($Matches[3] != $Dedup)) {
+            $DomainList[] = ReturnURL($Matches[3]) . '+';
+            $Dedup = $Matches[3];
+          }
+          elseif (($Matches[2] == 'config') && ($Matches[3] != $Dedup)) {
+            $DomainList[] = ReturnURL($Matches[3]) . '-';
+            $Dedup = $Matches[3];
+          }
+          elseif (($Matches[2] == '/etc/localhosts.list') && (substr($Matches[3], 0, 1) != '1')) {
+            //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
+            $DomainList[] = ReturnURL($Matches[3]) . '1';
+          }
+        }      
+      }
+    }
   }
   fclose($FileHandle);
   
@@ -432,7 +323,6 @@ if ($Config['bl_tld'] == 1) Load_TLDBlockList();
 if ($Config['Suppress'] == '') $CommonSites = array_merge($CommonSitesList);
 else $CommonSites = array_merge($CommonSitesList, explode(',', $Config['Suppress']));
 unset($CommonSitesList);
-
 
 //Load Logs----------------------------------------------------------
 $LoadList = true;                 //Assume Logs will need loading
