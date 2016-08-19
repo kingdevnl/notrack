@@ -137,7 +137,7 @@ show_welcome() {
 
 
 #######################################
-# Show welcome message
+# Show end message
 # Globals:
 #   None
 # Arguments:
