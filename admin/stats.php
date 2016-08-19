@@ -216,8 +216,8 @@ function Load_TodayLog() {
   $FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
   
   if (($StartStr == '') || ($StartStr == 'today')) {
-    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts.list)\040([A-Za-z0-9\-\.]+)/';
+    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
     elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/'; 
     
     while (!feof($FileHandle)) {
@@ -239,8 +239,8 @@ function Load_TodayLog() {
     }
   }
   else {                                         //Load last x minutes
-    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts.list)\040([A-Za-z0-9\-\.]+)/';
+    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
+    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
     elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/';
   
     while (!feof($FileHandle)) {
