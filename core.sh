@@ -118,7 +118,7 @@ menu() {
         ((highlight--))
       fi
     elif [[ $choice ==  "B" ]]; then             #Down
-      if [ $Highlight -ge $((menu_size-1)) ]; then #Loop around list
+      if [ $highlight -ge $((menu_size-1)) ]; then #Loop around list
         highlight=1
         echo
       else
