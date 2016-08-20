@@ -216,7 +216,7 @@ prompt_ip_version() {
   case "$?" in
     1) IP_VERSION=$IP_V4 ;;
     2) IP_VERSION=$IP_V6 ;;
-    3) Error_Exit "Aborting Install" 1
+    3) error_exit "Aborting Install" 12
   esac   
 }
 
