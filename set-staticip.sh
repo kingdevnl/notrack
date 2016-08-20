@@ -57,6 +57,7 @@ show_end() {
     sudo reboot
   else
     echo "To reboot, run command: sudo reboot"
+    echo
   fi
 }
 
