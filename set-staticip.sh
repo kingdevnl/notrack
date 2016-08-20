@@ -295,11 +295,13 @@ get_network_start_address(){
 #######################################
 show_welcome
 
-if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
-  # GUI Desktop installed
-  echo "GUI desktop detected, use connection editor to set static ip address"
-  echo
-  exit
+if [[ -z $(which dhcpcd) ]]; then
+  if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
+    # GUI Desktop installed
+    echo "GUI desktop detected, use connection editor to set static ip address"
+    echo
+    exit
+  fi
 fi
 
 prompt_ip_version
