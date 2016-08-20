@@ -17,6 +17,16 @@
 #######################################
 readonly DHCPCD_CONF_PATH="/etc/dhcpcd.conf"
 readonly DHCPCD_CONF_OLD_PATH="/etc/dhcpcd.conf.old"
+readonly NETWORDK_INTERFACES_PATH="/etc/network/interfaces"
+readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
+
+
+#######################################
+# Environment variables
+#######################################
+BROADCAST_ADDRESS=""
+NETMASK_ADDRESS=""
+NETWORK_START_ADDRESS=""
 
 
 #######################################
@@ -57,6 +67,44 @@ backup_dhcpcd_config() {
   echo
 }
 
+#######################################
+# Restore network interfaces config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+restore_network_interfaces_config() {
+  if [ -e "$NETWORDK_INTERFACES_OLD_PATH" ]; then
+    echo "Restoring network interfaces config files"
+  
+    echo "Copying $NETWORDK_INTERFACES_OLD_PATH to $NETWORDK_INTERFACES_PATH"
+    sudo cp $NETWORDK_INTERFACES_OLD_PATH $NETWORDK_INTERFACES_PATH
+  fi
+  echo
+}
+
+
+#######################################
+# Backup network interfaces config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+backup_network_interfaces_config() {
+  echo "Backing up network interfaces config files"
+  
+  echo "Copying $NETWORDK_INTERFACES_PATH to $NETWORDK_INTERFACES_OLD_PATH"
+  check_file_exists "$NETWORDK_INTERFACES_PATH" 24
+  sudo cp $NETWORDK_INTERFACES_PATH $NETWORDK_INTERFACES_OLD_PATH
+  echo
+}
+
 
 #######################################
 # Set static ip
@@ -84,13 +132,19 @@ set_static_ip(){
   read -p "Enter internet gateway address: " -i $GATEWAY_ADDRESS -e GATEWAY_ADDRESS
   echo
 
-  if [ -e $DHCPCD_CONF_PATH ]; then
+  if [[ ! -z $(which dhcpcd) ]]; then
     set_static_ip_dhcpcd
   else
-    # TODO: Add support for /etc/network/interfaces
-    # TODO: Check for desktop
-    # desktop=$(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library)
-    error_exit "Currently only Raspbian Jessie supported" 13
+    # Check GUI desktop is installed
+    if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
+      # GUI Desktop installed
+      echo "GUI desktop detected, use connection editor to set static ip address"
+      echo
+      exit
+    else
+      # No GUI desktop installed
+      set_static_ip_network_interfaces
+    fi
   fi
 }
 
@@ -118,6 +172,33 @@ set_static_ip_dhcpcd(){
   fi
   sudo sed -i -e "\$astatic routers="$GATEWAY_ADDRESS $DHCPCD_CONF_PATH
   sudo sed -i -e "\$astatic domain_name_servers=$DNS_SERVER_1 $DNS_SERVER_2" $DHCPCD_CONF_PATH
+}
+
+
+#######################################
+# Set static ip using /etc/network/interfaces
+# Globals:
+#   NETWORK_DEVICE
+#   IP_ADDRESS
+#   GATEWAY_ADDRESS
+#   NETMASK_ADDRESS
+#   NETWORK_START_ADDRESS
+#   BROADCAST_ADDRESS
+#   DNS_SERVER_1
+#   DNS_SERVER_2
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+set_static_ip_network_interfaces(){
+  sudo sed -i "s/iface $NETWORK_DEVICE inet dhcp/iface $NETWORK_DEVICE inet static/" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tdns-nameservers '"$DNS_SERVER_1 $DNS_SERVER_2" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tgateway '"$GATEWAY_ADDRESS" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tbroadcast '"$BROADCAST_ADDRESS" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetmask '"$NETMASK_ADDRESS" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetwork '"$NETWORK_START_ADDRESS" /home/martin/test
+  sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\taddress '"$IP_ADDRESS" /home/martin/test
 }
 
 
@@ -163,12 +244,60 @@ show_end() {
 
 
 #######################################
+# Get broadcast address
+# Globals:
+#   BROADCAST_ADDRESS
+# Arguments:
+#   $1 Network device
+# Returns:
+#   None
+#######################################
+get_broadcast_address(){
+  BROADCAST_ADDRESS=$(ip addr list "$NETWORK_DEVICE" | grep "inet" | grep "brd" | cut -d " " -f8)
+}
+
+
+#######################################
+# Get netmask address
+# Globals:
+#   NETMASK_ADDRESS
+# Arguments:
+#   $1 Network device
+# Returns:
+#   None
+#######################################
+get_netmask_address(){
+  NETMASK_ADDRESS=$(ifconfig "$1" | sed -rn '2s/ .*:(.*)$/\1/p')
+}
+
+
+#######################################
+# Get netmask address
+# Globals:
+#   NETWORK_START_ADDRESS
+# Arguments:
+#   $1 Ip address
+#   $2 Netmask address
+# Returns:
+#   None
+#######################################
+get_network_start_address(){
+  IFS=. read -r i1 i2 i3 i4 <<< "$1"
+  IFS=. read -r m1 m2 m3 m4 <<< "$2"
+  NETWORK_START_ADDRESS="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).$((i4 & m4))"
+}
+
+
+#######################################
 # Main
 #######################################
 show_welcome
 
-if [ ! -e $DHCPCD_CONF_PATH ]; then
-  error_exit "Currently only Raspbian Jessie supported" 13
+if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
+  # GUI Desktop installed
+  echo "GUI desktop detected, use connection editor to set static ip address"
+  echo
+  exit
 fi
 
 prompt_ip_version
@@ -179,11 +308,19 @@ prompt_dns_server $IP_VERSION
 
 get_ip_address $IP_VERSION $NETWORK_DEVICE
 
+get_broadcast_address $NETWORK_DEVICE
+
+get_netmask_address $NETWORK_DEVICE
+
+get_network_start_address $IP_ADDRESS $NETMASK_ADDRESS
+
 get_gateway_address
 
 restore_dhcpcd_config
+restore_network_interfaces_config
 
 backup_dhcpcd_config
+backup_network_interfaces_config
 
 set_static_ip
 
