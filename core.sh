@@ -12,6 +12,11 @@
 readonly IP_V4="IPv4"
 readonly IP_V6="IPv6"
 
+readonly DHCPCD_CONF_PATH="/etc/dhcpcd.conf"
+readonly DHCPCD_CONF_OLD_PATH="/etc/dhcpcd.conf.old"
+readonly NETWORDK_INTERFACES_PATH="/etc/network/interfaces"
+readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
+
 
 #######################################
 # Environment variables
@@ -377,4 +382,83 @@ get_network_start_address(){
   IFS=. read -r i1 i2 i3 i4 <<< "$1"
   IFS=. read -r m1 m2 m3 m4 <<< "$2"
   NETWORK_START_ADDRESS="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).$((i4 & m4))"
+}
+
+
+#######################################
+# Restore dhcpcd config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+restore_dhcpcd_config() {
+  if [ -e "$DHCPCD_CONF_OLD_PATH" ]; then
+    echo "Restoring dhcpcd config files"
+  
+    echo "Copying $DHCPCD_CONF_OLD_PATH to $DHCPCD_CONF_PATH"
+    sudo cp $DHCPCD_CONF_OLD_PATH $DHCPCD_CONF_PATH
+  fi
+  echo
+}
+
+
+#######################################
+# Backup dhcpcd config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+backup_dhcpcd_config() {
+  echo "Backing up dhcpcd config files"
+  
+  echo "Copying $DHCPCD_CONF_PATH to $DHCPCD_CONF_OLD_PATH"
+  if [ -e "$DHCPCD_CONF_PATH" ]; then
+    sudo cp $DHCPCD_CONF_PATH $DHCPCD_CONF_OLD_PATH
+  fi
+  echo
+}
+
+#######################################
+# Restore network interfaces config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+restore_network_interfaces_config() {
+  if [ -e "$NETWORDK_INTERFACES_OLD_PATH" ]; then
+    echo "Restoring network interfaces config files"
+  
+    echo "Copying $NETWORDK_INTERFACES_OLD_PATH to $NETWORDK_INTERFACES_PATH"
+    sudo cp $NETWORDK_INTERFACES_OLD_PATH $NETWORDK_INTERFACES_PATH
+  fi
+  echo
+}
+
+
+#######################################
+# Backup network interfaces config files
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+backup_network_interfaces_config() {
+  echo "Backing up network interfaces config files"
+  
+  echo "Copying $NETWORDK_INTERFACES_PATH to $NETWORDK_INTERFACES_OLD_PATH"
+  if [ -e "$NETWORDK_INTERFACES_PATH" ]; then
+    sudo cp $NETWORDK_INTERFACES_PATH $NETWORDK_INTERFACES_OLD_PATH
+  fi
+  echo
 }
