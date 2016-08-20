@@ -62,8 +62,9 @@ backup_dhcpcd_config() {
   echo "Backing up dhcpcd config files"
   
   echo "Copying $DHCPCD_CONF_PATH to $DHCPCD_CONF_OLD_PATH"
-  check_file_exists "$DHCPCD_CONF_PATH" 24
-  sudo cp $DHCPCD_CONF_PATH $DHCPCD_CONF_OLD_PATH
+  if [ -e "$DHCPCD_CONF_PATH" ]; then
+    sudo cp $DHCPCD_CONF_PATH $DHCPCD_CONF_OLD_PATH
+  fi
   echo
 }
 
@@ -100,8 +101,9 @@ backup_network_interfaces_config() {
   echo "Backing up network interfaces config files"
   
   echo "Copying $NETWORDK_INTERFACES_PATH to $NETWORDK_INTERFACES_OLD_PATH"
-  check_file_exists "$NETWORDK_INTERFACES_PATH" 24
-  sudo cp $NETWORDK_INTERFACES_PATH $NETWORDK_INTERFACES_OLD_PATH
+  if [ -e "$NETWORDK_INTERFACES_PATH" ]; then
+    sudo cp $NETWORDK_INTERFACES_PATH $NETWORDK_INTERFACES_OLD_PATH
+  fi
   echo
 }
 
