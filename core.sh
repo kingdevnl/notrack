@@ -22,6 +22,9 @@ NETWORK_DEVICE=""
 IP_VERSION=""
 DNS_SERVER_1=""
 DNS_SERVER_2=""
+BROADCAST_ADDRESS=""
+NETMASK_ADDRESS=""
+NETWORK_START_ADDRESS=""
 
 
 #######################################
@@ -329,4 +332,49 @@ get_ip_address() {
   if [[ $IP_ADDRESS == "" ]]; then
     error_exit "Unable to detect IP Address" 13
   fi
+}
+
+
+#######################################
+# Get netmask address
+# Globals:
+#   NETMASK_ADDRESS
+# Arguments:
+#   $1 Network device
+# Returns:
+#   None
+#######################################
+get_netmask_address(){
+  NETMASK_ADDRESS=$(ifconfig "$1" | sed -rn '2s/ .*:(.*)$/\1/p')
+}
+
+
+#######################################
+# Get broadcast address
+# Globals:
+#   BROADCAST_ADDRESS
+# Arguments:
+#   $1 Network device
+# Returns:
+#   None
+#######################################
+get_broadcast_address(){
+  BROADCAST_ADDRESS=$(ip addr list "$1" | grep "inet" | grep "brd" | cut -d " " -f8)
+}
+
+
+#######################################
+# Get netmask address
+# Globals:
+#   NETWORK_START_ADDRESS
+# Arguments:
+#   $1 Ip address
+#   $2 Netmask address
+# Returns:
+#   None
+#######################################
+get_network_start_address(){
+  IFS=. read -r i1 i2 i3 i4 <<< "$1"
+  IFS=. read -r m1 m2 m3 m4 <<< "$2"
+  NETWORK_START_ADDRESS="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).$((i4 & m4))"
 }
