@@ -23,6 +23,45 @@
 
 
 #######################################
+# Show welcome message
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+show_welcome() {
+  echo "Set Static Ip"
+  echo
+  echo "This script will set a static ip address on your system"
+  echo 
+  echo "Press any key to contine..."
+  read -rn1
+}
+
+
+#######################################
+# Show end message
+# Globals:
+#   IP_ADDRESS
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+show_end() {
+  menu "The static ip address has been set to: $IP_ADDRESS\n\nThe system must be rebooted for changes to take effect" "Reboot Now" "Reboot Later"
+
+  if [[ $? == 1 ]]; then
+    sudo reboot
+  else
+    echo "To reboot, run command: sudo reboot"
+  fi
+}
+
+
+#######################################
 # Set static ip
 # Globals:
 #   IP_ADDRESS
@@ -38,10 +77,7 @@ set_static_ip(){
   echo
   read -p "Enter ip address: " -i $IP_ADDRESS -e IP_ADDRESS
 
-  echo
-  echo
-  echo
-  
+  clear
   echo "Your current internet gateway address is [$GATEWAY_ADDRESS]"
   echo "This is usually the address of your router"
   echo
@@ -53,48 +89,6 @@ set_static_ip(){
   else
     set_static_ip_network_interfaces
   fi
-}
-
-
-#######################################
-# Show welcome message
-# Globals:
-#   None
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-show_welcome() {
-  echo "Set Static Ip Address"
-  echo
-  echo "This script will guide you through setting a static ip address on your system"
-  echo 
-  echo "Press any key to contine..."
-  read -rn1
-}
-
-
-#######################################
-# Show end message
-# Globals:
-#   None
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-show_end() {
-  clear
-  echo "Your settings have successfully been applied"
-  echo
-  echo "Static IP Address:  $IP_ADDRESS"
-  echo "Internet Gateway:   $GATEWAY_ADDRESS"
-  echo "DNS Server:         $DNS_SERVER_1 $DNS_SERVER_2"
-  echo
-  echo "Reboot required for changes to take effect"
-  echo "Run sudo reboot"
-  echo
 }
 
 
