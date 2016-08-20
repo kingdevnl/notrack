@@ -320,11 +320,13 @@ get_network_start_address $IP_ADDRESS $NETMASK_ADDRESS
 
 get_gateway_address
 
-restore_dhcpcd_config
-restore_network_interfaces_config
-
-backup_dhcpcd_config
-backup_network_interfaces_config
+if [[ ! -z $(which dhcpcd) ]]; then
+  restore_dhcpcd_config
+  backup_dhcpcd_config
+else
+  restore_network_interfaces_config
+  backup_network_interfaces_config
+fi
 
 set_static_ip
 
