@@ -51,16 +51,7 @@ set_static_ip(){
   if [[ ! -z $(which dhcpcd) ]]; then
     set_static_ip_dhcpcd
   else
-    # Check GUI desktop is installed
-    if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
-      # GUI Desktop installed
-      echo "GUI desktop detected, use connection editor to set static ip address"
-      echo
-      exit
-    else
-      # No GUI desktop installed
-      set_static_ip_network_interfaces
-    fi
+    set_static_ip_network_interfaces
   fi
 }
 
@@ -103,6 +94,7 @@ show_end() {
   echo
   echo "Reboot required for changes to take effect"
   echo "Run sudo reboot"
+  echo
 }
 
 
