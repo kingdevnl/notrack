@@ -66,59 +66,6 @@ set_static_ip(){
 
 
 #######################################
-# Set static ip using dhcpcd.conf
-# Globals:
-#   NETWORK_DEVICE
-#   IP_ADDRESS
-#   GATEWAY_ADDRESS
-#   DNS_SERVER_1
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-set_static_ip_dhcpcd(){
-  sudo sed -i -e "\$a\ " $DHCPCD_CONF_PATH
-  sudo sed -i -e "\$a#Static Ip Address" $DHCPCD_CONF_PATH
-  sudo sed -i -e "\$ainterface $NETWORK_DEVICE" $DHCPCD_CONF_PATH
-  if [[ $IP_VERSION = $IP_V4 ]]; then
-    sudo sed -i -e "\$astatic ip_address=$IP_ADDRESS/24" $DHCPCD_CONF_PATH
-  else
-    sudo sed -i -e "\$astatic ip_address=$IP_ADDRESS/64" $DHCPCD_CONF_PATH
-  fi
-  sudo sed -i -e "\$astatic routers="$GATEWAY_ADDRESS $DHCPCD_CONF_PATH
-  sudo sed -i -e "\$astatic domain_name_servers=$DNS_SERVER_1 $DNS_SERVER_2" $DHCPCD_CONF_PATH
-}
-
-
-#######################################
-# Set static ip using /etc/network/interfaces
-# Globals:
-#   NETWORK_DEVICE
-#   IP_ADDRESS
-#   GATEWAY_ADDRESS
-#   NETMASK_ADDRESS
-#   NETWORK_START_ADDRESS
-#   BROADCAST_ADDRESS
-#   DNS_SERVER_1
-#   DNS_SERVER_2
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-set_static_ip_network_interfaces(){
-  sudo sed -i "s/iface $NETWORK_DEVICE inet dhcp/iface $NETWORK_DEVICE inet static/" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tdns-nameservers '"$DNS_SERVER_1 $DNS_SERVER_2" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tgateway '"$GATEWAY_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tbroadcast '"$BROADCAST_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetmask '"$NETMASK_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetwork '"$NETWORK_START_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\taddress '"$IP_ADDRESS" $NETWORDK_INTERFACES_PATH
-}
-
-
-#######################################
 # Show welcome message
 # Globals:
 #   None
