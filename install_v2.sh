@@ -80,25 +80,6 @@ Ask_InstallLoc() {
   fi  
 }
 
-#Get IP Address of System--------------------------------------------
-Get_IPAddress() {
-  echo "IP Version: $IP_VERSION"
-  
-  if [[ $IP_VERSION == "IPv4" ]]; then
-    echo "Reading IPv4 Address from $NETWORK_DEVICE"
-    IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
-    
-  elif [[ $IP_VERSION == "IPv6" ]]; then
-    echo "Reading IPv6 Address from $NETWORK_DEVICE"
-    IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
-  else
-    error_exit "Unknown IP Version" 12
-  fi
-  
-  if [[ $IPAddr == "" ]]; then
-    error_exit "Unable to detect IP Address" 13
-  fi  
-}
 #Install Packages----------------------------------------------------
 Install_Deb() {
   local PHPVersion="php5"
@@ -309,8 +290,8 @@ Setup_Dnsmasq() {
   echo "Creating file /etc/localhosts.list for Local Hosts"
   sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
   if [[ $HostName != "" ]]; then
-    echo "Writing first entry for this system: $IPAddr - $HostName"
-    echo -e "$IPAddr\t$HostName" | sudo tee -a /etc/localhosts.list #First entry is this system
+    echo "Writing first entry for this system: $IP_ADDRESS - $HostName"
+    echo -e "$IP_ADDRESS\t$HostName" | sudo tee -a /etc/localhosts.list #First entry is this system
   fi
     
   #Setup Log rotation for dnsmasq
@@ -483,17 +464,17 @@ if [[ $IP_VERSION == "" ]]; then
   prompt_ip_version
 fi
 
-Get_IPAddress
-echo "System IP Address $IPAddr"
+get_ip_address $IP_VERSION $NETWORK_DEVICE
+echo "System IP Address $IP_ADDRESS"
 sleep 2s
 
-prompt_dns_server
+prompt_dns_server $IP_VERSION
 
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
 echo "Network Device set to: $NETWORK_DEVICE"
 echo "IPVersion set to: $IP_VERSION"
-echo "System IP Address $IPAddr"
+echo "System IP Address $IP_ADDRESS"
 echo "Primary DNS Server set to: $DNS_SERVER_1"
 echo "Secondary DNS Server set to: $DNS_SERVER_2"
 echo 
