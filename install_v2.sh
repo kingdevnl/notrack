@@ -13,7 +13,7 @@
 
 #Optional user customisable settings---------------------------------
 NETWORK_DEVICE=""
-IPVersion=""
+IP_VERSION=""
 InstallLoc=""
 
 #Program Settings----------------------------------------------------
@@ -80,23 +80,13 @@ Ask_InstallLoc() {
   fi  
 }
 
-#Ask user which IP Version they are using on their network-----------
-Ask_IPVersion() {
-  menu "Select IP Version being used" "IP Version 4 (default)" "IP Version 6" 
-  case "$?" in
-    1) IPVersion="IPv4" ;;
-    2) IPVersion="IPv6" ;;
-    3) error_exit "Aborting Install" 1
-  esac   
-}
-
 #Ask user for preffered DNS server-----------------------------------
 Ask_DNSServer() {
   menu "Choose DNS Server\nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best." "OpenDNS" "Google Public DNS" "DNS.Watch" "Verisign" "Comodo" "FreeDNS" "Yandex DNS" "Other" 
   
   case "$?" in
     1)                                           #OpenDNS
-      if [[ $IPVersion == "IPv6" ]]; then
+      if [[ $IP_VERSION == "IPv6" ]]; then
         DNSChoice1="2620:0:ccc::2"
         DNSChoice2="2620:0:ccd::2"
       else
@@ -105,7 +95,7 @@ Ask_DNSServer() {
       fi
     ;;
     2)                                           #Google
-      if [[ $IPVersion == "IPv6" ]]; then
+      if [[ $IP_VERSION == "IPv6" ]]; then
         DNSChoice1="2001:4860:4860::8888"
         DNSChoice2="2001:4860:4860::8844"
       else
@@ -114,7 +104,7 @@ Ask_DNSServer() {
       fi
     ;;
     3)                                           #DNSWatch
-      if [[ $IPVersion == "IPv6" ]]; then
+      if [[ $IP_VERSION == "IPv6" ]]; then
         DNSChoice1="2001:1608:10:25::1c04:b12f"
         DNSChoice2="2001:1608:10:25::9249:d69b"
       else
@@ -123,7 +113,7 @@ Ask_DNSServer() {
       fi
     ;;
     4)                                           #Verisign
-      if [[ $IPVersion == "IPv6" ]]; then
+      if [[ $IP_VERSION == "IPv6" ]]; then
         DNSChoice1="2620:74:1b::1:1"
         DNSChoice2="2620:74:1c::2:2"
       else
@@ -140,7 +130,7 @@ Ask_DNSServer() {
       DNSChoice2="37.235.1.177"
     ;;
     7)                                           #Yandex
-      if [[ $IPVersion == "IPv6" ]]; then
+      if [[ $IP_VERSION == "IPv6" ]]; then
         DNSChoice1="2a02:6b8::feed:bad"
         DNSChoice2="2a02:6b8:0:1::feed:bad"
       else
@@ -159,13 +149,13 @@ Ask_DNSServer() {
 
 #Get IP Address of System--------------------------------------------
 Get_IPAddress() {
-  echo "IP Version: $IPVersion"
+  echo "IP Version: $IP_VERSION"
   
-  if [[ $IPVersion == "IPv4" ]]; then
+  if [[ $IP_VERSION == "IPv4" ]]; then
     echo "Reading IPv4 Address from $NETWORK_DEVICE"
     IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
     
-  elif [[ $IPVersion == "IPv6" ]]; then
+  elif [[ $IP_VERSION == "IPv6" ]]; then
     echo "Reading IPv6 Address from $NETWORK_DEVICE"
     IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
   else
@@ -486,7 +476,7 @@ Setup_NoTrack() {
   echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "Writing initial config"
-  echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
+  echo "IPVersion = $IP_VERSION" | sudo tee /etc/notrack/notrack.conf
   echo "NetDev = $NETWORK_DEVICE" | sudo tee -a /etc/notrack/notrack.conf
   echo
 }
@@ -556,8 +546,8 @@ if [[ $NETWORK_DEVICE == "" ]]; then
   prompt_network_device
 fi
 
-if [[ $IPVersion == "" ]]; then
-  Ask_IPVersion
+if [[ $IP_VERSION == "" ]]; then
+  prompt_ip_version
 fi
 
 Get_IPAddress
@@ -569,7 +559,7 @@ Ask_DNSServer
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
 echo "Network Device set to: $NETWORK_DEVICE"
-echo "IPVersion set to: $IPVersion"
+echo "IPVersion set to: $IP_VERSION"
 echo "System IP Address $IPAddr"
 echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
