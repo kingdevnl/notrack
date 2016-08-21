@@ -1,11 +1,4 @@
 //Supporting JavaScript for NoTrack stats.php
-function CheckAkamai(Site) {
-  if (/.*\.akamai\.net$|akamaiedge\.net$/.test(Site)) {
-    return true;
-  }
-  return false;
-}
-//-------------------------------------------------------------------
 function ValidateIPaddress(ipaddress) {
  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
     return true;
@@ -14,23 +7,19 @@ function ValidateIPaddress(ipaddress) {
 }
 //-------------------------------------------------------------------
 function ReportSite(Site, Remove) {  
-  var Msg = "";
-  var Block1 = "";
-  var Block2 = "";
-  var Report = "";
-  var Split;
-  var SplitLength = 0;
+  var Msg = "";                                  //Message to show user
+  var Block1 = "";                               //Block button and message
+  var Block2 = "";                               //Block button and message with subdomain
+  var Report = "";                               //Report button and message
+  var Domain = "";
   
-  Split = Site.split(".");
-  SplitLength = Split.length
-  
-  if (SplitLength <= 1) {                        //1 or zero . isn't a valid URL
-    Msg = "<p>Invalid site</p>";
-  }
-  else if (Site.substring(0, 1) == "*") {        //Give explination of strings starting with *
+  if (/^\*/.test(Site)) {                        //Is it a *common site?
     Msg = "<p>Domains starting with * are known to utilise a large number of subdomains</p>";
   }
-  else if (CheckAkamai(Site)) {                  //Is it an Akami site?
+  else if (! /^[A-Za-z0-9\-]+\.[A-Za-z0-9\-\.]+/.test(Site)) {  //Is there a dot . present?
+    Msg = "<p>Invalid site</p>";
+  }  
+  else if (/.*\.akamai\.net$|akamaiedge\.net$/.test(Site)) {  //Is it an Akami site?
     Msg = "<p>Akami is a Content Delivery Network (CDN) providing media delivery for a wide range of websites.</p><p>It is more efficient to block the originating website, rather than an Akami subdomain.</p>";
   }
   else if (ValidateIPaddress(Site)) {            //Is it an IP Address
@@ -40,27 +29,16 @@ function ReportSite(Site, Remove) {
     Report= '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
   }
   else {                                         //At this point we are dealing with Adding a site to BlackList
-    Report = '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';
-    
-    if (SplitLength == 2) {                      //Single domain
+    Report = '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';    
+        
+    //Is it a single domain with optional double-barrelled tld?
+    if (/^[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/.test(Site)) {                      
       Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List</p>';
     }
-    else {     
-      if (SplitLength >= 3) {                    //Three or more splits maybe a .co domain
-        if (Split[SplitLength-2] == "co") {      //Is it a .co domain?
-  	  if (SplitLength == 3) {                //Single domain
-	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List</p>';
-	  }
-	  else if (SplitLength > 3) {            //Dealing with a .co domain with subdomains
-	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-3]+'.'+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'</p>';
-	    Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';
-	  }
-        }
-        else {                                   //Dealing with a non .co domain with subdomains
-	  Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Split[SplitLength-2]+'.'+Split[SplitLength-1]+'</p>';
-	  Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';
-	    }
-      }
+    else {                                       //No, it has one or more sub-domains      
+      Domain = Site.match(/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/)[0];     //Extract domain with optional double-barrelled tld
+	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Domain+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Domain+'</p>';
+	    Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';      
     }
   }
   
@@ -109,9 +87,7 @@ function ReportSite(Site, Remove) {
     
   document.getElementById('stats-box').style.top = (window.pageYOffset + (window.innerHeight / 2))+"px";
   document.getElementById('stats-box').style.left = (window.innerWidth / 2)+"px";
-  document.getElementById('stats-box').style.display = "block";
-
-  
+  document.getElementById('stats-box').style.display = "block";  
 }
 //-------------------------------------------------------------------
 function HideStatsBox() {
@@ -120,8 +96,7 @@ function HideStatsBox() {
 }
 //-------------------------------------------------------------------
 function ScrollToBottom() {  
-  window.scrollTo(0, document.body.scrollHeight);
-  
+  window.scrollTo(0, document.body.scrollHeight);  
   //Animated http://jsfiddle.net/forestrf/tPQSv/2/
 }  
 //-------------------------------------------------------------------

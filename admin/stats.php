@@ -52,12 +52,11 @@ function ReturnURL($Str) {
   //2. Extract domain.tld, including double-barrelled domains
   //3. Check if site is to be suppressed (present in Common sites)
   global $CommonSites;
-      
     
   if (substr($Str,0,4) == 'www.') $Site = substr($Str,4); 
   else $Site = $Str;
   
-  if (preg_match('/[A-Za-z1-9-]{2,63}\.(org\.|co\.|au\.)?[A-Za-z1-9-]{2,63}$/', $Site, $Match) == 1) {
+  if (preg_match('/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/', $Site, $Match) == 1) {
     if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
     else return $Site;
   }
