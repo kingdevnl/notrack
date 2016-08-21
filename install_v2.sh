@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 #Title : NoTrack Installer
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
-#Authors : QuidsUp, floturcocantsee, rchard2scout
+#Authors : QuidsUp, floturcocantsee, rchard2scout, fernfrost
 #Usage : bash install.sh
+
+
+#######################################
+# Importing utilities
+#######################################
+. core.sh
+
 
 #Optional user customisable settings---------------------------------
 NetDev=""
