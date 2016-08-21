@@ -23,15 +23,6 @@ DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
 
 
-#Check File Exists---------------------------------------------------
-Check_File_Exists() {
-  #$1 File to Check
-  #$2 Exit Code
-  if [ ! -e "$1" ]; then
-    echo "Error. File $1 is missing.  Aborting."
-    exit "$2" 
-  fi
-}
 #Error Exit 2nd generation--------------------------------------------
 Error_Exit() {
   #$1 Error Message
@@ -452,12 +443,12 @@ Backup_Conf() {
   echo "Backing up old config files"
   
   echo "Copying /etc/dnsmasq.conf to /etc/dnsmasq.conf.old"
-  Check_File_Exists "/etc/dnsmasq.conf" 24
+  check_file_exists "/etc/dnsmasq.conf" 24
   sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.old
   
   echo "Copying /etc/lighttpd/lighttpd.conf to /etc/lighttpd/lighttpd.conf.old"
   
-  Check_File_Exists "/etc/lighttpd/lighttpd.conf" 24
+  check_file_exists "/etc/lighttpd/lighttpd.conf" 24
   sudo cp /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.old
   echo
 }
@@ -510,10 +501,10 @@ Setup_Dnsmasq() {
   
   #Copy config files modified for NoTrack
   echo "Copying config files from $InstallLoc to /etc/"
-  Check_File_Exists "$InstallLoc/conf/dnsmasq.conf" 24
+  check_file_exists "$InstallLoc/conf/dnsmasq.conf" 24
   sudo cp "$InstallLoc/conf/dnsmasq.conf" /etc/dnsmasq.conf
   
-  Check_File_Exists "$InstallLoc/conf/lighttpd.conf" 24
+  check_file_exists "$InstallLoc/conf/lighttpd.conf" 24
   sudo cp "$InstallLoc/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
   
   #Finish configuration of dnsmasq config
@@ -530,7 +521,7 @@ Setup_Dnsmasq() {
     
   #Setup Log rotation for dnsmasq
   echo "Copying log rotation script for Dnsmasq"
-  Check_File_Exists "$InstallLoc/conf/logrotate.txt" 24
+  check_file_exists "$InstallLoc/conf/logrotate.txt" 24
   sudo cp "$InstallLoc/conf/logrotate.txt" /etc/logrotate.d/logrotate.txt
   sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
   
@@ -594,12 +585,12 @@ Setup_NoTrack() {
   #Setup Tracker list downloader
   echo "Setting up NoTrack block list downloader"
   
-  Check_File_Exists "$InstallLoc/notrack.sh" 25
+  check_file_exists "$InstallLoc/notrack.sh" 25
   sudo cp "$InstallLoc/notrack.sh" /usr/local/sbin/notrack.sh
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
   sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
   
-  Check_File_Exists "$InstallLoc/dns-log-archive.sh" 24
+  check_file_exists "$InstallLoc/dns-log-archive.sh" 24
   sudo cp "$InstallLoc/dns-log-archive.sh" /usr/local/sbin/dns-log-archive.sh
   sudo mv /usr/local/sbin/dns-log-archive.sh /usr/local/sbin/dns-log-archive
   sudo chmod +x /usr/local/sbin/dns-log-archive
@@ -630,19 +621,19 @@ Setup_NoTrack() {
 }
 #Ntrk Scripts--------------------------------------------------------
 Setup_NtrkScripts() {
-  Check_File_Exists "$InstallLoc/ntrk-exec.sh" 26
+  check_file_exists "$InstallLoc/ntrk-exec.sh" 26
   echo "Copying ntrk-exec.sh"
   sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
   sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
   sudo chmod 755 /usr/local/sbin/ntrk-exec
   
-  Check_File_Exists "$InstallLoc/ntrk-pause.sh" 27
+  check_file_exists "$InstallLoc/ntrk-pause.sh" 27
   echo "Copying ntrk-pause.sh"
   sudo cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
   sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
   sudo chmod 755 /usr/local/sbin/ntrk-pause
   
-  Check_File_Exists "$InstallLoc/ntrk-upgrade.sh" 28
+  check_file_exists "$InstallLoc/ntrk-upgrade.sh" 28
   echo "Copying ntrk-upgrade.sh"
   sudo cp "$InstallLoc/ntrk-upgrade.sh" /usr/local/sbin/
   sudo mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
