@@ -22,77 +22,6 @@ DNSChoice1=""
 DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
 
-
-#Menu----------------------------------------------------------------
-Menu() {
-#Arguments passed to this function are the menu items
-#$1 = Title, $2, $3... Option 1, 2...
-#$? = Choice user made
-#1. Clear Screen
-#2. Draw menu
-#3. Read single character of user input
-#4. Evaluate user input
-#4a. Check if value is between 0-9
-#4b. Check if value is between 1 and menu size. Return out of function if sucessful
-#4c. Check if user pressed the up key (ending A), Move highlighted point
-#4d. Check if user pressed the up key (ending B), Move highlighted point
-#4e. Check if user pressed Enter key, Return out of function
-#4f. Check if user pressed Q or q, Exit out with error code 1
-#5. User failed to input valid selection. Loop back to #2
-  local Choice
-  local Highlight
-  local MenuSize  
-  
-  Highlight=1
-  MenuSize=0
-  clear
-  while true; do    
-    for i in "$@"; do
-      if [ $MenuSize == 0 ]; then                #$1 Is Title
-        echo -e "$1"
-        echo
-      else        
-        if [ $Highlight == $MenuSize ]; then
-          echo " * $MenuSize: $i"
-        else
-          echo "   $MenuSize: $i"
-        fi
-      fi
-      ((MenuSize++))
-    done
-        
-    read -r -sn1 Choice;
-    echo "$Choice"
-    if [[ $Choice =~ ^[0-9]+$ ]]; then           #Has the user chosen 0-9
-      if [[ $Choice -ge 1 ]] && [[ $Choice -lt $MenuSize ]]; then
-        return $Choice
-        #break;
-      fi
-    elif [[ $Choice ==  "A" ]]; then             #Up
-      if [ $Highlight -le 1 ]; then              #Loop around list
-        Highlight=$((MenuSize-1))
-        echo
-      else
-        ((Highlight--))
-      fi
-    elif [[ $Choice ==  "B" ]]; then             #Down
-      if [ $Highlight -ge $((MenuSize-1)) ]; then #Loop around list
-        Highlight=1
-        echo
-      else
-        ((Highlight++))
-      fi
-    elif [[ $Choice == "" ]]; then               #Enter
-      return $Highlight                          #Return Highlighted value
-    elif [[ $Choice == "q" ]] || [[ $Choice == "Q" ]]; then
-      exit 1
-    fi
-    #C Right, D Left
-    
-    MenuSize=0
-    clear   
-  done
-}
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
   echo "Welcome to NoTrack v$Version"
@@ -104,7 +33,7 @@ Show_Welcome() {
   read -rn1
   
   
-  Menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
+  menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
   if [ $? == 2 ]; then                           #Abort install if user selected no
     error_exit "Aborting Install" 1
   fi
@@ -131,7 +60,7 @@ Ask_InstallLoc() {
     fi    
   fi
   
-  Menu "Select Install Folder" "Home $HomeLoc" "Opt /opt" "Cancel"
+  menu "Select Install Folder" "Home $HomeLoc" "Opt /opt" "Cancel"
   
   case $? in
     1) 
@@ -183,7 +112,7 @@ Ask_NetDev() {
   elif [ $CountNetDev == 1 ]; then               #1 Device
     NetDev=${ListDev[0]}                         #Simple, just set it
   elif [ $CountNetDev -gt 0 ]; then
-    Menu "Select Menu Device" ${ListDev[*]}
+    menu "Select Menu Device" ${ListDev[*]}
     MenuChoice=$?
     NetDev=${ListDev[$((MenuChoice-1))]}
   elif [ $CountNetDev -gt 9 ]; then              #9 or more use bash prompt
@@ -202,7 +131,7 @@ Ask_NetDev() {
 
 #Ask user which IP Version they are using on their network-----------
 Ask_IPVersion() {
-  Menu "Select IP Version being used" "IP Version 4 (default)" "IP Version 6" 
+  menu "Select IP Version being used" "IP Version 4 (default)" "IP Version 6" 
   case "$?" in
     1) IPVersion="IPv4" ;;
     2) IPVersion="IPv6" ;;
@@ -212,7 +141,7 @@ Ask_IPVersion() {
 
 #Ask user for preffered DNS server-----------------------------------
 Ask_DNSServer() {
-  Menu "Choose DNS Server\nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best." "OpenDNS" "Google Public DNS" "DNS.Watch" "Verisign" "Comodo" "FreeDNS" "Yandex DNS" "Other" 
+  menu "Choose DNS Server\nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best." "OpenDNS" "Google Public DNS" "DNS.Watch" "Verisign" "Comodo" "FreeDNS" "Yandex DNS" "Other" 
   
   case "$?" in
     1)                                           #OpenDNS
