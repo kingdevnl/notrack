@@ -1,17 +1,18 @@
-v0.7.16 alpha
+v0.7.16 alpha - Released 22 Aug 2016
 **********************
 *IMPORTANT NOTE!!!   *
 **********************
 Block lists have now been re-named and consolidated.
-Go to: Config > Block Lists > Save Changes
+To keep your settings, Go to: Config > Block Lists > Save Changes
 
 Admin:
   New style cards on home page
   Active and Last updated cards added
-  Fixed Issue #74 - Missing Image on Login
   New CSS Styling
   Scroll button added to Stats page
   Popup boxes no longer cause page to scroll up
+  Fixed Issue #74 - Missing Image on Login
+  Fixed Issue #77 - Dealing with double-barrelled top level domains  
 
 NoTrack
   Enhanced Deduplication
