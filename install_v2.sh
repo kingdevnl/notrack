@@ -12,7 +12,7 @@
 
 
 #Optional user customisable settings---------------------------------
-NetDev=""
+NETWORK_DEVICE=""
 IPVersion=""
 InstallLoc=""
 
@@ -77,55 +77,6 @@ Ask_InstallLoc() {
   
   if [[ $InstallLoc == "" ]]; then
     error_exit "Install folder not set" 15
-  fi  
-}
-
-#Ask User Which Network device to use for DNS lookups----------------
-#Needed if user has more than one network device active on their system
-Ask_NetDev() {
-  local CountNetDev=0
-  local Device=""
-  local -a ListDev
-  local MenuChoice
-
-  if [ ! -d /sys/class/net ]; then               #Check net devices folder exists
-    echo "Error. Unable to find list of Network Devices"
-    echo "Edit user customisable setting \$NetDev with the name of your Network Device"
-    echo "e.g. \$NetDev=\"eth0\""
-    exit 11
-  fi
-
-  for Device in /sys/class/net/*; do             #Read list of net devices
-    Device="${Device:15}"                        #Trim path off
-    if [[ $Device != "lo" ]]; then               #Exclude loopback
-      ListDev[$CountNetDev]="$Device"
-      ((CountNetDev++))
-    fi
-  done
-   
-  if [ $CountNetDev == 0 ]; then                 #None found
-    echo "Error. No Network Devices found"
-    echo "Edit user customisable setting \$NetDev with the name of your Network Device"
-    echo "e.g. \$NetDev=\"eth0\""
-    exit 11
-    
-  elif [ $CountNetDev == 1 ]; then               #1 Device
-    NetDev=${ListDev[0]}                         #Simple, just set it
-  elif [ $CountNetDev -gt 0 ]; then
-    menu "Select Menu Device" ${ListDev[*]}
-    MenuChoice=$?
-    NetDev=${ListDev[$((MenuChoice-1))]}
-  elif [ $CountNetDev -gt 9 ]; then              #9 or more use bash prompt
-    clear
-    echo "Network Devices detected: ${ListDev[*]}"
-    echo -n "Select Network Device to use for DNS queries: "
-    read -r Choice
-    NetDev=$Choice
-    echo    
-  fi
-  
-  if [[ $NetDev == "" ]]; then
-    error_exit "Network Device not entered" 11
   fi  
 }
 
@@ -211,12 +162,12 @@ Get_IPAddress() {
   echo "IP Version: $IPVersion"
   
   if [[ $IPVersion == "IPv4" ]]; then
-    echo "Reading IPv4 Address from $NetDev"
-    IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
+    echo "Reading IPv4 Address from $NETWORK_DEVICE"
+    IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
     
   elif [[ $IPVersion == "IPv6" ]]; then
-    echo "Reading IPv6 Address from $NetDev"
-    IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
+    echo "Reading IPv6 Address from $NETWORK_DEVICE"
+    IPAddr=$(ip addr list "$NETWORK_DEVICE" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
   else
     error_exit "Unknown IP Version" 12
   fi
@@ -431,7 +382,7 @@ Setup_Dnsmasq() {
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
   sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
-  sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf
+  sudo sed -i "s/interface=eth0/interface=$NETWORK_DEVICE/" /etc/dnsmasq.conf
   echo "Creating file /etc/localhosts.list for Local Hosts"
   sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
   if [[ $HostName != "" ]]; then
@@ -536,7 +487,7 @@ Setup_NoTrack() {
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "Writing initial config"
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
-  echo "NetDev = $NetDev" | sudo tee -a /etc/notrack/notrack.conf
+  echo "NetDev = $NETWORK_DEVICE" | sudo tee -a /etc/notrack/notrack.conf
   echo
 }
 #Ntrk Scripts--------------------------------------------------------
@@ -601,8 +552,8 @@ if [[ $InstallLoc == "" ]]; then
   Ask_InstallLoc
 fi
 
-if [[ $NetDev == "" ]]; then
-  Ask_NetDev
+if [[ $NETWORK_DEVICE == "" ]]; then
+  prompt_network_device
 fi
 
 if [[ $IPVersion == "" ]]; then
@@ -617,7 +568,7 @@ Ask_DNSServer
 
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
-echo "Network Device set to: $NetDev"
+echo "Network Device set to: $NETWORK_DEVICE"
 echo "IPVersion set to: $IPVersion"
 echo "System IP Address $IPAddr"
 echo "Primary DNS Server set to: $DNSChoice1"
