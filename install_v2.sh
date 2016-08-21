@@ -23,15 +23,6 @@ DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt
 
 
-#Error Exit 2nd generation--------------------------------------------
-Error_Exit() {
-  #$1 Error Message
-  #$2 Exit Code
-  echo "Error. $1"
-  echo "Aborting"
-  exit "$2"
-}
-
 #Menu----------------------------------------------------------------
 Menu() {
 #Arguments passed to this function are the menu items
@@ -115,7 +106,7 @@ Show_Welcome() {
   
   Menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
   if [ $? == 2 ]; then                           #Abort install if user selected no
-    Error_Exit "Aborting Install" 1
+    error_exit "Aborting Install" 1
   fi
 }
 
@@ -151,12 +142,12 @@ Ask_InstallLoc() {
       SudoRequired=1
     ;;
     3)
-      Error_Exit "Aborting Install" 1
+      error_exit "Aborting Install" 1
     ;;  
   esac
   
   if [[ $InstallLoc == "" ]]; then
-    Error_Exit "Install folder not set" 15
+    error_exit "Install folder not set" 15
   fi  
 }
 
@@ -205,7 +196,7 @@ Ask_NetDev() {
   fi
   
   if [[ $NetDev == "" ]]; then
-    Error_Exit "Network Device not entered" 11
+    error_exit "Network Device not entered" 11
   fi  
 }
 
@@ -215,7 +206,7 @@ Ask_IPVersion() {
   case "$?" in
     1) IPVersion="IPv4" ;;
     2) IPVersion="IPv6" ;;
-    3) Error_Exit "Aborting Install" 1
+    3) error_exit "Aborting Install" 1
   esac   
 }
 
@@ -298,11 +289,11 @@ Get_IPAddress() {
     echo "Reading IPv6 Address from $NetDev"
     IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
   else
-    Error_Exit "Unknown IP Version" 12
+    error_exit "Unknown IP Version" 12
   fi
   
   if [[ $IPAddr == "" ]]; then
-    Error_Exit "Unable to detect IP Address" 13
+    error_exit "Unable to detect IP Address" 13
   fi  
 }
 #Install Packages----------------------------------------------------
@@ -672,7 +663,7 @@ Setup_FirewallD() {
 }
 #Main----------------------------------------------------------------
 if [[ $(command -v sudo) == "" ]]; then
-  Error_Exit "NoTrack requires Sudo to be installed for Admin functionality" 10  
+  error_exit "NoTrack requires Sudo to be installed for Admin functionality" 10  
 fi
 
 Show_Welcome
