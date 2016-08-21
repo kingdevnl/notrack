@@ -590,7 +590,7 @@ prompt_static_ip_address(){
       prompt_gateway_address
 
       # Setting static ip requires reboot
-      $REBOOT_REQUIRED=true
+      REBOOT_REQUIRED=true
     ;;
     2)
       echo "System has static ip address"
