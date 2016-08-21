@@ -20,6 +20,8 @@ InstallLoc=""
 #######################################
 Version="0.7.14"
 SudoRequired=0                                   #1 If installing to /opt
+REBOOT_REQUIRED=false
+
 
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
@@ -34,9 +36,18 @@ Show_Welcome() {
 
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
+  clear
   echo "NoTrack Install Complete"
   echo "Access the admin console at http://$(hostname)/admin"
   echo
+
+  if [[ $REBOOT_REQUIRED == true ]]; then
+    echo "System reboot is required"
+    echo
+    echo "Press any key to reboot"
+    read -rn1
+    sudo reboot
+  fi
 }
 
 #Ask Install Location------------------------------------------------
@@ -577,6 +588,9 @@ prompt_static_ip_address(){
       get_static_ip_address_info
       prompt_ip_address
       prompt_gateway_address
+
+      # Setting static ip requires reboot
+      $REBOOT_REQUIRED=true
     ;;
     2)
       echo "System has static ip address"
