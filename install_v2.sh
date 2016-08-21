@@ -12,14 +12,13 @@
 
 
 #Optional user customisable settings---------------------------------
-NETWORK_DEVICE=""
-IP_VERSION=""
 InstallLoc=""
 
-#Program Settings----------------------------------------------------
+
+#######################################
+# Environment variables
+#######################################
 Version="0.7.14"
-DNS_SERVER_1=""
-DNS_SERVER_2=""
 SudoRequired=0                                   #1 If installing to /opt
 
 #Welcome Dialog------------------------------------------------------
