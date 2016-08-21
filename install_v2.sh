@@ -18,8 +18,8 @@ InstallLoc=""
 
 #Program Settings----------------------------------------------------
 Version="0.7.14"
-DNSChoice1=""
-DNSChoice2=""
+DNS_SERVER_1=""
+DNS_SERVER_2=""
 SudoRequired=0                                   #1 If installing to /opt
 
 #Welcome Dialog------------------------------------------------------
@@ -78,73 +78,6 @@ Ask_InstallLoc() {
   if [[ $InstallLoc == "" ]]; then
     error_exit "Install folder not set" 15
   fi  
-}
-
-#Ask user for preffered DNS server-----------------------------------
-Ask_DNSServer() {
-  menu "Choose DNS Server\nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best." "OpenDNS" "Google Public DNS" "DNS.Watch" "Verisign" "Comodo" "FreeDNS" "Yandex DNS" "Other" 
-  
-  case "$?" in
-    1)                                           #OpenDNS
-      if [[ $IP_VERSION == "IPv6" ]]; then
-        DNSChoice1="2620:0:ccc::2"
-        DNSChoice2="2620:0:ccd::2"
-      else
-        DNSChoice1="208.67.222.222" 
-        DNSChoice2="208.67.220.220"
-      fi
-    ;;
-    2)                                           #Google
-      if [[ $IP_VERSION == "IPv6" ]]; then
-        DNSChoice1="2001:4860:4860::8888"
-        DNSChoice2="2001:4860:4860::8844"
-      else
-        DNSChoice1="8.8.8.8"
-        DNSChoice2="8.8.4.4"
-      fi
-    ;;
-    3)                                           #DNSWatch
-      if [[ $IP_VERSION == "IPv6" ]]; then
-        DNSChoice1="2001:1608:10:25::1c04:b12f"
-        DNSChoice2="2001:1608:10:25::9249:d69b"
-      else
-        DNSChoice1="84.200.69.80"
-        DNSChoice2="84.200.70.40"
-      fi
-    ;;
-    4)                                           #Verisign
-      if [[ $IP_VERSION == "IPv6" ]]; then
-        DNSChoice1="2620:74:1b::1:1"
-        DNSChoice2="2620:74:1c::2:2"
-      else
-        DNSChoice1="64.6.64.6"
-        DNSChoice2="64.6.65.6"
-      fi
-    ;;
-    5)                                           #Comodo
-      DNSChoice1="8.26.56.26"
-      DNSChoice2="8.20.247.20"
-    ;;
-    6)                                           #FreeDNS
-      DNSChoice1="37.235.1.174"
-      DNSChoice2="37.235.1.177"
-    ;;
-    7)                                           #Yandex
-      if [[ $IP_VERSION == "IPv6" ]]; then
-        DNSChoice1="2a02:6b8::feed:bad"
-        DNSChoice2="2a02:6b8:0:1::feed:bad"
-      else
-        DNSChoice1="77.88.8.88"
-        DNSChoice2="77.88.8.2"
-      fi
-    ;;
-    8)                                           #Other
-      echo -en "DNS Server 1: "
-      read -r DNSChoice1
-      echo -en "DNS Server 2: "
-      read -r DNSChoice2
-    ;;
-  esac   
 }
 
 #Get IP Address of System--------------------------------------------
@@ -370,8 +303,8 @@ Setup_Dnsmasq() {
   
   #Finish configuration of dnsmasq config
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
-  sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
-  sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
+  sudo sed -i "s/server=changeme1/server=$DNS_SERVER_1/" /etc/dnsmasq.conf
+  sudo sed -i "s/server=changeme2/server=$DNS_SERVER_2/" /etc/dnsmasq.conf
   sudo sed -i "s/interface=eth0/interface=$NETWORK_DEVICE/" /etc/dnsmasq.conf
   echo "Creating file /etc/localhosts.list for Local Hosts"
   sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
@@ -554,15 +487,15 @@ Get_IPAddress
 echo "System IP Address $IPAddr"
 sleep 2s
 
-Ask_DNSServer
+prompt_dns_server
 
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
 echo "Network Device set to: $NETWORK_DEVICE"
 echo "IPVersion set to: $IP_VERSION"
 echo "System IP Address $IPAddr"
-echo "Primary DNS Server set to: $DNSChoice1"
-echo "Secondary DNS Server set to: $DNSChoice2"
+echo "Primary DNS Server set to: $DNS_SERVER_1"
+echo "Secondary DNS Server set to: $DNS_SERVER_2"
 echo 
 sleep 8s
 
