@@ -31,12 +31,6 @@ Show_Welcome() {
   echo
   echo "Press any key to contine..."
   read -rn1
-  
-  
-  menu "Initating Network Interface\nNoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" "Ok" "Cancel" 
-  if [ $? == 2 ]; then                           #Abort install if user selected no
-    error_exit "Aborting Install" 1
-  fi
 }
 
 #Finish Dialog-------------------------------------------------------
@@ -445,12 +439,166 @@ Setup_FirewallD() {
   echo "Reloading FirewallD..."
   sudo firewall-cmd --reload
 }
-#Main----------------------------------------------------------------
+
+
+
+
+#######################################
+# Gather parameters required for setting static ip address
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+get_static_ip_address_info(){
+  prompt_ip_version
+
+  if [[ $IP_VERSION == $IP_V6 ]]; then
+    error_exit "Only IPv4 supported for now" 12
+    # TODO: Add support for setting static IPv6 address in /etc/network/interfaces
+  fi
+
+  prompt_network_device
+
+  prompt_dns_server $IP_VERSION
+
+  get_ip_address $IP_VERSION $NETWORK_DEVICE
+
+  get_broadcast_address $NETWORK_DEVICE
+
+  get_netmask_address $NETWORK_DEVICE
+
+  get_network_start_address $IP_ADDRESS $NETMASK_ADDRESS
+
+  get_gateway_address
+}
+
+
+#######################################
+# Prompt for ip address
+# Globals:
+#   IP_ADDRESS
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+prompt_ip_address(){
+  clear
+  echo "Your current ip address is [$IP_ADDRESS]"
+  echo
+  read -p "Enter ip address: " -i $IP_ADDRESS -e IP_ADDRESS
+}
+
+
+#######################################
+# Promt for gateway address
+# Globals:
+#   GATEWAY_ADDRESS
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+prompt_gateway_address(){
+  clear
+  echo "Your current internet gateway address is [$GATEWAY_ADDRESS]"
+  echo "This is usually the address of your router"
+  echo
+  read -p "Enter internet gateway address: " -i $GATEWAY_ADDRESS -e GATEWAY_ADDRESS
+}
+
+
+#######################################
+# Makes bakup of ip config depending on which dhcpcd
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+backup_static_ip_address_config(){
+  if [[ ! -z $(which dhcpcd) ]]; then
+    restore_dhcpcd_config
+    backup_dhcpcd_config
+  else
+    restore_network_interfaces_config
+    backup_network_interfaces_config
+  fi
+}
+
+
+#######################################
+# Sets static ip depending on which dhcpcd
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+set_static_ip_address(){
+  if [[ -z $(which dhcpcd) ]]; then
+    set_static_ip_network_interfaces
+  else
+    set_static_ip_dhcpcd
+  fi
+}
+
+
+#######################################
+# Promt for new/existing static ip address
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+prompt_static_ip_address(){
+  menu "NoTrack is a server and requires a static ip address to function properly" "Set a static ip address" "System has static ip address" "Abort install"
+
+  case "$?" in
+    1)
+      if [[ -z $(which dhcpcd) ]]; then
+        if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
+          clear
+          echo "Your system appears to have a GUI desktop"
+          echo
+          echo "Use the connection editor to set a static ip address, then run this installer again"
+          echo
+          exit
+        fi
+      fi
+
+      # Get info required to set static ip address
+      get_static_ip_address_info
+      prompt_ip_address
+      prompt_gateway_address
+    ;;
+    2)
+      echo "System has static ip address"
+    ;;
+    3)
+      error_exit "Aborting install" 1
+    ;;
+  esac  
+}
+
+
+#######################################
+# Main
+#######################################
 if [[ $(command -v sudo) == "" ]]; then
   error_exit "NoTrack requires Sudo to be installed for Admin functionality" 10  
 fi
 
 Show_Welcome
+
+prompt_static_ip_address
 
 if [[ $InstallLoc == "" ]]; then
   Ask_InstallLoc
@@ -464,11 +612,16 @@ if [[ $IP_VERSION == "" ]]; then
   prompt_ip_version
 fi
 
-get_ip_address $IP_VERSION $NETWORK_DEVICE
+if [[ $IP_ADDRESS == "" ]]; then
+  get_ip_address $IP_VERSION $NETWORK_DEVICE
+fi
+
 echo "System IP Address $IP_ADDRESS"
 sleep 2s
 
-prompt_dns_server $IP_VERSION
+if [[ $DNS_SERVER_1 == "" ]]; then
+  prompt_dns_server $IP_VERSION
+fi
 
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
@@ -479,6 +632,16 @@ echo "Primary DNS Server set to: $DNS_SERVER_1"
 echo "Secondary DNS Server set to: $DNS_SERVER_2"
 echo 
 sleep 8s
+
+    echo
+    echo -en "Press any key to continue... "
+    read -rn1
+
+
+backup_static_ip_address_config
+
+set_static_ip_address
+
 
 Install_Packages                                 #Install Apps with the appropriate package manager
 
