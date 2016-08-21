@@ -51,20 +51,23 @@ else {
 }
 
 if (file_exists($FileBlockList)) {
-  $BlockListDate = filemtime($FileBlockList);
+  $BlockListDate = filemtime($FileBlockList);    //Get last modified time
   if ($BlockListDate > $CurrentTime - 86400) $DateStr = '<h3>Today</h3>';
-  elseif ($BlockListDate > $CurrentTime - 172800) $DateStr = '<h3>2 Days ago</h3>';
+  elseif ($BlockListDate > $CurrentTime - 172800) $DateStr = '<h3>Yesterday</h3>';
   elseif ($BlockListDate > $CurrentTime - 259200) $DateStr = '<h3>3 Days ago</h3>';
-  elseif ($BlockListDate > $CurrentTime - 345600) $DateStr = '<h4>4 Days ago</h4>';
+  elseif ($BlockListDate > $CurrentTime - 345600) $DateStr = '<h3>4 Days ago</h3>';
+  elseif ($BlockListDate > $CurrentTime - 432000) $DateStr = '<h4>5 Days ago</h4>';
+  elseif ($BlockListDate > $CurrentTime - 518400) $DateStr = '<h4>6 Days ago</h4>';
+  elseif ($BlockListDate > $CurrentTime - 1209600) $DateStr = '<h4>Last Week</h4>';
   else {
     $DateStr = '<h6>'.date('d M', $BlockListDate).'</h6>';
     $DateSubStr = '<h6>Out of date</h6>';
   }
 }  
 else {
-  if ($StatusStr == 'Active') {
-    $StatusStr = 'Block List Missing';
-    $DateStr = 'Unknown';
+  if ($StatusStr == '<h3>Active</h3>') {
+    $StatusStr = '<h6>Block List Missing</h6>';
+    $DateStr = '<h6>Unknown</h6>';
   }
 }
 echo '<div id="top-padding"></div>';
@@ -98,10 +101,6 @@ else {                                           //DHCP Disabled
   echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>DHCP</h2><hr /><span>N/A</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 
-
-/*echo '<div class="row-mobile">';                 //Row visible for Mobiles
-echo '<a href="./config.php"><div class="home-nav-p"><h2>Config</h2><div class="home-nav-left">&nbsp;</div><div class="home-nav-right"><img class="full" src="./svg/home_config.svg" alt=""></div></div></a>'.PHP_EOL;
-*/
 echo '</div>'.PHP_EOL;
 echo '<div class="row"><br /></div>'.PHP_EOL;
 
