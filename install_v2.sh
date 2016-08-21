@@ -633,11 +633,6 @@ echo "Secondary DNS Server set to: $DNS_SERVER_2"
 echo 
 sleep 8s
 
-    echo
-    echo -en "Press any key to continue... "
-    read -rn1
-
-
 backup_static_ip_address_config
 
 set_static_ip_address
