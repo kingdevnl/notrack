@@ -24,7 +24,7 @@ readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
 #######################################
 # Environment variables
 #######################################
-Version="0.7.14"
+Version="0.7.16"
 SudoRequired=0                                   #1 If installing to /opt
 
 REBOOT_REQUIRED=false
