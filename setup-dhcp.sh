@@ -86,7 +86,7 @@ Config_DhcpRange(){
   echo "Enter lease time:"
   read dhcp_lease_time
 
-  sudo sed -i "s/#dhcp-range-replace-token/dhcp-range=$dhcp_range_start,$dhcp_range_end,$dhcp_lease_time/" /etc/dnsmasq.conf
+  sudo sed -i "s/#dhcp-range-replace-token-ipv4/dhcp-range=$dhcp_range_start,$dhcp_range_end,$dhcp_lease_time/" /etc/dnsmasq.conf
 }
 
 #Config DHCP Option--------------------------------------------------
@@ -103,7 +103,7 @@ Config_DhcpOption(){
   echo "Enter internet gateway:"
   read dhcp_internet_gateway
 
-  sudo sed -i "s/#dhcp-option-replace-token/dhcp-option=3,$dhcp_internet_gateway/" /etc/dnsmasq.conf
+  sudo sed -i "s/#dhcp-option-replace-token-ipv4/dhcp-option=3,$dhcp_internet_gateway/" /etc/dnsmasq.conf
 }
 
 #Config DHCP Logging-------------------------------------------------
