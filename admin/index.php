@@ -56,10 +56,19 @@ if (file_exists($FileBlockList)) {
   elseif ($BlockListDate > $CurrentTime - 172800) $DateStr = '<h3>Yesterday</h3>';
   elseif ($BlockListDate > $CurrentTime - 259200) $DateStr = '<h3>3 Days ago</h3>';
   elseif ($BlockListDate > $CurrentTime - 345600) $DateStr = '<h3>4 Days ago</h3>';
-  elseif ($BlockListDate > $CurrentTime - 432000) $DateStr = '<h4>5 Days ago</h4>';
-  elseif ($BlockListDate > $CurrentTime - 518400) $DateStr = '<h4>6 Days ago</h4>';
-  elseif ($BlockListDate > $CurrentTime - 1209600) $DateStr = '<h4>Last Week</h4>';
-  else {
+  elseif ($BlockListDate > $CurrentTime - 432000) {  //5 days onwards is getting stale
+    $DateStr = '<h4>5 Days ago</h4>';
+    $DateSubStr = '<h2>Block list is old</h2>';
+  }
+  elseif ($BlockListDate > $CurrentTime - 518400) {
+    $DateStr = '<h4>6 Days ago</h4>';
+    $DateSubStr = '<h2>Block list is old</h2>';
+  }
+  elseif ($BlockListDate > $CurrentTime - 1209600) {
+    $DateStr = '<h4>Last Week</h4>';
+    $DateSubStr = '<h2>Block list is old</h2>';
+  }
+  else {                                         //Beyond 2 weeks is completely out of date
     $DateStr = '<h6>'.date('d M', $BlockListDate).'</h6>';
     $DateSubStr = '<h6>Out of date</h6>';
   }
