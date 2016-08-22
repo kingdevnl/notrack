@@ -1,113 +1,136 @@
 #!/usr/bin/env bash
+#
 #Title : Static Ip
 #Description : This script will set a static ip address
 #Authors : fernfrost
 #Usage : bash set-staticip.sh
 
 
-IPAddr=""
-RouterIPAddr=""
-DNSChoice1="208.67.222.222"   #Using Open Dns
+#######################################
+# Importing utilities
+#######################################
+. core.sh
 
-#Error Exit 2nd generation--------------------------------------------
-Error_Exit() {
-  #$1 Error Message
-  #$2 Exit Code
-  echo "Error. $1"
-  echo "Aborting"
-  exit "$2"
+
+#######################################
+# Constants
+#######################################
+
+
+#######################################
+# Environment variables
+#######################################
+
+
+#######################################
+# Show welcome message
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+show_welcome() {
+  echo "Set Static Ip"
+  echo
+  echo "This script will set a static ip address on your system"
+  echo 
+  echo "Press any key to contine..."
+  read -rn1
 }
 
-#Check File Exists---------------------------------------------------
-Check_File_Exists() {
-  #$1 File to Check
-  #$2 Exit Code
-  if [ ! -e "$1" ]; then
-    echo "Error. File $1 is missing.  Aborting."
-    exit "$2" 
+
+#######################################
+# Show end message
+# Globals:
+#   IP_ADDRESS
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+show_end() {
+  menu "The static ip address has been set to: $IP_ADDRESS\n\nThe system must be rebooted for changes to take effect" "Reboot Now" "Reboot Later"
+
+  if [[ $? == 1 ]]; then
+    sudo reboot
+  else
+    echo "To reboot, run command: sudo reboot"
+    echo
   fi
 }
 
-#Get Operating System-------------------------------------------------
-Get_Os(){
-  Os_Id=$(lsb_release -i | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
-  Os_Version=$(lsb_release -r | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
-  Os_Description=$(lsb_release -d | cut -d ":" -f 2 | sed -e "s/^[[:space:]]*//")
 
-  echo "Running on $Os_Description"
+#######################################
+# Set static ip
+# Globals:
+#   IP_ADDRESS
+#   GATEWAY_ADDRESS
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+set_static_ip(){
+  clear
+  echo "Your current ip address is [$IP_ADDRESS]"
+  echo
+  read -p "Enter ip address: " -i $IP_ADDRESS -e IP_ADDRESS
+
+  clear
+  echo "Your current internet gateway address is [$GATEWAY_ADDRESS]"
+  echo "This is usually the address of your router"
+  echo
+  read -p "Enter internet gateway address: " -i $GATEWAY_ADDRESS -e GATEWAY_ADDRESS
   echo
 
-  if [ $Os_Id != "Raspbian" ]; then
-    Error_Exit "Only Raspbian supported" 1
+  if [[ ! -z $(which dhcpcd) ]]; then
+    set_static_ip_dhcpcd
+  else
+    set_static_ip_network_interfaces
   fi
 }
 
 
-#Backup Configs------------------------------------------------------
-Backup_Conf() {
-  echo "Backing up config files"
-  
-  echo "Copying /etc/dhcpcd.conf to /etc/dhcpcd.conf.old"
-  Check_File_Exists "/etc/dhcpcd.conf" 24
-  sudo cp /etc/dhcpcd.conf /etc/dhcpcd.conf.old
-  echo
-}
+#######################################
+# Main
+#######################################
+show_welcome
 
-#Restore Configs-----------------------------------------------------
-Restore_Conf() {
-  if [ -e "/etc/dhcpcd.conf.old" ]; then
-    echo "Restoring old config files"
-  
-    echo "Copying /etc/dhcpcd.conf.old to /etc/dhcpcd.conf"
-    sudo cp /etc/dhcpcd.conf.old /etc/dhcpcd.conf
+if [[ -z $(which dhcpcd) ]]; then
+  if [[ ! -z $(dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library) ]]; then
+    # GUI Desktop installed
+    echo "GUI desktop detected, use connection editor to set static ip address"
+    echo
+    exit
   fi
-  echo
-}
+fi
 
-#Set Static Ip Address-----------------------------------------------
-Set_StaticIp(){
-  echo "Configure Static Ip Address"
-  echo
-  echo "You need to supply an ip addresse and the address of your internet gateway (usually the ip address of your router)"
-  echo
-  echo "Example:"
-  echo "Ip address:       192.168.62.2"
-  echo "Internet gateway: 192.168.62.1"
-  echo
+prompt_ip_version
 
-  echo "Enter ip address:"
-  read IPAddr
+prompt_network_device
 
-  echo
+prompt_dns_server $IP_VERSION
 
-  echo "Enter internet gateway address:"
-  read RouterIPAddr
+get_ip_address $IP_VERSION $NETWORK_DEVICE
 
-  if [ $Os_Id = "Raspbian" ]; then
-    Set_StaticIp_Raspbian_Jessie
-  fi
-}
+get_broadcast_address $NETWORK_DEVICE
 
-Set_StaticIp_Raspbian_Jessie(){
-  sudo sed -i -e "\$a\ " /etc/dhcpcd.conf
-  sudo sed -i -e "\$a#Static Ip Address" /etc/dhcpcd.conf
-  sudo sed -i -e "\$ainterface eth0" /etc/dhcpcd.conf
-  sudo sed -i -e "\$astatic ip_address=$IPAddr/24" /etc/dhcpcd.conf
-  sudo sed -i -e "\$astatic routers="$RouterIPAddr /etc/dhcpcd.conf
-  sudo sed -i -e "\$astatic domain_name_servers="$DNSChoice1 /etc/dhcpcd.conf
-}
+get_netmask_address $NETWORK_DEVICE
 
-#Main---------------------------------------------------------------
-Get_Os
+get_network_start_address $IP_ADDRESS $NETMASK_ADDRESS
 
-Restore_Conf
+get_gateway_address
 
-Backup_Conf
+if [[ ! -z $(which dhcpcd) ]]; then
+  restore_dhcpcd_config
+  backup_dhcpcd_config
+else
+  restore_network_interfaces_config
+  backup_network_interfaces_config
+fi
 
-Set_StaticIp
+set_static_ip
 
-echo
-echo "Static ip successfully set to $IPAddr"
-echo
-echo "Reboot required"
-echo "Run sudo reboot"
+show_end
