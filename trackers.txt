@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 16 August 2016
-#LatestVersion 0.7.15
+#NoTrack Tracker list updated 21 August 2016
+#LatestVersion 0.7.16
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -36,6 +36,7 @@
 3lift.com #Triple Lift
 4dsply.com
 4nabs.com
+4seeresults.com #ForeSee
 51yes.com
 51.la
 52tyd.com #Advertising
@@ -145,6 +146,7 @@ adizio.com
 adjug.com
 adjust.com
 adkontekst.pl
+adlabsnetworks.com #AdLabs
 adlansa.com
 adlegend.com
 adlibrary.org #AppNexus Inc
@@ -336,9 +338,10 @@ amplitude.com
 amung.us #TBC
 analytics-egain.com #eGain Corporation
 and.co.uk
+angorch-cdr7.com #Lead Forensics
 anm.co.uk #Associated Newspapers Limited
 anreson.net #Advertising
-angorch-cdr7.com #Lead Forensics
+answerscloud.com #Answers Cloud
 anrdoezrs.net
 apero-bigdata.com #Ysance
 apester.com
@@ -862,6 +865,7 @@ dapxl.com
 dartsearch.net
 datacaciques.com
 datacentric.ru #Exebid DCA
+datadrivensolution.com #Tracker Unknown
 data-eroadvertising.com
 dcoengine.com
 dc-storm.com #Rakuten 
@@ -1096,6 +1100,8 @@ exovueplatform.com
 expandengagement.com #Adobe
 exponential.com
 extreme-dm.com
+extole.com #Extole
+extole.io #Extole
 eyenewton.ru
 eyeota.com
 eyeota.net
@@ -1303,6 +1309,7 @@ html5nanovisor.mobi #instartlogic
 html5nanovisor.net #instartlogic
 html5nanovisor.org #instartlogic
 html5nanovisor.us #instartlogic
+httptrack.com #Tracker Unknown
 hublogic.com #Hubspot
 hubspot.com #Hubspot
 hubspot.net #Hubspot
@@ -1325,9 +1332,9 @@ hubtraffic.com #Hubspot
 hw-dev.com #HelloWorld
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
-iiad.com  #Avertising
 i-transactads.com
 i10c.net #instartlogic
+iadvize.com #iAdvize
 iasds01.com
 ibillboard.com
 ib-ibi.com
@@ -1339,6 +1346,7 @@ idio.co #Idio
 iframes.us
 igodigital.com
 igsonar.com
+iiad.com  #Avertising
 images9999.com  #Advertising
 imbox.se #Imbox
 imedia.cz
@@ -1508,11 +1516,13 @@ loggly.com #Loggly
 loggly.net #Loggly
 loggly.org #Loggly
 lognormal.net
+logsss.com #Tracker Unknown
 loyaltywindow.com #Digital Window
 lp4.io #Linkpulse
 lpsnmedia.net
 lrcdn.net
 lucidmedia.com
+luxup.ru #AdLabs
 lynxbroker.de
 lypn.com
 lyris.com #Aurea
@@ -1550,6 +1560,8 @@ mailshield.com #Aurea
 mailshield.net #Aurea
 mailchimp.com
 mailmunch.co
+mainad.com #MainADV
+mainadv.com #MainADV
 maintrack.us #MainAd
 margree.com #Ad Web
 marinsm.com
@@ -9690,7 +9702,8 @@ quantcast.net #Quantcast
 quantcount.com #Quantcast
 quantserve.com #Quantcast
 quantserve.net #Quantcast
-qubitproducts.com
+qubit.com #QuBit Digital
+qubitproducts.com #QuBit Digital
 quelhadoop.com #Ysance
 questback.com #Questback
 questionmarket.com
@@ -9895,9 +9908,13 @@ seat.it #Seat PG
 seatac15.com #Lead Forensics
 secretmedia.com
 secureadserver.com
-securepaths.com
+securegop.mobi #4cite
+securegop.net #4cite
+securepaths.com #Forensiq
 securestudies.com #TMRG
 securestudies.net #TMRG
+securedvisit.com #4cite
+securedvisit.net #4cite
 segment.com
 selfadvertiser.com #RevenueHits
 sellathon.com
@@ -9906,7 +9923,6 @@ sendgrid.me
 sendtomyfriend.com #Campaign Monitor Pty
 sensic.net
 sentifi.com
-securepaths.com #Forensiq
 servebom.com
 servedby-buysellads.com #BuySellAds
 servedbyopenx.com #OpenX
@@ -10332,6 +10348,8 @@ webappstreamingnetwork.info #instartlogic
 webappstreamingnetwork.net #instartlogic
 webappstreamingnetwork.org #instartlogic
 webanalyticsday.com #Aurea
+webcollage.com #Webcollage
+webcollage.net #Webcollage
 webengage.co #WebEngage
 webgains.com
 webmd.com

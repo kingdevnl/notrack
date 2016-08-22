@@ -10,7 +10,7 @@ IPVersion=""
 InstallLoc=""
 
 #Program Settings----------------------------------------------------
-Version="0.7.14"
+Version="0.7.16"
 DNSChoice1=""
 DNSChoice2=""
 SudoRequired=0                                   #1 If installing to /opt

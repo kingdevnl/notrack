@@ -44,7 +44,7 @@ Config[bl_dnkeasy]=0                      #Denmark
 Config[bl_ruseasy]=0                      #Russia
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.15"
+Version="0.7.16"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlockingListFile="/etc/dnsmasq.d/notrack.list"
 BlackListFile="/etc/notrack/blacklist.txt"
@@ -54,7 +54,7 @@ DomainWhiteListFile="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 DomainCSV="/var/www/html/admin/include/tld.csv"
 ConfigFile="/etc/notrack/notrack.conf"
-CheckTime=345600                                 #Time in Seconds between downloading lists (4 days)
+CheckTime=343800                                 #Time in Seconds between downloading lists (4 days - 30mins)
 
 #Block list URL's----------------------------------------------------
 declare -A URLList                               #Array of URL's
