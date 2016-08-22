@@ -418,6 +418,9 @@ function DisplayConfigChoices() {
 
   $PS_Lighttpd = preg_split('/\s+/', exec('ps -eo fname,pid,stime,pmem | grep lighttpd'));
 
+  $Uptime = explode(',', exec('uptime'))[0];
+  if (preg_match('/\d\d\:\d\d\:\d\d\040up\040/', $Uptime) > 0) $Uptime = substr($Uptime, 13);  //Cut time from string if it exists
+  
   $fi = new FilesystemIterator($DirOldLogs, FilesystemIterator::SKIP_DOTS);
   
   
@@ -435,7 +438,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Sysload', $Load[0].' | '.$Load[1].' | '.$Load[2]);
   DrawSysRow('Memory Used', $FreeMem[2].' MB');
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
-  DrawSysRow('Uptime', explode(",",system("uptime"))[0]);
+  DrawSysRow('Uptime', $Uptime);
   DrawSysRow('NoTrack Version', $Version); 
   echo '</table></div></div>'.PHP_EOL;
   

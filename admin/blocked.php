@@ -129,25 +129,41 @@ function DisplayPagination($LS) {
   echo '</ul></div>'.PHP_EOL;
 }
 //-------------------------------------------------------------------
-
 function Load_Access_Log() {
   global $SiteList, $LogLightyAccess;
-  $SplitLine = array();
+  $Dedup = '';
+  $TempList = array();
+  
+  //Example Log Data
+  //1471892585|polling.bbc.co.uk|GET /appconfig/iplayer/android/4.19.3/policy.json HTTP/1.1|200|26
+  //1471892807|cmdts.ksmobile.com|POST /c/ HTTP/1.1|200|26
+  //1471771627|notrack.local|GET /admin/svg/menu_dhcp.svg HTTP/1.1|304|0
+  //1471773009|notrack.local|GET /admin/stats.php HTTP/1.1|200|117684
+  
+  //Regex Matches:
+  //1: \d{1,23} - 64bit Time value
+  //2: [A-Za-z0-9\-\.]{2.253} Left-hand side of URL (before /)
+  //3: (GET|POST) GET or POST
+  //Negate /admin and /favicon.ico
+  //4: [A-Za-z0-9\-_\%\&\?\.\/#]{2,2048} Right-hand side of URL (after /)
+  //HTTP 1.1 or 2.0
+  //200 - HTTP Ok (Not interested in 304,404)
   
   if (file_exists($LogLightyAccess)) {
     $FileHandle= fopen($LogLightyAccess, 'r');
     while (!feof($FileHandle)) {
       $Line = trim(fgets($FileHandle));          //Read Line of LogFile
-      if ($Line != '') {
-        $SplitLine = explode('|', $Line);
-        if ((substr($SplitLine[2], 0, 10) != 'GET /admin') &&
-          (substr($SplitLine[2], 0, 12) != 'GET /favicon')) {
-          if (substr($SplitLine[1], 0, 4) == 'www.') $SplitLine[1] = substr($SplitLine[1], 4);
-          $SiteList[] = array($SplitLine[0], $SplitLine[1]);
-        }
+      //echo $Line.'<br />';
+      if (preg_match('/^(\d{1,23})\|([A-Za-z0-9\-\.]{2,253})\|(GET|POST)\s(?!\/admin|\/favicon\.ico)([A-Za-z0-9\-_\%\&\?\.\/#]{2,2048})\sHTTP\/\d\.\d\|200/', $Line, $Matches) > 0) {
+        if ($Matches[2] != $Dedup) {
+          $TempList[] = array($Matches[1], $Matches[2].' '.$Matches[3].' '.$Matches[4]);
+          $Dedup = $Matches[2];
+        }      
       }
     }
     fclose($FileHandle);
+    
+    $SiteList = array_reverse($TempList);
   }
   else {                                         //Log not found
     return false;
