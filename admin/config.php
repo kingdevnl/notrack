@@ -435,7 +435,7 @@ function DisplayConfigChoices() {
   DrawSysRow('Sysload', $Load[0].' | '.$Load[1].' | '.$Load[2]);
   DrawSysRow('Memory Used', $FreeMem[2].' MB');
   DrawSysRow('Free Memory', $FreeMem[3].' MB');
-  DrawSysRow('Uptime', exec('uptime -p | cut -d \  -f 2-'));
+  DrawSysRow('Uptime', explode(",",system("uptime"))[0]);
   DrawSysRow('NoTrack Version', $Version); 
   echo '</table></div></div>'.PHP_EOL;
   
