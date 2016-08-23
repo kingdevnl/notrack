@@ -61,6 +61,7 @@ $DefaultConfig = array(
   'bl_deueasy' => 0,
   'bl_dnkeasy' => 0,
   'bl_ruseasy' => 0,
+  'bl_fblatin' => 0,
   'LatestVersion' => $Version  
 );
 
