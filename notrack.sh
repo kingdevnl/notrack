@@ -42,6 +42,7 @@ Config[bl_chneasy]=0                      #China
 Config[bl_deueasy]=0                      #Germany
 Config[bl_dnkeasy]=0                      #Denmark
 Config[bl_ruseasy]=0                      #Russia
+Config[bl_fblatin]=0                      #Portugal/Spain (Latin Countries)
 
 #Leave these Settings alone------------------------------------------
 Version="0.7.16"
@@ -83,6 +84,7 @@ URLList[chneasy]="https://easylist-downloads.adblockplus.org/easylistchina.txt"
 URLList[deueasy]="https://easylist-downloads.adblockplus.org/easylistgermany.txt"
 URLList[dnkeasy]="https://adblock.dk/block.csv"
 URLList[ruseasy]="https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt"
+URLList[fblatin]="https://www.fanboy.co.nz/fanboy-espanol.txt"
 
 #Global Variables----------------------------------------------------
 FileTime=0                                       #Return value from Get_FileTime
@@ -252,7 +254,8 @@ function Read_Config_File() {
           bl_chneasy) Config[bl_chneasy]="$Value";;
           bl_deueasy) Config[bl_deueasy]="$Value";;
           bl_dnkeasy) Config[bl_dnkeasy]="$Value";;
-          bl_ruseasy) Config[bl_ruseasy]="$Value";;          
+          bl_ruseasy) Config[bl_ruseasy]="$Value";;   
+          bl_fblatin) Config[bl_fblatin]="$Value";;         
         esac            
       fi
     done < $ConfigFile
@@ -1128,8 +1131,9 @@ GetList "winhelp2002" "unix"
 GetList "areasy" "easylist"
 GetList "chneasy" "easylist"
 GetList "deueasy" "easylist"
-GetList "dnkeasy" "easylist"
+GetList "dnkeasy" "easylist" 
 GetList "ruseasy" "easylist"
+GetList "fblatin" "easylist"
  
 Get_Custom                                       #Process Custom Block lists
 
