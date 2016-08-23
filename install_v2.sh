@@ -1461,8 +1461,8 @@ fi
 Setup_Dnsmasq
 
 if [[ "$SETUP_DHCP" == true ]]; then
-  restore_dnsmasq_notrack_config
-  backup_dnsmasq_notrack_config
+  #restore_dnsmasq_notrack_config
+  #backup_dnsmasq_notrack_config
   setup_dnsmasq_dhcp
 
   echo "Restarting Dnsmasq Service"
