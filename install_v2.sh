@@ -20,6 +20,9 @@ readonly DHCPCD_CONF_OLD_PATH="/etc/dhcpcd.conf.old"
 readonly NETWORDK_INTERFACES_PATH="/etc/network/interfaces"
 readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
 
+readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
+readonly DNSMASQ_CONF_NOTRACK_OLD_PATH="/etc/dnsmasq.conf.notrack.old"
+
 
 #######################################
 # Environment variables
@@ -29,6 +32,7 @@ SudoRequired=0                                   #1 If installing to /opt
 
 REBOOT_REQUIRED=false
 
+SETUP_STATIC_IP_ADDRESS=false
 GATEWAY_ADDRESS=""
 IP_ADDRESS=""
 NETWORK_DEVICE=""
@@ -38,6 +42,11 @@ DNS_SERVER_2=""
 BROADCAST_ADDRESS=""
 NETMASK_ADDRESS=""
 NETWORK_START_ADDRESS=""
+
+SETUP_DHCP=false
+DHCP_RANGE_START=""
+DHCP_RANGE_END=""
+DHCP_LEASE_TIME=""
 
 
 #######################################
@@ -1072,7 +1081,7 @@ set_static_ip_address(){
 # Returns:
 #   None
 #######################################
-prompt_static_ip_address(){
+prompt_setup_static_ip_address(){
   menu "NoTrack is a server and requires a static ip address to function properly" "Set a static ip address" "System has static ip address" "Abort install"
 
   case "$?" in
@@ -1088,13 +1097,7 @@ prompt_static_ip_address(){
         fi
       fi
 
-      # Get info required to set static ip address
-      get_static_ip_address_info
-      prompt_ip_address
-      prompt_gateway_address
-
-      # Setting static ip requires reboot
-      REBOOT_REQUIRED=true
+      SETUP_STATIC_IP_ADDRESS=true
     ;;
     2)
       echo "System has static ip address"
@@ -1106,6 +1109,112 @@ prompt_static_ip_address(){
 }
 
 
+
+prompt_setup_dhcp(){
+  menu "Setup NoTrack DHCP Server?\n\nThis would make any device connecting to your network using DHCP automatically protected by NoTrack" "Yes, setup NoTrack DHCP" "No"
+
+  if [[ "$?" == 1 ]]; then
+    SETUP_DHCP=true
+  fi
+}
+
+setup_dnsmasq_dhcp(){
+  config_dnsmasq_logging
+  config_dnsmasq_authoritative_mode
+
+  if [[ "$IP_VERSION" == "$IP_V4" ]]; then
+    setup_dnsmasq_dhcp_ipv4
+  fi
+}
+
+setup_dnsmasq_dhcp_ipv4(){
+  config_dnsmasq_dhcp_option_ipv4
+  config_dnsmasq_dhcp_range_ipv4
+}
+
+config_dnsmasq_logging(){
+  #Logging is currently enabled by default
+  echo "Configuring Dnsmasq logging"
+  echo
+}
+
+config_dnsmasq_authoritative_mode(){
+  echo "Configuring authoritative mode"
+  sudo sed -i "s/#dhcp-authoritative/dhcp-authoritative/" $DNSMASQ_CONF_PATH
+  echo
+}
+
+config_dnsmasq_dhcp_option_ipv4(){
+  echo "Configuring Dnsmasq internet gateway"
+  sudo sed -i "s/#dhcp-option-replace-token-ipv4/dhcp-option=3,$GATEWAY_ADDRESS/" $DNSMASQ_CONF_PATH
+  echo
+}
+
+config_dnsmasq_dhcp_range_ipv4(){
+  echo "Configuring Dnsmasq dhcp range"
+  sudo sed -i "s/#dhcp-range-replace-token-ipv4/dhcp-range=$DHCP_RANGE_START,$DHCP_RANGE_END,$DHCP_LEASE_TIME/" $DNSMASQ_CONF_PATH
+  echo
+}
+
+get_dhcp_range_start_address(){
+  IFS=. read -r i1 i2 i3 i4 <<< "$1"
+  IFS=. read -r m1 m2 m3 m4 <<< "$2"
+  DHCP_RANGE_START="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).1"
+}
+
+prompt_dhcp_range_start_address(){
+  clear
+  read -p "Enter DHCP range start address: " -i $DHCP_RANGE_START -e DHCP_RANGE_START
+}
+
+get_dhcp_range_end_address(){
+  IFS=. read -r i1 i2 i3 i4 <<< "$1"
+  IFS=. read -r m1 m2 m3 m4 <<< "$2"
+  DHCP_RANGE_END="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).254"
+}
+
+prompt_dhcp_range_end_address(){
+  clear
+  read -p "Enter DHCP range end address: " -i $DHCP_RANGE_END -e DHCP_RANGE_END
+}
+
+prompt_dhcp_lease(){
+  menu "DHCP lease time" "6h" "12h" "24h"
+
+  case "$?" in
+    1) 
+      DHCP_LEASE_TIME="6h"
+    ;;
+    2) 
+      DHCP_LEASE_TIME="12h"
+    ;;
+    3)
+      DHCP_LEASE_TIME="24h"
+    ;;  
+  esac
+}
+
+backup_dnsmasq_notrack_config() {
+  echo "Backing up NoTrack specific dnsmasq config"
+  
+  echo "Copying $DNSMASQ_CONF_PATH to $DNSMASQ_CONF_NOTRACK_OLD_PATH"
+  check_file_exists "$DNSMASQ_CONF_PATH" 24
+  sudo cp $DNSMASQ_CONF_PATH $DNSMASQ_CONF_NOTRACK_OLD_PATH
+  echo
+}
+
+restore_dnsmasq_notrack_config() {
+  if [ -e "$DNSMASQ_CONF_NOTRACK_OLD_PATH" ]; then
+    echo "Restoring NoTrack specific dnsmasq config"
+  
+    echo "Copying $DNSMASQ_CONF_NOTRACK_OLD_PATH to $DNSMASQ_CONF_PATH"
+    sudo cp $DNSMASQ_CONF_NOTRACK_OLD_PATH $DNSMASQ_CONF_PATH
+  fi
+  echo
+}
+
+
+
 #######################################
 # Main
 #######################################
@@ -1115,7 +1224,17 @@ fi
 
 Show_Welcome
 
-prompt_static_ip_address
+prompt_setup_static_ip_address
+
+if [[ "$SETUP_STATIC_IP_ADDRESS" == true ]]; then
+  # Get info required to set static ip address
+  get_static_ip_address_info
+  prompt_ip_address
+  prompt_gateway_address
+
+  # Setting static ip requires reboot
+  REBOOT_REQUIRED=true
+fi
 
 if [[ $InstallLoc == "" ]]; then
   Ask_InstallLoc
@@ -1133,27 +1252,61 @@ if [[ $IP_ADDRESS == "" ]]; then
   get_ip_address $IP_VERSION $NETWORK_DEVICE
 fi
 
-echo "System IP Address $IP_ADDRESS"
-sleep 2s
-
 if [[ $DNS_SERVER_1 == "" ]]; then
   prompt_dns_server $IP_VERSION
+fi
+
+
+# DHCP setup only for IPv4 for now
+if [[ $IP_VERSION == $IP_V4 ]]; then
+  prompt_setup_dhcp
+fi
+
+if [[ "$SETUP_DHCP" == true ]]; then
+  if [[ -z "$NETMASK_ADDRESS" ]]; then
+    get_netmask_address $NETWORK_DEVICE
+  fi
+
+  if [[ -z "$GATEWAY_ADDRESS" ]]; then
+    get_gateway_address
+    prompt_gateway_address
+  fi
+
+  get_dhcp_range_start_address $IP_ADDRESS $NETMASK_ADDRESS
+  prompt_dhcp_range_start_address
+
+  get_dhcp_range_end_address $IP_ADDRESS $NETMASK_ADDRESS
+  prompt_dhcp_range_end_address
+
+  prompt_dhcp_lease
 fi
 
 clear
 echo "Installing to: $InstallLoc"                #Final report before Installing
 echo "Network Device set to: $NETWORK_DEVICE"
-echo "IPVersion set to: $IP_VERSION"
-echo "System IP Address $IP_ADDRESS"
-echo "Primary DNS Server set to: $DNS_SERVER_1"
-echo "Secondary DNS Server set to: $DNS_SERVER_2"
+echo "IP version set to: $IP_VERSION"
+echo "System IP address $IP_ADDRESS"
+echo "Primary DNS server set to: $DNS_SERVER_1"
+echo "Secondary DNS server set to: $DNS_SERVER_2"
+
+if [[ "$SETUP_DHCP" == true ]]; then
+  echo "DHCP range start: $DHCP_RANGE_START"
+  echo "DHCP range end: $DHCP_RANGE_END"
+  echo "DHCP lease time: $DHCP_LEASE_TIME"
+fi
 echo 
-sleep 8s
+
+seconds=$((8))
+while [ $seconds -gt 0 ]; do
+   echo -ne "$seconds\033[0K\r"
+   sleep 1
+   : $((seconds--))
+done
+
 
 backup_static_ip_address_config
 
 set_static_ip_address
-
 
 Install_Packages                                 #Install Apps with the appropriate package manager
 
@@ -1166,6 +1319,13 @@ else
 fi
 
 Setup_Dnsmasq
+
+if [[ "$SETUP_DHCP" == true ]]; then
+  restore_dnsmasq_notrack_config
+  backup_dnsmasq_notrack_config
+  setup_dnsmasq_dhcp
+fi
+
 Setup_Lighttpd
 Setup_NoTrack
 Setup_NtrkScripts
