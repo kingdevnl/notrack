@@ -142,3 +142,15 @@ function Scroll() {
     document.getElementById('options-box').style.left = (window.innerWidth / 2)+"px";
   }
 }
+//-------------------------------------------------------------------
+function ShowFull(Row) {
+  //Function to show "smallhidden" p element on blocked.php
+  if (document.getElementById('r'+Row).style.display == "block") {
+    document.getElementById('r'+Row).style.display = "none";
+    document.getElementById('b'+Row).innerHTML = "+";
+  }
+  else {
+    document.getElementById('r'+Row).style.display = "block";
+    document.getElementById('b'+Row).innerHTML = "-";
+  }
+}

@@ -41,6 +41,11 @@ p.small {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
 }
+p.smallhidden {
+  margin: 0.1em 0.5em 0em 1em;
+  font-size: 0.8rem;
+  display: none;
+}
 p.light {
   margin: 0 0 0 0.5em;
   font-size: 0.8rem;
@@ -189,7 +194,8 @@ textarea {
   border-radius: 4px;
   box-shadow: inset 0 0 8px #111;
   padding: 0.2em 0.3em;
-  display: inline-block;  
+  display: inline-block;
+  min-width: 1em;
 }
 .button-grey:hover, .button-small:hover, input[type="submit"]:hover {
   background-color: #B2B2B2;  
