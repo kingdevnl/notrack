@@ -1109,7 +1109,15 @@ prompt_setup_static_ip_address(){
 }
 
 
-
+#######################################
+# Promt if to setup DHCP server
+# Globals:
+#   SETUP_DHCP
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 prompt_setup_dhcp(){
   menu "Setup NoTrack DHCP Server?\n\nThis would make any device connecting to your network using DHCP automatically protected by NoTrack" "Yes, setup NoTrack DHCP" "No"
 
@@ -1118,66 +1126,178 @@ prompt_setup_dhcp(){
   fi
 }
 
+
+#######################################
+# Configures dnsmasq dhcp server
+# Globals:
+#   IP_VERSION
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 setup_dnsmasq_dhcp(){
-  config_dnsmasq_logging
-  config_dnsmasq_authoritative_mode
+  config_dnsmasq_dhcp_logging
+  config_dnsmasq_dhcp_authoritative_mode
 
   if [[ "$IP_VERSION" == "$IP_V4" ]]; then
     setup_dnsmasq_dhcp_ipv4
   fi
 }
 
+
+#######################################
+# Configures dnsmasq dhcp server for ipv4
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 setup_dnsmasq_dhcp_ipv4(){
   config_dnsmasq_dhcp_option_ipv4
   config_dnsmasq_dhcp_range_ipv4
 }
 
-config_dnsmasq_logging(){
+
+#######################################
+# Configures dnsmasq logging
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+config_dnsmasq_dhcp_logging(){
   #Logging is currently enabled by default
   echo "Configuring Dnsmasq logging"
   echo
 }
 
-config_dnsmasq_authoritative_mode(){
+
+#######################################
+# Configures dnsmasq dhcp authoritative mode
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+config_dnsmasq_dhcp_authoritative_mode(){
   echo "Configuring authoritative mode"
   sudo sed -i "s/#dhcp-authoritative/dhcp-authoritative/" $DNSMASQ_CONF_PATH
   echo
 }
 
+
+#######################################
+# Configures dnsmasq option for ipv4
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 config_dnsmasq_dhcp_option_ipv4(){
   echo "Configuring Dnsmasq internet gateway"
   sudo sed -i "s/#dhcp-option-replace-token-ipv4/dhcp-option=3,$GATEWAY_ADDRESS/" $DNSMASQ_CONF_PATH
   echo
 }
 
+
+#######################################
+# Configures dnsmasq dhcp range for ipv4
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 config_dnsmasq_dhcp_range_ipv4(){
   echo "Configuring Dnsmasq dhcp range"
   sudo sed -i "s/#dhcp-range-replace-token-ipv4/dhcp-range=$DHCP_RANGE_START,$DHCP_RANGE_END,$DHCP_LEASE_TIME/" $DNSMASQ_CONF_PATH
   echo
 }
 
+
+#######################################
+# Gets a default dhcp range start address
+# Globals:
+#   None
+# Arguments:
+#   Ip address
+#   Netmask
+# Returns:
+#   None
+#######################################
 get_dhcp_range_start_address(){
   IFS=. read -r i1 i2 i3 i4 <<< "$1"
   IFS=. read -r m1 m2 m3 m4 <<< "$2"
   DHCP_RANGE_START="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).1"
 }
 
+
+#######################################
+# Prompts for dhcp range start address
+# Globals:
+#   DHCP_RANGE_START
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 prompt_dhcp_range_start_address(){
   clear
   read -p "Enter DHCP range start address: " -i $DHCP_RANGE_START -e DHCP_RANGE_START
 }
 
+
+#######################################
+# Gets a default dhcp range end address
+# Globals:
+#   None
+# Arguments:
+#   Ip address
+#   Netmask
+# Returns:
+#   None
+#######################################
 get_dhcp_range_end_address(){
   IFS=. read -r i1 i2 i3 i4 <<< "$1"
   IFS=. read -r m1 m2 m3 m4 <<< "$2"
   DHCP_RANGE_END="$((i1 & m1)).$((i2 & m2)).$((i3 & m3)).254"
 }
 
+
+#######################################
+# Prompts for dhcp range end address
+# Globals:
+#   DHCP_RANGE_END
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 prompt_dhcp_range_end_address(){
   clear
   read -p "Enter DHCP range end address: " -i $DHCP_RANGE_END -e DHCP_RANGE_END
 }
 
+
+#######################################
+# Prompts for dhcp lease time
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 prompt_dhcp_lease(){
   menu "DHCP lease time" "6h" "12h" "24h"
 
@@ -1194,6 +1314,16 @@ prompt_dhcp_lease(){
   esac
 }
 
+
+#######################################
+# Backs up NoTrack specific dnsmasq config
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 backup_dnsmasq_notrack_config() {
   echo "Backing up NoTrack specific dnsmasq config"
   
@@ -1203,6 +1333,16 @@ backup_dnsmasq_notrack_config() {
   echo
 }
 
+
+#######################################
+# Restores NoTrack specific dnsmasq config
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
 restore_dnsmasq_notrack_config() {
   if [ -e "$DNSMASQ_CONF_NOTRACK_OLD_PATH" ]; then
     echo "Restoring NoTrack specific dnsmasq config"
