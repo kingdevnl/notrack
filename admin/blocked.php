@@ -17,9 +17,11 @@ if ($Config['Password'] != '') {
 <head>
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link href="./css/help.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
-  <title>NoTrack - Sites Blocked</title>
+  <script src="./include/stats.js"></script>
+  <title>NoTrack - Sites Blocked</title>  
 </head>
 
 <body>
@@ -132,6 +134,9 @@ function DisplayPagination($LS) {
 function Load_Access_Log() {
   global $SiteList, $LogLightyAccess;
   $Dedup = '';
+  $Action='';
+  $URL='';
+  $i=0;
   $TempList = array();
   
   //Example Log Data
@@ -155,11 +160,29 @@ function Load_Access_Log() {
       $Line = trim(fgets($FileHandle));          //Read Line of LogFile
       //echo $Line.'<br />';
       if (preg_match('/^(\d{1,23})\|([A-Za-z0-9\-\.]{2,253})\|(GET|POST)\s(?!\/admin|\/favicon\.ico)([A-Za-z0-9\-_\%\&\?\.\/#]{2,2048})\sHTTP\/\d\.\d\|200/', $Line, $Matches) > 0) {
-        if ($Matches[2] != $Dedup) {
-          $TempList[] = array($Matches[1], $Matches[2].' '.$Matches[3].' '.$Matches[4]);
+        if ($Matches[3] == 'GET') $Action='<span class="green">GET</span> ';
+        else $Action='<span class="violet">POST</span> ';
+        $URL = $Matches[2].$Matches[4];
+        
+        //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
+        //For unknown file just show the first 45 characters and display+ button
+        if (strlen($URL) > 48) {
+          if (preg_match('/[A-Za-z0-9\-_\%\&\?\.#]{1,18}\.(php|html|js|json|jpg|gif|png)$/', $Matches[4], $URIMatches) > 0) {
+            $URL = substr($URL, 0, (45 - strlen($URIMatches[0]))).'.../'.$URIMatches[0].' <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$Matches[2].$Matches[4].'</p>';
+          }
+          else {
+            $URL = substr($URL, 0, 45).'... <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$Matches[2].$Matches[4].'</p>';
+          }
+        }      
+        if ($Matches[2] == $Dedup) {
+          $TempList[count($TempList)-1] = array($Matches[1], $Action.$URL);
+        }
+        else {
+          $TempList[] = array($Matches[1], $Action.$URL);
           $Dedup = $Matches[2];
         }      
       }
+      $i++;
     }
     fclose($FileHandle);
     
@@ -197,7 +220,7 @@ echo '<tr><th>#</th><th>Time</th><th>Site</th></tr>'.PHP_EOL;
 //Draw Table Cells---------------------------------------------------
 $i = $StartPoint;
 foreach ($SiteList as $Site) {
-  echo '<tr><td>'.$i.'</td><td>'.date('d M - H:i:s',$Site[0]).'</td><td>'.$Site[1].'</td></tr>';
+  echo '<tr><td>'.$i.'</td><td>'.date('d M - H:i:s',$Site[0]).'</td><td>'.$Site[1].'</td></tr>'.PHP_EOL;
   $i++;  
 }
 
@@ -211,5 +234,7 @@ if ($ListSize > $RowsPerPage) {
 
 ?>
 </div>
+<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></a></div>
+<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></a></div>
 </body>
 </html>

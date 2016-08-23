@@ -392,7 +392,8 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
   
   DrawBlockListRow('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/">(henrik.schack.dk)</a>');
+  DrawBlockListRow('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/">(henrik.schack.dk)</a>');  
+  DrawBlockListRow('bl_fblatin', 'Latin EasyList', 'Spanish/Portuguese Adblock List <a href="https://www.fanboy.co.nz/regional.html">(fanboy.co.nz)</a>');
   
   DrawBlockListRow('bl_ruseasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
   echo '</table></div></div>'.PHP_EOL;
@@ -884,6 +885,7 @@ function UpdateBlockListConfig() {
   $Config['bl_deueasy'] = Filter_Config('bl_deueasy');
   $Config['bl_dnkeasy'] = Filter_Config('bl_dnkeasy');
   $Config['bl_ruseasy'] = Filter_Config('bl_ruseasy');
+  $Config['bl_fblatin'] = Filter_Config('bl_fblatin');
   
   if (isset($_POST['bl_custom'])) {    
     $CustomStr = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array
