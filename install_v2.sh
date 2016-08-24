@@ -21,7 +21,6 @@ readonly NETWORDK_INTERFACES_PATH="/etc/network/interfaces"
 readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
 
 readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
-readonly DNSMASQ_CONF_NOTRACK_OLD_PATH="/etc/dnsmasq.conf.notrack.old"
 
 
 #######################################
@@ -1316,46 +1315,6 @@ prompt_dhcp_lease(){
 
 
 #######################################
-# Backs up NoTrack specific dnsmasq config
-# Globals:
-#   None
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-backup_dnsmasq_notrack_config() {
-  echo "Backing up NoTrack specific dnsmasq config"
-  
-  echo "Copying $DNSMASQ_CONF_PATH to $DNSMASQ_CONF_NOTRACK_OLD_PATH"
-  check_file_exists "$DNSMASQ_CONF_PATH" 24
-  sudo cp $DNSMASQ_CONF_PATH $DNSMASQ_CONF_NOTRACK_OLD_PATH
-  echo
-}
-
-
-#######################################
-# Restores NoTrack specific dnsmasq config
-# Globals:
-#   None
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-restore_dnsmasq_notrack_config() {
-  if [ -e "$DNSMASQ_CONF_NOTRACK_OLD_PATH" ]; then
-    echo "Restoring NoTrack specific dnsmasq config"
-  
-    echo "Copying $DNSMASQ_CONF_NOTRACK_OLD_PATH to $DNSMASQ_CONF_PATH"
-    sudo cp $DNSMASQ_CONF_NOTRACK_OLD_PATH $DNSMASQ_CONF_PATH
-  fi
-  echo
-}
-
-
-
-#######################################
 # Main
 #######################################
 if [[ $(command -v sudo) == "" ]]; then
@@ -1461,8 +1420,6 @@ fi
 Setup_Dnsmasq
 
 if [[ "$SETUP_DHCP" == true ]]; then
-  #restore_dnsmasq_notrack_config
-  #backup_dnsmasq_notrack_config
   setup_dnsmasq_dhcp
 
   echo "Restarting Dnsmasq Service"
