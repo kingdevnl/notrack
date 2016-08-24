@@ -881,6 +881,7 @@ function Test() {
   echo "DEU Easy ${Config[bl_chneasy]}"
   echo "DNK Easy ${Config[bl_dnkeasy]}"
   echo "RUS Easy ${Config[bl_ruseasy]}"
+  echo "FB Latin ${Config[bl_fblatin]}"
   echo "Custom ${Config[bl_custom]}"
 }
 #Check Update Required----------------------------------------------
