@@ -1,3 +1,11 @@
+Development:
+New Block lists:
+  Fanboy's Spanish/Portuguese - Thanks duramato
+
+Sites Blocked List
+  Issue 102 - Simple deduplication of list, and put newest sites first
+
+
 v0.7.16 alpha - Released 22 Aug 2016
 **********************
 *IMPORTANT NOTE!!!   *
