@@ -349,6 +349,10 @@ function LoadConfigFile() {
             case 'bl_ruseasy':
               $Config['bl_ruseasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
               break;
+            case 'BlockList_FBLatin':
+            case 'bl_fblatin':
+              $Config['bl_fblatin'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              break;
           }
         }
       }
