@@ -90,7 +90,7 @@ if (file_exists($CSVBlocking)) {                 //Block List
     echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   } 
   else {                                         //NoTrack not writing to CSV File
-    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval(exec('notrack --count'))).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval(exec('/usr/local/sbin/notrack --count'))).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   }
 }
 else {                                           //Block List missing
