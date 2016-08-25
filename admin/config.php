@@ -356,46 +356,46 @@ function DisplayBlockLists() {
   
   DrawSysTable('Advert Blocking');
   DrawBlockListRow('bl_easylist', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/">(pgl.yoyo.org)</a>'); 
+  DrawBlockListRow('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/" target="_blank">(pgl.yoyo.org)</a>'); 
   DrawBlockListRow('bl_adblockmanager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Privacy');
-  DrawBlockListRow('bl_easyprivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_fbenhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_easyprivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/" target="_blank">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_fbenhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/" target="_blank">(fanboy.co.nz)</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Malware');
-  DrawBlockListRow('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/">(hexxiumcreations.com)</a>');
-  DrawBlockListRow('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/">(disconnect.me)</a>');
-  DrawBlockListRow('bl_malwaredomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/">(malwaredomainlist.com)</a>');
-  DrawBlockListRow('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/">(malwaredomains.com)</a>');
+  DrawBlockListRow('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/" target="_blank">(hexxiumcreations.com)</a>');
+  DrawBlockListRow('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/" target="_blank">(disconnect.me)</a>');
+  DrawBlockListRow('bl_malwaredomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/" target="_blank">(malwaredomainlist.com)</a>');
+  DrawBlockListRow('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/" target="_blank">(malwaredomains.com)</a>');
   DrawBlockListRow('bl_spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
-  DrawBlockListRow('bl_swissransom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/">(abuse.ch)</a>');
-  DrawBlockListRow('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/">(abuse.ch)</a>');
+  DrawBlockListRow('bl_swissransom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/" target="_blank">(abuse.ch)</a>');
+  DrawBlockListRow('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/" target="_blank">(abuse.ch)</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Social');
-  DrawBlockListRow('bl_fbannoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/">(fanboy.co.nz)</a>');
-  DrawBlockListRow('bl_fbsocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_fbannoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/" target="_blank">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_fbsocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz" target="_blank">(fanboy.co.nz)</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Multipurpose');
-  DrawBlockListRow('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts">(someonewhocares.org)</a>');
-  DrawBlockListRow('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net">(hosts-file.net)</a>');
-  //DrawBlockListRow('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/">(securemecca.com)</a>');
-  DrawBlockListRow('bl_winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/">(winhelp2002.mvps.org)</a>');
+  DrawBlockListRow('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts" target="_blank">(someonewhocares.org)</a>');
+  DrawBlockListRow('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net" target="_blank">(hosts-file.net)</a>');
+  //DrawBlockListRow('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/" target="_blank">(securemecca.com)</a>');
+  DrawBlockListRow('bl_winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/" target="_blank">(winhelp2002.mvps.org)</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Region Specific');
-  DrawBlockListRow('bl_areasy', 'AR EasyList', 'EasyList Arab (عربي)‎ <a href="https://forums.lanik.us/viewforum.php?f=98">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php">(abpchina.org)</a>');
+  DrawBlockListRow('bl_areasy', 'AR EasyList', 'EasyList Arab (عربي)‎ <a href="https://forums.lanik.us/viewforum.php?f=98" target="_blank">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php" target="_blank">(abpchina.org)</a>');
   
-  DrawBlockListRow('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/">(henrik.schack.dk)</a>');  
-  DrawBlockListRow('bl_fblatin', 'Latin EasyList', 'Spanish/Portuguese Adblock List <a href="https://www.fanboy.co.nz/regional.html">(fanboy.co.nz)</a>');
+  DrawBlockListRow('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90" target="_blank">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/" target="_blank">(henrik.schack.dk)</a>');  
+  DrawBlockListRow('bl_fblatin', 'Latin EasyList', 'Spanish/Portuguese Adblock List <a href="https://www.fanboy.co.nz/regional.html" target="_blank">(fanboy.co.nz)</a>');
   
-  DrawBlockListRow('bl_ruseasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102">(forums.lanik.us)</a>');
+  DrawBlockListRow('bl_ruseasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102" target="_blank">(forums.lanik.us)</a>');
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Custom Block Lists');
