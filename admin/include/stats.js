@@ -26,10 +26,10 @@ function ReportSite(Site, Remove) {
     Msg = "<p>Unable to Block IP addresses.<br />You could add it to your Firewall instead</p>";
   }
   else if (Remove) {                             //Difficult to deal with Whitelisting / Removing sites from BlackList, it requires a greater interaction with Data on the server
-    Report= '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
+    Report= '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
   }
   else {                                         //At this point we are dealing with Adding a site to BlackList
-    Report = '<p><a class="button-blue" href="http://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';    
+    Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';    
         
     //Is it a single domain with optional double-barrelled tld?
     if (/^[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/.test(Site)) {                      
