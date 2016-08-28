@@ -146,7 +146,7 @@ function AddSite() {
   #Remove sub-domains, and extract just the domain.
   #Allowences have to be made for .org, .co, .au which are sometimes the TLD
   #e.g. bbc.co.uk
-  [[ $Site =~ [A-Za-z1-9\-]*\.(org\.|co\.|au\.)?[A-Za-z1-9\-]*$ ]]
+  [[ $Site =~ [A-Za-z0-9\-]*\.(org\.|co\.|au\.)?[A-Za-z0-9\-]*$ ]]
   local NoSubDomain="${BASH_REMATCH[0]}"
     
   if [ ${#NoSubDomain} == 0 ]; then              #Has NoSubDomain extract failed?
@@ -196,6 +196,41 @@ function CalculatePercentPoint() {
   else
     PercentPoint=1
     JumpPoint=$((100/NumLines))
+  fi
+}
+#--------------------------------------------------------------------
+# Check Version of Dnsmasq
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   50. Dnsmasq Missing
+#   51. Dnsmasq Version Unknown
+#   52. Dnsmasq doesn't support whitelisting (below 2.75)
+#   53. Dnsmasq supports whitelisting (2.75 and above)#   
+#--------------------------------------------------------------------
+function CheckDnsmasqVer() {
+  if [ -z "$(command -v dnsmasq)" ]; then
+    return 50
+  fi
+  
+  local VerStr=""
+  VerStr="$(dnsmasq --version)"                  #Get version from dnsmasq
+  
+  #The return is very wordy, so we need to extract the relevent info
+  [[ $VerStr =~ ^Dnsmasq[[:space:]]version[[:space:]]([0-9]\.[0-9]{1,2}) ]]
+  
+  local VerNo="${BASH_REMATCH[1]}"               #Extract version number from string
+  if [[ -z $VerNo ]]; then                       #Was anything extracted?
+    return 51
+  else
+    [[ $VerNo =~ ([0-9])\.([0-9]{1,2}) ]]
+    if [ "${BASH_REMATCH[1]}" -ge 2 ] && [ "${BASH_REMATCH[2]}" -ge 75 ]; then
+      return 53
+    else
+      return 52
+    fi
   fi
 }
 #Count Lines---------------------------------------------------------
@@ -515,7 +550,7 @@ function Process_CustomList() {
     if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces      
-      [[ $Line =~ ([A-Za-z1-9\-]*\.)?([A-Za-z1-9\-]*\.)?[A-Za-z1-9\-]*\.[A-Za-z1-9\-]*$ ]]
+      [[ $Line =~ ([A-Za-z0-9\-]*\.)?([A-Za-z0-9\-]*\.)?[A-Za-z0-9\-]*\.[A-Za-z0-9\-]*$ ]]
       AddSite "${BASH_REMATCH[0]}" "$Comment"
     fi
     
@@ -795,10 +830,10 @@ function SortList() {
   DNSList+=("#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead")
   
   for Site in "${SortedList[@]}"; do
-    if [[ $Site =~ ^[A-Za-z1-9\-]+\.[A-Za-z1-9\-]+\.(org\.|co\.|au\.)?[A-Za-z1-9\-]+$ ]]; then  
-      if [[ ! $Site =~ ^[A-Za-z1-9\-]+\.(org\.|co\.|au\.)+[A-Za-z1-9\-]+$ ]]; then
+    if [[ $Site =~ ^[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+\.(org\.|co\.|au\.)?[A-Za-z0-9\-]+$ ]]; then  
+      if [[ ! $Site =~ ^[A-Za-z0-9\-]+\.(org\.|co\.|au\.)+[A-Za-z0-9\-]+$ ]]; then
         #echo "Site $Site"
-        [[ $Site =~ [A-Za-z1-9\-]*\.(org\.|co\.|au\.)?[A-Za-z1-9\-]*$ ]]
+        [[ $Site =~ [A-Za-z0-9\-]*\.(org\.|co\.|au\.)?[A-Za-z0-9\-]*$ ]]
         NoSubDomain="${BASH_REMATCH[0]}"
         if [ -z "$NoSubDomain" ]; then           #Has NoSubDomain extract failed?
           DNSList+=("address=/$Site/$IPAddr")
@@ -838,14 +873,38 @@ function Show_Help() {
 }
 #Show Version--------------------------------------------------------
 function Show_Version() {
-  echo "NoTrack Version v$Version"
+  echo "NoTrack Version $Version"
   echo
 }
 #Test----------------------------------------------------------------
 function Test() {
+  local DnsmasqVersion=""
+
   echo "NoTrack Config Test"
   echo
-  echo "NoTrack version v$Version"
+  echo "NoTrack version $Version"
+  
+  DnsmasqVersion=$(dnsmasq --version)
+  [[ $DnsmasqVersion =~ ^Dnsmasq[[:space:]]version[[:space:]]([0-9]\.[0-9]{1,2}) ]]
+  local VerNo="${BASH_REMATCH[1]}"               #Extract version number from string
+  if [[ -z $VerNo ]]; then                       #Was anything extracted?
+    echo "Dnsmasq version Unknown"
+  else
+    echo "Dnsmasq version $VerNo"
+    CheckDnsmasqVer
+    if [ $? == 53 ]; then                        #Is white listing supported?
+      echo "Dnsmasq Supports White listing"
+    else                                         #No, version too low
+      echo "Dnsmasq Doesn't support White listing (v2.75 or above is required)"
+      if [ -n "$(command -v dig)" ]; then        #Is dig available?
+        echo "Fallback option using Dig is available"
+      else
+        echo "Dig isn't installed. Unable to White list from blocked TLD's"
+      fi
+    fi
+  fi
+  
+  echo
   if [ -e "$ConfigFile" ]; then
     echo "Config file $ConfigFile"
   else

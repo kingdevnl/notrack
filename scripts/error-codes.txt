@@ -24,6 +24,10 @@
 43. Create SSL Cert - Certificate file not created
 44. Create SSL Cert - Serious failure
 45. Create SSL Cert - Failed, but Lighttpd restored
+50. Dnsmasq Missing
+51. Dnsmasq Version Unknown
+52. Dnsmasq doesn't support whitelisting (below 2.75)
+53. Dnsmasq supports whitelisting (2.75 and above)
 100. Blocking Paused
 101. Blocking Disabled
 102. Old config exists, but status unknown
