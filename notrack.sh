@@ -809,6 +809,57 @@ function Process_UnixList() {
   
   unset IFS
 }
+#--------------------------------------------------------------------
+# Process White Listed sites from Blocked TLD List
+#
+# Globals:
+#  WhiteList
+#  DomainList
+#
+# Arguments:
+#  None
+#
+# Returns:
+#  0: Success
+#  55: Failed
+#--------------------------------------------------------------------
+function Process_WhiteList() {
+  local Domain=""
+  local Method=0                                 #1: White list from Dnsmasq, 2: Dig
+  local -a DNSList
+  DNSList=()                                     #Zero Array
+  
+  CheckDnsmasqVer                                #What version is Dnsmasq?
+  if [ $? == 53 ]; then                          #v2.75 or above is required
+    Method=1
+    echo "White listing from blocked Top Level Domains with Dnsmasq"  
+  else
+    echo "Unable to White list from blocked Top Level Domains"
+    echo
+    return 55
+  fi
+  
+  for Site in "${!WhiteList[@]}"; do             #Read entire White List associative array
+    [[ $Site =~ \.(org\.|co\.|au\.)?[A-Za-z0-9\-]+$ ]] #Extract the TLD
+    Domain="${BASH_REMATCH[0]}"
+    if [ "${DomainList[$Domain]}" ]; then        #Is TLD present in Domain List?
+      if [ "$Method" == 1 ]; then                #What method to unblock site? 
+        DNSList+=("server=/$Site/#")             #Add unblocked site to DNS List Array
+      fi
+    fi
+  done
+  if [ "${#DNSList[@]}" -gt 0 ]; then            #How many items in DNS List array?
+    echo "Finished processing white listed sites from blocked TLD's"
+    echo "${#DNSList[@]} sites white listed"
+    echo "Writing white list to /etc/dnsmasq.d/whitelist.list"
+    printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/whitelist.list"   #Output array to file    
+  else                                           #No sites, delete old list file
+    echo "No sites to white list from blocked TLD's"
+    DeleteOldFile "/etc/dnsmasq.d/whitelist.list"
+  fi
+  echo  
+}
+
 #Sort List-----------------------------------------------------------
 function SortList() {
   #1. Sort SiteList array into new array SortedList
@@ -1132,10 +1183,6 @@ fi
 CreateFile "$DomainWhiteListFile"                #Create Black & White lists
 CreateFile "$DomainBlackListFile"
 
-#Legacy files as of v0.7.14
-DeleteOldFile /etc/notrack/domains.txt
-DeleteOldFile /tmp/tld.txt
-
 #Legacy files as of v0.7.15 since block list was consolidated
 DeleteOldFile /etc/dnsmasq.d/adblockmanager.list
 DeleteOldFile /etc/dnsmasq.d/hphosts.list
@@ -1165,7 +1212,9 @@ UpdateRequired                                   #Check if NoTrack needs to run
 CreateFile "$BlockingListFile"
 cat /dev/null > "$BlockingCSV"                   #Empty file
 
-Process_TLDList
+Process_TLDList                                  #Load and Process TLD List
+Process_WhiteList                                #Process White List
+
 GetList_BlackList                                #Process Users Blacklist
   
 GetList "notrack" "notrack"
@@ -1194,7 +1243,7 @@ GetList "deueasy" "easylist"
 GetList "dnkeasy" "easylist" 
 GetList "ruseasy" "easylist"
 GetList "fblatin" "easylist"
- 
+
 Get_Custom                                       #Process Custom Block lists
 
 echo "Deduplicated $Dedup Domains"
@@ -1204,7 +1253,7 @@ if [ "${Config[bl_tld]}" == 0 ]; then
   DeleteOldFile "$DomainQuickList"
 fi
   
-echo "Restarting Dnsnmasq"
+echo "Restarting Dnsmasq"
 service dnsmasq restart                          #Restart dnsmasq
 echo "NoTrack complete"
 echo
