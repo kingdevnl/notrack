@@ -226,9 +226,11 @@ function CheckDnsmasqVer() {
     return 51
   else
     [[ $VerNo =~ ([0-9])\.([0-9]{1,2}) ]]
-    if [ "${BASH_REMATCH[1]}" -ge 2 ] && [ "${BASH_REMATCH[2]}" -ge 75 ]; then
+    if [ "${BASH_REMATCH[1]}" -eq 2 ] && [ "${BASH_REMATCH[2]}" -ge 75 ]; then  #Version 2.75 onwards
       return 53
-    else
+    elif [ "${BASH_REMATCH[1]}" -ge 3 ]; then    #Version 3 onwards
+      return 53
+    else                                         #2.74 or below
       return 52
     fi
   fi
@@ -840,7 +842,7 @@ function Process_WhiteList() {
   fi
   
   for Site in "${!WhiteList[@]}"; do             #Read entire White List associative array
-    [[ $Site =~ \.(org\.|co\.|au\.)?[A-Za-z0-9\-]+$ ]] #Extract the TLD
+    [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]             #Extract the TLD
     Domain="${BASH_REMATCH[0]}"
     if [ "${DomainList[$Domain]}" ]; then        #Is TLD present in Domain List?
       if [ "$Method" == 1 ]; then                #What method to unblock site? 
