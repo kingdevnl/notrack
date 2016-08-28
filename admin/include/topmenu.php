@@ -72,7 +72,9 @@ function DrawConfigMenu() {
   echo '<a href="../admin/config.php?v=tld"><span>Domains</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=sites"><span>Sites Blocked</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=advanced"><span>Advanced</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=status"><span>Back-end Status</span></a>'.PHP_EOL;
   echo '<a href="../admin/upgrade.php"><span>Upgrade</span></a>'.PHP_EOL;
+  
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
   echo '<div id="config-page">'.PHP_EOL;

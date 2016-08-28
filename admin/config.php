@@ -1,6 +1,6 @@
 <?php
 /********************************************************************
-Config.php is split out into 7 sub pages:
+Config.php is split out into 8 sub pages:
  1. General
  2. Block Lists
  3. Black List
@@ -8,6 +8,7 @@ Config.php is split out into 7 sub pages:
  5. Domain List
  6. Sites Blocked
  7. Advanced
+ 8. Status Check
 
 Domain List
   Reading:
@@ -819,6 +820,12 @@ function DisplayDomainList() {
   return null;
 }
 //-------------------------------------------------------------------
+function DisplayStatus() {
+  echo '<pre>'.PHP_EOL;
+  system('/usr/local/sbin/notrack --test');
+  echo '</pre>'.PHP_EOL;
+}
+//-------------------------------------------------------------------
 function UpdateAdvancedConfig() {
   //1. Make sure Suppress list is valid
   // 1a. Replace new line and space with commas
@@ -1181,6 +1188,9 @@ if (isset($_GET['v'])) {
       break;
     case 'advanced':
       DisplayAdvanced();
+      break;
+    case 'status':
+      DisplayStatus();
       break;
     default:
       DisplayConfigChoices();
