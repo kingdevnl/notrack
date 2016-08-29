@@ -263,11 +263,7 @@ function LoadConfigFile() {
             case 'BlockList_Hexxium':
             case 'bl_hexxium':
               $Config['bl_hexxium'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
-              break;
-            case 'BlockList_AdBlockManager':
-            case 'bl_adblockmanager':
-              $Config['bl_adblockmanager'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
+              break;            
             case 'BlockList_DisconnectMalvertising':
             case 'bl_disconnectmalvertising':
               $Config['bl_disconnectmalvertising'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);

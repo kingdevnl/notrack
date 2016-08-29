@@ -357,8 +357,7 @@ function DisplayBlockLists() {
   
   DrawSysTable('Advert Blocking');
   DrawBlockListRow('bl_easylist', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/">(forums.lanik.us)</a>');
-  DrawBlockListRow('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/" target="_blank">(pgl.yoyo.org)</a>'); 
-  DrawBlockListRow('bl_adblockmanager', 'AdBlock Manager', 'Mostly Mobile Ad sites. Over 90% of this list is in NoTrack');
+  DrawBlockListRow('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/" target="_blank">(pgl.yoyo.org)</a>');  
   echo '</table></div></div>'.PHP_EOL;
   
   DrawSysTable('Privacy');
@@ -869,8 +868,7 @@ function UpdateBlockListConfig() {
   $Config['bl_notrack'] = Filter_Config('bl_notrack');
   $Config['bl_tld'] = Filter_Config('bl_tld');
   $Config['bl_qmalware'] = Filter_Config('bl_qmalware');
-  $Config['bl_hexxium'] = Filter_Config('bl_hexxium');
-  $Config['bl_adblockmanager'] = Filter_Config('bl_adblockmanager');
+  $Config['bl_hexxium'] = Filter_Config('bl_hexxium');  
   $Config['bl_disconnectmalvertising'] = Filter_Config('bl_disconnectmalvertising');
   $Config['bl_easylist'] = Filter_Config('bl_easylist');
   $Config['bl_easyprivacy'] = Filter_Config('bl_easyprivacy');
