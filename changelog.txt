@@ -1,9 +1,24 @@
-Development:
+Development: of v0.7.17 alpha
+
+NoTrack:
+  Processing of lists is now done with Regex
+  White listing of Blocked Top Level Domains added (Issue #79)
+    *Official feature only exists in dnsmasq v2.75 onwards.
+    *I have kludged together an option for users with older dnsmasq.
+    *Check /admin/config.php?v=status to see what your system supports.
+    *Please let me know if any sites don't work with the White listing.
+
+Config:
+  New Status page added to check Back-end and see if White listing is available
+
 New Block lists:
   Fanboy's Spanish/Portuguese - Thanks duramato
 
+Block lists removed:
+  AdBlock Manager - list no longer exists
+  
 Sites Blocked List
-  Issue 102 - Simple deduplication of list, and put newest sites first
+  Simple deduplication of list, and put newest sites first (Issue #102)
 
 
 v0.7.16 alpha - Released 22 Aug 2016
@@ -22,7 +37,7 @@ Admin:
   Fixed Issue #74 - Missing Image on Login
   Fixed Issue #77 - Dealing with double-barrelled top level domains  
 
-NoTrack
+NoTrack:
   Enhanced Deduplication
   Block list files consolidated
   Smarter updating of Block lists
