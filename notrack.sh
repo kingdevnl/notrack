@@ -20,7 +20,6 @@ Config[bl_notrack]=1
 Config[bl_tld]=1
 Config[bl_qmalware]=1
 Config[bl_hexxium]=1
-Config[bl_adblockmanager]=0
 Config[bl_disconnectmalvertising]=0
 Config[bl_easylist]=0
 Config[bl_easyprivacy]=0
@@ -37,12 +36,12 @@ Config[bl_spam404]=0
 Config[bl_swissransom]=0
 Config[bl_swisszeus]=0
 Config[bl_winhelp2002]=0
-Config[bl_areasy]=0                       #Arab
-Config[bl_chneasy]=0                      #China
-Config[bl_deueasy]=0                      #Germany
-Config[bl_dnkeasy]=0                      #Denmark
-Config[bl_ruseasy]=0                      #Russia
-Config[bl_fblatin]=0                      #Portugal/Spain (Latin Countries)
+Config[bl_areasy]=0                              #Arab
+Config[bl_chneasy]=0                             #China
+Config[bl_deueasy]=0                             #Germany
+Config[bl_dnkeasy]=0                             #Denmark
+Config[bl_ruseasy]=0                             #Russia
+Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countries)
 
 #Leave these Settings alone------------------------------------------
 Version="0.7.16"
@@ -62,7 +61,6 @@ declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
 URLList[hexxium]="https://hexxiumcreations.github.io/threat-list/hexxiumthreatlist.txt"
-URLList[adblockmanager]="http://adblock.gjtech.net/?format=unix-hosts"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
 URLList[easyprivacy]="https://easylist-downloads.adblockplus.org/easyprivacy.txt"
@@ -123,61 +121,61 @@ function DeleteOldFile() {
     rm "$1"                                      #If yes then delete it
   fi
 }
-#Add Site to List-----------------------------------------------------
+
+#--------------------------------------------------------------------
+# Add Site to List
+# Checks whether a Site is in the Users whitelist or has previously been added
+#
+# Globals:
+#   DomainList
+#   WhiteList
+# Arguments:
+#   $1 Site to Add
+#   $2 Comment
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function AddSite() {
-  #$1 = Site to Add
-  #$2 = Comment
-  #Add Site checks whether a Site is in the Users whitelist or has previously been added
-  #1. Disregard zero length strings
-  #2. Extract site.domain from subdomains
-  #3. Check if .domain is in TLD List
-  #4. Check if site.domain has been added do $SiteList array
-  #5. Check if sub.site.domain has been added do $SiteList array
-  #6. Check if Site is in $WhiteList array
-  #7. Add $Site into $CSVList and $SiteList arrays
-    
   local Site="$1"
   
-  if [ ${#Site} == 0 ]; then return 0; fi        #Ignore zero length str
   if [[ $Site =~ ^www\. ]]; then                 #Drop www.
     Site="${Site:4}"
   fi
   
-  #Remove sub-domains, and extract just the domain.
-  #Allowences have to be made for .org, .co, .au which are sometimes the TLD
-  #e.g. bbc.co.uk
-  [[ $Site =~ [A-Za-z0-9\-]*\.(org\.|co\.|au\.)?[A-Za-z0-9\-]*$ ]]
-  local NoSubDomain="${BASH_REMATCH[0]}"
+  #Ignore Sub domain
+  #Group 1 Domain: A-Z,a-z,0-9,-  one or more
+  # .
+  #Group 2 (Double-barrelled TLD's) : org. | co. | com.  optional
+  #Group 3 TLD: A-Z,a-z,0-9,-  one or more
+  
+  if [[ $Site =~ ([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
+    if [ "${DomainList[.${BASH_REMATCH[3]}]}" ]; then  #Drop if .domain is in TLD
+      #echo "Dedup TLD $Site"                    #Uncomment for debugging
+      ((Dedup++))
+      return 0
+    fi
     
-  if [ ${#NoSubDomain} == 0 ]; then              #Has NoSubDomain extract failed?
-    NoSubDomain="$Site"                          #If zero length, make it $Site
-  fi
+    if [ "${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then  #Drop if sub.site.domain has been added
+      #echo "Dedup Domain $Site"                 #Uncomment for debugging
+      ((Dedup++))
+      return 0
+    fi
+    
+    if [ "${SiteList[$Site]}" ]; then            #Drop if sub.site.domain has been added
+      #echo "Dedup Duplicate Sub $Site"          #Uncomment for debugging
+      ((Dedup++))
+      return 0
+    fi
   
-  if [ "${DomainList[.${Site##*.}]}" ]; then     #Drop if .domain is in TLD
-    #echo "Dedup TLD $Site"                      #Uncomment for debugging
-    ((Dedup++))
-    return 0
-  fi
-  
-  if [ "${SiteList[$NoSubDomain]}" ]; then       #Drop if site.domain has been added
-    #echo "Dedup Domain $Site"                   #Uncomment for debugging
-    ((Dedup++))
-    return 0
-  fi
-  
-  if [ "${SiteList[$Site]}" ]; then              #Drop if sub.site.domain has been added
-    #echo "Dedup Duplicate $Site"                #Uncomment for debugging
-    ((Dedup++))
-    return 0
-  fi
-  
-  #Is Site or NoSubDomain in WhiteList Array?
-  if [ "${WhiteList[$Site]}" ] || [ "${WhiteList[$NoSubDomain]}" ]; then 
-    CSVList+=("$Site,Disabled,$2")
-  else                                           #No match in whitelist
-    CSVList+=("$Site,Active,$2")                 #Add to CSV array
-    SiteList[$Site]=1                            #Add site into SiteList array
-  fi
+    if [ "${WhiteList[$Site]}" ] || [ "${WhiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then                 #Is sub.site.domain or site.domain in whitelist?    
+      CSVList+=("$Site,Disabled,$2")             #Add to CSV as Disabled      
+    else                                         #No match in whitelist
+      CSVList+=("$Site,Active,$2")               #Add to CSV as Active
+      SiteList[$Site]=1                          #Add site into SiteList array
+    fi
+  #else
+    #echo "Invalid site $Site"
+  fi  
 }
 #Calculate Percent Point in list files-------------------------------
 function CalculatePercentPoint() {
@@ -240,7 +238,7 @@ function CountLines() {
   local ListFile=""
   local LineCount=0
   
-  for ListFile in /etc/dnsmasq.d/*.list; do    
+  for ListFile in /etc/dnsmasq.d/*.list; do
     let "LineCount += $(wc -l "$ListFile" | cut -d\  -f 1)"
   done
   
@@ -270,8 +268,7 @@ function Read_Config_File() {
           bl_tld) Config[bl_tld]="$Value";;
           bl_qmalware) Config[bl_qmalware]="$Value";;
           bl_hexxium) Config[bl_hexxium]="$Value";;
-          bl_disconnectmalvertising) Config[bl_disconnectmalvertising]="$Value";;
-          bl_adblockmanager) Config[bl_adblockmanager]="$Value";;
+          bl_disconnectmalvertising) Config[bl_disconnectmalvertising]="$Value";;          
           bl_easylist) Config[bl_easylist]="$Value";;
           bl_easyprivacy) Config[bl_easyprivacy]="$Value";;
           bl_fbannoyance) Config[bl_fbannoyance]="$Value";;
@@ -420,7 +417,7 @@ function Get_Custom() {
     DLFileTime="$FileTime"
     
     #Detrmine whether we are dealing with a download or local file
-    if [[ $ListUrl =~ ^(https?|ftp):// ]]; then  #Is URL a HTTP(s) or FTP?
+    if [[ $ListUrl =~ ^(https?|ftp):// ]]; then  #Is URL a http(s) or ftp?
       if [ $DLFileTime -lt $((UnixTime-CheckTime)) ]; then #Is list older than 4 days
         echo "Downloading $FileName"      
         wget -qO "$DLFile" "$ListUrl"            #Yes, download it
@@ -552,8 +549,9 @@ function Process_CustomList() {
     if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces      
-      [[ $Line =~ ([A-Za-z0-9\-]*\.)?([A-Za-z0-9\-]*\.)?[A-Za-z0-9\-]*\.[A-Za-z0-9\-]*$ ]]
-      AddSite "${BASH_REMATCH[0]}" "$Comment"
+      if [[ $Line =~ ([A-Za-z0-9\-]*\.)?([A-Za-z0-9\-]*\.)?[A-Za-z0-9\-]*\.[A-Za-z0-9\-]*$ ]]; then
+        AddSite "${BASH_REMATCH[0]}" "$Comment"
+      fi
     fi
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
@@ -570,43 +568,26 @@ function Process_CustomList() {
 #Process EasyList----------------------------------------------------
 function Process_EasyList() {
   #EasyLists contain a mixture of Element hiding rules and third party sites to block.
-  #DNS is only capable of blocking sites, therefore NoTrack can only use the lines with $third party in
+  #DNS is only capable of blocking sites, therefore NoTrack can only use the lines with $third party or popup in
   
   #$1 = SourceFile
   
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
-  j=$JumpPoint                                   #Jump in percent
+  j=$JumpPoint                                   #Jump in percent  
     
-  while IFS=$' \n' read -r Line
-  do
-    #||somesite.com^ or ||somesite.com/
-    if [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^?/?$ ]]; then
-      AddSite "${Line:2:-1}" ""
-    ##[href^="http://somesite.com/"]
-    elif [[ $Line =~ ^##\[href\^=\"http:\/\/[a-z0-9\.\-]*\/\"\]$ ]]; then
-      AddSite "${Line:17:-3}" ""      
-    #||somesite.com^$third-party
-    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$third-party$ ]]; then
-      #Basic method of ignoring IP addresses (\d doesn't work)
-      if  [[ ! $Line =~ ^\|\|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\^\$third-party$ ]]; then
-        AddSite "${Line:2:-13}" ""
-      fi
-    #||somesite.com^$popup,third-party
-    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$popup\,third-party$ ]]; then
-      AddSite "${Line:2:-19}" ""
-    elif [[ $Line =~ ^\|\|[a-z0-9\.\-]*\^\$third-party\,domain=~ ]]; then
-      #^$third-party,domain= apepars mid line, we need to replace it with a | pipe seperator like the rest of the line has
-      Line=$(sed "s/\^$third-party,domain=~/\|/g" <<< "$Line")
-      IFS='|~', read -r -a ArrayOfLine <<< "$Line" #Explode into array using seperator | or ~
-      for Line in "${ArrayOfLine[@]}"            #Loop through array
-      do
-        if [[ $Line =~ ^\|\|[a-z0-9\.\-]*$ ]]; then #Check Array line is a URL
-          AddSite "$Line" ""
-        fi
-      done  
-    fi
+  while IFS=$'\n' read -r Line
+  do    
     
+    #||
+    #Group 1: IPv4 address   optional
+    #Group 2: Site A-Z, a-z, 0-9, -, .  one or more
+    #Group 3: ^ | / | $  once
+    #Group 4: $third-party | $popup | $popup,third-party
+    
+    if [[ $Line =~ ^\|\|([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3})?([A-Za-z0-9\.\-]+)(\^|\/|$)(\$third-party|\$popup|\$popup\,third\-party)?$ ]]; then
+      AddSite "${BASH_REMATCH[2]}" ""      
+    fi    
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
       j=$((j + JumpPoint))
@@ -624,19 +605,25 @@ function Process_NoTrackList() {
   #which is used by the Admin page to inform the user an upgrade is available
   
   #$1 = SourceFile
+  local LatestVersion=""
   
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
   
-  while IFS='# ' read -r Line Comment
+  while IFS=$'\n' read -r Line
   do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces      
-      AddSite "$Line" "$Comment"      
-    elif [[ "${Comment:0:13}" == "LatestVersion" ]]; then
-      LatestVersion="${Comment:14}"              #Substr version number only
+    #Group 1: Subdomain or Somain
+    # .
+    #Group 2: Domain or TLD
+    # space Optional
+    # # Optional
+    #Group 3: Comment  any character zero or more times
+  
+    if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
+      AddSite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"
+    elif [[ $Line =~ ^#LatestVersion[[:space:]]([0-9\.]+)$ ]]; then #Is it version number
+      LatestVersion="${BASH_REMATCH[1]}"         #Extract Version number      
       if [[ $OldLatestVersion != "$LatestVersion" ]]; then 
         echo "New version of NoTrack available v$LatestVersion"
         #Check if config line LatestVersion exists
@@ -662,23 +649,23 @@ function Process_NoTrackList() {
   unset IFS
 }
 #Process PlainList---------------------------------------------------
-#Plain Lists are styled like:
-# #Comment
-# Site
-# Site #Comment
 function Process_PlainList() {
   #$1 = SourceFile
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
     
-  while IFS=$'# \n' read -r Line Comment _
+  while IFS=$'\n' read -r Line
   do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces      
-      #echo "$Line $2 $Comment"
-      AddSite "$Line" "$Comment"
+    #Group 1: Subdomain or Somain
+    # .
+    #Group 2: Domain or TLD
+    # space Optional
+    # # Optional
+    #Group 3: Comment  any character zero or more times
+  
+    if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
+      AddSite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"    
     fi
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
@@ -711,7 +698,7 @@ function Process_TLDList() {
   Get_FileTime "/etc/dnsmasq.d/tld.list"
   local TLDListFileTime=$FileTime
   
-  if [ "${Config[bl_tld]}" == 0 ]; then   #Should we process this list according to the Config settings?
+  if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?
     DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
     DeleteOldFile "/etc/notrack/tld.csv"
     DeleteOldFile "$DomainQuickList"
@@ -779,27 +766,27 @@ function Process_TLDList() {
 #Process UnixList----------------------------------------------------
 function Process_UnixList() {
   #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
-  #1. Calculate Percentage and Jump points
-  #2. Read IP, Line, Comment, from file  
-  #3. Parse Line and Comment to AddSite
-  #5. Display progress
-  #6. loop back to 2.
-  
+    
   #$1 = SourceFile
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
   
-  while IFS=$' \t#\r' read -r IP Line Comment _  #Space, Tab, Hash, Return
-  do    
-    if [[ ${IP:0:9} == "127.0.0.1" ]] || [[ ${IP:0:7} == "0.0.0.0" ]]; then  #Does line start with IP?     
-      if [[ ! $Line =~ ^(#|localhost|EOF|\[).*$ ]]; then  #Negate localhost, and EOF
-        Line="${Line%%\#*}"                      #Delete comments
-        Line="${Line%%*( )}"                     #Delete trailing spaces
-        AddSite "$Line" "$Comment"
-      fi
-    fi   
+  while IFS=$'\n\r' read -r Line                 #Include carriage return for Windows
+  do 
+    #Group 1: 127.0.0.1 | 0.0.0.0
+    #Space  one or more (include tab)
+    #Group 2: Subdomain or Domain
+    # .
+    #Group 3: Domain or TLD
+    #Group 4: space  one or more  optional
+    # # Optional
+    #Group 6: Comment  any character zero or more times
     
+    if [[ $Line =~ ^(127\.0\.0\.1|0\.0\.0\.0)[[:space:]]+([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)([[:space:]]+)?#?(.*)$ ]]; then
+      AddSite "${BASH_REMATCH[2]}.${BASH_REMATCH[3]}" "${BASH_REMATCH[5]}"    
+    fi
+       
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
       j=$((j + JumpPoint))
@@ -825,8 +812,7 @@ function Process_UnixList() {
 #  0: Success
 #  55: Failed
 #--------------------------------------------------------------------
-function Process_WhiteList() {
-  local Domain=""
+function Process_WhiteList() {  
   local Method=0                                 #1: White list from Dnsmasq, 2: Dig
   local -a DNSList
   DNSList=()                                     #Zero Array
@@ -834,7 +820,10 @@ function Process_WhiteList() {
   CheckDnsmasqVer                                #What version is Dnsmasq?
   if [ $? == 53 ]; then                          #v2.75 or above is required
     Method=1
-    echo "White listing from blocked Top Level Domains with Dnsmasq"  
+    echo "White listing from blocked Top Level Domains with Dnsmasq"
+  elif [ -n "$(command -v dig)" ]; then          #Is dig available?
+    Method=2
+    echo "White listing using resolved IP's from Dig"
   else
     echo "Unable to White list from blocked Top Level Domains"
     echo
@@ -842,14 +831,27 @@ function Process_WhiteList() {
   fi
   
   for Site in "${!WhiteList[@]}"; do             #Read entire White List associative array
-    [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]             #Extract the TLD
-    Domain="${BASH_REMATCH[0]}"
-    if [ "${DomainList[$Domain]}" ]; then        #Is TLD present in Domain List?
-      if [ "$Method" == 1 ]; then                #What method to unblock site? 
-        DNSList+=("server=/$Site/#")             #Add unblocked site to DNS List Array
+    if [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]; then    #Extract the TLD      
+      if [ "${DomainList[${BASH_REMATCH[0]}]}" ]; then   #Is TLD present in Domain List?
+        if [ "$Method" == 1 ]; then              #What method to unblock site? 
+          DNSList+=("server=/$Site/#")           #Add unblocked site to DNS List Array
+        elif [ "$Method" == 2 ]; then            #Or use Dig
+          while IFS=$'\n' read -r Line           #Read each line of Dig output
+          do
+            if [[ $Line =~ (A|AAAA)[[:space:]]+([a-f0-9\.\:]+)$ ]]; then  #Match A or AAAA IPv4/IPv6
+              DNSList+=("host-record=$Site,${BASH_REMATCH[2]}") 
+            fi
+            if [[ $Line =~ TXT[[:space:]]+(.+)$ ]]; then    #Match TXT "comment"
+              DNSList+=("txt-record=$Site,${BASH_REMATCH[1]}")
+            fi
+          done <<< "$(dig "$Site" @8.8.8.8 ANY +noall +answer)"
+        fi
       fi
     fi
   done
+  
+  unset IFS                                      #Reset IFS
+  
   if [ "${#DNSList[@]}" -gt 0 ]; then            #How many items in DNS List array?
     echo "Finished processing white listed sites from blocked TLD's"
     echo "${#DNSList[@]} sites white listed"
@@ -870,8 +872,7 @@ function SortList() {
   #4. Write list to dnsmasq folder
 
   local -a SortedList                            #Sorted array of SiteList
-  local -a DNSList                               #Dnsmasq list
-  local NoSubDomain=""
+  local -a DNSList                               #Dnsmasq list  
   Dedup=0                                        #Reset Deduplication
   
   echo "Sorting List"
@@ -883,23 +884,20 @@ function SortList() {
   DNSList+=("#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead")
   
   for Site in "${SortedList[@]}"; do
-    if [[ $Site =~ ^[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+\.(org\.|co\.|au\.)?[A-Za-z0-9\-]+$ ]]; then  
-      if [[ ! $Site =~ ^[A-Za-z0-9\-]+\.(org\.|co\.|au\.)+[A-Za-z0-9\-]+$ ]]; then
-        #echo "Site $Site"
-        [[ $Site =~ [A-Za-z0-9\-]*\.(org\.|co\.|au\.)?[A-Za-z0-9\-]*$ ]]
-        NoSubDomain="${BASH_REMATCH[0]}"
-        if [ -z "$NoSubDomain" ]; then           #Has NoSubDomain extract failed?
-          DNSList+=("address=/$Site/$IPAddr")
-        fi
-  
-        if [ "${SiteList[$NoSubDomain]}" ]; then #Drop if site.domain has been added
-          #echo "Dedup Domain $Site"
-          ((Dedup++))      
-        else
-          DNSList+=("address=/$Site/$IPAddr")
-        fi
-      fi    
-    else
+    # ^ Subdomain
+    #Group 1: Domain
+    #Group 2: org. | co. | com.  optional
+    #Group 3: TLD
+    
+    #Is there a subdomain?
+    if [[ $Site =~ ^[A-Za-z0-9\-]+\.([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
+      #Is site.domain already in list?
+      if [ ${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]} ]; then        
+        ((Dedup++))                              #Yes, add to total of dedup
+      else
+        DNSList+=("address=/$Site/$IPAddr")      #No, add to Array
+      fi
+    else                                         #No subdomain, add to Array
       DNSList+=("address=/$Site/$IPAddr")
     fi
   done
@@ -971,7 +969,6 @@ function Test() {
   echo "TLD ${Config[bl_tld]}"
   echo "Hexxium ${Config[bl_hexxium]}"
   echo "QMalware ${Config[bl_qmalware]}"
-  echo "AdBlockManager ${Config[bl_adblockmanager]}"
   echo "DisconnectMalvertising ${Config[bl_disconnectmalvertising]}"
   echo "EasyList ${Config[bl_easylist]}"
   echo "EasyPrivacy ${Config[bl_easyprivacy]}"
@@ -1166,7 +1163,7 @@ if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exis
   echo
   mkdir "/etc/notrack"
   if [ ! -d "/etc/notrack" ]; then               #Check again
-    Error_Exit "Unable to create folder /etc/notrack"      
+    Error_Exit "Unable to create folder /etc/notrack" "2"
   fi
 fi
   
@@ -1222,7 +1219,6 @@ GetList_BlackList                                #Process Users Blacklist
 GetList "notrack" "notrack"
 GetList "qmalware" "plain"
 GetList "hexxium" "easylist"
-GetList "adblockmanager" "unix"
 GetList "disconnectmalvertising" "plain"
 GetList "easylist" "easylist"
 GetList "easyprivacy" "easylist"
