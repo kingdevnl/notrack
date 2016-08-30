@@ -101,9 +101,9 @@ function DrawTopMenu() {
     echo '<div id="menu-top-right">'.PHP_EOL;
     echo '<a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
     echo '<a href="https://github.com/quidsup/notrack" target="_blank"><img src="../admin/images/icon_github.png" alt="Github" title="Github"></a>'.PHP_EOL;
-    echo '<a href="https://www.google.com/+quidsup" target="_blank" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>'.PHP_EOL;
-    echo '<a href="https://www.youtube.com/user/quidsup" target="_blank" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>'.PHP_EOL;
-    echo '<a href="https://www.twitter.com/quidsup" target="_blank" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>'.PHP_EOL;
+    echo '<a href="https://www.google.com/+quidsup" target="_blank"><img src="../admin/images/icon_google.png" alt="Google+" title="Google+"></a>'.PHP_EOL;
+    echo '<a href="https://www.youtube.com/user/quidsup" target="_blank"><img src="../admin/images/icon_youtube.png" alt="YouTube" title="YouTube"></a>'.PHP_EOL;
+    echo '<a href="https://www.twitter.com/quidsup" target="_blank"><img src="../admin/images/icon_twitter.png" alt="Twitter" title="Twitter"></a>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
     echo '<div id="main-menu-padded">'.PHP_EOL;;
   }
