@@ -38,7 +38,7 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
   $FileHandle= fopen('/var/lib/misc/dnsmasq.leases', 'r') or die('Error unable to open /var/lib/misc/dnsmasq.leases');
 
   echo '<table id="dhcp-table">'.PHP_EOL;
-  echo '<tr><th>Date of Request</th><th>Device Name</th><th>MAC Address</th><th>IP Allocated</th>'.PHP_EOL;
+  echo '<tr><th>Valid Until</th><th>Device Name</th><th>MAC Address</th><th>IP Allocated</th>'.PHP_EOL;
   
   while (!feof($FileHandle)) {
     $Line = trim(fgets($FileHandle));            //Read Line of LogFile
