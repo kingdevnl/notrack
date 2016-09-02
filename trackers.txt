@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 21 August 2016
+#NoTrack Tracker list updated 02 September 2016
 #LatestVersion 0.7.16
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -57,9 +57,10 @@
 6008999.com #HelloWorld
 6009888.com #HelloWorld
 6009988.com #HelloWorld
+7113653.com #Advertising Unknown
+778669.com  #Advertising
 7eer.net #Impact Radius
 7pud.com #Advertising
-778669.com  #Advertising
 8000818.com #HelloWorld
 8006688.com #HelloWorld
 800omnture.com #Adobe
@@ -198,6 +199,7 @@ adrank.net #Zanox
 adready.com #CPXi
 adready.info #CPXi
 adreadytractions.com
+adrecreate.com #Advertising Unknown
 adrequest.net #R van Ingen
 adrichweb.com #Adrich
 adriver.ru
@@ -246,6 +248,7 @@ advanced-web-analytics.com
 adventori.com
 adversal.com
 advertisers-openx.com #OpenX
+advertiserurl.com #Advertising Unknown
 advertising.com
 advertserve.com
 adviva.net
@@ -957,6 +960,7 @@ dtrck.net
 dtscout.com
 duba.com
 duba.net
+dumedia.ru #Dumedia
 dwin1.com #Digital Window
 dwin2.com #Digital Window
 dynamicyield.com
@@ -9458,6 +9462,7 @@ netshelter.net
 net.ar
 newrelic.com
 newscurve.com #NeoData Intelligence
+newsinc.com #NewsInc
 nexac.com
 nextbigsound.com #Pandora Media
 nextdocs.com #Aurea
