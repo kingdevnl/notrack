@@ -7,11 +7,15 @@
 #Usage : sudo pyton notrack.py
 
 #Re-write of notrack.sh into python
+from __future__ import print_function
+import ConfigParser
+import os
 import re
 import string
 import subprocess
 import sys
 import time
+
 
 
 #User Configerable Settings (in case config file is missing)---------
@@ -21,47 +25,50 @@ NetDev = subprocess.check_output("ip -o link show | awk '{print $2,$9}' | grep U
 
 IPVersion = "IPv4"
 
-Config = {                                       #Config array for Block Lists
+config = {                                       #Config array for Block Lists
   "bl_custom": "",
-  "bl_notrack": 1,
-  "bl_tld": 1,
-  "bl_qmalware": 1,
-  "bl_hexxium": 1,
-  "bl_disconnectmalvertising": 0,
-  "bl_easylist": 0,
-  "bl_easyprivacy": 0,
-  "bl_fbannoyance": 0,
-  "bl_fbenhanced": 0,
-  "bl_fbsocial": 0,
-  "bl_hphosts": 0,
-  "bl_malwaredomainlist": 0,
-  "bl_malwaredomains": 0,
-  "bl_pglyoyo": 0,
-  "bl_someonewhocares": 0,
-  "bl_spam404": 0,
-  "bl_swissransom": 0,
-  "bl_swisszeus": 0,
-  "bl_winhelp2002": 0,
-  "bl_areasy": 0,                                #Arab
-  "bl_chneasy": 0,                               #China
-  "bl_deueasy": 0,                               #Germany
-  "bl_dnkeasy": 0,                               #Denmark
-  "bl_ruseasy": 0,                               #Russia
-  "bl_fblatin": 0,                               #Portugal/Spain (Latin Countries)
+  "bl_notrack": True,
+  "bl_tld": True,
+  "bl_qmalware": True,
+  "bl_hexxium": True,
+  "bl_disconnectmalvertising": False,
+  "bl_easylist": False,
+  "bl_easyprivacy": False,
+  "bl_fbannoyance": False,
+  "bl_fbenhanced": False,
+  "bl_fbsocial": False,
+  "bl_hphosts": False,
+  "bl_malwaredomainlist": False,
+  "bl_malwaredomains": False,
+  "bl_pglyoyo": False,
+  "bl_someonewhocares": False,
+  "bl_spam4False4": False,
+  "bl_swissransom": False,
+  "bl_swisszeus": False,
+  "bl_winhelp2002": False,
+  "bl_areasy": False,                            #Arab
+  "bl_chneasy": False,                           #China
+  "bl_deueasy": False,                           #Germany
+  "bl_dnkeasy": False,                           #Denmark
+  "bl_ruseasy": False,                           #Russia
+  "bl_fblatin": False,                           #Portugal/Spain (Latin Countries)
 }
 
+#Constants-----------------------------------------------------------
+VERSION = "0.7.16"
+CHECKTIME = 343800                               #Time in Seconds between downloading lists (4 days - 30mins)
 #Leave these Settings alone------------------------------------------
-Version = "0.7.16"
-BlockingCSV = "/etc/notrack/blocking.csv"
-BlockingListFile = "/etc/dnsmasq.d/notrack.list"
-BlackListFile = "/etc/notrack/blacklist.txt"
-WhiteListFile = "/etc/notrack/whitelist.txt"
-DomainBlackListFile = "/etc/notrack/domain-blacklist.txt"
-DomainWhiteListFile = "/etc/notrack/domain-whitelist.txt"
-DomainQuickList = "/etc/notrack/domain-quick.list"
-DomainCSV = "/var/www/html/admin/include/tld.csv"
+CSV_BLOCKING = "/etc/notrack/blocking.csv"
+CSV_TLD = "/var/www/html/admin/include/tld.csv"
+FILE_BLACKLIST = "/etc/notrack/blacklist.txt"
+FILE_WHITELIST = "/etc/notrack/whitelist.txt"
+FILE_TLDBLACK = "/etc/notrack/domain-blacklist.txt"
+FILE_TLDWHITE = "/etc/notrack/domain-whitelist.txt"
+FILE_TLDQUICK = "/etc/notrack/domain-quick.list"
+LIST_NOTRACK = "/etc/dnsmasq.d/notrack.list"
+
 ConfigFile = "/etc/notrack/notrack.conf"
-CheckTime = 343800                               #Time in Seconds between downloading lists (4 days - 30mins)
+
 
 #Block list URL's----------------------------------------------------
 URLList = {                               #Array of URL's
@@ -91,23 +98,21 @@ URLList = {                               #Array of URL's
 "fblatin": "https://www.fanboy.co.nz/fanboy-espanol.txt",
 }
 #Global Variables----------------------------------------------------
-#FileTime=0                                       #Return value from Get_FileTime
-Force = 0                                        #Force update block list
-OldLatestVersion = Version
-UnixTime = time.time()                           #Unix time now
-JumpPoint=0                                      #Percentage increment
-PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
+
+force = False                                    #Force update block list
+#OldLatestVersion = Version
+#UnixTime = time.time()                           #Unix time now
+#JumpPoint=0                                      #Percentage increment
+#PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
 WhiteList = {}                                   #associative array for referencing sites in White List
 DomainList = {}                                  #Array to check if TLD blocked
 SiteList = {}                                    #Array to store sites being blocked
 Dedup = 0                                        #Count of Deduplication
 
 #Error Exit 2nd generation--------------------------------------------
-def Error_Exit(Msg, ExitCode): 
-  #$1 = Error Message
-  #$2 = Exit Code
-  print "Error. ", Msg
-  print "Aborting"
+def error_exit(Msg, ExitCode): 
+  print("Error. %s" % Msg)
+  print("Aborting")
   sys.exit(ExitCode)
 
 
@@ -121,15 +126,17 @@ function CreateFile() {
     touch "$1"                                   #If not then create it
   fi
 }
+"""
 #Delete old file if it Exists----------------------------------------
-function DeleteOldFile() {
-  #$1 File to delete
-  if [ -e "$1" ]; then                           #Does file exist?
-    echo "Deleting file $1"
-    rm "$1"                                      #If yes then delete it
-  fi
-}
+def DeleteOldFile(File):
+  if os.path.isfile(File):
+    print("Deleting file %s" % File)
+    os.remove(File)
+    return True
+  else:
+    return False
 
+"""
 #--------------------------------------------------------------------
 # Add Site to List
 # Checks whether a Site is in the Users whitelist or has previously been added
@@ -143,6 +150,7 @@ function DeleteOldFile() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
+
 function AddSite() {
   local Site="$1"
   
@@ -241,84 +249,207 @@ function CheckDnsmasqVer() {
     fi
   fi
 }
+"""
+#--------------------------------------------------------------------
+def cmd_exists(cmd):
+  """Checks if a Command exists
+  
+  Args:
+    Command to check
+  
+  Returns:
+    True if Command exists
+    Fail if Command  doesn't exist
+  """
+  if subprocess.call("command -v %s >/dev/null 2>&1" % cmd , shell=True) == 127:
+    return False
+  else:
+    return True
+  
+
 #Count Lines---------------------------------------------------------
-function CountLines() {
-  local ListFile=""
-  local LineCount=0
+def count_lines():
+  count = 0
+  for f in os.listdir('/etc/dnsmasq.d'):
+    if f.endswith('.list'):    
+      count += int(subprocess.check_output('wc -l /etc/dnsmasq.d/%s | cut -d\  -f 1' % f, shell=True).splitlines()[0])
   
-  for ListFile in /etc/dnsmasq.d/*.list; do
-    let "LineCount += $(wc -l "$ListFile" | cut -d\  -f 1)"
-  done
+  print(count)
+#--------------------------------------------------------------------
+def filetime(filename):
+  if os.path.isfile(filename):
+    return os.path.getmtime(filename)
+  return 0
+#--------------------------------------------------------------------
+def filter_bool(value, default):
+  """Checks if a variable is a bool
   
-  echo "$LineCount"
-}
-#Read Config File----------------------------------------------------
+  Args:
+    value to check
+    default value to use
+  
+  Returns:
+    True if Value is 1
+    False if Value is 0
+    Default for Other
+  """
+  if value == 0: return False
+  elif value == 1: return True
+  return default
+
+#--------------------------------------------------------------------
 #Default values are set at top of this script
 #Config File contains Key & Value on each line for some/none/or all items
 #If the Key is found in the case, then we write the value to the Variable
-function Read_Config_File() {  
-  if [ -e "$ConfigFile" ]; then
-    echo "Reading Config File"
-    while IFS='= ' read -r Key Value             #Seperator '= '
-    do
-      if [[ ! $Key =~ ^\ *# && -n $Key ]]; then
-        Value="${Value%%\#*}"    # Del in line right comments
-        Value="${Value%%*( )}"   # Del trailing spaces
-        Value="${Value%\"*}"     # Del opening string quotes 
-        Value="${Value#\"*}"     # Del closing string quotes 
-        
-        case "$Key" in
-          IPVersion) IPVersion="$Value";;
-          NetDev) NetDev="$Value";;
-          LatestVersion) OldLatestVersion="$Value";;
-          bl_custom) Config[bl_custom]="$Value";;
-          bl_notrack) Config[bl_notrack]="$Value";;
-          bl_tld) Config[bl_tld]="$Value";;
-          bl_qmalware) Config[bl_qmalware]="$Value";;
-          bl_hexxium) Config[bl_hexxium]="$Value";;
-          bl_disconnectmalvertising) Config[bl_disconnectmalvertising]="$Value";;          
-          bl_easylist) Config[bl_easylist]="$Value";;
-          bl_easyprivacy) Config[bl_easyprivacy]="$Value";;
-          bl_fbannoyance) Config[bl_fbannoyance]="$Value";;
-          bl_fbenhanced) Config[bl_fbenhanced]="$Value";;
-          bl_fbsocial) Config[bl_fbsocial]="$Value";;
-          bl_hphosts) Config[bl_hphosts]="$Value";;
-          bl_malwaredomainlist) Config[bl_malwaredomainlist]="$Value";;
-          bl_malwaredomains) Config[bl_malwaredomains]="$Value";;          
-          bl_pglyoyo) Config[bl_pglyoyo]="$Value";;
-          #bl_securemecca) Config[bl_securemecca]="$Value";;
-          bl_someonewhocares) Config[bl_someonewhocares]="$Value";;
-          bl_spam404) Config[bl_spam404]="$Value";;
-          bl_swissransom) Config[bl_swissransom]="$Value";;
-          bl_swisszeus) Config[bl_swisszeus]="$Value";;
-          bl_winhelp2002) Config[bl_winhelp2002]="$Value";;
-          bl_areasy) Config[bl_areasy]="$Value";;
-          bl_chneasy) Config[bl_chneasy]="$Value";;
-          bl_deueasy) Config[bl_deueasy]="$Value";;
-          bl_dnkeasy) Config[bl_dnkeasy]="$Value";;
-          bl_ruseasy) Config[bl_ruseasy]="$Value";;   
-          bl_fblatin) Config[bl_fblatin]="$Value";;         
-        esac            
-      fi
-    done < $ConfigFile
+def load_config():
+  global config
+  if not os.path.isfile(ConfigFile):
+    print("Config file %s missing, using default values" % ConfigFile)
+    return False
+    
+  print("Reading Config File %s" % ConfigFile)
+    
+  with open(ConfigFile, 'r') as fp:
+    for line in fp:
+      line = line.split('=')
+      key = line[0].strip()
+      value = line[1].strip()
+      
+      if key == 'IPVersion': IPVersion = value
+      elif key == 'NetDev': NetDev = value
+      elif key == 'LatestVersion': OldLatestVersion = value
+      elif key == 'bl_custom': config['bl_custom'] = value
+      elif key == 'bl_notrack': config['bl_notrack'] = filter_bool(value, True)
+      elif key == 'bl_tld': config['bl_tld'] = filter_bool(value, True)
+      elif key == 'bl_qmalware': config['bl_qmalware'] = filter_bool(value, True)
+      elif key == 'bl_hexxium': config['bl_hexxium'] = filter_bool(value, True)
+      elif key == 'bl_disconnectmalvertising': config['bl_disconnectmalvertising'] = filter_bool(value, False)
+      elif key == 'bl_easylist': config['bl_easylist'] = filter_bool(value, False)
+      elif key == 'bl_easyprivacy': config['bl_easyprivacy'] = filter_bool(value, False)
+      elif key == 'bl_fbannoyance': config['bl_fbannoyance'] = filter_bool(value, False)
+      elif key == 'bl_fbenhanced': config['bl_fbenhanced'] = filter_bool(value, False)
+      elif key == 'bl_fbsocial': config['bl_fbsocial'] = filter_bool(value, False)
+      elif key == 'bl_hphosts': config['bl_hphosts'] = filter_bool(value, False)
+      elif key == 'bl_malwaredomainlist': config['bl_malwaredomainlist'] = filter_bool(value, False)
+      elif key == 'bl_malwaredomains': config['bl_malwaredomains'] = filter_bool(value, False)
+      elif key == 'bl_pglyoyo': config['bl_pglyoyo'] = filter_bool(value, False)
+      elif key == 'bl_someonewhocares': config['bl_someonewhocares'] = filter_bool(value, False)
+      elif key == 'bl_spam404': config['bl_spam404'] = filter_bool(value, False)
+      elif key == 'bl_swissransom': config['bl_swissransom'] = filter_bool(value, False)
+      elif key == 'bl_swisszeus': config['bl_swisszeus'] = filter_bool(value, False)
+      elif key == 'bl_winhelp2002': config['bl_winhelp2002'] = filter_bool(value, False)
+      elif key == 'bl_areasy': config['bl_areasy'] = filter_bool(value, False)
+      elif key == 'bl_chneasy': config['bl_chneasy'] = filter_bool(value, False)
+      elif key == 'bl_deueasy': config['bl_deueasy'] = filter_bool(value, False)
+      elif key == 'bl_dnkeasy': config['bl_dnkeasy'] = filter_bool(value, False)
+      elif key == 'bl_ruseasy': config['bl_ruseasy'] = filter_bool(value, False)
+      elif key == 'bl_fblatin': config['bl_fblatin'] = filter_bool(value, False)
+    fp.close()
+
+#--------------------------------------------------------------------
+def load_sitelist(filename):
+  sitelist = {}
+  
+  with open(filename, 'r') as fp:
+    for line in fp:
+      Match = re.match("^([A-Za-z0-9\-_\.]+)\s?#?", line)      
+      if Match:
+        sitelist[Match.group(1)] = True
+    fp.close()
+    
+    return sitelist
+
+#--------------------------------------------------------------------
+def load_tldlist():
+  #1. Load Domain whitelist into associative array
+  #2. Read downloaded TLD list, and compare with Domain WhiteList
+  #3. Read users custom TLD list, and compare with Domain WhiteList
+  #4. Results are stored in CSVList, and SiteList These arrays are sent back to GetList() for writing to file.
+  #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
+  #DomainQuickList is used to speed up processing in stats.php
+  
+  global Config, CSV_TLD, FILE_TLDBLACK, FILE_TLDWHITE, FILE_TLDQUICK, SiteList
+  
+  CSVList = []
+  DomainBlackList = {}
+  DomainWhiteList = {}
+  
+  list_time = filetime(LIST_NOTRACK)
+  
+  """
+  Get_FileTime "$DomainWhiteListFile"
+  local DomainWhiteFileTime=$FileTime
+  Get_FileTime "$DomainCSV"
+  local DomainCSVFileTime=$FileTime
+  Get_FileTime "/etc/dnsmasq.d/tld.list"
+  local TLDListFileTime=$FileTime
+  """
+  
+  """
+  if not Config['bl_tld']:                       #Should we process this list according to the Config settings?
+    DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
+    DeleteOldFile "/etc/notrack/tld.csv"
+    DeleteOldFile "$DomainQuickList"
+    echo
+    return 0
+  fi
+  """
+  
+  #CSVList=()                                     #Zero Arrays
+      
+  print("Processing Top Level Domain List")
+  """
+  #CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
+  #cat /dev/null > "$DomainQuickList"             #Empty file
+  """
+  
+  DomainBlackList = load_sitelist(FILE_TLDBLACK)
+  DomainWhiteList = load_sitelist(FILE_TLDWHITE)
+  
+  with open(CSV_TLD, 'r') as fp:
+    for line in fp:
+      Match = re.match("^([A-Za-z0-9\-_\.]+),(\w+),(\d)", line)
+      if Match:
+        if Match.group(3) == 1 and not Match.group(1) in DomainWhiteList:
+          DomainList[Match.group(1)] = True
+          SiteList[Match.group(1)] = True
+          CSVList.append(Match.group(1)+',Active,'+Match.group(2))
+        elif Match.group(1) in DomainBlackList:
+          DomainList[Match.group(1)] = True
+          SiteList[Match.group(1)] = True
+          CSVList.append(Match.group(1)+',Active,'+Match.group(2))
+    fp.close()
+  
+  if filetime(FILE_TLDBLACK) < list_time and filetime(FILE_TLDWHITE) < list_time and  filetime(CSV_TLD) < list_time and not force:
+    print("Top Level Domain List is in date, not saving")
+  """
+  
+  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
+  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ] && [ $Force == 0 ]; then
+    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
+    echo "Top Level Domain List is in date, not saving"
+    echo
+    return 0    
   fi
   
-  unset IFS
-}
-
-#Read White List-----------------------------------------------------
-function Read_WhiteList() {
-  while IFS='# ' read -r Line _
-  do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      WhiteList[$Line]=1
-    fi
-  done < $WhiteListFile
+  printf "%s\n" "${!DomainList[@]}" > $DomainQuickList
+  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"  
+  
+  echo "Finished processing Top Level Domain List"
+  echo
   
   unset IFS
 }
+"""
+#--------------------------------------------------------------------
+
+def load_whitelist():
+  global WhiteList, FILE_WHITELIST
+  
+  WhiteList = load_sitelist(FILE_WHITELIST)  
+
+#--------------------------------------------------------------------
+"""
 #Generate BlackList--------------------------------------------------
 function Generate_BlackList() {
   local -a Tmp                                   #Local array to build contents of file
@@ -344,35 +475,31 @@ function Generate_WhiteList() {
   Tmp+=("#google-analytics.com")
   printf "%s\n" "${Tmp[@]}" > $WhiteListFile     #Write Array to file with line seperator
 }
-#Get IP Address of System--------------------------------------------
-function Get_IPAddress() {
+"""
+#--------------------------------------------------------------------
+#Get IP Address of System
+def get_ipaddress():
+  global IPVersion, IPAddr, NetDev
+  
   #A manual IP address can be assigned using IPVersion
-  if [ "$IPVersion" == "IPv4" ]; then
-    echo "Internet Protocol Version 4 (IPv4)"
-    echo "Reading IPv4 Address from $NetDev"
-    IPAddr=$(ip addr list "$NetDev" | grep inet | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
-    
-  elif [ "$IPVersion" == "IPv6" ]; then
-    echo "Internet Protocol Version 6 (IPv6)"
-    echo "Reading IPv6 Address"
-    IPAddr=$(ip addr list "$NetDev" | grep inet6 | head -n 1 | cut -d ' ' -f6 | cut -d/ -f1)
-  else
-    echo "Custom IP Address used"
-    IPAddr="$IPVersion";                         #Use IPVersion to assign a manual IP Address
-  fi
-  echo "System IP Address: $IPAddr"
-  echo
-}
-#Get File Time-------------------------------------------------------
-function Get_FileTime() {
-  #$1 = File to be checked
-  if [ -e "$1" ]; then                           #Does file exist?
-    FileTime=$(stat -c %Z "$1")                  #Return time of last status change, seconds since Epoch
-  else
-    FileTime=0                                   #Otherwise retrun 0
-  fi
-}
+  if IPVersion == 'IPv4':
+    print("Internet Protocol Version 4 (IPv4)")
+    print("Reading IPv4 Address from %s" % NetDev)
+    IPAddr = subprocess.check_output('ip addr list '+NetDev+' | grep inet | head -n 1 | cut -d\  -f6 | cut -d/ -f1', shell=True).splitlines()[0]
+  elif IPVersion == 'IPv6':
+    print("Internet Protocol Version 6 (IPv6)")
+    print("Reading IPv6 Address")
+    IPAddr = subprocess.check_output('ip addr list '+NetDev+' | grep inet6 | head -n 1 | cut -d\  -f6 | cut -d/ -f1', shell=True).splitlines()[0]
+  else:
+    print("Custom IP Address used")
+    IPAddr = IPVersion                           #Use IPVersion to assign a manual IP Address  
+  
+  print("System IP Address: %s\n" % IPAddr)
 
+
+
+
+"""
 #Custom BlackList----------------------------------------------------
 function GetList_BlackList() {
   echo "Processing Custom Black List"
@@ -530,7 +657,7 @@ function GetList() {
     "notrack") Process_NoTrackList "$DLFile" ;;
     "tldlist") Process_TLDList ;;
     "unix") Process_UnixList "$DLFile" ;;    
-    *) Error_Exit "Unknown option $2" "7"
+    *) error_exit "Unknown option $2" "7"
   esac  
   
   if [ ${#CSVList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
@@ -688,89 +815,6 @@ function Process_PlainList() {
   unset IFS
 }
 #Process TLD List----------------------------------------------------
-function Process_TLDList() {
-  #1. Load Domain whitelist into associative array
-  #2. Read downloaded TLD list, and compare with Domain WhiteList
-  #3. Read users custom TLD list, and compare with Domain WhiteList
-  #4. Results are stored in CSVList, and SiteList These arrays are sent back to GetList() for writing to file.
-  #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
-  #DomainQuickList is used to speed up processing in stats.php
-  
-  local -A DomainBlackList
-  local -A DomainWhiteList
-  
-  Get_FileTime "$DomainWhiteListFile"
-  local DomainWhiteFileTime=$FileTime
-  Get_FileTime "$DomainCSV"
-  local DomainCSVFileTime=$FileTime
-  Get_FileTime "/etc/dnsmasq.d/tld.list"
-  local TLDListFileTime=$FileTime
-  
-  if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?
-    DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
-    DeleteOldFile "/etc/notrack/tld.csv"
-    DeleteOldFile "$DomainQuickList"
-    echo
-    return 0
-  fi
-  
-  CSVList=()                                     #Zero Arrays
-      
-  echo "Processing Top Level Domain List"
-  
-  CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
-  cat /dev/null > "$DomainQuickList"             #Empty file
-  
-  while IFS=$'#\n' read -r Line _
-  do
-    if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      DomainWhiteList[$Line]=1                   #Add domain to associative array      
-    fi
-  done < "$DomainWhiteListFile"
-  
-  while IFS=$'#\n' read -r Line _
-  do
-    if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      DomainBlackList[$Line]=1                   #Add domain to associative array      
-    fi
-  done < "$DomainBlackListFile"
-  
-  while IFS=$',\n' read -r TLD Name Risk _; do
-    if [[ $Risk == 1 ]]; then
-      if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
-        SiteList[$TLD]=1
-        CSVList+=("$TLD,Active,$Name")
-        DomainList[$TLD]=1        
-      fi    
-    else
-      if [ "${DomainBlackList[$TLD]}" ]; then
-        SiteList[$TLD]=1
-        CSVList+=("$TLD,Active,$Name")
-        DomainList[$TLD]=1        
-      fi
-    fi
-  done < "$DomainCSV"
-  
-  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
-  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ] && [ $Force == 0 ]; then
-    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
-    echo "Top Level Domain List is in date, not saving"
-    echo
-    return 0    
-  fi
-  
-  printf "%s\n" "${!DomainList[@]}" > $DomainQuickList
-  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"  
-  
-  echo "Finished processing Top Level Domain List"
-  echo
-  
-  unset IFS
-}
 #Process UnixList----------------------------------------------------
 function Process_UnixList() {
   #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
@@ -917,90 +961,105 @@ function SortList() {
   
   echo
 }
+"""
 #Help----------------------------------------------------------------
-function Show_Help() {
-  echo "Usage: notrack"
-  echo "Downloads and Installs updated tracker lists"
-  echo
-  echo "The following options can be specified:"
-  echo -e "  -f, --force\tForce update of Block list"
-  echo -e "  -h, --help\tDisplay this help and exit"
-  echo -e "  -t, --test\tConfig Test"
-  echo -e "  -v, --version\tDisplay version information and exit"
-  echo -e "  -u, --upgrade\tRun a full upgrade"
-  echo -e "  --count\tCount number of sites in active Block lists"
-}
+def Show_Help():
+  print("Usage: notrack")
+  print("Downloads and processes tracker lists into Dnsmasq")
+  print("")
+  print("The following options can be specified:")
+  print("  -f, --force\tForce update of Block list")
+  print("  -h, --help\tDisplay this help and exit")
+  print("  -t, --test\tConfig Test")
+  print("  -v, --version\tDisplay version information and exit")
+  print("  -u, --upgrade\tRun a full upgrade")
+  print("  --count\tCount number of sites in active Block lists")
+  print("")
+  
 #Show Version--------------------------------------------------------
-function Show_Version() {
-  echo "NoTrack Version $Version"
-  echo
-}
+def Show_Version():
+  print("NoTrack Version %s" % Version)
+  print("")
+#--------------------------------------------------------------------
+# Get Dnsmasq Version
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   Version number on success or Zero on fail
+#--------------------------------------------------------------------
+      
+def get_dnsmasq_version():
+  """Get Dnsmasq Version
+  Checks if Dnsmasq exists
+  Extract version number from "dnsmasq -v"
+  
+  Arguments:
+    None
+  
+  Returns:
+    Version number on success
+    0 on Fail
+  """
+  if cmd_exists("dnsmasq"):    
+    DnsmasqStr = subprocess.check_output("dnsmasq --version", shell=True).splitlines()[0]
+    Match = re.match("^Dnsmasq\sversion\s(\d\.\d{1,2})", DnsmasqStr)
+    if Match:
+      return float(Match.group(1))
+  
+  return 0
+    
 #Test----------------------------------------------------------------
-function Test() {
-  local DnsmasqVersion=""
+def Test():
+  dnsmasq_version = 0
+    
+  print("NoTrack Config Test\n")
+  
+  print("NoTrack Version: %s" % VERSION)
+  
+  dnsmasq_version = get_dnsmasq_version()
+  
+  if dnsmasq_version == 0:
+    print("Unable to find Dnsmasq")
+  elif dnsmasq_version >= 2.75:
+    print("Dnsmasq Version: %.2f" % dnsmasq_version)
+    print("Dnsmasq Supports White listing")
+  else:
+    print("Dnsmasq Version: %.2f" % dnsmasq_version)
+    print("Dnsmasq Doesn't support White listing (v2.75 or above is required)")
+    if cmd_exists("dig"):
+      print("Fallback option using Dig is available")
+    else:
+      print("Dig isn't installed. Unable to White list from blocked TLD's")
 
-  echo "NoTrack Config Test"
-  echo
-  echo "NoTrack version $Version"
+  print("")
   
-  DnsmasqVersion=$(dnsmasq --version)
-  [[ $DnsmasqVersion =~ ^Dnsmasq[[:space:]]version[[:space:]]([0-9]\.[0-9]{1,2}) ]]
-  local VerNo="${BASH_REMATCH[1]}"               #Extract version number from string
-  if [[ -z $VerNo ]]; then                       #Was anything extracted?
-    echo "Dnsmasq version Unknown"
-  else
-    echo "Dnsmasq version $VerNo"
-    CheckDnsmasqVer
-    if [ $? == 53 ]; then                        #Is white listing supported?
-      echo "Dnsmasq Supports White listing"
-    else                                         #No, version too low
-      echo "Dnsmasq Doesn't support White listing (v2.75 or above is required)"
-      if [ -n "$(command -v dig)" ]; then        #Is dig available?
-        echo "Fallback option using Dig is available"
-      else
-        echo "Dig isn't installed. Unable to White list from blocked TLD's"
-      fi
-    fi
-  fi
+  if os.path.isfile(ConfigFile):                 #Does config exist?
+    load_config()                                #Yes, Load config file
+  else:
+    print("No Config file available")            #No, inform user
+    
+  print("Block Lists Utilised:")                 #Show block lists in use
+  for key, value in config.iteritems():          #Read items in config
+    if key != "bl_custom" and value:             #Ignore bl_custom and False values
+      print(key)
   
-  echo
-  if [ -e "$ConfigFile" ]; then
-    echo "Config file $ConfigFile"
-  else
+  if config["bl_custom"] != "":                  #Anything in custom block list?
+    print("bl_custom: %s" % config["bl_custom"])
+  else:
+    print("bl_custom: None")
+  """
+  
+  
+  
     echo "No Config file available"
   fi
-  Read_Config_File                               #Load saved variables
+  
   Get_IPAddress                                  #Read IP Address of NetDev
   
-  echo "Block Lists Utilised:"
-  echo "NoTrack ${Config[bl_notrack]}"
-  echo "TLD ${Config[bl_tld]}"
-  echo "Hexxium ${Config[bl_hexxium]}"
-  echo "QMalware ${Config[bl_qmalware]}"
-  echo "DisconnectMalvertising ${Config[bl_disconnectmalvertising]}"
-  echo "EasyList ${Config[bl_easylist]}"
-  echo "EasyPrivacy ${Config[bl_easyprivacy]}"
-  echo "FBAnnoyance ${Config[bl_fbannoyance]}"
-  echo "FBEnhanced ${Config[bl_fbenhanced]}"
-  echo "FBSocial ${Config[bl_fbsocial]}"
-  echo "hpHosts ${Config[bl_hphosts]}"
-  echo "MalwareDomainList ${Config[bl_malwaredomainlist]}"
-  echo "MalwareDomains ${Config[bl_malwaredomains]}"
-  echo "PglYoyo ${Config[bl_pglyoyo]}"
-  #echo "Secure Mecca ${Config[bl_securemecca]}"
-  echo "SomeoneWhoCares ${Config[bl_someonewhocares]}"
-  echo "Spam404 ${Config[bl_spam404]}"
-  echo "SwissRansom ${Config[bl_swissransom]}"
-  echo "SwissZeus ${Config[bl_swisszeus]}"
-  echo "Winhelp2002 ${Config[bl_winhelp2002]}"
-  echo "AR Easy ${Config[bl_areasy]}"
-  echo "CHN Easy ${Config[bl_chneasy]}"
-  echo "DEU Easy ${Config[bl_chneasy]}"
-  echo "DNK Easy ${Config[bl_dnkeasy]}"
-  echo "RUS Easy ${Config[bl_ruseasy]}"
-  echo "FB Latin ${Config[bl_fblatin]}"
-  echo "Custom ${Config[bl_custom]}"
-}
+  }
 #Check Update Required----------------------------------------------
 function UpdateRequired() {
   #Triggers for Update being required:
@@ -1086,67 +1145,51 @@ function Upgrade() {
     if [ -d "/opt/notrack" ]; then
       InstallLoc="/opt/notrack"      
     else
-      Error_Exit "Unable to find NoTrack folder" "22"
+      error_exit "Unable to find NoTrack folder" "22"
     fi
   else    
     if [ -e "$InstallLoc/ntrk-upgrade.sh" ]; then
       echo "Found alternate copy in $InstallLoc"
       sudo bash "$InstallLoc/ntrk-upgrade.sh"    
     else
-      Error_Exit "Unable to find ntrk-upgrade.sh" "20"
+      error_exit "Unable to find ntrk-upgrade.sh" "20"
     fi
   fi
 }
+"""
 #Main----------------------------------------------------------------
-if [ "$1" ]; then                                #Have any arguments been given
-  if ! options="$(getopt -o fhvtu -l count,help,force,version,upgrade,test -- "$@")"; then
-    # something went wrong, getopt will put out an error message for us
-    exit 6
-  fi
 
-  set -- $options
 
-  while [ $# -gt 0 ]
-  do
-    case $1 in
-      --count)
-        CountLines
-        exit 0
-      ;;
-      -f|--force)
-        Force=1        
-      ;;
-      -h|--help) 
-        Show_Help
-        exit 0
-      ;;
-      -t|--test)
-        Test
-        exit 0
-      ;;
-      -v|--version) 
-        Show_Version
-        exit 0
-      ;;
+
+
+if len(sys.argv) > 1:
+  for arg in sys.argv[1:]:
+    if arg == "-c" or arg == "--count":
+      count_lines()
+      sys.exit(0)
+    elif arg == "-f" or arg == "--force":
+      force = True
+    elif arg == "-t" or arg == "--test":
+      Test()
+      sys.exit(0)
+    elif arg == "-h" or arg == "--help":
+      Show_Help()
+      sys.exit(0)
+    elif arg == "-v" or arg == "--version":
+      Show_Version()
+      sys.exit(0)
+    else:
+      error_exit("Unknown command", 6)
+"""
+            
       -u|--upgrade)
         Upgrade
         exit 0
       ;;
-      (--) 
-        shift
-        break
-      ;;
-      (-*)         
-        Error_Exit "$0: error - unrecognized option $1" "6"
-      ;;
-      (*) 
-        break
-      ;;
-    esac
-    shift
+   
   done
 fi
-  
+"""  
 #--------------------------------------------------------------------
 #At this point the functionality of notrack.sh is to update Block Lists
 #1. Check if user is running as root
@@ -1162,26 +1205,28 @@ fi
 #11. Process Custom block lists
 #12. Sort list and do final deduplication
 
-if [ "$(id -u)" != 0 ]; then                     #Check if running as root
-  Error_Exit "This script must be run as root" "5"
-fi
-  
+if os.geteuid() != 0:
+ error_exit("This script must be run as root", 5)
+
+"""  
 if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exists
   echo "Creating notrack folder under /etc"
   echo
   mkdir "/etc/notrack"
   if [ ! -d "/etc/notrack" ]; then               #Check again
-    Error_Exit "Unable to create folder /etc/notrack" "2"
+    error_exit "Unable to create folder /etc/notrack" "2"
   fi
 fi
-  
-Read_Config_File                                 #Load saved variables
-Get_IPAddress                                    #Read IP Address of NetDev
-  
+"""  
+load_config()                                    #Load saved variables
+get_ipaddress()                                  #Read IP Address of NetDev
+
+"""  
 if [ ! -e $WhiteListFile ]; then Generate_WhiteList
 fi
-  
-Read_WhiteList                                   #Load Whitelist into array
+"""  
+load_whitelist()                                 #Load Whitelist into array
+"""
 CreateFile "$BlockingCSV"                        #Create Block list csv
   
 if [ ! -e "$BlackListFile" ]; then Generate_BlackList
@@ -1215,11 +1260,16 @@ DeleteOldFile /etc/dnsmasq.d/ruseasy.list
 
 
 UpdateRequired                                   #Check if NoTrack needs to run
+"""
 
+"""
 CreateFile "$BlockingListFile"
 cat /dev/null > "$BlockingCSV"                   #Empty file
+"""
 
-Process_TLDList                                  #Load and Process TLD List
+load_tldlist()                                   #Load and Process TLD List
+"""
+
 Process_WhiteList                                #Process White List
 
 GetList_BlackList                                #Process Users Blacklist
