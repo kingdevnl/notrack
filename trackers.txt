@@ -33,12 +33,14 @@
 33across.com #33Across
 360yield.com #Improve digital
 360yieldplatform.com #Improve digital
+3d-dyj.cn #Advertising
 3lift.com #Triple Lift
 4dsply.com
 4nabs.com
 4seeresults.com #ForeSee
 51yes.com
 51.la
+5293.com
 52tyd.com #Advertising
 5gl1x9qc.com
 5min.com
@@ -253,6 +255,7 @@ advertising.com
 advertserve.com
 adviva.net
 advolution.de
+adxprts.com #Advertising
 adweb-connect.net #Ad Web
 adweb.info #Ad Web
 adwebconnect.net #Ad Web
@@ -320,6 +323,7 @@ akadns.net
 alertbot.co.uk
 algonetwork.com #RevenueHits
 algovise.com #RevenueHits
+alicili.org #Advertising
 aliunicorn.com
 alnisrgroup.com
 alphacampaignmonitor.com #Campaign Monitor Pty
@@ -627,12 +631,14 @@ chartbeat.com
 chartbeat.net
 cheetahmail.com #Experian
 chicdn.net
+chinaheh.com #Advertising
 chinashoesking.com #Advertising
 choicestream.com
 choosealoan.com #Digital Window
 christmasalready.com #Digital Window
 chrs-mln-krs.com
 citypaketet.se #City Packetet
+cilidaquan.com #Advertising
 cj.com #Conversant Media
 clear-reports.com
 clearcode.cc
@@ -993,6 +999,7 @@ eepurl.com #mailchimp
 effectivemeasure.com #Effective Measure
 effectivemeasure.net #Effective Measure
 egeng.info #eGain Corporation
+ek92.cn #Advertising
 ekomi.asia #eKomi
 ekomi.biz #eKomi
 ekomi.com #eKomi
@@ -1095,6 +1102,7 @@ everestjs.net
 everesttech.net
 evisitanalyst.com
 evyy.net #Impact Radius
+exdynsrv.com #Advertising
 exe.bid #Exebid DCA
 exebid.ru #Exebid DCA
 exelator.com
@@ -1203,6 +1211,7 @@ gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
 glimr.io #GLIMR
+go2cloud.org
 go-mpulse.net
 goadservices.com
 godatafeed.com
@@ -1314,6 +1323,7 @@ html5nanovisor.net #instartlogic
 html5nanovisor.org #instartlogic
 html5nanovisor.us #instartlogic
 httptrack.com #Tracker Unknown
+huafeibianzhidai.com
 hublogic.com #Hubspot
 hubspot.com #Hubspot
 hubspot.net #Hubspot
@@ -1335,6 +1345,7 @@ hubspotanalytics.net #Hubspot
 hubtraffic.com #Hubspot
 hw-dev.com #HelloWorld
 hxtrack.com
+hyfffpaint.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 i-transactads.com
 i10c.net #instartlogic
@@ -1347,6 +1358,7 @@ idg.com
 idgknowledgehub.com
 idgpublishing.com
 idio.co #Idio
+idqqimg.com #Advertising
 iframes.us
 igodigital.com
 igsonar.com
@@ -1431,6 +1443,7 @@ jisusaiche.com
 jpush.cn
 jpush.io
 jmxded110.net
+jntaoche.cn #Advertising
 ecomcbjs.jomodns.com #Baidu
 juicyads.com
 ju33.com #Advertising
@@ -1449,6 +1462,7 @@ kaloo.ga #Kalooga
 kalooga.com #Kalooga
 kastatic.com
 kau.li
+kawa11.space #Adverts
 keen.io #Keen IO (analytics)
 kestrelfm.net #Ad Web
 keytui.com #Advertising
@@ -1527,6 +1541,7 @@ lpsnmedia.net
 lrcdn.net
 lucidmedia.com
 luxup.ru #AdLabs
+lyhxwx.com
 lynxbroker.de
 lypn.com
 lyris.com #Aurea
@@ -1574,6 +1589,7 @@ marketizator.com
 marketo.com
 marketo.net
 marktest.pt
+maskbaby.com.cn #Advertising
 matheranalytics.com
 mathtag.com
 maxgtm.net
@@ -9420,6 +9436,7 @@ mydas.mobi #Millennial Media
 mydefense.info #ShawThing
 myflairware.com #TMRG
 myflairware.net #TMRG
+myshou.com #Advertising
 mystats.in
 myswitchads.com
 mythings.com
@@ -9597,6 +9614,7 @@ permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
 petametrics.com #Petametrics
+petrous.cn #Advertising
 phicdn.net #Verizon
 phluant.com #Phluant
 phluantmobile.net #Phluant
@@ -9662,6 +9680,7 @@ psma02.com #AdWise
 psma03.com #AdWise
 psplugin.com #Vergic
 psplugin.net #Vergic
+pszyzxh.org #Advertising
 ptcolor.com #PTEngine
 ptengine.com #PTEngine
 ptengine.net #PTEngine
@@ -9712,6 +9731,7 @@ qubitproducts.com #QuBit Digital
 quelhadoop.com #Ysance
 questback.com #Questback
 questionmarket.com
+qy168.pw #Advertising
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 r1-cdn.net #RadiumOne
 r1sdk.com #RadiumOne
@@ -9764,6 +9784,7 @@ relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
 reliancevalve.com #Advertising
+rencai56.com #Advertising
 rename.com #Digital Window
 rename.net #Digital Window
 reportwindow.com #Digital Window
@@ -9882,6 +9903,7 @@ safe-swaps.com
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
+santaidinuan.com #Advertising
 sarky.org #Ad Web
 sas15k01.com #Lead Forensics
 sascdn.com #Smart Ad Server
@@ -9942,6 +9964,7 @@ sex-affiliation.com
 shadowsmell.com #Advertising
 sharethis.com
 sharethrough.com
+shifen.com #Baidushifen.com
 shinystat.com
 shop2market.com
 shoppingshadow.com #ebay
@@ -10101,6 +10124,7 @@ taggstar.com
 tagsrvcs.com #WhiteOps
 tamobi.net
 tangiblee.com
+tao92.cn #Advertising
 tapad.com #Tapad
 tapfiliate.com
 tapjoyads.com
@@ -10426,6 +10450,7 @@ yieldmo.com #Yieldmo
 yieldoptimizer.com
 yieldpartners.com
 yijia2009.com  #Advetising
+yinhaijuan.com #Advertising
 yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
@@ -10441,7 +10466,10 @@ ysance-integration.com #Ysance
 ysance-labs.com #Ysance
 ysforyou.com #Ysance
 ys-game.com #Ysance
+yunjiasu-cdn.net #Advertising CDN
 yuq.me
+yygslb.com #Advertising
+ywjxsp168.cn #Advertising
 ywxi.net #PathDefender
 y-track.com #Ysance
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
@@ -10468,11 +10496,13 @@ zenaps.com #Digital Window
 zencdn.net #Brightcove
 zepteo.com
 zhongzifuli.com  #Advertising
+zhongzishenqi.com #Advertising
 ziffdavisinternational.com
 zkcdn.net
 znaptag.com
 zoomanalytics.co #Zoom Analytics
 zqtk.net
+zsj18.com #Advertising
 zxad.com #Zanox
 zxad.net #Zanox
 zzword.com #Adobe
@@ -10484,6 +10514,7 @@ metrics.aftonbladet.se #Aftonbladet
 dmtracking2.alibaba.com
 stat.alibaba.com
 g.alicdn.com
+alicdn.com
 analytics.amakings.com
 affiliate-program.amazon.co.uk
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
