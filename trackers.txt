@@ -1,5 +1,5 @@
 #NoTrack Tracker list updated 02 September 2016
-#LatestVersion 0.7.16
+#LatestVersion 0.7.17
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -10514,7 +10514,6 @@ metrics.aftonbladet.se #Aftonbladet
 dmtracking2.alibaba.com
 stat.alibaba.com
 g.alicdn.com
-alicdn.com
 analytics.amakings.com
 affiliate-program.amazon.co.uk
 analytics-collector-28944298.us-east-1.elb.amazonaws.com

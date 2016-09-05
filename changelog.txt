@@ -1,4 +1,4 @@
-Development: of v0.7.17 alpha
+v0.7.17 alpha - Released 05 Sep 2016
 
 NoTrack:
   Processing of lists is now done with Regex
@@ -19,6 +19,9 @@ Block lists removed:
   
 Sites Blocked List
   Simple deduplication of list, and put newest sites first (Issue #102)
+  
+DHCP:
+  Column naming corrected (Issue #114)
 
 
 v0.7.16 alpha - Released 22 Aug 2016
@@ -76,35 +79,5 @@ Config:
 Upgrade:
   Option to upgrade to Development version of NoTrack
   Styled like the Config page
-  
-
-v0.7.14 alpha
-Config:
-  New Domain Blocking page
-  New blocklists from Swiss Security
-  Fixed Issue #53 New link for EasyList China
-  Fixed bug with Block Message not saving
-  
-NoTrack.sh
-  Removed legacy upgrade code
-  Domain blocking modified to work with new Config
-  Further fix to Issue #39 - Allow custom IP for a VPS
-
-Home:
-  New icon for Sites Blocked
-  Modified NoTrack Logo
-  Replaced last two PNG based icons with SVG files
-  
-Create SSL Cert:
-  Removed Whiptail dependancy
-
-Uninstall:
-  Removed Whiptail dependancy
-
-  
-v0.7.13 alpha
-Config:
-  Fixed issue #48 Incorrect Who Is URL
-  Fixed issue of Password not loading
   
 

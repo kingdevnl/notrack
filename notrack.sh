@@ -44,7 +44,7 @@ Config[bl_ruseasy]=0                             #Russia
 Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countries)
 
 #Leave these Settings alone------------------------------------------
-Version="0.7.16"
+Version="0.7.17"
 BlockingCSV="/etc/notrack/blocking.csv"
 BlockingListFile="/etc/dnsmasq.d/notrack.list"
 BlackListFile="/etc/notrack/blacklist.txt"
