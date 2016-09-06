@@ -824,20 +824,21 @@ function Process_TLDList() {
   
   while IFS=$'#\n' read -r Line
   do
-    if [[ $Line =~ ^(\.[A-Za-z0-9\-]+)[[:space]]?#?(.*)$ ]]; then
+    if [[ $Line =~ ^\.([A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
       DomainWhiteList["${BASH_REMATCH[1]}"]=1    #Add domain to associative array      
     fi
   done < "$FILE_DOMAINWHITE"
   
   while IFS=$'#\n' read -r Line _
   do
-    if [[ $Line =~ ^(\.[A-Za-z0-9\-]+)[[:space]]?#?(.*)$ ]]; then
+    if [[ $Line =~ ^(\.[A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
       DomainBlackList["${BASH_REMATCH[1]}"]=1    #Add domain to associative array      
     fi
+    
   done < "$FILE_DOMAINBLACK"
   
   while IFS=$',\n' read -r TLD Name Risk _; do
-    if [[ $Risk == 1 ]]; then
+    if [[ $Risk == 1 ]]; then      
       if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
         SiteList[$TLD]=1
         CSVList+=("$TLD,Active,$Name")
