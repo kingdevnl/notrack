@@ -8,7 +8,6 @@
 
 #Re-write of notrack.sh into python
 from __future__ import print_function
-import ConfigParser
 import os
 import re
 import string
@@ -18,14 +17,14 @@ import time
 
 
 
-#User Configerable Settings (in case config file is missing)---------
+#User configerable Settings (in case config file is missing)---------
 NetDev = subprocess.check_output("ip -o link show | awk '{print $2,$9}' | grep UP | cut -d \: -f 1", shell=True).splitlines()[0]
 #If NetDev fails to recognise a Local Area Network IP Address, then you can use IPVersion to assign a custom IP Address in /etc/notrack/notrack.conf
 #e.g. IPVersion = 192.168.1.2
 
 IPVersion = "IPv4"
 
-config = {                                       #Config array for Block Lists
+config = {                                       #config array for Block Lists
   "bl_custom": "",
   "bl_notrack": True,
   "bl_tld": True,
@@ -57,7 +56,6 @@ config = {                                       #Config array for Block Lists
 #Constants-----------------------------------------------------------
 VERSION = "0.7.16"
 CHECKTIME = 343800                               #Time in Seconds between downloading lists (4 days - 30mins)
-#Leave these Settings alone------------------------------------------
 CSV_BLOCKING = "/etc/notrack/blocking.csv"
 CSV_TLD = "/var/www/html/admin/include/tld.csv"
 FILE_BLACKLIST = "/etc/notrack/blacklist.txt"
@@ -66,8 +64,9 @@ FILE_TLDBLACK = "/etc/notrack/domain-blacklist.txt"
 FILE_TLDWHITE = "/etc/notrack/domain-whitelist.txt"
 FILE_TLDQUICK = "/etc/notrack/domain-quick.list"
 LIST_NOTRACK = "/etc/dnsmasq.d/notrack.list"
+DIR_NOTRACK = '/etc/notrack/'
 
-ConfigFile = "/etc/notrack/notrack.conf"
+configFile = "/etc/notrack/notrack.conf"
 
 
 #Block list URL's----------------------------------------------------
@@ -104,10 +103,12 @@ force = False                                    #Force update block list
 #UnixTime = time.time()                           #Unix time now
 #JumpPoint=0                                      #Percentage increment
 #PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
+CSVList = []
 WhiteList = {}                                   #associative array for referencing sites in White List
 DomainList = {}                                  #Array to check if TLD blocked
 SiteList = {}                                    #Array to store sites being blocked
-Dedup = 0                                        #Count of Deduplication
+dedup = 0                                        #Count of deduplication
+CSVFiles = []
 
 #Error Exit 2nd generation--------------------------------------------
 def error_exit(Msg, ExitCode): 
@@ -136,63 +137,61 @@ def DeleteOldFile(File):
   else:
     return False
 
-"""
 #--------------------------------------------------------------------
 # Add Site to List
 # Checks whether a Site is in the Users whitelist or has previously been added
 #
-# Globals:
-#   DomainList
-#   WhiteList
 # Arguments:
 #   $1 Site to Add
 #   $2 Comment
 # Returns:
 #   None
 #--------------------------------------------------------------------
-
-function AddSite() {
-  local Site="$1"
-  
+def addsite(site, comment):
+  global SiteList, DomainList, WhiteList, dedup
+  """    
   if [[ $Site =~ ^www\. ]]; then                 #Drop www.
     Site="${Site:4}"
   fi
-  
+   """  
   #Ignore Sub domain
   #Group 1 Domain: A-Z,a-z,0-9,-  one or more
   # .
   #Group 2 (Double-barrelled TLD's) : org. | co. | com.  optional
   #Group 3 TLD: A-Z,a-z,0-9,-  one or more
   
-  if [[ $Site =~ ([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
-    if [ "${DomainList[.${BASH_REMATCH[3]}]}" ]; then  #Drop if .domain is in TLD
-      #echo "Dedup TLD $Site"                    #Uncomment for debugging
-      ((Dedup++))
-      return 0
-    fi
+  """
+  DomainList[Match.group(1)] = True
+          SiteList[Match.group(1)] = True
+          CSVList.append(Match.group(1)+',Active,'+Match.group(2))
+        elif Match.group(1) in DomainBlackList:
+  """
+  Match = re.match('([A-Za-z0-9\-_]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-_]+)$', site)
+  if Match:
+    if Match.group(3) in DomainList:             #Drop if .domain is in TLD
+      print('Dedup TLD %s' % site)
+      dedup += 1
+      return
     
-    if [ "${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then  #Drop if sub.site.domain has been added
-      #echo "Dedup Domain $Site"                 #Uncomment for debugging
-      ((Dedup++))
-      return 0
-    fi
+    if Match.group(1)+Match.group(2)+Match.group(3) in SiteList: #Drop if site.domain has been added
+      print('Dedup Domain %s' % site)            #Uncomment for debugging
+      dedup += 1
+      return
     
-    if [ "${SiteList[$Site]}" ]; then            #Drop if sub.site.domain has been added
-      #echo "Dedup Duplicate Sub $Site"          #Uncomment for debugging
-      ((Dedup++))
-      return 0
-    fi
-  
-    if [ "${WhiteList[$Site]}" ] || [ "${WhiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then                 #Is sub.site.domain or site.domain in whitelist?    
-      CSVList+=("$Site,Disabled,$2")             #Add to CSV as Disabled      
-    else                                         #No match in whitelist
-      CSVList+=("$Site,Active,$2")               #Add to CSV as Active
-      SiteList[$Site]=1                          #Add site into SiteList array
-    fi
-  #else
-    #echo "Invalid site $Site"
-  fi  
-}
+    if site in SiteList:                         #Drop if sub.site.domain has been added
+      print('Dedup Duplicate Sub %s' % site)     #Uncomment for debugging
+      dedup += 1
+      return
+      
+    if site in WhiteList or Match.group(1)+Match.group(2)+Match.group(3) in WhiteList: #Is sub.site.domain or site.domain in whitelist?    
+      CSVList.append(site+',Disabled,'+comment)  #Add to CSV as Disabled      
+    else:                                        #No match in whitelist
+      CSVList.append(site+',Active,'+comment)    #Add to CSV as Active
+      SiteList[site] = True                      #Add site into SiteList array
+    
+  else:
+    print('Invalid site %s' % site)
+"""
 #Calculate Percent Point in list files-------------------------------
 function CalculatePercentPoint() {
   #$1 = File to Calculate
@@ -299,17 +298,17 @@ def filter_bool(value, default):
 
 #--------------------------------------------------------------------
 #Default values are set at top of this script
-#Config File contains Key & Value on each line for some/none/or all items
+#config File contains Key & Value on each line for some/none/or all items
 #If the Key is found in the case, then we write the value to the Variable
 def load_config():
   global config
-  if not os.path.isfile(ConfigFile):
-    print("Config file %s missing, using default values" % ConfigFile)
+  if not os.path.isfile(configFile):
+    print("config file %s missing, using default values" % configFile)
     return False
     
-  print("Reading Config File %s" % ConfigFile)
+  print("Reading config File %s" % configFile)
     
-  with open(ConfigFile, 'r') as fp:
+  with open(configFile, 'r') as fp:
     for line in fp:
       line = line.split('=')
       key = line[0].strip()
@@ -368,46 +367,29 @@ def load_tldlist():
   #The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
   #DomainQuickList is used to speed up processing in stats.php
   
-  global Config, CSV_TLD, FILE_TLDBLACK, FILE_TLDWHITE, FILE_TLDQUICK, SiteList
+  global config, CSV_TLD, DIR_NOTRACK, FILE_TLDBLACK, FILE_TLDWHITE, FILE_TLDQUICK, SiteList
   
-  CSVList = []
+  del CSVList[:]
   DomainBlackList = {}
   DomainWhiteList = {}
   
-  list_time = filetime(LIST_NOTRACK)
+  list_time = filetime(DIR_NOTRACK+'tld.csv')
   
-  """
-  Get_FileTime "$DomainWhiteListFile"
-  local DomainWhiteFileTime=$FileTime
-  Get_FileTime "$DomainCSV"
-  local DomainCSVFileTime=$FileTime
-  Get_FileTime "/etc/dnsmasq.d/tld.list"
-  local TLDListFileTime=$FileTime
-  """
-  
-  """
-  if not Config['bl_tld']:                       #Should we process this list according to the Config settings?
-    DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
-    DeleteOldFile "/etc/notrack/tld.csv"
-    DeleteOldFile "$DomainQuickList"
-    echo
-    return 0
-  fi
-  """
-  
-  #CSVList=()                                     #Zero Arrays
-      
+  if not config['bl_tld']:                       #Should we process this list according to the config settings?
+    DeleteOldFile(FILE_TLDQUICK)
+    DeleteOldFile(DIR_NOTRACK+'tld.csv')
+    return
+        
   print("Processing Top Level Domain List")
-  """
-  #CreateFile "$DomainQuickList"                  #Quick lookup file for stats.php
-  #cat /dev/null > "$DomainQuickList"             #Empty file
-  """
+    
+  DomainBlackList = load_sitelist(FILE_TLDBLACK) #Load TLD Black list into Array
+  DomainWhiteList = load_sitelist(FILE_TLDWHITE) #Load TLD White list into Array
   
-  DomainBlackList = load_sitelist(FILE_TLDBLACK)
-  DomainWhiteList = load_sitelist(FILE_TLDWHITE)
-  
-  with open(CSV_TLD, 'r') as fp:
+  with open(CSV_TLD, 'r') as fp:                 #Open CSV from web folder
     for line in fp:
+      #Group 1: TLD
+      #Group 2: Country
+      #Group 3: Risk
       Match = re.match("^([A-Za-z0-9\-_\.]+),(\w+),(\d)", line)
       if Match:
         if Match.group(3) == 1 and not Match.group(1) in DomainWhiteList:
@@ -421,28 +403,23 @@ def load_tldlist():
     fp.close()
   
   if filetime(FILE_TLDBLACK) < list_time and filetime(FILE_TLDWHITE) < list_time and  filetime(CSV_TLD) < list_time and not force:
-    print("Top Level Domain List is in date, not saving")
-  """
+    print("Top Level Domain List is in date, not saving\n")
+    CSVFiles.append('tld.csv')
+    return 0
+    
+  with open(DIR_NOTRACK+'tld.csv', 'w') as fp:
+    fp.write('\n'.join(CSVList)+'\n')
+    fp.close
   
-  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
-  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $DomainCSVFileTime -lt $TLDListFileTime ] && [ $Force == 0 ]; then
-    cat "/etc/notrack/tld.csv" >> "$BlockingCSV"
-    echo "Top Level Domain List is in date, not saving"
-    echo
-    return 0    
-  fi
+  with open(FILE_TLDQUICK, 'w') as fp:
+    fp.write('\n'.join(DomainList))
+    fp.close()
   
-  printf "%s\n" "${!DomainList[@]}" > $DomainQuickList
-  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"  
+  CSVFiles.append('tld.csv')
   
-  echo "Finished processing Top Level Domain List"
-  echo
-  
-  unset IFS
-}
-"""
-#--------------------------------------------------------------------
+  print("Finished processing Top Level Domain List\n")
 
+#--------------------------------------------------------------------
 def load_whitelist():
   global WhiteList, FILE_WHITELIST
   
@@ -499,22 +476,25 @@ def get_ipaddress():
 
 
 
-"""
+
 #Custom BlackList----------------------------------------------------
-function GetList_BlackList() {
-  echo "Processing Custom Black List"
-  CSVList=()
-  Process_PlainList "$BlackListFile"
+def getlist_blacklist():
+  print("Processing Custom Black List")
+  del CSVList[:]
+  process_plainlist(DIR_NOTRACK+'blacklist.txt')
     
-  if [ ${#CSVList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
-    printf "%s\n" "${CSVList[@]}" > "/etc/notrack/custom.csv"
-    cat /etc/notrack/custom.csv >> "$BlockingCSV"
-  else
-    DeleteOldFile "/etc/notrack/custom.csv"
-  fi
-  echo "Finished processing Custom Black List"
-  echo  
-}
+  if len(CSVList) > 0:                           #Are there any URL's in the block list?
+    with open(DIR_NOTRACK+'custom.csv', 'w') as fp:
+      fp.write('\n'.join(CSVList)+'\n')
+      fp.close
+    CSVFiles.append('custom.csv')
+  else:
+    DeleteOldFile('/etc/notrack/custom.csv')
+  
+  print("Finished processing Custom Black List\n")
+
+"""
+
 #Get Custom List-----------------------------------------------------
 function Get_Custom() {
   local -A CustomListArray
@@ -524,7 +504,7 @@ function Get_Custom() {
   local CustomCount=1                            #For displaying count of custom list
     
 
-  if [[ ${Config[bl_custom]} == "" ]]; then      #Are there any custom block lists?
+  if [[ ${config[bl_custom]} == "" ]]; then      #Are there any custom block lists?
     echo "No Custom Block Lists in use"
     echo
     for FileName in /etc/notrack/custom_*; do    #Clean up old custom lists
@@ -539,7 +519,7 @@ function Get_Custom() {
   
   echo "Processing Custom Block Lists"
   #Split comma seperated list into individual URL's
-  IFS=',' read -ra CustomList <<< "${Config[bl_custom]}"
+  IFS=',' read -ra CustomList <<< "${config[bl_custom]}"
   for ListUrl in "${CustomList[@]}"; do
     echo "$CustomCount: $ListUrl"
     FileName=${ListUrl##*/}                      #Get filename from URL
@@ -626,8 +606,8 @@ function GetList() {
   local CSVFile="/etc/notrack/$1.csv"
   local DLFile="/tmp/$1.txt"
   
-  #Should we process this list according to the Config settings?
-  if [ "${Config[bl_$Lst]}" == 0 ]; then 
+  #Should we process this list according to the config settings?
+  if [ "${config[bl_$Lst]}" == 0 ]; then 
     DeleteOldFile "$CSVFile"     #If not delete the old file, then leave the function
     DeleteOldFile "$DLFile"
     return 0
@@ -764,10 +744,10 @@ function Process_NoTrackList() {
         #Check if config line LatestVersion exists
         #If not add it in with tee
         #If it does then use sed to update it
-        if [[ $(grep "LatestVersion" "$ConfigFile") == "" ]]; then
-          echo "LatestVersion = $LatestVersion" | sudo tee -a "$ConfigFile"
+        if [[ $(grep "LatestVersion" "$configFile") == "" ]]; then
+          echo "LatestVersion = $LatestVersion" | sudo tee -a "$configFile"
         else
-          sed -i "s/^\(LatestVersion *= *\).*/\1$LatestVersion/" $ConfigFile
+          sed -i "s/^\(LatestVersion *= *\).*/\1$LatestVersion/" $configFile
         fi
       fi      
     fi
@@ -783,26 +763,24 @@ function Process_NoTrackList() {
   
   unset IFS
 }
+"""
+#--------------------------------------------------------------------
 #Process PlainList---------------------------------------------------
-function Process_PlainList() {
+def process_plainlist(filename):
   #$1 = SourceFile
-  CalculatePercentPoint "$1"
-  i=1                                            #Progress counter
-  j=$JumpPoint                                   #Jump in percent
-    
-  while IFS=$'\n' read -r Line
-  do
-    #Group 1: Subdomain or Somain
-    # .
-    #Group 2: Domain or TLD
-    # space Optional
-    # # Optional
-    #Group 3: Comment  any character zero or more times
+  #CalculatePercentPoint "$1"
+  #i=1                                            #Progress counter
+  #j=$JumpPoint                                   #Jump in percent
   
-    if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
-      AddSite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"    
-    fi
+  
+  with open(filename, 'r') as fp:
+    for line in fp:
+      Match = re.match("^([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_\.]+)\s#?(.*)\n$", line)
+      if Match:
+        addsite(Match.group(1)+'.'+Match.group(2), Match.group(3))
+    fp.close()
     
+    """
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
       j=$((j + JumpPoint))
@@ -925,13 +903,13 @@ function SortList() {
 
   local -a SortedList                            #Sorted array of SiteList
   local -a DNSList                               #Dnsmasq list  
-  Dedup=0                                        #Reset Deduplication
+  dedup=0                                        #Reset deduplication
   
   echo "Sorting List"
   IFS=$'\n' SortedList=($(sort <<< "${!SiteList[*]}"))
   unset IFS
     
-  echo "Final Deduplication"
+  echo "Final deduplication"
   DNSList+=("#Tracker Block list last updated $(date)")
   DNSList+=("#Don't make any changes to this file, use $BlackListFile and $WhiteListFile instead")
   
@@ -945,7 +923,7 @@ function SortList() {
     if [[ $Site =~ ^[A-Za-z0-9\-]+\.([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
       #Is site.domain already in list?
       if [ ${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]} ]; then        
-        ((Dedup++))                              #Yes, add to total of dedup
+        ((dedup++))                              #Yes, add to total of dedup
       else
         DNSList+=("address=/$Site/$IPAddr")      #No, add to Array
       fi
@@ -954,7 +932,7 @@ function SortList() {
     fi
   done
   #printf "%s\n" "${SortedList[@]}"
-  echo "Further Deduplicated $Dedup Domains"
+  echo "Further deduplicated $dedup Domains"
   echo "Number of Domains in Block List: ${#DNSList[@]}"
   echo "Writing block list to $BlockingListFile"
   printf "%s\n" "${DNSList[@]}" > "$BlockingListFile"
@@ -970,7 +948,7 @@ def Show_Help():
   print("The following options can be specified:")
   print("  -f, --force\tForce update of Block list")
   print("  -h, --help\tDisplay this help and exit")
-  print("  -t, --test\tConfig Test")
+  print("  -t, --test\tconfig Test")
   print("  -v, --version\tDisplay version information and exit")
   print("  -u, --upgrade\tRun a full upgrade")
   print("  --count\tCount number of sites in active Block lists")
@@ -1015,7 +993,7 @@ def get_dnsmasq_version():
 def Test():
   dnsmasq_version = 0
     
-  print("NoTrack Config Test\n")
+  print("NoTrack config Test\n")
   
   print("NoTrack Version: %s" % VERSION)
   
@@ -1036,10 +1014,10 @@ def Test():
 
   print("")
   
-  if os.path.isfile(ConfigFile):                 #Does config exist?
+  if os.path.isfile(configFile):                 #Does config exist?
     load_config()                                #Yes, Load config file
   else:
-    print("No Config file available")            #No, inform user
+    print("No config file available")            #No, inform user
     
   print("Block Lists Utilised:")                 #Show block lists in use
   for key, value in config.iteritems():          #Read items in config
@@ -1054,7 +1032,7 @@ def Test():
   
   
   
-    echo "No Config file available"
+    echo "No config file available"
   fi
   
   Get_IPAddress                                  #Read IP Address of NetDev
@@ -1067,7 +1045,7 @@ function UpdateRequired() {
   #2 Block list older than 4 days
   #3 White list recently modified
   #4 Black list recently modified
-  #5 Config recently modified
+  #5 config recently modified
   #6 Domain White list recently modified
   #7 Domain Black list recently modified
   #8 Domain CSV recently modified
@@ -1093,9 +1071,9 @@ function UpdateRequired() {
     echo "Black List recently modified"
     return 0
   fi
-  Get_FileTime "$ConfigFile"
+  Get_FileTime "$configFile"
   if [ $FileTime -gt $ListFileTime ]; then
-    echo "Config recently modified"
+    echo "config recently modified"
     return 0
   fi
   Get_FileTime "$DomainWhiteListFile"
@@ -1201,7 +1179,7 @@ fi
 #7. Load WhiteList file into WhiteList associative array
 #8. Create csv file of blocked sites, or empty it
 #9. Process Users Custom BlackList
-#10. Process Other block lists according to Config
+#10. Process Other block lists according to config
 #11. Process Custom block lists
 #12. Sort list and do final deduplication
 
@@ -1271,9 +1249,10 @@ load_tldlist()                                   #Load and Process TLD List
 """
 
 Process_WhiteList                                #Process White List
+"""
 
-GetList_BlackList                                #Process Users Blacklist
-  
+getlist_blacklist()                              #Process Users Blacklist
+"""  
 GetList "notrack" "notrack"
 GetList "qmalware" "plain"
 GetList "hexxium" "easylist"
@@ -1302,10 +1281,10 @@ GetList "fblatin" "easylist"
 
 Get_Custom                                       #Process Custom Block lists
 
-echo "Deduplicated $Dedup Domains"
-SortList                                         #Sort, Dedup 2nd round, Save list
+echo "deduplicated $dedup Domains"
+SortList                                         #Sort, dedup 2nd round, Save list
 
-if [ "${Config[bl_tld]}" == 0 ]; then
+if [ "${config[bl_tld]}" == 0 ]; then
   DeleteOldFile "$DomainQuickList"
 fi
   
@@ -1314,4 +1293,11 @@ service dnsmasq restart                          #Restart dnsmasq
 echo "NoTrack complete"
 echo
 """
- 
+
+"""
+write Blocking List
+destination = open(outfile,'wb')
+shutil.copyfileobj(open(file1,'rb'), destination)
+shutil.copyfileobj(open(file2,'rb'), destination)
+destination.close()
+"""
