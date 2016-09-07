@@ -202,7 +202,7 @@ function AddSite() {
       CSVList+=("$Site,Disabled,$2")             #Add to CSV as Disabled      
     else                                         #No match in whitelist
       CSVList+=("$Site,Active,$2")               #Add to CSV as Active
-      SiteList[$Site]=1                          #Add site into SiteList array
+      SiteList[$Site]=true                       #Add site into SiteList array
     fi
   #else
     #echo "Invalid site $Site"
@@ -277,7 +277,16 @@ function CheckDnsmasqVer() {
   fi
 }
 
-#Count Lines---------------------------------------------------------
+#--------------------------------------------------------------------
+# Count number of lines in /etc/dnsmasq.d block lists
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function CountLines() {
   local ListFile=""
   local LineCount=0
@@ -289,19 +298,6 @@ function CountLines() {
   echo "$LineCount"
 }
 
-#Read White List-----------------------------------------------------
-function Read_WhiteList() {
-  while IFS='# ' read -r Line _
-  do
-    if [[ ! $Line =~ ^\ *# && -n $Line ]]; then
-      Line="${Line%%\#*}"                        #Delete comments
-      Line="${Line%%*( )}"                       #Delete trailing spaces
-      WhiteList[$Line]=1
-    fi
-  done < $FILE_WHITELIST
-  
-  unset IFS
-}
 #Generate BlackList--------------------------------------------------
 function Generate_BlackList() {
   local -a Tmp                                   #Local array to build contents of file
@@ -596,6 +592,27 @@ function load_config() {
 }
 
 #--------------------------------------------------------------------
+# Load White List
+# 
+# Globals:
+#   FILE_WHITELIST, WhiteList
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function load_whitelist() {
+  while IFS='\n' read -r Line
+  do
+    if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
+      WhiteList["${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"]=true   #Add site to associative array      
+    fi    
+  done < $FILE_WHITELIST
+  
+  unset IFS
+}
+
+#--------------------------------------------------------------------
 # Process Custom List
 # 
 # Globals:
@@ -606,7 +623,10 @@ function load_config() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function Process_CustomList() {  
+function Process_CustomList() {
+  local i=0
+  local j=0
+
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
@@ -651,7 +671,10 @@ function Process_CustomList() {
 #   Group 3: ^ | / | $  once
 #   Group 4: $third-party | $popup | $popup,third-party
 #--------------------------------------------------------------------
-function Process_EasyList() {  
+function Process_EasyList() {
+  local i=0
+  local j=0
+  
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent  
@@ -694,6 +717,8 @@ function Process_EasyList() {
 #   Group 3: Comment  any character zero or more times
 #--------------------------------------------------------------------
 function Process_NoTrackList() {
+  local i=0
+  local j=0
   local LatestVersion=""
   
   CalculatePercentPoint "$1"
@@ -750,7 +775,9 @@ function Process_NoTrackList() {
 #   Group 3: Comment  any character zero or more times
 #--------------------------------------------------------------------
 function Process_PlainList() {
-  #$1 = SourceFile
+  local i=0
+  local j=0
+  
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
@@ -822,17 +849,17 @@ function Process_TLDList() {
   CreateFile "$FILE_QUICKLIST"                  #Quick lookup file for stats.php
   cat /dev/null > "$FILE_QUICKLIST"             #Empty file
   
-  while IFS=$'#\n' read -r Line
+  while IFS=$'\n' read -r Line
   do
     if [[ $Line =~ ^\.([A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
-      DomainWhiteList["${BASH_REMATCH[1]}"]=1    #Add domain to associative array      
+      DomainWhiteList["${BASH_REMATCH[1]}"]=true #Add domain to associative array      
     fi
   done < "$FILE_DOMAINWHITE"
   
-  while IFS=$'#\n' read -r Line _
+  while IFS=$'\n' read -r Line _
   do
     if [[ $Line =~ ^(\.[A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
-      DomainBlackList["${BASH_REMATCH[1]}"]=1    #Add domain to associative array      
+      DomainBlackList["${BASH_REMATCH[1]}"]=true #Add domain to associative array      
     fi
     
   done < "$FILE_DOMAINBLACK"
@@ -840,15 +867,15 @@ function Process_TLDList() {
   while IFS=$',\n' read -r TLD Name Risk _; do
     if [[ $Risk == 1 ]]; then      
       if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
-        SiteList[$TLD]=1
+        SiteList[$TLD]=true
         CSVList+=("$TLD,Active,$Name")
-        DomainList[$TLD]=1        
+        DomainList[$TLD]=true
       fi    
     else
       if [ "${DomainBlackList[$TLD]}" ]; then
-        SiteList[$TLD]=1
+        SiteList[$TLD]=true
         CSVList+=("$TLD,Active,$Name")
-        DomainList[$TLD]=1        
+        DomainList[$TLD]=true
       fi
     fi
   done < "$CSV_DOMAIN"
@@ -892,8 +919,10 @@ function Process_TLDList() {
 #--------------------------------------------------------------------
 function Process_UnixList() {
   #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
-    
-  #$1 = SourceFile
+  
+  local i=0
+  local j=0
+  
   CalculatePercentPoint "$1"
   i=1                                            #Progress counter
   j=$JumpPoint                                   #Jump in percent
@@ -924,10 +953,8 @@ function Process_UnixList() {
 # Globals:
 #   WhiteList
 #   DomainList
-#
 # Arguments:
 #   None
-#
 # Returns:
 #   0: Success
 #   55: Failed
@@ -951,7 +978,7 @@ function Process_WhiteList() {
   fi
   
   for Site in "${!WhiteList[@]}"; do             #Read entire White List associative array
-    if [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]; then    #Extract the TLD      
+    if [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]; then    #Extract the TLD
       if [ "${DomainList[${BASH_REMATCH[0]}]}" ]; then   #Is TLD present in Domain List?
         if [ "$Method" == 1 ]; then              #What method to unblock site? 
           DNSList+=("server=/$Site/#")           #Add unblocked site to DNS List Array
@@ -984,16 +1011,38 @@ function Process_WhiteList() {
   echo  
 }
 
-#Sort List-----------------------------------------------------------
+#--------------------------------------------------------------------
+# Sort List then save to file
+#   1. Sort SiteList array into new array SortedList
+#   2. Go through SortedList and check subdomains again
+#   3. Copy SortedList to DNSList, removing any blocked subdomains
+#   4. Write list to dnsmasq folder
+# Globals:
+#   SiteList
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function SortList() {
-  #1. Sort SiteList array into new array SortedList
-  #2. Go through SortedList and check subdomains again
-  #3. Copy SortedList to DNSList, removing any blocked subdomains
-  #4. Write list to dnsmasq folder
-
+  local ListSize=0
+  local i=0
+  local j=0
   local -a SortedList                            #Sorted array of SiteList
   local -a DNSList                               #Dnsmasq list  
   Dedup=0                                        #Reset Deduplication
+  
+  ListSize=${#SiteList[@]}                       #Get number of items in Array
+  if [ "$ListSize" == 0 ]; then                  #Fatal error
+    Error_Exit "No items in Block List" "8"
+  fi  
+  if [ "$ListSize" -ge 100 ]; then               #Calculate Percentage Point
+    PercentPoint=$((ListSize/100))
+    JumpPoint=1
+  else
+    PercentPoint=1
+    JumpPoint=$((100/ListSize))
+  fi
   
   echo "Sorting List"
   IFS=$'\n' SortedList=($(sort <<< "${!SiteList[*]}"))
@@ -1020,8 +1069,19 @@ function SortList() {
     else                                         #No subdomain, add to Array
       DNSList+=("address=/$Site/$IPAddr")
     fi
+    
+    if [ $i -ge $PercentPoint ]; then            #Display progress
+      echo -ne " $j%  \r"                        #Echo without return
+      j=$((j + JumpPoint))
+      i=0
+    fi
+    ((i++))
+    
   done
-  #printf "%s\n" "${SortedList[@]}"
+  
+  echo " 100%"
+  echo
+  #printf "%s\n" "${SortedList[@]}"              #Uncomment to debug
   echo "Further Deduplicated $Dedup Domains"
   echo "Number of Domains in Block List: ${#DNSList[@]}"
   echo "Writing block list to $LISTFILE_BLOCKING"
@@ -1029,7 +1089,9 @@ function SortList() {
   
   echo
 }
-#Help----------------------------------------------------------------
+
+#--------------------------------------------------------------------
+#Show on screen help
 function Show_Help() {
   echo "Usage: notrack"
   echo "Downloads and Installs updated tracker lists"
@@ -1042,12 +1104,24 @@ function Show_Help() {
   echo -e "  -u, --upgrade\tRun a full upgrade"
   echo -e "  --count\tCount number of sites in active Block lists"
 }
-#Show Version--------------------------------------------------------
+
+#--------------------------------------------------------------------
+#Show Version
 function Show_Version() {
   echo "NoTrack Version $Version"
   echo
 }
-#Test----------------------------------------------------------------
+
+#--------------------------------------------------------------------
+# Test
+#   Display Config and version number
+# Globals:
+#   Config
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function Test() {
   local DnsmasqVersion=""
   local key=""
@@ -1075,38 +1149,47 @@ function Test() {
         echo "Dig isn't installed. Unable to White list from blocked TLD's"
       fi
     fi
-  fi
-  
+  fi  
   echo
   
   load_config                                    #Load saved variables
   Get_IPAddress                                  #Read IP Address of NetDev
   
   echo "Block Lists Utilised:"
-  for key in "${!Config[@]}"; do  
-    if [[ "${Config[$key]}" == 1 ]]; then
-      echo "$key"
+  for key in "${!Config[@]}"; do                 #Read keys from Config array
+    if [[ "${Config[$key]}" == 1 ]]; then        #Is block list enabled?
+      echo "$key"                                #Yes, display it
     fi
   done
   echo
   
-  if [[ ${Config[bl_custom]} != "" ]]; then
+  if [[ ${Config[bl_custom]} != "" ]]; then      #Any custom block lists?
     echo "Additional Custom Block Lists Utilised:"
     echo "${Config[bl_custom]}"
   fi
 }
-#Check Update Required----------------------------------------------
-function UpdateRequired() {
-  #Triggers for Update being required:
-  #1. -f or --forced
-  #2 Block list older than 4 days
-  #3 White list recently modified
-  #4 Black list recently modified
-  #5 Config recently modified
-  #6 Domain White list recently modified
-  #7 Domain Black list recently modified
-  #8 Domain CSV recently modified
 
+#--------------------------------------------------------------------
+# Check if an update is required
+#   Triggers for Update being required:
+#   1. -f or --forced
+#   2 Block list older than 4 days
+#   3 White list recently modified
+#   4 Black list recently modified
+#   5 Config recently modified
+#   6 Domain White list recently modified
+#   7 Domain Black list recently modified
+#   8 Domain CSV recently modified
+# Globals:
+#   Force
+#   FILE_BLACKLIST, FILE_WHITELIST, FILE_CONFIG, FILE_DOMAINBLACK, FILE_DOMAINWHITE
+#   CSV_DOMAIN
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function UpdateRequired() {
   Get_FileTime "$LISTFILE_BLOCKING"
   local ListFileTime="$FileTime"
   
@@ -1152,7 +1235,16 @@ function UpdateRequired() {
   echo "No update required"
   exit 0
 }
-#Upgrade-------------------------------------------------------------
+
+#--------------------------------------------------------------------
+# Upgrade NoTrack
+# Globals:
+#   Config
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function Upgrade() {
   #As of v0.7.9 Upgrading is now handled by ntrk-upgrade.sh
   #This function attempts to run it from /usr/local/sbin
@@ -1191,6 +1283,7 @@ function Upgrade() {
     fi
   fi
 }
+
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
   if ! options="$(getopt -o fhvtu -l count,help,force,version,upgrade,test -- "$@")"; then
@@ -1269,19 +1362,19 @@ if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exis
   fi
 fi
   
-load_config                                 #Load saved variables
+load_config                                      #Load saved variables
 Get_IPAddress                                    #Read IP Address of NetDev
   
 if [ ! -e $FILE_WHITELIST ]; then Generate_WhiteList
 fi
   
-Read_WhiteList                                   #Load Whitelist into array
-CreateFile "$CSV_BLOCKING"                        #Create Block list csv
+load_whitelist                                   #Load Whitelist into array
+CreateFile "$CSV_BLOCKING"                       #Create Block list csv
   
 if [ ! -e "$FILE_BLACKLIST" ]; then Generate_BlackList
 fi
 
-CreateFile "$FILE_DOMAINWHITE"                #Create Black & White lists
+CreateFile "$FILE_DOMAINWHITE"                   #Create Black & White lists
 CreateFile "$FILE_DOMAINBLACK"
 
 #Legacy files as of v0.7.15 since block list was consolidated
@@ -1331,7 +1424,6 @@ GetList "hphosts" "unix"
 GetList "malwaredomainlist" "unix"
 GetList "malwaredomains" "plain"
 GetList "pglyoyo" "plain"
-#GetList "securemecca" "unix"
 GetList "someonewhocares" "unix"
 GetList "spam404" "easylist"
 GetList "swissransom" "plain"
