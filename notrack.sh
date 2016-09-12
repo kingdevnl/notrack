@@ -278,6 +278,30 @@ function CheckDnsmasqVer() {
 }
 
 #--------------------------------------------------------------------
+# Check If Running as Root and if Script is already running
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function check_root() {
+  local Pid=""
+  Pid=$(pgrep notrack | head -n 1)               #Get PID of first notrack process
+
+  if [[ "$(id -u)" != "0" ]]; then
+    Error_Exit "This script must be run as root" "5"    
+  fi
+  
+  #Check if another copy of notrack is running
+  if [[ $Pid != "$$" ]] && [[ -n $Pid ]] ; then  #$$ = This PID    
+    Error_Exit "NoTrack already running under Pid $Pid" "8"
+  fi
+}
+
+#--------------------------------------------------------------------
 # Count number of lines in /etc/dnsmasq.d block lists
 #
 # Globals:
@@ -1349,9 +1373,7 @@ fi
 #11. Process Custom block lists
 #12. Sort list and do final deduplication
 
-if [ "$(id -u)" != 0 ]; then                     #Check if running as root
-  Error_Exit "This script must be run as root" "5"
-fi
+check_root                                       #Check if Script run as Root
   
 if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exists
   echo "Creating notrack folder under /etc"
