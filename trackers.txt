@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 02 September 2016
+#NoTrack Tracker list updated 13 September 2016
 #LatestVersion 0.7.17
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -759,6 +759,7 @@ codinginadtech.com #OpenX
 codinginadtech.net #OpenX
 collective.com
 collective-media.net
+company-target.com #Demandbase
 comparingmobiles.com #Digital Window
 compete.com
 concertbreaks.com #Digital Window
@@ -889,7 +890,7 @@ deltadevconfirmsubscription.com #Campaign Monitor Pty
 deltadevcreatesend.com #Campaign Monitor Pty
 deltatestconfirmsubscription.com #Campaign Monitor Pty
 deltatestcreatesend.com #Campaign Monitor Pty
-demandbase.com
+demandbase.com #Demandbase
 demdex.com #Adobe
 demdexpartner.com #Adobe
 demdextest.com #Adobe
@@ -9970,6 +9971,8 @@ shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
+shore.li #Shore
+shore.uno #Shore
 shuhenelk.com #Advertising
 shrfbdg004.com #Lead Forensics
 shwired.com #TMRG
