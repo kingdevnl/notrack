@@ -7,6 +7,13 @@
 #Date : 2015-02-02
 #Usage : Write jobs to /tmp/ntrk-exec.txt, then launch ntrk-exec
 
+
+#######################################
+# Constants
+#######################################
+readonly PASSWORD_FILE="/etc/notrack/.password"
+
+
 #Settings------------------------------------------------------------
 ConfigFile="/etc/notrack/notrack.conf"
 ExecFile="/tmp/ntrk-exec.txt"
@@ -100,6 +107,40 @@ Upgrade-NoTrack() {
     /usr/local/sbin/notrack -u
   fi
 }
+
+
+#######################################
+# Enables password protection and sets hashed password
+# Globals:
+#   $PASSWORD_FILE
+# Arguments:
+#   $1 Hashed password
+# Returns:
+#   None
+#######################################
+enable_password_protection(){
+  if [ -e $PASSWORD_FILE ]; then
+    sudo rm $PASSWORD_FILE
+  fi
+
+  sudo echo $1 >> $PASSWORD_FILE
+}
+
+
+#######################################
+# Disables password protection
+# Globals:
+#   $PASSWORD_FILE
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+disable_password_protection(){
+  sudo rm $PASSWORD_FILE
+}
+
+
 #Main----------------------------------------------------------------
 
 if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user
@@ -115,7 +156,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o h -l enable-password: -- "$@"); then
+  if ! Options=$(getopt -u -o h -l enable-password:,disable-password -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -129,8 +170,11 @@ if [ "$1" ]; then                         #Have any arguments been given
         echo "Help"
         ;;
       --enable-password) 
-        echo "$2"
+        enable_password_protection $2
 	      shift
+        ;;
+      --disable-password) 
+        disable_password_protection
         ;;
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
