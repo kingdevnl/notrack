@@ -113,98 +113,125 @@ if [[ "$(id -u)" != "0" ]]; then                 #Check if running as root
   exit 2
 fi
 
-Check_File_Exists "$ExecFile"
 
-while read -r Line; do  
-  case "$Line" in
-    copy-blacklist)
-      Copy_BlackList
-    ;;
-    copy-whitelist) 
-      Copy_WhiteList
-    ;;
-    copy-tldblacklist)
-      Copy_TLDBlackList
-    ;;
-    copy-tldwhitelist) 
-      Copy_TLDWhiteList
-    ;;
-    create-accesslog)
-      Create_AccessLog
-    ;;
-    delete-history)
-      Delete_History
-    ;;
-    force-notrack)
-      /usr/local/sbin/notrack --force
-    ;;
-    pause5)
-      /usr/local/sbin/ntrk-pause --pause 5
-    ;;
-    pause15)
-      /usr/local/sbin/ntrk-pause --pause 15
-    ;;
-    pause30)
-      /usr/local/sbin/ntrk-pause --pause 30
-    ;;
-    pause60)
-      /usr/local/sbin/ntrk-pause --pause 60
-    ;;
-    restart)
-      reboot
-    ;;
-    start)
-      /usr/local/sbin/ntrk-pause --start
-    ;;
-    stop)
-      /usr/local/sbin/ntrk-pause --stop
-    ;;
-    shutdown)
-      shutdown now
-    ;;
-    update-config)
-      Update_Config
-    ;;
-    upgrade-notrack)
-      Upgrade-NoTrack
-    ;;  
-    blockmsg-message)
-      if [ -L /var/www/html/sink ]; then         #Remove at RC
-        echo "Removing old symbolic link folder"
-        rm /var/www/html/sink
-      fi
-      if [ ! -d  /var/www/html/sink ]; then
-        echo "Creating Sink Folder"
-        mkdir /var/www/html/sink
-      fi
-      echo 'Setting Block message Blocked by NoTrack'
-      echo '<p>Blocked by NoTrack</p>' | tee /var/www/html/sink/index.html &> /dev/null
-      sudo chown -hR www-data:www-data /var/www/html/sink
-      sudo chmod -R 775 /var/www/html/sink
-    ;;
-    blockmsg-pixel)
-      if [ -L /var/www/html/sink ]; then         #Remove at RC
-        echo "Removing old symbolic link folder"
-        rm /var/www/html/sink        
-      fi
-      if [ ! -d  /var/www/html/sink ]; then
-        echo "Creating Sink Folder"
-        mkdir /var/www/html/sink        
-      fi
-      echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
-      sudo chown -hR www-data:www-data /var/www/html/sink
-      sudo chmod -R 775 /var/www/html/sink
-      echo 'Setting Block message to 1x1 pixel'
-    ;;
-    run-notrack)
-      /usr/local/sbin/notrack
-    ;;
-    *)
-      echo "Invalid action $Line"
-  esac
-done < "$ExecFile"
+if [ "$1" ]; then                         #Have any arguments been given
+  if ! Options=$(getopt -o h -l enable-password: -- "$@"); then
+    # something went wrong, getopt will put out an error message for us
+    exit 1
+  fi
 
-if [ -e /tmp/ntrk-exec.txt ]; then
-  echo "Deleting $ExecFile"
-  rm "$ExecFile"
+  set -- $Options
+
+  while [ $# -gt 0 ]
+  do
+    case $1 in
+      -h)
+        echo "Help"
+        ;;
+      --enable-password) 
+        echo "$2"
+	      shift
+        ;;
+      (--) shift; break;;
+      (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
+      (*) break;;
+    esac
+    shift
+  done
+else 
+  Check_File_Exists "$ExecFile"
+
+  while read -r Line; do  
+    case "$Line" in
+      copy-blacklist)
+        Copy_BlackList
+      ;;
+      copy-whitelist) 
+        Copy_WhiteList
+      ;;
+      copy-tldblacklist)
+        Copy_TLDBlackList
+      ;;
+      copy-tldwhitelist) 
+        Copy_TLDWhiteList
+      ;;
+      create-accesslog)
+        Create_AccessLog
+      ;;
+      delete-history)
+        Delete_History
+      ;;
+      force-notrack)
+        /usr/local/sbin/notrack --force
+      ;;
+      pause5)
+        /usr/local/sbin/ntrk-pause --pause 5
+      ;;
+      pause15)
+        /usr/local/sbin/ntrk-pause --pause 15
+      ;;
+      pause30)
+        /usr/local/sbin/ntrk-pause --pause 30
+      ;;
+      pause60)
+        /usr/local/sbin/ntrk-pause --pause 60
+      ;;
+      restart)
+        reboot
+      ;;
+      start)
+        /usr/local/sbin/ntrk-pause --start
+      ;;
+      stop)
+        /usr/local/sbin/ntrk-pause --stop
+      ;;
+      shutdown)
+        shutdown now
+      ;;
+      update-config)
+        Update_Config
+      ;;
+      upgrade-notrack)
+        Upgrade-NoTrack
+      ;;  
+      blockmsg-message)
+        if [ -L /var/www/html/sink ]; then         #Remove at RC
+          echo "Removing old symbolic link folder"
+          rm /var/www/html/sink
+        fi
+        if [ ! -d  /var/www/html/sink ]; then
+          echo "Creating Sink Folder"
+          mkdir /var/www/html/sink
+        fi
+        echo 'Setting Block message Blocked by NoTrack'
+        echo '<p>Blocked by NoTrack</p>' | tee /var/www/html/sink/index.html &> /dev/null
+        sudo chown -hR www-data:www-data /var/www/html/sink
+        sudo chmod -R 775 /var/www/html/sink
+      ;;
+      blockmsg-pixel)
+        if [ -L /var/www/html/sink ]; then         #Remove at RC
+          echo "Removing old symbolic link folder"
+          rm /var/www/html/sink        
+        fi
+        if [ ! -d  /var/www/html/sink ]; then
+          echo "Creating Sink Folder"
+          mkdir /var/www/html/sink        
+        fi
+        echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
+        sudo chown -hR www-data:www-data /var/www/html/sink
+        sudo chmod -R 775 /var/www/html/sink
+        echo 'Setting Block message to 1x1 pixel'
+      ;;
+      run-notrack)
+        /usr/local/sbin/notrack
+      ;;
+      *)
+        echo "Invalid action $Line"
+    esac
+  done < "$ExecFile"
+
+  if [ -e /tmp/ntrk-exec.txt ]; then
+    echo "Deleting $ExecFile"
+    rm "$ExecFile"
+  fi
 fi
