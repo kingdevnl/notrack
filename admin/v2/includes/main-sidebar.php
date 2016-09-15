@@ -16,6 +16,7 @@ function is_active($current_page_name, $page_name){
             <!--<li class="header">HEADER</li>-->
             <!-- Optionally, you can add icons to the links -->
             <li class="<?php is_active($current_page_name, "dashboard") ?>"><a href="index.php"><i class="fa fa-th-large"></i> <span>Dashboard</span></a></li>
+            <li class="<?php is_active($current_page_name, "network") ?>"><a href="network.php"><i class="fa fa-sitemap"></i> <span>Network</span></a></li>
             <li class="<?php is_active($current_page_name, "security") ?>"><a href="security.php"><i class="fa fa-shield"></i> <span>Security</span></a></li>
             <li class="<?php is_active($current_page_name, "help") ?>"><a href="help.php"><i class="fa fa-question"></i> <span>Help</span></a></li>
 
