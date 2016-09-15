@@ -43,6 +43,38 @@ ensure_active_session();
                     <!-- Your Page Content Here -->
 
                     <div class="row">
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <a href="#">
+                                <div class="info-box bg-aqua">
+                                    <!-- Apply any bg-* class to to the icon to color it -->
+                                    <span class="info-box-icon"><i class="fa fa-times"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Sites Blocked This Week</span>
+                                        <span class="info-box-number"><?php echo get_blocked_sites_count() ?></span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                                <!-- /.info-box -->
+                            </a>
+                        </div>
+                        <!-- /.col -->
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <a href="#">
+                                <div class="info-box bg-light-blue">
+                                    <!-- Apply any bg-* class to to the icon to color it -->
+                                    <span class="info-box-icon"><i class="fa fa-tasks"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">DNS Queries Today</span>
+                                        <span class="info-box-number"><?php echo get_dns_queries_count() ?></span>
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </a>
+                        </div><!-- /.col -->
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix visible-sm-block"></div>
+
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <a href="network.php">
                                 <div class="info-box bg-purple">
