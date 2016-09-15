@@ -918,8 +918,7 @@ function Process_TLDList() {
   echo "Finished processing Top Level Domain List"
   echo
   
-  unset IFS
-  exit
+  unset IFS  
 }
 
 #--------------------------------------------------------------------
