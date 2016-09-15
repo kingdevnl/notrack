@@ -80,4 +80,9 @@ function get_dns_queries_count(){
     return floatval(exec("grep -F query[A] $NOTRACK_LOG_FILE | wc -l"));
 }
 
+function get_blocked_sites_count(){
+    global $LIGHTTPD_ACCESS_LOG_FILE;
+    return floatval(exec("grep -v admin $LIGHTTPD_ACCESS_LOG_FILE | wc -l"));
+}
+
 ?>
