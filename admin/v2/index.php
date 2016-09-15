@@ -42,6 +42,34 @@ ensure_active_session();
 
                     <!-- Your Page Content Here -->
 
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <a href="network.php">
+                                <div class="info-box bg-purple">
+                                    <span class="info-box-icon"><i class="fa fa-sitemap"></i></span>
+                                    <div class="info-box-content">
+                                        <?php
+                                        if (is_dhcp_enabled()) {
+                                            ?>
+                                            <span class="info-box-text">Connected Devices</span>
+                                            <span class="info-box-number"><?php echo get_dhcp_lease_count() ?></span>                                        
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <span class="info-box-text">DHCP is not enabled</span>
+                                            <?php
+                                        }
+                                        ?>
+                                        <!-- The progress section is optional -->
+                                    </div><!-- /.info-box-content -->
+                                </div><!-- /.info-box -->
+                            </a>
+                        </div>
+                        <!-- /.col -->
+
+                    </div>
+                    <!-- /.row -->
+
 
 
 
