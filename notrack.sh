@@ -876,27 +876,27 @@ function Process_TLDList() {
   while IFS=$'\n' read -r Line
   do
     if [[ $Line =~ ^\.([A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
-      DomainWhiteList["${BASH_REMATCH[1]}"]=true #Add domain to associative array      
+      DomainWhiteList[".${BASH_REMATCH[1]}"]=true #Add domain to associative array      
     fi
   done < "$FILE_DOMAINWHITE"
   
   while IFS=$'\n' read -r Line _
   do
-    if [[ $Line =~ ^(\.[A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
-      DomainBlackList["${BASH_REMATCH[1]}"]=true #Add domain to associative array      
+    if [[ $Line =~ ^\.([A-Za-z0-9\-]+)[[:space:]]?#?(.*)$ ]]; then
+      DomainBlackList[".${BASH_REMATCH[1]}"]=true #Add domain to associative array      
     fi
     
   done < "$FILE_DOMAINBLACK"
   
-  while IFS=$',\n' read -r TLD Name Risk _; do
+  while IFS=$',\n' read -r TLD Name Risk _; do    
     if [[ $Risk == 1 ]]; then      
       if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
         SiteList[$TLD]=true
         CSVList+=("$TLD,Active,$Name")
         DomainList[$TLD]=true
       fi    
-    else
-      if [ "${DomainBlackList[$TLD]}" ]; then
+    else      
+      if [ "${DomainBlackList[$TLD]}" ]; then      
         SiteList[$TLD]=true
         CSVList+=("$TLD,Active,$Name")
         DomainList[$TLD]=true
@@ -919,6 +919,7 @@ function Process_TLDList() {
   echo
   
   unset IFS
+  exit
 }
 
 #--------------------------------------------------------------------
