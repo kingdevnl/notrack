@@ -32,11 +32,11 @@ function ReportSite(Site, Remove) {
     Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';    
         
     //Is it a single domain with optional double-barrelled tld?
-    if (/^[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/.test(Site)) {                      
+    if (/^[A-Za-z0-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$/.test(Site)) {                      
       Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Domain</a> Add domain to your Black List</p>';
     }
     else {                                       //No, it has one or more sub-domains      
-      Domain = Site.match(/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/)[0];     //Extract domain with optional double-barrelled tld
+      Domain = Site.match(/[A-Za-z0-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$/)[0];     //Extract domain with optional double-barrelled tld
 	    Block1 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Domain+'&comment=" target="_blank">Block Domain</a> Block entire domain '+Domain+'</p>';
 	    Block2 = '<p><a class="button-blue" href=" ./config.php?v=black&action=black&do=add&site='+Site+'&comment=" target="_blank">Block Subdomain</a> Add subdomain to your Black List</p>';      
     }
