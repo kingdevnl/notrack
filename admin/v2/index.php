@@ -45,13 +45,13 @@ ensure_active_session();
                     <div class="row">
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <a href="#">
+                            <a href="blocked.php">
                                 <div class="info-box bg-aqua">
                                     <!-- Apply any bg-* class to to the icon to color it -->
                                     <span class="info-box-icon"><i class="fa fa-times"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Sites Blocked This Week</span>
-                                        <span class="info-box-number"><?php echo get_blocked_sites_count() ?></span>
+                                        <span class="info-box-text">Blocked This Week</span>
+                                        <span class="info-box-number"><?php echo get_blocked_queries_count() ?></span>
                                     </div><!-- /.info-box-content -->
                                 </div><!-- /.info-box -->
                                 <!-- /.info-box -->
