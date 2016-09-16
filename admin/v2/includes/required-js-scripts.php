@@ -3,9 +3,6 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
-<script src="plugins/input-mask/jquery.inputmask.js"></script>
-<script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
-
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 
