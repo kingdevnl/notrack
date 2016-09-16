@@ -147,10 +147,10 @@ function Load_Access_Log() {
   
   //Regex Matches:
   //1: \d{1,23} - 64bit Time value
-  //2: [A-Za-z0-9\-\.]{2.253} Left-hand side of URL (before /)
+  //2: [A-Za-z0-9\-\.] One or more times Left-hand side of URL (before /)
   //3: (GET|POST) GET or POST
   //Negate /admin and /favicon.ico
-  //4: [A-Za-z0-9\-_\%\&\?\.\/#]{2,2048} Right-hand side of URL (after /)
+  //4: [Non whitespace] Any number of times Right-hand side of URL (after /)
   //HTTP 1.1 or 2.0
   //200 - HTTP Ok (Not interested in 304,404)
   
@@ -159,7 +159,7 @@ function Load_Access_Log() {
     while (!feof($FileHandle)) {
       $Line = trim(fgets($FileHandle));          //Read Line of LogFile
       //echo $Line.'<br />';
-      if (preg_match('/^(\d{1,23})\|([A-Za-z0-9\-\.]{2,253})\|(GET|POST)\s(?!\/admin|\/favicon\.ico)([A-Za-z0-9\-_\%\&\?\.\/#]{2,2048})\sHTTP\/\d\.\d\|200/', $Line, $Matches) > 0) {
+      if (preg_match('/^(\d{1,23})\|([A-Za-z0-9\-\_\.]+)\|(GET|POST)\s(?!\/admin|\/favicon\.ico)(\S*)\sHTTP\/\d\.\d\|200/', $Line, $Matches) > 0) {
         if ($Matches[3] == 'GET') $Action='<span class="green">GET</span> ';
         else $Action='<span class="violet">POST</span> ';
         $URL = $Matches[2].$Matches[4];
