@@ -1,7 +1,7 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {  
@@ -24,10 +24,11 @@ if ($Config['Password'] != '') {
 </head>
 
 <body>
-<div id="main">
 <?php
 ActionTopMenu();
-DrawTopMenu();
+draw_topmenu();
+draw_sidemenu();
+echo '<div id="main">'.PHP_EOL;
 
 $DomainList = array();
 $SortedDomainList = array();

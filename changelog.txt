@@ -1,3 +1,9 @@
+Development of v0.7.18
+New style menu
+
+Fixed bug #123 - Freezing when duplicate NoTrack script is run
+
+
 v0.7.17 alpha - Released 05 Sep 2016
 
 NoTrack:

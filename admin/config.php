@@ -42,7 +42,7 @@ Advanced
 
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {
@@ -152,8 +152,9 @@ if (isset($_POST['action'])) {
 <body>
 <?php
 ActionTopMenu();
-DrawTopMenu();
+draw_topmenu();
 DrawConfigMenu();
+echo '<div id="main">';
 
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {

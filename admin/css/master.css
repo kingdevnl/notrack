@@ -282,15 +282,6 @@ a.button-blue, a.button-grey, a.button-danger {
     width: 100%;
   }
 }
-#main {
-  width: 100%;
-  padding-top: 3rem;
-}
-@media only print {
-  #main {
-    padding-top: 0;
-  }
-}
 .pag-nav {
   font-size: 0.9em;
   padding: 0 0 5px 10px;
@@ -500,17 +491,12 @@ span.key-green {background: #80FF60;}
 #menu-top {  
   width: 100%;
   background-color: #262626;
-  height: 9rem;
+  height: 3.4rem;
   position: fixed;
   top: 0;
   left: 0;
-  font-size: 1.1em;
-}
-#menu-logo {
-  float: left;
-}
-#menu-logo img {
-  width: 28rem;
+  font-size: 1.2rem;
+  z-index: 100;  
 }
 #menu-top-right {
   margin: 1.9rem 2rem 0 0;
@@ -521,53 +507,54 @@ span.key-green {background: #80FF60;}
   width: 2.2rem;
   height: 2.2rem;
 }
-#main-menu {
+/*#main-menu {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 3.0rem;  
-  background-color: #262626;  
-  z-index: 100;
-}
-/*main-menu-padded is used on the index.php to shift the menu down below the logo*/
-#main-menu-padded {
-position: fixed;
-  top: 6rem;
-  left: 0;
-  width: 100%;
-  height: 3.0rem;  
-  background-color: #262626;  
-  z-index: 101;  
-}
+  background-color: #262626;
+/*   #3c8dbc */
+/*   z-index: 100; */
+/* } */
+
 /*#main-menu span:hover, #main-menu a:hover, #dropbutton:hover {
   background-color: #3B3B3B;
 }*/
-#main-menu img, #main-menu-padded img {
-  width: 2.3em;
-  height: 2.3rem;
-  margin: 0.4rem 0rem 0.3rem 0rem;
+#menu-top img {
+  width: 2.6em;
+  height: 2.6rem;
+  margin: 0.2rem 0rem 0.3rem 0rem;
   float: left;
 }
-#main-menu span, #main-menu-padded span {  
-  color: #008CD1;
+#menu-top span {
+  color: #008CD1;  
 }
-span.dtext {
-  margin: 0 0 0 0.1em;
-}
-span.pictext {
-  line-height: 2.9rem;  
+span.top-menu-item {
+  line-height: 3.4rem;
   float: left;
-  padding: 0 0.4em;
+  padding: 0 0.8em;
   border-radius: 5px;
 }
-span.rightpictext {
+span.top-menu-item:hover {
+  background: #202020;
+}
+  
+span.logo {
+  margin-left: 0.5em;
+  font-size: 1.8rem;
+  line-height: 3.3rem;  
+  float: left;
+  padding: 0 0.5em;
+  letter-spacing: 1px;  
+}
+span.float-right {
   float: right;  
 }
 #pause {
   float: right;
   padding: 0.3rem 0.5rem;
-  margin: 0.1em 0.5em;
+  margin: 0.2em 0.5em;
   background-color: #191919;
   border-radius: 6px;
   border: 1px solid #050505;  
@@ -617,10 +604,6 @@ span.timer {
   padding: 0.5rem 0 0.5rem 0.8rem;
   line-height: 1.1em;
 }
-#top-padding {
-  height: 7rem;
-  width: 100%;
-}
 @media only screen and (max-width:900px), only screen and (max-device-width:900px) {  /*Tablet view for Menu*/
   .dtext {
     display: none;
@@ -639,15 +622,12 @@ span.timer {
   #main-menu, #main-menu-padded {
     height: 4.8rem;
     font-size: 2rem;
-  }
-  span.dtext {
-    display: none;
-  }
+  }  
   #main-menu img, #main-menu-padded img {
     width: 4rem;
     height: 4rem;
   }
-  span.pictext span.rightpictext {
+  span.top-menu-item {
     padding: 0 1rem;
     height: 4.8rem;
   }  
@@ -660,12 +640,12 @@ span.timer {
   }  
 }
 @media only print {
-  #main-menu, #menu-top #main-menu-padded {
+  #main-menu, #menu-top {
     display: none;                     /*Hide menu on Print view*/
   }
 }
 /*Config Menu*******************************************************/
-#config-menu {
+/*#config-menu {
   width: 12rem;
   height: 100vh;
   padding-top: 4rem;
@@ -718,11 +698,12 @@ span.timer {
   background-color: #F7F7F7;
   box-shadow: 1px 1px 3px rgb(136, 136, 136);
   text-align:center;
-  padding: 0 20px 20px 20px;  
+/*   padding: 0 20px 20px 20px;   */
+  padding: 0 2% 2% 2%;
   margin: 1em 1% 2% 1%;
   height: 200px;
   border-left: 7px solid #21BBFF;
-  width: 27%;
+  width: 26%;
   float: left;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, .5);
 }
@@ -802,6 +783,22 @@ span.filter {
     margin: 0 1.2% 2% 1.2%;
   }
 }
+@media only screen and (max-width:1000px), only screen and (max-device-width:1000px) {  /*Windowed view for Home Nav*/
+  .home-nav-container {
+    padding: 1em 2%;    
+  }   
+  .home-nav {
+    width: 41%;
+    margin: 0 1.2% 2% 1.2%;    
+  }
+  .home-nav span {
+    font-size: 1.7em;
+  }
+  .icon-box {
+    width: 100px;
+    height: 100px;
+  }
+}
 @media only screen and (max-width:480px), only screen and (max-device-width:480px) {   /*Mobile view for Home Nav*/
   .home-nav-container {
     padding: 1em 0;
@@ -811,7 +808,7 @@ span.filter {
   .home-nav {
     width: 95%;    
     margin: 1.5em 0;
-  }  
+  }
 }
 /*Top Menu Popups***************************************************/
 #fade {
@@ -908,3 +905,77 @@ span.filter {
 .close-button img {
   width: 1.5em;
 }
+
+
+#menu-side {
+  height: 100vh;
+  width: 210px;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  background-color: #262626;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 4em;  
+}
+#menu-side img {
+  width: 30px;
+  height: 30px;
+  margin: 5px 10px 0 10px;
+}
+#menu-side span {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 18px;
+  padding: 6px 0;
+}
+#menu-side span:hover {
+  background: #202020;
+}
+/*.menu-side a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+*/
+/*.menu-side a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}*/
+#main {
+    margin: 3rem 0 0 210px;
+    transition: margin-left .5s;
+    padding: 16px;
+}
+@media only print {
+  #main {
+    padding-top: 0;
+  }
+}
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {
+  #menu-side {  
+    width: 0px;
+  }
+  #main {
+    margin-left: 0px;
+  }
+}
+/*.menu-side .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}*/
+
+
+
+
+/*@media screen and (max-height: 450px) {
+  .menu-side {padding-top: 15px;}
+  .menu-side a {font-size: 18px;}
+}*/

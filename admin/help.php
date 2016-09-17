@@ -1,7 +1,7 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {  
@@ -36,8 +36,9 @@ function LoadHelpPage($Page) {
 }
 //-------------------------------------------------------------------
 ActionTopMenu();
-DrawTopMenu();
-DrawHelpMenu();
+draw_topmenu();
+draw_helpmenu();
+echo '<div id="main">'.PHP_EOL;
 
 if (isset($_GET['p'])) {
   switch($_GET['p']) {

@@ -1,7 +1,7 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {  
@@ -23,11 +23,12 @@ if ($Config['Password'] != '') {
 </head>
 
 <body>
-<div id="main">
 <?php
 
 ActionTopMenu();
-DrawTopMenu();
+draw_topmenu();
+draw_sidemenu();
+echo '<div id="main">';
 //Main---------------------------------------------------------------
 
 $BlockListDate = 0;
@@ -79,7 +80,6 @@ else {
     $DateStr = '<h6>Unknown</h6>';
   }
 }
-echo '<div id="top-padding"></div>';
 echo '<div class="home-nav-container">';
 
 echo '<a href="#"><div class="home-nav"><h2>Status</h2><hr /><br />'.$StatusStr.'</div></a>'.PHP_EOL;

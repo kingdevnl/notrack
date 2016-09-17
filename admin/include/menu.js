@@ -55,3 +55,26 @@ function HideOptions() {
   document.getElementById("options-box").style.display = "none";
   document.getElementById("fade").style.display = "none";
 }
+//-------------------------------------------------------------------
+function openNav() {  
+  if (typeof window.orientation !== 'undefined') {
+    if (document.getElementById("menu-side").style.width == "0px" || document.getElementById("menu-side").style.width == "") {
+      document.getElementById("menu-side").style.width = "210px";
+      document.getElementById("main").style.marginLeft = "210px";
+    }
+    else {
+      document.getElementById("menu-side").style.width = "0px";
+      document.getElementById("main").style.marginLeft= "0px"; 
+    }
+  }
+  else {    
+    if (document.getElementById("menu-side").style.width == "210px" || document.getElementById("menu-side").style.width == "") {
+      document.getElementById("menu-side").style.width = "50px";
+      document.getElementById("main").style.marginLeft= "50px";
+    }
+    else {      
+      document.getElementById("menu-side").style.width = "210px";
+      document.getElementById("main").style.marginLeft = "210px";
+    }
+  }
+}

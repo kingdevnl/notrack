@@ -1,7 +1,7 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {  
@@ -23,10 +23,11 @@ if ($Config['Password'] != '') {
 </head>
 
 <body>
-<div id="main">
 <?php
 ActionTopMenu();
-DrawTopMenu();
+draw_topmenu();
+draw_sidemenu();
+echo '<div id="main">'.PHP_EOL;
 
 echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
 echo '<h5>DHCP Leases</h5>'.PHP_EOL;
