@@ -80,9 +80,27 @@ function get_dns_queries_count(){
     return floatval(exec("grep -F query[A] $NOTRACK_LOG_FILE | wc -l"));
 }
 
-function get_blocked_sites_count(){
+function get_blocked_queries(){
     global $LIGHTTPD_ACCESS_LOG_FILE;
-    return floatval(exec("grep -v admin $LIGHTTPD_ACCESS_LOG_FILE | wc -l"));
+    $blocked_queries = array();
+    
+    if (file_exists($LIGHTTPD_ACCESS_LOG_FILE)){
+        $file = fopen($LIGHTTPD_ACCESS_LOG_FILE, 'r');
+        $expression = '/^(\d*)\|(\S*)\|(GET|POST)\s((?!\/admin|\/favicon\.ico)\S*)\sHTTP\/\d\.\d\|200/';
+        while (!feof($file)){
+            $line = trim(fgets($file));
+            if (preg_match($expression, $line, $query) > 0) {
+                array_push($blocked_queries, array($query[1], $query[3], $query[2] . $query[4]));
+            }
+        }
+        fclose($file);
+    }
+    
+    return $blocked_queries;
+}
+
+function get_blocked_queries_count(){
+    return count(get_blocked_queries());
 }
 
 ?>
