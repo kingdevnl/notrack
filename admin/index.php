@@ -104,10 +104,10 @@ echo '<a href="./blocked.php"><div class="home-nav"><h2>Sites Blocked</h2><hr />
 echo '<a href="./stats.php"><div class="home-nav"><h2>DNS Queries</h2><hr /><span>'.number_format(floatval(exec('grep -F query[A] /var/log/notrack.log | wc -l'))).'<br />Today</span><div class="icon-box"><img src="./svg/home_server.svg" srcset="./svg/home_server.svg"  alt=""></div></div></a>'.PHP_EOL;
 
 if (file_exists('/var/lib/misc/dnsmasq.leases')) { //DHCP Active
-  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>DHCP</h2><hr /><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br />Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr /><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br />Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 else {                                           //DHCP Disabled
-  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>DHCP</h2><hr /><span>N/A</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+  echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr /><span>DHCP Disabled</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 
 echo '</div>'.PHP_EOL;

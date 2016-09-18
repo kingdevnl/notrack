@@ -153,7 +153,7 @@ if (isset($_POST['action'])) {
 <?php
 ActionTopMenu();
 draw_topmenu();
-DrawConfigMenu();
+draw_configmenu();
 echo '<div id="main">';
 
 //Add GET Var to Link if Variable is used----------------------------

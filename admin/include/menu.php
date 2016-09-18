@@ -65,16 +65,19 @@ function ActionTopMenu() {
 //-------------------------------------------------------------------
 function draw_sidemenu() {
 
-  echo '<div id="menu-side">'.PHP_EOL;  
+  echo '<nav><div id="menu-side">'.PHP_EOL;  
+  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
   echo '<a href="../admin/stats.php"><span><img src="./svg/menu_stats.svg" alt="">Stats</span></a>'.PHP_EOL;
   echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="">Network</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">Config</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;
-  echo '</div>'.PHP_EOL;
+  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;  
+  echo '</div></nav>'.PHP_EOL;
+  echo PHP_EOL;
 }
 //-------------------------------------------------------------------
-function DrawConfigMenu() {
+function draw_configmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
+  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span>General</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=blocks"><span>Block Lists</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=black"><span>BlackList</span></a>'.PHP_EOL;
@@ -91,11 +94,13 @@ function DrawConfigMenu() {
 }
 //-------------------------------------------------------------------
 function draw_helpmenu() {
-  echo '<nav><div id="menu-side">'.PHP_EOL;  
+  echo '<nav><div id="menu-side">'.PHP_EOL;
+  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php"><span>Help</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=security"><span>Security</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=position" title="Where To Position NoTrack Device"><span>Positioning Device</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=newblocklist" title="Programming in new block lists"><span>New block lists</span></a>'.PHP_EOL;
+  
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;  
 }
@@ -104,25 +109,23 @@ function draw_topmenu() {
   global $Config, $Mem;
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
-  echo '<span class="top-menu-item pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
+  echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
   echo '<a href="./"><span class="logo"><b>No</b>Track</span></a>'.PHP_EOL;
-  //echo '<span class="top-menu-item><b>No</b>Track</span>';
+  
   /*if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php only
     echo '<nav><div id="menu-top"><div id="menu-logo">'.PHP_EOL;
     echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
-  
-    echo '<div id="menu-top-right">'.PHP_EOL;
-    echo '<a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
+  */
+    echo '<span class="float-left mobile-hide">'.PHP_EOL;
     echo '<a href="https://github.com/quidsup/notrack" target="_blank"><img src="../admin/images/icon_github.png" alt="Github" title="Github"></a>'.PHP_EOL;
+    echo '<a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
     echo '<a href="https://www.google.com/+quidsup" target="_blank"><img src="../admin/images/icon_google.png" alt="Google+" title="Google+"></a>'.PHP_EOL;
-    echo '<a href="https://www.youtube.com/user/quidsup" target="_blank"><img src="../admin/images/icon_youtube.png" alt="YouTube" title="YouTube"></a>'.PHP_EOL;
+    //echo '<a href="https://www.youtube.com/user/quidsup" target="_blank"><img src="../admin/images/icon_youtube.png" alt="YouTube" title="YouTube"></a>'.PHP_EOL;
     echo '<a href="https://www.twitter.com/quidsup" target="_blank"><img src="../admin/images/icon_twitter.png" alt="Twitter" title="Twitter"></a>'.PHP_EOL;
-    echo '</div></div>'.PHP_EOL;
-    echo '<div id="main-menu-padded">'.PHP_EOL;;
-  }
-  else {
-    
-  }*/
+//     echo '</div></div>'.PHP_EOL;*
+  echo '</span>';
+  
+  
   
   /*echo '<a href="../admin"><span class="top-menu-item"><img src="./svg/menu_home.svg" alt=""></span></a>'.PHP_EOL;
   echo '<a href="../admin/stats.php"><span class="top-menu-item"><img src="./svg/menu_stats.svg" alt=""><span class="dtext">Stats</span></span></a>'.PHP_EOL;

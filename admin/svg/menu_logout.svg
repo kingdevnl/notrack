@@ -13,7 +13,7 @@
    height="64px"
    id="svg2985"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="menu_logout.svg">
   <sodipodi:namedview
      id="base"
@@ -22,9 +22,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.6875"
-     inkscape:cx="17.193208"
-     inkscape:cy="253.30165"
+     inkscape:zoom="3.8890873"
+     inkscape:cx="15.094606"
+     inkscape:cy="-1.5525532"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -59,17 +59,17 @@
        height="58.640381"
        width="45.609184"
        id="rect2983"
-       style="color:#000000;fill:none;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:none;stroke:#f7f7f7;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        ry="4.5454545" />
     <path
-       style="color:#000000;fill:none;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:none;stroke:#f7f7f7;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="M 47,2.5181584 C 46.368812,2.644396 35.439029,6.026754 28.815691,8.0828851 25.255323,9.4337606 23.798123,11.191377 23.733026,16.363709 L 23.375113,44.63881 c -0.310466,8.512905 0.651834,7.979588 6.081307,10.302748 l 17.361762,6.216981"
        id="path2998"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc" />
     <path
        sodipodi:type="arc"
-       style="color:#000000;fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3000"
        sodipodi:cx="30.272728"
        sodipodi:cy="30.363636"

@@ -39,7 +39,7 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
   $FileHandle= fopen('/var/lib/misc/dnsmasq.leases', 'r') or die('Error unable to open /var/lib/misc/dnsmasq.leases');
 
   echo '<table id="dhcp-table">'.PHP_EOL;
-  echo '<tr><th>Valid Until</th><th>Device Name</th><th>MAC Address</th><th>IP Allocated</th>'.PHP_EOL;
+  echo '<tr><th>IP Allocated</th><th>Device Name</th><th>MAC Address</th><th>Valid Until</th>'.PHP_EOL;
   
   while (!feof($FileHandle)) {
     $Line = trim(fgets($FileHandle));            //Read Line of LogFile
@@ -50,7 +50,7 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
       //2 - IP Allocated
       //3 - Device Name
       //4 - '*' or MAC address
-      echo '<tr><td>'.date("d M Y \- H:i:s", $Seg[0]).'</td><td>'.$Seg[3].'</td><td>'.$Seg[1].'</td><td>'.$Seg[2].'</td></tr>'.PHP_EOL;
+      echo '<tr><td>'.$Seg[2].'</td><td>'.$Seg[3].'</td><td>'.$Seg[1].'</td><td>'.date("d M Y \- H:i:s", $Seg[0]).'</td></tr>'.PHP_EOL;
     }    
   }
   echo '</table>'.PHP_EOL;

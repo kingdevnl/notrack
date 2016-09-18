@@ -58,23 +58,23 @@ function HideOptions() {
 //-------------------------------------------------------------------
 function openNav() {  
   if (typeof window.orientation !== 'undefined') {
-    if (document.getElementById("menu-side").style.width == "0px" || document.getElementById("menu-side").style.width == "") {
-      document.getElementById("menu-side").style.width = "210px";
-      document.getElementById("main").style.marginLeft = "210px";
+    if (document.getElementById("menu-side").style.width == "0rem" || document.getElementById("menu-side").style.width == "") {
+      document.getElementById("menu-side").style.width = "14rem";
+      document.getElementById("main").style.marginLeft = "14rem";
     }
     else {
-      document.getElementById("menu-side").style.width = "0px";
-      document.getElementById("main").style.marginLeft= "0px"; 
+      document.getElementById("menu-side").style.width = "0rem";
+      document.getElementById("main").style.marginLeft= "0rem"; 
     }
   }
   else {    
-    if (document.getElementById("menu-side").style.width == "210px" || document.getElementById("menu-side").style.width == "") {
-      document.getElementById("menu-side").style.width = "50px";
-      document.getElementById("main").style.marginLeft= "50px";
+    if (document.getElementById("menu-side").style.width == "14rem" || document.getElementById("menu-side").style.width == "") {
+      document.getElementById("menu-side").style.width = "3rem";
+      document.getElementById("main").style.marginLeft= "3rem";
     }
     else {      
-      document.getElementById("menu-side").style.width = "210px";
-      document.getElementById("main").style.marginLeft = "210px";
+      document.getElementById("menu-side").style.width = "14rem";
+      document.getElementById("main").style.marginLeft = "14rem";
     }
   }
 }
