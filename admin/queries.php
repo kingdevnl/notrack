@@ -19,7 +19,7 @@ if ($Config['Password'] != '') {
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
-  <script src="./include/stats.js"></script>
+  <script src="./include/queries.js"></script>
   <title>NoTrack - DNS Stats</title>
 </head>
 
@@ -494,10 +494,14 @@ switch ($StartStr) {                          //First item is unselectable
 echo '</select></form></div>'.PHP_EOL;
 
 //Draw Calendar------------------------------------------------------
-echo '<div class="col-half"><form action="?" method="get">';
-echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" /><br />';
-echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'"/><br /><br />'.PHP_EOL;
-echo '<div class="centered"><input type="submit" value="Submit"></div>'.PHP_EOL;
+echo '<div class="col-half"><form action="?" method="get">'.PHP_EOL;
+echo AddHiddenVar('C').PHP_EOL;
+echo AddHiddenVar('Sort').PHP_EOL;
+echo AddHiddenVar('Dir').PHP_EOL;
+echo AddHiddenVar('V').PHP_EOL;
+echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" onchange="submit()"/><br />';
+echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'" onchange="submit()"/><br /><br />'.PHP_EOL;
+//echo '<div class="centered"><input type="submit" value="Submit"></div>'.PHP_EOL;
 echo '</form></div></div>';
 
 //Draw Table Headers-------------------------------------------------
