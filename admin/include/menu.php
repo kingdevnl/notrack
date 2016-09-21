@@ -67,7 +67,7 @@ function draw_sidemenu() {
 
   echo '<nav><div id="menu-side">'.PHP_EOL;  
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/stats.php"><span><img src="./svg/menu_stats.svg" alt="">Stats</span></a>'.PHP_EOL;
+  echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="">DNS Queries</span></a>'.PHP_EOL;
   echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="">Network</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">Config</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;  

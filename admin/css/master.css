@@ -280,7 +280,7 @@ a.button-blue, a.button-grey, a.button-danger {
 @media only screen and (max-width:640px), only screen and (max-device-width:640px) {
   .sys-group {width: 96%;}
 }
-/*.col-half {
+.col-half {
   width: 45%;
   padding: 0.5em;
   float: left;
@@ -289,7 +289,7 @@ a.button-blue, a.button-grey, a.button-danger {
   .col-half {
     width: 100%;
   }
-}*/
+}
 .pag-nav {
   font-size: 0.9em;
   padding: 0 0 5px 10px;
@@ -734,7 +734,6 @@ span.timer {
   float:left;
   font-size: 2em;
   padding-top: 1.5rem;
-/*   padding: 30px 0 0 30px;   */
   color: #262626;
   width: 50%;
 }
@@ -742,14 +741,12 @@ span.timer {
   margin-top: 1.5rem;
   padding-top: 0.7rem;
   float:right;
-/*   width: 117px; */
-/*   height: 117px; */
   border-radius: 50%;
   border: 2px solid #F7F7F7;
   box-shadow: 0 0 0 2px rgb(136, 136, 136);
   width: 40%;
+  max-width: 10rem;
 }
-/* .icon-gox:before{content:"";display:block;margin-top:100%;} */
 .icon-box img {
   width: 80%;
   padding-bottom: 0.9rem;
@@ -778,13 +775,14 @@ span.filter {
   .home-nav {
     width: 93%;    
     margin: 1.5em 0;
-    height: 19em;
+    height: 19rem;
   }
   .home-nav span {
     width: 55%;
   }
   .icon-box {
     width: 28%;
+    max-width: 14rem;
     margin-right: 5%;
   }
 }
