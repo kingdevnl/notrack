@@ -46,6 +46,18 @@ $CommonSitesList = array('cloudfront.net','googleusercontent.com','googlevideo.c
 //stackexchange.com - Community Q&A, opens a lot of subdomains per visit
 //tumblr.com - Each blog is on a different subdomain
 
+$TimeList = array(
+ 'today' => 'Today',
+ '-1minute' => '1 Minute',
+ '-5minutes' => '5 Minutes',
+ '-15minutes' => '15 Minutes',
+ '-30minutes' => '30 Minutes',
+ '-1hour' => '1 Hour',
+ '-4hours' => '4 Hours',
+ '-8hours' => '8 Hours',
+ '-12hours' => '12 Hours');
+
+
 //ReturnURL - Gives a simplier formatted URL for displaying----------
 function ReturnURL($Str) {
   //Conditions:
@@ -95,25 +107,25 @@ function AddHiddenVar($Var) {
 global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
   switch ($Var) {
     case 'C':
-      if ($RowsPerPage != 500) return '<input type="hidden" name="c" value="'.$RowsPerPage.'" />';
+      if ($RowsPerPage != 500) echo '<input type="hidden" name="c" value="'.$RowsPerPage.'" />'.PHP_EOL;
     break;
     case 'Dir':
-      if ($SortDir == 1) return '<input type="hidden" name="dir" value="1" />';
+      if ($SortDir == 1) echo '<input type="hidden" name="dir" value="1" />'.PHP_EOL;
     break;
     case 'DR':
-      if ($DateRange != 1) return '<input type="hidden" name="dr" value="'.$DateRange.'" />';
+      if ($DateRange != 1) echo '<input type="hidden" name="dr" value="'.$DateRange.'" />'.PHP_EOL;
     break;
     case 'E':
-      if ($StartStr != "") return '<input type="hidden" name="e" value="'.$StartStr.'" />';
+      if ($StartStr != "") echo '<input type="hidden" name="e" value="'.$StartStr.'" />'.PHP_EOL;
     break;
     case 'Sort':
-      if ($SortCol == 1) return '<input type="hidden" name="sort" value="1" />';
+      if ($SortCol == 1) echo '<input type="hidden" name="sort" value="1" />'.PHP_EOL;
     break;
     case 'V':
-      if ($View != 1) return '<input type="hidden" name="v" value="'.$View.'" />';
+      if ($View != 1) echo '<input type="hidden" name="v" value="'.$View.'" />'.PHP_EOL;
     break;
   }
-  return '';
+  return null;
 }
 
 //WriteLI Function for Pagination Boxes-------------------------------
@@ -407,7 +419,12 @@ if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater 
 //Draw Filter Dropdown list------------------------------------------
 echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
 echo '<form action="?" method="get">';
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('E').AddHiddenVar('DR');
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('E');
+AddHiddenVar('DR');
 echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
 switch ($View) {                                 //First item is unselectable, therefore we need to
   case 1:                                        //give a different selection for each value of $View
@@ -426,83 +443,35 @@ switch ($View) {                                 //First item is unselectable, t
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select></form>'.PHP_EOL;
+echo '</select>'.PHP_EOL;
 
 //Draw Time Dropdown list------------------------------------------
-echo '<form action="?" method="get">';
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.AddHiddenVar('C').AddHiddenVar('Sort').AddHiddenVar('Dir').AddHiddenVar('V').AddHiddenVar('DR');
 echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
-switch ($StartStr) {                          //First item is unselectable
-  case 'today': case '':
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
-  case '-5minutes':
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
-  case '-15minutes':
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
-  case '-30minutes':
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
-  case '-1hours':
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
-  case '-8hours':
-    echo '<option value="-8hours">8 Hours</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-  break;
-  default:
-    echo '<option value="'.$StartStr.'">Other</option>';
-    echo '<option value="today">Today</option>';
-    echo '<option value="-5minutes">5 Minutes</option>';
-    echo '<option value="-15minutes">15 Minutes</option>';
-    echo '<option value="-30minutes">30 Minutes</option>';
-    echo '<option value="-1hours">1 Hour</option>';
-    echo '<option value="-8hours">8 Hours</option>';
-  break;
+if (array_key_exists($StartStr, $TimeList)) {
+  echo '<option value="'.$StartStr.'">'.$TimeList[$StartStr].'</option>'.PHP_EOL;
+}
+else {
+  if (preg_match('/\-(\d{1,3})(\w+)$/', $StartStr, $matches) > 0) {
+    echo '<option value="'.$StartStr.'">'.$matches[1].' '.ucfirst($matches[2]).'</option>'.PHP_EOL;
+  }
+}
+foreach ($TimeList as $key => $value) {
+  if ($StartStr != $key) {
+    echo '<option value="'.$key.'">'.$value.'</option>'.PHP_EOL;
+  }
 }
 echo '</select></form></div>'.PHP_EOL;
 
 //Draw Calendar------------------------------------------------------
 echo '<div class="col-half"><form action="?" method="get">'.PHP_EOL;
-echo AddHiddenVar('C').PHP_EOL;
-echo AddHiddenVar('Sort').PHP_EOL;
-echo AddHiddenVar('Dir').PHP_EOL;
-echo AddHiddenVar('V').PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('V');
 echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" onchange="submit()"/><br />';
 echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'" onchange="submit()"/><br /><br />'.PHP_EOL;
-//echo '<div class="centered"><input type="submit" value="Submit"></div>'.PHP_EOL;
-echo '</form></div></div>';
+echo '</form>'.PHP_EOL;
+echo '</div></div>'.PHP_EOL;
 
 //Draw Table Headers-------------------------------------------------
 echo '<div class="sys-group">'.PHP_EOL;
