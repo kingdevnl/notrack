@@ -423,7 +423,6 @@ echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
 AddHiddenVar('C');
 AddHiddenVar('Sort');
 AddHiddenVar('Dir');
-AddHiddenVar('E');
 AddHiddenVar('DR');
 echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
 switch ($View) {                                 //First item is unselectable, therefore we need to
@@ -443,20 +442,28 @@ switch ($View) {                                 //First item is unselectable, t
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select>'.PHP_EOL;
+echo '</select><br />'.PHP_EOL;
 
 //Draw Time Dropdown list------------------------------------------
 echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
-if (array_key_exists($StartStr, $TimeList)) {
+if (array_key_exists($StartStr, $TimeList)) {    //Is the current time value in TimeList array?
   echo '<option value="'.$StartStr.'">'.$TimeList[$StartStr].'</option>'.PHP_EOL;
 }
-else {
-  if (preg_match('/\-(\d{1,3})(\w+)$/', $StartStr, $matches) > 0) {
+else {                                           //No - work out what the user is searching for
+  //Regex matches
+  //-
+  //Group 1 - 1 to 4 numbers
+  //Group 2 - a word
+  //End string
+  if (preg_match('/^\-(\d{1,4})(\[a-z]+)$/', $StartStr, $matches) > 0) {
     echo '<option value="'.$StartStr.'">'.$matches[1].' '.ucfirst($matches[2]).'</option>'.PHP_EOL;
   }
+  else {                                         //No match on regex means a date value
+    echo '<option value="today">Historic</option>'.PHP_EOL;
+  }
 }
-foreach ($TimeList as $key => $value) {
-  if ($StartStr != $key) {
+foreach ($TimeList as $key => $value) {          //Output TimeList array as a select box
+  if ($StartStr != $key) {                       //Ignore current setting
     echo '<option value="'.$key.'">'.$value.'</option>'.PHP_EOL;
   }
 }
@@ -608,8 +615,8 @@ if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
 ?>
 </div>
 
-<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></a></div>
-<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></a></div>
+<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></div>
+<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></div>
 
 <div id="stats-box">
 <div class="dialog-bar">Report</div>
@@ -620,7 +627,7 @@ if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
 <span id="statsreport"><a class="button-blue" href="#">Report</a></span>
 <br />
 <div class="centered"><h6 class="button-grey" onclick="HideStatsBox()">Cancel</h6></div>
-<div class="close-button" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></a></div>
+<div class="close-button" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></div>
 </div>
 
 </body>
