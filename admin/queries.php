@@ -30,11 +30,20 @@ draw_topmenu();
 draw_sidemenu();
 echo '<div id="main">'.PHP_EOL;
 
-$DomainList = array();
-$SortedDomainList = array();
+$unsortedlog = array();
+$sortedlog = array();
+
 $TLDBlockList = array();
 $CommonSites = array();                          //Merge Common sites list with Users Suppress list
-$CommonSitesList = array('cloudfront.net','googleusercontent.com','googlevideo.com','cedexis-radar.net','gvt1.com','deviantart.net','deviantart.com','stackexchange.com', 'tumblr.com');
+$COMMONSITESLIST = array('cloudfront.net',
+                         'googleusercontent.com',
+                         'googlevideo.com',
+                         'cedexis-radar.net',
+                         'gvt1.com',
+                         'deviantart.net',
+                         'deviantart.com',
+                         'stackexchange.com',
+                         'tumblr.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //cloudfront.net - Very popular CDN, hard to back trace originating site
 //googleusercontent.com - Google+ and YouTube user content
@@ -46,36 +55,17 @@ $CommonSitesList = array('cloudfront.net','googleusercontent.com','googlevideo.c
 //stackexchange.com - Community Q&A, opens a lot of subdomains per visit
 //tumblr.com - Each blog is on a different subdomain
 
-$TimeList = array(
- 'today' => 'Today',
- '-1minute' => '1 Minute',
- '-5minutes' => '5 Minutes',
- '-15minutes' => '15 Minutes',
- '-30minutes' => '30 Minutes',
- '-1hour' => '1 Hour',
- '-4hours' => '4 Hours',
- '-8hours' => '8 Hours',
- '-12hours' => '12 Hours');
+$TIMELIST = array('today' => 'Today',
+                  '-1minute' => '1 Minute',
+                  '-5minutes' => '5 Minutes',
+                  '-15minutes' => '15 Minutes',
+                  '-30minutes' => '30 Minutes',
+                  '-1hour' => '1 Hour',
+                  '-4hours' => '4 Hours',
+                  '-8hours' => '8 Hours',
+                  '-12hours' => '12 Hours');
 
 
-//ReturnURL - Gives a simplier formatted URL for displaying----------
-function ReturnURL($Str) {
-  //Conditions:
-  //1: Drop www (its unnecessary and not all websites use it now)
-  //2. Extract domain.tld, including double-barrelled domains
-  //3. Check if site is to be suppressed (present in Common sites)
-  global $CommonSites;
-    
-  if (substr($Str,0,4) == 'www.') $Site = substr($Str,4); 
-  else $Site = $Str;
-  
-  if (preg_match('/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/', $Site, $Match) == 1) {
-    if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
-    else return $Site;
-  }
- 
-  return $Site;
-}
 //Add GET Var to Link if Variable is used----------------------------
 function AddGetVar($Var) {
   global $DateRange, $StartStr, $RowsPerPage, $SortCol, $SortDir, $View;
@@ -147,15 +137,117 @@ function WriteTH($Sort, $Dir, $Str) {
   return null;
 }
 
-//Load TLD Block List------------------------------------------------
-function Load_TLDBlockList() {
-//1. Attempt to load TLDBlockList from Memcache
-//2. If that fails then check if DomainQuickList file exists
-//3. Read each line into TLDBlockList array and trim off \n
-//4. Once loaded store TLDBlockList array in Memcache for 30 mins
+/********************************************************************
+ *  Load Log Files
+ *  
+ *  1. Attempt to load TLDBlockList from Memcache
+ *  2. If that fails then check if DomainQuickList file exists
+ *  3. Read each line into TLDBlockList array and trim off \n
+ *  4. Once loaded store TLDBlockList array in Memcache for 30 mins
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function load_logfiles() {
+  global $sortedlog, $unsortedlog, $Mem;
+  global $SortCol, $SortDir, $StartStr, $StartTime, $DateRange, $ExecTime, $View;
+  
+  $LoadList = true;                              //Assume Logs will need loading
+  $SortList = true;                              //Assume Array will need sorting
+  $MemSaveTime = 600;                            //How long to hold data in memory
+
+  //How long to hold data in memcache based on how far back user is searching
+  //Shorter time search = lower retention of Memcache
+  if (($StartStr == '') || ($StartStr == 'today')) $MemSaveTime = 240;
+  elseif ($StartTime >= $ExecTime - 300) $MemSaveTime = 30;    //-5 Min
+  elseif ($StartTime >= $ExecTime - 1500) $MemSaveTime = 50;   //-15 Min
+  elseif ($StartTime >= $ExecTime - 3600) $MemSaveTime = 90;   //-1 hour
+  elseif ($StartTime >= $ExecTime - 28800) $MemSaveTime = 180; //-8 hours
+
+  //Attempt to load SortedDomainList from Memcache
+  $sortedlog = $Mem->get('sortedlog');   
+  if ($sortedlog) {                              //Has array loaded?
+    if (($StartStr == $Mem->get('StartStr')) && 
+        ($DateRange == $Mem->get('DateRange')) && 
+        ($View == $Mem->get('View'))) {
+      if (($SortCol == $Mem->get('SortCol')) && 
+          ($SortDir == $Mem->get('SortDir'))) {  //Check if search is same
+        $SortList = false;
+        $LoadList = false;      
+      }
+      else {
+        $LoadList = false;                       //No need to load list
+        $sortedlog = array();                    //Delete data in array     
+      }
+    }
+    else {
+      $Mem->delete('StartStr');                  //Delete old variables from Memcache
+      $Mem->delete('SortCol');
+      $Mem->delete('SortDir');
+      $Mem->delete('DateRange');
+      $Mem->delete('unsortedlog');
+      $Mem->delete('sortedlog');
+      $Mem->delete('View');
+      $sortedlog = array();                      //Delete data in array
+    }    
+  }
+    
+  if ($LoadList) {                               //Load domain list from file  
+    //Are we loading Todays logs or Historic logs?
+    if ($StartTime > (time() - 86400)) load_todaylog();
+    else load_historiclogs();
+    $Mem->set('unsortedlog', $unsortedlog, 0, $MemSaveTime);
+  }
+  else {                                         //Load domain list from memcache
+  $unsortedlog = $Mem->get('unsortedlog');
+    if (!$unsortedlog) {                         //Something wrong, get it reloaded
+      if ($StartTime > (time() - 86400)) load_todaylog();
+      else load_historiclogs();
+      $Mem->set('unsortedlog', $unsortedlog, 0, $MemSaveTime);
+    }
+  }
+
+  if ($SortList) {                               //Sort Array of Domains from log file    
+    if ($SortCol == 1) {
+      if ($SortDir == 0) ksort($unsortedlog);
+      else krsort($unsortedlog);
+    }
+    else {
+      if ($SortDir == 0) arsort($unsortedlog);   //Sort array by highest number of hits
+      else asort($unsortedlog);
+    }
+    
+    $sortedlog = array_keys($unsortedlog);
+    $Mem->set('StartStr', $StartStr, 0, $MemSaveTime);       //Store variables in Memcache
+    $Mem->set('SortCol', $SortCol, 0, $MemSaveTime);
+    $Mem->set('SortDir', $SortDir, 0, $MemSaveTime);
+    $Mem->set('DateRange', $DateRange, 0, $MemSaveTime);
+    $Mem->set('sortedlog', $sortedlog, 0, $MemSaveTime);
+    $Mem->set('View', $View, 0, $MemSaveTime);
+  }
+  
+  return null;
+}
+
+/********************************************************************
+ *  Load TLD Block List
+ *  
+ *  1. Attempt to load TLDBlockList from Memcache
+ *  2. If that fails then check if DomainQuickList file exists
+ *  3. Read each line into TLDBlockList array and trim off \n
+ *  4. Once loaded store TLDBlockList array in Memcache for 30 mins
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function load_tldblocklist() {
   global $TLDBlockList, $Mem, $DomainQuickList;
   
-  $TLDBlockList=$Mem->get('TLDBlockList');
+  $TLDBlockList = $Mem->get('TLDBlockList');
   if (! $TLDBlockList) {
     if (file_exists($DomainQuickList)) {          //Check if File Exists
       $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open '.$DomainQuickList);
@@ -166,133 +258,174 @@ function Load_TLDBlockList() {
       $Mem->set('TLDBlockList', $TLDBlockList, 0, 1800);
     }
   }
-  return null;
-}
-//Load Historic Log All----------------------------------------------
-function Load_HistoricLog_All($LogDate) {
-  global $DomainList;
-  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
-  if (file_exists($LogFile)) {
-    $FileHandle= fopen($LogFile, 'r');
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile
-      $DomainList[] = ReturnURL(substr($Line, 0, -1)).substr($Line, -1, 1);
-    }
-  }
   
   return null;
-}
-//Load Historic Log Allowed------------------------------------------
-function Load_HistoricLog_Allowed($LogDate) {
-  global $DomainList;
-  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
-  if (file_exists($LogFile)) {
-    $FileHandle= fopen($LogFile, 'r');
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile
-      if (substr($Line, -1, 1) == '+') $DomainList[] = ReturnURL(substr($Line, 0, -1)).'+';
-    }
-  }
-  
-  return null;
-}
-//Load Historic Log Blocked------------------------------------------
-function Load_HistoricLog_Blocked($LogDate) {
-  global $DomainList;
-  $LogFile = '/var/log/notrack/dns-'.$LogDate.'.log';
-  if (file_exists($LogFile)) {
-    $FileHandle= fopen($LogFile, 'r');
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));                  //Read Line of LogFile      
-      if (substr($Line, -1, 1) == '-') $DomainList[] = ReturnURL(substr($Line, 0, -1)).'-';
-    }
-  }
 }
 
-//Load Todays LogFile------------------------------------------------
-function Load_TodayLog() {
+/********************************************************************
+ *  Load Today Log
+ *  
+ *  1. Loads the /var/log/notrack.log
+ *  2. Add queries into array $querylist
+ *  3. Match response (blocked/allowed/local) with query
+ *  4. If match found then add to $unsortedlog and delete from $querylist
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function load_todaylog() {
 //Dnsmasq log line consists of:
 //0 - Month (3 characters)
 //1 - Day (d or dd)
-//2 - Time (dd:dd:dd)
+//2 - Time (dd:dd:dd) - Group 1
 //3 - dnsmasq[d{1-6}]
-//4 - Function (query, forwarded, reply, cached, config)
-//5 - Website Requested
-//6 - is
-//7 - IP Returned
+//4 - Function (query, forwarded, reply, cached, config) - Group 2
+//5 - Query Type [A/AAA] - Group 3
+//5 - Website Requested - Group 4
+//6 - Action (is|to|from) - Group 5
+//7 - Return value - Group 6
 
-  global $DomainList, $StartTime, $StartStr, $View;
-  $Dedup = '';
-  $Pattern = '';
+  global $unsortedlog, $StartTime, $StartStr, $View;
   
-  $FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
+  $dedup_answer = '';
+  $pattern = '';
+  $url='';
+  $querylist = array();
   
-  if (($StartStr == '') || ($StartStr == 'today')) {
-    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040\d{2}\:\d{2}\:\d{2}\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/'; 
+  $fh = fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
+  
+  if ($View == 1) $pattern = '/^\w{3}\s\s?\d{1,2}\s(\d{2}\:\d{2}\:\d{2})\sdnsmasq\[\d{1,6}\]\:\s(query|reply|config|\/etc\/localhosts\.list)(\[[A]{1,4}\])?\s(\S+)\s(is|to|from)(.*)$/';
+  elseif ($View == 2) $pattern = '/^\w{3}\s\s?\d{1,2}\s(\d{2}\:\d{2}\:\d{2})\sdnsmasq\[\d{1,6}\]\:\s(query|reply|\/etc\/localhosts\.list)(\[[A]{1,4}\])?\s(\S+)\s(is|to|from)(.*)$/';
+  elseif ($View == 3) $pattern = '/^\w{3}\s\s?\d{1,2}\s(\d{2}\:\d{2}\:\d{2})\sdnsmasq\[\d{1,6}\]\:\s(query|config)(\[[A]{1,4}\])?\s(\S+)\s(is|to|from)(.*)$/';
     
-    while (!feof($FileHandle)) {
-      $Line = fgets($FileHandle);                  //Read Line of LogFile
-      if (preg_match($Pattern, $Line, $Matches) > 0) {      
-        if (($Matches[1] == 'reply') && ($Matches[2] != $Dedup)) {
-          $DomainList[] = ReturnURL($Matches[2]) . '+';
-          $Dedup = $Matches[2];
+  if (($StartStr == '') || ($StartStr == 'today')) {       //Read whole log
+    while (!feof($fh)) {
+      $line = fgets($fh);
+      if (preg_match($pattern, $line, $matches) > 0) {
+        if ($matches[2] == 'query') {                      //Query line
+          if ($matches[3] == '[A]') {                      //Only IPv4 (prevent double)
+            $querylist[$matches[4]] = true;                //Add to query to $querylist
+          }
         }
-        elseif (($Matches[1] == 'config') && ($Matches[2] != $Dedup)) {
-          $DomainList[] = ReturnURL($Matches[2]) . '-';
-          $Dedup = $Matches[2];
+        elseif ($matches[4] != $dedup_answer) {            //Simplify processing of multiple IP addresses returned
+          if (array_key_exists($matches[4], $querylist)) { //Does answer match a query?
+            if ($matches[2] == 'reply') $url = simplify_url($matches[4]).'+';
+            elseif ($matches[2] == 'config') $url = simplify_url($matches[4]).'-';
+            elseif ($matches[2] == '/etc/localhosts.list') $url = simplify_url($matches[4]).'1';
+            
+            if (array_key_exists($url, $unsortedlog)) $unsortedlog[$url]++; //Tally
+            else $unsortedlog[$url] = 1;
+                    
+            unset($querylist[$matches[4]]);                //Delete query from $querylist
+          }
+          $dedup_answer = $matches[4];                     //Deduplicate answer
         }
-        elseif (($Matches[1] == '/etc/localhosts.list') && (substr($Matches[2], 0, 1) != '1')) {
-          //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-          $DomainList[] = ReturnURL($Matches[2]) . '1';      
-        }    
+      }
+    }
+  }  
+ 
+  else {                                                   //Read last x minutes
+    while (!feof($fh)) {
+      $line = fgets($fh);
+      if (preg_match($pattern, $line, $matches) > 0) {
+        if (strtotime($matches[1]) >= $StartTime) {        //Check if time in log > Earliest
+          if ($matches[2] == 'query') {                    //Query line
+            if ($matches[3] == '[A]') {                    //Only IPv4 (prevent double)
+              $querylist[$matches[4]] = true;              //Add to query to $querylist
+            }
+          }
+          elseif ($matches[4] != $dedup_answer) {          //Simplify processing of multiple IP addresses returned
+            if (array_key_exists($matches[4], $querylist)) { //Does answer match a query?
+              if ($matches[2] == 'reply') $url = simplify_url($matches[4]).'+';
+              elseif ($matches[2] == 'config') $url = simplify_url($matches[4]).'-';
+              elseif ($matches[2] == '/etc/localhosts.list') $url = simplify_url($matches[4]).'1';
+            
+              if (array_key_exists($url, $unsortedlog)) $unsortedlog[$url]++; //Tally
+              else $unsortedlog[$url] = 1;
+            
+              unset($querylist[$matches[4]]);              //Delete query from $querylist
+            }
+            $dedup_answer = $matches[4];                   //Deduplicate answer
+          }
+        }
       }
     }
   }
-  else {                                         //Load last x minutes
-    if ($View == 1) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|config|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 2) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(reply|\/etc\/localhosts\.list)\040([A-Za-z0-9\-\.]+)/';
-    elseif ($View == 3) $Pattern = '/\w{3}\040\040?\d{1,2}\040(\d{2}\:\d{2}\:\d{2})\040dnsmasq\[\d{1,6}\]\:\040(config)\040([A-Za-z0-9\-\.]+)/';
-  
-    while (!feof($FileHandle)) {
-      $Line = fgets($FileHandle);                  //Read Line of LogFile
-      if (preg_match($Pattern, $Line, $Matches) > 0) {    
-        if (strtotime($Matches[1]) >= $StartTime) {      //Check if time in log > Earliest
-          if (($Matches[2] == 'reply') && ($Matches[3] != $Dedup)) {
-            $DomainList[] = ReturnURL($Matches[3]) . '+';
-            $Dedup = $Matches[3];
-          }
-          elseif (($Matches[2] == 'config') && ($Matches[3] != $Dedup)) {
-            $DomainList[] = ReturnURL($Matches[3]) . '-';
-            $Dedup = $Matches[3];
-          }
-          elseif (($Matches[2] == '/etc/localhosts.list') && (substr($Matches[3], 0, 1) != '1')) {
-            //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
-            $DomainList[] = ReturnURL($Matches[3]) . '1';
-          }
-        }      
-      }
-    }
-  }
-  fclose($FileHandle);
-  
+ 
+  fclose($fh);                                   //Close log file
   return null;
 }
-//Load Historic Logs-------------------------------------------------
-function Load_HistoricLogs() {
-  global $DateRange, $StartTime, $View, $Mem, $DomainList;
+
+/********************************************************************
+ *  Load Historic Logs
+ *  
+ *  1. Load relevant files from /var/log/notrack
+ *  2. Add each line to $unsortedlog
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function load_historiclogs() {
+  global $DateRange, $StartTime, $View, $unsortedlog, $ExecTime;
   
+  $LogFile = '';
+  $url = '';
   $LD = $StartTime + 86400;                      //Log files get cached the following day, so we move the start date on by 86,400 seconds (24 hours)
+  
+  if ($View == 1) $pattern = '/^(.*)(\-|\+|1)$/';
+  elseif ($View == 2) $pattern = '/^(.*)(\+|1)$/';
+  elseif ($View == 3) $pattern = '/^(.*)(\-)$/';
+  
   for ($i = 0; $i < $DateRange; $i++) {
-    if ($View == 1) Load_HistoricLog_All(date('Y-m-d', $LD));
-    elseif ($View == 2) Load_HistoricLog_Allowed(date('Y-m-d', $LD));
-    elseif ($View == 3) Load_HistoricLog_Blocked(date('Y-m-d', $LD));
+    $LogFile = '/var/log/notrack/dns-'.date('Y-m-d', $LD).'.log';
+    if (file_exists($LogFile)) {
+      $FileHandle= fopen($LogFile, 'r');
+      while (!feof($FileHandle)) {
+        $line = trim(fgets($FileHandle));                  //Read Line of LogFile
+        if (preg_match($pattern, $line, $matches) > 0) {          
+          $url = simplify_url($matches[1]).$matches[2];          
+          if (array_key_exists($url, $unsortedlog)) $unsortedlog[$url]++;
+          else $unsortedlog[$url] = 1;
+        }        
+      }
+    }  
+  
     $LD = $LD + 86400;                           //Add per run of loop 24 Hours
-    if ($LD > time() + 86400) {                  //Don't exceed today
+    if ($LD > $ExecTime + 86400) {               //Don't exceed today      
       break;
     }
   }  
+}
+
+/********************************************************************
+ *  Simplify URL
+ *  
+ *  1: Drop www (its unnecessary and not all websites use it now)
+ *  2. Extract domain.tld, including double-barrelled domains
+ *  3. Check if site is to be suppressed (present in $CommonSites)
+ *
+ *  Params:
+ *    $url - URL To Simplify
+ *  Return:
+ *    Simplified URL
+ */
+function simplify_url($url) {  
+  global $CommonSites;
+  $simpleurl = '';
+    
+  if (substr($url,0,4) == 'www.') $simpleurl  = substr($url,4); 
+  else $simpleurl  = $url;
+  
+  if (preg_match('/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/', $simpleurl , $Match) == 1) {
+    if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
+    else return $simpleurl ;
+  }
+ 
+  return $simpleurl ;
 }
 //Main---------------------------------------------------------------
 
@@ -328,93 +461,20 @@ if (isset($_GET['e'])) {
 
 $DateRange = Filter_Int('dr', 1, 366, 1);
 
-//Load TLD Blocklist if being used
-if ($Config['bl_tld'] == 1) Load_TLDBlockList();                           
+if ($Config['bl_tld'] == 1) load_tldblocklist(); //Load TLD Blocklist if being used
 
 //Merge Users Config of Suppress List with CommonSitesList
-if ($Config['Suppress'] == '') $CommonSites = array_merge($CommonSitesList);
-else $CommonSites = array_merge($CommonSitesList, explode(',', $Config['Suppress']));
-unset($CommonSitesList);
+if ($Config['Suppress'] == '') $CommonSites = array_merge($COMMONSITESLIST);
+else $CommonSites = array_merge($COMMONSITESLIST, explode(',', $Config['Suppress']));
+unset($COMMONSITESLIST);
 
-//Load Logs----------------------------------------------------------
-$LoadList = true;                 //Assume Logs will need loading
-$SortList = true;                 //Assume Array will need sorting
-$MemSaveTime = 60;                //How long to hold data in memory
+load_logfiles();                                 //Load either Today or Historic logs
 
-//How long to hold data in memcache based on how far back user is searching
-//Shorter time search = lower retention of Memcache
-if (($StartStr == '') || ($StartStr == 'today')) $MemSaveTime = 240;
-elseif ($StartTime >= $ExecTime - 300) $MemSaveTime = 30;    //-5 Min
-elseif ($StartTime >= $ExecTime - 1500) $MemSaveTime = 50;   //-15 Min
-elseif ($StartTime >= $ExecTime - 3600) $MemSaveTime = 90;   //-1 hour
-elseif ($StartTime >= $ExecTime - 28800) $MemSaveTime = 180; //-8 hours
-else $MemSaveTime = 600;                                     //-Days
-
-//Attempt to load SortedDomainList from Memcache
-$SortedDomainList = $Mem->get('SortedDomainList');   
-if ($SortedDomainList) {                         //Has array loaded?
-  if (($StartStr == $Mem->get('StartStr')) && 
-      ($DateRange == $Mem->get('DateRange')) && 
-      ($View == $Mem->get('View'))) {
-    if (($SortCol == $Mem->get('SortCol')) && 
-        ($SortDir == $Mem->get('SortDir'))) {    //Check if search is same
-      $SortList = false;
-      $LoadList = false;      
-    }
-    else {
-      $LoadList = false;                         //No need to load list
-      $SortedDomainList = array();               //Delete data in array     
-    }
-  }
-  else {
-    $Mem->delete('StartStr');                    //Delete old variables from Memcache
-    $Mem->delete('SortCol');
-    $Mem->delete('SortDir');
-    $Mem->delete('DateRange');
-    $Mem->delete('DomainList');
-    $Mem->delete('SortedDomainList');
-    $Mem->delete('View');
-    $SortedDomainList = array();                 //Delete data in array
-  }    
-}
-    
-if ($LoadList) {                                 //Load domain list from file  
-  //Are we loading Todays logs or Historic logs?
-  if ($StartTime > (time() - 86400)) Load_TodayLog();
-  else Load_HistoricLogs();
-  $Mem->set('DomainList', $DomainList, 0, $MemSaveTime);
-}
-else {                                           //Load domain list from memcache
-  $DomainList = $Mem->get('DomainList');
-  if (!$DomainList) {                            //Something wrong, get it reloaded
-    if ($StartTime > (time() - 86400)) Load_TodayLog();
-    else Load_HistoricLogs();
-    $Mem->set('DomainList', $DomainList, 0, $MemSaveTime);
-  }
-}
-
-if ($SortList) {
-  //Sort Array of Domains from log file
-  $SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
-  if ($SortCol == 1) {
-    if ($SortDir == 0) ksort($SortedDomainList);
-    else krsort($SortedDomainList);
-  }
-  else {
-    if ($SortDir == 0) arsort($SortedDomainList);//Sort array by highest number of hits
-    else asort($SortedDomainList);
-  }
-  
-  $Mem->set('StartStr', $StartStr, 0, $MemSaveTime);       //Store variables in Memcache
-  $Mem->set('SortCol', $SortCol, 0, $MemSaveTime);
-  $Mem->set('SortDir', $SortDir, 0, $MemSaveTime);
-  $Mem->set('DateRange', $DateRange, 0, $MemSaveTime);
-  $Mem->set('SortedDomainList', $SortedDomainList, 0, $MemSaveTime);
-  $Mem->set('View', $View, 0, $MemSaveTime);
-}
-
-$ListSize = count($SortedDomainList);
+$ListSize = count($sortedlog);
 if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
+//Trim viewable section out of array
+$sortedlog = array_slice($sortedlog, $StartPoint - 1, $RowsPerPage);
+
 
 //Draw Filter Dropdown list------------------------------------------
 echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
@@ -423,6 +483,7 @@ echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
 AddHiddenVar('C');
 AddHiddenVar('Sort');
 AddHiddenVar('Dir');
+AddHiddenVar('E');
 AddHiddenVar('DR');
 echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
 switch ($View) {                                 //First item is unselectable, therefore we need to
@@ -442,12 +503,20 @@ switch ($View) {                                 //First item is unselectable, t
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select><br />'.PHP_EOL;
+echo '</select>'.PHP_EOL;
+echo '</form>'.PHP_EOL;
 
 //Draw Time Dropdown list------------------------------------------
+echo '<form action="?" method="get">';
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('V');
+AddHiddenVar('DR');
 echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
-if (array_key_exists($StartStr, $TimeList)) {    //Is the current time value in TimeList array?
-  echo '<option value="'.$StartStr.'">'.$TimeList[$StartStr].'</option>'.PHP_EOL;
+if (array_key_exists($StartStr, $TIMELIST)) {    //Is the current time value in TimeList array?
+  echo '<option value="'.$StartStr.'">'.$TIMELIST[$StartStr].'</option>'.PHP_EOL;
 }
 else {                                           //No - work out what the user is searching for
   //Regex matches
@@ -462,7 +531,7 @@ else {                                           //No - work out what the user i
     echo '<option value="today">Historic</option>'.PHP_EOL;
   }
 }
-foreach ($TimeList as $key => $value) {          //Output TimeList array as a select box
+foreach ($TIMELIST as $key => $value) {          //Output TimeList array as a select box
   if ($StartStr != $key) {                       //Ignore current setting
     echo '<option value="'.$key.'">'.$value.'</option>'.PHP_EOL;
   }
@@ -502,46 +571,42 @@ else {
 echo '</tr>'.PHP_EOL;
 
 //Draw Table Cells---------------------------------------------------
-$i = 1;
-foreach ($SortedDomainList as $Str => $Value) {
-  if ($i >= $StartPoint) {                       //Start drawing the table when we reach the StartPoint of Pagination
-    if ($i >= $StartPoint + $RowsPerPage) break; //Exit the loop at end of Pagination + Rows per page
+$i = $StartPoint;
+foreach ($sortedlog as $Str) {
+  $Value = $unsortedlog[$Str];    
+  $Action = substr($Str,-1,1);                 //Last character tells us whether URL was blocked or not
+  $Site = substr($Str, 0, -1);
+  $ReportSiteStr = '';                         //Assume no Report Button
     
-    $Action = substr($Str,-1,1);                 //Last character tells us whether URL was blocked or not
-    $Site = substr($Str, 0, -1);
-    $ReportSiteStr = '';                         //Assume no Report Button
-    
-    if ($Action == '+') {                        //+ = Allowed      
-      echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';      
-      $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', false)">';
-    }
-    elseif ($Action == '-') {                    //- = Blocked
-      $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
-      $CountSubDomains = count($SplitURL);
+  if ($Action == '+') {                        //+ = Allowed      
+    echo '<tr><td>'. $i.'</td><td>'.$Site.'</td>';      
+    $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', false)">';
+  }
+  elseif ($Action == '-') {                    //- = Blocked
+    $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
+    $CountSubDomains = count($SplitURL);
       
-      if ($CountSubDomains <= 1) {               //No TLD Given, this could be a search via address bar  
-        echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
-      }                                          //Is it an IP Address?
-      elseif (($CountSubDomains == 4) && (!filter_var($Site, FILTER_VALIDATE_IP) === false)) {
-        echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
-      }
-      elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
-        echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';
-        
-      }
-      else {
-        echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'</td>';
-        $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', true)">';
-      }      
+    if ($CountSubDomains <= 1) {               //No TLD Given, this could be a search via address bar  
+      echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
+    }                                          //Is it an IP Address?
+    elseif (($CountSubDomains == 4) && (!filter_var($Site, FILTER_VALIDATE_IP) === false)) {
+      echo '<tr class="invalid"><td>'.$i.'</td><td>'.$Site.'</td>';
     }
-    elseif ($Action == '1') {                    //1 = Local lookup
-      echo '<tr class="local"><td>'.$i.'</td><td>'.$Site.'</td>';
+    elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
+      echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';        
     }
-    echo '<td><a target="_blank" href="'.$Config['SearchUrl'].$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
-    <a target="_blank" href="'.$Config['WhoIsUrl'].$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'
-    .$ReportSiteStr;
-    echo '</td><td>'.$Value.'</td></tr>'.PHP_EOL;
-  }  
+    else {
+      echo '<tr class="blocked"><td>'.$i.'</td><td>'.$Site.'</td>';
+      $ReportSiteStr = '&nbsp;<img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$Site.'\', true)">';
+    }      
+  }
+  elseif ($Action == '1') {                    //1 = Local lookup
+    echo '<tr class="local"><td>'.$i.'</td><td>'.$Site.'</td>';
+  }
+  echo '<td><a target="_blank" href="'.$Config['SearchUrl'].$Site.'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;
+  <a target="_blank" href="'.$Config['WhoIsUrl'].$Site.'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>'.$ReportSiteStr;
+  echo '</td><td>'.$Value.'</td></tr>'.PHP_EOL;
+  
   $i++;
 }
 echo '</table></div>'.PHP_EOL;
