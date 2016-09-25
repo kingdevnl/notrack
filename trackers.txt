@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 13 September 2016
+#NoTrack Tracker list updated 25 September 2016
 #LatestVersion 0.7.17
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -223,6 +223,7 @@ adsmobi.com #Smaato
 adsmobi.info #Smaato
 adsnative.com
 adsonar.com
+adsoptimal.com #AdsOptimal
 adspdbl.com
 adspeed.net
 adspsp.com
@@ -231,8 +232,6 @@ adsrvs.com #WhiteOps
 adsterra.com #Adsterra
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
-adunity.com #AdUnity
-adunity.net #AdUnity
 adsymptotic.com
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
@@ -245,6 +244,8 @@ adtoma.com #Adtoma
 adtoma.mobi #Adtoma
 adtomafusion.net #Adtoma
 adtruth.com #Experian
+adunity.com #AdUnity
+adunity.net #AdUnity
 adupclickfilter.com
 advanced-web-analytics.com
 adventori.com
@@ -252,9 +253,11 @@ adversal.com
 advertisers-openx.com #OpenX
 advertiserurl.com #Advertising Unknown
 advertising.com
+advertisingwouldbegreat.com #Advertising Unknown
 advertserve.com
 adviva.net
 advolution.de
+adxpansion.com #Gammae
 adxprts.com #Advertising
 adweb-connect.net #Ad Web
 adweb.info #Ad Web
@@ -512,6 +515,7 @@ boo-box.com #Boo Box
 bounceexchange.com
 brand-server.com
 brandcrumb.com
+brandgatekeeper.com #Traffic Cake
 bravocampmon.com #Campaign Monitor Pty
 bravocreatesend.com #Campaign Monitor Pty
 bravodevcampaignmonitor.com #Campaign Monitor Pty
@@ -629,6 +633,7 @@ channeladvisor.com
 channelintelligence.com
 chartbeat.com
 chartbeat.net
+cheekygirlz.info #Tracker Unknown
 cheetahmail.com #Experian
 chicdn.net
 chinaheh.com #Advertising
@@ -1212,6 +1217,7 @@ gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
 glimr.io #GLIMR
+globalsitecheck.com #Traffic Cake
 go2cloud.org
 go-mpulse.net
 goadservices.com
@@ -1536,6 +1542,7 @@ loggly.net #Loggly
 loggly.org #Loggly
 lognormal.net
 logsss.com #Tracker Unknown
+loopme.me #Loopme
 loyaltywindow.com #Digital Window
 lp4.io #Linkpulse
 lpsnmedia.net
@@ -9540,6 +9547,7 @@ onestat.com
 onetag-sys.com
 onstate.co.uk
 onstate.com
+onthe.io #Tracker Unknown
 olark.com
 online-metrix.net
 onscroll.com
@@ -9967,6 +9975,7 @@ sharethis.com
 sharethrough.com
 shifen.com #Baidushifen.com
 shinystat.com
+shockedfish.com #Traffic Cake
 shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
@@ -10084,6 +10093,9 @@ srvpub.com #RevenueHits
 sscefsol.com  #Advertising
 statcounter.com
 staticworld.net
+statsy.net #Tracker Unknown
+statuscake.com #Traffic Cake
+statuscake-email.com #Traffic Cake
 steelhousemedia.com
 steepto.com
 stickyadstv.com
@@ -10195,6 +10207,7 @@ tradedoubler.com
 tradefxads.com
 trafegonacional.pt
 trafficauthority.com #Adobe
+trafficcake.com #Traffic Cake
 trafficfactory.biz
 traffichaus.com #TrafficHaus
 traffichunt.com
@@ -10628,12 +10641,14 @@ live.rads.msn.com #Microsoft
 preview.msn.com #Microsoft
 rad.msn.com #Microsoft
 rpt.msn.com #Microsoft
+analytics.newsinc.com
 cp1.news.com.au
 heartbeat.dm.origin.com #EA
 log.pinterest.com #Pinterest
 cookiesv2.publiekeomroep.nl
 pixel.reddit.com
 pixel.redditmedia.com
+prod.telemetry.ros.rockstargames.com #Rockstar Games
 analytics.schoolwires.com
 analytics.faw.sky.com #Sky
 smetrics.sky.com #Sky
@@ -10642,6 +10657,7 @@ config.skype.com #Microsoft
 pipe.skype.com #Microsoft
 pricelist.skype.com #Microsoft
 stat.swedbank.se #Swedbank
+telemetry.api.swiftkey.com #Swiftkey
 webtrends.telegraph.co.uk #Telegraph
 oem.twimg.com #Twitter, possible Windows spying
 analytics.twitter.com #Twitter
@@ -10649,6 +10665,7 @@ geoiplookup.wikimedia.org #Wikipedia
 feedback.windows.com #Microsoft
 pixel.wp.com #Wordpress
 stats.wp.com #Wordpress
+cdf-anon.gtm.xboxlive.com #Microsoft
 analytics.yahoo.com #Yahoo
 ads.yahoo.com #Yahoo
 geo.query.yahoo.com #Yahoo
