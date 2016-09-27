@@ -11,6 +11,7 @@ function ReportSite(Site, Remove) {
   var Block1 = "";                               //Block button and message
   var Block2 = "";                               //Block button and message with subdomain
   var Report = "";                               //Report button and message
+  var SiteReport = "";
   var Domain = "";
   
   if (/^\*/.test(Site)) {                        //Is it a *common site?
@@ -26,10 +27,12 @@ function ReportSite(Site, Remove) {
     Msg = "<p>Unable to Block IP addresses.<br />You could add it to your Firewall instead</p>";
   }
   else if (Remove) {                             //Difficult to deal with Whitelisting / Removing sites from BlackList, it requires a greater interaction with Data on the server
-    Report= '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
+    //Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
+    Report = 'remove--'+Site;
   }
   else {                                         //At this point we are dealing with Adding a site to BlackList
-    Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';    
+    //Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site='+Site+'" target="_blank">Report</a> Report domain</p>';
+    Report = Site;
         
     //Is it a single domain with optional double-barrelled tld?
     if (/^[A-Za-z0-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$/.test(Site)) {                      
@@ -74,11 +77,12 @@ function ReportSite(Site, Remove) {
   
   if (Report == "") {
     document.getElementById("statsreport").style.display = "none";
-    document.getElementById("statsreport").innerHTML = "";
+    //document.getElementById("statsreport").innerHTML = "";
   }
   else {
     document.getElementById("statsreport").style.display = "block";
-    document.getElementById("statsreport").innerHTML = Report;
+    //document.getElementById("statsreport").innerHTML = Report;
+    document.getElementById("siterep").value = Report;
   }
   
   //Position Fade and Stats box
