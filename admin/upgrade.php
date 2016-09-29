@@ -1,7 +1,7 @@
 <?php
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-require('./include/topmenu.php');
+require('./include/menu.php');
 
 LoadConfigFile();
 if ($Config['Password'] != '') {  
@@ -25,8 +25,9 @@ if ($Config['Password'] != '') {
 <body>
 <?php
 ActionTopMenu();
-DrawTopMenu();
-DrawConfigMenu();
+draw_topmenu();
+draw_configmenu();
+echo '<div id="main">'.PHP_EOL;
 
 //Main---------------------------------------------------------------
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
