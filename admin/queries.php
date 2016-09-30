@@ -420,7 +420,7 @@ function simplify_url($url) {
   if (substr($url,0,4) == 'www.') $simpleurl  = substr($url,4); 
   else $simpleurl  = $url;
   
-  if (preg_match('/[A-Za-z1-9\-]{2,63}\.(org\.|co\.|com\.)?[A-Za-z1-9\-]{2,63}$/', $simpleurl , $Match) == 1) {
+  if (preg_match('/[A-Za-z0-9\-\_]{2,63}\.(gov\.|org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$/', $simpleurl , $Match) == 1) {
     if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
     else return $simpleurl ;
   }
