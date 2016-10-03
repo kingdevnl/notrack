@@ -1,0 +1,10 @@
+sudo apt-get install mariadb-server php5-mysql
+Asks for setting SQL root password
+
+echo "CREATE DATABASE ntrkdb;" | sudo mysql -u root -p
+echo "CREATE USER 'ntrk'@'localhost' IDENTIFIED BY 'ntrkpass';" | sudo mysql -u root -p
+mysql --user root --password=hello1 -D ntrkdb -e "GRANT ALL PRIVILEGES ON ntrkdb.* TO 'ntrk'@'localhost';"
+
+echo "FLUSH PRIVILEGES;" | sudo mysql -u root -p
+mysql --user ntrk --password ntrkpass -D ntrkdb -e CREATE TABLE live (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, system TINYTEXT, dns_request TINYTEXT, result CHAR(1))
+echo "USE ntrkdb; CREATE TABLE live (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, system TINYTEXT, dns_request TINYTEXT, result CHAR(1));" | mysql --user
