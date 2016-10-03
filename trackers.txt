@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 25 September 2016
+#NoTrack Tracker list updated 03 October 2016
 #LatestVersion 0.7.17
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -131,6 +131,7 @@ addthisedge.com #Oracle
 addtoany.com
 adfast.net #Ad Web
 adfast.org #Ad Web
+adfinis-sygroup.ch
 adflight.net #Ad Web
 adform.net
 adfront.org #BuySellAds
@@ -150,7 +151,7 @@ adizio.com
 adjug.com
 adjust.com
 adkontekst.pl
-unconf.adkmob.com
+adkmob.com #Advertising Unknown
 adlabsnetworks.com #AdLabs
 adlansa.com
 adlegend.com
@@ -166,6 +167,7 @@ admedia.com #AdMedia
 admediaclick.com #AppNexus Inc
 admedo.com
 admeld.com #Google
+amessagewithabottle.com #Uknown Tracker
 admized.com
 admo.tv #Clickon
 admob.com #AdMob
@@ -1161,6 +1163,7 @@ flix360.com #Flix 360
 flx1.com #Teradata
 flxads.com #Teradata
 flxpxl.com #Teradata
+fogzyads.com
 followistic.com
 footprint.net #Level3
 footprintdns.com #Microsoft
@@ -1394,6 +1397,7 @@ imrworldwide.com
 in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
+indexww.com #CassleMedia
 industrybrains.com
 inetwork.directory
 infernotions.com
@@ -9439,7 +9443,7 @@ msads.net
 msedge.net
 msgfocus.com
 msgf.net #Adestra
-push.mxapis.com #maxtraffic.com
+mxapis.com #maxtraffic.com
 mxcdn.net
 mxlogic.com
 mxpnl.com
@@ -9588,7 +9592,7 @@ optinmonster.com
 optimizely.com #Optimizely
 optnmnstr.com
 outbrain.com
-api3.ownedit.com
+ownedit.com #Owned it
 owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
 p161.net #161 Media
@@ -10544,7 +10548,8 @@ dmtracking2.alibaba.com
 stat.alibaba.com
 g.alicdn.com
 analytics.amakings.com
-affiliate-program.amazon.co.uk
+advertising.amazon.co.uk #Amazon
+affiliate-program.amazon.co.uk #Amazon
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com
 adinfo.aol.com
