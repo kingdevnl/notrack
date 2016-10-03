@@ -7,6 +7,7 @@
 10cms.com #Amplience
 123count.com #SpidersWatchp
 123-tracker.com #Lead Forensics
+ad.12dt.com #Ads
 161media.com #161 Media
 1800omniture.com #Adobe
 1s3h4f7sl.com #HelloWorld
@@ -149,6 +150,7 @@ adizio.com
 adjug.com
 adjust.com
 adkontekst.pl
+unconf.adkmob.com
 adlabsnetworks.com #AdLabs
 adlansa.com
 adlegend.com
@@ -280,6 +282,7 @@ adzip.co #Adbox Digital
 ad-center.com
 ad-score.com
 ad-serverparc.nl
+ads5-adnow.com
 aegdigitalgroup.com
 aetna.com #IBM Silverpop
 affec.tv
@@ -483,6 +486,7 @@ bigcommerce.com #BigCommerce
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 bing.net #Microsoft
+bat.bing.com
 bis-dic15.com #Lead Forensics
 bizible.com
 bizographics.com
@@ -931,6 +935,7 @@ digital-marketing-hub.com #Ysance
 digital-window.com #Digital Window
 direct-aws-a1.com #Lead Forensics
 direct-azr-78.com #Lead Forensics
+directedat.asia
 directrev.com
 directserve.com #Digital Window
 direct-serve.com #Digital Window
@@ -1216,6 +1221,8 @@ gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
+gleam.io
+gleamio.com
 glimr.io #GLIMR
 globalsitecheck.com #Traffic Cake
 go2cloud.org
@@ -9417,6 +9424,7 @@ monefy.net #Buta Trading
 monetate.net
 mookie1.com
 mosaicaudience.com #Experian
+motdgd.com #MOTDgd
 mouseflow.com #Mouseflow
 mouseflow.net #Mouseflow
 mouseflow.org #Mouseflow
@@ -9431,6 +9439,7 @@ msads.net
 msedge.net
 msgfocus.com
 msgf.net #Adestra
+push.mxapis.com #maxtraffic.com
 mxcdn.net
 mxlogic.com
 mxpnl.com
@@ -9579,6 +9588,7 @@ optinmonster.com
 optimizely.com #Optimizely
 optnmnstr.com
 outbrain.com
+api3.ownedit.com
 owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
 p161.net #161 Media
@@ -10096,6 +10106,7 @@ staticworld.net
 statsy.net #Tracker Unknown
 statuscake.com #Traffic Cake
 statuscake-email.com #Traffic Cake
+crash.steampowered.com #Steam
 steelhousemedia.com
 steepto.com
 stickyadstv.com
@@ -10308,6 +10319,7 @@ uptilt.net #Aurea
 urbanairship.com
 usabilla.com #Usabilla
 useitbetter.com
+user-api.com #Advertising
 userreplay.net
 userreport.com #User Report
 userstats.com
@@ -10537,6 +10549,7 @@ analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
+app-measurement.com #Google's android analytics
 metrics.argos.co.uk
 beacon.asda.com #Asda
 beacon.groceries.asda.com #Asda
@@ -10646,6 +10659,7 @@ cp1.news.com.au
 heartbeat.dm.origin.com #EA
 log.pinterest.com #Pinterest
 cookiesv2.publiekeomroep.nl
+metrics.raptr.com #Raptr
 pixel.reddit.com
 pixel.redditmedia.com
 prod.telemetry.ros.rockstargames.com #Rockstar Games
