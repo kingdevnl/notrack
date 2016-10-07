@@ -6,7 +6,15 @@ echo "CREATE USER 'ntrk'@'localhost' IDENTIFIED BY 'ntrkpass';" | sudo mysql -u 
 mysql --user root --password=hello1 -D ntrkdb -e "GRANT ALL PRIVILEGES ON ntrkdb.* TO 'ntrk'@'localhost';"
 
 echo "FLUSH PRIVILEGES;" | sudo mysql -u root -p
-mysql --user ntrk --password ntrkpass -D ntrkdb -e CREATE TABLE live (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, system TINYTEXT, dns_request TINYTEXT, result CHAR(1))
-echo "USE ntrkdb; CREATE TABLE live (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, system TINYTEXT, dns_request TINYTEXT, result CHAR(1));" | mysql --user
+
+#Create Table
+mysql --user ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE live (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, system TINYTEXT, dns_request TINYTEXT, result CHAR(1));"
+
+mysql --user ntrk --password=ntrkpass -D ntrkdb -e "DROP TABLE live;"
 
 GRANT INSERT, SELECT, DELETE, UPDATE ON database.* TO 'user'@'localhost' IDENTIFIED BY 'password';
+
+
+#Delete All Rows
+DELETE LOW_PRIORITY FROM live
+

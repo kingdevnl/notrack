@@ -5,6 +5,9 @@
 #Date Created : 03 October 2016
 #Usage : live.sh
 
+#process_todaylog can take a long time to run. In order to prevent loss of DNS queries
+#the log file is loaded into an array, and then immediately zeroed out.
+#Processing is done on the array from memory
 
 #######################################
 # Constants
@@ -18,7 +21,7 @@ readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 declare -a logarray
 declare -a processedlog
 simpleurl=""
-datestr="$(date +"%Y-%M-%d")"
+datestr="$(date +"%Y-%m-%d")"
 
 declare -A commonsites
 commonsites["cloudfront.net"]=true
@@ -131,11 +134,11 @@ function process_todaylog() {
   local -A querylist
   local -A systemlist
   local url=""
-  local result=""
+  local result=""  
 
   echo "Processing log file"
-  
-  for line in "${logarray[@]}"; do  
+    
+  for line in "${logarray[@]}"; do
     if [[ $line =~ ^[A-Z][a-z][a-z][[:space:]][[:space:]]?[0-9]{1,2}[[:space:]]([0-9]{2}\:[0-9]{2}\:[0-9]{2})[[:space:]]dnsmasq\[[0-9]{1,6}\]\:[[:space:]](query|reply|config|\/etc\/localhosts\.list)(\[[A]{1,4}\])?[[:space:]]([A-Za-z0-9\.\-]+)[[:space:]](is|to|from)[[:space:]](.*)$ ]]; then
       url="${BASH_REMATCH[4]}"
       
@@ -152,17 +155,19 @@ function process_todaylog() {
           elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then result="1"
           fi
           
-          simplify_url "$url"                              #Simplify with commonsites
-          line="INSERT INTO live (log_time,system,dns_request,result) VALUES ('$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$result');"
-          echo "$line"
-          #processedlog+="$line"
+          simplify_url "$url"                    #Simplify with commonsites
+          
+          if [[ $simpleurl != "" ]]; then        #Add row into SQL Table
+            echo "INSERT INTO live (id,log_time,system,dns_request,result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$result')" | mysql --user ntrk --password=ntrkpass -D ntrkdb
+          fi
+                    
           unset querylist[$url]                  #Delete value from querylist
           unset systemlist[$url]                 #Delete value from system list
         fi      
       fi
     fi
-  done | mysql --user=ntrk --password=ntrkpass -D ntrkdb
-  unset IFS
+  done
+  unset IFS  
 }
 
 
@@ -173,10 +178,11 @@ function process_todaylog() {
 #   3. Check if site is to be suppressed (present in commonsites)
 # Globals:
 #   simpleurl
+#   commonsites
 # Arguments:
 #   $1 URL To Simplify
 # Returns:
-#   via simpleurl
+#   via simpleurl global variable
 #-------------------------------------------------------------------- 
 function simplify_url() {
   local baseurl=""
@@ -196,9 +202,10 @@ function simplify_url() {
     fi
   fi 
 }
-
 #--------------------------------------------------------------------
 
-load_config
-load_todaylog
-process_todaylog
+load_config                                      #Load users config
+load_todaylog                                    #Load log file into array
+process_todaylog                                 #Process and add log to SQL table
+
+
