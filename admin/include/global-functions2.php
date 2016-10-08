@@ -195,9 +195,9 @@ function LoadConfigFile() {
   //7. Write Config to Memcache
   //As of v0.7.16 blocklists were renamed to bl_
 
-  global $FileConfig, $Config, $DefaultConfig, $Mem, $Version;
+  global $FileConfig, $Config, $DefaultConfig, $mem, $Version;
   
-  $Config=$Mem->get('Config');                   //Load array from Memcache
+  $Config=$mem->get('Config');                   //Load array from Memcache
   
   if (! empty($Config)) return;                  //Did it load from memory?
   
@@ -390,7 +390,7 @@ function LoadConfigFile() {
     }
     
     fclose($FileHandle);
-    $Mem->set('Config', $Config, 0, 1200);
+    $mem->set('Config', $Config, 0, 1200);
   }
   
   return null;

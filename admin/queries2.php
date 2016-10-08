@@ -30,13 +30,28 @@ draw_topmenu();
 draw_sidemenu();
 echo '<div id="main">'.PHP_EOL;
 
+/************************************************
+*Constants                                      *
+************************************************/
 DEFINE('DBNAME', 'ntrkdb');
-DEFINE('ROWSPERPAGE', 50);
-$page=1;
+DEFINE('DEF_SYSTEM', 'all');
+DEFINE('ROWSPERPAGE', 200);
 
+/************************************************
+*Global Variables                               *
+************************************************/
+$live_rows = 0;
+$page = 1;
+$view = "livetime";
+$sort = 'DESC';
+$system = DEF_SYSTEM;
 
+/************************************************
+*Arrays                                         *
+************************************************/
 $unsortedlog = array();
 $sortedlog = array();
+$systemlist = array();
 
 $TLDBlockList = array();
 $CommonSites = array();                          //Merge Common sites list with Users Suppress list
@@ -70,7 +85,7 @@ $TIMELIST = array('today' => 'Today',
 
 
 //Add GET Var to Link if Variable is used----------------------------
-function AddGetVar($Var) {
+/*function AddGetVar($Var) {
   global $DateRange, $StartStr, $RowsPerPage, $SortCol, $SortDir, $View;
   switch ($Var) {
     case 'C':
@@ -94,9 +109,9 @@ function AddGetVar($Var) {
   }
   return '';
 }
-
+*/
 //Add Hidden Var to Form if Variable is used-------------------------
-function AddHiddenVar($Var) {
+/*function AddHiddenVar($Var) {
 global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
   switch ($Var) {
     case 'C':
@@ -119,10 +134,10 @@ global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
     break;
   }
   return null;
-}
+}*/
 
 //WriteLI Function for Pagination Boxes-------------------------------
-function WriteLI($Character, $Start, $Active) {
+/*function WriteLI($Character, $Start, $Active) {
   if ($Active) {
     echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Character.'</a></li>'.PHP_EOL;
   }
@@ -131,15 +146,161 @@ function WriteLI($Character, $Start, $Active) {
   }  
   
   return null;
-}
+}*/
 
 //WriteTH Function for Table Header----------------------------------- 
-function WriteTH($Sort, $Dir, $Str) {
+/*function WriteTH($Sort, $Dir, $Str) {
   global $StartPoint;
   echo '<th><a href="?start='.$StartPoint.AddGetVar('C').'&amp;sort='.$Sort.'&amp;dir='.$Dir.AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Str.'</a></th>';
   return null;
+}*/
+
+
+/********************************************************************
+ *  Count rows in Live table
+ *  
+ *  1. Attempt to load value from Memcache
+ *  2. Check if same query is being run
+ *  3. If that fails then run query
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function count_live_rows() {
+  global $live_rows, $view, $system, $livedb, $mem;
+  
+  $query = '';
+  
+  if ($mem->get('live_rows')) {  
+    if (($view == $mem->get('view')) && ($system == $mem->get('system'))) {
+      $live_rows = $mem->get('live_rows');
+      return $live_rows;    
+    } 
+  }
+  
+  if ($view == 'livetime') {
+    if ($system == DEF_SYSTEM) $query = 'SELECT COUNT(*) FROM `live`';
+    else $query = 'SELECT COUNT(*) FROM `live` WHERE `system` = \''.$system.'\'';
+  }
+      
+  $result = $livedb->query($query);
+  $live_rows = $result->fetch_row()[0];        //Extract value from array
+  $result->free();    
+  $mem->set('live_rows', $live_rows, 0, 600);  //Save for 10 Mins
+  $mem->set('view', $view, 0, 600);
+  $mem->set('system', $system, 0, 600);
+    
+  return $live_rows;
 }
 
+
+/********************************************************************
+ *  Draw Filter Box
+ *  
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function draw_filterbox() {
+  global $systemlist, $page, $sort, $system, $view;
+  
+  echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
+  echo '<form method="get">'.PHP_EOL;
+  echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
+  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'" />'.PHP_EOL;
+  echo '<span class="filter">System:</span><select name="sys" onchange="submit()">';
+    
+  if ($system == DEF_SYSTEM) {
+    echo '<option value="all">All</option>'.PHP_EOL;
+  }
+  else {
+    echo '<option value="1">'.$system.'</option>'.PHP_EOL;
+    echo '<option value="all">All</option>'.PHP_EOL;
+  }  
+  foreach ($systemlist as $line) {
+    if ($line != $system) echo '<option value="'.$line.'">'.$line.'</option>'.PHP_EOL;
+  }
+  echo '</select>'.PHP_EOL;
+  echo '</form>'.PHP_EOL;
+    
+  echo '</div></div>'.PHP_EOL;
+/*echo '<form action="?" method="get">';
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('E');
+AddHiddenVar('DR');
+echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
+switch ($View) {                                 //First item is unselectable, therefore we need to
+  case 1:                                        //give a different selection for each value of $View
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="2">Only requests that were allowed</option>';
+    echo '<option value="3">Only requests that were blocked</option>';
+  break;
+  case 2:
+    echo '<option value="2">Only requests that were allowed</option>';
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="3">Only requests that were blocked</option>';
+  break;
+  case 3:
+    echo '<option value="3">Only requests that were blocked</option>';
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="2">Only requests that were allowed</option>';
+  break;
+}
+echo '</select>'.PHP_EOL;
+echo '</form>'.PHP_EOL;
+
+//Draw Time Dropdown list------------------------------------------
+echo '<form action="?" method="get">';
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('V');
+AddHiddenVar('DR');
+echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
+if (array_key_exists($StartStr, $TIMELIST)) {    //Is the current time value in TimeList array?
+  echo '<option value="'.$StartStr.'">'.$TIMELIST[$StartStr].'</option>'.PHP_EOL;
+}
+else {                                           //No - work out what the user is searching for
+  //Regex matches
+  //-
+  //Group 1 - 1 to 4 numbers
+  //Group 2 - a word
+  //End string
+  if (preg_match('/^\-(\d{1,4})(\[a-z]+)$/', $StartStr, $matches) > 0) {
+    echo '<option value="'.$StartStr.'">'.$matches[1].' '.ucfirst($matches[2]).'</option>'.PHP_EOL;
+  }
+  else {                                         //No match on regex means a date value
+    echo '<option value="today">Historic</option>'.PHP_EOL;
+  }
+}
+foreach ($TIMELIST as $key => $value) {          //Output TimeList array as a select box
+  if ($StartStr != $key) {                       //Ignore current setting
+    echo '<option value="'.$key.'">'.$value.'</option>'.PHP_EOL;
+  }
+}
+echo '</select></form></div>'.PHP_EOL;*/
+
+/*
+//Draw Calendar------------------------------------------------------
+echo '<div class="col-half"><form action="?" method="get">'.PHP_EOL;
+AddHiddenVar('C');
+AddHiddenVar('Sort');
+AddHiddenVar('Dir');
+AddHiddenVar('V');
+echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" onchange="submit()"/><br />';
+echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'" onchange="submit()"/><br /><br />'.PHP_EOL;
+echo '</form>'.PHP_EOL;
+echo '</div></div>'.PHP_EOL;
+}
+*/
+}
 /********************************************************************
  *  Load Log Files
  *  
@@ -153,30 +314,30 @@ function WriteTH($Sort, $Dir, $Str) {
  *  Return:
  *    None
  */
-function load_logfiles() {
-  global $sortedlog, $unsortedlog, $Mem;
+/*function load_logfiles() {
+  global $sortedlog, $unsortedlog, $mem;
   global $SortCol, $SortDir, $StartStr, $StartTime, $DateRange, $ExecTime, $View;
   
   $LoadList = true;                              //Assume Logs will need loading
   $SortList = true;                              //Assume Array will need sorting
-  $MemSaveTime = 600;                            //How long to hold data in memory
+  $memSaveTime = 600;                            //How long to hold data in memory
 
   //How long to hold data in memcache based on how far back user is searching
   //Shorter time search = lower retention of Memcache
-  if (($StartStr == '') || ($StartStr == 'today')) $MemSaveTime = 240;
-  elseif ($StartTime >= $ExecTime - 300) $MemSaveTime = 30;    //-5 Min
-  elseif ($StartTime >= $ExecTime - 1500) $MemSaveTime = 50;   //-15 Min
-  elseif ($StartTime >= $ExecTime - 3600) $MemSaveTime = 90;   //-1 hour
-  elseif ($StartTime >= $ExecTime - 28800) $MemSaveTime = 180; //-8 hours
+  if (($StartStr == '') || ($StartStr == 'today')) $memSaveTime = 240;
+  elseif ($StartTime >= $ExecTime - 300) $memSaveTime = 30;    //-5 Min
+  elseif ($StartTime >= $ExecTime - 1500) $memSaveTime = 50;   //-15 Min
+  elseif ($StartTime >= $ExecTime - 3600) $memSaveTime = 90;   //-1 hour
+  elseif ($StartTime >= $ExecTime - 28800) $memSaveTime = 180; //-8 hours
 
   //Attempt to load SortedDomainList from Memcache
-  $sortedlog = $Mem->get('sortedlog');   
+  $sortedlog = $mem->get('sortedlog');   
   if ($sortedlog) {                              //Has array loaded?
-    if (($StartStr == $Mem->get('StartStr')) && 
-        ($DateRange == $Mem->get('DateRange')) && 
-        ($View == $Mem->get('View'))) {
-      if (($SortCol == $Mem->get('SortCol')) && 
-          ($SortDir == $Mem->get('SortDir'))) {  //Check if search is same
+    if (($StartStr == $mem->get('StartStr')) && 
+        ($DateRange == $mem->get('DateRange')) && 
+        ($View == $mem->get('View'))) {
+      if (($SortCol == $mem->get('SortCol')) && 
+          ($SortDir == $mem->get('SortDir'))) {  //Check if search is same
         $SortList = false;
         $LoadList = false;      
       }
@@ -186,13 +347,13 @@ function load_logfiles() {
       }
     }
     else {
-      $Mem->delete('StartStr');                  //Delete old variables from Memcache
-      $Mem->delete('SortCol');
-      $Mem->delete('SortDir');
-      $Mem->delete('DateRange');
-      $Mem->delete('unsortedlog');
-      $Mem->delete('sortedlog');
-      $Mem->delete('View');
+      $mem->delete('StartStr');                  //Delete old variables from Memcache
+      $mem->delete('SortCol');
+      $mem->delete('SortDir');
+      $mem->delete('DateRange');
+      $mem->delete('unsortedlog');
+      $mem->delete('sortedlog');
+      $mem->delete('View');
       $sortedlog = array();                      //Delete data in array
     }    
   }
@@ -201,14 +362,14 @@ function load_logfiles() {
     //Are we loading Todays logs or Historic logs?
     if ($StartTime > (time() - 86400)) load_todaylog();
     else load_historiclogs();
-    $Mem->set('unsortedlog', $unsortedlog, 0, $MemSaveTime);
+    $mem->set('unsortedlog', $unsortedlog, 0, $memSaveTime);
   }
   else {                                         //Load domain list from memcache
-  $unsortedlog = $Mem->get('unsortedlog');
+  $unsortedlog = $mem->get('unsortedlog');
     if (!$unsortedlog) {                         //Something wrong, get it reloaded
       if ($StartTime > (time() - 86400)) load_todaylog();
       else load_historiclogs();
-      $Mem->set('unsortedlog', $unsortedlog, 0, $MemSaveTime);
+      $mem->set('unsortedlog', $unsortedlog, 0, $memSaveTime);
     }
   }
 
@@ -223,17 +384,17 @@ function load_logfiles() {
     }
     
     $sortedlog = array_keys($unsortedlog);
-    $Mem->set('StartStr', $StartStr, 0, $MemSaveTime);       //Store variables in Memcache
-    $Mem->set('SortCol', $SortCol, 0, $MemSaveTime);
-    $Mem->set('SortDir', $SortDir, 0, $MemSaveTime);
-    $Mem->set('DateRange', $DateRange, 0, $MemSaveTime);
-    $Mem->set('sortedlog', $sortedlog, 0, $MemSaveTime);
-    $Mem->set('View', $View, 0, $MemSaveTime);
+    $mem->set('StartStr', $StartStr, 0, $memSaveTime);       //Store variables in Memcache
+    $mem->set('SortCol', $SortCol, 0, $memSaveTime);
+    $mem->set('SortDir', $SortDir, 0, $memSaveTime);
+    $mem->set('DateRange', $DateRange, 0, $memSaveTime);
+    $mem->set('sortedlog', $sortedlog, 0, $memSaveTime);
+    $mem->set('View', $View, 0, $memSaveTime);
   }
   
   return null;
 }
-
+*/
 /********************************************************************
  *  Load TLD Block List
  *  
@@ -248,9 +409,9 @@ function load_logfiles() {
  *    None
  */
 function load_tldblocklist() {
-  global $TLDBlockList, $Mem, $DomainQuickList;
+  global $TLDBlockList, $mem, $DomainQuickList;
   
-  $TLDBlockList = $Mem->get('TLDBlockList');
+  $TLDBlockList = $mem->get('TLDBlockList');
   if (! $TLDBlockList) {
     if (file_exists($DomainQuickList)) {          //Check if File Exists
       $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open '.$DomainQuickList);
@@ -258,7 +419,7 @@ function load_tldblocklist() {
         $TLDBlockList[] = trim(fgets($FileHandle));
       }
       fclose($FileHandle);
-      $Mem->set('TLDBlockList', $TLDBlockList, 0, 1800);
+      $mem->set('TLDBlockList', $TLDBlockList, 0, 1800);
     }
   }
   
@@ -278,7 +439,7 @@ function load_tldblocklist() {
  *  Return:
  *    None
  */
-function load_todaylog() {
+/*function load_todaylog() {
 //Dnsmasq log line consists of:
 //0 - Month (3 characters)
 //1 - Day (d or dd)
@@ -360,7 +521,7 @@ function load_todaylog() {
   fclose($fh);                                   //Close log file
   return null;
 }
-
+*/
 /********************************************************************
  *  Load Historic Logs
  *  
@@ -372,7 +533,7 @@ function load_todaylog() {
  *  Return:
  *    None
  */
-function load_historiclogs() {
+/*function load_historiclogs() {
   global $DateRange, $StartTime, $View, $unsortedlog, $ExecTime;
   
   $LogFile = '';
@@ -403,6 +564,101 @@ function load_historiclogs() {
     }
   }  
 }
+*/
+
+/********************************************************************
+ *  Pagination
+ *  
+ *  Draw up to 6 buttons
+ *  Main [<] [1] [x] [x+1] [L] [>]
+ *  Or   [ ] [1] [2] [>]
+ *
+ *  Params:
+ *    rows
+ *    $linktext = text for a href
+ *  Return:
+ *    None
+ */
+function pagination($rows, $linktext) {
+  global $page;
+
+  $numpages = 0;
+  $currentpage = 0;
+  $startloop = 0;
+  $endloop = 0;
+  
+  if ($rows > ROWSPERPAGE) {                     //Is Pagination needed?
+    $numpages = ceil($rows / ROWSPERPAGE);       //Calculate List Size
+    
+    //<div class="sys-group">
+    echo '<div class="pag-nav"><ul>'.PHP_EOL;
+  
+    if ($page == 1) {                            // [ ] [1]
+      echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
+      echo '<li class="active"><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
+      $startloop = 2;
+      if (($numpages > 3) && ($page < $numpages - 3)) $endloop = $page + 3;
+      else $endloop = $numpages;
+    }
+    else {                                       // [<] [1]
+      echo '<li><a href="?page='.($page-1).'&amp;'.$linktext.'">&#x00AB;</a></li>'.PHP_EOL;
+      echo '<li><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
+      
+      if ($numpages < 4) $startloop = 2;         // [1] [2] [3] [L]
+      elseif (($page > 2) && ($page > $numpages -3)) $startloop = ($numpages - 2); //[1]  [x-1] [x] [L]
+      else $startloop = $page;                   // [1] [x] [x+1] [L]
+      
+      if (($numpages > 3) && ($page < $numpages - 2)) $endloop = $page + 2; // [y] [y+1] [y+2]
+      else $endloop = $numpages;                 // [1] [x-1] [y] [L]
+    }    
+    
+    for ($i = $startloop; $i < $endloop; $i++) { //Loop to draw 2 buttons
+      if ($i == $page) {
+        echo '<li class="active"><a href="?page='.$i.'&amp;'.$linktext.'">'.$i.'</a></li>'.PHP_EOL;
+      }
+      else {
+        echo '<li><a href="?page='.$i.'&amp;'.$linktext.'">'.$i.'</a></li>'.PHP_EOL;
+      }
+    }
+    
+    if ($page == $numpages) {                    // [Final] [ ]
+      echo '<li class="active"><a href="?page='.$numpages.'&amp;'.$linktext.'">'.$numpages.'</a></li>'.PHP_EOL;
+      echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
+    }    
+    else {                                       // [Final] [>]
+      echo '<li><a href="?page='.$numpages.'&amp;'.$linktext.'">'.$numpages.'</a></li>'.PHP_EOL;
+      echo '<li><a href="?page='.($page+1).'&amp;'.$linktext.'">&#x00BB;</a></li>'.PHP_EOL;
+    }	
+    
+  echo '</ul></div>'.PHP_EOL;
+  //</div>
+  }
+}
+/********************************************************************
+ *  Search Systems
+ *  
+ *  1. Find unique system values in table
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function search_systems() {
+  global $livedb, $mem, $systemlist;
+  
+  $systemlist = $mem->get('systemlist');
+  if (! $systemlist) {
+    if (! $result = $livedb->query('SELECT DISTINCT `system` FROM `live` ORDER BY `system`')) {
+      die('There was an error running the query'.$livedb->error);
+    }
+    while($row = $result->fetch_assoc()) {       //Read each row of results
+      $systemlist[] = $row['system'];               //Add row value to $systemlist
+    }
+    $result->free();
+    $mem->set('systemlist', $systemlist, 0, 600);      //Save for 10 Mins
+  }    
+}
 
 /********************************************************************
  *  Simplify URL
@@ -428,7 +684,83 @@ function simplify_url($url) {
     else return $simpleurl ;
   }
  
-  return $simpleurl ;
+  return $simpleurl;
+}
+
+/********************************************************************
+ *  Show Live Time
+ *  
+ *  Show results from Live table in Time order
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    false when nothing found, true on success
+ */
+function show_live_time() {
+  global $livedb, $live_rows, $page, $sort, $system, $view, $Config, $TLDBlockList;
+  
+  $row_class = '';
+  $action = '';
+  $blockreason = '';
+  
+  if ((($page-1) * ROWSPERPAGE) > $live_rows) $page = 1;
+  
+  if ($system != DEF_SYSTEM) {
+    $query = 'SELECT * FROM `live` WHERE `system` = \''.$system.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  }
+  else {
+    $query = 'SELECT * FROM `live` ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  }
+  if(!$result = $livedb->query($query)){
+    die('There was an error running the query'.$livedb->error);
+  }
+  
+  if ($result->num_rows == 0) {                 //Leave if nothing found
+    $result->free();
+    return false;
+  }
+  
+  echo '<div class="sys-group">'.PHP_EOL;
+  pagination($live_rows, 'view='.$view.'&amp;sort=desc&amp;sys='.$system);
+  echo '<table id="query-time-table">'.PHP_EOL;
+  echo '<tr><th>Time<a href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc&amp;sys='.$system.'">&#x25BE;</a><a href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc&amp;sys='.$system.'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;  
+  
+  while($row = $result->fetch_assoc()) {         //Read each row of results
+    $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
+    if ($row['result'] == 'A') {
+      $row_class='';
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
+    }
+    elseif ($row['result'] == 'B') {
+      $row_class = ' class="blocked"';
+      if (preg_match('/(\w+)$/', $row['dns_request'],  $matches) > 0) {
+        if (in_array('.'.$matches[1], $TLDBlockList)) {
+          $blockreason = '<p class="small">.'.$matches[1].'Blocked by Top Level Domain List</p>';          
+        }
+        else {
+          $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        }
+      }
+      elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
+        $row_class = ' class="invalid"';
+        $blockreason = '<p class="small">IP Requested</p>';
+      }        
+    }
+    elseif ($row['result'] == 'L') {
+      $row_class = ' class="local"';
+      $action = '&nbsp;';
+    }
+    
+    echo '<tr'.$row_class.'><td>'.substr($row['log_time'], 11).'</td><td>'.$row['system'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td>'.PHP_EOL;
+    $blockreason = '';
+  }
+  
+  echo '</table>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
+  $result->free();
+
+  return true;
 }
 
 function show_live_results($query) {
@@ -438,7 +770,7 @@ function show_live_results($query) {
   if(!$result = $livedb->query($query)){
     die('There was an error running the query'.$livedb->error);
   }
-  
+  print_r($livedb);
   $rows_found = $result->num_rows;
   
   /*if ($rows_found == 0) {                        //Fallback to DEFAULTQUERY if nothing found
@@ -465,6 +797,22 @@ function show_live_results($query) {
 
 $livedb = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
+search_systems();
+
+if (isset($_GET['page'])) {
+  if (is_numeric($_GET['page'])) $page = $_GET['page'];
+}
+
+if (isset($_GET['sort'])) {
+  if ($_GET['sort'] == 'asc') $sort = 'ASC';
+}
+
+if (isset($_GET['sys'])) {
+  if (in_array($_GET['sys'], $systemlist)) $system = $_GET['sys'];
+}
+
+
+
 //$query = 'SELECT * FROM `live` ORDER BY `id` DESC LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
 //By URL Desc
 //$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request';
@@ -472,9 +820,20 @@ $livedb = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 //$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count ASC';
 
 //$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC LIMIT 10 OFFSET 20';
-$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
-show_live_results($query);
+//$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
 
+//$query = 'SELECT SQL_CALC_FOUND_ROWS dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
+
+count_live_rows();
+
+
+draw_filterbox();
+
+if ($view == 'livetime') {
+  show_live_time();
+}
+//show_live_results($query);
+//->affected_rows()
 /*
 //HTTP GET Variables-------------------------------------------------
 //SortCol 0: Requests
@@ -523,78 +882,7 @@ if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater 
 $sortedlog = array_slice($sortedlog, $StartPoint - 1, $RowsPerPage);
 
 
-//Draw Filter Dropdown list------------------------------------------
-echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
-echo '<form action="?" method="get">';
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
-AddHiddenVar('C');
-AddHiddenVar('Sort');
-AddHiddenVar('Dir');
-AddHiddenVar('E');
-AddHiddenVar('DR');
-echo '<span class="filter">Filter:</span><select name="v" onchange="submit()">';
-switch ($View) {                                 //First item is unselectable, therefore we need to
-  case 1:                                        //give a different selection for each value of $View
-    echo '<option value="1">All Requests</option>';
-    echo '<option value="2">Only requests that were allowed</option>';
-    echo '<option value="3">Only requests that were blocked</option>';
-  break;
-  case 2:
-    echo '<option value="2">Only requests that were allowed</option>';
-    echo '<option value="1">All Requests</option>';
-    echo '<option value="3">Only requests that were blocked</option>';
-  break;
-  case 3:
-    echo '<option value="3">Only requests that were blocked</option>';
-    echo '<option value="1">All Requests</option>';
-    echo '<option value="2">Only requests that were allowed</option>';
-  break;
-}
-echo '</select>'.PHP_EOL;
-echo '</form>'.PHP_EOL;
 
-//Draw Time Dropdown list------------------------------------------
-echo '<form action="?" method="get">';
-echo '<input type="hidden" name="start" value="'.$StartPoint.'" />'.PHP_EOL;
-AddHiddenVar('C');
-AddHiddenVar('Sort');
-AddHiddenVar('Dir');
-AddHiddenVar('V');
-AddHiddenVar('DR');
-echo '<span class="filter">Time:</span><select name="e" onchange="submit()">';
-if (array_key_exists($StartStr, $TIMELIST)) {    //Is the current time value in TimeList array?
-  echo '<option value="'.$StartStr.'">'.$TIMELIST[$StartStr].'</option>'.PHP_EOL;
-}
-else {                                           //No - work out what the user is searching for
-  //Regex matches
-  //-
-  //Group 1 - 1 to 4 numbers
-  //Group 2 - a word
-  //End string
-  if (preg_match('/^\-(\d{1,4})(\[a-z]+)$/', $StartStr, $matches) > 0) {
-    echo '<option value="'.$StartStr.'">'.$matches[1].' '.ucfirst($matches[2]).'</option>'.PHP_EOL;
-  }
-  else {                                         //No match on regex means a date value
-    echo '<option value="today">Historic</option>'.PHP_EOL;
-  }
-}
-foreach ($TIMELIST as $key => $value) {          //Output TimeList array as a select box
-  if ($StartStr != $key) {                       //Ignore current setting
-    echo '<option value="'.$key.'">'.$value.'</option>'.PHP_EOL;
-  }
-}
-echo '</select></form></div>'.PHP_EOL;
-
-//Draw Calendar------------------------------------------------------
-echo '<div class="col-half"><form action="?" method="get">'.PHP_EOL;
-AddHiddenVar('C');
-AddHiddenVar('Sort');
-AddHiddenVar('Dir');
-AddHiddenVar('V');
-echo '<span class="filter">Date: </span><input name="e" type="date" value="'.date('Y-m-d', $StartTime).'" onchange="submit()"/><br />';
-echo '<span class="filter">Range: </span><input name="dr" type="number" min="1" max="30" value="'.$DateRange.'" onchange="submit()"/><br /><br />'.PHP_EOL;
-echo '</form>'.PHP_EOL;
-echo '</div></div>'.PHP_EOL;
 
 //Draw Table Headers-------------------------------------------------
 echo '<div class="sys-group">'.PHP_EOL;
@@ -657,72 +945,7 @@ foreach ($sortedlog as $Str) {
   $i++;
 }
 echo '</table></div>'.PHP_EOL;
-
-//Pagination---------------------------------------------------------
-if ($ListSize > $RowsPerPage) {                  //Is Pagination needed
-  $ListSize = ceil($ListSize / $RowsPerPage);    //Calculate List Size
-  $CurPos = floor($StartPoint / $RowsPerPage)+ 1;//Calculate Current Position
-  
-  echo '<div class="sys-group"><div class="pag-nav"><ul>'.PHP_EOL;
-  
-  if ($CurPos == 1) {                            //At the beginning display blank box
-    echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;    
-    WriteLI('1', 0, true);
-  }    
-  else {                                         // << Symbol & Print Box 1
-    WriteLI('&#x00AB;', $RowsPerPage * ($CurPos - 2), false);
-    WriteLI('1', 0, false);
-  }
-
-  if ($ListSize <= 4) {                          //Small Lists don't need fancy effects
-    for ($i = 2; $i <= $ListSize; $i++) {	 //List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-      }
-    }
-  }
-  elseif ($ListSize > 4 && $CurPos == 1) {       // < [1] 2 3 4 T >
-    WriteLI('2', $RowsPerPage, false);
-    WriteLI('3', $RowsPerPage * 2, false);
-    WriteLI('4', $RowsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-  elseif ($ListSize > 4 && $CurPos == 2) {       // < 1 [2] 3 4 T >
-    WriteLI('2', $RowsPerPage, true);
-    WriteLI('3', $RowsPerPage * 2, false);
-    WriteLI('4', $RowsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-  elseif ($ListSize > 4 && $CurPos > $ListSize - 2) {// < 1 T-3 T-2 T-1 T > 
-    for ($i = $ListSize - 3; $i <= $ListSize; $i++) {//List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-    	}
-      }
-    }
-  else {                                         // < 1 c-1 [c] c+1 T >
-    for ($i = $CurPos - 1; $i <= $CurPos + 1; $i++) {//List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-      }
-    }
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-    
-  if ($CurPos < $ListSize) {                     // >> Symbol for Next
-    WriteLI('&#x00BB;', $RowsPerPage * $CurPos, false);
-  }	
-  echo '</ul></div></div>'.PHP_EOL;
-}*/
+*/
 
 $livedb->close();
 

@@ -436,6 +436,27 @@ tr.green {
 #domain-table img {
   width: 1em;
 }
+#query-time-table td:nth-child(1), #query-time-table th:nth-child(1) {
+  width: 15%;
+  text-align: center; 
+}
+#query-time-table td:nth-child(2), #query-time-table th:nth-child(2) {
+  width: 25%;  
+}
+#query-time-table td:nth-child(3), #query-time-table th:nth-child(3) {
+  width: 45%;  
+}
+#query-time-table td:nth-child(4), #query-time-table th:nth-child(4) {
+  width: 12%;
+  text-align: center; 
+}
+#query-time-table th a {
+  font-size: 1.4rem;
+  margin-left: 0.2rem;
+}
+#query-time-table img {
+  width: 1em;
+}
 #dhcp-table td:nth-child(1), #dhcp-table th:nth-child(1) {
   width: 22%;
   text-align: center;  
@@ -631,7 +652,17 @@ span.timer {
   transition: margin-left .5s;
 }
 
-@media only screen and (max-width:480px), only screen and (max-device-width:480px) {  /*Mobile view for Menu*/  
+@media only screen and (max-width:1000px), only screen and (max-device-width:1000px) {
+  #main {
+    margin: 4rem 0 0 3rem;    
+  }
+  #menu-side {
+    width: 3rem;
+  }
+}
+
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {  
+  /*Mobile view for Menu*/  
   #main {
     margin: 5.4rem 0 0 0rem;
   }

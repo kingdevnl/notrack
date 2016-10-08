@@ -70,8 +70,8 @@ $DefaultConfig = array(
 
 if (!extension_loaded('memcache')) die('NoTrack requires memcached and php-memcache to be installed');
 
-$Mem = new Memcache;                             //Initiate Memcache
-$Mem->connect('localhost');
+$mem = new Memcache;                             //Initiate Memcache
+$mem->connect('localhost');
 
 if (!extension_loaded('mysql')) die('NoTrack requires mysql extension to be installed');
 
