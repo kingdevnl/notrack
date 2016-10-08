@@ -27,7 +27,7 @@ function ReportSite(Site, Remove) {
     Msg = "<p>Unable to Block IP addresses.<br />You could add it to your Firewall instead</p>";
   }
   else if (Remove) {                             //Difficult to deal with Whitelisting / Removing sites from BlackList, it requires a greater interaction with Data on the server
-    //Report = '<p><a class="button-blue" href="https://quidsup.net/notrack/report.php?site=remove--'+Site+'" target="_blank">Report</a> Request domain is removed from BlockList</p>';
+    Msg = '<p>Request site is removed from BlockList</p>';
     Report = 'remove--'+Site;
   }
   else {                                         //At this point we are dealing with Adding a site to BlackList
