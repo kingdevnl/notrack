@@ -14,6 +14,11 @@
 #######################################
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
+readonly VERSION="0.8"
+
+readonly USER="ntrk"
+readonly PASSWORD="ntrkpass"
+readonly DBNAME="ntrkdb"
 
 #######################################
 # Global Variables
@@ -32,6 +37,23 @@ commonsites["gvt1.com"]=true
 commonsites["deviantart.net"]=true
 commonsites["deviantart.com"]=true
 commonsites["tumblr.com"]=true
+
+#--------------------------------------------------------------------
+# Delete Live DB
+#   1. Delete all rows in the Live Table
+#   2. Reset Counter
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function delete_live() {
+  echo "DELETE LOW_PRIORITY FROM live;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+  echo "ALTER TABLE live AUTO_INCREMENT = 1;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+}
 
 #--------------------------------------------------------------------
 # Load Config File
@@ -150,15 +172,15 @@ function process_todaylog() {
       elif [[ $url != "$dedup_answer" ]]; then   #Simplify processing of multiple IP addresses returned
         dedup_answer="$url"                      #Deduplicate answer
         if [ "${querylist[$url]}" ]; then        #Does answer match a query?
-          if [[ ${BASH_REMATCH[2]} == "reply" ]]; then result="+"
-          elif [[ ${BASH_REMATCH[2]} == "config" ]]; then result="-"
-          elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then result="1"
+          if [[ ${BASH_REMATCH[2]} == "reply" ]]; then result="A"    #Allowed
+          elif [[ ${BASH_REMATCH[2]} == "config" ]]; then result="B" #Blocked
+          elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then result="L"
           fi
           
           simplify_url "$url"                    #Simplify with commonsites
           
           if [[ $simpleurl != "" ]]; then        #Add row into SQL Table
-            echo "INSERT INTO live (id,log_time,system,dns_request,result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$result')" | mysql --user ntrk --password=ntrkpass -D ntrkdb
+            echo "INSERT INTO live (id,log_time,system,dns_request,result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$result')" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
           fi
                     
           unset querylist[$url]                  #Delete value from querylist
@@ -168,6 +190,13 @@ function process_todaylog() {
     fi
   done
   unset IFS  
+}
+
+#--------------------------------------------------------------------
+#Show Version
+function show_version() {
+  echo "NoTrack live DNS Archiver v$VERSION"
+  echo
 }
 
 
@@ -196,13 +225,47 @@ function simplify_url() {
   
   if [[ $baseurl =~ [A-Za-z0-9\-]{2,63}\.(gov\.|org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$ ]]; then
     if [ ${commonsites[${BASH_REMATCH[0]}]} ]; then
-      simpleurl="${BASH_REMATCH[0]}"
+      simpleurl="*.${BASH_REMATCH[0]}"
     else
       simpleurl="$baseurl"
     fi
   fi 
 }
 #--------------------------------------------------------------------
+if [ "$1" ]; then                                #Have any arguments been given
+  if ! options="$(getopt -o dv -l delete,version -- "$@")"; then
+    # something went wrong, getopt will put out an error message for us
+    exit 6
+  fi
+
+  set -- $options
+
+  while [ $# -gt 0 ]
+  do
+    case $1 in      
+      -v|--version) 
+        show_version
+        exit 0
+      ;;
+      -d|--delete)
+        delete_live
+        exit 0
+      ;;
+      (--) 
+        shift
+        break
+      ;;
+      (-*)         
+        echo "$0: error - unrecognized option $1"
+        exit 6
+      ;;
+      (*) 
+        break
+      ;;
+    esac
+    shift
+  done
+fi
 
 load_config                                      #Load users config
 load_todaylog                                    #Load log file into array
