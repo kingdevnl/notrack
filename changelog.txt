@@ -1,4 +1,11 @@
-Development of v0.7.18
+v0.8 Development
+New SQL backend using MariaDB to store DNS logs.
+At this point there is no automated installation or uploading of DNS logs to SQL.
+Check /scripts/sqlupgrade.txt for basic details on how to setup MariaDB
+/admin/queries2.php is mostly functional for reading live table
+
+
+Development of v0.7.18 - scrapped, moved development on to v0.8
 New style menu
 stats.php renamed to queries.php
 

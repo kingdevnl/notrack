@@ -40,18 +40,17 @@ DEFINE('ROWSPERPAGE', 200);
 /************************************************
 *Global Variables                               *
 ************************************************/
-$live_rows = 0;
 $page = 1;
 $view = "livetime";
 $sort = 'DESC';
-$system = DEF_SYSTEM;
+$sys = DEF_SYSTEM;
 
 /************************************************
 *Arrays                                         *
 ************************************************/
 $unsortedlog = array();
 $sortedlog = array();
-$systemlist = array();
+$syslist = array();
 
 $TLDBlockList = array();
 $CommonSites = array();                          //Merge Common sites list with Users Suppress list
@@ -84,78 +83,6 @@ $TIMELIST = array('today' => 'Today',
                   '-12hours' => '12 Hours');
 
 
-//Add GET Var to Link if Variable is used----------------------------
-/*function AddGetVar($Var) {
-  global $DateRange, $StartStr, $RowsPerPage, $SortCol, $SortDir, $View;
-  switch ($Var) {
-    case 'C':
-      if ($RowsPerPage != 500) return '&amp;c='.$RowsPerPage;
-    break;
-    case 'Dir':
-      if ($SortDir == 1) return '&amp;dir=1';
-    break;
-    case 'DR':
-      if ($DateRange != 1) return '&amp;dr='.$DateRange;
-    break;
-    case 'E':
-      if ($StartStr != "") return '&amp;e='.$StartStr;
-    break;
-    case 'Sort':
-      if ($SortCol == 1) return '&amp;sort=1';
-    break;
-    case 'V':
-      if ($View != 1) return '&amp;v='.$View;
-    break;
-  }
-  return '';
-}
-*/
-//Add Hidden Var to Form if Variable is used-------------------------
-/*function AddHiddenVar($Var) {
-global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
-  switch ($Var) {
-    case 'C':
-      if ($RowsPerPage != 500) echo '<input type="hidden" name="c" value="'.$RowsPerPage.'" />'.PHP_EOL;
-    break;
-    case 'Dir':
-      if ($SortDir == 1) echo '<input type="hidden" name="dir" value="1" />'.PHP_EOL;
-    break;
-    case 'DR':
-      if ($DateRange != 1) echo '<input type="hidden" name="dr" value="'.$DateRange.'" />'.PHP_EOL;
-    break;
-    case 'E':
-      if ($StartStr != "") echo '<input type="hidden" name="e" value="'.$StartStr.'" />'.PHP_EOL;
-    break;
-    case 'Sort':
-      if ($SortCol == 1) echo '<input type="hidden" name="sort" value="1" />'.PHP_EOL;
-    break;
-    case 'V':
-      if ($View != 1) echo '<input type="hidden" name="v" value="'.$View.'" />'.PHP_EOL;
-    break;
-  }
-  return null;
-}*/
-
-//WriteLI Function for Pagination Boxes-------------------------------
-/*function WriteLI($Character, $Start, $Active) {
-  if ($Active) {
-    echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Character.'</a></li>'.PHP_EOL;
-  }
-  else {
-    echo '<li><a href="?start='.$Start.AddGetVar('C').AddGetVar('Sort').AddGetVar('Dir').AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Character.'</a></li>'.PHP_EOL;
-  }  
-  
-  return null;
-}*/
-
-//WriteTH Function for Table Header----------------------------------- 
-/*function WriteTH($Sort, $Dir, $Str) {
-  global $StartPoint;
-  echo '<th><a href="?start='.$StartPoint.AddGetVar('C').'&amp;sort='.$Sort.'&amp;dir='.$Dir.AddGetVar('V').AddGetVar('E').AddGetVar('DR').'">'.$Str.'</a></th>';
-  return null;
-}*/
-
-
 /********************************************************************
  *  Count rows in Live table
  *  
@@ -168,31 +95,26 @@ global $DateRange, $RowsPerPage, $SortCol, $SortDir, $StartStr, $View;
  *  Return:
  *    None
  */
-function count_live_rows() {
-  global $live_rows, $view, $system, $livedb, $mem;
+function count_rows($query) {
+  global $view, $sys, $livedb, $mem;
   
-  $query = '';
+  $rows = 0;
   
-  if ($mem->get('live_rows')) {  
-    if (($view == $mem->get('view')) && ($system == $mem->get('system'))) {
-      $live_rows = $mem->get('live_rows');
-      return $live_rows;    
-    } 
+  if ($mem->get('rows')) {                       //Does rows exist in memcache?
+    if (($view == $mem->get('view')) && ($sys == $mem->get('sys'))) { #Are we on the same view as before?
+      $rows = $mem->get('rows');                 //Use stored value
+      return $rows;
+    }
   }
   
-  if ($view == 'livetime') {
-    if ($system == DEF_SYSTEM) $query = 'SELECT COUNT(*) FROM `live`';
-    else $query = 'SELECT COUNT(*) FROM `live` WHERE `system` = \''.$system.'\'';
-  }
-      
   $result = $livedb->query($query);
-  $live_rows = $result->fetch_row()[0];        //Extract value from array
+  $rows = $result->fetch_row()[0];               //Extract value from array
   $result->free();    
-  $mem->set('live_rows', $live_rows, 0, 600);  //Save for 10 Mins
+  $mem->set('rows', $rows, 0, 600);              //Save for 10 Mins
   $mem->set('view', $view, 0, 600);
-  $mem->set('system', $system, 0, 600);
+  $mem->set('sys', $sys, 0, 600);
     
-  return $live_rows;
+  return $rows;
 }
 
 
@@ -205,23 +127,24 @@ function count_live_rows() {
  *    None
  */
 function draw_filterbox() {
-  global $systemlist, $page, $sort, $system, $view;
+  global $syslist, $page, $sort, $sys, $view;
   
   echo '<div class="sys-group"><div class="col-half">'.PHP_EOL;
   echo '<form method="get">'.PHP_EOL;
   echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
+  echo '<input type="hidden" name="view" value="'.$view.'" />'.PHP_EOL;
   echo '<input type="hidden" name="sort" value="'.strtolower($sort).'" />'.PHP_EOL;
   echo '<span class="filter">System:</span><select name="sys" onchange="submit()">';
     
-  if ($system == DEF_SYSTEM) {
+  if ($sys == DEF_SYSTEM) {
     echo '<option value="all">All</option>'.PHP_EOL;
   }
   else {
-    echo '<option value="1">'.$system.'</option>'.PHP_EOL;
+    echo '<option value="1">'.$sys.'</option>'.PHP_EOL;
     echo '<option value="all">All</option>'.PHP_EOL;
   }  
-  foreach ($systemlist as $line) {
-    if ($line != $system) echo '<option value="'.$line.'">'.$line.'</option>'.PHP_EOL;
+  foreach ($syslist as $line) {
+    if ($line != $sys) echo '<option value="'.$line.'">'.$line.'</option>'.PHP_EOL;
   }
   echo '</select>'.PHP_EOL;
   echo '</form>'.PHP_EOL;
@@ -300,6 +223,21 @@ echo '</form>'.PHP_EOL;
 echo '</div></div>'.PHP_EOL;
 }
 */
+}
+
+function draw_viewbuttons() {
+  global $view;
+
+  echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
+  if ($view == 'livetime') {
+    echo '<li><a href="?view=livegroup">Group</a></li>'.PHP_EOL;
+    echo '<li class="active"><a href="?view=livetime">Time</a></li>'.PHP_EOL;    
+  }
+  elseif ($view == 'livegroup') {
+    echo '<li class="active"><a href="?view=livegroup">Group</a></li>'.PHP_EOL;
+    echo '<li><a href="?view=livetime">Time</a></li>'.PHP_EOL;    
+  }
+  echo '</ul></div>'.PHP_EOL;
 }
 /********************************************************************
  *  Load Log Files
@@ -579,7 +517,7 @@ function load_tldblocklist() {
  *  Return:
  *    None
  */
-function pagination($rows, $linktext) {
+function pagination($totalrows, $linktext) {
   global $page;
 
   $numpages = 0;
@@ -587,11 +525,11 @@ function pagination($rows, $linktext) {
   $startloop = 0;
   $endloop = 0;
   
-  if ($rows > ROWSPERPAGE) {                     //Is Pagination needed?
-    $numpages = ceil($rows / ROWSPERPAGE);       //Calculate List Size
+  if ($totalrows > ROWSPERPAGE) {                     //Is Pagination needed?
+    $numpages = ceil($totalrows / ROWSPERPAGE);       //Calculate List Size
     
     //<div class="sys-group">
-    echo '<div class="pag-nav"><ul>'.PHP_EOL;
+    echo '<div class="float-left pag-nav"><ul>'.PHP_EOL;
   
     if ($page == 1) {                            // [ ] [1]
       echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
@@ -645,18 +583,18 @@ function pagination($rows, $linktext) {
  *    None
  */
 function search_systems() {
-  global $livedb, $mem, $systemlist;
+  global $livedb, $mem, $syslist;
   
-  $systemlist = $mem->get('systemlist');
-  if (! $systemlist) {
+  $syslist = $mem->get('systemlist');
+  if (! $syslist) {
     if (! $result = $livedb->query('SELECT DISTINCT `system` FROM `live` ORDER BY `system`')) {
       die('There was an error running the query'.$livedb->error);
     }
     while($row = $result->fetch_assoc()) {       //Read each row of results
-      $systemlist[] = $row['system'];               //Add row value to $systemlist
+      $syslist[] = $row['system'];               //Add row value to $syslist
     }
     $result->free();
-    $mem->set('systemlist', $systemlist, 0, 600);      //Save for 10 Mins
+    $mem->set('systemlist', $syslist, 0, 600);      //Save for 10 Mins
   }    
 }
 
@@ -688,43 +626,54 @@ function simplify_url($url) {
 }
 
 /********************************************************************
- *  Show Live Time
+ *  Show Live Group
  *  
- *  Show results from Live table in Time order
+ *  Show results from Live table in Group order
  *
  *  Params:
  *    None
  *  Return:
  *    false when nothing found, true on success
  */
-function show_live_time() {
-  global $livedb, $live_rows, $page, $sort, $system, $view, $Config, $TLDBlockList;
+function show_live_group() {
+  global $livedb, $page, $sort, $sys, $view, $Config, $TLDBlockList;
   
+  $i = (($page - 1) * ROWSPERPAGE) + 1;
+  $rows = 0;
   $row_class = '';
   $action = '';
   $blockreason = '';
   
-  if ((($page-1) * ROWSPERPAGE) > $live_rows) $page = 1;
-  
-  if ($system != DEF_SYSTEM) {
-    $query = 'SELECT * FROM `live` WHERE `system` = \''.$system.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  if ($sys == DEF_SYSTEM) {  
+    $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live`');
+    $query = 'SELECT system, dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    
   }
   else {
-    $query = 'SELECT * FROM `live` ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live` WHERE SYSTEM = \''.$sys.'\'');
+    //$query = 'SELECT * FROM `live`  ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
+    $query = 'SELECT system, dns_request, result, COUNT(*) AS count FROM `live` WHERE `system` = \''.$sys.'\' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
+
   if(!$result = $livedb->query($query)){
     die('There was an error running the query'.$livedb->error);
-  }
+  } 
   
   if ($result->num_rows == 0) {                 //Leave if nothing found
     $result->free();
+    echo 'Nothing Found';
     return false;
   }
   
+  if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+  
   echo '<div class="sys-group">'.PHP_EOL;
-  pagination($live_rows, 'view='.$view.'&amp;sort=desc&amp;sys='.$system);
-  echo '<table id="query-time-table">'.PHP_EOL;
-  echo '<tr><th>Time<a href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc&amp;sys='.$system.'">&#x25BE;</a><a href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc&amp;sys='.$system.'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;  
+  pagination($rows, 'view='.$view.'&amp;sort=desc&amp;sys='.$sys);
+  draw_viewbuttons();
+  
+  echo '<table id="query-group-table">'.PHP_EOL;
+  //echo '<tr><th>Time</th>
+  echo '<tr><th>#</th><th>Site</th><th>Action</th><th>Requests<a href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc&amp;sys='.$sys.'">&#x25BE;</a><a href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc&amp;sys='.$sys.'">&#x25B4;</a></th></tr>'.PHP_EOL;  
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
@@ -752,8 +701,9 @@ function show_live_time() {
       $action = '&nbsp;';
     }
     
-    echo '<tr'.$row_class.'><td>'.substr($row['log_time'], 11).'</td><td>'.$row['system'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td>'.PHP_EOL;
+    echo '<tr'.$row_class.'><td>'.$i.'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td><td>'.$row['count'].'</td></tr>'.PHP_EOL;
     $blockreason = '';
+    $i++;
   }
   
   echo '</table>'.PHP_EOL;
@@ -763,34 +713,87 @@ function show_live_time() {
   return true;
 }
 
-function show_live_results($query) {
-  global $livedb;
-  $rows_found = 0;
+/********************************************************************
+ *  Show Live Time
+ *  
+ *  Show results from Live table in Time order
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    false when nothing found, true on success
+ */
+function show_live_time() {
+  global $livedb, $rows, $page, $sort, $sys, $view, $Config, $TLDBlockList;
   
+  $rows = 0;
+  $row_class = '';
+  $action = '';
+  $blockreason = '';
+    
+  if ($sys == DEF_SYSTEM) {
+    $rows = count_rows('SELECT COUNT(*) FROM `live`');
+    if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+    
+    $query = 'SELECT * FROM `live` ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  }
+  else {
+    $rows = count_rows('SELECT COUNT(*) FROM `live` WHERE `system` = \''.$sys.'\'');
+    if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+    
+    $query = 'SELECT * FROM `live` WHERE `system` = \''.$sys.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
+  }
   if(!$result = $livedb->query($query)){
     die('There was an error running the query'.$livedb->error);
   }
-  print_r($livedb);
-  $rows_found = $result->num_rows;
   
-  /*if ($rows_found == 0) {                        //Fallback to DEFAULTQUERY if nothing found
-    $result->free();
-    $result = $livedb->query(DEFAULTQUERY);
-    $rows_found = $result->num_rows;
-  }*/
-  
-  while($row = $result->fetch_assoc()) {         //Read each row of results
-    /*
-    echo '<a href="?article='.$row['pubdate'].'"><h2>'.$row['title'].'</h2></a><br />'.PHP_EOL;*/
-    print_r($row);
-    echo '<br />'.PHP_EOL;
-//    echo '</div>'.PHP_EOL;
+  if ($result->num_rows == 0) {                 //Leave if nothing found
+    $result->free();    
+    return false;
   }
   
+  echo '<div class="sys-group">'.PHP_EOL;
+  pagination($rows, 'view='.$view.'&amp;sort=desc&amp;sys='.$sys);
+  draw_viewbuttons();
   
+  echo '<table id="query-time-table">'.PHP_EOL;
+  echo '<tr><th>Time<a href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc&amp;sys='.$sys.'">&#x25BE;</a><a href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc&amp;sys='.$sys.'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;  
+  
+  while($row = $result->fetch_assoc()) {         //Read each row of results
+    $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
+    if ($row['result'] == 'A') {
+      $row_class='';
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
+    }
+    elseif ($row['result'] == 'B') {
+      $row_class = ' class="blocked"';
+      if (preg_match('/(\w+)$/', $row['dns_request'],  $matches) > 0) {
+        if (in_array('.'.$matches[1], $TLDBlockList)) {
+          $blockreason = '<p class="small">.'.$matches[1].'Blocked by Top Level Domain List</p>';          
+        }
+        else {
+          $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        }
+      }
+      elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
+        $row_class = ' class="invalid"';
+        $blockreason = '<p class="small">IP Requested</p>';
+      }        
+    }
+    elseif ($row['result'] == 'L') {
+      $row_class = ' class="local"';
+      $action = '&nbsp;';
+    }
+    
+    echo '<tr'.$row_class.'><td>'.substr($row['log_time'], 11).'</td><td>'.$row['system'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td></tr>'.PHP_EOL;
+    $blockreason = '';
+  }
+  
+  echo '</table>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
   $result->free();
-  
-  return $rows_found;
+
+  return true;
 }
 
 //Main---------------------------------------------------------------
@@ -808,9 +811,19 @@ if (isset($_GET['sort'])) {
 }
 
 if (isset($_GET['sys'])) {
-  if (in_array($_GET['sys'], $systemlist)) $system = $_GET['sys'];
+  if (in_array($_GET['sys'], $syslist)) $sys = $_GET['sys'];
 }
 
+if (isset($_GET['view'])) {
+  switch ($_GET['view']) {
+    case 'livegroup':
+      $view = 'livegroup';     
+      break;
+    case 'livetime':
+      $view = 'livetime';
+      break;
+  }
+}
 
 
 //$query = 'SELECT * FROM `live` ORDER BY `id` DESC LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
@@ -824,13 +837,16 @@ if (isset($_GET['sys'])) {
 
 //$query = 'SELECT SQL_CALC_FOUND_ROWS dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
 
-count_live_rows();
+//count_live_rows();
 
 
 draw_filterbox();
 
 if ($view == 'livetime') {
   show_live_time();
+}
+elseif ($view == 'livegroup') {
+  show_live_group();
 }
 //show_live_results($query);
 //->affected_rows()
