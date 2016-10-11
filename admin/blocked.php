@@ -20,7 +20,7 @@ if ($Config['Password'] != '') {
   <link href="./css/help.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
-  <script src="./include/stats.js"></script>
+  <script src="./include/queries.js"></script>
   <title>NoTrack - Sites Blocked</title>  
 </head>
 
