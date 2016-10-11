@@ -575,7 +575,7 @@ function pagination($totalrows, $linktext) {
 /********************************************************************
  *  Search Systems
  *  
- *  1. Find unique system values in table
+ *  1. Find unique sys values in table
  *
  *  Params:
  *    None
@@ -585,16 +585,16 @@ function pagination($totalrows, $linktext) {
 function search_systems() {
   global $livedb, $mem, $syslist;
   
-  $syslist = $mem->get('systemlist');
+  $syslist = $mem->get('syslist');
   if (! $syslist) {
-    if (! $result = $livedb->query('SELECT DISTINCT `system` FROM `live` ORDER BY `system`')) {
+    if (! $result = $livedb->query('SELECT DISTINCT `sys` FROM `live` ORDER BY `sys`')) {
       die('There was an error running the query'.$livedb->error);
     }
     while($row = $result->fetch_assoc()) {       //Read each row of results
-      $syslist[] = $row['system'];               //Add row value to $syslist
+      $syslist[] = $row['sys'];               //Add row value to $syslist
     }
     $result->free();
-    $mem->set('systemlist', $syslist, 0, 600);      //Save for 10 Mins
+    $mem->set('syslist', $syslist, 0, 600);      //Save for 10 Mins
   }    
 }
 
@@ -646,13 +646,13 @@ function show_live_group() {
   
   if ($sys == DEF_SYSTEM) {  
     $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live`');
-    $query = 'SELECT system, dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    $query = 'SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
     
   }
   else {
     $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live` WHERE SYSTEM = \''.$sys.'\'');
     //$query = 'SELECT * FROM `live`  ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
-    $query = 'SELECT system, dns_request, result, COUNT(*) AS count FROM `live` WHERE `system` = \''.$sys.'\' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    $query = 'SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM `live` WHERE `sys` = \''.$sys.'\' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
 
   if(!$result = $livedb->query($query)){
@@ -677,11 +677,11 @@ function show_live_group() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    if ($row['result'] == 'A') {
+    if ($row['dns_result'] == 'A') {
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
-    elseif ($row['result'] == 'B') {
+    elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
       if (preg_match('/(\w+)$/', $row['dns_request'],  $matches) > 0) {
         if (in_array('.'.$matches[1], $TLDBlockList)) {
@@ -696,7 +696,7 @@ function show_live_group() {
         $blockreason = '<p class="small">IP Requested</p>';
       }        
     }
-    elseif ($row['result'] == 'L') {
+    elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
@@ -738,10 +738,10 @@ function show_live_time() {
     $query = 'SELECT * FROM `live` ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
   else {
-    $rows = count_rows('SELECT COUNT(*) FROM `live` WHERE `system` = \''.$sys.'\'');
+    $rows = count_rows('SELECT COUNT(*) FROM `live` WHERE `sys` = \''.$sys.'\'');
     if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-    $query = 'SELECT * FROM `live` WHERE `system` = \''.$sys.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
+    $query = 'SELECT * FROM `live` WHERE `sys` = \''.$sys.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
   }
   if(!$result = $livedb->query($query)){
     die('There was an error running the query'.$livedb->error);
@@ -761,11 +761,11 @@ function show_live_time() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    if ($row['result'] == 'A') {
+    if ($row['dns_result'] == 'A') {
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
-    elseif ($row['result'] == 'B') {
+    elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
       if (preg_match('/(\w+)$/', $row['dns_request'],  $matches) > 0) {
         if (in_array('.'.$matches[1], $TLDBlockList)) {
@@ -780,12 +780,12 @@ function show_live_time() {
         $blockreason = '<p class="small">IP Requested</p>';
       }        
     }
-    elseif ($row['result'] == 'L') {
+    elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
     
-    echo '<tr'.$row_class.'><td>'.substr($row['log_time'], 11).'</td><td>'.$row['system'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td></tr>'.PHP_EOL;
+    echo '<tr'.$row_class.'><td>'.substr($row['log_time'], 11).'</td><td>'.$row['sys'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td></tr>'.PHP_EOL;
     $blockreason = '';
   }
   
@@ -825,19 +825,6 @@ if (isset($_GET['view'])) {
   }
 }
 
-
-//$query = 'SELECT * FROM `live` ORDER BY `id` DESC LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
-//By URL Desc
-//$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request';
-//By count Ascending
-//$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count ASC';
-
-//$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC LIMIT 10 OFFSET 20';
-//$query = 'SELECT dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
-
-//$query = 'SELECT SQL_CALC_FOUND_ROWS dns_request, result, COUNT(*) AS count FROM `live` GROUP BY dns_request ORDER BY count DESC';
-
-//count_live_rows();
 
 
 draw_filterbox();

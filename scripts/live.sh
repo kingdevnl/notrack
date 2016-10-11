@@ -156,7 +156,7 @@ function process_todaylog() {
   local -A querylist
   local -A systemlist
   local url=""
-  local result=""  
+  local dns_result=""  
 
   echo "Processing log file"
     
@@ -172,15 +172,15 @@ function process_todaylog() {
       elif [[ $url != "$dedup_answer" ]]; then   #Simplify processing of multiple IP addresses returned
         dedup_answer="$url"                      #Deduplicate answer
         if [ "${querylist[$url]}" ]; then        #Does answer match a query?
-          if [[ ${BASH_REMATCH[2]} == "reply" ]]; then result="A"    #Allowed
-          elif [[ ${BASH_REMATCH[2]} == "config" ]]; then result="B" #Blocked
-          elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then result="L"
+          if [[ ${BASH_REMATCH[2]} == "reply" ]]; then dns_result="A"    #Allowed
+          elif [[ ${BASH_REMATCH[2]} == "config" ]]; then dns_result="B" #Blocked
+          elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then dns_result="L"
           fi
           
           simplify_url "$url"                    #Simplify with commonsites
           
           if [[ $simpleurl != "" ]]; then        #Add row into SQL Table
-            echo "INSERT INTO live (id,log_time,system,dns_request,result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$result')" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+            echo "INSERT INTO live (id,log_time,sys,dns_request,dns_result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$dns_result')" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
           fi
                     
           unset querylist[$url]                  #Delete value from querylist
