@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 03 October 2016
+#NoTrack Tracker list updated 14 October 2016
 #LatestVersion 0.7.17
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -415,6 +415,7 @@ apptrade.biz #Millennial Media
 apptrade.mobi #Millennial Media
 apxlv.com
 aracea.com #Ad Web
+arcpublishing.com #Washington Post
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
@@ -574,6 +575,7 @@ btstatic.com
 bttrack.com #Bidtellect
 btttag.com #Blue Triangle Tech
 btttag-a.com #Blue Triangle Tech
+budgetedbauer.com #Tracker Unknown
 bugherd.com
 builfico.de
 bunchbox.co #Peaks & Pies
@@ -776,6 +778,7 @@ compete.com
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
 confirmsubscription.com #Campaign Monitor Pty
+connatix.com #Connatix
 connecteddevices.net #Millennial Media
 connexity.net
 consumerenergyreport.com
@@ -1139,6 +1142,7 @@ e-webtrack.net #WebTrack
 face3media.com
 facetz.net #Exebid DCA
 facetz.ru #Exebid DCA
+fallingfalcon.com #Tracker Unknown
 fashiona-z.com #Digital Window
 fancybar.net #BuySellAds
 fantuition.com #AppNexus Inc
@@ -1244,6 +1248,7 @@ gosquared.com
 gotraffic.net #Unknown Tracker
 gpwebsolutions.co.uk
 grapeshot.co.uk
+graphiq.com #Graphiq
 gravity.com
 greystripe.com #Conversant
 grfyti.com #eGain Corporation
@@ -1484,6 +1489,7 @@ kawa11.space #Adverts
 keen.io #Keen IO (analytics)
 kestrelfm.net #Ad Web
 keytui.com #Advertising
+keywee.co #Keywee
 keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
@@ -9509,6 +9515,7 @@ nextplatform.com
 nexusapi.com #AppNexus Inc
 nexusapp.com #AppNexus Inc
 nexusapps.com #AppNexus Inc
+nfltags.com #NFL
 nicecdn01.com #Nice People At Work
 nicecdn02.com #Nice People At Work
 ninjapd.com #WhiteOps
@@ -9526,6 +9533,7 @@ npario-inc.net #nPario
 npaw.com #Nice People At Work
 nr-data.net
 nster.net
+ntv.io #Unknown Advertising
 nuggad.net
 nw-rail-03.com #Lead Forensics
 nyctrl32.com #Lead Forensics
@@ -9926,6 +9934,7 @@ safe-swaps.com
 sagent.io #Sagent BV
 sail-horizon.com
 sailthru.com
+salesforce.com #Salesforce
 santaidinuan.com #Advertising
 sarky.org #Ad Web
 sas15k01.com #Lead Forensics
@@ -10266,6 +10275,7 @@ tzcccm.com #Advertising
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 uadx.com
 udmserve.net
+ugdturner.com #CNN
 ultimedia.com #Charles Ganem
 umbel.com
 umhali.com #AppNexus Inc
@@ -10448,6 +10458,7 @@ wistia.com
 wistia.net
 woopra.com
 wowanalytics.co.uk
+wpdigital.net #Washington Post
 wrightsmedia.com
 wshifen.com #Baidu
 ws-outage.com #Lead Forensics
