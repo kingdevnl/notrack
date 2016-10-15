@@ -115,29 +115,35 @@ if [ $? == 23 ]; then                            #Code hasn't downloaded
   exit 23
 fi
 
-Check_File_Exists "$InstallLoc/notrack.sh"
+Check_File_Exists "$InstallLoc/notrack.sh"       #NoTrack.sh
 echo "Updating notrack.sh"
 cp "$InstallLoc/notrack.sh" /usr/local/sbin/
 mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
 chmod 755 /usr/local/sbin/notrack
   
-Check_File_Exists "$InstallLoc/ntrk-exec.sh"
+Check_File_Exists "$InstallLoc/ntrk-exec.sh"     #ntrk-exec.sh
 echo "Updating ntrk-exec.sh"
 cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
 chmod 755 /usr/local/sbin/ntrk-exec
   
-Check_File_Exists "$InstallLoc/ntrk-pause.sh"
+Check_File_Exists "$InstallLoc/ntrk-pause.sh"    #ntrk-pause.sh
 echo "Updating ntrk-pause.sh"
 cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
 chmod 755 /usr/local/sbin/ntrk-pause
 
-Check_File_Exists "$InstallLoc/ntrk-upgrade.sh"
+Check_File_Exists "$InstallLoc/ntrk-upgrade.sh"  #ntrk-upgrade.sh
 echo "Updating ntrk-upgrade.sh"
 cp "$InstallLoc/ntrk-upgrade.sh" /usr/local/sbin/
 mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
 chmod 755 /usr/local/sbin/ntrk-upgrade
+
+Check_File_Exists "$InstallLoc/scripts/ntrk-parse.sh"      #ntrk-parse.sh
+echo "Updating ntrk-parse.sh"
+cp "$InstallLoc/scripts/ntrk-parse.sh" /usr/local/sbin/
+mv /usr/local/sbin/ntrk-parse.sh /usr/local/sbin/ntrk-parse
+chmod 755 /usr/local/sbin/ntrk-parse
   
 SudoCheck=$(cat /etc/sudoers | grep www-data)
 if [[ $SudoCheck == "" ]]; then
