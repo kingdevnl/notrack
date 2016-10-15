@@ -107,7 +107,10 @@ function count_rows($query) {
     }
   }
   
-  $result = $livedb->query($query);
+  if(!$result = $livedb->query($query)){
+    die('There was an error running the query'.$livedb->error);
+  }
+  
   $rows = $result->fetch_row()[0];               //Extract value from array
   $result->free();    
   $mem->set('rows', $rows, 0, 600);              //Save for 10 Mins
@@ -650,7 +653,7 @@ function show_live_group() {
     
   }
   else {
-    $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live` WHERE SYSTEM = \''.$sys.'\'');
+    $rows = count_rows('SELECT COUNT(DISTINCT `dns_request`) FROM `live` WHERE sys = \''.$sys.'\'');    
     //$query = 'SELECT * FROM `live`  ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
     $query = 'SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM `live` WHERE `sys` = \''.$sys.'\' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
