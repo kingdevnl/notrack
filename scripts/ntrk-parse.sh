@@ -3,17 +3,20 @@
 #Description : Loads contents of /var/log/notrack.log into "live" SQL DB
 #Author : QuidsUp
 #Date Created : 03 October 2016
-#Usage : live.sh
+#Usage : sudo ntrk-parse
 
 #process_todaylog can take a long time to run. In order to prevent loss of DNS queries
 #the log file is loaded into an array, and then immediately zeroed out.
 #Processing is done on the array from memory
+#Between 04:00 to 04:20 Live table is copied to Historic table
+#For systems not running 24/7 Live table is copied after data is over 1 day old
 
 #######################################
 # Constants
 #######################################
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
+readonly MAXAGE=88000                            #Just over 1 day in seconds
 readonly VERSION="0.8"
 
 readonly USER="ntrk"
@@ -24,7 +27,6 @@ readonly DBNAME="ntrkdb"
 # Global Variables
 #######################################
 declare -a logarray
-declare -a processedlog
 simpleurl=""
 datestr="$(date +"%Y-%m-%d")"
 
@@ -38,13 +40,99 @@ commonsites["deviantart.net"]=true
 commonsites["deviantart.com"]=true
 commonsites["tumblr.com"]=true
 
+
+#--------------------------------------------------------------------
+# Check If Running as Root and if Script is already running
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function check_root() {
+  local Pid=""
+  Pid=$(pgrep ntrk-parse | head -n 1)            #Get PID of first notrack process
+
+  if [[ "$(id -u)" != "0" ]]; then
+    echo "This script must be run as root"
+    exit 5
+  fi
+  
+  #Check if another copy of notrack is running
+  if [[ $Pid != "$$" ]] && [[ -n $Pid ]] ; then  #$$ = This PID    
+    echo "ntrk-parse already running under Pid $Pid"
+    exit 111
+  fi
+}
+
+#--------------------------------------------------------------------
+# Copy Live Table to Historic
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function copy_table() {
+  mysql -sN --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO historic SELECT NULL,log_time,sys,dns_request,dns_result FROM live ORDER BY log_time;"
+  
+  if [ $? == 0 ]; then
+    echo "Successfully copied Live table to Historic"
+  else
+    echo "Error $? failed to copy Live table"
+  fi
+}
+
+#--------------------------------------------------------------------
+# Check Log Age
+#   Query timestamp of first value in Live table
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   0 - In date
+#   >0 - Number of days old
+#--------------------------------------------------------------------
+function check_logage() {
+  local log_time=""
+  local log_epoch=0
+  local unixtime=0
+  
+  log_time=$(mysql -sN --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "SELECT log_time FROM live ORDER BY log_time LIMIT 1;")
+  #echo "Log Time:$log_time"
+  
+  if [[ $log_time == "" ]]; then                 #Anything returned? CHECK THIS VALUE
+    echo "No log time found"
+    return 0                                     #Error, but treat as 0 - ok
+  fi
+  
+  log_epoch=$(date +"%s" -d "$log_time")         #Convert YYYY-MM-DD hh:mm:ss to epoch
+  unixtime=$(date +"%s")                         #Get current epoch time
+    
+  if [ $((unixtime-log_epoch)) -gt $MAXAGE ]; then         #Check age
+    if [ "$(((unixtime-log_epoch)/86400))" -gt 254 ]; then #Avoid error values > 254
+      return 254
+    fi
+    return "$(((unixtime-log_epoch)/86400))"     #Return value is days
+  fi
+  
+  return 0                                       #Otherwise return 0 - ok
+}
+
+
 #--------------------------------------------------------------------
 # Delete Live DB
 #   1. Delete all rows in the Live Table
 #   2. Reset Counter
 #
 # Globals:
-#   None
+#   USER, PASSWORD, DBNAME
 # Arguments:
 #   None
 # Returns:
@@ -80,7 +168,7 @@ function load_config() {
   echo "Reading Config File"
   while IFS='= ' read -r key value               #Seperator '= '
   do
-    if [[ ! key =~ ^\ *# && -n $key ]]; then
+    if [[ ! $key =~ ^\ *# && -n $key ]]; then
       value="${value%%\#*}"    # Del in line right comments
       value="${value%%*( )}"   # Del trailing spaces
       value="${value%\"*}"     # Del opening string quotes 
@@ -121,6 +209,8 @@ function load_todaylog() {
   do
     logarray+=("$line")
   done < "$FILE_DNSLOG"
+    
+  cat /dev/null > "$FILE_DNSLOG"                 #Empty log file
 }
 
 
@@ -132,7 +222,7 @@ function load_todaylog() {
 #   4. Build string for SQL entry
 #   5. Echo result into SQL
 # Globals:
-#   SiteList
+#   logarray, simpleurl, USER, PASSWORD, DBNAME
 # Arguments:
 #   None
 # Returns:
@@ -193,12 +283,42 @@ function process_todaylog() {
 }
 
 #--------------------------------------------------------------------
+# Show Log Age
+#   Echos result of check_logage
+#
+# Globals:
+#   None
+# Arguments:
+#   $1 - Age of earliest entry in Live
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function show_logage() {
+  if [ "$1" == 0 ]; then echo "In date"
+  else
+    echo "Out of date: $1 Days old"
+  fi
+}
+
+#--------------------------------------------------------------------
+#Show Help
+function show_help() {
+  echo "NoTrack DNS Log Parser"
+  echo "Usage: sudo ntrk-parse"
+  echo
+  echo "The following options can be specified:"
+  echo -e "  -a, --age\tCheck Age of Live table"
+  echo -e "  -c, --copy\tCopy Live table to Historic table"
+  echo -e "  -d, --delete\tDelete contents of Live table"
+  echo -e "  -h, --help\tThis Help"
+  echo -e "  -v, --version\tDisplay version number"
+}
+#--------------------------------------------------------------------
 #Show Version
 function show_version() {
   echo "NoTrack live DNS Archiver v$VERSION"
   echo
 }
-
 
 #--------------------------------------------------------------------
 # Simplify URL
@@ -209,7 +329,7 @@ function show_version() {
 #   simpleurl
 #   commonsites
 # Arguments:
-#   $1 URL To Simplify
+#   $1 - URL To Simplify
 # Returns:
 #   via simpleurl global variable
 #-------------------------------------------------------------------- 
@@ -231,9 +351,11 @@ function simplify_url() {
     fi
   fi 
 }
+
 #--------------------------------------------------------------------
+#Main
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options="$(getopt -o dv -l delete,version -- "$@")"; then
+  if ! options="$(getopt -o acdhv -l age,copy,delete,help,version -- "$@")"; then
     # something went wrong, getopt will put out an error message for us
     exit 6
   fi
@@ -242,13 +364,26 @@ if [ "$1" ]; then                                #Have any arguments been given
 
   while [ $# -gt 0 ]
   do
-    case $1 in      
-      -v|--version) 
-        show_version
+    case $1 in
+      -a|--age)
+        check_logage
+        show_logage $?
         exit 0
       ;;
+      -c|--copy)
+        copy_table
+        exit 0
+      ;;      
       -d|--delete)
         delete_live
+        exit 0
+      ;;
+      -h|--help)
+        show_help
+        exit 0
+      ;;
+      -v|--version) 
+        show_version
         exit 0
       ;;
       (--) 
@@ -267,8 +402,30 @@ if [ "$1" ]; then                                #Have any arguments been given
   done
 fi
 
+#Between 04:00 - 04:20 Its time to copy Live to Historic
+if [ "$(date +'%H')" == 4 ]; then    
+  if [ "$(date +'%M')" -lt 20 ]; then
+    copy_table                                   #Copy Live to Historic
+    delete_live
+    exit 112                                     #No rush to parse log right now
+  fi
+fi
+
+#Alternate option to anyone not running their system 24/7
+check_logage                                     #Is Live older than MAXAGE?
+if [ $? -gt 0 ]; then                            #More than 0 is age in days
+  copy_table                                     #Copy Live to Historic
+  delete_live
+  sleep 2s
+fi
+
+if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt 200 ]; then
+  echo "Not much in $FILE_DNSLOG, exiting"
+  exit 110
+fi
+
+check_root                                       #Are we running as root?
 load_config                                      #Load users config
 load_todaylog                                    #Load log file into array
 process_todaylog                                 #Process and add log to SQL table
-
 
