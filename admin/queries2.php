@@ -41,7 +41,7 @@ DEFINE('ROWSPERPAGE', 200);
 *Global Variables                               *
 ************************************************/
 $page = 1;
-$view = "livetime";
+$view = "livegroup";
 $sort = 'DESC';
 $sys = DEF_SYSTEM;
 
@@ -735,13 +735,13 @@ function show_live_time() {
     $rows = count_rows('SELECT COUNT(*) FROM `live`');
     if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-    $query = 'SELECT * FROM `live` ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    $query = 'SELECT * FROM `live` ORDER BY `log_time` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
   else {
     $rows = count_rows('SELECT COUNT(*) FROM `live` WHERE `sys` = \''.$sys.'\'');
     if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-    $query = 'SELECT * FROM `live` WHERE `sys` = \''.$sys.'\' ORDER BY `id` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
+    $query = 'SELECT * FROM `live` WHERE `sys` = \''.$sys.'\' ORDER BY `log_time` '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);    
   }
   if(!$result = $livedb->query($query)){
     die('There was an error running the query'.$livedb->error);

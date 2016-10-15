@@ -21,3 +21,11 @@ mysql --user ntrk --password=ntrkpass -D ntrkdb -e "DROP TABLE live;"
 
 $? 0 on success
 $? 1 on fail
+mysql --user ntrk --password=ntrkpass -D ntrkdb -e "SELECT log_time FROM live ORDER BY log_time LIMIT 1;
+
+
+Stop old log rotater
+sudo rm /etc/logrotate.d/notrack
+
+New Cron job
+echo -e "*/10 * * * *\troot\t/usr/local/sbin/ntrk-parse" | sudo tee /etc/cron.d/ntrk-parse

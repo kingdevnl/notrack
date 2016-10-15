@@ -33,3 +33,6 @@
 101. Blocking Disabled
 102. Old config exists, but status unknown
 103. NoTrack already running
+110. ntrk-parse - Nothing much in log
+111. ntrk-parse already running
+112. ntrk-parse exiting after log copy
