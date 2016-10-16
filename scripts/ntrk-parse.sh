@@ -17,6 +17,7 @@
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly MAXAGE=88000                            #Just over 1 day in seconds
+readonly MINLINES=50
 readonly VERSION="0.8"
 
 readonly USER="ntrk"
@@ -419,7 +420,7 @@ if [ $? -gt 0 ]; then                            #More than 0 is age in days
   sleep 2s
 fi
 
-if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt 200 ]; then
+if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
   echo "Not much in $FILE_DNSLOG, exiting"
   exit 110
 fi
