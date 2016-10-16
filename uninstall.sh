@@ -5,11 +5,11 @@
 #Usage : sudo bash uninstall.sh
 
 #User Configerable variables-----------------------------------------
-SBinFolder="/usr/local/sbin"
-EtcFolder="/etc"
+readonly FOLDER_SBIN="/usr/local/sbin"
+readonly FOLDER_ETC="/etc"
 
 #Program Settings----------------------------------------------------
-InstallLoc="${HOME}/NoTrack"
+INSTALL_LOCATION="${HOME}/NoTrack"
 
 
 #Copy File-----------------------------------------------------------
@@ -46,23 +46,23 @@ Find_NoTrack() {
   #4. If not found then abort
   
   if [ -e "$(pwd)/notrack.sh" ]; then
-    InstallLoc="$(pwd)"  
+    INSTALL_LOCATION="$(pwd)"  
     return 1
   fi
   
   for HomeDir in /home/*; do
     if [ -d "$HomeDir/NoTrack" ]; then 
-      InstallLoc="$HomeDir/NoTrack"
+      INSTALL_LOCATION="$HomeDir/NoTrack"
       break
     elif [ -d "$HomeDir/notrack" ]; then 
-      InstallLoc="$HomeDir/notrack"
+      INSTALL_LOCATION="$HomeDir/notrack"
       break
     fi
   done
 
-  if [[ $InstallLoc == "" ]]; then
+  if [[ $INSTALL_LOCATION == "" ]]; then
     if [ -d "/opt/notrack" ]; then
-      InstallLoc="/opt/notrack"
+      INSTALL_LOCATION="/opt/notrack"
     else
       echo "Error Unable to find NoTrack folder"
       echo "Aborting"
@@ -85,7 +85,7 @@ if [[ "$(id -u)" != "0" ]]; then
 fi
 
 echo "This script will remove the files created by NoTrack, and then returns dnsmasq and lighttpd to their default configuration"
-echo "NoTrack Installation Folder: $InstallLoc"
+echo "NoTrack Installation Folder: $INSTALL_LOCATION"
 echo
 read -p "Continue (Y/n)? " -n1 -r
 echo
@@ -122,29 +122,32 @@ DeleteFile "/etc/logrotate.d/notrack"
 echo
 
 echo "Removing Cron job"
-DeleteFile "/etc/cron.daily/notrack"
+DeleteFile "/etc/cron.daily/notrack"             #Legacy
+DeleteFile "/etc/cron.d/ntrk-parse"
 echo
 
 echo "Deleting NoTrack scripts"
 echo "Deleting dns-log-archive"
-DeleteFile "$SBinFolder/dns-log-archive"
+DeleteFile "$FOLDER_SBIN/dns-log-archive"
 echo "Deleting notrack"
-DeleteFile "$SBinFolder/notrack"
+DeleteFile "$FOLDER_SBIN/notrack"
 echo "Deleting ntrk-exec"
-DeleteFile "$SBinFolder/ntrk-exec"
+DeleteFile "$FOLDER_SBIN/ntrk-exec"
 echo "Deleting ntrk-pause"
-DeleteFile "$SBinFolder/ntrk-pause"
+DeleteFile "$FOLDER_SBIN/ntrk-pause"
+echo "Deleting ntrk-parser"
+DeleteFile "$FOLDER_SBIN/ntrk-parser"
 echo
 
 echo "Removing root permissions for www-data to launch ntrk-exec"
 sed -i '/www-data/d' /etc/sudoers
 
 echo "Deleting /etc/notrack Folder"
-DeleteFolder "$EtcFolder/notrack"
+DeleteFolder "$FOLDER_ETC/notrack"
 echo 
 
 echo "Deleting Install Folder"
-DeleteFolder "$InstallLoc"
+DeleteFolder "$INSTALL_LOCATION"
 echo
 
 echo "Finished deleting all files"
@@ -153,9 +156,11 @@ echo
 echo "The following packages will also need removing:"
 echo -e "\tdnsmasq"
 echo -e "\tlighttpd"
+echo -e "\tmariadb-server"
 echo -e "\tphp"
 echo -e "\tphp-cgi"
 echo -e "\tphp-curl"
-echo -e "\tmemcached"
 echo -e "\tphp-memcache"
+echo -e "\tphp-mysql"
+echo -e "\tmemcached"
 echo
