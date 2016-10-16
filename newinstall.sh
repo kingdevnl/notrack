@@ -1554,11 +1554,12 @@ fi
 
 if [ $1 ]; then
   if [[ $1 == "-sql" ]]; then                    #Special upgrade section to v0.8
-    echo "Updating NoTrack to v$VERSION"
+    echo "Upgrading NoTrack to v$VERSION"
     sudo rm /etc/logrotate.d/notrack
     install_packages
     setup_mariadb
     sudo service lighttpd restart
+    sudo /usr/local/sbin/ntrk-parse
     show_finish
     exit
   fi
