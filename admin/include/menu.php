@@ -70,7 +70,9 @@ function draw_sidemenu() {
   echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="">DNS Queries</span></a>'.PHP_EOL;
   echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="">Network</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">Config</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;  
+  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;
+  
+  echo '<div id="menu-side-bottom"><a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a></div>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
 }
@@ -116,22 +118,16 @@ function draw_topmenu() {
     echo '<nav><div id="menu-top"><div id="menu-logo">'.PHP_EOL;
     echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
   */
-    echo '<span class="float-left mobile-hide">'.PHP_EOL;
+    /*echo '<span class="float-left mobile-hide">'.PHP_EOL;
     echo '<a href="https://github.com/quidsup/notrack" target="_blank"><img src="../admin/images/icon_github.png" alt="Github" title="Github"></a>'.PHP_EOL;
     echo '<a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
     echo '<a href="https://www.google.com/+quidsup" target="_blank"><img src="../admin/images/icon_google.png" alt="Google+" title="Google+"></a>'.PHP_EOL;
     //echo '<a href="https://www.youtube.com/user/quidsup" target="_blank"><img src="../admin/images/icon_youtube.png" alt="YouTube" title="YouTube"></a>'.PHP_EOL;
     echo '<a href="https://www.twitter.com/quidsup" target="_blank"><img src="../admin/images/icon_twitter.png" alt="Twitter" title="Twitter"></a>'.PHP_EOL;
 //     echo '</div></div>'.PHP_EOL;*
-  echo '</span>';
+  echo '</span>';*/
   
-  
-  
-  /*echo '<a href="../admin"><span class="top-menu-item"><img src="./svg/menu_home.svg" alt=""></span></a>'.PHP_EOL;
-  echo '<a href="../admin/stats.php"><span class="top-menu-item"><img src="./svg/menu_stats.svg" alt=""><span class="dtext">Stats</span></span></a>'.PHP_EOL;
-  echo '<a href="../admin/dhcpleases.php"><span class="top-menu-item"><img src="./svg/menu_dhcp.svg" alt=""><span class="dtext">DHCP</span></span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php"><span class="top-menu-item"><img src="./svg/menu_config.svg" alt=""><span class="dtext">Config</span></span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span class="top-menu-item"><img src="./svg/menu_help.svg" alt=""><span class="dtext">Help</span></span></a>'.PHP_EOL;*/
+    
   
   if ($Config['Password'] != '') {               //Only do Logout if there is a password
     echo '<a href="../admin/logout.php"><span class="top-menu-item"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;

@@ -552,8 +552,15 @@ span.key-green {background: #80FF60;}
   font-size: 1.1em;
   padding: 0.3em 0;
 }
-#menu-side span:hover {
+#menu-side span:hover, #menu-side-bottom:hover {
   background: #202020;
+}
+#menu-side-bottom {
+  position: fixed;
+  bottom: 2em;
+  left: 0;  
+  z-index: 110;
+  padding: 0.3em 0;
 }
 /*Top Menu**********************************************************/
 #menu-top {  
