@@ -73,6 +73,6 @@ if (!extension_loaded('memcache')) die('NoTrack requires memcached and php-memca
 $mem = new Memcache;                             //Initiate Memcache
 $mem->connect('localhost');
 
-if (!extension_loaded('mysql')) die('NoTrack requires mysql extension to be installed');
+if (!extension_loaded('mysqli')) die('NoTrack requires mysql extension to be installed');
 
 ?>
