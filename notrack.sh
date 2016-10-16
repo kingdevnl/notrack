@@ -45,7 +45,7 @@ Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countrie
 #######################################
 # Constants
 #######################################
-Version="0.7.17"
+readonly VERSION="0.7.18"
 readonly CSV_BLOCKING="/etc/notrack/blocking.csv"
 readonly LISTFILE_BLOCKING="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
@@ -89,7 +89,7 @@ URLList[fblatin]="https://www.fanboy.co.nz/fanboy-espanol.txt"
 #######################################
 FileTime=0                                       #Return value from Get_FileTime
 Force=0                                          #Force update block list
-OldLatestVersion="$Version"
+OldLatestVersion="$VERSION"
 UnixTime=$(date +%s)                             #Unix time now
 JumpPoint=0                                      #Percentage increment
 PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
@@ -1132,7 +1132,7 @@ function Show_Help() {
 #--------------------------------------------------------------------
 #Show Version
 function Show_Version() {
-  echo "NoTrack Version $Version"
+  echo "NoTrack Version $VERSION"
   echo
 }
 
@@ -1153,7 +1153,7 @@ function Test() {
 
   echo "NoTrack Config Test"
   echo
-  echo "NoTrack version $Version"
+  echo "NoTrack version $VERSION"
   
   DnsmasqVersion=$(dnsmasq --version)
   [[ $DnsmasqVersion =~ ^Dnsmasq[[:space:]]version[[:space:]]([0-9]\.[0-9]{1,2}) ]]

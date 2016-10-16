@@ -1,16 +1,25 @@
 v0.8 Development
-New SQL backend using MariaDB to store DNS logs.
-At this point there is no automated installation or uploading of DNS logs to SQL.
-Check /scripts/sqlupgrade.txt for basic details on how to setup MariaDB
-/admin/queries2.php is mostly functional for reading live table
+Issue #141 - New SQL backend using MariaDB to store DNS logs.
+NOTE: The full upgrade to v0.8 is not automated yet.
+*************************************************
 
+v0.7.18 alpha - Interim release to facilitate upgrade to v0.8
+Admin:
+  New style menu.
+  stats.php renamed to queries.php.
+  Parsing of DNS logs more accurate, but slower
+  Fixed bug #117 - Filters reset when clicking submit button
+  Fixed bug #146 - Expand queries on blocked.php not working
 
-Development of v0.7.18 - scrapped, moved development on to v0.8
-New style menu
-stats.php renamed to queries.php
+NoTrack:
+  Fixed bug #123 - Freezing when duplicate NoTrack script is run
+  Fixed bug #124 - NoTrack not respecting TLD blocking
 
-Fixed bug #117 - Filter value reset when clicking submit button
-Fixed bug #123 - Freezing when duplicate NoTrack script is run
+Backend:
+  New script ntrk-parse to upload DNS logs into SQL (inactive at the moment)
+  ntrk-parse added to ntrk-upgrade
+
+*************************************************
 
 
 v0.7.17 alpha - Released 05 Sep 2016
@@ -38,61 +47,4 @@ Sites Blocked List
 DHCP:
   Column naming corrected (Issue #114)
 
-
-v0.7.16 alpha - Released 22 Aug 2016
-**********************
-*IMPORTANT NOTE!!!   *
-**********************
-Block lists have now been re-named and consolidated.
-To keep your settings, Go to: Config > Block Lists > Save Changes
-
-Admin:
-  New style cards on home page
-  Active and Last updated cards added
-  New CSS Styling
-  Scroll button added to Stats page
-  Popup boxes no longer cause page to scroll up
-  Fixed Issue #74 - Missing Image on Login
-  Fixed Issue #77 - Dealing with double-barrelled top level domains  
-
-NoTrack:
-  Enhanced Deduplication
-  Block list files consolidated
-  Smarter updating of Block lists
-  Fixed Issue #67 Custom block lists not disabled on Pause
-  
-New Block lists:
-  Hexxium malware list (Issue #50)
-  Secure Mecca - Removed, it caused .de domain to be blocked (Issue #72)
-  Arab Easy List
-  German Easy List
-  Denmark Schacks Adblock Plus liste
-
-Upgrade:
-  Change log displayed all the time
-  
-  
-v0.7.15 alpha
-NoTrack
-  Added Deduplication - You will see a substantial drop in blocked domains
-  Improved processing of Unix lists
-  Improved processing of Easy lists
-  Improved White list recognition
-  Added ability to process Custom block lists
-  
-Home:
-  Static top menu
-  Top menu commands changed from GET to POST
-  Donate button added 
-
-Config:
-  New style side menu
-  New feature Issue #55 - Added support for Custom Block Lists
-  Fixed Issue #58 - Sites blocked access list doesn't delete when Purging history
-  New feature Issue #59 - Option to Suppress Custom Domains on Stats page  
-  
-Upgrade:
-  Option to upgrade to Development version of NoTrack
-  Styled like the Config page
-  
-
+*************************************************
