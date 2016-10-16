@@ -1552,6 +1552,19 @@ if [[ $(command -v sudo) == "" ]]; then
   error_exit "NoTrack requires Sudo to be installed for Admin functionality" "10"  
 fi
 
+if [ $1 ]; then
+  if [[ $1 == "-sql" ]]; then                    #Special upgrade section to v0.8
+    echo "Updating NoTrack to v$VERSION"
+    sudo rm /etc/logrotate.d/notrack
+    install_packages
+    setup_mariadb
+    sudo service lighttpd restart
+    show_finish
+    exit
+  fi
+fi
+    
+
 show_welcome
 
 prompt_setup_static_ip_address
