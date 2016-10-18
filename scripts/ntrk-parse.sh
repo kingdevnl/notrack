@@ -404,7 +404,7 @@ if [ "$1" ]; then                                #Have any arguments been given
 fi
 
 #Between 04:00 - 04:20 Its time to copy Live to Historic
-if [ "$(date +'%H')" == 4 ]; then    
+if [[ "$(date +'%H')" == "04" ]]; then    
   if [ "$(date +'%M')" -lt 20 ]; then
     copy_table                                   #Copy Live to Historic
     delete_live
