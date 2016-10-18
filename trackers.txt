@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 16 October 2016
+#NoTrack Tracker list updated 18 October 2016
 #LatestVersion 0.7.18
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -520,6 +520,7 @@ boostadvtrack.com #MainAd
 boostadvtracking.com #MainAd
 boo-box.com #Boo Box
 bounceexchange.com
+brainboxdigital.com #BrainBox Digital
 brand-server.com
 brandcrumb.com
 brandgatekeeper.com #Traffic Cake
@@ -9534,6 +9535,7 @@ npaw.com #Nice People At Work
 nr-data.net
 nster.net
 ntv.io #Unknown Advertising
+nt.vc #House of Next Tuesday
 nuggad.net
 nw-rail-03.com #Lead Forensics
 nyctrl32.com #Lead Forensics
@@ -9959,6 +9961,7 @@ sdad.mobi #instartlogic
 sdad.technology #instartlogic
 se-core-pipe.com #Lead Forensics
 sea-nov-1.com #Lead Forensics
+search123.com #BrainBox Digital
 search2shop.com #Digital Window
 searchmarketing.com
 searchretargeting.guru #Nano Interactive
@@ -10176,7 +10179,9 @@ tealiumiq.com
 teaserroll.com #Inskinad
 techhive.com
 technorail.com
-technoratimedia.com
+technorati.com #Technorati
+technoratimedia.com #Technorati
+technoratimedia.net #Technorati
 tedglynn.com #Ad Web
 testorion.com #eGain Corporation
 televisions2compare.com #Digital Window
