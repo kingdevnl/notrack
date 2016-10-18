@@ -10483,7 +10483,7 @@ xg4ken.com
 xibei70.com #Adverising
 xiti.com
 xixiwan.net #Advertising
-pubs.xl.pt #Adverts of the XL's news papers (do not remove top domain name)
+pubs.xl.pt #Adverts of the XLs news papers (do not remove top domain name)
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
 yadro.ru
 yarpp.org
@@ -10570,7 +10570,7 @@ analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com
 adinfo.aol.com
 privacy.aol.com
-app-measurement.com #Google's android analytics
+app-measurement.com #Googles android analytics
 metrics.argos.co.uk
 beacon.asda.com #Asda
 beacon.groceries.asda.com #Asda

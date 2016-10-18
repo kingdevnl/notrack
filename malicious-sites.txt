@@ -23,7 +23,7 @@ googele.com #Typo
 iubenda.com #Annoying
 iphoneoptimizer.com #Scam
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
-jianbaimei.com.cname.yunjiasu-cdn.net #CDN of Malicious site "jianbaimei.com"
+jianbaimei.com.cname.yunjiasu-cdn.net #CDN of Malicious site jianbaimei.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
