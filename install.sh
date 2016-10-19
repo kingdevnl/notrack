@@ -338,7 +338,7 @@ Install_Packages() {
   elif [ "$(command -v dnf)" ]; then Install_Dnf
   elif [ "$(command -v yum)" ]; then Install_Yum  
   elif [ "$(command -v pacman)" ]; then Install_Pacman
-  elif [ "$(command -v apk)"]; then Install_Apk
+  elif [ "$(command -v apk)" ]; then Install_Apk
   else 
     echo "Unable to work out which package manage is being used."
     echo "Ensure you have the following packages installed:"
