@@ -371,7 +371,7 @@ function DisplayBlockLists() {
   DrawBlockListRow('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/" target="_blank">(disconnect.me)</a>');
   DrawBlockListRow('bl_malwaredomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/" target="_blank">(malwaredomainlist.com)</a>');
   DrawBlockListRow('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/" target="_blank">(malwaredomains.com)</a>');
-  DrawBlockListRow('bl_spam404', 'Spam404', '<a href="http://www.spam404.com/">(www.spam404.com)</a>');
+  DrawBlockListRow('bl_spam404', 'Spam404', '<a href="http://www.spam404.com/" target="_blank">(www.spam404.com)</a>');
   DrawBlockListRow('bl_swissransom', 'Swiss Security - Ransomware Tracker', 'Protects against downloads of several variants of Ransomware, including Cryptowall and TeslaCrypt <a href="https://ransomwaretracker.abuse.ch/" target="_blank">(abuse.ch)</a>');
   DrawBlockListRow('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/" target="_blank">(abuse.ch)</a>');
   echo '</table></div></div>'.PHP_EOL;
