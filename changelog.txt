@@ -1,6 +1,14 @@
 v0.8 Development
-Issue #141 - New SQL backend using MariaDB to store DNS logs.
-NOTE: The full upgrade to v0.8 is not automated yet.
+Issue #141 - New SQL backend using MariaDB
+IMPORTANT NOTE: You will need to run "bash install.sh -sql" after upgrading
+
+
+Config:
+  Fixed bug #54 - Memcache can be exhausted when all blocklists are used
+
+Security:
+  Fixed bug #83 - Security will now work for older version of PHP pre v5.3 
+  New Security Page
 *************************************************
 
 v0.7.18 alpha - Interim release to facilitate upgrade to v0.8
