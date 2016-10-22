@@ -11,12 +11,36 @@
 #######################################
 # Constants
 #######################################
-readonly PASSWORD_FILE="/etc/notrack/.password"
+readonly FILE_CONFIG="/etc/notrack/notrack.conf"
+readonly FILE_EXEC="/tmp/ntrk-exec.txt"
 
+readonly USER="ntrk"
+readonly PASSWORD="ntrkpass"
+readonly DBNAME="ntrkdb"
 
-#Settings------------------------------------------------------------
-ConfigFile="/etc/notrack/notrack.conf"
-ExecFile="/tmp/ntrk-exec.txt"
+#--------------------------------------------------------------------
+# Block Message
+#   Sets Block message for sink page
+#
+# Globals:
+#   None
+# Arguments:
+#   $1 Message
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function block_message() {
+  if [[ $1 == "message" ]]; then
+    echo 'Setting Block message Blocked by NoTrack'
+    echo '<p>Blocked by NoTrack</p>' | tee /var/www/html/sink/index.html &> /dev/null
+  elif [[ $1 == "pixel" ]]; then
+    echo 'Setting Block message to pixel'
+    echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
+  fi
+  
+  sudo chown -hR www-data:www-data /var/www/html/sink
+  sudo chmod -R 775 /var/www/html/sink    
+}
 
 #Check File Exists---------------------------------------------------
 Check_File_Exists() {
@@ -44,8 +68,18 @@ Copy_WhiteList() {
     mv /tmp/whitelist.txt /etc/notrack/whitelist.txt    
   fi
 }
-#Copy TLD Black List-------------------------------------------------
-Copy_TLDBlackList() {
+
+#--------------------------------------------------------------------
+# Copy TLD Lists
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+copy_tldlists() {
   if [ -e "/tmp/domain-blacklist.txt" ]; then
     chown root:root /tmp/domain.txt
     chmod 644 /tmp/domain-blacklist.txt
@@ -53,9 +87,7 @@ Copy_TLDBlackList() {
     mv /tmp/domain-blacklist.txt /etc/notrack/domain-blacklist.txt
     echo
   fi
-}
-#Copy TLD White List-------------------------------------------------
-Copy_TLDWhiteList() {
+
   if [ -e "/tmp/domain-whitelist.txt" ]; then
     chown root:root /tmp/domain-whitelist.txt
     chmod 644 /tmp/domain-whitelist.txt
@@ -63,6 +95,8 @@ Copy_TLDWhiteList() {
     mv /tmp/domain-whitelist.txt /etc/notrack/domain-whitelist.txt    
   fi
 }
+
+
 #Create Access Log---------------------------------------------------
 Create_AccessLog() {
   if [ ! -e "/var/log/ntrk-admin.log" ]; then
@@ -71,13 +105,26 @@ Create_AccessLog() {
     chmod 666 /var/log/ntrk-admin.log
   fi
 }
-#Delete History------------------------------------------------------
-Delete_History() {
-  echo "Deleting Log Files in /var/log/notrack"
-  rm /var/log/notrack/*                          #Delete all files in notrack log folder
-  touch /var/log/notrack.log
-  chown root:root /var/log/lighttpd/notrack.log
-  chmod 644 /var/log/lighttpd/notrack.log
+#--------------------------------------------------------------------
+# Delete History
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+delete_history() {
+  echo "Deleting contents of Historic table"
+  echo "DELETE LOW_PRIORITY FROM historic;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+  echo "ALTER TABLE historic AUTO_INCREMENT = 1;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+  
+  #echo "Deleting Log Files in /var/log/notrack"
+  #rm /var/log/notrack/*                          #Delete all files in notrack log folder
+  #touch /var/log/notrack.log
+  #chown root:root /var/log/lighttpd/notrack.log
+  #chmod 644 /var/log/lighttpd/notrack.log
   echo "Deleting Log Files in /var/log/lighttpd"
   rm /var/log/lighttpd/*                         #Delete all files in lighttpd log folder
   touch /var/log/lighttpd/access.log             #Create new access log and set privileges
@@ -109,38 +156,6 @@ Upgrade-NoTrack() {
 }
 
 
-#######################################
-# Enables password protection and sets hashed password
-# Globals:
-#   $PASSWORD_FILE
-# Arguments:
-#   $1 Hashed password
-# Returns:
-#   None
-#######################################
-enable_password_protection(){
-  if [ -e $PASSWORD_FILE ]; then
-    sudo rm $PASSWORD_FILE
-  fi
-
-  sudo echo $1 >> $PASSWORD_FILE
-}
-
-
-#######################################
-# Disables password protection
-# Globals:
-#   $PASSWORD_FILE
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-disable_password_protection(){
-  sudo rm $PASSWORD_FILE
-}
-
-
 #Main----------------------------------------------------------------
 
 if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user
@@ -156,7 +171,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -u -o h -l enable-password:,disable-password -- "$@"); then
+  if ! Options=$(getopt -o h -l bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,save-conf -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -168,14 +183,30 @@ if [ "$1" ]; then                         #Have any arguments been given
     case $1 in
       -h)
         echo "Help"
-        ;;
-      --enable-password) 
-        enable_password_protection $2
-	      shift
-        ;;
-      --disable-password) 
-        disable_password_protection
-        ;;
+      ;;
+      --bm-msg)        
+        block_message "message"
+      ;;
+      --bm-pxl)
+        block_message "pixel"
+      ;;
+      --copy-tld)
+        copy_tldlists
+      ;;
+      --delete-history)
+        delete_history
+      ;;
+      --force)
+        echo "Force Running NoTrack"
+        /usr/local/sbin/notrack --force > /dev/null &
+      ;;
+      --run-notrack)
+        echo "Starting NoTrack"
+        /usr/local/sbin/notrack > /dev/null &
+      ;;
+      --save-conf)
+        Update_Config
+      ;;
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
       (*) break;;
@@ -183,7 +214,7 @@ if [ "$1" ]; then                         #Have any arguments been given
     shift
   done
 else 
-  Check_File_Exists "$ExecFile"
+  Check_File_Exists "$FILE_EXEC"
 
   while read -r Line; do  
     case "$Line" in
@@ -192,19 +223,10 @@ else
       ;;
       copy-whitelist) 
         Copy_WhiteList
-      ;;
-      copy-tldblacklist)
-        Copy_TLDBlackList
-      ;;
-      copy-tldwhitelist) 
-        Copy_TLDWhiteList
-      ;;
+      ;;      
       create-accesslog)
         Create_AccessLog
-      ;;
-      delete-history)
-        Delete_History
-      ;;
+      ;;      
       force-notrack)
         /usr/local/sbin/notrack --force
       ;;
@@ -237,45 +259,14 @@ else
       ;;
       upgrade-notrack)
         Upgrade-NoTrack
-      ;;  
-      blockmsg-message)
-        if [ -L /var/www/html/sink ]; then         #Remove at RC
-          echo "Removing old symbolic link folder"
-          rm /var/www/html/sink
-        fi
-        if [ ! -d  /var/www/html/sink ]; then
-          echo "Creating Sink Folder"
-          mkdir /var/www/html/sink
-        fi
-        echo 'Setting Block message Blocked by NoTrack'
-        echo '<p>Blocked by NoTrack</p>' | tee /var/www/html/sink/index.html &> /dev/null
-        sudo chown -hR www-data:www-data /var/www/html/sink
-        sudo chmod -R 775 /var/www/html/sink
-      ;;
-      blockmsg-pixel)
-        if [ -L /var/www/html/sink ]; then         #Remove at RC
-          echo "Removing old symbolic link folder"
-          rm /var/www/html/sink        
-        fi
-        if [ ! -d  /var/www/html/sink ]; then
-          echo "Creating Sink Folder"
-          mkdir /var/www/html/sink        
-        fi
-        echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
-        sudo chown -hR www-data:www-data /var/www/html/sink
-        sudo chmod -R 775 /var/www/html/sink
-        echo 'Setting Block message to 1x1 pixel'
-      ;;
-      run-notrack)
-        /usr/local/sbin/notrack
-      ;;
+      ;;            
       *)
         echo "Invalid action $Line"
     esac
-  done < "$ExecFile"
+  done < "$FILE_EXEC"
 
   if [ -e /tmp/ntrk-exec.txt ]; then
-    echo "Deleting $ExecFile"
-    rm "$ExecFile"
+    echo "Deleting $FILE_EXEC"
+    rm "$FILE_EXEC"
   fi
 fi
