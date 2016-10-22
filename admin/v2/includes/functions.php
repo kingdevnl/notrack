@@ -3,32 +3,33 @@
 require_once( 'variables.php' );
 
 function ensure_active_session() {
-    if (is_password_protection_enabled()) {
-        if (isset($_SESSION['session_start'])) {
-            if (!is_active_session()) {
-                $_SESSION['session_expired'] = TRUE;
-                header('Location:lockscreen.php');
-            }
-        } else {
-            header('Location:lockscreen.php');
-        }
+  if (is_password_protection_enabled()) {
+    if (isset($_SESSION['session_start'])) {
+      if (!is_active_session()) {
+        $_SESSION['session_expired'] = true;
+        header('Location: ./lockscreen.php');
+      }
     }
+    else {
+      header('Location: ./lockscreen.php');
+    }
+  }
 }
 
 function is_active_session() {
-    $session_duration = 1800;
-    $current_time = time();
-    if (isset($_SESSION['session_start'])) {
-        if ((time() - $_SESSION['session_start']) < $session_duration) {
-            return true;
-        }
+  $session_duration = 1800;
+  if (isset($_SESSION['session_start'])) {
+    if ((time() - $_SESSION['session_start']) < $session_duration) {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
 
 function is_password_protection_enabled() {
-    global $PASSWORD_FILE;
-    return file_exists($PASSWORD_FILE);
+  global $Config;
+  if ($Config['Password'] != '') return true;
+  return false;
 }
 
 function enable_password_protection($hashed_password){
