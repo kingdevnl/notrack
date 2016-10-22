@@ -14,6 +14,7 @@
 #######################################
 # Constants
 #######################################
+readonly FILE_ACCESSLOG="/var/log/lighttpd/access.log"
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly MAXAGE=88000                            #Just over 1 day in seconds
@@ -53,8 +54,8 @@ commonsites["tumblr.com"]=true
 #   None
 #--------------------------------------------------------------------
 function check_root() {
-  local Pid=""
-  Pid=$(pgrep ntrk-parse | head -n 1)            #Get PID of first notrack process
+  local pid=""
+  pid=$(pgrep ntrk-parse | head -n 1)            #Get PID of first notrack process
 
   if [[ "$(id -u)" != "0" ]]; then
     echo "This script must be run as root"
@@ -62,8 +63,8 @@ function check_root() {
   fi
   
   #Check if another copy of notrack is running
-  if [[ $Pid != "$$" ]] && [[ -n $Pid ]] ; then  #$$ = This PID    
-    echo "ntrk-parse already running under Pid $Pid"
+  if [[ $pid != "$$" ]] && [[ -n $pid ]] ; then  #$$ = This PID    
+    echo "ntrk-parse already running under Pid $pid"
     exit 111
   fi
 }
@@ -126,9 +127,26 @@ function check_logage() {
   return 0                                       #Otherwise return 0 - ok
 }
 
+#--------------------------------------------------------------------
+# Delete Lighty Access Table
+#   1. Delete all rows in the lightyaccess Table
+#   2. Reset Counter
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function delete_access() {
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE LOW_PRIORITY FROM lightyaccess;"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "ALTER TABLE lightyaccess AUTO_INCREMENT = 1;"
+}
+
 
 #--------------------------------------------------------------------
-# Delete Live DB
+# Delete Live Table
 #   1. Delete all rows in the Live Table
 #   2. Reset Counter
 #
@@ -140,8 +158,26 @@ function check_logage() {
 #   None
 #--------------------------------------------------------------------
 function delete_live() {
-  echo "DELETE LOW_PRIORITY FROM live;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
-  echo "ALTER TABLE live AUTO_INCREMENT = 1;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE LOW_PRIORITY FROM live;"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "ALTER TABLE live AUTO_INCREMENT = 1;"
+}
+
+#--------------------------------------------------------------------
+# Check If mysql or MariaDB is installed
+#   exits if not installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function is_sql_installed() {
+  if [ -z "$(command -v mysql)" ]; then
+    echo "NoTrack requires MySql or MariaDB to be installed"
+    echo "Run install.sh -sql"
+    exit 60
+  fi  
 }
 
 #--------------------------------------------------------------------
@@ -192,7 +228,30 @@ function load_config() {
 
 
 #--------------------------------------------------------------------
-# Load Log file into array
+# Load Lighty Log file into array
+#   This function is used to ensure that losses are minimised while we process notrack.log
+#   1. Read Lighty and add values into logarray
+#   2. Empty log file
+
+# Globals:
+#   logarray
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function load_accesslog() {
+  echo "Loading lighty log file into array"
+  while IFS=$'\n' read -r line
+  do
+    logarray+=("$line")
+  done < "$FILE_ACCESSLOG"
+    
+  cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
+}
+
+#--------------------------------------------------------------------
+# Load DNS Log file into array
 #   This function is used to ensure that losses are minimised while we process notrack.log
 #   1. Read notrack.log and add values into logarray
 #   2. Empty log file
@@ -205,7 +264,7 @@ function load_config() {
 #   None
 #--------------------------------------------------------------------
 function load_todaylog() {
-  echo "Reading log file into array"
+  echo "Loading notrack log file into array"
   while IFS=$'\n' read -r line
   do
     logarray+=("$line")
@@ -214,6 +273,61 @@ function load_todaylog() {
   cat /dev/null > "$FILE_DNSLOG"                 #Empty log file
 }
 
+
+#--------------------------------------------------------------------
+# Process Lighty Log
+#   1. Read each line of logarray and pattern match with regex 
+#   2. Add queries to querylist and systemlist arrays
+#   3. Find what happened to each query
+#   4. Build string for SQL entry
+#   5. Echo result into SQL
+# Globals:
+#   logarray, USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+
+#Example data
+#1471892585|polling.bbc.co.uk|GET /appconfig/iplayer/android/4.19.3/policy.json HTTP/1.1|200|26
+#1471892807|cmdts.ksmobile.com|POST /c/ HTTP/1.1|200|26
+#1471771627|notrack.local|GET /admin/svg/menu_dhcp.svg HTTP/1.1|304|0
+#1471773009|notrack.local|GET /admin/stats.php HTTP/1.1|200|117684
+  
+#Lighty log line consists of:
+#1: \d{1,23} - 64bit Time value
+#2: [NOT |] One or more times Left-hand side of URL (before /)
+#3: (GET|POST) GET or POST
+#Negate /admin and /favicon.ico
+#4: [NOT space] Any number of times Right-hand side of URL (after /)
+#HTTP 1.1 or 2.0
+#200 - HTTP Ok (Not interested in 304,404)
+  
+function process_accesslog() {
+  local line=""
+  local log_time=0
+  local site=""
+  local http_method=""
+  local uri_path=""
+  
+  echo "Processing lighty log file"
+    
+  for line in "${logarray[@]}"; do               #Read whole logarray
+    #echo "$line"                                #Uncomment for debugging
+    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200 ]]; then    
+      log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
+      site="${BASH_REMATCH[2]}"
+      http_method="${BASH_REMATCH[3]}"
+      uri_path="${BASH_REMATCH[4]}"
+      if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
+        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path')"        
+      fi    
+    fi
+  done
+  
+  unset IFS  
+}
 
 #--------------------------------------------------------------------
 # Process Today Log
@@ -310,9 +424,10 @@ function show_help() {
   echo "The following options can be specified:"
   echo -e "  -a, --age\tCheck Age of Live table"
   echo -e "  -c, --copy\tCopy Live table to Historic table"
-  echo -e "  -d, --delete\tDelete contents of Live table"
   echo -e "  -h, --help\tThis Help"
   echo -e "  -v, --version\tDisplay version number"
+  echo -e "  --delete-access\tDelete contents of Access table"
+  echo -e "  --delete-live\tDelete contents of Live table"
 }
 #--------------------------------------------------------------------
 #Show Version
@@ -354,9 +469,25 @@ function simplify_url() {
 }
 
 #--------------------------------------------------------------------
+# Trim Lighty Access Table
+#   1. Delete all rows in the lightyaccess Table older than 31 Days
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function trim_access() {
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM lightyaccess WHERE log_time < NOW() - INTERVAL 31 DAY;"  
+}
+
+
+#--------------------------------------------------------------------
 #Main
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options="$(getopt -o acdhv -l age,copy,delete,help,version -- "$@")"; then
+  if ! options="$(getopt -o achv -l age,copy,delete-access,delete-live,help,version -- "$@")"; then
     # something went wrong, getopt will put out an error message for us
     exit 6
   fi
@@ -374,8 +505,12 @@ if [ "$1" ]; then                                #Have any arguments been given
       -c|--copy)
         copy_table
         exit 0
-      ;;      
-      -d|--delete)
+      ;;
+      --delete-access)
+        delete_access
+        exit 0
+      ;;
+      --delete-live)
         delete_live
         exit 0
       ;;
@@ -408,6 +543,7 @@ if [[ "$(date +'%H')" == "04" ]]; then
   if [ "$(date +'%M')" -lt 20 ]; then
     copy_table                                   #Copy Live to Historic
     delete_live
+    #trim_access                                 #Optional to add
     exit 112                                     #No rush to parse log right now
   fi
 fi
@@ -417,6 +553,7 @@ check_logage                                     #Is Live older than MAXAGE?
 if [ $? -gt 0 ]; then                            #More than 0 is age in days
   copy_table                                     #Copy Live to Historic
   delete_live
+  #trim_access                                 #Optional to add
   sleep 2s
 fi
 
@@ -426,7 +563,17 @@ if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
 fi
 
 check_root                                       #Are we running as root?
+is_sql_installed
 load_config                                      #Load users config
+
+#Make sure there is something in lighttpd access log 
+if [ "$(wc -l "$FILE_ACCESSLOG" | cut -d " " -f 1)" -gt 2 ]; then
+  load_accesslog                                 #Load lighttpd log file into array
+  process_accesslog                              #Process and add log to SQL table
+fi
+
+logarray=()                                      #Empty logarray for reuse
+
 load_todaylog                                    #Load log file into array
 process_todaylog                                 #Process and add log to SQL table
 
