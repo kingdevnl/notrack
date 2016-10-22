@@ -5,8 +5,10 @@
 #Usage : bash install.sh
 
 
-#Optional user customisable settings---------------------------------
-InstallLoc=""
+#######################################
+# Optional User Customisable Settings
+#######################################
+INSTALL_LOCATION=""
 
 
 #######################################
@@ -17,8 +19,8 @@ readonly IP_V6="IPv6"
 
 readonly DHCPCD_CONF_PATH="/etc/dhcpcd.conf"
 readonly DHCPCD_CONF_OLD_PATH="/etc/dhcpcd.conf.old"
-readonly NETWORDK_INTERFACES_PATH="/etc/network/interfaces"
-readonly NETWORDK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
+readonly NETWORK_INTERFACES_PATH="/etc/network/interfaces"
+readonly NETWORK_INTERFACES_OLD_PATH="/etc/network/interfaces.old"
 
 readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
 
@@ -26,8 +28,8 @@ readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
 #######################################
 # Environment variables
 #######################################
-Version="0.7.16"
-SudoRequired=0                                   #1 If installing to /opt
+readonly VERSION="0.8"
+SUDO_REQUIRED=false                              #true If installing to /opt
 
 REBOOT_REQUIRED=false
 
@@ -85,11 +87,6 @@ check_file_exists() {
 
 #######################################
 # Draw prompt menu
-# Globals:
-#   None
-# Arguments:
-#   $1 = Title, $2, $3... Option 1, 2...
-#   $? = Choice user made
 #   1. Clear Screen
 #   2. Draw menu
 #   3. Read single character of user input
@@ -101,6 +98,12 @@ check_file_exists() {
 #   4e. Check if user pressed Enter key, Return out of function
 #   4f. Check if user pressed Q or q, Exit out with error code 1
 #   5. User failed to input valid selection. Loop back to #2
+#
+# Globals:
+#   None
+# Arguments:
+#   $1 = Title, $2, $3... Option 1, 2...
+#   $? = Choice user made
 # Returns:
 #   None
 #######################################
@@ -131,7 +134,7 @@ menu() {
     echo "$choice"
     if [[ $choice =~ ^[0-9]+$ ]]; then           #Has the user chosen 0-9
       if [[ $choice -ge 1 ]] && [[ $choice -lt $menu_size ]]; then
-        return $choice
+        return "$choice"
         #break;
       fi
     elif [[ $choice ==  "A" ]]; then             #Up
@@ -161,78 +164,188 @@ menu() {
 }
 
 
-#Welcome Dialog------------------------------------------------------
-Show_Welcome() {
-  echo "Welcome to NoTrack v$Version"
+#--------------------------------------------------------------------
+# Backup Config Files
+#   Take backups of dnsmasq and lighttpd
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function backup_configs() {
+  echo "Backing up old config files"
+  
+  echo "Copying /etc/dnsmasq.conf to /etc/dnsmasq.conf.old"
+  check_file_exists "/etc/dnsmasq.conf" 24
+  sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.old
+  
+  echo "Copying /etc/lighttpd/lighttpd.conf to /etc/lighttpd/lighttpd.conf.old"
+  
+  check_file_exists "/etc/lighttpd/lighttpd.conf" 24
+  sudo cp /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.old
   echo
-  echo "This installer will transform your system into a network-wide Tracker Blocker"
-  echo "Install Guide: https://youtu.be/MHsrdGT5DzE"
-  echo
-  echo "Press any key to contine..."
-  read -rn1
 }
 
-#Finish Dialog-------------------------------------------------------
-Show_Finish() {
-  clear
-  echo "NoTrack Install Complete"
-  echo "Access the admin console at http://$(hostname)/admin"
-  echo
 
-  if [[ $REBOOT_REQUIRED == true ]]; then
-    echo "System reboot is required"
+#--------------------------------------------------------------------
+# Copy Scripts
+#   Copy notrack script files to /usr/local/sbin
+# Globals:
+#   INSTALL_LOCATION
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function copy_scripts() {
+  check_file_exists "$INSTALL_LOCATION/notrack.sh" "25"              #Main
+  echo "Copying notrack.sh"
+  sudo cp "$INSTALL_LOCATION/notrack.sh" /usr/local/sbin/notrack.sh
+  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack 
+  sudo chmod 755 /usr/local/sbin/notrack
+
+  check_file_exists "$INSTALL_LOCATION/ntrk-exec.sh" "26"            #Exec
+  echo "Copying ntrk-exec.sh"
+  sudo cp "$INSTALL_LOCATION/ntrk-exec.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
+  sudo chmod 755 /usr/local/sbin/ntrk-exec
+  
+  check_file_exists "$INSTALL_LOCATION/ntrk-pause.sh" "27"           #Pause
+  echo "Copying ntrk-pause.sh"
+  sudo cp "$INSTALL_LOCATION/ntrk-pause.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
+  sudo chmod 755 /usr/local/sbin/ntrk-pause
+  
+  check_file_exists "$INSTALL_LOCATION/ntrk-upgrade.sh" "28"         #Upgrader
+  echo "Copying ntrk-upgrade.sh"
+  sudo cp "$INSTALL_LOCATION/ntrk-upgrade.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
+  sudo chmod 755 /usr/local/sbin/ntrk-upgrade
+  
+  check_file_exists "$INSTALL_LOCATION/scripts/ntrk-parse.sh" "29"   #ntrk-parse.sh
+  echo "Copying ntrk-parse.sh"
+  sudo cp "$INSTALL_LOCATION/scripts/ntrk-parse.sh" /usr/local/sbin/
+  sudo mv /usr/local/sbin/ntrk-parse.sh /usr/local/sbin/ntrk-parse
+  sudo chmod 755 /usr/local/sbin/ntrk-parse
+}
+
+
+#--------------------------------------------------------------------
+# Download with Git
+#   Download with Git if the user has it installed on their system
+# Globals:
+#   INSTALL_LOCATION, SUDO_REQUIRED
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function download_with_git() {  
+  echo "Downloading NoTrack using Git"
+  
+  if [ $SUDO_REQUIRED == false ]; then
+    git clone --depth=1 https://github.com/quidsup/notrack.git "$INSTALL_LOCATION"
+  else
+    sudo git clone --depth=1 https://github.com/quidsup/notrack.git "$INSTALL_LOCATION"
+  fi
+  echo
+}
+
+
+#--------------------------------------------------------------------
+# Download with wget
+#   Alternative download if user doesn't have Git
+# Globals:
+#   INSTALL_LOCATION, SUDO_REQUIRED
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function download_with_wget() {  
+  if [ -d "$INSTALL_LOCATION" ]; then            #Check if NoTrack folder exists
+    echo "NoTrack folder exists. Skipping download"
+  else
+    echo "Downloading latest version of NoTrack from github"
+    wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+    if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
+      #Abort we can't go any further without any code from git
+      error_exit "Error Download from github has failed" "23"      
+    fi  
+
+    unzip -oq /tmp/notrack-master.zip -d /tmp
+    if [ $SUDO_REQUIRED == false ]; then
+      mv /tmp/notrack-master "$INSTALL_LOCATION"
+    else
+      sudo mv /tmp/notrack-master "$INSTALL_LOCATION"
+    fi
+    rm /tmp/notrack-master.zip                  #Cleanup
+  fi
+  
+  sudo chown "$(whoami)":"$(whoami)" -hR "$INSTALL_LOCATION"
+}
+
+
+#--------------------------------------------------------------------
+# Install Packages
+#   Works out what type of package manager is in use
+#   Call appropriate function depending on package manager
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_packages() {
+  if [ "$(command -v apt-get)" ]; then install_deb
+  elif [ "$(command -v dnf)" ]; then install_dnf
+  elif [ "$(command -v yum)" ]; then install_yum  
+  elif [ "$(command -v pacman)" ]; then install_pacman
+  elif [ "$(command -v apk)" ]; then install_apk
+  else 
+    echo "Unable to work out which package manage is being used."
+    echo "Ensure you have the following packages installed:"
+    echo -e "\tdnsmasq"
+    echo -e "\tlighttpd"
+    echo -e "\tmariadb"
+    echo -e "\tmemcached"
+    echo -e "\tphp-cgi"
+    echo -e "\tphp-curl"
+    echo -e "\tphp-mysql"    
+    echo -e "\tphp-memcache"
+    echo -e "\tunzip"
     echo
-    echo "Press any key to reboot"
+    echo -en "Press any key to continue... "
     read -rn1
-    sudo reboot
+    echo
   fi
 }
 
-#Ask Install Location------------------------------------------------
-Ask_InstallLoc() {
-  local HomeLoc="${HOME}"
-  
-  if [[ $HomeLoc == "/root" ]]; then      #Change root folder to users folder
-    HomeLoc="$(getent passwd $SUDO_USER | grep /home | grep -v syslog | cut -d: -f6)"    
-    if [ $(wc -w <<< "$HomeLoc") -gt 1 ]; then   #Too many sudo users
-      echo "Unable to estabilish which Home folder to install to"
-      echo "Either run this installer without using sudo / root, or manually set the \$InstallLoc variable"
-      echo "\$InstallLoc=\"/home/you/NoTrack\""
-      exit 15
-    fi    
-  fi
-  
-  menu "Select Install Folder" "Home $HomeLoc" "Opt /opt" "Cancel"
-  
-  case $? in
-    1) 
-      InstallLoc="$HomeLoc/notrack" 
-    ;;
-    2) 
-      InstallLoc="/opt/notrack"
-      SudoRequired=1
-    ;;
-    3)
-      error_exit "Aborting Install" 1
-    ;;  
-  esac
-  
-  if [[ $InstallLoc == "" ]]; then
-    error_exit "Install folder not set" 15
-  fi  
-}
 
-#Install Packages----------------------------------------------------
-Install_Deb() {
-  local PHPVersion="php5"
-  local PHPMemcache="php5-memcache"
+#--------------------------------------------------------------------
+# Install Deb Packages
+#   Installs packages using apt-get for Ubuntu / Debian based systems
+#   Checks to see if PHP7 is available
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_deb() {
+  local phpversion="php5"
+  local phpmemcache="php5-memcache"
   
   echo "Checking to see if PHP 7.0 is available"
   apt-cache show php7.0 &> /dev/null             #Search apt-cache and dump output to /dev/null
   if [ $? == 0 ]; then                           #Closure code of zero indicates package is available
     echo "Installing PHP 7.0"
-    PHPVersion="php7.0"
-    PHPMemcache="php-memcache"                   #Believe version number has now been dropped as of PHP v7
+    phpversion="php7.0"
+    phpmemcache="php-memcache"                   #Believe version number has now been dropped as of PHP v7
   else
     echo "Installing PHP 5"
   fi
@@ -250,15 +363,30 @@ Install_Deb() {
   sleep 2s
   sudo apt-get -y install dnsmasq
   echo
+  echo "Installing MariaDB"
+  sleep 2s
+  sudo apt-get -y install mariadb-server
+  echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo apt-get -y install lighttpd memcached "$PHPMemcache" "$PHPVersion-cgi" "$PHPVersion-curl"
+  sudo apt-get -y install lighttpd memcached "$phpmemcache" "$phpversion-cgi" "$phpversion-curl" "$phpversion-mysql"
   echo
   echo "Restarting Lighttpd"
   sudo service lighttpd restart
 }
+
+
 #--------------------------------------------------------------------
-Install_Dnf() {
+# Install RPM Packages
+#   Installs packages using dnf for Redhat / Fedora
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_dnf() {
   echo "Preparing to Install RPM packages using Dnf..."
   sleep 2s
   sudo dnf update
@@ -271,13 +399,28 @@ Install_Dnf() {
   sleep 2s
   sudo dnf -y install dnsmasq
   echo
+  echo "Installing MariaDB"
+  sleep 2s
+  sudo dnf -y install mariadb-server
+  echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo dnf -y install lighttpd memcached php-pecl-memcached php
+  sudo dnf -y install lighttpd memcached php-pecl-memcached php php-mysql
   echo
 }
+
+
 #--------------------------------------------------------------------
-Install_Pacman() {
+# Install Aur Packages
+#   Installs packages using pacman for Arch
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_pacman() {
   echo "Preparing to Install Arch Packages..."
   sleep 2s
   echo
@@ -289,14 +432,28 @@ Install_Pacman() {
   sleep 2s
   sudo pacman -S --noconfirm dnsmasq
   echo
+  echo "Installing MariaDB"
+  sleep 2s
+  sudo pacman -S --noconfirm mariadb-server
+  echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
-  #Curl is also needed, but I have written the PHP code to only use Curl if its installed
+  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi php-mysql  
   echo  
 }
+
+
 #--------------------------------------------------------------------
-Install_Yum() {
+# Install RPM Packages
+#   Installs packages using yum for Redhat / Fedora
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_yum() {
   echo "Preparing to Install RPM packages using Yum..."
   sleep 2s
   sudo yum update
@@ -309,13 +466,29 @@ Install_Yum() {
   sleep 2s
   sudo yum -y install dnsmasq
   echo
+  echo "Installing MariaDB"
+  sleep 2s
+  sudo yum -y install mariadb-server
+  echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo yum -y install lighttpd php memcached php-pecl-memcached
+  sudo yum -y install lighttpd php memcached php-pecl-memcached php-mysql
   echo
 }
+
+
 #--------------------------------------------------------------------
-Install_Apk() {
+# Install apk Packages
+#   Installs packages using yum for Busybox
+#   TODO
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_apk() {
   echo "Preparing to install packages using Apk..."
   sleep 2s
   sudo apk update
@@ -328,101 +501,38 @@ Install_Apk() {
   sleep 2s
   sudo apk add dnsmasq
   echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo apk add mariadb-server
+  echo
   echo "Installing Lighttpd and PHP"
-  sudo apk add lighttpd php5 memcached                  #Having issues here
+  sudo apk add lighttpd php5 memcached php-mysql               #Having issues here
   echo
 }
+
+
+
 #--------------------------------------------------------------------
-Install_Packages() {
-  if [ "$(command -v apt-get)" ]; then Install_Deb
-  elif [ "$(command -v dnf)" ]; then Install_Dnf
-  elif [ "$(command -v yum)" ]; then Install_Yum  
-  elif [ "$(command -v pacman)" ]; then Install_Pacman
-  elif [ "$(command -v apk)" ]; then Install_Apk
-  else 
-    echo "Unable to work out which package manage is being used."
-    echo "Ensure you have the following packages installed:"
-    echo -e "\tdnsmasq"
-    echo -e "\tlighttpd"
-    echo -e "\tphp-cgi"
-    echo -e "\tphp-curl"
-    echo -e "\tmemcached"
-    echo -e "\tphp-memcache"
-    echo -e "\tunzip"
-    echo
-    echo -en "Press any key to continue... "
-    read -rn1
-    echo
-  fi
-}
-#Backup Configs------------------------------------------------------
-Backup_Conf() {
-  echo "Backing up old config files"
+# Setup Dnsmasq
+#   Copy custom config settings into dnsmasq.conf and create log file
+# Globals:
+#   INSTALL_LOCATION, DNS_SERVER_1, DNS_SERVER_2, NETWORK_DEVICE
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function setup_dnsmasq() {  
+  local hostname=""
   
-  echo "Copying /etc/dnsmasq.conf to /etc/dnsmasq.conf.old"
-  check_file_exists "/etc/dnsmasq.conf" 24
-  sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.old
-  
-  echo "Copying /etc/lighttpd/lighttpd.conf to /etc/lighttpd/lighttpd.conf.old"
-  
-  check_file_exists "/etc/lighttpd/lighttpd.conf" 24
-  sudo cp /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.old
-  echo
-}
-#Download With Git---------------------------------------------------
-Download_WithGit() {
-  #Download with Git if the user has it installed on their system
-  echo "Downloading NoTrack using Git"
-  if [ $SudoRequired == 0 ]; then
-    git clone --depth=1 https://github.com/quidsup/notrack.git "$InstallLoc"
-  else
-    sudo git clone --depth=1 https://github.com/quidsup/notrack.git "$InstallLoc"
-  fi
-  echo
-}
-
-#Download WithWget---------------------------------------------------
-Download_WithWget() {
-  #Alternative download with wget 
-  if [ -d $InstallLoc ]; then                    #Check if NoTrack folder exists
-    echo "NoTrack folder exists. Skipping download"
-  else
-    echo "Downloading latest version of NoTrack from github"
-    wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
-    if [ ! -e /tmp/notrack-master.zip ]; then    #Check again to see if download was successful
-      echo "Error Download from github has failed"
-      exit 23                                    #Abort we can't go any further without any code from git
-    fi  
-
-    unzip -oq /tmp/notrack-master.zip -d /tmp
-    if [ $SudoRequired == 0 ]; then
-      mv /tmp/notrack-master "$InstallLoc"
-    else
-      sudo mv /tmp/notrack-master "$InstallLoc"
-    fi
-    rm /tmp/notrack-master.zip                  #Cleanup
-  fi
-  
-  sudo chown "$(whoami)":"$(whoami)" -hR "$InstallLoc"
-}
-#Setup Dnsmasq-------------------------------------------------------
-Setup_Dnsmasq() {  
-  local HostName=""
-  if [ -e /etc/sysconfig/network ]; then
-    HostName=$(cat /etc/sysconfig/network | grep "HOSTNAME" | cut -d "=" -f 2 | tr -d [[:space:]])
-  elif [ -e /etc/hostname ]; then
-    HostName=$(cat /etc/hostname)
-  else
-    echo "Warning. Unable to find hostname"
-  fi
-  
+  echo "Configuring Dnsmasq"
   #Copy config files modified for NoTrack
-  echo "Copying config files from $InstallLoc to /etc/"
-  check_file_exists "$InstallLoc/conf/dnsmasq.conf" 24
-  sudo cp "$InstallLoc/conf/dnsmasq.conf" /etc/dnsmasq.conf
+  echo "Copying config files from $INSTALL_LOCATION to /etc/"
+  check_file_exists "$INSTALL_LOCATION/conf/dnsmasq.conf" 24
+  sudo cp "$INSTALL_LOCATION/conf/dnsmasq.conf" /etc/dnsmasq.conf
   
-  check_file_exists "$InstallLoc/conf/lighttpd.conf" 24
-  sudo cp "$InstallLoc/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
+  check_file_exists "$INSTALL_LOCATION/conf/lighttpd.conf" 24
+  sudo cp "$INSTALL_LOCATION/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
   
   #Finish configuration of dnsmasq config
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
@@ -430,31 +540,52 @@ Setup_Dnsmasq() {
   sudo sed -i "s/server=changeme2/server=$DNS_SERVER_2/" /etc/dnsmasq.conf
   sudo sed -i "s/interface=eth0/interface=$NETWORK_DEVICE/" /etc/dnsmasq.conf
   echo "Creating file /etc/localhosts.list for Local Hosts"
+  
   sudo touch /etc/localhosts.list                #File for user to add DNS entries for their network
-  if [[ $HostName != "" ]]; then
-    echo "Writing first entry for this system: $IP_ADDRESS - $HostName"
-    echo -e "$IP_ADDRESS\t$HostName" | sudo tee -a /etc/localhosts.list #First entry is this system
+  
+  if [ -e /etc/sysconfig/network ]; then         #Set first entry for localhosts
+    hostname=$(grep "HOSTNAME" /etc/sysconfig/network | cut -d "=" -f 2 | tr -d [[:space:]])
+  elif [ -e /etc/hostname ]; then
+    hostname=$(cat /etc/hostname)
+  else
+    echo "Warning. Unable to find hostname"
+  fi
+  
+  if [[ $hostname != "" ]]; then
+    echo "Writing first entry for this system: $IP_ADDRESS - $hostname"
+    echo -e "$IP_ADDRESS\t$hostname" | sudo tee -a /etc/localhosts.list 
   fi
     
-  #Setup Log rotation for dnsmasq
-  echo "Copying log rotation script for Dnsmasq"
-  check_file_exists "$InstallLoc/conf/logrotate.txt" 24
-  sudo cp "$InstallLoc/conf/logrotate.txt" /etc/logrotate.d/logrotate.txt
-  sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
   
-  if [ ! -d "/var/log/notrack/" ]; then          #Check /var/log/notrack/ folder
-    echo "Creating folder: /var/log/notrack/"
-    sudo mkdir /var/log/notrack/
-  fi
   sudo touch /var/log/notrack.log                #Create log file for Dnsmasq
-  sudo chmod 664 /var/log/notrack.log            #Dnsmasq sometimes defaults to permissions 774
+  sudo chmod 664 /var/log/notrack.log            #Set permissions for log file
+  
+  if [[ "$SETUP_DHCP" == true ]]; then           #Optional DHCP Setup
+    config_dnsmasq_dhcp_logging
+    config_dnsmasq_dhcp_authoritative_mode
+
+    if [[ "$IP_VERSION" == "$IP_V4" ]]; then
+      setup_dnsmasq_dhcp_ipv4
+    fi
+  fi
+  
   echo "Setup of Dnsmasq complete"
   echo
 }
 
-#Setup Lighttpd------------------------------------------------------
-Setup_Lighttpd() {
-  local SudoCheck=""
+
+#--------------------------------------------------------------------
+# Setup Lighttpd
+#   Add www-data group rights to user, copy lighty config, and create sink page
+# Globals:
+#   INSTALL_LOCATION
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+setup_lighttpd() {
+  local sudoerscheck=""
 
   echo "Configuring Lighttpd"
   sudo usermod -a -G www-data "$(whoami)"        #Add www-data group rights to current user
@@ -466,28 +597,26 @@ Setup_Lighttpd() {
     sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
   fi
   
-  if [ -d /var/www/html/sink ]; then             #Remove Sink folder
-    echo "Removing old folder: /var/www/html/sink"
-    sudo rm -r /var/www/html/sink
-  fi
   if [ -e /var/www/html/admin ]; then            #Remove old symlinks
     echo "Removing old file: /var/www/html/admin"
     sudo rm /var/www/html/admin
   fi
-  echo "Creating Sink Folder"
+  
+  echo "Creating Sink Folder"                    #Create new sink folder
   sudo mkdir /var/www/html/sink
+  echo "Setting default sink page to blank image"
   echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | sudo tee /var/www/html/sink/index.html &> /dev/null
   echo "Changing ownership of sink folder to www-data"
   sudo chown -hR www-data:www-data /var/www/html/sink
   sudo chmod -R 775 /var/www/html/sink
   echo 'Setting Block message to 1x1 pixel'
     
-  echo "Creating symlink from $InstallLoc/admin to /var/www/html/admin"
-  sudo ln -s "$InstallLoc/admin" /var/www/html/admin
+  echo "Creating symlink from $INSTALL_LOCATION/admin to /var/www/html/admin"
+  sudo ln -s "$INSTALL_LOCATION/admin" /var/www/html/admin
   sudo chmod -R 775 /var/www/html                #Give read/write/execute privilages to Web folder
   
-  SudoCheck=$(sudo cat /etc/sudoers | grep www-data)
-  if [[ $SudoCheck == "" ]]; then
+  sudoerscheck=$(sudo cat /etc/sudoers | grep www-data)
+  if [[ $sudoerscheck == "" ]]; then
     echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
     echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
     echo
@@ -497,21 +626,70 @@ Setup_Lighttpd() {
   echo
 }
 
-#Setup Notrack-------------------------------------------------------
-Setup_NoTrack() {
+
+#--------------------------------------------------------------------
+# Setup MariaDB
+#   Setup DB and Tables for Maria DB
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function setup_mariadb() {
+  local rootpass=""
+  local outputstr=""
+
+  echo "Setting up MariaDB"
+  echo -n "Please enter MariaDB root password (leave blank if not set): "
+  read -r rootpass;
+  
+  echo "Creating User ntrk"
+  sudo sudo mysql --user=root --password="$rootpass" -e "CREATE USER 'ntrk'@'localhost' IDENTIFIED BY 'ntrkpass';"
+  
+  #Check to see if ntrk user has been added
+  if [[ ! `sudo mysql -sN --user=root --password="$rootpass" -e "SELECT User FROM mysql.user"` =~ ntrk[[:space:]]root ]]; then
+    error_exit "MariaDB command failed, have you entered wrong incorrect root password?" "35"
+  fi
+  
+  echo "Creating Database ntrkdb"
+  sudo mysql --user=root --password="$rootpass" -e "CREATE DATABASE ntrkdb;"
+    
+  echo "Setting privilages for ntrk user"
+  sudo mysql --user=root --password="$rootpass" -e "GRANT ALL PRIVILEGES ON ntrkdb.* TO 'ntrk'@'localhost';"
+  #GRANT INSERT, SELECT, DELETE, UPDATE ON database.* TO 'user'@'localhost' IDENTIFIED BY 'password';
+  sudo mysql --user=root --password="$rootpass" -e "FLUSH PRIVILEGES;"
+  
+  echo "Creating Tables"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE live (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, sys TINYTEXT, dns_request TINYTEXT, dns_result CHAR(1));"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE historic (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, sys TINYTEXT, dns_request TINYTEXT, dns_result CHAR(1));"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE users (id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, user TINYTEXT, pass TEXT, level CHAR(1));"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE blocklist (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, bl_source TINYTEXT, site TINYTEXT, site_status BOOLEAN, comment TEXT);"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE lightyaccess (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, site TINYTEXT, http_method CHAR(4), uri_path TEXT);"
+  
+  echo "Creating CRON job for Log Parser"
+  echo -e "*/10 * * * *\troot\t/usr/local/sbin/ntrk-parse" | sudo tee /etc/cron.d/ntrk-parse &> /dev/null
+
+  echo "MariaDB setup complete"
+  echo
+}
+
+
+#--------------------------------------------------------------------
+# Setup NoTrack
+#   Copy notrack.sh and do initial setup of notrack.conf
+# Globals:
+#   INSTALL_LOCATION, IP_VERSION, NETWORK_DEVICE
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function setup_notrack() {
   #Setup Tracker list downloader
   echo "Setting up NoTrack block list downloader"
-  
-  check_file_exists "$InstallLoc/notrack.sh" 25
-  sudo cp "$InstallLoc/notrack.sh" /usr/local/sbin/notrack.sh
-  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
-  sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
-  
-  check_file_exists "$InstallLoc/dns-log-archive.sh" 24
-  sudo cp "$InstallLoc/dns-log-archive.sh" /usr/local/sbin/dns-log-archive.sh
-  sudo mv /usr/local/sbin/dns-log-archive.sh /usr/local/sbin/dns-log-archive
-  sudo chmod +x /usr/local/sbin/dns-log-archive
-  
+     
   echo "Creating daily cron job in /etc/cron.daily/"
   if [ -e /etc/cron.daily/notrack ]; then        #Remove old symlink
     echo "Removing old file: /etc/cron.daily/notrack"
@@ -530,32 +708,14 @@ Setup_NoTrack() {
     sudo rm /etc/notrack/notrack.conf
   fi
   echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
-  sudo touch /etc/notrack/notrack.conf          #Create Config file
+  sudo touch /etc/notrack/notrack.conf           #Create Config file
   echo "Writing initial config"
   echo "IPVersion = $IP_VERSION" | sudo tee /etc/notrack/notrack.conf
   echo "NetDev = $NETWORK_DEVICE" | sudo tee -a /etc/notrack/notrack.conf
   echo
 }
-#Ntrk Scripts--------------------------------------------------------
-Setup_NtrkScripts() {
-  check_file_exists "$InstallLoc/ntrk-exec.sh" 26
-  echo "Copying ntrk-exec.sh"
-  sudo cp "$InstallLoc/ntrk-exec.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
-  sudo chmod 755 /usr/local/sbin/ntrk-exec
-  
-  check_file_exists "$InstallLoc/ntrk-pause.sh" 27
-  echo "Copying ntrk-pause.sh"
-  sudo cp "$InstallLoc/ntrk-pause.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
-  sudo chmod 755 /usr/local/sbin/ntrk-pause
-  
-  check_file_exists "$InstallLoc/ntrk-upgrade.sh" 28
-  echo "Copying ntrk-upgrade.sh"
-  sudo cp "$InstallLoc/ntrk-upgrade.sh" /usr/local/sbin/
-  sudo mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
-  sudo chmod 755 /usr/local/sbin/ntrk-upgrade
-}
+
+
 
 #FirewallD-----------------------------------------------------------
 Setup_FirewallD() {
@@ -589,6 +749,48 @@ Setup_FirewallD() {
 }
 
 
+#######################################
+# Prompt for Install Location
+# Globals:
+#   INSTALL_LOCATION
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+
+prompt_installloc() {
+  local HomeLoc="${HOME}"
+  
+  if [[ $HomeLoc == "/root" ]]; then      #Change root folder to users folder
+    HomeLoc="$(getent passwd $SUDO_USER | grep /home | grep -v syslog | cut -d: -f6)"    
+    if [ $(wc -w <<< "$HomeLoc") -gt 1 ]; then   #Too many sudo users
+      echo "Unable to estabilish which Home folder to install to"
+      echo "Either run this installer without using sudo / root, or manually set the \$INSTALL_LOCATION variable"
+      echo "\$INSTALL_LOCATION=\"/home/you/NoTrack\""
+      exit 15
+    fi    
+  fi
+  
+  menu "Select Install Folder" "Home $HomeLoc" "Opt /opt" "Cancel"
+  
+  case $? in
+    1) 
+      INSTALL_LOCATION="$HomeLoc/notrack" 
+    ;;
+    2) 
+      INSTALL_LOCATION="/opt/notrack"
+      SUDO_REQUIRED=true
+    ;;
+    3)
+      error_exit "Aborting Install" 1
+    ;;  
+  esac
+  
+  if [[ $INSTALL_LOCATION == "" ]]; then
+    error_exit "Install folder not set" 15
+  fi  
+}
 
 
 
@@ -622,19 +824,19 @@ prompt_network_device() {
     fi
   done
    
-  if [ $count_net_dev == 0 ]; then                 #None found
+  if [ $count_net_dev == 0 ]; then               #None found
     echo "Error. No Network Devices found"
     echo "Edit user customisable setting \$NetDev with the name of your Network Device"
     echo "e.g. \$NetDev=\"eth0\""
     exit 11
     
-  elif [ $count_net_dev == 1 ]; then               #1 Device
-    NETWORK_DEVICE=${device_list[0]}                         #Simple, just set it
+  elif [ $count_net_dev == 1 ]; then             #1 Device
+    NETWORK_DEVICE=${device_list[0]}             #Simple, just set it
   elif [ $count_net_dev -gt 0 ]; then
     menu "Select Network Device" ${device_list[*]}
     menu_choice=$?
     NETWORK_DEVICE=${device_list[$((menu_choice-1))]}
-  elif [ $count_net_dev -gt 9 ]; then              #9 or more use bash prompt
+  elif [ $count_net_dev -gt 9 ]; then            #9 or more use bash prompt
     clear
     echo "Network Devices detected: ${device_list[*]}"
     echo -n "Select Network Device to use for DNS queries: "
@@ -882,11 +1084,11 @@ backup_dhcpcd_config() {
 #   None
 #######################################
 restore_network_interfaces_config() {
-  if [ -e "$NETWORDK_INTERFACES_OLD_PATH" ]; then
+  if [ -e "$NETWORK_INTERFACES_OLD_PATH" ]; then
     echo "Restoring network interfaces config files"
   
-    echo "Copying $NETWORDK_INTERFACES_OLD_PATH to $NETWORDK_INTERFACES_PATH"
-    sudo cp $NETWORDK_INTERFACES_OLD_PATH $NETWORDK_INTERFACES_PATH
+    echo "Copying $NETWORK_INTERFACES_OLD_PATH to $NETWORK_INTERFACES_PATH"
+    sudo cp $NETWORK_INTERFACES_OLD_PATH $NETWORK_INTERFACES_PATH
   fi
   echo
 }
@@ -904,9 +1106,9 @@ restore_network_interfaces_config() {
 backup_network_interfaces_config() {
   echo "Backing up network interfaces config files"
   
-  echo "Copying $NETWORDK_INTERFACES_PATH to $NETWORDK_INTERFACES_OLD_PATH"
-  if [ -e "$NETWORDK_INTERFACES_PATH" ]; then
-    sudo cp $NETWORDK_INTERFACES_PATH $NETWORDK_INTERFACES_OLD_PATH
+  echo "Copying $NETWORK_INTERFACES_PATH to $NETWORK_INTERFACES_OLD_PATH"
+  if [ -e "$NETWORK_INTERFACES_PATH" ]; then
+    sudo cp $NETWORK_INTERFACES_PATH $NETWORK_INTERFACES_OLD_PATH
   fi
   echo
 }
@@ -955,13 +1157,13 @@ set_static_ip_dhcpcd(){
 #   None
 #######################################
 set_static_ip_network_interfaces(){
-  sudo sed -i "s/iface $NETWORK_DEVICE inet dhcp/iface $NETWORK_DEVICE inet static/" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tdns-nameservers '"$DNS_SERVER_1 $DNS_SERVER_2" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tgateway '"$GATEWAY_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tbroadcast '"$BROADCAST_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetmask '"$NETMASK_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetwork '"$NETWORK_START_ADDRESS" $NETWORDK_INTERFACES_PATH
-  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\taddress '"$IP_ADDRESS" $NETWORDK_INTERFACES_PATH
+  sudo sed -i "s/iface $NETWORK_DEVICE inet dhcp/iface $NETWORK_DEVICE inet static/" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tdns-nameservers '"$DNS_SERVER_1 $DNS_SERVER_2" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tgateway '"$GATEWAY_ADDRESS" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tbroadcast '"$BROADCAST_ADDRESS" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetmask '"$NETMASK_ADDRESS" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\tnetwork '"$NETWORK_START_ADDRESS" $NETWORK_INTERFACES_PATH
+  sudo sed -i -e '/iface '"$NETWORK_DEVICE"' inet static/a \\taddress '"$IP_ADDRESS" $NETWORK_INTERFACES_PATH
 }
 
 
@@ -1125,24 +1327,6 @@ prompt_setup_dhcp(){
   fi
 }
 
-
-#######################################
-# Configures dnsmasq dhcp server
-# Globals:
-#   IP_VERSION
-# Arguments:
-#   None
-# Returns:
-#   None
-#######################################
-setup_dnsmasq_dhcp(){
-  config_dnsmasq_dhcp_logging
-  config_dnsmasq_dhcp_authoritative_mode
-
-  if [[ "$IP_VERSION" == "$IP_V4" ]]; then
-    setup_dnsmasq_dhcp_ipv4
-  fi
-}
 
 
 #######################################
@@ -1315,13 +1499,81 @@ prompt_dhcp_lease(){
 
 
 #######################################
+# Welcome Screen
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function show_welcome() {
+  echo "Welcome to NoTrack v$VERSION"
+  echo
+  echo "This installer will transform your system into a network-wide Tracker Blocker"
+  echo "Install Guide: https://youtu.be/MHsrdGT5DzE"
+  echo
+  echo "Installation of MariaDB might ask you for a root password"
+  echo "If it does make a note of it, as you will need it later"
+  echo
+  echo "Press any key to contine..."
+  read -rn1
+}
+
+#######################################
+# Finish Screen
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+function show_finish() {  
+  echo "NoTrack Install Complete"
+  echo "Access the admin console at http://$(hostname)/admin"
+  echo
+
+  if [[ $REBOOT_REQUIRED == true ]]; then
+    echo "System reboot is required"
+    echo
+    echo "Press any key to reboot"
+    read -rn1
+    sudo reboot  
+  fi
+  
+}
+
+
+#######################################
 # Main
 #######################################
+
 if [[ $(command -v sudo) == "" ]]; then
-  error_exit "NoTrack requires Sudo to be installed for Admin functionality" 10  
+  error_exit "NoTrack requires Sudo to be installed for Admin functionality" "10"  
 fi
 
-Show_Welcome
+if [ $1 ]; then
+  if [[ $1 == "-sql" ]]; then                    #Special upgrade section to v0.8
+    echo "Upgrading NoTrack to v$VERSION"
+    echo "Installation of MariaDB might ask you for a root password"
+    echo "If it does make a note of it, as you will need it later"
+    echo "Press any key to contine"
+    read -rn1
+    
+    sudo /usr/local/sbin/ntrk-upgrade            #Run Ntrk-Upgrade first
+    sudo rm /etc/logrotate.d/notrack             #Remove old log rotator
+    install_packages
+    setup_mariadb
+    sudo service lighttpd restart
+    sudo /usr/local/sbin/ntrk-parse
+    show_finish
+    exit
+  fi
+fi
+    
+
+show_welcome
 
 prompt_setup_static_ip_address
 
@@ -1335,8 +1587,8 @@ if [[ "$SETUP_STATIC_IP_ADDRESS" == true ]]; then
   REBOOT_REQUIRED=true
 fi
 
-if [[ $InstallLoc == "" ]]; then
-  Ask_InstallLoc
+if [[ $INSTALL_LOCATION == "" ]]; then
+  prompt_installloc
 fi
 
 if [[ $NETWORK_DEVICE == "" ]]; then
@@ -1381,7 +1633,7 @@ if [[ "$SETUP_DHCP" == true ]]; then
 fi
 
 clear
-echo "Installing to: $InstallLoc"                #Final report before Installing
+echo "Installing to: $INSTALL_LOCATION"          #Final report before Installing
 echo "Network Device set to: $NETWORK_DEVICE"
 echo "IP version set to: $IP_VERSION"
 echo "System IP address $IP_ADDRESS"
@@ -1402,33 +1654,26 @@ while [ $seconds -gt 0 ]; do
    : $((seconds--))
 done
 
+if [[ "$SETUP_STATIC_IP_ADDRESS" == true ]]; then
+  backup_static_ip_address_config
+  set_static_ip_address
+fi
 
-backup_static_ip_address_config
+install_packages                                 #Install Apps with the appropriate package manager
 
-set_static_ip_address
-
-Install_Packages                                 #Install Apps with the appropriate package manager
-
-Backup_Conf                                      #Backup old config files
+backup_configs                                   #Backup old config files
 
 if [ "$(command -v git)" ]; then                 #Utilise Git if its installed
-  Download_WithGit
+  download_with_git
 else
-  Download_WithWget                              #Git not installed, fallback to wget
+  download_with_wget                             #Git not installed, fallback to wget
 fi
 
-Setup_Dnsmasq
-
-if [[ "$SETUP_DHCP" == true ]]; then
-  setup_dnsmasq_dhcp
-
-  echo "Restarting Dnsmasq Service"
-  sudo service dnsmasq restart
-fi
-
-Setup_Lighttpd
-Setup_NoTrack
-Setup_NtrkScripts
+copy_scripts                                     #Copy NoTrack script files
+setup_dnsmasq
+setup_lighttpd
+setup_mariadb
+setup_notrack
 
 if [ "$(command -v firewall-cmd)" ]; then        #Check FirewallD exists
   Setup_FirewallD
@@ -1436,8 +1681,10 @@ fi
 
 echo "Starting Services"
 sudo service lighttpd restart
+sudo service dnsmasq restart
 
 echo "Downloading List of Trackers"
 sudo /usr/local/sbin/notrack -f
 
-Show_Finish
+show_finish
+ 
