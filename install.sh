@@ -1567,6 +1567,7 @@ if [ $1 ]; then
     setup_mariadb
     sudo service lighttpd restart
     sudo /usr/local/sbin/ntrk-parse
+    sudo /usr/local/sbin/notrack
     show_finish
     exit
   fi
