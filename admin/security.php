@@ -55,9 +55,9 @@ function draw_password_input_form() {
   echo '<form name="security" method="post">';
   echo '<table class="sys-table">'.PHP_EOL;
     
-  DrawSysRow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'"><p><i>Optional authentication username.</i></p>');
-  DrawSysRow('NoTrack Password', '<input type="password" name="password"><p><i>Optional authentication password.</i></p>');
-  DrawSysRow('Delay', '<input type="number" name="delay" min="10" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
+  draw_sysrow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'"><p><i>Optional authentication username.</i></p>');
+  draw_sysrow('NoTrack Password', '<input type="password" name="password"><p><i>Optional authentication password.</i></p>');
+  draw_sysrow('Delay', '<input type="number" name="delay" min="10" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-grey" value="Save Changes"></div></td></tr>';
   echo '</table></form>'.PHP_EOL;
 }
