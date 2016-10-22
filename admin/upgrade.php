@@ -2,15 +2,8 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 require('./include/menu.php');
-
-LoadConfigFile();
-if ($Config['Password'] != '') {  
-  session_start();  
-  if (! Check_SessionID()) {
-    header("Location: ./login.php");
-    exit;
-  }
-}
+load_config();
+ensure_active_session();
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,11 +17,11 @@ if ($Config['Password'] != '') {
 
 <body>
 <?php
-ActionTopMenu();
+action_topmenu();
 draw_topmenu();
 draw_configmenu();
-echo '<div id="main">'.PHP_EOL;
 
+echo '<div id="main">'.PHP_EOL;
 //Main---------------------------------------------------------------
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
@@ -53,17 +46,17 @@ if (isset($_GET['u'])) {                        //Check if we are running upgrad
 }
 
 else {                                           //Just displaying status
-  if ($Version == $Config['LatestVersion']) {    //See if upgrade Needed
-    DrawSysTable('NoTrack Upgrade');
-    DrawSysRow('Status', 'Running the latest version v'.$Version);
-    DrawSysRow('Force Upgrade', 'Force upgrade to Development version of NoTrack<br /><button class="button-danger" onclick="window.location=\'?u=1\'">Upgrade</button>');
+  if (VERSION == $Config['LatestVersion']) {    //See if upgrade Needed
+    draw_systable('NoTrack Upgrade');
+    draw_sysrow('Status', 'Running the latest version v'.VERSION);
+    draw_sysrow('Force Upgrade', 'Force upgrade to Development version of NoTrack<br /><button class="button-danger" onclick="window.location=\'?u=1\'">Upgrade</button>');
     echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
   }
   else {
-    DrawSysTable('NoTrack Upgrade');
-    DrawSysRow('Status', 'Running version v'.$Version.'<br />Latest version available: v'.$Config['LatestVersion']);    
-    DrawSysRow('Commence Upgrade', '<button class="button-blue" onclick="window.location=\'?u=1\'">Upgrade</button>');
+    draw_systable('NoTrack Upgrade');
+    draw_sysrow('Status', 'Running version v'.VERSION.'<br />Latest version available: v'.$Config['LatestVersion']);    
+    draw_sysrow('Commence Upgrade', '<button class="button-blue" onclick="window.location=\'?u=1\'">Upgrade</button>');
     echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
    }
@@ -79,7 +72,7 @@ else {                                           //Just displaying status
     curl_close($ch);                             //Close curl
     echo '<pre>'.PHP_EOL;
     echo $Data;                                  //Display Data
-    echo '</pre>'.PHP_EOL;;
+    echo '</pre>'.PHP_EOL;
   }  
 }
 ?> 

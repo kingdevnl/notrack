@@ -1,6 +1,6 @@
 <?php
-function ActionTopMenu() {
-  global $Config, $Mem;
+function action_topmenu() {
+  global $Config, $mem;
   //Function to Action GET requests from Top Menu
   //Return value false when no action carried out
   //1. Is _GET['a'] (action) set?
@@ -9,13 +9,12 @@ function ActionTopMenu() {
   //2c. In the case of Restart or Shutdown we want to delay execution of the command for a couple of seconds to finish off any disk writes
   //2d. For any other value of 'a' leave this function and carry on with previous page
   //3. Sleep for 5 seconds to prevent a Race Condition occuring where new config could be loaded before ntrk-pause has been able to modify /etc/notrack/notrack.conf
-  //   5 seconds is too much for an x86 based server, but for a Raspberry Pi 1 its just enough.
-  
+    
   if (isset($_POST['operation'])) {
     switch ($_POST['operation']) {
       case 'force-notrack':
-        ExecAction('force-notrack', true, true);
-        sleep(5);
+        exec(NTRK_EXEC.'--force');
+        sleep(4);                                //Prevent race condition
         header("Location: ?");
         break;
       case 'restart':
@@ -33,7 +32,7 @@ function ActionTopMenu() {
   
   //if (isset($_GET['a'])) {
   if (isset($_POST['pause-time'])) {  
-    $Mem->delete('Config');                      //Force reload of config    
+    $mem->delete('Config');                      //Force reload of config    
     switch ($_POST['pause-time']) {
       case 'pause5':      
         ExecAction('pause5', true, true);
@@ -85,9 +84,10 @@ function draw_configmenu() {
   echo '<a href="../admin/config.php?v=black"><span>BlackList</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=white"><span>WhiteList</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=tld"><span>Domains</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=sites"><span>Sites Blocked</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=full"><span>Sites Blocked</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=advanced"><span>Advanced</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=status"><span>Back-end Status</span></a>'.PHP_EOL;
+  echo '<a href="../admin/security.php"><span>Security</span></a>'.PHP_EOL;
   echo '<a href="../admin/upgrade.php"><span>Upgrade</span></a>'.PHP_EOL;
   
   echo '</div></nav>'.PHP_EOL;
@@ -108,36 +108,21 @@ function draw_helpmenu() {
 }
 //-------------------------------------------------------------------
 function draw_topmenu() {
-  global $Config, $Mem;
+  global $Config, $mem;
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
   echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
-  echo '<a href="./"><span class="logo"><b>No</b>Track</span></a>'.PHP_EOL;
+  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' Dev</small></span></a>'.PHP_EOL;
   
-  /*if ($_SERVER['PHP_SELF'] == '/admin/index.php') { //Display logo on index.php only
-    echo '<nav><div id="menu-top"><div id="menu-logo">'.PHP_EOL;
-    echo '<a href="../admin/"><img src="./svg/ntrklogo.svg" alt=""></a></div>'.PHP_EOL;
-  */
-    /*echo '<span class="float-left mobile-hide">'.PHP_EOL;
-    echo '<a href="https://github.com/quidsup/notrack" target="_blank"><img src="../admin/images/icon_github.png" alt="Github" title="Github"></a>'.PHP_EOL;
-    echo '<a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a>'.PHP_EOL;
-    echo '<a href="https://www.google.com/+quidsup" target="_blank"><img src="../admin/images/icon_google.png" alt="Google+" title="Google+"></a>'.PHP_EOL;
-    //echo '<a href="https://www.youtube.com/user/quidsup" target="_blank"><img src="../admin/images/icon_youtube.png" alt="YouTube" title="YouTube"></a>'.PHP_EOL;
-    echo '<a href="https://www.twitter.com/quidsup" target="_blank"><img src="../admin/images/icon_twitter.png" alt="Twitter" title="Twitter"></a>'.PHP_EOL;
-//     echo '</div></div>'.PHP_EOL;*
-  echo '</span>';*/
-  
-    
-  
-  if ($Config['Password'] != '') {               //Only do Logout if there is a password
-    echo '<a href="../admin/logout.php"><span class="top-menu-item"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
+  if (is_password_protection_enabled()) {         //Only do Logout if there is a password
+    echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
   }
   echo '<span class="top-menu-item float-right pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt="">Options</span>'.PHP_EOL;
 
   //If Status = Paused & Enable Time < Now then switch Status to Enabled
   if ((substr($Config['Status'], 0, 6) == 'Paused') && (floatval(substr($Config['Status'], 6))) < (time()+60)) {
-    $Mem->delete('Config');
-    LoadConfigFile();
+    $mem->delete('Config');
+    load_config();
   }
 
   echo '<div id="pause">'.PHP_EOL;

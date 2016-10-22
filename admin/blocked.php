@@ -2,15 +2,8 @@
 require('./include/global-vars.php');
 require('./include/global-functions.php');
 require('./include/menu.php');
-
-LoadConfigFile();
-if ($Config['Password'] != '') {  
-  session_start();
-  if (! Check_SessionID()) {
-    header("Location: ./login.php");
-    exit;
-  }
-}
+load_config();
+ensure_active_session();
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,216 +19,125 @@ if ($Config['Password'] != '') {
 
 <body>
 <?php
-ActionTopMenu();
+action_topmenu();
 draw_topmenu();
 draw_sidemenu();
+
+/************************************************
+*Global Variables                               *
+************************************************/
+$page = 1;
+$db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+#$searchbox = '';
+
+/************************************************
+*Arrays                                         *
+************************************************/
+
 echo '<div id="main">';
 
-$SiteList = array();
 
-//Add GET Var to Link if Variable is used----------------------------
-function AddGetVar($Var) {
-  global $RowsPerPage, $SearchStr, $StartPoint;
-  switch ($Var) {
-    case 'C':
-      if ($RowsPerPage != 500) return '&amp;c='.$RowsPerPage;
-      break;
-    /*case 'S':
-      if ($SearchStr != '') return '&amp;s='.$SearchStr;
-      break;*/
-    case 'Start':
-      if ($StartPoint != 1) return '&amp;start='.$StartPoint;
-      break;
-    default:
-      echo 'Invalid option in AddGetVar';
-      die();
-  }
-  return '';
-}
-
-//WriteLI Function for Pagination Boxes-------------------------------
-function WriteLI($Character, $Start, $Active) {
-  if ($Active) {
-    echo '<li class="active"><a href="?start='.$Start.AddGetVar('C').'">'.$Character.'</a></li>'.PHP_EOL;
-  }
-  else {
-    echo '<li><a href="?start='.$Start.AddGetVar('C').'">'.$Character.'</a></li>'.PHP_EOL;
-  }  
-  return null;
-}
-//-------------------------------------------------------------------
-function DisplayPagination($LS) {
-  //$LS = List Site
-  global $RowsPerPage, $StartPoint;
-
-  $ListSize = ceil($LS / $RowsPerPage);          //Calculate List Size
-  $CurPos = floor($StartPoint / $RowsPerPage)+ 1;//Calculate Current Position
+function show_lightyaccess() {
+  global $db, $page;
   
-  echo '<div class="pag-nav"><ul>'.PHP_EOL;
+  $i = 1;
+  $rows = 0;
+  $http_method = '';
+  $site_full = '';
+  $site_msg = '';
     
-  if ($CurPos == 1) {                            //At the beginning display blank box
-    echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;    
-    WriteLI('1', 0, true);
-  }    
-  else {                                         // << Symbol & Print Box 1
-    WriteLI('&#x00AB;', $RowsPerPage * ($CurPos - 2), false);
-    WriteLI('1', 0, false);
-  }
-
-  if ($ListSize <= 4) {                          //Small Lists don't need fancy effects
-    for ($i = 2; $i <= $ListSize; $i++) {	 //List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-      }
-    }
-  }
-  elseif ($ListSize > 4 && $CurPos == 1) {       // < [1] 2 3 4 T >
-    WriteLI('2', $RowsPerPage, false);
-    WriteLI('3', $RowsPerPage * 2, false);
-    WriteLI('4', $RowsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-  elseif ($ListSize > 4 && $CurPos == 2) {       // < 1 [2] 3 4 T >
-    WriteLI('2', $RowsPerPage, true);
-    WriteLI('3', $RowsPerPage * 2, false);
-    WriteLI('4', $RowsPerPage * 3, false);
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-  elseif ($ListSize > 4 && $CurPos > $ListSize - 2) {// < 1 T-3 T-2 T-1 T > 
-    for ($i = $ListSize - 3; $i <= $ListSize; $i++) {//List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-    	}
-      }
-    }
-  else {                                         // < 1 c-1 [c] c+1 T >
-    for ($i = $CurPos - 1; $i <= $CurPos + 1; $i++) {//List of Numbers
-      if ($i == $CurPos) {
-        WriteLI($i, $RowsPerPage * ($i - 1), true);
-      }
-      else {
-        WriteLI($i, $RowsPerPage * ($i - 1), false);
-      }
-    }
-    WriteLI($ListSize, ($ListSize - 1) * $RowsPerPage, false);
-  }
-  
-  if ($CurPos < $ListSize) {                     // >> Symbol for Next
-    WriteLI('&#x00BB;', $RowsPerPage * $CurPos, false);
-  }	
-  echo '</ul></div>'.PHP_EOL;
-}
-//-------------------------------------------------------------------
-function Load_Access_Log() {
-  global $SiteList, $LogLightyAccess;
-  $Dedup = '';
-  $Action='';
-  $URL='';
-  $i=0;
-  $TempList = array();
-  
-  //Example Log Data
-  //1471892585|polling.bbc.co.uk|GET /appconfig/iplayer/android/4.19.3/policy.json HTTP/1.1|200|26
-  //1471892807|cmdts.ksmobile.com|POST /c/ HTTP/1.1|200|26
-  //1471771627|notrack.local|GET /admin/svg/menu_dhcp.svg HTTP/1.1|304|0
-  //1471773009|notrack.local|GET /admin/stats.php HTTP/1.1|200|117684
-  
-  //Regex Matches:
-  //1: \d{1,23} - 64bit Time value
-  //2: [A-Za-z0-9\-\.] One or more times Left-hand side of URL (before /)
-  //3: (GET|POST) GET or POST
-  //Negate /admin and /favicon.ico
-  //4: [Non whitespace] Any number of times Right-hand side of URL (after /)
-  //HTTP 1.1 or 2.0
-  //200 - HTTP Ok (Not interested in 304,404)
-  
-  if (file_exists($LogLightyAccess)) {
-    $FileHandle= fopen($LogLightyAccess, 'r');
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));          //Read Line of LogFile
-      //echo $Line.'<br />';
-      if (preg_match('/^(\d{1,23})\|([A-Za-z0-9\-\_\.]+)\|(GET|POST)\s(?!\/admin|\/favicon\.ico)(\S*)\sHTTP\/\d\.\d\|200/', $Line, $Matches) > 0) {
-        if ($Matches[3] == 'GET') $Action='<span class="green">GET</span> ';
-        else $Action='<span class="violet">POST</span> ';
-        $URL = $Matches[2].$Matches[4];
-        
-        //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
-        //For unknown file just show the first 45 characters and display+ button
-        if (strlen($URL) > 48) {
-          if (preg_match('/[A-Za-z0-9\-_\%\&\?\.#]{1,18}\.(php|html|js|json|jpg|gif|png)$/', $Matches[4], $URIMatches) > 0) {
-            $URL = substr($URL, 0, (45 - strlen($URIMatches[0]))).'.../'.$URIMatches[0].' <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$Matches[2].$Matches[4].'</p>';
-          }
-          else {
-            $URL = substr($URL, 0, 45).'... <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$Matches[2].$Matches[4].'</p>';
-          }
-        }      
-        if ($Matches[2] == $Dedup) {
-          $TempList[count($TempList)-1] = array($Matches[1], $Action.$URL);
-        }
-        else {
-          $TempList[] = array($Matches[1], $Action.$URL);
-          $Dedup = $Matches[2];
-        }      
-      }
-      $i++;
-    }
-    fclose($FileHandle);
+  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
     
-    $SiteList = array_reverse($TempList);
+  $rows = count_rows('SELECT COUNT(DISTINCT `site`) FROM lightyaccess');
+    
+  if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+    
+  $query = 'SELECT * FROM lightyaccess GROUP BY site ORDER BY log_time DESC LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+    
+  if(!$result = $db->query($query)){
+    die('There was an error running the query'.$db->error);
   }
-  else {                                         //Log not found
+  
+  /*echo '<form method="GET">'.PHP_EOL;            //Form for Text Search
+  echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
+  if ($searchbox == '') {                        //Anything in search box?
+    echo '<input type="text" name="s" id="search" placeholder="Search">'.PHP_EOL;
+  }
+  else {                                         //Yes - Add it as current value
+    echo '<input type="text" name="s" id="search" value="'.$searchbox.'">';
+    $linkstr = '&amp;s='.$searchbox;             //Also add it to $linkstr
+  }
+  echo '</form></div>'.PHP_EOL;                  //End form*/
+  
+  
+  if ($result->num_rows == 0) {                  //Leave if nothing found
+    $result->free();
+    echo 'No sites found in Access List'.PHP_EOL;
+    echo '</div>';
     return false;
   }
+  
+  pagination($rows, '');
+  echo '<table id="access-table">'.PHP_EOL;
+  echo '<tr><th>Date Time</th><th>Method</th><th>Site</th></tr>'.PHP_EOL;
+  
+  while($row = $result->fetch_assoc()) {         //Read each row of results
+    if ($row['http_method'] == 'GET') {
+      $http_method = '<span class="green">GET</span>';
+    }
+    else {
+      $http_method = '<span class="violet">POST</span>';
+    }
+    
+    $site_full = $row['site'].$row['uri_path'];
+    
+    //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
+    //For unknown file just show the first 45 characters and display+ button
+    if (strlen($site_full) > 48) {
+      if (preg_match('/[A-Za-z0-9\-_\%\&\?\.#]{1,18}\.(php|html|js|json|jpg|gif|png)$/', $row['uri_path'], $matches) > 0) {
+        $site_msg = substr($site_full, 0, (45 - strlen($matches[0]))).'.../'.$matches[0].' <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$site_full.'</p>';
+      }
+      else {
+        $site_msg = substr($site_full, 0, 45).'... <span id="b'.$i.'" class="button-small pointer" onclick="ShowFull(\''.$i.'\')">+</span>'.'<p id="r'.$i.'" class="smallhidden">'.$site_full.'</p>';
+      }      
+    }
+    else {
+      $site_msg = $site_full;
+    }
+    echo '<tr><td>'.$row['log_time'].'</td><td>'.$http_method.'</td><td>'.$site_msg.'</td></tr>'.PHP_EOL;
+    
+    $i++;
+  }
+  echo '</table>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
+  
+  $result->free();
+
   return true;
 }
 
+
 //Main---------------------------------------------------------------
 
-//Start with GET variables
-$StartPoint = Filter_Int('start', 1, PHP_INT_MAX-2, 1);
-$RowsPerPage = Filter_Int('c', 2, PHP_INT_MAX, 500);
+/************************************************
+*GET REQUESTS                                   *
+************************************************/
+/*if (isset($_GET['s'])) {                         //Search box
+  //Allow only characters a-z A-Z 0-9 ( ) . _ - and \whitespace
+  $searchbox = preg_replace('/[^a-zA-Z0-9\(\)\.\s_-]/', '', $_GET['s']);
+  $searchbox = strtolower($searchbox);  
+}*/
 
-if (!Load_Access_Log()) {
-  die ('Unable to open Lighttpd Access Log '.$LogLightyAccess);
+if (isset($_GET['page'])) {
+  $page = filter_integer($_GET['page'], 1, PHP_INT_MAX, 1);
 }
 
-$ListSize = count($SiteList);
-
-if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
-  
-if ($RowsPerPage < $ListSize) {                  //Slice array if it's larger than RowsPerPage
-  $SiteList = array_slice($SiteList, $StartPoint, $RowsPerPage);
-}
-
-//Draw Table Headers-------------------------------------------------
-echo '<div class="sys-group">'.PHP_EOL;
-echo '<table id="blocked-table">';               //Table Start
-echo '<tr><th>#</th><th>Time</th><th>Site</th></tr>'.PHP_EOL;
-
-//Draw Table Cells---------------------------------------------------
-$i = $StartPoint;
-foreach ($SiteList as $Site) {
-  echo '<tr><td>'.$i.'</td><td>'.date('d M - H:i:s',$Site[0]).'</td><td>'.$Site[1].'</td></tr>'.PHP_EOL;
-  $i++;  
-}
-
-echo '</table></div>'.PHP_EOL;
-
-if ($ListSize > $RowsPerPage) {
-  echo '<div class="sys-group">'.PHP_EOL;
-  DisplayPagination($ListSize);
-  echo '</div>'.PHP_EOL;
-}
+show_lightyaccess();
 
 ?>
 </div>
-<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></a></div>
-<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></a></div>
+<div id="scrollup" class="button-scroll" onclick="ScrollToTop()"><img src="./svg/arrow-up.svg" alt="up"></div>
+<div id="scrolldown" class="button-scroll" onclick="ScrollToBottom()"><img src="./svg/arrow-down.svg" alt="down"></div>
 </body>
 </html>

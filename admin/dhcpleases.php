@@ -3,14 +3,9 @@ require('./include/global-vars.php');
 require('./include/global-functions.php');
 require('./include/menu.php');
 
-LoadConfigFile();
-if ($Config['Password'] != '') {  
-  session_start();  
-  if (! Check_SessionID()) {
-    header("Location: ./login.php");
-    exit;
-  }
-}
+load_config();
+ensure_active_session();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +19,7 @@ if ($Config['Password'] != '') {
 
 <body>
 <?php
-ActionTopMenu();
+action_topmenu();
 draw_topmenu();
 draw_sidemenu();
 echo '<div id="main">'.PHP_EOL;

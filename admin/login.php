@@ -11,7 +11,7 @@
 //3a. If not return to index.php (Otherwise you get trapped on this page)
 //4. Has a password been sent with HTTP POST?
 //4a. Check if delay is imposed on Memcache variable 'Delay'
-//4ai. If yes then set $Msg to wait and don't evaluate logon attempt, jump to 5.
+//4ai. If yes then set $message to wait and don't evaluate logon attempt, jump to 5.
 //4b. Username is optional, check if it has been set in HTTP POST, otherwise set it to blank
 //4c. Create access log file if it doesn't exist
 //4d. Use PHP password_verify function to check hashed version of user input with hash in $Config['Password']
@@ -22,57 +22,63 @@
 
 //5. Draw basic top menu
 //6. Draw form login
-//7. Draw box with $Msg (If its set)
+//7. Draw box with $message (If its set)
 //8. Draw hidden box informing user that Cookies must be enabled
 //9. Use Javascript to check if Cookies have been enabled
 //9a. If Cookies are disabled then set 8. to Visible
 
 require('./include/global-vars.php');
 require('./include/global-functions.php');
-LoadConfigFile();
+load_config();
 
-$Msg = '';
+$message = '';
 
-if ($Config['Password'] != '') {
-  session_start();  
-  if (Check_SessionID()) {
-    header('Location: ./index.php');
-    exit;
-  }
-}
-else {
-  header('Location: ./index.php');
+if (! is_password_protection_enabled()) {
+  header('Location ./index.php');
   exit;
 }
 
+session_start();
+if (is_active_session()) {
+  header('Location: ./index.php');
+  exit;  
+}
+
 if (isset($_POST['password'])) {
-  $Delay = $Mem->get('Delay');                   //Load Delay from Memcache
-  if ($Delay) {                                  //If it is set then Wait
-    $Msg = 'Wait';
+                     
+  if ($mem->get('delay')) {                      //Load Delay from Memcache
+    $message = 'Wait';                           //If it is set then Wait
   }
   else {                                         //No Delay, check Password
-    $Password = $_POST['password'];
-    if (isset($_POST['username'])) $Username = $_POST['username'];
-    else $Username = '';
+    $password = $_POST['password'];
+    if (isset($_POST['username'])) $username = $_POST['username'];
+    else $username = '';
     
     if (!file_exists($FileAccessLog)) {          //Create ntrk-access.log file
       ExecAction('create-accesslog', true, false);
     }
     
+    if (function_exists('password_hash')) {
     //Use built in password_verify function to compare with $Config['Password'] hash
-    if (($Username == $Config['Username']) && (password_verify($Password, $Config['Password']))) {
-    $_SESSION['sid'] = 1;                        //Set session to enabled
-      header('Location: index.php');             //Redirect to index.php
+      if (($username == $Config['Username']) && (password_verify($password, $Config['Password']))) {
+        activate_session();                      //Set session to enabled
+        header('Location: ./index.php');         //Redirect to index.php
+      }
     }
-    else {
-      $Mem->set('Delay', $Config['Delay'], 0, $Config['Delay']);
-      $Msg = "Incorrect username or password";   //Deny attacker knowledge of whether username OR password is wrong
+    else { 
+      if (($username == $Config['Username']) && (hash('sha256', $password) == $Config['Password'])) {
+        activate_session();                      //Set session to enabled
+        header('Location: ./index.php');         //Redirect to index.php
+      }
+    }
+    
+    //At this point the Password is Wrong
+    $mem->set('delay', $Config['Delay'], 0, $Config['Delay']);
+    $message = "Incorrect username or password";   //Deny attacker knowledge of whether username OR password is wrong
       
-      error_log(date('d/m/Y H:i:s').': Authentication failure for '.$Username.' from '.$_SERVER['REMOTE_ADDR'].' port '.$_SERVER['REMOTE_PORT'].PHP_EOL, 3, $FileAccessLog);
-    }
+    error_log(date('d/m/Y H:i:s').': Authentication failure for '.$username.' from '.$_SERVER['REMOTE_ADDR'].' port '.$_SERVER['REMOTE_PORT'].PHP_EOL, 3, $FileAccessLog);    
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -84,15 +90,6 @@ if (isset($_POST['password'])) {
 </head>
 
 <body>
-<div id="main">
-<div id="menu-top">
-<div id="menu-logo"><img src="./svg/ntrklogo.svg" alt=""></div>
-<div id="menu-top-right">
-<a href="https://github.com/quidsup/notrack"><img src="../admin/images/icon_github.png" alt="Github"></a>
-<a href="https://www.google.com/+quidsup" title="Google+"><img src="../admin/images/icon_google.png" alt="G+"></a>
-<a href="https://www.youtube.com/user/quidsup" title="YouTube"><img src="../admin/images/icon_youtube.png" alt="Y"></a>
-<a href="https://www.twitter.com/quidsup" title="Twitter"><img src="../admin/images/icon_twitter.png" alt="T"></a>
-</div></div>
 
 <div class="login-box">
 <form method="post" name="Login_Form">
@@ -105,9 +102,9 @@ if (isset($_POST['password'])) {
 </div>
 
 <?php
-if ($Msg != '') {                                //Any Message to show?
+if ($message != '') {                            //Any Message to show?
   echo '<div class="login-box">'.PHP_EOL;
-  echo '<h4>'.$Msg.'</h4>'.PHP_EOL;
+  echo '<h4>'.$message.'</h4>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
 }
 

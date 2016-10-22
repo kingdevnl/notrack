@@ -1,66 +1,283 @@
 <?php
 //Global Functions used in NoTrack Admin
-//Check Version------------------------------------------------------
-function Check_Version($LatestVersion) {
+
+/********************************************************************
+ *  Draw Sys Table
+ *    Start off a sys-group table
+ *  Params:
+ *    Title
+ *  Return:
+ *    None
+ */
+ 
+ 
+function draw_systable($title) {
+  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
+  echo '<h5>'.$title.'</h5></div>'.PHP_EOL;
+  echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
+  
+  return null;
+}
+
+
+/********************************************************************
+ *  Draw Sys Table
+ *    Start off a sys-group table
+ *  Params:
+ *    Description, Value
+ *  Return:
+ *    None
+ */
+function draw_sysrow($description, $value) {
+  echo '<tr><td>'.$description.': </td><td>'.$value.'</td></tr>'.PHP_EOL;
+  
+  return null;
+}
+
+
+/********************************************************************
+ *  Activate Session
+ *    Create login session
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function activate_session() {  
+  $_SESSION['session_expired'] = false;
+  $_SESSION['session_start'] = time();  
+}
+
+function ensure_active_session() {
+  if (is_password_protection_enabled()) {
+    session_start();
+    if (isset($_SESSION['session_start'])) {
+      if (!is_active_session()) {
+        $_SESSION['session_expired'] = true;
+        header('Location: ./login.php');
+        exit;
+      }
+    }
+    else {
+      header('Location: ./login.php');
+      exit;
+    }
+  }
+}
+
+
+function is_active_session() {
+  $session_duration = 1800;    
+  if (isset($_SESSION['session_start'])) {    
+    if ((time() - $_SESSION['session_start']) < $session_duration) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function is_password_protection_enabled() {
+  global $Config;
+  
+  if ($Config['Password'] != '') return true;
+  return false;
+}
+
+
+/********************************************************************
+ *  Check Version
+ *    1. Split strings by '.'
+ *    2. Combine back together and multiply with Units array
+ *    e.g 1.0 - 1x10000 + 0x100 = 10,000
+ *    e.g 0.8.0 - 0x10000 + 8x100 + 0x1 = 800
+ *    e.g 0.7.10 - 0x10000 + 7x100 + 10x1 = 710
+ *  Params:
+ *    Version
+ *  Return:
+ *    true if latestversion >= currentversion, or false if latestversion < currentversion
+ */
+function check_version($latestversion) {
   //If LatestVersion is less than Current Version then function returns false
   
-  //1. Split strings by '.'
-  //2. Combine back together and multiply with Units array
-  //e.g 1.0 - 1x10000 + 0x100 = 10,000
-  //e.g 0.8.0 - 0x10000 + 8x100 + 0x1 = 800
-  //e.g 0.7.10 - 0x10000 + 7x100 + 10x1 = 710
-  //3. If Latest < Current Version return Current Version
-  //4. Otherwise return Latest
+  $numversion = 0;
+  $numlatest = 0;
+  $units = array(10000,100,1);
   
-  global $Version;
+  $splitversion = explode('.', VERSION);
+  $splitlatest = explode('.', $latestversion);
   
-  $NumVersion = 0;
-  $NumLatest = 0;
-  $Units = array(10000,100,1);
-  
-  $SplitVersion = explode('.', $Version);
-  $SplitLatest = explode('.', $LatestVersion);
-  
-  for ($i = 0; $i < count($SplitVersion); $i++) {
-    $NumVersion += ($Units[$i] * intval($SplitVersion[$i]));
+  for ($i = 0; $i < count($splitversion); $i++) {
+    $numversion += ($units[$i] * intval($splitversion[$i]));
   }
-  for ($i = 0; $i < count($SplitVersion); $i++) {
-    $NumLatest += ($Units[$i] * intval($SplitLatest[$i]));
+  for ($i = 0; $i < count($splitversion); $i++) {
+    $numlatest += ($units[$i] * intval($splitlatest[$i]));
   }
   
-  if ($NumLatest < $NumVersion) return false;
+  if ($numlatest < $numversion) return false;
   
   return true;
 }
-//Check User Session-------------------------------------------------
-function Check_SessionID() {
-  if (isset($_SESSION['sid'])) {
-    if ($_SESSION['sid'] == 1) return true;
+
+/********************************************************************
+ *  Count rows in table
+ *
+ *  Params:
+ *    Query String
+ *  Return:
+ *    Number of Rows
+ */
+function count_rows($query) {
+  global $db, $mem;
+  
+  $rows = 0;
+  
+  if(!$result = $db->query($query)){
+    die('There was an error running the query '.$db->error);
   }
   
-  return false;
-}
-//Draw Sys Table-----------------------------------------------------
-function DrawSysTable($Title) {
-  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
-  echo '<h5>'.$Title.'</h5></div>'.PHP_EOL;
-  echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
+  $rows = $result->fetch_row()[0];               //Extract value from array
+  $result->free();    
   
-  return null;
+      
+  return $rows;
 }
-//Draw Sys Table with Help Button------------------------------------
-function DrawSysTableHelp($Title, $HelpPage) {
-  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
-  echo '<h5>'.$Title.'&nbsp;<a href="./help.php?p='.$HelpPage.'"><img class="btn" src="./svg/button_help.svg" alt="help"></a></h5></div>'.PHP_EOL;
-  echo '<div class="sys-items"><table class="sys-table">'.PHP_EOL;
-  return null;
-}
-//Draw Sys Row-------------------------------------------------------
-function DrawSysRow($Description, $Value) {
-  echo '<tr><td>'.$Description.': </td><td>'.$Value.'</td></tr>'.PHP_EOL;
+
+
+/********************************************************************
+ *  Filter Integer Value
+ *    Checks if Integer value given is between min and max
+ *  Params:
+ *    Value to Check, Minimum, Maximum, Default Value
+ *  Return:
+ *    value on success, default value on fail
+ */
+function filter_integer($value, $min, $max, $defaultvalue=0) {
+  if (is_numeric($value)) {
+    if (($value >= $min) && ($value <= $max)) {
+      return intval($value);
+    }
+  }
   
-  return null;
+  return $defaultvalue;
 }
+
+/********************************************************************
+ *  Pagination
+ *  
+ *  Draw up to 6 buttons
+ *  Main [<] [1] [x] [x+1] [L] [>]
+ *  Or   [ ] [1] [2] [>]
+ *
+ *  Params:
+ *    rows
+ *    $linktext = text for a href
+ *  Return:
+ *    None
+ */
+function pagination($totalrows, $linktext) {
+  global $page;
+
+  $numpages = 0;
+  $currentpage = 0;
+  $startloop = 0;
+  $endloop = 0;
+  
+  if ($totalrows > ROWSPERPAGE) {                     //Is Pagination needed?
+    $numpages = ceil($totalrows / ROWSPERPAGE);       //Calculate List Size
+    
+    //<div class="sys-group">
+    echo '<div class="float-left pag-nav"><ul>'.PHP_EOL;
+  
+    if ($page == 1) {                            // [ ] [1]
+      echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
+      echo '<li class="active"><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
+      $startloop = 2;
+      if (($numpages > 3) && ($page < $numpages - 3)) $endloop = $page + 3;
+      else $endloop = $numpages;
+    }
+    else {                                       // [<] [1]
+      echo '<li><a href="?page='.($page-1).'&amp;'.$linktext.'">&#x00AB;</a></li>'.PHP_EOL;
+      echo '<li><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
+      
+      if ($numpages < 4) $startloop = 2;         // [1] [2] [3] [L]
+      elseif (($page > 2) && ($page > $numpages -3)) $startloop = ($numpages - 2); //[1]  [x-1] [x] [L]
+      else $startloop = $page;                   // [1] [x] [x+1] [L]
+      
+      if (($numpages > 3) && ($page < $numpages - 2)) $endloop = $page + 2; // [y] [y+1] [y+2]
+      else $endloop = $numpages;                 // [1] [x-1] [y] [L]
+    }    
+    
+    for ($i = $startloop; $i < $endloop; $i++) { //Loop to draw 2 buttons
+      if ($i == $page) {
+        echo '<li class="active"><a href="?page='.$i.'&amp;'.$linktext.'">'.$i.'</a></li>'.PHP_EOL;
+      }
+      else {
+        echo '<li><a href="?page='.$i.'&amp;'.$linktext.'">'.$i.'</a></li>'.PHP_EOL;
+      }
+    }
+    
+    if ($page == $numpages) {                    // [Final] [ ]
+      echo '<li class="active"><a href="?page='.$numpages.'&amp;'.$linktext.'">'.$numpages.'</a></li>'.PHP_EOL;
+      echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
+    }    
+    else {                                       // [Final] [>]
+      echo '<li><a href="?page='.$numpages.'&amp;'.$linktext.'">'.$numpages.'</a></li>'.PHP_EOL;
+      echo '<li><a href="?page='.($page+1).'&amp;'.$linktext.'">&#x00BB;</a></li>'.PHP_EOL;
+    }	
+    
+  echo '</ul></div>'.PHP_EOL;
+  //</div>
+  }
+}
+
+
+/********************************************************************
+ *  Save Config
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    SQL Query string
+ */
+function save_config() {
+  //1. Check if Latest Version is less than Current Version
+  //2. Open Temp Config file for writing
+  //3. Loop through Config Array
+  //4. Write all values, except for "Status = Enabled"
+  //5. Close Config File
+  //6. Delete Config Array out of Memcache, in order to force reload
+  //7. Onward process is to Display appropriate config view
+  
+  global $Config, $FileTmpConfig, $mem;  
+  
+  //Prevent wrong version being written to config file if user has just upgraded and old LatestVersion is still stored in Memcache
+  if (check_version($Config['LatestVersion'])) {
+    $Config['LatestVersion'] = VERSION;
+  }
+  
+  $fh = fopen($FileTmpConfig, 'w');      //Open temp config for writing
+  
+  foreach ($Config as $Key => $Value) {          //Loop through Config array
+    if ($Key == 'Status') {
+      if ($Value != 'Enabled') {
+        fwrite($fh, $Key.' = '.$Value.PHP_EOL);  //Write Key & Value
+      }
+    }
+    else {
+      fwrite($fh, $Key.' = '.$Value.PHP_EOL);    //Write Key & Value
+    }
+  }
+  fclose($fh);                                   //Close file
+  
+  $mem->delete('Config');                        //Delete config from Memcache
+  
+  exec(NTRK_EXEC.'--save-conf');
+}
+
+
+
+
+
 //Execute Action-----------------------------------------------------
 function ExecAction($Action, $ExecNow, $Fork=false) {
   //Execute Action writes a command into /tmp/ntrk-exec.txt
@@ -130,15 +347,7 @@ function Filter_Int_Post($Str, $Min, $Max, $DefaltValue=false) {
   }
   return $DefaltValue;
 }
-//Filter Int Value---------------------------------------------------
-function Filter_Int_Value($Val, $Min, $Max, $DefaultValue=0) {
-  if (is_numeric($Val)) {
-    if (($Val >= $Min) && ($Val <= $Max)) {
-      return intval($Val);
-    }
-  }
-  return $DefaltValue;
-}
+
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
@@ -185,7 +394,7 @@ function Filter_URL_Str($Str) {
   return false;
 }
 //Load Config File---------------------------------------------------
-function LoadConfigFile() {
+function load_config() {
   //1. Attempt to load Config from Memcache
   //2. Write DefaultConfig to Config, incase any variables are missing
   //3. Read Config File
@@ -195,24 +404,24 @@ function LoadConfigFile() {
   //7. Write Config to Memcache
   //As of v0.7.16 blocklists were renamed to bl_
 
-  global $FileConfig, $Config, $DefaultConfig, $Mem, $Version;
+  global $FileConfig, $Config, $DefaultConfig, $mem;
   
-  $Config=$Mem->get('Config');                   //Load array from Memcache
+  $Config=$mem->get('Config');                   //Load array from Memcache
   
   if (! empty($Config)) return;                  //Did it load from memory?
   
   $Config = $DefaultConfig;                      //Firstly Set Default Config
   if (file_exists($FileConfig)) {                //Check file exists      
-    $FileHandle= fopen($FileConfig, 'r');
-    while (!feof($FileHandle)) {
-      $Line = trim(fgets($FileHandle));          //Read Line of LogFile
+    $fh= fopen($FileConfig, 'r');
+    while (!feof($fh)) {
+      $Line = trim(fgets($fh));          //Read Line of LogFile
       if ($Line != '') {
         $SplitLine = explode('=', $Line);
         if (count($SplitLine == 2)) {          
           $SplitLine[1] = trim($SplitLine[1]);
           switch (trim($SplitLine[0])) {
             case 'LatestVersion':
-              $Config['LatestVersion'] = Filter_Str_Value($SplitLine[1], $Version);
+              $Config['LatestVersion'] = Filter_Str_Value($SplitLine[1], VERSION);
               break;
             case 'NetDev':
               $Config['NetDev'] = $SplitLine[1];
@@ -239,114 +448,92 @@ function LoadConfigFile() {
               $Config['Password'] = $SplitLine[1];
               break;
             case 'Delay':
-              $Config['Delay'] = Filter_Int_Value($SplitLine[1], 0, 3600, 30);
+              $Config['Delay'] = filter_integer($SplitLine[1], 0, 3600, 30);
               break;
             case 'Suppress':
               $Config['Suppress'] = Filter_Str_Value($SplitLine[1], '');
-              break;
-            case 'BL_Custom': 
+              break;            
             case 'bl_custom':
               $Config['bl_custom'] = Filter_Str_Value($SplitLine[1], '');
-              break;
-            case 'BlockList_NoTrack':
+              break;            
             case 'bl_notrack':
-              $Config['bl_notrack'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
-              break;
-            case 'BlockList_TLD':
+              $Config['bl_notrack'] = filter_integer($SplitLine[1], 0, 1, 1);
+              break;            
             case 'bl_tld':
-              $Config['bl_tld'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
-              break;
-            case 'BlockList_QMalware':
+              $Config['bl_tld'] = filter_integer($SplitLine[1], 0, 1, 1);
+              break;            
             case 'bl_qmalware':
-              $Config['bl_qmalware'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
-              break;
-            case 'BlockList_Hexxium':
+              $Config['bl_qmalware'] = filter_integer($SplitLine[1], 0, 1, 1);
+              break;            
             case 'bl_hexxium':
-              $Config['bl_hexxium'] = Filter_Int_Value($SplitLine[1], 0, 1, 1);
+              $Config['bl_hexxium'] = filter_integer($SplitLine[1], 0, 1, 1);
               break;            
-            case 'BlockList_DisconnectMalvertising':
             case 'bl_disconnectmalvertising':
-              $Config['bl_disconnectmalvertising'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_EasyList':
-            case 'bl_easylist':
-              $Config['bl_easylist'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_EasyPrivacy':
-            case 'bl_easyprivacy':
-              $Config['bl_easyprivacy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_FBAnnoyance':
-            case 'bl_fbannoyance':
-              $Config['bl_fbannoyance'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_FBEnhanced':
-            case 'bl_fbenhanced':
-              $Config['bl_fbenhanced'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_FBSocial':
-            case 'bl_fbsocial':
-              $Config['bl_fbsocial'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_hpHosts':
-            case 'bl_hphosts':
-              $Config['bl_hphosts'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_MalwareDomainList':
-            case 'bl_malwaredomainlist':
-              $Config['bl_malwaredomainlist'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_MalwareDomains':
-            case 'bl_malwaredomains':
-              $Config['bl_malwaredomains'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_PglYoyo':
-            case 'bl_pglyoyo':
-              $Config['bl_pglyoyo'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_disconnectmalvertising'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;            
-            case 'BlockList_SomeoneWhoCares':
+            case 'bl_easylist':
+              $Config['bl_easylist'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_easyprivacy':
+              $Config['bl_easyprivacy'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_fbannoyance':
+              $Config['bl_fbannoyance'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_fbenhanced':
+              $Config['bl_fbenhanced'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_fbsocial':
+              $Config['bl_fbsocial'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;
+            case 'bl_hphosts':
+              $Config['bl_hphosts'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_malwaredomainlist':
+              $Config['bl_malwaredomainlist'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_malwaredomains':
+              $Config['bl_malwaredomains'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
+            case 'bl_pglyoyo':
+              $Config['bl_pglyoyo'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
             case 'bl_someonewhocares':
-              $Config['bl_someonewhocares'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_Spam404':
+              $Config['bl_someonewhocares'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
             case 'bl_spam404':
-              $Config['bl_spam404'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_spam404'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
-            case 'BlockList_SwissRansom':
             case 'bl_swissransom':
-              $Config['bl_swissransom'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_swissransom'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
-            case 'BlockList_SwissZeus':
             case 'bl_swisszeus':
-              $Config['bl_swisszeus'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_Winhelp2002':
+              $Config['bl_swisszeus'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
             case 'bl_winhelp2002':
-              $Config['bl_winhelp2002'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_winhelp2002'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
             /*case 'bl_':
-              $Config['bl_'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;*/
             //Region Specific
             case 'bl_areasy':
-              $Config['bl_areasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_CHNEasy':
+              $Config['bl_areasy'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
             case 'bl_chneasy':
-              $Config['bl_chneasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_chneasy'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
             case 'bl_deueasy':
-              $Config['bl_deueasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_deueasy'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
             case 'bl_dnkeasy':
-              $Config['bl_dnkeasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
-              break;
-            case 'BlockList_RUSEasy':
+              $Config['bl_dnkeasy'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;            
             case 'bl_ruseasy':
-              $Config['bl_ruseasy'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_ruseasy'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;            
             case 'bl_fblatin':
-              $Config['bl_fblatin'] = Filter_Int_Value($SplitLine[1], 0, 1, 0);
+              $Config['bl_fblatin'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
           }
         }
@@ -411,8 +598,8 @@ function LoadConfigFile() {
       }
     }
     
-    fclose($FileHandle);
-    $Mem->set('Config', $Config, 0, 1200);
+    fclose($fh);
+    $mem->set('Config', $Config, 0, 1200);
   }
   
   return null;

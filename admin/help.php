@@ -3,14 +3,8 @@ require('./include/global-vars.php');
 require('./include/global-functions.php');
 require('./include/menu.php');
 
-LoadConfigFile();
-if ($Config['Password'] != '') {  
-  session_start();  
-  if (! Check_SessionID()) {
-    header("Location: ./login.php");
-    exit;
-  }
-}
+load_config();
+ensure_active_session();
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,7 +29,7 @@ function LoadHelpPage($Page) {
   }
 }
 //-------------------------------------------------------------------
-ActionTopMenu();
+action_topmenu();
 draw_topmenu();
 draw_helpmenu();
 echo '<div id="main">'.PHP_EOL;

@@ -1,11 +1,18 @@
 <?php
-$Version='0.7.18';
+
+DEFINE('VERSION', '0.8');
+DEFINE('SERVERNAME', 'localhost');
+DEFINE('USERNAME', 'ntrk');
+DEFINE('PASSWORD', 'ntrkpass');
+DEFINE('DBNAME', 'ntrkdb');
+
+DEFINE('ROWSPERPAGE', 200);
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
 $FileTmpConfig = '/tmp/notrack.conf';
 $FileConfig = '/etc/notrack/notrack.conf';
-$FileBlockList = '/etc/dnsmasq.d/notrack.list';
+
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
@@ -15,7 +22,10 @@ $CSVBlocking = '/etc/notrack/blocking.csv';
 $CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
-$DirTmp = '/tmp/';
+DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
+DEFINE('DIR_TMP', '/tmp/');
+DEFINE('BL_NOTRACK', '/etc/dnsmasq.d/notrack.list');
+
 $DirEtc = '/etc/notrack/';
 $DirOldLogs = '/var/log/notrack';
 
@@ -61,11 +71,18 @@ $DefaultConfig = array(
   'bl_dnkeasy' => 0,
   'bl_ruseasy' => 0,
   'bl_fblatin' => 0,
-  'LatestVersion' => $Version  
+  'LatestVersion' => VERSION  
 );
 
-if (!extension_loaded('memcache')) die('NoTrack requires memcached and php-memcache to be installed');
+if (!extension_loaded('memcache')) {
+  die('NoTrack requires memcached and php-memcache to be installed');
+}
 
-$Mem = new Memcache;                             //Initiate Memcache
-$Mem->connect('localhost');
+$mem = new Memcache;                             //Initiate Memcache
+$mem->connect('localhost');
+
+if (!extension_loaded('mysqli')) {
+  echo '<p>NoTrack requires mysql to be installed<br />Run: <code>bash install.sh -sql</code></p>';
+  die;
+}
 ?>
