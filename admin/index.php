@@ -50,10 +50,10 @@ function draw_blocklistbox() {
   exec('pgrep notrack', $pids);
   if(empty($pids)) {
     $rows = count_rows(QRY_BLOCKLIST); 
-    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval($rows)).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval($rows)).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   }
   else {    
-    echo '<a href="./config.php?v=sites"><div class="home-nav"><h2>Block List</h2><hr /><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr /><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   }  
 }
 
