@@ -45,7 +45,7 @@ Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countrie
 #######################################
 # Constants
 #######################################
-readonly VERSION="0.7.18"
+readonly VERSION="0.8"
 readonly CSV_BLOCKING="/etc/notrack/blocking.csv"
 readonly LISTFILE_BLOCKING="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
@@ -56,6 +56,9 @@ readonly FILE_QUICKLIST="/etc/notrack/domain-quick.list"
 readonly CSV_DOMAIN="/var/www/html/admin/include/tld.csv"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly CHECKTIME=343800                        #Time in Seconds between downloading lists (4 days - 30mins)
+readonly USER="ntrk"
+readonly PASSWORD="ntrkpass"
+readonly DBNAME="ntrkdb"
 
 declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
@@ -94,7 +97,7 @@ UnixTime=$(date +%s)                             #Unix time now
 JumpPoint=0                                      #Percentage increment
 PercentPoint=0                                   #Number of lines to loop through before a percentage increment is hit
 declare -A WhiteList                             #associative array for referencing sites in White List
-declare -a CSVList                               #Array to store each list in CSV form
+declare -a SQLList                               #Array to store each list for entering into MariaDB
 declare -A DomainList                            #Array to check if TLD blocked
 declare -A SiteList                              #Array to store sites being blocked
 declare -i Dedup=0                               #Count of Deduplication
@@ -110,7 +113,7 @@ declare -i Dedup=0                               #Count of Deduplication
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function Error_Exit() {  
+function error_exit() {  
   echo "Error. $1"
   echo "Aborting"
   exit "$2"
@@ -127,7 +130,7 @@ function Error_Exit() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function CreateFile() {  
+function create_file() {  
   if [ ! -e "$1" ]; then                         #Does file already exist?
     echo "Creating file: $1"
     touch "$1"                                   #If not then create it
@@ -145,7 +148,7 @@ function CreateFile() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function DeleteOldFile() {  
+function delete_file() {  
   if [ -e "$1" ]; then                           #Does file exist?
     echo "Deleting file $1"
     rm "$1"                                      #If yes then delete it
@@ -161,16 +164,16 @@ function DeleteOldFile() {
 #   WhiteList
 #   Dedup
 # Arguments:
-#   $1 Site to Add
+#   $1 site to Add
 #   $2 Comment
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function AddSite() {
-  local Site="$1"
+function addsite() {
+  local site="$1"
   
-  if [[ $Site =~ ^www\. ]]; then                 #Drop www.
-    Site="${Site:4}"
+  if [[ $site =~ ^www\. ]]; then                 #Drop www.
+    site="${site:4}"
   fi
   
   #Ignore Sub domain
@@ -179,33 +182,33 @@ function AddSite() {
   #Group 2 (Double-barrelled TLD's) : org. | co. | com.  optional
   #Group 3 TLD: A-Z,a-z,0-9,-  one or more
   
-  if [[ $Site =~ ([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
+  if [[ $site =~ ([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
     if [ "${DomainList[.${BASH_REMATCH[3]}]}" ]; then  #Drop if .domain is in TLD
-      #echo "Dedup TLD $Site"                    #Uncomment for debugging
+      #echo "Dedup TLD $site"                    #Uncomment for debugging
       ((Dedup++))
       return 0
     fi
     
     if [ "${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then  #Drop if sub.site.domain has been added
-      #echo "Dedup Domain $Site"                 #Uncomment for debugging
+      #echo "Dedup Domain $site"                 #Uncomment for debugging
       ((Dedup++))
       return 0
     fi
     
-    if [ "${SiteList[$Site]}" ]; then            #Drop if sub.site.domain has been added
-      #echo "Dedup Duplicate Sub $Site"          #Uncomment for debugging
+    if [ "${SiteList[$site]}" ]; then            #Drop if sub.site.domain has been added
+      #echo "Dedup Duplicate Sub $site"          #Uncomment for debugging
       ((Dedup++))
       return 0
     fi
   
-    if [ "${WhiteList[$Site]}" ] || [ "${WhiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then                 #Is sub.site.domain or site.domain in whitelist?    
-      CSVList+=("$Site,Disabled,$2")             #Add to CSV as Disabled      
+    if [ "${WhiteList[$site]}" ] || [ "${WhiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then                 #Is sub.site.domain or site.domain in whitelist?    
+      SQLList+=("\"$site\",\"0\",\"$2\"")              #Add to SQL as Disabled      
     else                                         #No match in whitelist
-      CSVList+=("$Site,Active,$2")               #Add to CSV as Active
-      SiteList[$Site]=true                       #Add site into SiteList array
+      SQLList+=("\"$site\",\"1\",\"$2\"")              #Add to SQL as Active
+      SiteList[$site]=true                       #Add site into SiteList array
     fi
   #else
-    #echo "Invalid site $Site"
+    #echo "Invalid site $site"
   fi  
 }
 
@@ -292,12 +295,12 @@ function check_root() {
   Pid=$(pgrep notrack | head -n 1)               #Get PID of first notrack process
 
   if [[ "$(id -u)" != "0" ]]; then
-    Error_Exit "This script must be run as root" "5"    
+    error_exit "This script must be run as root" "5"    
   fi
   
   #Check if another copy of notrack is running
   if [[ $Pid != "$$" ]] && [[ -n $Pid ]] ; then  #$$ = This PID    
-    Error_Exit "NoTrack already running under Pid $Pid" "8"
+    error_exit "NoTrack already running under Pid $Pid" "8"
   fi
 }
 
@@ -322,32 +325,84 @@ function CountLines() {
   echo "$LineCount"
 }
 
-#Generate BlackList--------------------------------------------------
-function Generate_BlackList() {
-  local -a Tmp                                   #Local array to build contents of file
+#--------------------------------------------------------------------
+# Delete Blocklist table
+#   1. Delete all rows in Table
+#   2. Reset Counter
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function delete_table() {
+  echo "Clearing Blocklist Table"
+  
+  echo "DELETE FROM blocklist;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+  echo "ALTER TABLE blocklist AUTO_INCREMENT = 1;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+}
+
+
+#--------------------------------------------------------------------
+# Generate Example Black List File
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function generate_blacklist() {
+  local -a tmp                                   #Local array to build contents of file
   
   echo "Creating blacklist"
   touch "$FILE_BLACKLIST"
-  Tmp+=("#Use this file to create your own custom block list")
-  Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
-  Tmp+=("#doubleclick.net")
-  Tmp+=("#googletagmanager.com")
-  Tmp+=("#googletagservices.com")
-  printf "%s\n" "${Tmp[@]}" > $FILE_BLACKLIST     #Write Array to file with line seperator
+  tmp+=("#Use this file to create your own custom block list")
+  tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
+  tmp+=("#doubleclick.net")
+  tmp+=("#googletagmanager.com")
+  tmp+=("#googletagservices.com")
+  printf "%s\n" "${tmp[@]}" > $FILE_BLACKLIST     #Write Array to file with line seperator
 }
-#Generate WhiteList--------------------------------------------------
-function Generate_WhiteList() {
-  local -a Tmp                                   #Local array to build contents of file
+
+
+#--------------------------------------------------------------------
+# Generate Example White List File
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function generate_whitelist() {
+  local -a tmp                                   #Local array to build contents of file
   
   echo "Creating whitelist"
   touch "$FILE_WHITELIST"
-  Tmp+=("#Use this file to remove sites from block list")
-  Tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
-  Tmp+=("#doubleclick.net")
-  Tmp+=("#google-analytics.com")
-  printf "%s\n" "${Tmp[@]}" > $FILE_WHITELIST     #Write Array to file with line seperator
+  tmp+=("#Use this file to remove sites from block list")
+  tmp+=("#Run notrack script (sudo notrack) after you make any changes to this file")
+  tmp+=("#doubleclick.net")
+  tmp+=("#google-analytics.com")
+  printf "%s\n" "${tmp[@]}" > $FILE_WHITELIST     #Write Array to file with line seperator
 }
-#Get IP Address of System--------------------------------------------
+
+
+#--------------------------------------------------------------------
+# Get IP Address
+#   Reads IP address of System or uses custom IP assigned by IPVersion
+#
+# Globals:
+#   IPAddr, IPVersion
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 function Get_IPAddress() {
   #A manual IP address can be assigned using IPVersion
   if [ "$IPVersion" == "IPv4" ]; then
@@ -379,14 +434,13 @@ function Get_FileTime() {
 #Custom BlackList----------------------------------------------------
 function GetList_BlackList() {
   echo "Processing Custom Black List"
-  CSVList=()
+  SQLList=()
   Process_PlainList "$FILE_BLACKLIST"
     
-  if [ ${#CSVList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
-    printf "%s\n" "${CSVList[@]}" > "/etc/notrack/custom.csv"
-    cat /etc/notrack/custom.csv >> "$CSV_BLOCKING"
+  if [ ${#SQLList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
+    insert_data "custom"
   else
-    DeleteOldFile "/etc/notrack/custom.csv"
+    delete_file "/etc/notrack/custom.csv"
   fi
   echo "Finished processing Custom Black List"
   echo  
@@ -398,7 +452,7 @@ function Get_Custom() {
   local DLFile=""
   local DLFileTime=0                             #Downloaded File Time
   local CustomCount=1                            #For displaying count of custom list
-    
+  local FileName=""
 
   if [[ ${Config[bl_custom]} == "" ]]; then      #Are there any custom block lists?
     echo "No Custom Block Lists in use"
@@ -406,9 +460,9 @@ function Get_Custom() {
     for FileName in /etc/notrack/custom_*; do    #Clean up old custom lists
       FileName=${FileName##*/}                   #Get filename from path
       FileName=${FileName%.*}                    #Remove file extension
-      DeleteOldFile "/etc/dnsmasq.d/$FileName.list"
-      DeleteOldFile "/etc/notrack/$FileName.csv"
-      DeleteOldFile "/tmp/$FileName.txt"
+      delete_file "/etc/dnsmasq.d/$FileName.list"
+      delete_file "/etc/notrack/$FileName.csv"
+      delete_file "/tmp/$FileName.txt"
     done
     return
   fi
@@ -452,7 +506,7 @@ function Get_Custom() {
     fi      
       
     if [ -s "$DLFile" ]; then                    #Only process if filesize > 0
-      CSVList=()                                 #Zero Array
+      SQLList=()                                 #Zero Array
               
       #Adblock EasyList can be identified by first line of file
       Line=$(head -n1 "$DLFile")                 #What is on the first line?
@@ -464,13 +518,12 @@ function Get_Custom() {
         Process_CustomList "$DLFile"
       fi
       
-      if [ ${#CSVList[@]} -gt 0 ]; then          #Are there any URL's in the block list?
-        CreateFile "$CSVFile"                    #Create CSV File
-        printf "%s\n" "${CSVList[@]}" > "$CSVFile"  #Output array to file
-        cat "$CSVFile" >> "$CSV_BLOCKING"
+      if [ ${#SQLList[@]} -gt 0 ]; then          #Are there any URL's in the block list?
+        create_file "$CSVFile"                    #Create CSV File
+        insert_data "custom_$FileName"
         echo "Finished processing $FileName"        
       else                                       #No URL's in block list
-        DeleteOldFile "$CSVFile"                 #Delete CSV File        
+        delete_file "$CSVFile"                 #Delete CSV File        
         echo "No URL's extracted from Block list"
       fi
     else                                         #File not downloaded
@@ -487,8 +540,8 @@ function Get_Custom() {
     FileName=${FileName%.*}                      #Remove file extension
     FileName=${FileName:7}                       #Remove custom_    
     if [ ! "${CustomListArray[$FileName]}" ]; then
-      DeleteOldFile "/etc/dnsmasq.d/custom_$FileName.list"
-      DeleteOldFile "/etc/notrack/custom_$FileName.csv"
+      delete_file "/etc/dnsmasq.d/custom_$FileName.list"
+      delete_file "/etc/notrack/custom_$FileName.csv"
     fi
   done
   
@@ -498,34 +551,34 @@ function Get_Custom() {
 function GetList() {
   #$1 = List to be Processed
   #$2 = Process Method
-  local Lst="$1"
+  local list="$1"
   local CSVFile="/etc/notrack/$1.csv"
   local DLFile="/tmp/$1.txt"
   
   #Should we process this list according to the Config settings?
-  if [ "${Config[bl_$Lst]}" == 0 ]; then 
-    DeleteOldFile "$CSVFile"     #If not delete the old file, then leave the function
-    DeleteOldFile "$DLFile"
+  if [ "${Config[bl_$list]}" == 0 ]; then 
+    delete_file "$CSVFile"     #If not delete the old file, then leave the function
+    delete_file "$DLFile"
     return 0
   fi
   
   Get_FileTime "$DLFile"
    
   if [ $FileTime -gt $((UnixTime-CHECKTIME)) ]; then  
-    echo "$Lst in date. Not downloading"    
+    echo "$list in date. Not downloading"    
   else  
-    echo "Downloading $Lst"
-    wget -qO "$DLFile" "${URLList[$Lst]}"
+    echo "Downloading $list"
+    wget -qO "$DLFile" "${URLList[$list]}"
   fi
   
   if [ ! -s "$DLFile" ]; then                    #Check if list has been downloaded
     echo "File not downloaded"
-    DeleteOldFile "$CSVFile"
+    delete_file "$CSVFile"
     return 1
   fi
   
-  CSVList=()                                     #Zero Arrays      
-  echo "Processing list $Lst"                    #Inform user
+  SQLList=()                                     #Zero Arrays      
+  echo "Processing list $list"                    #Inform user
   
   case $2 in                                     #What type of processing is required?
     "easylist") Process_EasyList "$DLFile" ;;
@@ -533,21 +586,129 @@ function GetList() {
     "notrack") Process_NoTrackList "$DLFile" ;;
     "tldlist") Process_TLDList ;;
     "unix") Process_UnixList "$DLFile" ;;    
-    *) Error_Exit "Unknown option $2" "7"
+    *) error_exit "Unknown option $2" "7"
   esac  
   
-  if [ ${#CSVList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
-    CreateFile "$CSVFile"                        #Create CSV File    
-    printf "%s\n" "${CSVList[@]}" > "$CSVFile"   #Output arrays to file    
-    cat "/etc/notrack/$Lst.csv" >> "$CSV_BLOCKING"  
-    echo "Finished processing $Lst"    
+  if [ ${#SQLList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
+    #create_file "$CSVFile"                        #Create CSV File
+    insert_data "bl_$list"
+    #printf "%s\n" "${SQLList[@]}" > "$CSVFile"   #Output arrays to file    
+    #cat "/etc/notrack/$list.csv" >> "$CSV_BLOCKING"  
+    echo "Finished processing $list"    
   else                                           #No URL's in block list
     echo "No URL's extracted from Block list"
-    DeleteOldFile "$CSVFile"                     #Delete CSV File    
+    delete_file "$CSVFile"                     #Delete CSV File    
   fi
   
   echo
 }
+
+
+#--------------------------------------------------------------------
+# Insert Data into SQL Table
+#   1. Save SQLList array to .csv file
+#   2. Bulk write csv file into MariaDB
+#
+# Globals:
+#   SQLList
+# Arguments:
+#   $1 - Blocklist
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function insert_data() {
+  #echo "Inserting data into MariaDB"
+    
+  printf "%s\n" "${SQLList[@]}" > "/tmp/$1.csv"   #Output arrays to file
+  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "LOAD DATA INFILE '/tmp/$1.csv' INTO TABLE blocklist FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' (@var1, @var2, @var3) SET id='NULL', bl_source = '$1', site = @var1, site_status=@var2, comment=@var3;"
+  rm "/tmp/$1.csv"
+}
+
+#--------------------------------------------------------------------
+# Check If mysql or MariaDB is installed
+#   exits if not installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function is_sql_installed() {
+  if [ -z "$(command -v mysql)" ]; then
+    echo "NoTrack requires MySql or MariaDB to be installed"
+    echo "Run install.sh -sql"
+    exit 60
+  fi  
+}
+#--------------------------------------------------------------------
+# Check if an update is required
+#   Triggers for Update being required:
+#   1. -f or --forced
+#   2 Block list older than 4 days
+#   3 White list recently modified
+#   4 Black list recently modified
+#   5 Config recently modified
+#   6 Domain White list recently modified
+#   7 Domain Black list recently modified
+#   8 Domain CSV recently modified
+# Globals:
+#   Force
+#   FILE_BLACKLIST, FILE_WHITELIST, FILE_CONFIG, FILE_DOMAINBLACK, FILE_DOMAINWHITE
+#   CSV_DOMAIN
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function is_update_required() {
+  Get_FileTime "$LISTFILE_BLOCKING"
+  local ListFileTime="$FileTime"
+  
+  if [ $Force == 1 ]; then
+    echo "Forced Update"
+    return 0
+  fi
+  if [ $ListFileTime -lt $((UnixTime-CHECKTIME)) ]; then
+    echo "Block List out of date"
+    return 0
+  fi
+  Get_FileTime "$FILE_WHITELIST"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "White List recently modified"
+    return 0
+  fi
+  Get_FileTime "$FILE_BLACKLIST"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "Black List recently modified"
+    return 0
+  fi
+  Get_FileTime "$FILE_CONFIG"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "Config recently modified"
+    return 0
+  fi
+  Get_FileTime "$FILE_DOMAINWHITE"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "Domain White List recently modified"
+    return 0
+  fi
+  Get_FileTime "$FILE_DOMAINBLACK"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "Domain White List recently modified"
+    return 0
+  fi
+  Get_FileTime "$CSV_DOMAIN"
+  if [ $FileTime -gt $ListFileTime ]; then
+    echo "Domain Master List recently modified"
+    return 0
+  fi
+  
+  echo "No update required"
+  exit 0
+}
+
 
 #--------------------------------------------------------------------
 # Load Config File
@@ -661,7 +822,7 @@ function Process_CustomList() {
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces      
       if [[ $Line =~ ([A-Za-z0-9\-]*\.)?([A-Za-z0-9\-]*\.)?[A-Za-z0-9\-]*\.[A-Za-z0-9\-]*$ ]]; then
-        AddSite "${BASH_REMATCH[0]}" "$Comment"
+        addsite "${BASH_REMATCH[0]}" "$Comment"
       fi
     fi
     
@@ -706,7 +867,7 @@ function Process_EasyList() {
   while IFS=$'\n' read -r Line
   do    
     if [[ $Line =~ ^\|\|([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3})?([A-Za-z0-9\.\-]+)(\^|\/|$)(\$third-party|\$popup|\$popup\,third\-party)?$ ]]; then
-      AddSite "${BASH_REMATCH[2]}" ""      
+      addsite "${BASH_REMATCH[2]}" ""      
     fi    
     if [ $i -ge $PercentPoint ]; then            #Display progress
       echo -ne " $j%  \r"                        #Echo without return
@@ -752,7 +913,7 @@ function Process_NoTrackList() {
   while IFS=$'\n' read -r Line
   do  
     if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
-      AddSite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"
+      addsite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"
     elif [[ $Line =~ ^#LatestVersion[[:space:]]([0-9\.]+)$ ]]; then #Is it version number
       LatestVersion="${BASH_REMATCH[1]}"         #Extract Version number      
       if [[ $OldLatestVersion != "$LatestVersion" ]]; then 
@@ -809,7 +970,7 @@ function Process_PlainList() {
   while IFS=$'\n' read -r Line
   do 
     if [[ $Line =~ ^([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)[[:space:]]?#?(.*)$ ]]; then
-      AddSite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"    
+      addsite "${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"    
     fi
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
@@ -829,7 +990,7 @@ function Process_PlainList() {
 #   1. Load Domain whitelist into associative array
 #   2. Read downloaded TLD list, and compare with Domain WhiteList
 #   3. Read users custom TLD list, and compare with Domain WhiteList
-#   4. Results are stored in CSVList, and SiteList These arrays are sent back to GetList() for writing to file.
+#   4. Results are stored in SQLList, and SiteList These arrays are sent back to GetList() for writing to file.
 #   The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
 #   FILE_QUICKLIST is used to speed up processing in stats.php
 # Globals:
@@ -859,18 +1020,18 @@ function Process_TLDList() {
   local TLDListFileTime=$FileTime
   
   if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?
-    DeleteOldFile "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
-    DeleteOldFile "/etc/notrack/tld.csv"
-    DeleteOldFile "$FILE_QUICKLIST"
+    delete_file "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
+    delete_file "/etc/notrack/tld.csv"
+    delete_file "$FILE_QUICKLIST"
     echo
     return 0
   fi
   
-  CSVList=()                                     #Zero Arrays
+  SQLList=()                                     #Zero Arrays
       
   echo "Processing Top Level Domain List"
   
-  CreateFile "$FILE_QUICKLIST"                  #Quick lookup file for stats.php
+  create_file "$FILE_QUICKLIST"                  #Quick lookup file for stats.php
   cat /dev/null > "$FILE_QUICKLIST"             #Empty file
   
   while IFS=$'\n' read -r Line
@@ -892,13 +1053,13 @@ function Process_TLDList() {
     if [[ $Risk == 1 ]]; then      
       if [ ! "${DomainWhiteList[$TLD]}" ]; then  #Is site not in WhiteList
         SiteList[$TLD]=true
-        CSVList+=("$TLD,Active,$Name")
+        SQLList+=("\"$TLD\",\"1\",\"$Name\"")
         DomainList[$TLD]=true
       fi    
     else      
       if [ "${DomainBlackList[$TLD]}" ]; then      
         SiteList[$TLD]=true
-        CSVList+=("$TLD,Active,$Name")
+        SQLList+=("\"$TLD\",\"1\",\"$Name\"")
         DomainList[$TLD]=true
       fi
     fi
@@ -913,7 +1074,7 @@ function Process_TLDList() {
   fi
   
   printf "%s\n" "${!DomainList[@]}" > $FILE_QUICKLIST
-  printf "%s\n" "${CSVList[@]}" > "/etc/notrack/tld.csv"  
+  insert_data "bl_tld"
   
   echo "Finished processing Top Level Domain List"
   echo
@@ -956,7 +1117,7 @@ function Process_UnixList() {
     
     
     if [[ $Line =~ ^(127\.0\.0\.1|0\.0\.0\.0)[[:space:]]+([A-Za-z0-9\-]+)\.([A-Za-z0-9\.\-]+)([[:space:]]+)?#?(.*)$ ]]; then
-      AddSite "${BASH_REMATCH[2]}.${BASH_REMATCH[3]}" "${BASH_REMATCH[5]}"    
+      addsite "${BASH_REMATCH[2]}.${BASH_REMATCH[3]}" "${BASH_REMATCH[5]}"    
     fi
        
     if [ $i -ge $PercentPoint ]; then            #Display progress
@@ -986,6 +1147,7 @@ function Process_UnixList() {
 function Process_WhiteList() {  
   local Method=0                                 #1: White list from Dnsmasq, 2: Dig
   local -a DNSList
+  local site=""
   DNSList=()                                     #Zero Array
   
   CheckDnsmasqVer                                #What version is Dnsmasq?
@@ -1001,21 +1163,21 @@ function Process_WhiteList() {
     return 55
   fi
   
-  for Site in "${!WhiteList[@]}"; do             #Read entire White List associative array
-    if [[ $Site =~ \.[A-Za-z0-9\-]+$ ]]; then    #Extract the TLD
+  for site in "${!WhiteList[@]}"; do             #Read entire White List associative array
+    if [[ $site =~ \.[A-Za-z0-9\-]+$ ]]; then    #Extract the TLD
       if [ "${DomainList[${BASH_REMATCH[0]}]}" ]; then   #Is TLD present in Domain List?
         if [ "$Method" == 1 ]; then              #What method to unblock site? 
-          DNSList+=("server=/$Site/#")           #Add unblocked site to DNS List Array
+          DNSList+=("server=/$site/#")           #Add unblocked site to DNS List Array
         elif [ "$Method" == 2 ]; then            #Or use Dig
           while IFS=$'\n' read -r Line           #Read each line of Dig output
           do
             if [[ $Line =~ (A|AAAA)[[:space:]]+([a-f0-9\.\:]+)$ ]]; then  #Match A or AAAA IPv4/IPv6
-              DNSList+=("host-record=$Site,${BASH_REMATCH[2]}") 
+              DNSList+=("host-record=$site,${BASH_REMATCH[2]}") 
             fi
             if [[ $Line =~ TXT[[:space:]]+(.+)$ ]]; then    #Match TXT "comment"
-              DNSList+=("txt-record=$Site,${BASH_REMATCH[1]}")
+              DNSList+=("txt-record=$site,${BASH_REMATCH[1]}")
             fi
-          done <<< "$(dig "$Site" @8.8.8.8 ANY +noall +answer)"
+          done <<< "$(dig "$site" @8.8.8.8 ANY +noall +answer)"
         fi
       fi
     fi
@@ -1030,7 +1192,7 @@ function Process_WhiteList() {
     printf "%s\n" "${DNSList[@]}" > "/etc/dnsmasq.d/whitelist.list"   #Output array to file    
   else                                           #No sites, delete old list file
     echo "No sites to white list from blocked TLD's"
-    DeleteOldFile "/etc/dnsmasq.d/whitelist.list"
+    delete_file "/etc/dnsmasq.d/whitelist.list"
   fi
   echo  
 }
@@ -1053,12 +1215,13 @@ function SortList() {
   local i=0
   local j=0
   local -a SortedList                            #Sorted array of SiteList
-  local -a DNSList                               #Dnsmasq list  
+  local -a DNSList                               #Dnsmasq list
+  local site=""
   Dedup=0                                        #Reset Deduplication
   
   ListSize=${#SiteList[@]}                       #Get number of items in Array
   if [ "$ListSize" == 0 ]; then                  #Fatal error
-    Error_Exit "No items in Block List" "8"
+    error_exit "No items in Block List" "8"
   fi  
   if [ "$ListSize" -ge 100 ]; then               #Calculate Percentage Point
     PercentPoint=$((ListSize/100))
@@ -1076,22 +1239,22 @@ function SortList() {
   DNSList+=("#Tracker Block list last updated $(date)")
   DNSList+=("#Don't make any changes to this file, use $FILE_BLACKLIST and $FILE_WHITELIST instead")
   
-  for Site in "${SortedList[@]}"; do
+  for site in "${SortedList[@]}"; do
     # ^ Subdomain
     #Group 1: Domain
     #Group 2: org. | co. | com.  optional
     #Group 3: TLD
     
     #Is there a subdomain?
-    if [[ $Site =~ ^[A-Za-z0-9\-]+\.([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
+    if [[ $site =~ ^[A-Za-z0-9\-]+\.([A-Za-z0-9\-]+)\.(org\.|co\.|com\.)?([A-Za-z0-9\-]+)$ ]]; then
       #Is site.domain already in list?
       if [ ${SiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]} ]; then        
         ((Dedup++))                              #Yes, add to total of dedup
       else
-        DNSList+=("address=/$Site/$IPAddr")      #No, add to Array
+        DNSList+=("address=/$site/$IPAddr")      #No, add to Array
       fi
     else                                         #No subdomain, add to Array
-      DNSList+=("address=/$Site/$IPAddr")
+      DNSList+=("address=/$site/$IPAddr")
     fi
     
     if [ $i -ge $PercentPoint ]; then            #Display progress
@@ -1193,72 +1356,6 @@ function Test() {
   fi
 }
 
-#--------------------------------------------------------------------
-# Check if an update is required
-#   Triggers for Update being required:
-#   1. -f or --forced
-#   2 Block list older than 4 days
-#   3 White list recently modified
-#   4 Black list recently modified
-#   5 Config recently modified
-#   6 Domain White list recently modified
-#   7 Domain Black list recently modified
-#   8 Domain CSV recently modified
-# Globals:
-#   Force
-#   FILE_BLACKLIST, FILE_WHITELIST, FILE_CONFIG, FILE_DOMAINBLACK, FILE_DOMAINWHITE
-#   CSV_DOMAIN
-# Arguments:
-#   None
-# Returns:
-#   None
-#--------------------------------------------------------------------
-function UpdateRequired() {
-  Get_FileTime "$LISTFILE_BLOCKING"
-  local ListFileTime="$FileTime"
-  
-  if [ $Force == 1 ]; then
-    echo "Forced Update"
-    return 0
-  fi
-  if [ $ListFileTime -lt $((UnixTime-CHECKTIME)) ]; then
-    echo "Block List out of date"
-    return 0
-  fi
-  Get_FileTime "$FILE_WHITELIST"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "White List recently modified"
-    return 0
-  fi
-  Get_FileTime "$FILE_BLACKLIST"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "Black List recently modified"
-    return 0
-  fi
-  Get_FileTime "$FILE_CONFIG"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "Config recently modified"
-    return 0
-  fi
-  Get_FileTime "$FILE_DOMAINWHITE"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "Domain White List recently modified"
-    return 0
-  fi
-  Get_FileTime "$FILE_DOMAINBLACK"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "Domain White List recently modified"
-    return 0
-  fi
-  Get_FileTime "$CSV_DOMAIN"
-  if [ $FileTime -gt $ListFileTime ]; then
-    echo "Domain Master List recently modified"
-    return 0
-  fi
-  
-  echo "No update required"
-  exit 0
-}
 
 #--------------------------------------------------------------------
 # Upgrade NoTrack
@@ -1296,14 +1393,14 @@ function Upgrade() {
     if [ -d "/opt/notrack" ]; then
       InstallLoc="/opt/notrack"      
     else
-      Error_Exit "Unable to find NoTrack folder" "22"
+      error_exit "Unable to find NoTrack folder" "22"
     fi
   else    
     if [ -e "$InstallLoc/ntrk-upgrade.sh" ]; then
       echo "Found alternate copy in $InstallLoc"
       sudo bash "$InstallLoc/ntrk-upgrade.sh"    
     else
-      Error_Exit "Unable to find ntrk-upgrade.sh" "20"
+      error_exit "Unable to find ntrk-upgrade.sh" "20"
     fi
   fi
 }
@@ -1348,7 +1445,7 @@ if [ "$1" ]; then                                #Have any arguments been given
         break
       ;;
       (-*)         
-        Error_Exit "$0: error - unrecognized option $1" "6"
+        error_exit "$0: error - unrecognized option $1" "6"
       ;;
       (*) 
         break
@@ -1374,58 +1471,60 @@ fi
 #12. Sort list and do final deduplication
 
 check_root                                       #Check if Script run as Root
+is_sql_installed
   
 if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exists
   echo "Creating notrack folder under /etc"
   echo
   mkdir "/etc/notrack"
   if [ ! -d "/etc/notrack" ]; then               #Check again
-    Error_Exit "Unable to create folder /etc/notrack" "2"
+    error_exit "Unable to create folder /etc/notrack" "2"
   fi
 fi
   
 load_config                                      #Load saved variables
 Get_IPAddress                                    #Read IP Address of NetDev
   
-if [ ! -e $FILE_WHITELIST ]; then Generate_WhiteList
+if [ ! -e $FILE_WHITELIST ]; then generate_whitelist
 fi
   
 load_whitelist                                   #Load Whitelist into array
-CreateFile "$CSV_BLOCKING"                       #Create Block list csv
+create_file "$CSV_BLOCKING"                       #Create Block list csv
   
-if [ ! -e "$FILE_BLACKLIST" ]; then Generate_BlackList
+if [ ! -e "$FILE_BLACKLIST" ]; then generate_blacklist
 fi
 
-CreateFile "$FILE_DOMAINWHITE"                   #Create Black & White lists
-CreateFile "$FILE_DOMAINBLACK"
+create_file "$FILE_DOMAINWHITE"                   #Create Black & White lists
+create_file "$FILE_DOMAINBLACK"
 
 #Legacy files as of v0.7.15 since block list was consolidated
-DeleteOldFile /etc/dnsmasq.d/adblockmanager.list
-DeleteOldFile /etc/dnsmasq.d/hphosts.list
-DeleteOldFile /etc/dnsmasq.d/someonewhocares.list
-DeleteOldFile /etc/dnsmasq.d/custom.list
-DeleteOldFile /etc/dnsmasq.d/malwaredomainlist.list
-DeleteOldFile /etc/dnsmasq.d/spam404.list
-DeleteOldFile /etc/dnsmasq.d/disconnectmalvertising.list
-DeleteOldFile /etc/dnsmasq.d/malwaredomains.list
-DeleteOldFile /etc/dnsmasq.d/swissransom.list
-DeleteOldFile /etc/dnsmasq.d/easylist.list
-DeleteOldFile /etc/dnsmasq.d/swisszeus.list
-DeleteOldFile /etc/dnsmasq.d/easyprivacy.list
-DeleteOldFile /etc/dnsmasq.d/pglyoyo.list
-DeleteOldFile /etc/dnsmasq.d/tld.list
-DeleteOldFile /etc/dnsmasq.d/fbannoyance.list
-DeleteOldFile /etc/dnsmasq.d/qmalware.list
-DeleteOldFile /etc/dnsmasq.d/winhelp2002.list
-DeleteOldFile /etc/dnsmasq.d/fbenhanced.list
-DeleteOldFile /etc/dnsmasq.d/fbsocial.list
-DeleteOldFile /etc/dnsmasq.d/chneasy.list
-DeleteOldFile /etc/dnsmasq.d/ruseasy.list
+delete_file /etc/dnsmasq.d/adblockmanager.list
+delete_file /etc/dnsmasq.d/hphosts.list
+delete_file /etc/dnsmasq.d/someonewhocares.list
+delete_file /etc/dnsmasq.d/custom.list
+delete_file /etc/dnsmasq.d/malwaredomainlist.list
+delete_file /etc/dnsmasq.d/spam404.list
+delete_file /etc/dnsmasq.d/disconnectmalvertising.list
+delete_file /etc/dnsmasq.d/malwaredomains.list
+delete_file /etc/dnsmasq.d/swissransom.list
+delete_file /etc/dnsmasq.d/easylist.list
+delete_file /etc/dnsmasq.d/swisszeus.list
+delete_file /etc/dnsmasq.d/easyprivacy.list
+delete_file /etc/dnsmasq.d/pglyoyo.list
+delete_file /etc/dnsmasq.d/tld.list
+delete_file /etc/dnsmasq.d/fbannoyance.list
+delete_file /etc/dnsmasq.d/qmalware.list
+delete_file /etc/dnsmasq.d/winhelp2002.list
+delete_file /etc/dnsmasq.d/fbenhanced.list
+delete_file /etc/dnsmasq.d/fbsocial.list
+delete_file /etc/dnsmasq.d/chneasy.list
+delete_file /etc/dnsmasq.d/ruseasy.list
 
 
-UpdateRequired                                   #Check if NoTrack needs to run
+is_update_required                               #Check if NoTrack needs to run
+delete_table
 
-CreateFile "$LISTFILE_BLOCKING"
+create_file "$LISTFILE_BLOCKING"
 cat /dev/null > "$CSV_BLOCKING"                  #Empty file
 
 Process_TLDList                                  #Load and Process TLD List
@@ -1464,7 +1563,7 @@ echo "Deduplicated $Dedup Domains"
 SortList                                         #Sort, Dedup 2nd round, Save list
 
 if [ "${Config[bl_tld]}" == 0 ]; then
-  DeleteOldFile "$FILE_QUICKLIST"
+  delete_file "$FILE_QUICKLIST"
 fi
   
 echo "Restarting Dnsmasq"
