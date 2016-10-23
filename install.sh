@@ -658,6 +658,7 @@ function setup_mariadb() {
     
   echo "Setting privilages for ntrk user"
   sudo mysql --user=root --password="$rootpass" -e "GRANT ALL PRIVILEGES ON ntrkdb.* TO 'ntrk'@'localhost';"
+  sudo mysql --user=root --password="$rootpass" -e "GRANT FILE ON *.* TO 'ntrk'@'localhost';"
   #GRANT INSERT, SELECT, DELETE, UPDATE ON database.* TO 'user'@'localhost' IDENTIFIED BY 'password';
   sudo mysql --user=root --password="$rootpass" -e "FLUSH PRIVILEGES;"
   
