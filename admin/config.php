@@ -24,9 +24,13 @@ action_topmenu();
 /************************************************
 *Constants                                      *
 ************************************************/
-$BLOCKLISTNAMES = array('bl_tld' => 'Top Level Domain',
-                        'bl_notrack' => 'NoTrack'
-                       );
+$BLOCKLISTNAMES = array(
+  'bl_hexxium' => 'Hexxium',
+  'bl_qmalware' => 'NoTrack Malware',
+  'bl_notrack' => 'NoTrack',
+  'bl_tld' => 'Top Level Domain',
+  'custom' => 'Custom'
+);
 
 //List of Selectable Search engines, corresponds with Global-Functions.php -> load_config()
 $SEARCHENGINELIST = array(
@@ -322,18 +326,18 @@ function update_custom_list($LongName, $listname) {
  *  Params:
  *    None
  *  Return:
- *    None
+ *    True if change has been made or False if nothing changed
  */
 function update_stats_config() {
   global $Config, $SEARCHENGINELIST, $WHOISLIST;
   
-  $Updated = false;
+  $updated = false;
   
   if (isset($_POST['searchbox'])) {
     if (in_array($_POST['searchbox'], $SEARCHENGINELIST)) {
       $Config['Search'] = $_POST['searchbox'];
       $Config['SearchUrl'] = '';
-      $Updated = true;
+      $updated = true;
     }
   }
   
@@ -341,10 +345,11 @@ function update_stats_config() {
     if (in_array($_POST['whois'], $WHOISLIST)) {
       $Config['WhoIs'] = $_POST['whois'];
       $Config['WhoIsUrl'] = '';
-      $Updated = true;
+      $updated = true;
     }
   }
-  return $Updated;
+  
+  return $updated;
 }
 
 
@@ -388,6 +393,8 @@ function update_domain_list() {
       
   $mem->delete('TLDBlackList');                  //Delete Black List from Memcache
   $mem->delete('TLDWhiteList');                  //Delete White List from Memcache
+  
+  return null;
 }
 
 
@@ -449,7 +456,7 @@ if (isset($_GET['action'])) {
   }
 }
 
-if (isset($_GET['v'])) {
+if (isset($_GET['v'])) {                         //What view to show?
   switch($_GET['v']) {
     case 'config':
       show_general();

@@ -79,12 +79,12 @@ function draw_sidemenu() {
 function draw_configmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php"><span>General</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=blocks"><span>Block Lists</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=black"><span>BlackList</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=white"><span>WhiteList</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=tld"><span>Domains</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=full"><span>Sites Blocked</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">General</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=blocks"><span><img src="./svg/menu_blocklists.svg" alt="">Block Lists</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=black"><span><img src="./svg/menu_black.svg" alt="">BlackList</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=white"><span><img src="./svg/menu_white.svg" alt="">WhiteList</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=tld"><span><img src="./svg/menu_domain.svg" alt="">Domains</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=full"><span><img src="./svg/menu_sites.svg" alt="">Sites Blocked</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=advanced"><span>Advanced</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=status"><span>Back-end Status</span></a>'.PHP_EOL;
   echo '<a href="../admin/security.php"><span>Security</span></a>'.PHP_EOL;
@@ -98,10 +98,9 @@ function draw_configmenu() {
 function draw_helpmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span>Help</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=security"><span>Security</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php?p=position" title="Where To Position NoTrack Device"><span>Positioning Device</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php?p=newblocklist" title="Programming in new block lists"><span>New block lists</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php?p=position" title="Where To Position NoTrack Device"><span>Positioning Device</span></a>'.PHP_EOL;  
   
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;  
