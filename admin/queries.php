@@ -800,7 +800,7 @@ $db->close();
 <span id="statsblock2"><a class="button-blue" href="#">Block Sub</a> Block just the subdomain</span>
 <form name="reportform" action="https://quidsup.net/notrack/report.php" method="post" target="_blank">
 <input type="hidden" name="site" id="siterep" value="none">
-<span id="statsreport"><input type="submit" value="Report"></span>
+<span id="statsreport"><input type="submit" class="button-blue" value="Report"></span>
 <!--<span id="statsreport"><a class="button-blue" href="#">Report</a></span>-->
 </form>
 <br />
