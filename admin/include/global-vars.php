@@ -31,7 +31,7 @@ $DirOldLogs = '/var/log/notrack';
 
 $Config=array();
 
-$DefaultConfig = array(
+$DEFAULTCONFIG = array(
   'NetDev' => 'eth0',
   'IPVersion' => 'IPv4',
   'Status' => 'Enabled',
@@ -48,7 +48,8 @@ $DefaultConfig = array(
   'bl_notrack' => 1,
   'bl_tld' => 1,
   'bl_qmalware' => 1,
-  'bl_hexxium' => 1,  
+  'bl_hexxium' => 1,
+  'bl_cedia' => 0,
   'bl_disconnectmalvertising' => 0,
   'bl_easylist' => 0,
   'bl_easyprivacy' => 0,

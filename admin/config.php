@@ -1,14 +1,10 @@
 <?php
 /********************************************************************
-Config.php is split out into 8 sub pages:
- 1. General
- 2. Block Lists
- 3. Black List
- 4. White List
- 5. Domain List
- 6. Sites Blocked
- 7. Advanced
- 8. Status Check
+config.php handles setting of Global variables, GET, and POST requests
+It also houses the functions for POST requests.
+
+All other config functions are in ./include/config-functions.php
+
 ********************************************************************/
 
 require('./include/global-vars.php');
@@ -188,7 +184,8 @@ function update_blocklist_config() {
   $Config['bl_notrack'] = filter_config('bl_notrack');
   $Config['bl_tld'] = filter_config('bl_tld');
   $Config['bl_qmalware'] = filter_config('bl_qmalware');
-  $Config['bl_hexxium'] = filter_config('bl_hexxium');  
+  $Config['bl_hexxium'] = filter_config('bl_hexxium');
+  $Config['bl_cedia'] = filter_config('bl_cedia');
   $Config['bl_disconnectmalvertising'] = filter_config('bl_disconnectmalvertising');
   $Config['bl_easylist'] = filter_config('bl_easylist');
   $Config['bl_easyprivacy'] = filter_config('bl_easyprivacy');

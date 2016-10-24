@@ -234,6 +234,7 @@ function show_blocklists() {
   
   draw_systable('Malware');
   draw_blocklist_row('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/" target="_blank">(hexxiumcreations.com)</a>');
+  draw_blocklist_row('bl_cedia', 'CeDia Malware List', '<a href="https://cedia.org.ec/" target="_blank">(cedia.org.ec)</a>');
   draw_blocklist_row('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/" target="_blank">(disconnect.me)</a>');
   draw_blocklist_row('bl_malwaredomainlist', 'Malware Domain List', '<a href="http://www.malwaredomainlist.com/" target="_blank">(malwaredomainlist.com)</a>');
   draw_blocklist_row('bl_malwaredomains', 'Malware Domains', 'A good list to add <a href="http://www.malwaredomains.com/" target="_blank">(malwaredomains.com)</a>');

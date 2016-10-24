@@ -402,15 +402,15 @@ function load_config() {
   //5. Filter each value
   //6. Setup SearchUrl
   //7. Write Config to Memcache
-  //As of v0.7.16 blocklists were renamed to bl_
+  
 
-  global $FileConfig, $Config, $DefaultConfig, $mem;
+  global $FileConfig, $Config, $DEFAULTCONFIG, $mem;
   
   $Config=$mem->get('Config');                   //Load array from Memcache
   
   if (! empty($Config)) return;                  //Did it load from memory?
   
-  $Config = $DefaultConfig;                      //Firstly Set Default Config
+  $Config = $DEFAULTCONFIG;                      //Firstly Set Default Config
   if (file_exists($FileConfig)) {                //Check file exists      
     $fh= fopen($FileConfig, 'r');
     while (!feof($fh)) {
@@ -467,22 +467,25 @@ function load_config() {
               break;            
             case 'bl_hexxium':
               $Config['bl_hexxium'] = filter_integer($SplitLine[1], 0, 1, 1);
-              break;            
+              break;
+            case 'bl_cedia':
+              $Config['bl_cedia'] = filter_integer($SplitLine[1], 0, 1, 0);
+              break;
             case 'bl_disconnectmalvertising':
               $Config['bl_disconnectmalvertising'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;            
             case 'bl_easylist':
               $Config['bl_easylist'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
+              break;
             case 'bl_easyprivacy':
               $Config['bl_easyprivacy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
+              break;
             case 'bl_fbannoyance':
               $Config['bl_fbannoyance'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
+              break;
             case 'bl_fbenhanced':
               $Config['bl_fbenhanced'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
+              break;
             case 'bl_fbsocial':
               $Config['bl_fbsocial'] = filter_integer($SplitLine[1], 0, 1, 0);
               break;
