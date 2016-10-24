@@ -9,6 +9,9 @@ Config:
 Security:
   Fixed bug #83 - Security will now work for older version of PHP pre v5.3 
   New Security Page
+
+New blocklists:
+  Cedia malware domain list (Issue #126)
 *************************************************
 
 v0.7.18 alpha - Interim release to facilitate upgrade to v0.8
