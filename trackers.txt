@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 18 October 2016
+#NoTrack Tracker list updated 24 October 2016
 #LatestVersion 0.7.18
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -129,6 +129,7 @@ addnow.com
 addthis.com
 addthisedge.com #Oracle
 addtoany.com
+adexchangeprediction.com #Adverising Unknown
 adfast.net #Ad Web
 adfast.org #Ad Web
 adfinis-sygroup.ch
@@ -213,6 +214,7 @@ adroll.com
 adrotate.se
 adrsp.net
 adrtx.net
+adrunnr.com #Adverising Unknown
 ads4apps.net #Smaato
 adsafeprotected.com
 adsafety.net #Online Solution Int
@@ -611,8 +613,9 @@ candomedia.biz #Ad Web
 candomedia.com #Ad Web
 candomedia.net #Ad Web
 candycarol.com #Boo Box
-cap-mii.net
+capslockday.com #Caps Lock Day
 captifymedia.com
+cap-mii.net
 carambo.la
 carbonads.net
 casalemedia.com
@@ -627,9 +630,10 @@ ccmp.eu #Experian
 cctyly.com #Advertising
 cdngc.net
 cdn-net.com
-cedexis.com
-cedexis.net
-cedexis-radar.net
+cedexis.com #Cedexis Radar
+cedexis.net #Cedexis Radar
+cedexis-radar.net #Cedexis Radar
+cedexis-test.com #Cedexis Radar
 celtra.com #Celtra
 centralcore7.com #Lead Forensics
 central-core-7.com #Lead Forensics
@@ -804,6 +808,7 @@ cpmstars.com #CPMStars
 cq.io
 cqcounter.com
 cquotient.com
+crashlytics.com #Crashlytics
 crazyegg.com #Crazy Egg
 crealytics.com
 createabetterinternet.com #AppNexus Inc
@@ -1012,6 +1017,7 @@ ed-clr-01.com #Lead Forensics
 edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
+educing.info #Tracker Unknown
 eepurl.com #mailchimp
 effectivemeasure.com #Effective Measure
 effectivemeasure.net #Effective Measure
@@ -1218,6 +1224,7 @@ geogslb.net #AppNexus Inc
 georiot.com
 getclicky.com
 getdrip.com
+getmyads.com #Get My Ads
 getphotoeffects.com #RadiumOne
 getsentry.com #GetSentry
 getsentry.net #GetSentry
@@ -1273,6 +1280,7 @@ gwallet-qa.com #RadiumOne
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 ha44888.com #HelloWorld
 hanapinmarketing.com
+happyfoxchat.com #HappyFox Chat
 hardbouncemyemail.com #Campaign Monitor Pty
 hardofhearing.org
 heapanalytics.com
@@ -1554,6 +1562,7 @@ liveperson.net
 localconfirmsubscription.com #Campaign Monitor Pty
 localcreatesend.com #Campaign Monitor Pty
 localemailserver.com #Campaign Monitor Pty
+local-finders.com #Tracker Unknown
 localytics.com #Localytics
 loggly.com #Loggly
 loggly.net #Loggly
@@ -1615,11 +1624,13 @@ marketizator.com
 marketo.com
 marketo.net
 marktest.pt
-maskbaby.com.cn #Advertising
+maskbaby.com.cn #Advertising Unknown
 matheranalytics.com
 mathtag.com
+mavic852.com #Lead Forensics
 maxgtm.net
 maxmind.com
+maxtraffic.com #MaxTraffic
 maxymiser.net
 mbd0.com #Campaign Monitor Pty
 mbd1.com #Campaign Monitor Pty
@@ -1627,6 +1638,7 @@ mcstats.org
 mdotm.com #MdotM
 media.net #Yahoo
 media6degrees.com
+mediabong.com #Mediabong
 mediaforge.com #Rakuten
 medialytics.com #Medialets
 mediamond.it #Mediamond
@@ -9431,6 +9443,7 @@ mojiva.net #Mojiva
 mojiva.org #Mojiva
 mon-com-01.com #Lead Forensics
 mon-com-net.com #Lead Forensics
+monarchads.com #Monarch Ads
 monefy.net #Buta Trading
 monetate.net
 mookie1.com
@@ -9823,6 +9836,7 @@ rename.net #Digital Window
 reportwindow.com #Digital Window
 researchad.com #G1System
 researchad.net #G1System
+researchresults.com #Reserch Results
 research-int.com #TNS Sifo
 research-int.se #TNS Sifo
 reson8.com.au
@@ -10236,6 +10250,7 @@ tradedoubler.com
 tradefxads.com
 trafegonacional.pt
 trafficauthority.com #Adobe
+trafficbee.com #Trafficbee
 trafficcake.com #Traffic Cake
 trafficfactory.biz
 traffichaus.com #TrafficHaus
@@ -10687,6 +10702,7 @@ prod.telemetry.ros.rockstargames.com #Rockstar Games
 analytics.schoolwires.com
 analytics.faw.sky.com #Sky
 smetrics.sky.com #Sky
+affiliatehub.skybet.com #Sky
 apps.skype.com #Microsoft
 config.skype.com #Microsoft
 pipe.skype.com #Microsoft
