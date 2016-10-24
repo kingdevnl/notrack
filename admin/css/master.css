@@ -405,26 +405,7 @@ tr.green {
 #block-table td:nth-child(4), #block-table th:nth-child(4) {
   width: 35%;
 }
-/*Deprecate at 0.8 release***********************/
-#domain-table td:nth-child(1), #domain-table th:nth-child(1) {
-  width: 11%;
-  text-align: center;  
-}
-#domain-table td:nth-child(2), #domain-table th:nth-child(2) {
-  width: 57%;
-}
-#domain-table td:nth-child(3), #domain-table th:nth-child(3) {
-  width: 12%;  
-  text-align: center;
-}
-#domain-table td:nth-child(4), #domain-table th:nth-child(4) {
-  width: 15%;  
-  text-align: center;
-}
-#domain-table img {
-  width: 1em;
-}
-/************************************************/
+
 #cfg-custom-table td:nth-child(1), #cfg-custom-table th:nth-child(1) {
   width: 8%;
   text-align: center;  
@@ -439,6 +420,7 @@ tr.green {
   width: 14%;
   text-align: center; 
 }
+
 #query-group-table td:nth-child(1), #query-group-table th:nth-child(1) {
   width: 11%;
   text-align: center;  
@@ -575,7 +557,7 @@ span.key-green {background: #80FF60;}
 /*Top Menu**********************************************************/
 #menu-top {  
   width: 100%;
-  background-color: #1477A1;
+  background-color: #014399;
   height: 3.4rem;
   position: fixed;
   top: 0;
@@ -609,7 +591,7 @@ span.mobile-hide {
   display: inline-block;
 }
 span.top-menu-item:hover {
-  background: #105C7D;
+  background: #00326f;
 }
 span.logo {
   margin: 0 0.5em;
@@ -623,7 +605,7 @@ span.logo {
   float: right;
   padding: 0.3rem 0.5rem;
   margin: 0.3em 0.5em;
-  background: #105C7D;
+  background: #00326f;
   border-radius: 5px;
   color: #008CD1;
   font-size: 1.3rem;
@@ -661,7 +643,7 @@ span.timer {
   transition: visibility 0.5s;
   border: 1px solid black;
   border-radius: 5px;
-  background: #105C7D;
+  background: #00326f;
   font-size: 1.1rem;
   font-weight: normal;
 }
