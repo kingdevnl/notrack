@@ -85,10 +85,10 @@ function draw_configmenu() {
   echo '<a href="../admin/config.php?v=white"><span><img src="./svg/menu_white.svg" alt="">WhiteList</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=tld"><span><img src="./svg/menu_domain.svg" alt="">Domains</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=full"><span><img src="./svg/menu_sites.svg" alt="">Sites Blocked</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=advanced"><span>Advanced</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=status"><span>Back-end Status</span></a>'.PHP_EOL;
-  echo '<a href="../admin/security.php"><span>Security</span></a>'.PHP_EOL;
-  echo '<a href="../admin/upgrade.php"><span>Upgrade</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=advanced"><span><img src="./svg/menu_advanced.svg" alt="">Advanced</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=status"><span><img src="./svg/menu_status.svg" alt="">Back-end Status</span></a>'.PHP_EOL;
+  echo '<a href="../admin/security.php"><span><img src="./svg/menu_security.svg" alt="">Security</span></a>'.PHP_EOL;
+  echo '<a href="../admin/upgrade.php"><span><img src="./svg/menu_upgrade.svg" alt=""Upgrade</span></a>'.PHP_EOL;
   
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;

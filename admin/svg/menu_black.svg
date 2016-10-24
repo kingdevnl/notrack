@@ -13,8 +13,8 @@
    height="64px"
    id="svg2985"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="menu_black.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="menu_sites.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -22,16 +22,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.7781746"
-     inkscape:cx="68.141577"
-     inkscape:cy="7.3518372"
+     inkscape:zoom="1.375"
+     inkscape:cx="-84.769546"
+     inkscape:cy="-36.037491"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
      inkscape:grid-bbox="true"
-     inkscape:window-width="1860"
-     inkscape:window-height="1064"
-     inkscape:window-x="60"
+     inkscape:window-width="1856"
+     inkscape:window-height="1080"
+     inkscape:window-x="64"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <defs
@@ -58,33 +58,42 @@
        height="58.640381"
        width="45.609184"
        id="rect2983"
-       style="color:#000000;fill:#008cd1;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1" />
+       style="color:#000000;fill:none;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3753"
+       d="m 15.090909,10.454545 34.272727,0"
+       style="color:#000000;fill:none;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       style="color:#000000;fill:none;stroke:#008cd1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 15.090909,54.636363 34.272727,0"
+       id="path3755"
+       inkscape:connector-curvature="0" />
     <g
-       id="g3767"
-       style="stroke:#262626;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none">
+       id="g3767">
       <path
          id="path3769"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 10.454545C15.090909 10.454545 49.363636 10.454545 49.363636 10.454545" />
       <path
          id="path3771"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 19.2909086C15.090909 19.2909086 49.363636 19.2909086 49.363636 19.2909086" />
       <path
          id="path3773"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 28.1272722C15.090909 28.1272722 49.363636 28.1272722 49.363636 28.1272722" />
       <path
          id="path3775"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 36.9636358C15.090909 36.9636358 49.363636 36.9636358 49.363636 36.9636358" />
       <path
          id="path3777"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 45.7999994C15.090909 45.7999994 49.363636 45.7999994 49.363636 45.7999994" />
       <path
          id="path3779"
-         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#262626;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
+         style="stroke-linejoin:round;enable-background:accumulate;stroke-opacity:1;color:#000000;stroke-dashoffset:0;visibility:visible;stroke:#008cd1;stroke-linecap:round;stroke-miterlimit:4;marker:none;stroke-dasharray:none;overflow:visible;stroke-width:3;display:inline;fill:none"
          d="M15.090909 54.636363C15.090909 54.636363 49.363636 54.636363 49.363636 54.636363" />
     </g>
   </g>
