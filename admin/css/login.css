@@ -66,28 +66,7 @@ span {
 #main {
   width: 100%;
 }
-/*Main Menu*********************************************************/
-#menu-top {
-  width: 100%;  
-  background-color: #262626;  
-  height: 6rem;
-  margin-bottom: 2rem;
-}
-#menu-logo {
-  float: left;
-}
-#menu-logo img {
-  width: 28rem;
-}
-#menu-top-right {
-  margin: 1.9rem 2rem 0 0;
-  float: right;
-}
-#menu-top-right img {
-  margin: 0 0.2rem;
-  width: 2.2rem;
-  height: 2.2rem;
-}
+
 #fade {
   display: none;
   position: absolute;
