@@ -329,10 +329,10 @@ function update_stats_config() {
   global $Config, $SEARCHENGINELIST, $WHOISLIST;
   
   $updated = false;
-  
-  if (isset($_POST['searchbox'])) {
-    if (in_array($_POST['searchbox'], $SEARCHENGINELIST)) {
-      $Config['Search'] = $_POST['searchbox'];
+  print_r($_POST);
+  if (isset($_POST['search'])) {
+    if (in_array($_POST['search'], $SEARCHENGINELIST)) {      
+      $Config['Search'] = $_POST['search'];
       $Config['SearchUrl'] = '';
       $updated = true;
     }
