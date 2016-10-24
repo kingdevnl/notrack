@@ -125,6 +125,5 @@ if (! navigator.cookieEnabled) {                 //Use has disabled cookies for 
   document.getElementById("fade").style.display = "block";
 }
 </script>
-</div>
 </body>
 </html>
