@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 24 October 2016
+#NoTrack Tracker list updated 26 October 2016
 #LatestVersion 0.7.18
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -177,6 +177,7 @@ adnexus.net #AppNexus Inc
 adnexus.nyc #AppNexus Inc
 adnexus.org #AppNexus Inc
 adnexus.us #AppNexus Inc
+adnow.com #AdNow
 adnxs.biz #AppNexus Inc
 adnxs.com #AppNexus Inc
 adnxs.info #AppNexus Inc
@@ -330,6 +331,7 @@ ahainternational.net #Ad Web
 ahalogy.com
 aimatch.com
 akadns.net
+alephd.com #AOL
 alertbot.co.uk
 algonetwork.com #RevenueHits
 algovise.com #RevenueHits
@@ -906,6 +908,7 @@ de17a.com #AdAction
 decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
+deliverimp.com #Tracker Unknown
 deltadevconfirmsubscription.com #Campaign Monitor Pty
 deltadevcreatesend.com #Campaign Monitor Pty
 deltatestconfirmsubscription.com #Campaign Monitor Pty
@@ -1236,8 +1239,8 @@ gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
 gldsta-02-or.com
-gleam.io
-gleamio.com
+gleam.io #Gleam
+gleamio.com #Gleam
 glimr.io #GLIMR
 globalsitecheck.com #Traffic Cake
 go2cloud.org
@@ -1377,6 +1380,7 @@ hubtraffic.com #Hubspot
 hw-dev.com #HelloWorld
 hxtrack.com
 hyfffpaint.com
+h-cdn.com #Tracker Unknown
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 i-transactads.com
 i10c.net #instartlogic
@@ -9763,7 +9767,8 @@ q4websystems.com
 qeryz.com
 qingcdn.com #Advertising
 qmerce.com
-mp.weixin.qq.com #Advetising, altough TLD name qq.com seems a legit search engine.
+mp.weixin.qq.com #qq
+monitor.uu.qq.com #qq
 qservz.com
 qsubmit.com
 qualtrics.com
@@ -10056,6 +10061,7 @@ smaato.info #Smaato
 smaato.mobi #Smaato
 smaato.net #Smaato
 smaato.org #Smaato
+smrk.io #Smarkio
 smartadserver.biz #Smart Ad Server
 smartadserver.com #Smart Ad Server
 smartadserver.info #Smart Ad Server
@@ -10120,6 +10126,7 @@ spiderwatch.com #SpidersWatch
 spoded.com #Microsoft
 spongecell.com
 spopessentials3.com
+spotad.co #Spot Ad
 spoteffects.com
 spoteffects.net
 spotxchange.com
