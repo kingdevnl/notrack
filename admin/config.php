@@ -165,6 +165,7 @@ function update_blocklist_config() {
   $Config['bl_qmalware'] = filter_config('bl_qmalware');
   $Config['bl_hexxium'] = filter_config('bl_hexxium');
   $Config['bl_cedia'] = filter_config('bl_cedia');
+  $Config['bl_cedia_immortal'] = filter_config('bl_cedia_immortal');
   $Config['bl_disconnectmalvertising'] = filter_config('bl_disconnectmalvertising');
   $Config['bl_easylist'] = filter_config('bl_easylist');
   $Config['bl_easyprivacy'] = filter_config('bl_easyprivacy');
