@@ -393,217 +393,98 @@ function Filter_URL_Str($Str) {
   }
   return false;
 }
-//Load Config File---------------------------------------------------
-function load_config() {
-  //1. Attempt to load Config from Memcache
-  //2. Write DefaultConfig to Config, incase any variables are missing
-  //3. Read Config File
-  //4. Split Line between = (Var = Value)
-  //5. Filter each value
-  //6. Setup SearchUrl
-  //7. Write Config to Memcache
-  
 
-  global $FileConfig, $Config, $DEFAULTCONFIG, $mem;
+
+/********************************************************************
+ *  Load Config File
+ *    1. Attempt to load Config from Memcache
+ *    2. Write DefaultConfig to Config, incase any variables are missing
+ *    3. Read Config File
+ *    4. Split Line between: (Var = Value)
+ *    5. Certain values need filtering to prevent XSS
+ *    6. For other values, check if key exists, then replace with new value
+ *    7. Setup SearchUrl
+ *    8. Write Config to Memcache
+ *  Params:
+ *    Description, Value
+ *  Return:
+ *    None
+ */
+function load_config() {
+  global $Config, $mem, $DEFAULTCONFIG, $SEARCHENGINELIST, $WHOISLIST;
+  $line = '';
+  $splitline = array();
   
-  $Config=$mem->get('Config');                   //Load array from Memcache
-  
-  if (! empty($Config)) return;                  //Did it load from memory?
+  $Config=$mem->get('Config');                   //Load Config array from Memcache
+  if (! empty($Config)) {
+    return null;                                 //Did it load from memory?
+  }
   
   $Config = $DEFAULTCONFIG;                      //Firstly Set Default Config
-  if (file_exists($FileConfig)) {                //Check file exists      
-    $fh= fopen($FileConfig, 'r');
+  
+  if (file_exists(CONFIGFILE)) {                 //Check file exists
+    $fh= fopen(CONFIGFILE, 'r');
     while (!feof($fh)) {
-      $Line = trim(fgets($fh));          //Read Line of LogFile
-      if ($Line != '') {
-        $SplitLine = explode('=', $Line);
-        if (count($SplitLine == 2)) {          
-          $SplitLine[1] = trim($SplitLine[1]);
-          switch (trim($SplitLine[0])) {
-            case 'LatestVersion':
-              $Config['LatestVersion'] = Filter_Str_Value($SplitLine[1], VERSION);
-              break;
-            case 'NetDev':
-              $Config['NetDev'] = $SplitLine[1];
-              break;
-            case 'IPVersion':
-              $Config['IPVersion'] = $SplitLine[1];
-              break;
-            case 'Status':
-              $Config['Status'] = Filter_Str_Value($SplitLine[1], 'Enabled');
-              break;
-            case 'BlockMessage':
-              $Config['BlockMessage'] = Filter_Str_Value($SplitLine[1], 'pixel');
-              break;
-            case 'Search':
-              $Config['Search'] = Filter_Str_Value($SplitLine[1], 'DuckDuckGo');
-              break;
-            case 'WhoIs':
-              $Config['WhoIs'] = Filter_Str_Value($SplitLine[1], 'Who.is');              
-              break;
-            case 'Username':
-              $Config['Username'] = $SplitLine[1];
-              break;
-            case 'Password':
-              $Config['Password'] = $SplitLine[1];
-              break;
-            case 'Delay':
-              $Config['Delay'] = filter_integer($SplitLine[1], 0, 3600, 30);
-              break;
-            case 'Suppress':
-              $Config['Suppress'] = Filter_Str_Value($SplitLine[1], '');
-              break;            
-            case 'bl_custom':
-              $Config['bl_custom'] = Filter_Str_Value($SplitLine[1], '');
-              break;            
-            case 'bl_notrack':
-              $Config['bl_notrack'] = filter_integer($SplitLine[1], 0, 1, 1);
-              break;            
-            case 'bl_tld':
-              $Config['bl_tld'] = filter_integer($SplitLine[1], 0, 1, 1);
-              break;            
-            case 'bl_qmalware':
-              $Config['bl_qmalware'] = filter_integer($SplitLine[1], 0, 1, 1);
-              break;            
-            case 'bl_hexxium':
-              $Config['bl_hexxium'] = filter_integer($SplitLine[1], 0, 1, 1);
-              break;
-            case 'bl_cedia':
-              $Config['bl_cedia'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_disconnectmalvertising':
-              $Config['bl_disconnectmalvertising'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_easylist':
-              $Config['bl_easylist'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_easyprivacy':
-              $Config['bl_easyprivacy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_fbannoyance':
-              $Config['bl_fbannoyance'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_fbenhanced':
-              $Config['bl_fbenhanced'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_fbsocial':
-              $Config['bl_fbsocial'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_hphosts':
-              $Config['bl_hphosts'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_malwaredomainlist':
-              $Config['bl_malwaredomainlist'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_malwaredomains':
-              $Config['bl_malwaredomains'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_pglyoyo':
-              $Config['bl_pglyoyo'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_someonewhocares':
-              $Config['bl_someonewhocares'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_spam404':
-              $Config['bl_spam404'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_swissransom':
-              $Config['bl_swissransom'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_swisszeus':
-              $Config['bl_swisszeus'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_winhelp2002':
-              $Config['bl_winhelp2002'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            /*case 'bl_':
-              $Config['bl_'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;*/
-            //Region Specific
-            case 'bl_areasy':
-              $Config['bl_areasy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_chneasy':
-              $Config['bl_chneasy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_deueasy':
-              $Config['bl_deueasy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-            case 'bl_dnkeasy':
-              $Config['bl_dnkeasy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_ruseasy':
-              $Config['bl_ruseasy'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;            
-            case 'bl_fblatin':
-              $Config['bl_fblatin'] = filter_integer($SplitLine[1], 0, 1, 0);
-              break;
-          }
+      $line = trim(fgets($fh));                  //Read Line of LogFile
+      $splitline = explode('=', $line);
+      if (count($splitline) == 2) {
+        $splitline[0] = trim($splitline[0]);
+        $splitline[1] = trim($splitline[1]);
+        switch (trim($splitline[0])) {
+          case 'LatestVersion':
+            $Config['LatestVersion'] = Filter_Str_Value($splitline[1], VERSION);
+            break;
+          case 'Status':
+            $Config['Status'] = Filter_Str_Value($splitline[1], 'Enabled');
+            break;
+          case 'BlockMessage':
+            $Config['BlockMessage'] = Filter_Str_Value($splitline[1], 'pixel');
+            break;
+          case 'Search':
+            $Config['Search'] = Filter_Str_Value($splitline[1], 'DuckDuckGo');
+            break;
+          case 'WhoIs':
+            $Config['WhoIs'] = Filter_Str_Value($splitline[1], 'Who.is');              
+            break;
+          case 'Delay':
+            $Config['Delay'] = filter_integer($splitline[1], 0, 3600, 30);
+            break;
+          case 'Suppress':
+            $Config['Suppress'] = Filter_Str_Value($splitline[1], '');
+            break;            
+          default:
+            if (array_key_exists($splitline[0], $Config)) {
+              $Config[$splitline[0]] = $splitline[1];
+            }
+            break;
         }
       }
     }
     
-    //Set SearchUrl if User hasn't configured a custom string via notrack.conf
-    if ($Config['SearchUrl'] == '') {      
-      switch($Config['Search']) {
-        case 'Baidu':
-          $Config['SearchUrl'] = 'https://www.baidu.com/s?wd=';
-          break;
-        case 'Bing':
-          $Config['SearchUrl'] = 'https://www.bing.com/search?q=';
-          break;
-        case 'DuckDuckGo':
-          $Config['SearchUrl'] = 'https://duckduckgo.com/?q=';
-          break;
-        case 'Exalead':
-          $Config['SearchUrl'] = 'https://www.exalead.com/search/web/results/?q=';
-          break;
-        case 'Gigablast':
-          $Config['SearchUrl'] = 'https://www.gigablast.com/search?q=';
-          break;
-        case 'Google':
-          $Config['SearchUrl'] = 'https://www.google.com/search?q=';
-          break;
-        case 'Ixquick':
-          $Config['SearchUrl'] = 'https://ixquick.eu/do/search?q=';
-          break;
-        case 'Qwant':
-          $Config['SearchUrl'] = 'https://www.qwant.com/?q=';
-          break;
-        case 'StartPage':
-          $Config['SearchUrl'] = 'https://startpage.com/do/search?q=';
-          break;
-        case 'Yahoo':
-          $Config['SearchUrl'] = 'https://search.yahoo.com/search?p=';
-          break;
-        case 'Yandex':
-          $Config['SearchUrl'] = 'https://www.yandex.com/search/?text=';
-          break;
-        default:
-          $Config['SearchUrl'] = 'https://duckduckgo.com/?q=';          
-      }
-    }
-    
-    //Set WhoIsUrl if User hasn't configured a custom string via notrack.conf
-    if ($Config['WhoIsUrl'] == '') {      
-      switch($Config['WhoIs']) {
-        case 'DomainTools':
-          $Config['WhoIsUrl'] = 'http://whois.domaintools.com/';
-          break;
-        case 'Icann':
-          $Config['WhoIsUrl'] = 'https://whois.icann.org/lookup?name=';
-          break;          
-        case 'Who.is':
-          $Config['WhoIsUrl'] = 'https://who.is/whois/';
-          break;
-        default:
-          $Config['WhoIsUrl'] = 'https://who.is/whois/';
-      }
-    }
-    
     fclose($fh);
-    $mem->set('Config', $Config, 0, 1200);
   }
+  
+  //Set SearchUrl if User hasn't configured a custom string via notrack.conf
+  if ($Config['SearchUrl'] == '') {      
+    if (array_key_exists($Config['Search'], $SEARCHENGINELIST)) {
+      $Config['SearchUrl'] = $SEARCHENGINELIST[$Config['Search']];
+    } 
+    else {
+      $Config['SearchUrl'] = $SEARCHENGINELIST['DuckDuckGo'];       
+    }
+  }
+   
+  //Set WhoIsUrl if User hasn't configured a custom string via notrack.conf
+  if ($Config['WhoIsUrl'] == '') {      
+    if (array_key_exists($Config['WhoIs'], $WHOISLIST)) {
+      $Config['WhoIsUrl'] = $WHOISLIST[$Config['WhoIs']];
+    } 
+    else {
+      $Config['WhoIsUrl'] = $WHOISLIST['Who.is'];       
+    }
+  }
+  
+  $mem->set('Config', $Config, 0, 1200);
   
   return null;
 }

@@ -11,7 +11,6 @@ DEFINE('ROWSPERPAGE', 200);
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
 $FileTmpConfig = '/tmp/notrack.conf';
-$FileConfig = '/etc/notrack/notrack.conf';
 
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
@@ -22,6 +21,7 @@ $CSVBlocking = '/etc/notrack/blocking.csv';
 $CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
+DEFINE('CONFIGFILE', '/etc/notrack/notrack.conf');
 DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
 DEFINE('DIR_TMP', '/tmp/');
 DEFINE('BL_NOTRACK', '/etc/dnsmasq.d/notrack.list');
@@ -50,6 +50,7 @@ $DEFAULTCONFIG = array(
   'bl_qmalware' => 1,
   'bl_hexxium' => 1,
   'bl_cedia' => 0,
+  'bl_cedia_immortal' => 1,
   'bl_disconnectmalvertising' => 0,
   'bl_easylist' => 0,
   'bl_easyprivacy' => 0,
@@ -74,6 +75,27 @@ $DEFAULTCONFIG = array(
   'bl_fblatin' => 0,
   'LatestVersion' => VERSION  
 );
+
+$SEARCHENGINELIST = array(
+  'Baidu' => 'https://www.baidu.com/s?wd=',
+  'Bing' => 'https://www.bing.com/search?q=',
+  'DuckDuckGo' => 'https://duckduckgo.com/?q=',
+  'Exalead' => 'https://www.exalead.com/search/web/results/?q=',
+  'Gigablast' => 'https://www.gigablast.com/search?q=',
+  'Google' => 'https://www.google.com/search?q=',
+  'Ixquick' => 'https://ixquick.eu/do/search?q=',
+  'Qwant' => 'https://www.qwant.com/?q=',
+  'StartPage' => 'https://startpage.com/do/search?q=',
+  'Yahoo' => 'https://search.yahoo.com/search?p=',
+  'Yandex' => 'https://www.yandex.com/search/?text='
+);
+
+$WHOISLIST = array(
+  'DomainTools' => 'http://whois.domaintools.com/',
+  'Icann' => 'https://whois.icann.org/lookup?name=',
+  'Who.is' => 'https://who.is/whois/'
+);
+
 
 if (!extension_loaded('memcache')) {
   die('NoTrack requires memcached and php-memcache to be installed');

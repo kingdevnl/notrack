@@ -28,27 +28,6 @@ $BLOCKLISTNAMES = array(
   'custom' => 'Custom'
 );
 
-//List of Selectable Search engines, corresponds with Global-Functions.php -> load_config()
-$SEARCHENGINELIST = array(
- 'Baidu',
- 'Bing',
- 'DuckDuckGo',
- 'Exalead',
- 'Gigablast',
- 'Google',
- 'Ixquick',
- 'Qwant',
- 'StartPage',
- 'Yahoo',
- 'Yandex'
-);
-
-//List of Selectable Who Is sites, corresponds with Global-Functions.php -> load_config()
-$WHOISLIST = array(
- 'DomainTools',
- 'Icann',
- 'Who.is'
-);
 
 /************************************************
 *Global Variables                               *
@@ -331,17 +310,17 @@ function update_stats_config() {
   $updated = false;
   print_r($_POST);
   if (isset($_POST['search'])) {
-    if (in_array($_POST['search'], $SEARCHENGINELIST)) {      
+    if (array_key_exists($_POST['search'], $SEARCHENGINELIST)) {      
       $Config['Search'] = $_POST['search'];
-      $Config['SearchUrl'] = '';
+      $Config['SearchUrl'] = $SEARCHENGINELIST[$Config['Search']];
       $updated = true;
     }
   }
   
   if (isset($_POST['whois'])) {    
-    if (in_array($_POST['whois'], $WHOISLIST)) {
+    if (array_key_exists($_POST['whois'], $WHOISLIST)) {
       $Config['WhoIs'] = $_POST['whois'];
-      $Config['WhoIsUrl'] = '';
+      $Config['WhoIsUrl'] = $WHOISLIST[$Config['WhoIs']];
       $updated = true;
     }
   }

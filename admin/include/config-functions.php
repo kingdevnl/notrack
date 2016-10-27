@@ -543,6 +543,9 @@ function show_full_blocklist() {
 function show_general() {
   global $Config, $DirOldLogs, $SEARCHENGINELIST, $WHOISLIST;
   
+  $key = '';
+  $value = '';
+  
   $sysload = sys_getloadavg();
   $freemem = preg_split('/\s+/', exec('free -m | grep Mem'));
 
@@ -606,9 +609,9 @@ function show_general() {
   echo '<tr><td>Search Engine: </td>'.PHP_EOL;
   echo '<td><select name="search" onchange="submit()">'.PHP_EOL;
   echo '<option value="'.$Config['Search'].'">'.$Config['Search'].'</option>'.PHP_EOL;
-  foreach ($SEARCHENGINELIST as $listitem) {
-    if ($listitem != $Config['Search']) {
-      echo '<option value="'.$listitem.'">'.$listitem.'</option>'.PHP_EOL;
+  foreach ($SEARCHENGINELIST as $key => $value) {
+    if ($key != $Config['Search']) {
+      echo '<option value="'.$key.'">'.$key.'</option>'.PHP_EOL;
     }
   }
   echo '</select></td></tr>'.PHP_EOL;
@@ -616,9 +619,9 @@ function show_general() {
   echo '<tr><td>Who Is Lookup: </td>'.PHP_EOL;
   echo '<td><select name="whois" onchange="submit()">'.PHP_EOL;
   echo '<option value="'.$Config['WhoIs'].'">'.$Config['WhoIs'].'</option>'.PHP_EOL;
-  foreach ($WHOISLIST as $listitem) {
-    if ($listitem != $Config['WhoIs']) {
-      echo '<option value="'.$listitem.'">'.$listitem.'</option>'.PHP_EOL;
+  foreach ($WHOISLIST as $key => $value) {
+    if ($key != $Config['WhoIs']) {
+      echo '<option value="'.$key.'">'.$key.'</option>'.PHP_EOL;
     }
   }
   echo '</select></td></tr>'.PHP_EOL;
