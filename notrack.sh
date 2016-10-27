@@ -20,6 +20,7 @@ Config[bl_notrack]=1
 Config[bl_tld]=1
 Config[bl_qmalware]=1
 Config[bl_cedia]=0
+Config[bl_cedia_immortal]=1
 Config[bl_hexxium]=1
 Config[bl_disconnectmalvertising]=0
 Config[bl_easylist]=0
@@ -65,6 +66,7 @@ declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
 URLList[cedia]="http://mirror.cedia.org.ec/malwaredomains/domains.zip"
+URLList[cedia_immortal]="http://mirror.cedia.org.ec/malwaredomains/immortal_domains.zip"
 URLList[hexxium]="https://hexxiumcreations.github.io/threat-list/hexxiumthreatlist.txt"
 URLList[disconnectmalvertising]="https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
 URLList[easylist]="https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt"
@@ -104,6 +106,7 @@ declare -A DomainList                            #Array to check if TLD blocked
 declare -A SiteList                              #Array to store sites being blocked
 declare -i Dedup=0                               #Count of Deduplication
 
+
 #--------------------------------------------------------------------
 # Error Exit
 #
@@ -141,7 +144,7 @@ function create_file() {
 
 #--------------------------------------------------------------------
 # Delete Old File
-# Checks if a file exists and then deletes it
+#   Checks if a file exists and then deletes it
 #
 # Globals:
 #   None
@@ -157,9 +160,10 @@ function delete_file() {
   fi
 }
 
+
 #--------------------------------------------------------------------
 # Add Site to List
-# Checks whether a Site is in the Users whitelist or has previously been added
+#   Checks whether a Site is in the Users whitelist or has previously been added
 #
 # Globals:
 #   DomainList
@@ -243,6 +247,7 @@ function CalculatePercentPoint() {
   fi
 }
 
+
 #--------------------------------------------------------------------
 # Check Version of Dnsmasq
 #
@@ -305,6 +310,7 @@ function check_root() {
     error_exit "NoTrack already running under Pid $Pid" "8"
   fi
 }
+
 
 #--------------------------------------------------------------------
 # Count number of lines in /etc/dnsmasq.d block lists
@@ -460,7 +466,7 @@ function get_filetime() {
 function get_blacklist() {
   echo "Processing Custom Black List"
   SQLList=()
-  Process_PlainList "$FILE_BLACKLIST"
+  process_plainlist "$FILE_BLACKLIST"
     
   if [ ${#SQLList[@]} -gt 0 ]; then              #Are there any URL's in the block list?
     insert_data "custom"
@@ -473,11 +479,10 @@ function get_blacklist() {
 
 
 #Get Custom List-----------------------------------------------------
-function Get_Custom() {
+function get_custom() {
   local -A CustomListArray
-  local CSVFile=""
   local dlfile=""
-  local DLFileTime=0                             #Downloaded File Time
+  local dlfile_time=0                            #Downloaded File Time
   local CustomCount=1                            #For displaying count of custom list
   local FileName=""
 
@@ -502,15 +507,14 @@ function Get_Custom() {
     FileName=${ListUrl##*/}                      #Get filename from URL
     FileName=${FileName%.*}                      #Remove file extension
     dlfile="/tmp/custom_$FileName.txt"
-    CSVFile="/etc/notrack/custom_$FileName.csv"    
     CustomListArray[$FileName]="$FileName"       #Used later to find old custom lists
     
     get_filetime "$dlfile"                       #When was file last downloaded / copied?
-    DLFileTime="$FileTime"
+    dlfile_time="$FileTime"
     
-    #Detrmine whether we are dealing with a download or local file
+    #Determine whether we are dealing with a download or local file
     if [[ $ListUrl =~ ^(https?|ftp):// ]]; then  #Is URL a http(s) or ftp?
-      if [ $DLFileTime -lt $((EXECTIME-CHECKTIME)) ]; then #Is list older than 4 days
+      if [ $dlfile_time -lt $((EXECTIME-CHECKTIME)) ]; then #Is list older than 4 days
         echo "Downloading $FileName"      
         wget -qO "$dlfile" "$ListUrl"            #Yes, download it
       else
@@ -520,7 +524,7 @@ function Get_Custom() {
       echo "$ListUrl File Found on system"
       get_filetime "$ListUrl"                    #Get date of file
       
-      if [ $FileTime -gt $DLFileTime ]; then     #Is the original file newer than file in /tmp?
+      if [ $FileTime -gt $dlfile_time ]; then    #Is the original file newer than file in /tmp?
         echo "Copying to $dlfile"                #Yes, copy file
         cp "$ListUrl" "$dlfile"
       else
@@ -539,18 +543,16 @@ function Get_Custom() {
       Line=$(head -n1 "$dlfile")                 #What is on the first line?
       if [[ ${Line:0:13} == "[Adblock Plus" ]]; then #First line identified as EasyList
         echo "Block list identified as Adblock Plus EasyList"
-        Process_EasyList "$dlfile"
+        process_easylist "$dlfile"
       else                                       #Other, lets grab URL from each line
         echo "Processing as Custom List"
-        Process_CustomList "$dlfile"
+        process_customlist "$dlfile"
       fi
       
       if [ ${#SQLList[@]} -gt 0 ]; then          #Are there any URL's in the block list?
-        create_file "$CSVFile"                    #Create CSV File
         insert_data "custom_$FileName"
         echo "Finished processing $FileName"        
-      else                                       #No URL's in block list
-        delete_file "$CSVFile"                 #Delete CSV File        
+      else                                       #No URL's in block list        
         echo "No URL's extracted from Block list"
       fi
     else                                         #File not downloaded
@@ -633,10 +635,10 @@ function get_list() {
   
   case $2 in                                     #What type of processing is required?
     "csv") process_csv "$dlfile" ;;
-    "easylist") Process_EasyList "$dlfile" ;;
-    "plain") Process_PlainList "$dlfile" ;;
-    "notrack") Process_NoTrackList "$dlfile" ;;
-    "tldlist") Process_TLDList ;;
+    "easylist") process_easylist "$dlfile" ;;
+    "plain") process_plainlist "$dlfile" ;;
+    "notrack") process_notracklist "$dlfile" ;;
+    "tldlist") process_tldlist ;;
     "unix") Process_UnixList "$dlfile" ;;    
     *) error_exit "Unknown option $2" "7"
   esac  
@@ -673,6 +675,7 @@ function insert_data() {
   rm "/tmp/$1.csv"
 }
 
+
 #--------------------------------------------------------------------
 # Check If mysql or MariaDB is installed
 #   exits if not installed
@@ -690,6 +693,8 @@ function is_sql_installed() {
     exit 60
   fi  
 }
+
+
 #--------------------------------------------------------------------
 # Check if an update is required
 #   Triggers for Update being required:
@@ -771,54 +776,33 @@ function is_update_required() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function load_config() {  
+function load_config() {
+  local key=""
+  local value=""
+
   if [ ! -e "$FILE_CONFIG" ]; then
     echo "Config $FILE_CONFIG missing"
     return
   fi
   
   echo "Reading Config File"
-  while IFS='= ' read -r Key Value             #Seperator '= '
+  while IFS='= ' read -r key value             #Seperator '= '
   do
-    if [[ ! $Key =~ ^\ *# && -n $Key ]]; then
-      Value="${Value%%\#*}"    # Del in line right comments
-      Value="${Value%%*( )}"   # Del trailing spaces
-      Value="${Value%\"*}"     # Del opening string quotes 
-      Value="${Value#\"*}"     # Del closing string quotes 
-        
-      case "$Key" in
-        IPVersion) IPVersion="$Value";;
-        NetDev) NetDev="$Value";;
-        LatestVersion) OldLatestVersion="$Value";;
-        bl_custom) Config[bl_custom]="$Value";;
-        bl_notrack) Config[bl_notrack]="$Value";;
-        bl_tld) Config[bl_tld]="$Value";;
-        bl_qmalware) Config[bl_qmalware]="$Value";;
-        bl_cedia) Config[bl_cedia]="$Value";;
-        bl_hexxium) Config[bl_hexxium]="$Value";;
-        bl_disconnectmalvertising) Config[bl_disconnectmalvertising]="$Value";;          
-        bl_easylist) Config[bl_easylist]="$Value";;
-        bl_easyprivacy) Config[bl_easyprivacy]="$Value";;
-        bl_fbannoyance) Config[bl_fbannoyance]="$Value";;
-        bl_fbenhanced) Config[bl_fbenhanced]="$Value";;
-        bl_fbsocial) Config[bl_fbsocial]="$Value";;
-        bl_hphosts) Config[bl_hphosts]="$Value";;
-        bl_malwaredomainlist) Config[bl_malwaredomainlist]="$Value";;
-        bl_malwaredomains) Config[bl_malwaredomains]="$Value";;          
-        bl_pglyoyo) Config[bl_pglyoyo]="$Value";;
-        #bl_securemecca) Config[bl_securemecca]="$Value";;
-        bl_someonewhocares) Config[bl_someonewhocares]="$Value";;
-        bl_spam404) Config[bl_spam404]="$Value";;
-        bl_swissransom) Config[bl_swissransom]="$Value";;
-        bl_swisszeus) Config[bl_swisszeus]="$Value";;
-        bl_winhelp2002) Config[bl_winhelp2002]="$Value";;
-        bl_areasy) Config[bl_areasy]="$Value";;
-        bl_chneasy) Config[bl_chneasy]="$Value";;
-        bl_deueasy) Config[bl_deueasy]="$Value";;
-        bl_dnkeasy) Config[bl_dnkeasy]="$Value";;
-        bl_ruseasy) Config[bl_ruseasy]="$Value";;   
-        bl_fblatin) Config[bl_fblatin]="$Value";;         
-      esac            
+    if [[ ! $key =~ ^\ *# ]] && [[ -n $key ]]; then
+      value="${value%%\#*}"                    #Del in line right comments
+      value="${value%%*( )}"                   #Del trailing spaces
+      value="${value%\"*}"                     #Del opening string quotes 
+      value="${value#\"*}"                     #Del closing string quotes 
+      
+      if [ "{Config[$key]}" ]; then            #Does key exist in Config array?
+        Config[$key]="$value"                  #Yes - replace value
+      else
+        case "$key" in
+          IPVersion) IPVersion="$value";;
+          NetDev) NetDev="$value";;
+          LatestVersion) OldLatestVersion="$value";;
+        esac
+      fi
     fi
   done < $FILE_CONFIG  
   
@@ -902,7 +886,7 @@ function process_csv() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function Process_CustomList() {
+function process_customlist() {
   local i=0
   local j=0
 
@@ -950,7 +934,7 @@ function Process_CustomList() {
 #   Group 3: ^ | / | $  once
 #   Group 4: $third-party | $popup | $popup,third-party
 #--------------------------------------------------------------------
-function Process_EasyList() {
+function process_easylist() {
   local i=0
   local j=0
   
@@ -995,7 +979,7 @@ function Process_EasyList() {
 #   #  optional
 #   Group 3: Comment  any character zero or more times
 #--------------------------------------------------------------------
-function Process_NoTrackList() {
+function process_notracklist() {
   local i=0
   local j=0
   local LatestVersion=""
@@ -1053,7 +1037,7 @@ function Process_NoTrackList() {
 #   #  optional
 #   Group 3: Comment  any character zero or more times
 #--------------------------------------------------------------------
-function Process_PlainList() {
+function process_plainlist() {
   local i=0
   local j=0
   
@@ -1103,7 +1087,7 @@ function Process_PlainList() {
 #   #  optional
 #   Group 3: Comment  any character zero or more times
 #--------------------------------------------------------------------
-function Process_TLDList() { 
+function process_tldlist() { 
   local -A DomainBlackList
   local -A DomainWhiteList
   
@@ -1239,7 +1223,7 @@ function Process_UnixList() {
 #   0: Success
 #   55: Failed
 #--------------------------------------------------------------------
-function Process_WhiteList() {  
+function process_whitelist() {  
   local Method=0                                 #1: White list from Dnsmasq, 2: Dig
   local -a DNSList
   local site=""
@@ -1305,8 +1289,8 @@ function Process_WhiteList() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function SortList() {
-  local ListSize=0
+function sortlist() {
+  local listsize=0
   local i=0
   local j=0
   local -a SortedList                            #Sorted array of SiteList
@@ -1314,16 +1298,16 @@ function SortList() {
   local site=""
   Dedup=0                                        #Reset Deduplication
   
-  ListSize=${#SiteList[@]}                       #Get number of items in Array
-  if [ "$ListSize" == 0 ]; then                  #Fatal error
+  listsize=${#SiteList[@]}                       #Get number of items in Array
+  if [ "$listsize" == 0 ]; then                  #Fatal error
     error_exit "No items in Block List" "8"
   fi  
-  if [ "$ListSize" -ge 100 ]; then               #Calculate Percentage Point
-    PercentPoint=$((ListSize/100))
+  if [ "$listsize" -ge 100 ]; then               #Calculate Percentage Point
+    PercentPoint=$((listsize/100))
     JumpPoint=1
   else
     PercentPoint=1
-    JumpPoint=$((100/ListSize))
+    JumpPoint=$((100/listsize))
   fi
   
   echo "Sorting List"
@@ -1373,8 +1357,16 @@ function SortList() {
 }
 
 #--------------------------------------------------------------------
-#Show on screen help
-function Show_Help() {
+# Show Help
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function show_help() {
   echo "Usage: notrack"
   echo "Downloads and Installs updated tracker lists"
   echo
@@ -1387,12 +1379,22 @@ function Show_Help() {
   echo -e "  --count\tCount number of sites in active Block lists"
 }
 
+
 #--------------------------------------------------------------------
-#Show Version
-function Show_Version() {
+# Show Version
+#
+# Globals:
+#   VERSION
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function show_version() {
   echo "NoTrack Version $VERSION"
   echo
 }
+
 
 #--------------------------------------------------------------------
 # Test
@@ -1404,7 +1406,7 @@ function Show_Version() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function Test() {
+function test() {
   local DnsmasqVersion=""
   local key=""  
 
@@ -1453,51 +1455,24 @@ function Test() {
 
 #--------------------------------------------------------------------
 # Upgrade NoTrack
+#   As of v0.7.9 Upgrading is now handled by ntrk-upgrade.sh
 # Globals:
-#   Config
+#   None
 # Arguments:
 #   None
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function Upgrade() {
-  #As of v0.7.9 Upgrading is now handled by ntrk-upgrade.sh
-  #This function attempts to run it from /usr/local/sbin
-  #If that fails, then it looks in the users home folder
+function upgrade() {  
   if [ -e /usr/local/sbin/ntrk-upgrade ]; then
     echo "Running ntrk-upgrade"
     /usr/local/sbin/ntrk-upgrade
     exit 0
   fi
 
-  echo "Warning. ntrk-upgrade missing from /usr/local/sbin/"
-  echo "Attempting to find alternate copy..."  
-
-  for HomeDir in /home/*; do
-    if [ -d "$HomeDir/NoTrack" ]; then 
-      InstallLoc="$HomeDir/NoTrack"
-      break
-    elif [ -d "$HomeDir/notrack" ]; then 
-      InstallLoc="$HomeDir/notrack"
-      break
-    fi
-  done
-
-  if [[ $InstallLoc == "" ]]; then
-    if [ -d "/opt/notrack" ]; then
-      InstallLoc="/opt/notrack"      
-    else
-      error_exit "Unable to find NoTrack folder" "22"
-    fi
-  else    
-    if [ -e "$InstallLoc/ntrk-upgrade.sh" ]; then
-      echo "Found alternate copy in $InstallLoc"
-      sudo bash "$InstallLoc/ntrk-upgrade.sh"    
-    else
-      error_exit "Unable to find ntrk-upgrade.sh" "20"
-    fi
-  fi
+  error_exit "Unable to find ntrk-upgrade.sh" "20"  
 }
+
 
 #Main----------------------------------------------------------------
 if [ "$1" ]; then                                #Have any arguments been given
@@ -1519,19 +1494,19 @@ if [ "$1" ]; then                                #Have any arguments been given
         Force=1        
       ;;
       -h|--help) 
-        Show_Help
+        show_help
         exit 0
       ;;
       -t|--test)
-        Test
+        test
         exit 0
       ;;
       -v|--version) 
-        Show_Version
+        show_version
         exit 0
       ;;
       -u|--upgrade)
-        Upgrade
+        upgrade
         exit 0
       ;;
       (--) 
@@ -1597,14 +1572,15 @@ delete_table
 create_file "$LISTFILE_BLOCKING"
 cat /dev/null > "$CSV_BLOCKING"                  #Empty file
 
-Process_TLDList                                  #Load and Process TLD List
-Process_WhiteList                                #Process White List
+process_tldlist                                  #Load and Process TLD List
+process_whitelist                                #Process White List
 
 get_blacklist                                    #Process Users Blacklist
   
 get_list "notrack" "notrack"
 get_list "qmalware" "plain"
 get_list "cedia" "csv" "domains.txt"
+get_list "cedia_immortal" "plain" "immortal_domains.txt"
 get_list "hexxium" "easylist"
 get_list "disconnectmalvertising" "plain"
 get_list "easylist" "easylist"
@@ -1628,10 +1604,10 @@ get_list "dnkeasy" "easylist"
 get_list "ruseasy" "easylist"
 get_list "fblatin" "easylist"
 
-Get_Custom                                       #Process Custom Block lists
+get_custom                                       #Process Custom Block lists
 
 echo "Deduplicated $Dedup Domains"
-SortList                                         #Sort, Dedup 2nd round, Save list
+sortlist                                         #Sort, Dedup 2nd round, Save list
 
 if [ "${Config[bl_tld]}" == 0 ]; then
   delete_file "$FILE_QUICKLIST"
