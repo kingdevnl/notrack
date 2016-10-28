@@ -122,7 +122,7 @@ function check_version($latestversion) {
  *  Count rows in table
  *
  *  Params:
- *    Query String
+ *    SQL Query
  *  Return:
  *    Number of Rows
  */
@@ -137,8 +137,7 @@ function count_rows($query) {
   
   $rows = $result->fetch_row()[0];               //Extract value from array
   $result->free();    
-  
-      
+        
   return $rows;
 }
 
@@ -164,7 +163,7 @@ function filter_integer($value, $min, $max, $defaultvalue=0) {
 /********************************************************************
  *  Pagination
  *  
- *  Draw up to 6 buttons
+ *  Draw up to 7 buttons
  *  Main [<] [1] [x] [x+1] [L] [>]
  *  Or   [ ] [1] [2] [>]
  *
@@ -192,22 +191,32 @@ function pagination($totalrows, $linktext) {
       echo '<li><span>&nbsp;&nbsp;</span></li>'.PHP_EOL;
       echo '<li class="active"><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
       $startloop = 2;
-      if (($numpages > 3) && ($page < $numpages - 3)) $endloop = $page + 3;
+      if ($numpages > 4)  $endloop = $page + 4;
       else $endloop = $numpages;
     }
     else {                                       // [<] [1]
       echo '<li><a href="?page='.($page-1).'&amp;'.$linktext.'">&#x00AB;</a></li>'.PHP_EOL;
       echo '<li><a href="?page=1&amp;'.$linktext.'">1</a></li>'.PHP_EOL;
       
-      if ($numpages < 4) $startloop = 2;         // [1] [2] [3] [L]
-      elseif (($page > 2) && ($page > $numpages -3)) $startloop = ($numpages - 2); //[1]  [x-1] [x] [L]
-      else $startloop = $page;                   // [1] [x] [x+1] [L]
+      if ($numpages < 5) {
+        $startloop = 2;                          // [1] [2] [3] [4] [L]
+      }
+      elseif (($page > 2) && ($page > $numpages -4)) {
+        $startloop = ($numpages - 3);            //[1]  [x-1] [x] [L]
+      }
+      else {
+        $startloop = $page;                      // [1] [x] [x+1] [L]
+      }
       
-      if (($numpages > 3) && ($page < $numpages - 2)) $endloop = $page + 2; // [y] [y+1] [y+2]
-      else $endloop = $numpages;                 // [1] [x-1] [y] [L]
+      if (($numpages > 3) && ($page < $numpages - 2)) {
+        $endloop = $page + 3;                    // [y] [y+1] [y+2] [y+3]
+      }
+      else {
+        $endloop = $numpages;                    // [1] [x-2] [x-1] [y] [L]
+      }      
     }    
     
-    for ($i = $startloop; $i < $endloop; $i++) { //Loop to draw 2 buttons
+    for ($i = $startloop; $i < $endloop; $i++) { //Loop to draw 3 buttons
       if ($i == $page) {
         echo '<li class="active"><a href="?page='.$i.'&amp;'.$linktext.'">'.$i.'</a></li>'.PHP_EOL;
       }
@@ -233,38 +242,39 @@ function pagination($totalrows, $linktext) {
 
 /********************************************************************
  *  Save Config
- *
+ *    1. Check if Latest Version is less than Current Version
+ *    2. Open Temp Config file for writing
+ *    3. Loop through Config Array
+ *    4. Write all values, except for "Status = Enabled"
+ *    5. Close Config File
+ *    6. Delete Config Array out of Memcache, in order to force reload
+ *    7. Onward process is to Display appropriate config view
  *  Params:
  *    None
  *  Return:
  *    SQL Query string
  */
 function save_config() {
-  //1. Check if Latest Version is less than Current Version
-  //2. Open Temp Config file for writing
-  //3. Loop through Config Array
-  //4. Write all values, except for "Status = Enabled"
-  //5. Close Config File
-  //6. Delete Config Array out of Memcache, in order to force reload
-  //7. Onward process is to Display appropriate config view
+  global $Config, $mem;
   
-  global $Config, $FileTmpConfig, $mem;  
+  $key = '';
+  $value = '';
   
   //Prevent wrong version being written to config file if user has just upgraded and old LatestVersion is still stored in Memcache
   if (check_version($Config['LatestVersion'])) {
     $Config['LatestVersion'] = VERSION;
   }
   
-  $fh = fopen($FileTmpConfig, 'w');      //Open temp config for writing
+  $fh = fopen(CONFIGTEMP, 'w');                  //Open temp config for writing
   
-  foreach ($Config as $Key => $Value) {          //Loop through Config array
-    if ($Key == 'Status') {
-      if ($Value != 'Enabled') {
-        fwrite($fh, $Key.' = '.$Value.PHP_EOL);  //Write Key & Value
+  foreach ($Config as $key => $value) {          //Loop through Config array
+    if ($key == 'Status') {
+      if ($value != 'Enabled') {
+        fwrite($fh, $key.' = '.$value.PHP_EOL);  //Write Key & Value
       }
     }
     else {
-      fwrite($fh, $Key.' = '.$Value.PHP_EOL);    //Write Key & Value
+      fwrite($fh, $key.' = '.$value.PHP_EOL);    //Write Key & Value
     }
   }
   fclose($fh);                                   //Close file
