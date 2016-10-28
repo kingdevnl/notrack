@@ -33,6 +33,23 @@ DEFINE('DEF_SYSTEM', 'all');
 DEFINE('DEF_SDATE', date("Y-m-d", time() - 172800));
 DEFINE('DEF_EDATE', date("Y-m-d", time() - 86400));
 
+$FILTERLIST = array('all' => 'All Requests',
+                    'allowed' => 'Allowed Only',
+                    'blocked' => 'Blocked Only',
+                    'local' => 'Local Only');
+
+$VIEWLIST = array('livegroup', 'livetime', 'historicgroup', 'historictime');
+
+$COMMONSITESLIST = array('cloudfront.net',
+                         'googleusercontent.com',
+                         'googlevideo.com',
+                         'cedexis-radar.net',
+                         'gvt1.com',
+                         'deviantart.net',
+                         'deviantart.com',
+                         'tumblr.com');
+//CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
+
 /************************************************
 *Global Variables                               *
 ************************************************/
@@ -49,35 +66,10 @@ $sqltable = 'live';
 /************************************************
 *Arrays                                         *
 ************************************************/
-// $unsortedlog = array();
-// $sortedlog = array();
 $syslist = array();
-
-$FILTERLIST = array('all' => 'All Requests',
-                    'allowed' => 'Allowed Only',
-                    'blocked' => 'Blocked Only',
-                    'local' => 'Local Only');
-
-$VIEWLIST = array('livegroup', 'livetime', 'historicgroup', 'historictime');
 $TLDBlockList = array();
 $CommonSites = array();                          //Merge Common sites list with Users Suppress list
-$COMMONSITESLIST = array('cloudfront.net',
-                         'googleusercontent.com',
-                         'googlevideo.com',
-                         'cedexis-radar.net',
-                         'gvt1.com',
-                         'deviantart.net',
-                         'deviantart.com',
-                         'tumblr.com');
-//CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
-//cloudfront.net - Very popular CDN, hard to back trace originating site
-//googleusercontent.com - Google+ and YouTube user content
-//googlevideo.com - True links to YouTube videos
-//cedexis-radar.net - Blocked tracker that uses a different subdomain per site they provide tracking services for
-//gvt1.com - Google Play Store
-//deviantart.net - Image download from deviatart
-//deviantart.com - Each user has a different subdomain on deviantart.com
-//tumblr.com - Each blog is on a different subdomain
+
 
 /********************************************************************
  *  Add Date Vars to SQL Search
@@ -188,7 +180,11 @@ function draw_filterbox() {
   global $datestart, $dateend;
   
   $hidden_date_vars = '';
-  if ($sqltable == 'historic') $hidden_date_vars = '<input type="hidden" name="datestart" value="'.$datestart.'" /><input type="hidden" name="dateend" value="'.$dateend.'" />'.PHP_EOL;
+  $line = '';
+  
+  if ($sqltable == 'historic') {
+    $hidden_date_vars = '<input type="hidden" name="datestart" value="'.$datestart.'" /><input type="hidden" name="dateend" value="'.$dateend.'" />'.PHP_EOL;
+  }
   
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>DNS Queries</h5>'.PHP_EOL;
@@ -250,6 +246,15 @@ function draw_filterbox() {
   echo '</div>'.PHP_EOL;
 }
 
+
+/********************************************************************
+ *  Draw View Buttons
+ *    [Today][Historic][Group][Time]
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
 function draw_viewbuttons() {
   global $sqltable, $view;
 
@@ -272,100 +277,7 @@ function draw_viewbuttons() {
   }
   echo '</ul></div>'.PHP_EOL;
 }
-/********************************************************************
- *  Load Log Files
- *  
- *  1. Attempt to load TLDBlockList from Memcache
- *  2. If that fails then check if DomainQuickList file exists
- *  3. Read each line into TLDBlockList array and trim off \n
- *  4. Once loaded store TLDBlockList array in Memcache for 30 mins
- *
- *  Params:
- *    None
- *  Return:
- *    None
- */
-/*function load_logfiles() {
-  global $sortedlog, $unsortedlog, $mem;
-  global $SortCol, $SortDir, $StartStr, $StartTime, $DateRange, $ExecTime, $View;
-  
-  $LoadList = true;                              //Assume Logs will need loading
-  $SortList = true;                              //Assume Array will need sorting
-  $memSaveTime = 600;                            //How long to hold data in memory
 
-  //How long to hold data in memcache based on how far back user is searching
-  //Shorter time search = lower retention of Memcache
-  if (($StartStr == '') || ($StartStr == 'today')) $memSaveTime = 240;
-  elseif ($StartTime >= $ExecTime - 300) $memSaveTime = 30;    //-5 Min
-  elseif ($StartTime >= $ExecTime - 1500) $memSaveTime = 50;   //-15 Min
-  elseif ($StartTime >= $ExecTime - 3600) $memSaveTime = 90;   //-1 hour
-  elseif ($StartTime >= $ExecTime - 28800) $memSaveTime = 180; //-8 hours
-
-  //Attempt to load SortedDomainList from Memcache
-  $sortedlog = $mem->get('sortedlog');   
-  if ($sortedlog) {                              //Has array loaded?
-    if (($StartStr == $mem->get('StartStr')) && 
-        ($DateRange == $mem->get('DateRange')) && 
-        ($View == $mem->get('View'))) {
-      if (($SortCol == $mem->get('SortCol')) && 
-          ($SortDir == $mem->get('SortDir'))) {  //Check if search is same
-        $SortList = false;
-        $LoadList = false;      
-      }
-      else {
-        $LoadList = false;                       //No need to load list
-        $sortedlog = array();                    //Delete data in array     
-      }
-    }
-    else {
-      $mem->delete('StartStr');                  //Delete old variables from Memcache
-      $mem->delete('SortCol');
-      $mem->delete('SortDir');
-      $mem->delete('DateRange');
-      $mem->delete('unsortedlog');
-      $mem->delete('sortedlog');
-      $mem->delete('View');
-      $sortedlog = array();                      //Delete data in array
-    }    
-  }
-    
-  if ($LoadList) {                               //Load domain list from file  
-    //Are we loading Todays logs or Historic logs?
-    if ($StartTime > (time() - 86400)) load_todaylog();
-    else load_historiclogs();
-    $mem->set('unsortedlog', $unsortedlog, 0, $memSaveTime);
-  }
-  else {                                         //Load domain list from memcache
-  $unsortedlog = $mem->get('unsortedlog');
-    if (!$unsortedlog) {                         //Something wrong, get it reloaded
-      if ($StartTime > (time() - 86400)) load_todaylog();
-      else load_historiclogs();
-      $mem->set('unsortedlog', $unsortedlog, 0, $memSaveTime);
-    }
-  }
-
-  if ($SortList) {                               //Sort Array of Domains from log file    
-    if ($SortCol == 1) {
-      if ($SortDir == 0) ksort($unsortedlog);
-      else krsort($unsortedlog);
-    }
-    else {
-      if ($SortDir == 0) arsort($unsortedlog);   //Sort array by highest number of hits
-      else asort($unsortedlog);
-    }
-    
-    $sortedlog = array_keys($unsortedlog);
-    $mem->set('StartStr', $StartStr, 0, $memSaveTime);       //Store variables in Memcache
-    $mem->set('SortCol', $SortCol, 0, $memSaveTime);
-    $mem->set('SortDir', $SortDir, 0, $memSaveTime);
-    $mem->set('DateRange', $DateRange, 0, $memSaveTime);
-    $mem->set('sortedlog', $sortedlog, 0, $memSaveTime);
-    $mem->set('View', $View, 0, $memSaveTime);
-  }
-  
-  return null;
-}
-*/
 
 /********************************************************************
  *  Load TLD Block List
@@ -384,64 +296,19 @@ function load_tldblocklist() {
   global $TLDBlockList, $mem, $DomainQuickList;
   
   $TLDBlockList = $mem->get('TLDBlockList');
-  if (! $TLDBlockList) {
+  if (empty($TLDBlockList)) {
     if (file_exists($DomainQuickList)) {          //Check if File Exists
-      $FileHandle = fopen($DomainQuickList, 'r') or die('Error unable to open '.$DomainQuickList);
-      while (!feof($FileHandle)) {
-        $TLDBlockList[] = trim(fgets($FileHandle));
+      $fh = fopen($DomainQuickList, 'r') or die('Error unable to open '.$DomainQuickList);
+      while (!feof($fh)) {
+        $TLDBlockList[] = trim(fgets($fh));
       }
-      fclose($FileHandle);
+      fclose($fh);
       $mem->set('TLDBlockList', $TLDBlockList, 0, 1800);
     }
   }
   
   return null;
 }
-
-
-/********************************************************************
- *  Load Historic Logs
- *  
- *  1. Load relevant files from /var/log/notrack
- *  2. Add each line to $unsortedlog
- *
- *  Params:
- *    None
- *  Return:
- *    None
- */
-/*function load_historiclogs() {
-  global $DateRange, $StartTime, $View, $unsortedlog, $ExecTime;
-  
-  $LogFile = '';
-  $url = '';
-  $LD = $StartTime + 86400;                      //Log files get cached the following day, so we move the start date on by 86,400 seconds (24 hours)
-  
-  if ($View == 1) $pattern = '/^(.*)(\-|\+|1)$/';
-  elseif ($View == 2) $pattern = '/^(.*)(\+|1)$/';
-  elseif ($View == 3) $pattern = '/^(.*)(\-)$/';
-  
-  for ($i = 0; $i < $DateRange; $i++) {
-    $LogFile = '/var/log/notrack/dns-'.date('Y-m-d', $LD).'.log';
-    if (file_exists($LogFile)) {
-      $FileHandle= fopen($LogFile, 'r');
-      while (!feof($FileHandle)) {
-        $line = trim(fgets($FileHandle));                  //Read Line of LogFile
-        if (preg_match($pattern, $line, $matches) > 0) {          
-          $url = simplify_url($matches[1]).$matches[2];          
-          if (array_key_exists($url, $unsortedlog)) $unsortedlog[$url]++;
-          else $unsortedlog[$url] = 1;
-        }        
-      }
-    }  
-  
-    $LD = $LD + 86400;                           //Add per run of loop 24 Hours
-    if ($LD > $ExecTime + 86400) {               //Don't exceed today      
-      break;
-    }
-  }  
-}
-*/
 
 
 /********************************************************************
@@ -458,7 +325,8 @@ function search_systems() {
   global $db, $mem, $syslist;
   
   $syslist = $mem->get('syslist');
-  if (! $syslist) {
+  
+  if (empty($syslist)) {
     if (! $result = $db->query('SELECT DISTINCT `sys` FROM `live` ORDER BY `sys`')) {
       die('There was an error running the query'.$db->error);
     }
@@ -470,37 +338,10 @@ function search_systems() {
   }    
 }
 
-/********************************************************************
- *  Simplify URL
- *  
- *  1: Drop www (its unnecessary and not all websites use it now)
- *  2. Extract domain.tld, including double-barrelled domains
- *  3. Check if site is to be suppressed (present in $CommonSites)
- *
- *  Params:
- *    $url - URL To Simplify
- *  Return:
- *    Simplified URL
- */
-function simplify_url($url) {  
-  global $CommonSites;
-  $simpleurl = '';
-    
-  if (substr($url,0,4) == 'www.') $simpleurl  = substr($url,4); 
-  else $simpleurl  = $url;
-  
-  if (preg_match('/[A-Za-z0-9\-\_]{2,63}\.(gov\.|org\.|co\.|com\.)?[A-Za-z0-9\-]{2,63}$/', $simpleurl , $Match) == 1) {
-    if (in_array($Match[0],$CommonSites)) return '*.'.$Match[0];
-    else return $simpleurl ;
-  }
- 
-  return $simpleurl;
-}
 
 /********************************************************************
- *  Show Live Group
- *  
- *  Show results from either Live or Historic table in Group order
+ *  Show Group View
+ *    Show results from either Live or Historic table in Group order
  *
  *  Params:
  *    None
@@ -516,9 +357,12 @@ function show_group_view() {
   $row_class = '';
   $action = '';
   $blockreason = '';
+  $query = '';
   
   $linkstr = htmlspecialchars('&filter='.$filter.'&sys='.$sys);
-  if ($sqltable == 'historic') $linkstr .= htmlspecialchars('&datestart='.$datestart.'&dateend='.$dateend);
+  if ($sqltable == 'historic') {                 //Add date search to link in histroic view
+    $linkstr .= htmlspecialchars('&datestart='.$datestart.'&dateend='.$dateend);
+  }
   
   $rows = count_rows_save('SELECT COUNT(DISTINCT `dns_request`) FROM `'.$sqltable.'`' .add_filterstr().add_datestr());
   $query = 'SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM `'.$sqltable.'`'.add_filterstr().add_datestr().' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
@@ -545,7 +389,8 @@ function show_group_view() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    if ($row['dns_result'] == 'A') {
+    
+    if ($row['dns_result'] == 'A') {             //Row colouring
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
@@ -583,8 +428,7 @@ function show_group_view() {
 
 /********************************************************************
  *  Show Live Time
- *  
- *  Show results from Live table in Time order
+ *    Show results from Live table in Time order
  *
  *  Params:
  *    None
@@ -659,8 +503,7 @@ function show_live_time() {
 
 /********************************************************************
  *  Show Historic Time
- *  
- *  Show results from Historic table in Time order
+ *    Show results from Historic table in Time order
  *
  *  Params:
  *    None
@@ -728,7 +571,7 @@ function show_historic_time() {
 
 $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
-search_systems();
+search_systems();                                //Need to find out systems on live table
 
 if (isset($_GET['page'])) {
   $page = filter_integer($_GET['page'], 1, PHP_INT_MAX, 1);
@@ -751,15 +594,14 @@ if (isset($_GET['view'])) {
   if (($view == 'historicgroup') || ($view == 'historictime')) $sqltable = 'historic';
 }
 
-if (isset($_GET['datestart'])) {
+if (isset($_GET['datestart'])) {                 //Filter for yyyy-mm-dd
   if (preg_match('/^20[0-9][0-9]\-[0-1][0-9]\-[0-3][0-9]$/', $_GET['datestart']) > 0) $datestart = $_GET['datestart'];
 }
-if (isset($_GET['dateend'])) {
-  if (preg_match('/^20[0-9][0-9]\-[0-1][0-9]\-[0-3][0-9]$/', $_GET['dateend']) > 0) $dateend = $_GET['dateend'];
-  else echo "fail";
+if (isset($_GET['dateend'])) {                   //Filter for yyyy-mm-dd
+  if (preg_match('/^20[0-9][0-9]\-[0-1][0-9]\-[0-3][0-9]$/', $_GET['dateend']) > 0) $dateend = $_GET['dateend'];  
 }
 
-if ($sqltable == 'historic') {
+if ($sqltable == 'historic') {                   //Check to see if dates are valid
   if (strtotime($dateend) > time()) $dateend = DEF_EDATE;
   if (strtotime($datestart) > strtotime($dateend)) {
     $datestart = DEF_SDATE;
@@ -767,9 +609,11 @@ if ($sqltable == 'historic') {
   }
 }
 
-if ($Config['bl_tld'] == 1) load_tldblocklist(); //Load TLD Blocklist if being used
+if ($Config['bl_tld'] == 1) {                    //Load TLD Blocklist if being used
+  load_tldblocklist();
+}
 
-draw_filterbox();
+draw_filterbox();                                //Draw filters
 
 if ($view == 'livetime') {
   show_live_time();
