@@ -61,6 +61,17 @@ img.btn {
 img.full {  
   width: 100%;
 }
+span.filter {
+  width: 6rem;  
+  margin-right: 0.6em;
+  text-align: right;
+  display: inline-block;  
+}
+span.blradiolist {
+  width: 17rem;
+  line-height: 1.5em;
+  display: inline-block;
+}
 .pointer {
   cursor: pointer;
 }
@@ -789,12 +800,6 @@ span.timer {
 .icon-box img {
   width: 80%;
   padding-bottom: 0.9rem;
-}
-span.filter {
-  width: 6rem;  
-  margin-right: 0.6em;
-  text-align: right;
-  display: inline-block;  
 }
 @media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {  /*Windowed view for Home Nav*/
   .home-nav-container {

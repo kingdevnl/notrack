@@ -8,11 +8,17 @@
  *  Return:
  *    SQL Query string
  */
-function add_searchbox() {
-  global $searchbox;
+function add_searches() {
+  global $blradio, $searchbox;
   $searchstr = '';
   
-  if ($searchbox != '') {
+  if (($blradio != 'all') && ($searchbox != '')) {
+    $searchstr = ' WHERE site LIKE \'%'.$searchbox.'%\' AND bl_source = \''.$blradio.'\' ';
+  }
+  elseif ($blradio != 'all') {
+    $searchstr = ' WHERE bl_source = \''.$blradio.'\' ';
+  }
+  elseif ($searchbox != '') {
     $searchstr = ' WHERE site LIKE \'%'.$searchbox.'%\' ';
   }
   
@@ -71,6 +77,52 @@ function draw_blocklist_row($bl, $bl_name, $msg) {
   return null;
 }
 
+
+/********************************************************************
+ *  Draw Blocklist Radio Form
+ *    Radio list is made up of the items in $BLOCKLISTNAMES array
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function draw_blradioform() {
+  global $BLOCKLISTNAMES, $showblradio, $blradio, $page, $searchbox;
+  
+  if ($showblradio) {                            //Are we drawing Form or Show button?
+    echo '<form name = "blradform" method="GET">'.PHP_EOL;   //Form for Radio List
+    echo '<input type="hidden" name="v" value="full" />'.PHP_EOL;
+    echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
+    if ($searchbox != '') {
+      echo '<input type="hidden" name="s" value="'.$searchbox.'" />'.PHP_EOL;
+    }    
+  
+    if ($blradio == 'all') {
+      echo '<span class="blradiolist"><input type="radio" name="blrad" value="all" checked="checked" onclick="document.blradform.submit()">All</span>'.PHP_EOL;
+    }
+    else {
+      echo '<span class="blradiolist"><input type="radio" name="blrad" value="all" onclick="document.blradform.submit()">All</span>'.PHP_EOL;
+    }
+  
+    foreach ($BLOCKLISTNAMES as $key => $value) { //Use BLOCKLISTNAMES for Radio items
+      if ($key == $blradio) {                    //Should current item be checked?
+        echo '<span class="blradiolist"><input type="radio" name="blrad" value="'.$key.'" checked="checked" onclick="document.blradform.submit()">'.$value.'</span>'.PHP_EOL;
+      }
+      else {
+        echo '<span class="blradiolist"><input type="radio" name="blrad" value="'.$key.'" onclick="document.blradform.submit()">'.$value.'</span>'.PHP_EOL;
+      }
+    }
+  }  
+  else {                                         //Draw Show button instead
+    echo '<form action="?v=full&amp;page='.$page.'" method="POST">'.PHP_EOL;
+    echo '<input type="hidden" name="showblradio" value="1">'.PHP_EOL;
+    echo '<input type="submit" class="button-blue" value="Select Block List">'.PHP_EOL;
+  }
+  
+  echo '</form>'.PHP_EOL;                        //End of either form above
+  echo '<br />'.PHP_EOL;
+}
 
 /********************************************************************
  *  Filter Config Post Request
@@ -462,8 +514,11 @@ function show_domain_list() {
  *    None
  */
 function show_full_blocklist() {
-  global $db, $page, $searchbox;
+  global $db, $page, $searchbox, $blradio, $showblradio;
   global $BLOCKLISTNAMES;
+  
+  $key = '';
+  $value ='';
   $rows = 0;
   $row_class = '';
   $bl_source = '';
@@ -472,19 +527,22 @@ function show_full_blocklist() {
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>Sites Blocked</h5>'.PHP_EOL;
     
-  $rows = count_rows('SELECT COUNT(*) FROM blocklist'.add_searchbox());
+  $rows = count_rows('SELECT COUNT(*) FROM blocklist'.add_searches());
     
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-  $query = 'SELECT * FROM blocklist '.add_searchbox().'ORDER BY id LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $query = 'SELECT * FROM blocklist '.add_searches().'ORDER BY id LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
   }
   
+  draw_blradioform();
+  
   echo '<form method="GET">'.PHP_EOL;            //Form for Text Search
   echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
   echo '<input type="hidden" name="v" value="full" />'.PHP_EOL;
+  echo '<input type="hidden" name="blrad" value="'.$blradio.'" />'.PHP_EOL;
   if ($searchbox == '') {                        //Anything in search box?
     echo '<input type="text" name="s" id="search" placeholder="Search">'.PHP_EOL;
   }
@@ -503,7 +561,13 @@ function show_full_blocklist() {
   }
   
   echo '<div class="sys-group">';                //Now for the results
-  pagination($rows, 'v=full'.$linkstr);
+  if ($showblradio) {
+    pagination($rows, 'v=full'.$linkstr.'&amp;blrad='.$blradio);
+  }
+  else {
+    pagination($rows, 'v=full'.$linkstr);
+  }
+  
   echo '<table id="block-table">'.PHP_EOL;
   echo '<tr><th>#</th><th>Block List</th><th>Site</th><th>Comment</th></tr>'.PHP_EOL;
    

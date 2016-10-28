@@ -21,13 +21,38 @@ action_topmenu();
 *Constants                                      *
 ************************************************/
 $BLOCKLISTNAMES = array(
-  'bl_hexxium' => 'Hexxium',
-  'bl_qmalware' => 'NoTrack Malware',
-  'bl_notrack' => 'NoTrack',
+  'custom' => 'Custom',
   'bl_tld' => 'Top Level Domain',
-  'custom' => 'Custom'
+  'bl_notrack' => 'NoTrack',  
+  'bl_qmalware' => 'NoTrack Malware',
+  'bl_cedia' => 'CEDIA Malware',
+  'bl_cedia_immortal' => 'CEDIA Immortal Malware',
+  'bl_someonewhocares' => 'Dan Pollocks&rsquo;s hosts',
+  'bl_disconnectmalvertising' => 'Malvertising by Disconnect',
+  'bl_easylist' => 'Easy List',
+  'bl_easyprivacy' => 'Easy Privacy',
+  'bl_fbannoyance' => 'Fanboy&rsquo;s Annoyance',
+  'bl_fbenhanced' => 'Fanboy&rsquo;s Enhanced',
+  'bl_fbsocial' => 'Fanboy&rsquo;s Social',
+  'bl_hexxium' => 'Hexxium',
+  'bl_hphosts' => 'hpHosts',
+  'bl_malwaredomainlist' => 'Malware Domain List',
+  'bl_malwaredomains' => 'Malware Domains',
+  'bl_winhelp2002' => 'MVPS Hosts',
+  'bl_pglyoyo' => 'Peter Lowe&rsquo;s Ad List',  
+  'bl_spam404'=> 'Spam 404',
+  'bl_swissransom' => 'Swiss Security Ransomware',
+  'bl_swisszeus' => 'Swiss Security ZeuS',  
+  'bl_areasy' => 'AR Easy List',
+  'bl_chneasy' => 'CHN Easy List',
+  'bl_deueasy' => 'DEU Easy List',
+  'bl_dnkeasy' => 'DNK Easy List',
+  'bl_fblatin' => 'Latin Easy List',
+  'bl_ruseasy' => 'RUS Easy List'  
 );
-
+/* 
+  
+*/
 
 /************************************************
 *Global Variables                               *
@@ -35,6 +60,8 @@ $BLOCKLISTNAMES = array(
 $page = 1;
 $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 $searchbox = '';
+$showblradio = false;
+$blradio = 'all';
 
 /************************************************
 *Arrays                                         *
@@ -48,7 +75,7 @@ $list = array();                                 //Global array for all the Bloc
 if (isset($_POST['action'])) {
   switch($_POST['action']) {
     case 'advanced':
-      if (update_advanced()) {              //Are users settings valid?
+      if (update_advanced()) {                   //Are users settings valid?
         save_config();                           //If ok, then save the Config file        
         sleep(1);                                //Short pause to prevent race condition
       }      
@@ -414,6 +441,23 @@ if (isset($_GET['s'])) {                         //Search box
 
 if (isset($_GET['page'])) {
   $page = filter_integer($_GET['page'], 1, PHP_INT_MAX, 1);
+}
+
+if (isset($_POST['showblradio'])) {
+  if ($_POST['showblradio'] == 1) {
+    $showblradio = true;
+  }
+}
+
+if (isset($_GET['blrad'])) {
+  if ($_GET['blrad'] == 'all') {
+    $blradio = 'all';
+    $showblradio = true;
+  }
+  elseif (array_key_exists($_GET['blrad'], $BLOCKLISTNAMES)) {
+    $blradio = $_GET['blrad'];
+    $showblradio = true;
+  }
 }
 
 if (isset($_GET['action'])) {

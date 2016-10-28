@@ -10,7 +10,7 @@ DEFINE('ROWSPERPAGE', 200);
 
 $DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
-$FileTmpConfig = '/tmp/notrack.conf';
+
 
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
@@ -22,6 +22,7 @@ $CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
 DEFINE('CONFIGFILE', '/etc/notrack/notrack.conf');
+DEFINE('CONFIGTEMP', '/tmp/notrack.conf');
 DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
 DEFINE('DIR_TMP', '/tmp/');
 DEFINE('BL_NOTRACK', '/etc/dnsmasq.d/notrack.list');
