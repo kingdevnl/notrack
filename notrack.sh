@@ -142,6 +142,25 @@ function create_file() {
   fi
 }
 
+
+#--------------------------------------------------------------------
+# Create SQL Tables
+#   Create SQL tables, in case they have been deleted
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function create_sqltables {
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS live (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, sys TINYTEXT, dns_request TINYTEXT, dns_result CHAR(1));"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS historic (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, sys TINYTEXT, dns_request TINYTEXT, dns_result CHAR(1));"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS users (id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, user TINYTEXT, pass TEXT, level CHAR(1));"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS blocklist (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, bl_source TINYTEXT, site TINYTEXT, site_status BOOLEAN, comment TEXT);"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS lightyaccess (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, site TINYTEXT, http_method CHAR(4), uri_path TEXT);"
+}
 #--------------------------------------------------------------------
 # Delete Old File
 #   Checks if a file exists and then deletes it
@@ -1540,7 +1559,8 @@ fi
 #12. Sort list and do final deduplication
 
 check_root                                       #Check if Script run as Root
-is_sql_installed
+is_sql_installed                                 #Check if MariaDB or MySQL is installed
+create_sqltables                                 #Create Tables if they don't exist
   
 if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exists
   echo "Creating notrack folder under /etc"
@@ -1552,18 +1572,18 @@ if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exis
 fi
   
 load_config                                      #Load saved variables
-get_ip                                    #Read IP Address of NetDev
+get_ip                                           #Read IP Address of NetDev
   
 if [ ! -e $FILE_WHITELIST ]; then generate_whitelist
 fi
   
 load_whitelist                                   #Load Whitelist into array
-create_file "$CSV_BLOCKING"                       #Create Block list csv
+create_file "$CSV_BLOCKING"                      #Create Block list csv
   
 if [ ! -e "$FILE_BLACKLIST" ]; then generate_blacklist
 fi
 
-create_file "$FILE_DOMAINWHITE"                   #Create Black & White lists
+create_file "$FILE_DOMAINWHITE"                  #Create Black & White lists
 create_file "$FILE_DOMAINBLACK"
 
 is_update_required                               #Check if NoTrack needs to run
