@@ -13,6 +13,7 @@
 #######################################
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly FILE_EXEC="/tmp/ntrk-exec.txt"
+readonly TEMP_CONFIG="/tmp/notrack.conf"
 
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
@@ -105,6 +106,7 @@ Create_AccessLog() {
     chmod 666 /var/log/ntrk-admin.log
   fi
 }
+
 #--------------------------------------------------------------------
 # Delete History
 #
@@ -120,11 +122,6 @@ delete_history() {
   echo "DELETE LOW_PRIORITY FROM historic;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
   echo "ALTER TABLE historic AUTO_INCREMENT = 1;" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
   
-  #echo "Deleting Log Files in /var/log/notrack"
-  #rm /var/log/notrack/*                          #Delete all files in notrack log folder
-  #touch /var/log/notrack.log
-  #chown root:root /var/log/lighttpd/notrack.log
-  #chmod 644 /var/log/lighttpd/notrack.log
   echo "Deleting Log Files in /var/log/lighttpd"
   rm /var/log/lighttpd/*                         #Delete all files in lighttpd log folder
   touch /var/log/lighttpd/access.log             #Create new access log and set privileges
@@ -134,17 +131,39 @@ delete_history() {
   chown www-data:root /var/log/lighttpd/error.log
   chmod 644 /var/log/lighttpd/error.log
 }
-#Update Config-------------------------------------------------------
-Update_Config() {
+
+
+#--------------------------------------------------------------------
+# Update Config
+#
+# Globals:
+#   FILE_CONFIG, TEMP_CONFIG
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function update_config() {
   if [ -e "/tmp/notrack.conf" ]; then
-    chown root:root /tmp/notrack.conf
+    chown root:root "$TEMP_CONFIG"
     chmod 644 /tmp/notrack.conf      
-    echo "Copying /tmp/notrack.conf to /etc/notrack/notrack.conf"
-    mv /tmp/notrack.conf /etc/notrack/notrack.conf
+    echo "Copying $TEMP_CONFIG to $FILE_CONFIG"
+    mv "$TEMP_CONFIG" "$FILE_CONFIG"
     echo
   fi
 }
-#Upgrade NoTrack
+
+
+#--------------------------------------------------------------------
+# Upgrade NoTrack
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
 Upgrade-NoTrack() {
   if [ -e /usr/local/sbin/ntrk-upgrade ]; then
     echo "Running NoTrack Upgrade"
@@ -171,7 +190,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o h -l bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,save-conf -- "$@"); then
+  if ! Options=$(getopt -o hps -l bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,restart,save-conf,shutdown,pause: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -197,15 +216,30 @@ if [ "$1" ]; then                         #Have any arguments been given
         delete_history
       ;;
       --force)
-        echo "Force Running NoTrack"
         /usr/local/sbin/notrack --force > /dev/null &
       ;;
-      --run-notrack)
-        echo "Starting NoTrack"
+      -p)                                        #Play
+        /usr/local/sbin/ntrk-pause --start  > /dev/null &
+      ;;
+      --pause)
+        pausetime=$(sed "s/'//g" <<< "$2")       #Remove single quotes
+        echo "$pausetime"        
+        /usr/local/sbin/ntrk-pause --pause "$pausetime"  > /dev/null &
+      ;;
+      --restart)
+        reboot > /dev/null &
+      ;;
+      -s)                                        #Stop
+        /usr/local/sbin/ntrk-pause --stop  > /dev/null &
+      ;;
+      --shutdown)
+        shutdown now  > /dev/null &
+      ;;      
+      --run-notrack)        
         /usr/local/sbin/notrack > /dev/null &
       ;;
       --save-conf)
-        Update_Config
+        update_config
       ;;
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
@@ -227,36 +261,6 @@ else
       create-accesslog)
         Create_AccessLog
       ;;      
-      force-notrack)
-        /usr/local/sbin/notrack --force
-      ;;
-      pause5)
-        /usr/local/sbin/ntrk-pause --pause 5
-      ;;
-      pause15)
-        /usr/local/sbin/ntrk-pause --pause 15
-      ;;
-      pause30)
-        /usr/local/sbin/ntrk-pause --pause 30
-      ;;
-      pause60)
-        /usr/local/sbin/ntrk-pause --pause 60
-      ;;
-      restart)
-        reboot
-      ;;
-      start)
-        /usr/local/sbin/ntrk-pause --start
-      ;;
-      stop)
-        /usr/local/sbin/ntrk-pause --stop
-      ;;
-      shutdown)
-        shutdown now
-      ;;
-      update-config)
-        Update_Config
-      ;;
       upgrade-notrack)
         Upgrade-NoTrack
       ;;            

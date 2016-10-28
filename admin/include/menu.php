@@ -1,69 +1,85 @@
 <?php
+/********************************************************************
+ *  Action Top Menu POST requests
+ *    1. Delete config out of Memcached, since its about to be changed by ntrk-pause
+ *    2. Execute appropriate action
+ *    3. In the case of Restart or Shutdown we want to delay execution of the command for a couple of seconds to finish off any disk writes
+ *    3. Sleep for a few seconds to prevent a Race Condition occuring where new config could be loaded before ntrk-pause has been able to modify /etc/notrack/notrack.conf
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    true when action carried out, false when nothing done
+ */
 function action_topmenu() {
   global $Config, $mem;
-  //Function to Action GET requests from Top Menu
-  //Return value false when no action carried out
-  //1. Is _GET['a'] (action) set?
-  //2a. Delete config out of Memcached, since its about to be changed by ntrk-pause
-  //2b. Execute appropriate action
-  //2c. In the case of Restart or Shutdown we want to delay execution of the command for a couple of seconds to finish off any disk writes
-  //2d. For any other value of 'a' leave this function and carry on with previous page
-  //3. Sleep for 5 seconds to prevent a Race Condition occuring where new config could be loaded before ntrk-pause has been able to modify /etc/notrack/notrack.conf
-    
+      
   if (isset($_POST['operation'])) {
     switch ($_POST['operation']) {
       case 'force-notrack':
         exec(NTRK_EXEC.'--force');
-        sleep(4);                                //Prevent race condition
+        sleep(3);                                //Prevent race condition
         header("Location: ?");
         break;
       case 'restart':
         sleep(2);
-        ExecAction('restart', true, true);
+        exec(NTRK_EXEC.'--restart');
         exit(0);
         break;
       case 'shutdown':
         sleep(2);
-        ExecAction('shutdown', true, true);
+        exec(NTRK_EXEC.'--shutdown');
         exit(0);
         break;      
     }
   }
   
-  //if (isset($_GET['a'])) {
   if (isset($_POST['pause-time'])) {  
     $mem->delete('Config');                      //Force reload of config    
     switch ($_POST['pause-time']) {
-      case 'pause5':      
-        ExecAction('pause5', true, true);
+      case 'pause5':                             //Pause 5 minutes
+        exec(NTRK_EXEC.'--pause 5');
         break;
-      case 'pause15':
-        ExecAction('pause15', true, true);
+      case 'pause15':                            //Pause 15 minutes
+        exec(NTRK_EXEC.'--pause 15');
         break;
-      case 'pause30':
-        ExecAction('pause30', true, true);
+      case 'pause30':                            //Pause 30 minutes
+        exec(NTRK_EXEC.'--pause 30');
         break;
-      case 'pause60':
-        ExecAction('pause60', true, true);
+      case 'pause60':                            //Pause 60 minutes
+        exec(NTRK_EXEC.'--pause 60');
         break;    
-      case 'start':
-        if ($Config['Status'] != 'Enabled') ExecAction('start', true, true);
-        else return false;
+      case 'start':                              //Start / Play
+        if ($Config['Status'] != 'Enabled') {
+          exec(NTRK_EXEC.'-p');
+        }
+        else {
+          return false;
+        }
         break;
-      case 'stop':
-        ExecAction('stop', true, true);
+      case 'stop':                               //Stop
+        exec(NTRK_EXEC.'-s');
         break;      
       default:
         return false;
     }
-    sleep(5);
+    sleep(4);
     header("Location: ?");
   }
+  
   return true;
 }
-//-------------------------------------------------------------------
-function draw_sidemenu() {
 
+
+/********************************************************************
+ *  Draw Side Menu
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function draw_sidemenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;  
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
   echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="">DNS Queries</span></a>'.PHP_EOL;
@@ -75,7 +91,16 @@ function draw_sidemenu() {
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
 }
-//-------------------------------------------------------------------
+
+
+/********************************************************************
+ *  Draw Config Menu
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
 function draw_configmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
@@ -91,10 +116,18 @@ function draw_configmenu() {
   echo '<a href="../admin/upgrade.php"><span><img src="./svg/menu_upgrade.svg" alt="">Upgrade</span></a>'.PHP_EOL;
   
   echo '</div></nav>'.PHP_EOL;
-  echo PHP_EOL;
-  
+  echo PHP_EOL;  
 }
-//-------------------------------------------------------------------
+
+
+/********************************************************************
+ *  Draw Help Menu
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
 function draw_helpmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
@@ -105,13 +138,22 @@ function draw_helpmenu() {
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;  
 }
-//-------------------------------------------------------------------
+
+
+/********************************************************************
+ *  Draw Top Menu
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
 function draw_topmenu() {
   global $Config, $mem;
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
   echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
-  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' Dev</small></span></a>'.PHP_EOL;
+  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' Alpha</small></span></a>'.PHP_EOL;
   
   if (is_password_protection_enabled()) {         //Only do Logout if there is a password
     echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
@@ -138,6 +180,7 @@ function draw_topmenu() {
   else {
     echo '<span class="pbutton pointer" title="Disable Blocking" onclick="PauseNoTrack(\'stop\')">&#8545;</span>'.PHP_EOL;
   }
+  
   echo '<div tabindex="1" id="dropbutton" title="Pause for..."><span class="pointer">&#x25BC;</span>'.PHP_EOL;
   echo '<div id="pause-menu">'.PHP_EOL;  
   echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 5)">Pause for 5 minutes</span>'.PHP_EOL;
@@ -148,6 +191,7 @@ function draw_topmenu() {
   echo '</form></div></div>'.PHP_EOL;
   echo '</nav>'.PHP_EOL;
 
+  
   //Dialogs----------------------------------------------------------
   echo '<div id="dialog-box">'.PHP_EOL;
   echo '<div class="dialog-bar">NoTrack</div>'.PHP_EOL;
