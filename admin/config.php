@@ -50,9 +50,6 @@ $BLOCKLISTNAMES = array(
   'bl_fblatin' => 'Latin Easy List',
   'bl_ruseasy' => 'RUS Easy List'  
 );
-/* 
-  
-*/
 
 /************************************************
 *Global Variables                               *
