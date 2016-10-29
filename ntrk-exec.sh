@@ -11,6 +11,7 @@
 #######################################
 # Constants
 #######################################
+readonly ACCESSLOG="/var/log/ntrk-admin.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly FILE_EXEC="/tmp/ntrk-exec.txt"
 readonly TEMP_CONFIG="/tmp/notrack.conf"
@@ -103,12 +104,21 @@ copy_tldlists() {
 }
 
 
-#Create Access Log---------------------------------------------------
-Create_AccessLog() {
-  if [ ! -e "/var/log/ntrk-admin.log" ]; then
-    echo "Creating /var/log/ntrk-admin.log"
-    touch /var/log/ntrk-admin.log
-    chmod 666 /var/log/ntrk-admin.log
+#--------------------------------------------------------------------
+# Create Access Log
+#
+# Globals:
+#   ACCESSLOG
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+create_accesslog() {
+  if [ ! -e "$ACCESSLOG" ]; then
+    echo "Creating $ACCESSLOG"
+    touch "$ACCESSLOG"
+    chmod 666 "$ACCESSLOG"
   fi
 }
 
@@ -169,13 +179,13 @@ function update_config() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-Upgrade-NoTrack() {
+function upgrade_notrack() {
   if [ -e /usr/local/sbin/ntrk-upgrade ]; then
     echo "Running NoTrack Upgrade"
-    /usr/local/sbin/ntrk-upgrade
+    sudo /usr/local/sbin/ntrk-upgrade #2>&1
   else
     echo "NoTrack Upgrade is missing, using fallback notrack.sh"
-    /usr/local/sbin/notrack -u
+    sudo /usr/local/sbin/notrack -u
   fi
 }
 
@@ -195,7 +205,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o hps -l bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,restart,save-conf,shutdown,pause: -- "$@"); then
+  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,pause: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -208,7 +218,10 @@ if [ "$1" ]; then                         #Have any arguments been given
       -h)
         echo "Help"
       ;;
-      --bm-msg)        
+      --accesslog)
+        create_accesslog
+      ;;      
+      --bm-msg)
         block_message "message"
       ;;
       --bm-pxl)
@@ -246,6 +259,9 @@ if [ "$1" ]; then                         #Have any arguments been given
       --save-conf)
         update_config
       ;;
+      --upgrade)
+        upgrade_notrack
+      ;;            
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
       (*) break;;
@@ -263,12 +279,7 @@ else
       copy-whitelist) 
         Copy_WhiteList
       ;;      
-      create-accesslog)
-        Create_AccessLog
-      ;;      
-      upgrade-notrack)
-        Upgrade-NoTrack
-      ;;            
+      
       *)
         echo "Invalid action $Line"
     esac
