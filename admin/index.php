@@ -28,7 +28,7 @@ draw_sidemenu();
 ************************************************/
 define('QRY_BLOCKLIST', 'SELECT COUNT(*) FROM blocklist');
 define('QRY_DNSQUERIES', 'SELECT COUNT(*) FROM live');
-define('QRY_LIGHTY', 'SELECT COUNT(*) FROM lightyaccess WHERE log_time BETWEEN (CURDATE() - INTERVAL 7 DAY) AND CURDATE()');
+define('QRY_LIGHTY', 'SELECT COUNT(*) FROM lightyaccess WHERE log_time BETWEEN (CURDATE() - INTERVAL 7 DAY) AND NOW()');
 
 /************************************************
 *Global Variables                               *
