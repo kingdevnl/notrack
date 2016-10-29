@@ -16,11 +16,11 @@ $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
 $FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
-$FileAccessLog = '/var/log/ntrk-admin.log';
 $CSVBlocking = '/etc/notrack/blocking.csv';
 $CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
+DEFINE('ACCESSLOG', '/var/log/ntrk-admin.log');
 DEFINE('CONFIGFILE', '/etc/notrack/notrack.conf');
 DEFINE('CONFIGTEMP', '/tmp/notrack.conf');
 DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');

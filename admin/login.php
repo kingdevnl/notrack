@@ -32,6 +32,8 @@ require('./include/global-functions.php');
 load_config();
 
 $message = '';
+$password = '';
+$username = '';
 
 if (! is_password_protection_enabled()) {
   header('Location ./index.php');
@@ -44,6 +46,10 @@ if (is_active_session()) {
   exit;  
 }
 
+if (!file_exists(ACCESSLOG)) {                   //Create ntrk-access.log file
+  exec(NTRK_EXEC.'--accesslog');
+}
+
 if (isset($_POST['password'])) {
                      
   if ($mem->get('delay')) {                      //Load Delay from Memcache
@@ -53,30 +59,29 @@ if (isset($_POST['password'])) {
     $password = $_POST['password'];
     if (isset($_POST['username'])) $username = $_POST['username'];
     else $username = '';
-    
-    if (!file_exists($FileAccessLog)) {          //Create ntrk-access.log file
-      ExecAction('create-accesslog', true, false);
-    }
-    
-    if (function_exists('password_hash')) {
+        
+    if (function_exists('password_hash')) {      //Is PHP version new enough?
     //Use built in password_verify function to compare with $Config['Password'] hash
       if (($username == $Config['Username']) && (password_verify($password, $Config['Password']))) {
         activate_session();                      //Set session to enabled
         header('Location: ./index.php');         //Redirect to index.php
+        exit;
       }
     }
     else { 
       if (($username == $Config['Username']) && (hash('sha256', $password) == $Config['Password'])) {
         activate_session();                      //Set session to enabled
         header('Location: ./index.php');         //Redirect to index.php
+        exit;
       }
     }
     
     //At this point the Password is Wrong
     $mem->set('delay', $Config['Delay'], 0, $Config['Delay']);
     $message = "Incorrect username or password";   //Deny attacker knowledge of whether username OR password is wrong
-      
-    error_log(date('d/m/Y H:i:s').': Authentication failure for '.$username.' from '.$_SERVER['REMOTE_ADDR'].' port '.$_SERVER['REMOTE_PORT'].PHP_EOL, 3, $FileAccessLog);    
+    
+    //Output attempt to ACCESSLOG
+    error_log(date('d/m/Y H:i:s').': Authentication failure for '.$username.' from '.$_SERVER['REMOTE_ADDR'].' port '.$_SERVER['REMOTE_PORT'].PHP_EOL, 3, ACCESSLOG);    
   }
 }
 ?>
@@ -108,7 +113,7 @@ if ($message != '') {                            //Any Message to show?
   echo '</div>'.PHP_EOL;
 }
 
-echo '<div id="fade"></div>'.PHP_EOL;            //I was too lazy to convert this to pure HTML
+echo '<div id="fade"></div>'.PHP_EOL;
 echo '<div id="centerpoint1"><div id="dialog">'.PHP_EOL;
 echo '<div class="dialog-bar">NoTrack</div>'.PHP_EOL;
 echo '<div class="close-button"><a href="#" onclick="HideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close"></a></div>'.PHP_EOL;
@@ -120,7 +125,7 @@ function HideOptions() {
   document.getElementById('centerpoint1').style.display = "none";
   document.getElementById('fade').style.display = "none";
 }
-if (! navigator.cookieEnabled) {                 //Use has disabled cookies for this site
+if (! navigator.cookieEnabled) {               //has user disabled cookies for this site
   document.getElementById("centerpoint1").style.display = "block";
   document.getElementById("fade").style.display = "block";
 }
