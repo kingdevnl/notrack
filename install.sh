@@ -233,6 +233,43 @@ function copy_scripts() {
 
 
 #--------------------------------------------------------------------
+# Create Folder
+#   Creates a folder if it doesn't exist
+# Globals:
+#   None
+# Arguments:
+#   $1 - Folder to create
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function create_folder {
+  if [ ! -d "$1" ]; then                         #Does folder exist?
+    echo "Creating folder: $1"                   #Tell user folder being created
+    sudo mkdir "$1"                              #Create folder
+  fi
+}
+
+
+#--------------------------------------------------------------------
+# Delete Old File
+#   Checks if a file exists and then deletes it
+#
+# Globals:
+#   None
+# Arguments:
+#   #$1 File to delete
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function delete_file() {  
+  if [ -e "$1" ]; then                           #Does file exist?
+    echo "Deleting file $1"
+    sudo rm "$1"                                 #If yes then delete it
+  fi
+}
+
+
+#--------------------------------------------------------------------
 # Download with Git
 #   Download with Git if the user has it installed on their system
 # Globals:
@@ -370,9 +407,7 @@ function install_deb() {
   echo "Installing Lighttpd and PHP"
   sleep 2s
   sudo apt-get -y install lighttpd memcached "$phpmemcache" "$phpversion-cgi" "$phpversion-curl" "$phpversion-mysql"
-  echo
-  echo "Restarting Lighttpd"
-  sudo service lighttpd restart
+  echo  
 }
 
 
@@ -515,6 +550,7 @@ function install_apk() {
 #--------------------------------------------------------------------
 # Setup Dnsmasq
 #   Copy custom config settings into dnsmasq.conf and create log file
+#   Create initial entry in /etc/localhosts.list
 # Globals:
 #   INSTALL_LOCATION, DNS_SERVER_1, DNS_SERVER_2, NETWORK_DEVICE
 # Arguments:
@@ -526,6 +562,9 @@ function setup_dnsmasq() {
   local hostname=""
   
   echo "Configuring Dnsmasq"
+  
+  create_folder "/etc/dnsmasq.d"                 #Issue #94 dnsmasq folder not created
+  
   #Copy config files modified for NoTrack
   echo "Copying config files from $INSTALL_LOCATION to /etc/"
   check_file_exists "$INSTALL_LOCATION/conf/dnsmasq.conf" 24
@@ -548,7 +587,7 @@ function setup_dnsmasq() {
   elif [ -e /etc/hostname ]; then
     hostname=$(cat /etc/hostname)
   else
-    echo "Warning. Unable to find hostname"
+    echo "setup_dnsmasq() WARNING: Unable to find hostname"
   fi
   
   if [[ $hostname != "" ]]; then
@@ -571,12 +610,14 @@ function setup_dnsmasq() {
   
   echo "Setup of Dnsmasq complete"
   echo
+  sleep 3s
 }
 
 
 #--------------------------------------------------------------------
 # Setup Lighttpd
-#   Add www-data group rights to user, copy lighty config, and create sink page
+#   Add www-data/http group rights to user
+#   copy lighty config, and create sink page
 # Globals:
 #   INSTALL_LOCATION
 # Arguments:
@@ -586,44 +627,54 @@ function setup_dnsmasq() {
 #--------------------------------------------------------------------
 setup_lighttpd() {
   local sudoerscheck=""
+  local group=""
 
   echo "Configuring Lighttpd"
-  sudo usermod -a -G www-data "$(whoami)"        #Add www-data group rights to current user
+  if getent passwd www-data > /dev/null 2>&1; then  #default group is www-data
+    echo "Adding www-data rights to $(whoami)"
+    sudo usermod -a -G www-data "$(whoami)"
+    group="www-data"
+  elif getent passwd http > /dev/null 2>&1; then    #Arch uses group http
+    echo "Adding http rights to $(whoami)"
+    sudo usermod -a -G http "$(whoami)"
+    group="http"
+  else
+    echo "setup_lighttpd() WARNING: Unable to find group for lighttpd (normally www-data or http)"
+    echo "Lighttpd webserver will have to be manually setup."
+    sleep 8s
+    return
+  fi
+   
   sudo lighty-enable-mod fastcgi fastcgi-php
-  
     
-  if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
-    echo "Creating Web folder: /var/www/html"
-    sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
-  fi
+  create_folder "/var/www"                       #/var/www/html should be created by lighty
+  create_folder "/var/www/html"
   
-  if [ -e /var/www/html/admin ]; then            #Remove old symlinks
-    echo "Removing old file: /var/www/html/admin"
-    sudo rm /var/www/html/admin
-  fi
-  
+  delete_file "/var/www/html/admin"              #Remove old symlinks
+    
   echo "Creating Sink Folder"                    #Create new sink folder
-  sudo mkdir /var/www/html/sink
-  echo "Setting default sink page to blank image"
+  create_folder "/var/www/html/sink"
+  echo "Setting Block message to 1x1 pixel"
   echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | sudo tee /var/www/html/sink/index.html &> /dev/null
-  echo "Changing ownership of sink folder to www-data"
-  sudo chown -hR www-data:www-data /var/www/html/sink
+  
+  echo "Changing ownership of sink folder to $group"
+  sudo chown -hR "$group":"$group" /var/www/html/sink
   sudo chmod -R 775 /var/www/html/sink
-  echo 'Setting Block message to 1x1 pixel'
-    
+  
   echo "Creating symlink from $INSTALL_LOCATION/admin to /var/www/html/admin"
   sudo ln -s "$INSTALL_LOCATION/admin" /var/www/html/admin
   sudo chmod -R 775 /var/www/html                #Give read/write/execute privilages to Web folder
   
-  sudoerscheck=$(sudo cat /etc/sudoers | grep www-data)
+  sudoerscheck=$(sudo cat /etc/sudoers | grep "$group")
   if [[ $sudoerscheck == "" ]]; then
-    echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
-    echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
+    echo "Adding NoPassword permissions for $group to execute script /usr/local/sbin/ntrk-exec as root"
+    echo -e "$group\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
     echo
   fi  
   
   echo "Setup of Lighttpd complete"
   echo
+  sleep 3s
 }
 
 
@@ -638,13 +689,13 @@ setup_lighttpd() {
 #   None
 #--------------------------------------------------------------------
 function setup_mariadb() {
-  local rootpass=""
-  local outputstr=""
+  local rootpass=""  
 
   echo "Setting up MariaDB"
   echo -n "Please enter MariaDB root password (leave blank if not set): "
   read -r rootpass;
   
+  echo
   echo "Creating User ntrk"
   sudo sudo mysql --user=root --password="$rootpass" -e "CREATE USER 'ntrk'@'localhost' IDENTIFIED BY 'ntrkpass';"
   
@@ -674,6 +725,7 @@ function setup_mariadb() {
 
   echo "MariaDB setup complete"
   echo
+  sleep 3s
 }
 
 
@@ -699,11 +751,8 @@ function setup_notrack() {
   #Create cron daily job with a symlink to notrack script
   sudo ln -s /usr/local/sbin/notrack /etc/cron.daily/notrack
     
-  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
-    echo "Creating folder: /etc/notrack"
-    sudo mkdir "/etc/notrack"
-  fi
-  
+  create_folder "/etc/notrack"
+    
   if [ -e /etc/notrack/notrack.conf ]; then      #Remove old config file
     echo "Removing old file: /etc/notrack/notrack.conf"
     sudo rm /etc/notrack/notrack.conf
@@ -714,6 +763,7 @@ function setup_notrack() {
   echo "IPVersion = $IP_VERSION" | sudo tee /etc/notrack/notrack.conf
   echo "NetDev = $NETWORK_DEVICE" | sudo tee -a /etc/notrack/notrack.conf
   echo
+  sleep 3s
 }
 
 
@@ -1567,7 +1617,14 @@ if [ $1 ]; then
     sudo rm /etc/logrotate.d/notrack             #Remove old log rotator
     install_packages
     setup_mariadb
-    sudo service lighttpd restart
+    
+    echo "Restarting Services"
+    if [ "$(command -v systemctl)" ]; then 
+      sudo systemctl restart lighttpd
+    else  
+      sudo service lighttpd restart
+    fi
+    
     sudo /usr/local/sbin/ntrk-parse
     sudo /usr/local/sbin/notrack
     show_finish
@@ -1682,9 +1739,14 @@ if [ "$(command -v firewall-cmd)" ]; then        #Check FirewallD exists
   Setup_FirewallD
 fi
 
-echo "Starting Services"
-sudo service lighttpd restart
-sudo service dnsmasq restart
+echo "Restarting Services"
+if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
+  sudo systemctl restart dnsmasq
+  sudo systemctl restart lighttpd
+else
+  sudo service restart dnsmasq
+  sudo service lighttpd restart
+fi
 
 echo "Downloading List of Trackers"
 sudo /usr/local/sbin/notrack -f

@@ -3,15 +3,24 @@
 #Description : This script will assist with creating and installing an SSL certificate on Lighttpd web server
 #Author : QuidsUp
 #Date 	: 2016-01-10
-#Version: v0.7.14
+#Version: v0.8.1
 #Usage 	: bash create-ssl-cert.sh
 
 #Program Settings----------------------------------------------------
-HostName=$(hostname -f)
+HOSTNAME=$(hostname -f)
 
 
-#Check if required applications are installed------------------------
-Check_AppsInstalled() {
+#--------------------------------------------------------------------
+# Check Apps Installed
+#   Checks if Lighty and OpenSSL are installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function check_appsinstalled() {
   if [[ $(command -v lighttpd) == "" ]]; then
     echo "Lighttpd is not installed.  Aborting."
     exit 41
@@ -22,6 +31,27 @@ Check_AppsInstalled() {
   fi
 }
 
+
+#--------------------------------------------------------------------
+# Restart Lighttpd
+#   Restarts lighttpd with either systemd or sysvinit
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function restart_lighttpd() {
+  echo "Restarting Lighttpd"
+  if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
+    sudo systemctl restart lighttpd
+  else
+    sudo service lighttpd restart
+  fi
+}
+
+
 #Main----------------------------------------------------------------
 if [ "$(id -u)" == "0" ]; then                   #Check if running as root
   echo "Error: Don't run this script as Root"
@@ -29,7 +59,7 @@ if [ "$(id -u)" == "0" ]; then                   #Check if running as root
   exit 4  
 fi
 
-Check_AppsInstalled                              #Check if required apps are installed
+check_appsinstalled                              #Check if required apps are installed
 
 clear
 echo "This installer will generate a self-signed SSL Certificate on your NoTrack Webserver - Lighttpd."
@@ -44,7 +74,7 @@ echo "State or Province Name (full name) [Some-State]: ."
 echo "Locality Name (eg, city) []: Cardiff"
 echo "Organization Name (eg, company) [Internet Widgits Pty Ltd]: Quidsup"
 echo "Organizational Unit Name (eg, section) []: IT"
-echo "Common Name (e.g. server FQDN or YOUR name) []: $HostName"
+echo "Common Name (e.g. server FQDN or YOUR name) []: $HOSTNAME"
 echo "Email Address []: certs@quidsup.net"
 echo
 echo "Two letter Country Codes: https://www.digicert.com/ssl-certificate-country-codes.htm"
@@ -75,14 +105,13 @@ echo
 #openssl req -sha256 -x509 -newkey rsa:2048 -keyout ~/key.pem -out ~/server.pem -days 365
 #echo "Generating pkcs12 certificate"
 #echo "The pass phrase is what you just typed in earlier"
-#openssl pkcs12 -export -in ~/server.pem -inkey ~/key.pem -name "$HostName" -out "$HostName-cert.p12"
+#openssl pkcs12 -export -in ~/server.pem -inkey ~/key.pem -name "$HOSTNAME" -out "$HOSTNAME-cert.p12"
 
 echo "Copying Certificate to /etc/lighttpd/"
 sudo cp ~/server.pem /etc/lighttpd/server.pem
 echo
 
-echo "Restarting Lighttpd"
-sudo service lighttpd force-reload
+restart_lighttpd
 echo
 
 if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart has been successful
@@ -93,8 +122,7 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
   sleep 5s
   echo "Disabling Lighttpd SSL Module"
   sudo lighty-disable-mod ssl                      #Disable SSL Module
-  echo "Restarting Lighttpd"
-  sudo service lighttpd force-reload
+  restart_lighttpd
   echo
   
   if [ -z "$(pgrep lighttpd)" ]; then              #Check if lighttpd restart has now been successful
@@ -107,4 +135,4 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
 fi
 
 echo "SSL Certificate has been installed and Lighttpd has sucessfully restarted"
-#echo "Install the $HostName-cert.p12 certificate into your web browser"
+#echo "Install the $HOSTNAME-cert.p12 certificate into your web browser"

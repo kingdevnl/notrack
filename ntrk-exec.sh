@@ -39,8 +39,13 @@ function block_message() {
     echo '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="" />' | tee /var/www/html/sink/index.html &> /dev/null
   fi
   
-  sudo chown -hR www-data:www-data /var/www/html/sink
-  sudo chmod -R 775 /var/www/html/sink    
+  if getent passwd www-data > /dev/null 2>&1; then  #default group is www-data
+    sudo chown -hR www-data:www-data /var/www/html/sink    
+  elif getent passwd http > /dev/null 2>&1; then    #Arch uses group http
+    sudo chown -hR http:http /var/www/html/sink    
+  fi
+  
+  sudo chmod -R 775 /var/www/html/sink
 }
 
 #Check File Exists---------------------------------------------------
