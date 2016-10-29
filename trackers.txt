@@ -1,5 +1,5 @@
-#NoTrack Tracker list updated 26 October 2016
-#LatestVersion 0.7.18
+#NoTrack Tracker list updated 29 October 2016
+#LatestVersion 0.8
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown

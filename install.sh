@@ -1562,6 +1562,7 @@ if [ $1 ]; then
     echo "Press any key to contine"
     read -rn1
     
+    echo "Running ntrk-upgrade"
     sudo /usr/local/sbin/ntrk-upgrade            #Run Ntrk-Upgrade first
     sudo rm /etc/logrotate.d/notrack             #Remove old log rotator
     install_packages
