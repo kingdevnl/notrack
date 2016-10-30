@@ -1584,6 +1584,8 @@ function show_finish() {
   echo "NoTrack Install Complete"
   echo "Access the admin console at http://$(hostname)/admin"
   echo
+  echo "Remember to secure MariaDB root User."
+  echo "Run: /usr/bin/mysql_secure_installation"
 
   if [[ $REBOOT_REQUIRED == true ]]; then
     echo "System reboot is required"
