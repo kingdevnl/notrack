@@ -8,9 +8,7 @@
  *    Title
  *  Return:
  *    None
- */
- 
- 
+ */ 
 function draw_systable($title) {
   echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
   echo '<h5>'.$title.'</h5></div>'.PHP_EOL;
@@ -497,5 +495,64 @@ function load_config() {
   $mem->set('Config', $Config, 0, 1200);
   
   return null;
+}
+
+
+/********************************************************************
+ *  Draw Pie Chart
+ *    Credit to Branko: http://www.tekstadventure.nl/branko/blog/2008/04/php-generator-for-svg-pie-charts
+ *  Params:
+ *    aray of values, the centre coordinates x and y, radius of the piechart, colours
+ *  Return:
+ *    svg data for path nodes
+ */
+function piechart($data, $cx, $cy, $radius, $colours) {
+  $chartelem = "";
+  $sum = 0;
+
+  $max = count($data);  
+
+  foreach ($data as $key=>$val) {
+    $sum += $val;
+  }
+  $deg = $sum/360;                               // one degree
+  $jung = $sum/2;                                // necessary to test for arc type
+
+  //Data for grid, circle, and slices
+  $dx = $radius;                                 // Starting point:  
+  $dy = 0;                                       // first slice starts in the East
+  $oldangle = 0;
+
+  for ($i = 0; $i<$max; $i++) {                  // Loop through the slices
+    $angle = $oldangle + $data[$i]/$deg;         // cumulative angle
+    $x = cos(deg2rad($angle)) * $radius;         // x of arc's end point
+    $y = sin(deg2rad($angle)) * $radius;         // y of arc's end point
+
+    $colour = $colours[$i];
+
+    if ($data[$i] > $jung) {                     // arc spans more than 180 degrees
+      $laf = 1;
+    }
+    else {
+      $laf = 0;
+    }
+
+    $ax = $cx + $x;                              // absolute $x
+    $ay = $cy + $y;                              // absolute $y
+    $adx = $cx + $dx;                            // absolute $dx
+    $ady = $cy + $dy;                            // absolute $dy
+    $chartelem .= "<path d=\"M$cx,$cy ";         // move cursor to center
+    $chartelem .= " L$adx,$ady ";                // draw line away away from cursor
+    $chartelem .= " A$radius,$radius 0 $laf,1 $ax,$ay "; // draw arc
+    $chartelem .= " z\" ";                       // z = close path
+    $chartelem .= " fill=\"$colour\" stroke=\"#00000A\" stroke-width=\"2\" ";
+    $chartelem .= " fill-opacity=\"0.95\" stroke-linejoin=\"round\" />";
+    $chartelem .= PHP_EOL;
+    $dx = $x;      // old end points become new starting point
+    $dy = $y;      // id.
+    $oldangle = $angle;
+  }
+  
+  return $chartelem; 
 }
 ?>

@@ -786,6 +786,13 @@ span.timer {
   padding-top: 1.5rem;
   color: #262626;
   width: 50%;
+  display: block;
+}
+.chart-box {
+  margin-top: 1.5rem;
+  float:right;  
+  width: 40%;
+  max-width: 10rem;
 }
 .icon-box {
   margin-top: 1.5rem;
@@ -824,7 +831,7 @@ span.timer {
   .home-nav span {
     width: 55%;
   }
-  .icon-box {
+  .chart-box, .icon-box {
     width: 28%;
     max-width: 14rem;
     margin-right: 5%;

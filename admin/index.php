@@ -30,6 +30,8 @@ define('QRY_BLOCKLIST', 'SELECT COUNT(*) FROM blocklist');
 define('QRY_DNSQUERIES', 'SELECT COUNT(*) FROM live');
 define('QRY_LIGHTY', 'SELECT COUNT(*) FROM lightyaccess WHERE log_time BETWEEN (CURDATE() - INTERVAL 7 DAY) AND NOW()');
 
+$CHARTCOLOURS = array('#262626', '#B1244A', '#008CD1');
+
 /************************************************
 *Global Variables                               *
 ************************************************/
@@ -85,11 +87,41 @@ function draw_dhcpbox() {
  *    None
  */
 function draw_queriesbox() {
-  $rows = 0;
+  global $CHARTCOLOURS;
+
+  $total = 0;
+  $allowed = 0;
+  $blocked = 0;
+  $local = 0;
+  $chartdata = array();
   
-  $rows = count_rows(QRY_DNSQUERIES);
+  $total = count_rows(QRY_DNSQUERIES);
+  $local = count_rows('SELECT COUNT(*) FROM live WHERE dns_result = \'l\'');
+  $blocked = count_rows('SELECT COUNT(*) FROM live WHERE dns_result = \'b\'');
+  $allowed = $total - $blocked - $local;
   
-  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr /><span>'.number_format(floatval($rows)).'<br />Today</span><div class="icon-box"><img src="./svg/home_queries.svg" srcset="./svg/home_queries.svg" alt=""></div></div></a>'.PHP_EOL;
+  if ($local == 0) {
+    $chartdata = array($allowed, $blocked);
+  }
+  else {
+    $chartdata = array($allowed, $blocked, $local);
+  }
+  
+  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr /><span>'.number_format(floatval($total)).'<br />Today'.PHP_EOL;
+  echo '<svg width="20em" height="3em" overflow="visible">'.PHP_EOL;
+  echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format(floatval(($allowed/$total)*100)).'% Allowed</text>'.PHP_EOL;
+  echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format(floatval(($blocked/$total)*100)).'% Blocked</text>'.PHP_EOL;
+  if ($local > 0) {
+    echo '<text x="0" y="3.3em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[2].'">'.number_format(floatval(($local/$total)*100)).'% Local</text>'.PHP_EOL;
+  }
+  echo '</svg></span>';
+  
+  echo '<div class="chart-box">'.PHP_EOL;
+  echo '<svg width="100%" height="90%" viewbox="0 0 200 200">'.PHP_EOL;
+  echo piechart($chartdata, 100, 100, 98, $CHARTCOLOURS);
+  echo '</svg>'.PHP_EOL;
+  //<img src="./svg/home_queries.svg" srcset="./svg/home_queries.svg" alt="">
+  echo '</div></div></a>'.PHP_EOL;
 }
 
 
@@ -188,9 +220,9 @@ draw_dhcpbox();
 
 echo '</div>'.PHP_EOL;
 echo '<div class="sys-group"><p>Welcome to the new version of NoTrack v0.8 with a SQL back-end.</p><p>Performance will now be significantly improved reviewing DNS Queries made, and searching Blocked sites list</p>'.PHP_EOL;
-echo '<div class="row"><p>At this point in time the front-end web interface replicates what you have seen in previous versions, but the new back-end will allow for some fancy effects like graphs showing the most persistant trackers your systems have encountered, and the ability to highlight if one of your systems attempted to visit a malicious site</p>'.PHP_EOL;
+echo '<p>At this point in time the front-end web interface replicates what you have seen in previous versions, but the new back-end will allow for some fancy effects like graphs showing the most persistant trackers your systems have encountered, and the ability to highlight if one of your systems attempted to visit a malicious site</p>'.PHP_EOL;
 echo '<p>Historic DNS logs are no longer available because I stripped Log Time, and System Request out of the files to save on processing power. That information is now stored in the Historic database, unfortunately with the data gone it would mean either spoofing missing data or leaving it alone. You can still access the original files at <code>/var/logs/notrack</code></p></div>'.PHP_EOL;
-echo '<div class="row"><br /></div>'.PHP_EOL;
+//echo '<div class="row"><br /></div>'.PHP_EOL;
 
 //Is an upgrade Needed?
 if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {      
