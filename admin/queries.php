@@ -30,8 +30,8 @@ echo '<div id="main">'.PHP_EOL;
 ************************************************/
 DEFINE('DEF_FILTER', 'all');
 DEFINE('DEF_SYSTEM', 'all');
-DEFINE('DEF_SDATE', date("Y-m-d", time() - 172800));
-DEFINE('DEF_EDATE', date("Y-m-d", time() - 86400));
+DEFINE('DEF_SDATE', date("Y-m-d", time() - 172800));  //Start Date of Historic -2d
+DEFINE('DEF_EDATE', date("Y-m-d", time() - 86400));   //End Date of Historic   -1d
 
 $FILTERLIST = array('all' => 'All Requests',
                     'allowed' => 'Allowed Only',
@@ -292,7 +292,7 @@ function draw_viewbuttons() {
  *  Return:
  *    None
  */
-function load_tldblocklist() {
+/*function load_tldblocklist() {
   global $TLDBlockList, $mem, $DomainQuickList;
   
   $TLDBlockList = $mem->get('TLDBlockList');
@@ -309,7 +309,66 @@ function load_tldblocklist() {
   
   return null;
 }
+*/
 
+function get_blocklistname($bl) {
+  global $BLOCKLISTNAMES;
+  
+  if (array_key_exists($bl, $BLOCKLISTNAMES)) {
+    return $BLOCKLISTNAMES[$bl];
+  }
+  
+  return $bl;
+}
+/********************************************************************
+ *  Search Block Reason
+ *    1. Search $site in bl_source for Blocklist name
+ *    2. Drop each subdomain in an attempt to find the site in bl_source
+ *    3. Final effort is to see if blocked by TLD
+ *
+ *  Params:
+ *    $site - Site to search
+ *  Return:
+ *    Block reason
+ */
+function search_blockreason($site) {
+  global $db;
+  
+  $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \''.$site.'\'');
+  if ($result->num_rows > 0) {
+    return '<p class="small">Blocked by '.get_blocklistname($result->fetch_row()[0]).'</p>';
+  }
+  
+  $split = array();
+  $splitsearch = '';
+  $splitsize = 0;
+    
+  $split = explode('.', $site);                  //Split URL by . delimeter
+  $splitsize = count($split);
+  
+  
+  if ($splitsize == 0) {                         //Zero is probably user searching
+    return '<p class="small">Invalid Request</p>';
+  }
+  
+  //Look at each section of URL up to domain.tld
+  for ($i = 1; $i < $splitsize; $i++) {
+    $splitsearch = implode('.', array_slice($split, $i));
+    $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \''.$splitsearch.'\'');    
+    if ($result->num_rows > 0) {
+      return '<p class="small">Blocked by '.get_blocklistname($result->fetch_row()[0]).'</p>';
+      break;
+    }
+  }
+  
+  //Last attempt to search against Top Level Domain
+  $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \'.'.$split[$splitsize-1].'\'');
+  if ($result->num_rows > 0) {
+    return '<p class="small">Blocked by Top Level Domain</p>';
+  }
+  
+  return '';                                     //Don't know at this point    
+}
 
 /********************************************************************
  *  Search Systems
@@ -396,7 +455,8 @@ function show_group_view() {
     }
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
-      if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {        
+      $blockreason = search_blockreason($row['dns_request']);
+      /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {        
         if (in_array('.'.$matches[1], $TLDBlockList)) {
           $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
         }
@@ -404,10 +464,12 @@ function show_group_view() {
           $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
         }
       }
+      
       elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
         $row_class = ' class="invalid"';
         $blockreason = '<p class="small">IP Requested</p>';
-      }        
+      }
+      */
     }
     elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
@@ -472,7 +534,8 @@ function show_live_time() {
     }
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
-      if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {
+      $blockreason = search_blockreason($row['dns_request']);
+      /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {
         if (in_array('.'.$matches[1], $TLDBlockList)) {
           $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
         }
@@ -483,7 +546,7 @@ function show_live_time() {
       elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
         $row_class = ' class="invalid"';
         $blockreason = '<p class="small">IP Requested</p>';
-      }        
+      } */       
     }
     elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
@@ -549,7 +612,8 @@ function show_historic_time() {
     }
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
-      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';            
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+      $blockreason = search_blockreason($row['dns_request']);
     }
     elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
@@ -609,9 +673,9 @@ if ($sqltable == 'historic') {                   //Check to see if dates are val
   }
 }
 
-if ($Config['bl_tld'] == 1) {                    //Load TLD Blocklist if being used
+/*if ($Config['bl_tld'] == 1) {                    //Load TLD Blocklist if being used
   load_tldblocklist();
-}
+}*/
 
 draw_filterbox();                                //Draw filters
 
