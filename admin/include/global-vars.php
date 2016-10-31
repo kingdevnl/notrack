@@ -77,6 +77,39 @@ $DEFAULTCONFIG = array(
   'LatestVersion' => VERSION  
 );
 
+
+$BLOCKLISTNAMES = array(
+  'custom' => 'Custom',
+  'bl_tld' => 'Top Level Domain',
+  'bl_notrack' => 'NoTrack',  
+  'bl_qmalware' => 'NoTrack Malware',
+  'bl_cedia' => 'CEDIA Malware',
+  'bl_cedia_immortal' => 'CEDIA Immortal Malware',
+  'bl_someonewhocares' => 'Dan Pollocks&rsquo;s hosts',
+  'bl_disconnectmalvertising' => 'Malvertising by Disconnect',
+  'bl_easylist' => 'Easy List',
+  'bl_easyprivacy' => 'Easy Privacy',
+  'bl_fbannoyance' => 'Fanboy&rsquo;s Annoyance',
+  'bl_fbenhanced' => 'Fanboy&rsquo;s Enhanced',
+  'bl_fbsocial' => 'Fanboy&rsquo;s Social',
+  'bl_hexxium' => 'Hexxium',
+  'bl_hphosts' => 'hpHosts',
+  'bl_malwaredomainlist' => 'Malware Domain List',
+  'bl_malwaredomains' => 'Malware Domains',
+  'bl_winhelp2002' => 'MVPS Hosts',
+  'bl_pglyoyo' => 'Peter Lowe&rsquo;s Ad List',  
+  'bl_spam404'=> 'Spam 404',
+  'bl_swissransom' => 'Swiss Security Ransomware',
+  'bl_swisszeus' => 'Swiss Security ZeuS',  
+  'bl_areasy' => 'AR Easy List',
+  'bl_chneasy' => 'CHN Easy List',
+  'bl_deueasy' => 'DEU Easy List',
+  'bl_dnkeasy' => 'DNK Easy List',
+  'bl_fblatin' => 'Latin Easy List',
+  'bl_ruseasy' => 'RUS Easy List'  
+);
+
+
 $SEARCHENGINELIST = array(
   'Baidu' => 'https://www.baidu.com/s?wd=',
   'Bing' => 'https://www.bing.com/search?q=',
