@@ -469,11 +469,11 @@ function install_pacman() {
   echo
   echo "Installing MariaDB"
   sleep 2s
-  sudo pacman -S --noconfirm mariadb-server
+  sudo pacman -S --noconfirm mysql
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi php-mysql  
+  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
   echo  
 }
 
