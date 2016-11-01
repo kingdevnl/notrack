@@ -815,7 +815,7 @@ function load_config() {
       value="${value%\"*}"                     #Del opening string quotes 
       value="${value#\"*}"                     #Del closing string quotes 
       
-      if [ "{Config[$key]}" ]; then            #Does key exist in Config array?
+      if [ "${Config[$key]}" ]; then           #Does key exist in Config array?
         Config[$key]="$value"                  #Yes - replace value
       else
         case "$key" in
