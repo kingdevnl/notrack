@@ -323,23 +323,25 @@ function get_blocklistname($bl) {
 /********************************************************************
  *  Search Block Reason
  *    1. Search $site in bl_source for Blocklist name
- *    2. Drop each subdomain in an attempt to find the site in bl_source
- *    3. Final effort is to see if blocked by TLD
+ *    2. Use regex match to extract (site).(tld)
+ *    3. Search site.tld in bl_source
+ *    4. On fail search for .tld in bl_source
+ *    5. On fail return ''
  *
  *  Params:
  *    $site - Site to search
  *  Return:
- *    Block reason
+ *    blocklist name
  */
 function search_blockreason($site) {
   global $db;
   
   $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \''.$site.'\'');
   if ($result->num_rows > 0) {
-    return '<p class="small">Blocked by '.get_blocklistname($result->fetch_row()[0]).'</p>';
+    return $result->fetch_row()[0];
   }
   
-  $split = array();
+  /*$split = array();
   $splitsearch = '';
   $splitsize = 0;
     
@@ -360,13 +362,30 @@ function search_blockreason($site) {
       break;
     }
   }
+  */
   
+  //Try to find LIKE site ending with site.tld
+  if (preg_match('/([\w\d\-_]+)\.([\w\d\-_]+)$/', $site,  $matches) > 0) {
+    $result = $db->query('SELECT bl_source site FROM blocklist WHERE site LIKE \'%'.$matches[1].'.'.$matches[2].'\'');
+
+    if ($result->num_rows > 0) {
+      return $result->fetch_row()[0];
+    }    
+    else {                                      //On fail try for site = .tld
+      $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \'.'.$matches[2].'\'');
+      if ($result->num_rows > 0) {
+        return $result->fetch_row()[0];
+      }
+    }
+  }
+  
+  /*
   //Last attempt to search against Top Level Domain
   $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \'.'.$split[$splitsize-1].'\'');
   if ($result->num_rows > 0) {
     return '<p class="small">Blocked by Top Level Domain</p>';
   }
-  
+  */
   return '';                                     //Don't know at this point    
 }
 
@@ -456,6 +475,17 @@ function show_group_view() {
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
+      if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == '') {              //No reason is probably IP or Search request
+        $row_class = ' class="invalid"';
+        $blockreason = '<p class="small">Invalid request</p>';
+      }
+      else {
+        $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
+      }
       /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {        
         if (in_array('.'.$matches[1], $TLDBlockList)) {
           $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
@@ -535,6 +565,17 @@ function show_live_time() {
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
+      if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == '') {              //No reason is probably IP or Search request
+        $row_class = ' class="invalid"';
+        $blockreason = '<p class="small">Invalid request</p>';
+      }
+      else {
+        $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
+      }
       /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {
         if (in_array('.'.$matches[1], $TLDBlockList)) {
           $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
@@ -612,8 +653,19 @@ function show_historic_time() {
     }
     elseif ($row['dns_result'] == 'B') {
       $row_class = ' class="blocked"';
-      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+      //$action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
       $blockreason = search_blockreason($row['dns_request']);
+      if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == '') {              //No reason is probably IP or Search request
+        $row_class = ' class="invalid"';
+        $blockreason = '<p class="small">Invalid request</p>';
+      }
+      else {
+        $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
+      }
     }
     elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
