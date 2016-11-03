@@ -559,10 +559,10 @@ if [ $? -gt 0 ]; then                            #More than 0 is age in days
   sleep 2s
 fi
 
-if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
-  echo "Not much in $FILE_DNSLOG, exiting"
-  exit 110
-fi
+#if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
+#  echo "Not much in $FILE_DNSLOG, exiting"
+#  exit 110
+#fi
 
 check_root                                       #Are we running as root?
 is_sql_installed
