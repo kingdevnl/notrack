@@ -152,10 +152,12 @@ if [[ $SudoCheck == "" ]]; then
 fi
 
 # Add user_agent table to sql db
-# TODO: Add check to see if the tables do not exist already
-echo "Adding new "referrer and user_agent tables to sql db"
-mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
-mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
+tables_exist=$(mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "SHOW COLUMNS FROM lightyaccess;" | grep  "referrer")
+if [[ $tables_exist == "" ]]; then
+  echo "Adding new "referrer and user_agent tables to sql db"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
+fi
 
 if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
   echo "Removing version number from Config file"
