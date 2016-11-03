@@ -151,8 +151,8 @@ if [[ $SudoCheck == "" ]]; then
   echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | tee -a /etc/sudoers
 fi
 
-
 # Add user_agent table to sql db
+# TODO: Add check to see if the tables do not exist already
 echo "Adding new "referrer and user_agent tables to sql db"
 mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
 mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
