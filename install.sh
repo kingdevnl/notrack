@@ -388,10 +388,11 @@ function install_deb() {
   fi
   
   echo
+  echo "Refreshing apt"
+  sudo apt-get update
+  echo
   echo "Preparing to Install Deb Packages..."
   sleep 2s
-  #sudo apt-get update
-  #echo
   echo "Installing dependencies"
   sleep 2s
   sudo apt-get -y install unzip
