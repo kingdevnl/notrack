@@ -310,6 +310,8 @@ function process_accesslog() {
   local site=""
   local http_method=""
   local uri_path=""
+  local referrer=""
+  local user_agent=""
   
   echo "Processing lighty log file"
     
