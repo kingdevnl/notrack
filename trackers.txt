@@ -10729,3 +10729,15 @@ ads.yahoo.com #Yahoo
 geo.query.yahoo.com #Yahoo
 pclick.yahoo.com #Yahoo
 mc.yandex.ru #Yandex
+spclient.wg.spotify.com #Spotify tracking/ads
+sto3.spotify.com #Spotify tracking/ads
+audio-ec.spotify.com #Spotify tracking/ads
+prod.spotify.map.fastlylb.net #Spotify tracking/ads
+ads-fa.spotify.com #Spotify tracking/ads
+analytics.spotify.com #Spotify tracking/ads
+log.spotify.com #Spotify tracking/ads
+adeventtracker.spotify.com #Spotify tracking/ads
+crashdump.spotify.com #Spotify tracking/ads
+www.audio2.spotify.com #Spotify tracking/ads
+audio2.spotify.com #Spotify tracking/ads
+heads-ec.spotify.com #Spotify tracking/ads
