@@ -474,7 +474,7 @@ function install_pacman() {
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
+  sudo pacman -S --noconfirm fcgi lighttpd php memcached php-memcache php-cgi 
   echo
   
   echo "Enabling MariaDB"
@@ -648,7 +648,9 @@ setup_lighttpd() {
     return
   fi
   
-  sudo lighty-enable-mod fastcgi fastcgi-php
+  if [ "$(command -v lighty-enable-mod)" ]; then #Is lighty-enable-mod available?
+    sudo lighty-enable-mod fastcgi fastcgi-php
+  fi
   
   #Copy Config and change user name
   check_file_exists "$INSTALL_LOCATION/conf/lighttpd.conf" 24
@@ -679,6 +681,15 @@ setup_lighttpd() {
     echo -e "$group\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | sudo tee -a /etc/sudoers
     echo
   fi  
+  
+  if [ "$(command -v pacman)" ]; then          #Custom setup for Arch
+    create_folder "/etc/lighttpd/conf.d"
+    
+    sudo cp "$INSTALL_LOCATION/conf/fastcgi.conf" /etc/lighttpd/conf.d/fastcgi.conf
+    echo 'include "conf.d/fastcgi.conf"' | sudo tee -a /etc/lighttpd/lighttpd.conf
+    sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=1/" /etc/php/php.ini
+    sudo sed -i "s/;extension=mysqli.so/extension=mysqli.so/" /etc/php/php.ini    
+  fi
   
   echo "Setup of Lighttpd complete"
   echo
