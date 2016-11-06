@@ -1639,7 +1639,7 @@ echo "Restarting Dnsmasq"
 if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
   systemctl restart dnsmasq
 else
-  service restart dnsmasq
+  service dnsmasq restart
 fi
 
 echo "NoTrack complete"
