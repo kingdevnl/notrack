@@ -474,7 +474,12 @@ function install_pacman() {
   echo "Installing Lighttpd and PHP"
   sleep 2s
   sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
-  echo  
+  echo
+  
+  echo "Enabling MariaDB"
+  sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+  sudo systemd start mysqld
+  sudo systemd enable mysqld
 }
 
 
@@ -570,9 +575,6 @@ function setup_dnsmasq() {
   check_file_exists "$INSTALL_LOCATION/conf/dnsmasq.conf" 24
   sudo cp "$INSTALL_LOCATION/conf/dnsmasq.conf" /etc/dnsmasq.conf
   
-  check_file_exists "$INSTALL_LOCATION/conf/lighttpd.conf" 24
-  sudo cp "$INSTALL_LOCATION/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
-  
   #Finish configuration of dnsmasq config
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
   sudo sed -i "s/server=changeme1/server=$DNS_SERVER_1/" /etc/dnsmasq.conf
@@ -644,8 +646,13 @@ setup_lighttpd() {
     sleep 8s
     return
   fi
-   
+  
   sudo lighty-enable-mod fastcgi fastcgi-php
+  
+  #Copy Config and change user name
+  check_file_exists "$INSTALL_LOCATION/conf/lighttpd.conf" 24
+  sudo cp "$INSTALL_LOCATION/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
+  sudo sed -i "s/changeme/$group/" /etc/lighttpd/lighttpd.conf
     
   create_folder "/var/www"                       #/var/www/html should be created by lighty
   create_folder "/var/www/html"
