@@ -1,8 +1,9 @@
-#NoTrack Malicious Site list updated 26 October 2016
+#NoTrack Malicious Site list updated 05 November 2016
 1kdailyprofit.co #Scam
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 abcd7777.com #Chinese Scammer
 abcdnf.com #Chinese Scammer
+andr-security.com
 apple-safari.info #Malicious Site
 ashleyrnadison.com #Typo
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
