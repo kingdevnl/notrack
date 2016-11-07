@@ -154,7 +154,7 @@ fi
 # Add user_agent table to sql db
 tables_exist=$(mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "SHOW COLUMNS FROM lightyaccess;" | grep  "referrer")
 if [[ $tables_exist == "" ]]; then
-  echo "Adding new "referrer and user_agent tables to sql db"
+  echo "Adding new referrer and user_agent tables to sql db"
   mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
   mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
 fi
