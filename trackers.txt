@@ -1,4 +1,4 @@
-#NoTrack Tracker list updated 29 October 2016
+#NoTrack Tracker list updated 05 November 2016
 #LatestVersion 0.8
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -43,6 +43,7 @@ ad.12dt.com #Ads
 51.la
 5293.com
 52tyd.com #Advertising
+52zfu.com
 5gl1x9qc.com
 5min.com
 6000088.com #HelloWorld
@@ -93,6 +94,7 @@ abetterweb.us #instartlogic
 abmr.net
 absentvodka.com #Hacker Site
 abtasty.com
+acceptableserver.com
 acekhor.com #SpyVisit
 acexedge.com #WhiteOps
 activeconversion.com
@@ -126,6 +128,7 @@ addnexus.info #AppNexus Inc
 addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
 addnow.com
+addoox.net
 addthis.com
 addthisedge.com #Oracle
 addtoany.com
@@ -199,6 +202,7 @@ adomik.com #Adomik
 adomik.info #Adomik
 adomik.net #Adomik
 adomik.org #Adomik
+adotmob.com
 adpacked.com #Adobe
 adprimemedia.com #AdPrime Media
 adprimemedia.net #AdPrime Media
@@ -887,6 +891,7 @@ customerjourney.com #eGain Corporation
 customersciences.com #Adobe
 custom-emailing.com #Aurea
 cxense.com #Cxsense
+dnsresearch.cymru.com
 c-ctrip.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 d09.no
@@ -995,7 +1000,6 @@ dumedia.ru #Dumedia
 dwin1.com #Digital Window
 dwin2.com #Digital Window
 dynamicyield.com
-dyncdn.me
 dyntrk.com #DynAdmic
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 e701.net
@@ -1276,6 +1280,7 @@ gslbns.net #AppNexus Inc
 gslbns.org #AppNexus Inc
 gssprt.jp
 gumgum.com
+guomob.com
 gw100-10.com #Lead Forensics
 gwallet.com #RadiumOne
 gwallet.net #RadiumOne
@@ -1475,6 +1480,7 @@ ist-track.com
 itsfom.com #Zanox
 iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
+jackship.cn
 jisusaiche.com
 jpush.cn
 jpush.io
@@ -1638,6 +1644,7 @@ maxtraffic.com #MaxTraffic
 maxymiser.net
 mbd0.com #Campaign Monitor Pty
 mbd1.com #Campaign Monitor Pty
+mcsecure.mobi
 mcstats.org
 mdotm.com #MdotM
 media.net #Yahoo
@@ -1646,6 +1653,7 @@ mediabong.com #Mediabong
 mediaforge.com #Rakuten
 medialytics.com #Medialets
 mediamond.it #Mediamond
+medianexusnetwork.com
 mediaplex.com
 mediavoice.com
 member-hsbc-group.com #HSBC
@@ -1678,6 +1686,7 @@ mgsvc.com
 micpn.com
 microsoft-hohm.com #Microsoft
 midrollvideo.com #BrightRoll
+milenar-ads.pt
 millennialmedia.com
 mioeverywhere.tv #Ooyala
 mixpanel.com
@@ -9450,6 +9459,7 @@ mon-com-net.com #Lead Forensics
 monarchads.com #Monarch Ads
 monefy.net #Buta Trading
 monetate.net
+click.monetizer.info
 mookie1.com
 mosaicaudience.com #Experian
 motdgd.com #MOTDgd
@@ -9615,6 +9625,7 @@ ophan.co.uk
 opinionsquare.com #TMRG
 opinionsquare.net #TMRG
 optilead.co.uk
+bopartners.optimus.pt
 optinmonster.com
 optimizely.com #Optimizely
 optnmnstr.com
@@ -10015,6 +10026,7 @@ servingclks.com #CPMStars
 serving-sys.com
 sessioncam.com
 sex-affiliation.com
+sg-living.co.jp
 shadowsmell.com #Advertising
 sharethis.com
 sharethrough.com
@@ -10050,6 +10062,8 @@ sitescout.com #Rubicon
 sitescoutadserver.com
 sitestat.com
 sitetagger.co.uk
+skift.pt
+skiftmedia.pt
 skimresources.com
 slimcutmedia.com #SlimCut Media
 slimcut.media #SlimCut Media
@@ -10174,6 +10188,7 @@ switchads.com
 swoop.com
 swordfishdc.com #Swordfish Inc
 sxxjdz.com #Advertising
+sydjyy.com
 symcb.com #Symantec
 symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
@@ -10276,6 +10291,7 @@ tremorvideo.com #Tremor Video
 tribalfusion.com
 triggit.com
 trkme.net
+trkyme.com
 trkmob1.com #RevenueHits
 tru.am #TrueAnthem
 truste.com
@@ -10303,6 +10319,7 @@ tzcccm.com #Advertising
 uadx.com
 udmserve.net
 ugdturner.com #CNN
+ugg66.com
 ultimedia.com #Charles Ganem
 umbel.com
 umhali.com #AppNexus Inc
@@ -10397,6 +10414,7 @@ verticaltechmedia.de
 verticalscope.com
 verityresearchpanel.com #TMRG
 verityresearchpanel.net #TMRG
+cookiesync.vertamedia.com
 vertmarkets.com
 veruta.com
 venturead.com
@@ -10430,6 +10448,7 @@ vouchercodeclub.com #Digital Window
 voucherwindow.com #Digital Window
 voxmedia.com #Vox Media
 voycme.com #eGain Corporation
+vppgamingnetwork.com
 vserv.mobi #Vserv
 vservdigital.com #Vserv
 vservmobi.com #Vserv
@@ -10505,7 +10524,7 @@ xg4ken.com
 xibei70.com #Adverising
 xiti.com
 xixiwan.net #Advertising
-pubs.xl.pt #Adverts of the XLs news papers (do not remove top domain name)
+pubs.xl.pt #Adverts of the XLs news papers (do not remove top level domain name)
 #Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y-Y
 yadro.ru
 yarpp.org
@@ -10537,6 +10556,7 @@ ysance-integration.com #Ysance
 ysance-labs.com #Ysance
 ysforyou.com #Ysance
 ys-game.com #Ysance
+yuhuads.com
 yunjiasu-cdn.net #Advertising CDN
 yuq.me
 yygslb.com #Advertising
