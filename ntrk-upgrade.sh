@@ -151,18 +151,15 @@ if [[ $SudoCheck == "" ]]; then
   echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | tee -a /etc/sudoers
 fi
 
-# Add user_agent table to sql db
-tables_exist=$(mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "SHOW COLUMNS FROM lightyaccess;" | grep  "referrer")
-if [[ $tables_exist == "" ]]; then
-  echo "Adding new referrer and user_agent tables to sql db"
-  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
-  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
-  
+#v0.8.1 - Add user_agent table to sql db
+mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN IF NOT EXISTS referrer TEXT AFTER uri_path;"
+mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN IF NOT EXISTS user_agent TEXT AFTER referrer;"
+
+#v0.8.1 - Add user_agent collection to lighttpd.conf
+if [[ $(grep '"%{%s}t|%V|%r|%s|%b"' /etc/lighttpd/lighttpd.conf) != "" ]]; then
   sed -i 's/"%{%s}t|%V|%r|%s|%b"/"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i"/' /etc/lighttpd/lighttpd.conf
   echo "lighttpd needs restarting: sudo systemctl restart lighttpd"
 fi
-
-
 
 
 if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
