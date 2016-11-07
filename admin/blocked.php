@@ -80,7 +80,7 @@ function show_lightyaccess() {
   
   pagination($rows, '');
   echo '<table id="access-table">'.PHP_EOL;
-  echo '<tr><th>Date Time</th><th>Method</th><th>Site</th></tr>'.PHP_EOL;
+  echo '<tr><th>Date Time</th><th>Method</th><th>User Agent</th><th>Referrer</th><th>Site</th></tr>'.PHP_EOL;
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     if ($row['http_method'] == 'GET') {
@@ -91,6 +91,10 @@ function show_lightyaccess() {
     }
     
     $site_full = $row['site'].$row['uri_path'];
+    
+    $referrer = $row['referrer']
+    
+    $user_agent = $row['user_agent']
     
     //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
     //For unknown file just show the first 45 characters and display+ button
@@ -105,7 +109,7 @@ function show_lightyaccess() {
     else {
       $site_msg = $site_full;
     }
-    echo '<tr><td>'.$row['log_time'].'</td><td>'.$http_method.'</td><td>'.$site_msg.'</td></tr>'.PHP_EOL;
+    echo '<tr><td>'.$row['log_time'].'</td><td>'.$http_method.'</td><td>'.$user_agent.'</td><td>'.$referrer.'</td><td>'.$site_msg.'</td></tr>'.PHP_EOL;
     
     $i++;
   }
