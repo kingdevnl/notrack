@@ -157,7 +157,13 @@ if [[ $tables_exist == "" ]]; then
   echo "Adding new referrer and user_agent tables to sql db"
   mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
   mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
+  
+  sed -i 's/"%{%s}t|%V|%r|%s|%b"/"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i"/' /etc/lighttpd/lighttpd.conf
+  echo "lighttpd needs restarting: sudo systemctl restart lighttpd"
 fi
+
+
+
 
 if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
   echo "Removing version number from Config file"

@@ -247,7 +247,7 @@ function load_accesslog() {
     logarray+=("$line")
   done < "$FILE_ACCESSLOG"
     
-  cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
+  #cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
 }
 
 #--------------------------------------------------------------------
@@ -317,7 +317,7 @@ function process_accesslog() {
     
   for line in "${logarray[@]}"; do               #Read whole logarray
     #echo "$line"                                #Uncomment for debugging
-    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|\d*\|([^\|]+)\|(.+) ]]; then    
+    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|[0-9]+\|([^\|]+)\|(.+) ]]; then    
       log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
       site="${BASH_REMATCH[2]}"
       http_method="${BASH_REMATCH[3]}"
