@@ -599,7 +599,7 @@ load_config                                      #Load users config
 #Make sure there is something in lighttpd access log 
 if [ "$(wc -l "$FILE_ACCESSLOG" | cut -d " " -f 1)" -gt 2 ]; then
   load_accesslog                                 #Load lighttpd log file into array
-  if [[ "$(grep accesslog.format /etc/lighttpd/lighttpd.conf)" =~ ^accesslog\.format[[:space:]]+\=[[:space:]]\"%\{%s\}t\|%V\|%r\|%s\|%b\" ]]; then
+  if [[ "$(grep accesslog.format /etc/lighttpd/lighttpd.conf)" =~ ^accesslog\.format[[:space:]]+\=[[:space:]]\"%\{%s\}t\|%V\|%r\|%s\|%b\"$ ]]; then
     echo "Legacy processing of lighty log"
     oldprocess_accesslog
   else
