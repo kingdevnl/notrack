@@ -150,7 +150,15 @@ if [[ $SudoCheck == "" ]]; then
   echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
   echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | tee -a /etc/sudoers
 fi
-  
+
+# Add user_agent table to sql db
+tables_exist=$(mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "SHOW COLUMNS FROM lightyaccess;" | grep  "referrer")
+if [[ $tables_exist == "" ]]; then
+  echo "Adding new "referrer and user_agent tables to sql db"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN referrer TEXT AFTER uri_path;"
+  mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN user_agent TEXT AFTER referrer;"
+fi
+
 if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
   echo "Removing version number from Config file"
   grep -v "LatestVersion" "$ConfigFile" > /tmp/notrack.conf
