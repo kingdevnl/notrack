@@ -1232,6 +1232,8 @@ getphotoeffects.com #RadiumOne
 getsentry.com #GetSentry
 getsentry.net #GetSentry
 getsentry.org #GetSentry
+getsidekick.com #Hubspot
+gettally.com #Hubspot
 gettraff.com
 ghostery.com #Ghostery Enterprise
 gigya.com
@@ -10000,6 +10002,10 @@ segment.com
 selfadvertiser.com #RevenueHits
 sellathon.com
 semasio.net
+senalcinco.com #Hubspot
+senaldos.com #Hubspot
+senaltres.com #Hubspot
+senaluno.com #Hubspot
 sendgrid.me
 sendtomyfriend.com #Campaign Monitor Pty
 sensic.net
@@ -10032,8 +10038,88 @@ shrfbdg004.com #Lead Forensics
 shwired.com #TMRG
 shwired.net #TMRG
 sid-ads.com
-siftscience.com 
+sidekickopen01.com #Hubspot
+sidekickopen02.com #Hubspot
+sidekickopen03.com #Hubspot
+sidekickopen04.com #Hubspot
+sidekickopen05.com #Hubspot
+sidekickopen06.com #Hubspot
+sidekickopen07.com #Hubspot
+sidekickopen08.com #Hubspot
+sidekickopen09.com #Hubspot
+sidekickopen10.com #Hubspot
+sidekickopen11.com #Hubspot
+sidekickopen12.com #Hubspot
+sidekickopen13.com #Hubspot
+sidekickopen14.com #Hubspot
+sidekickopen15.com #Hubspot
+sidekickopen16.com #Hubspot
+sidekickopen17.com #Hubspot
+sidekickopen18.com #Hubspot
+sidekickopen19.com #Hubspot
+sidekickopen20.com #Hubspot
+sidekickopen21.com #Hubspot
+sidekickopen22.com #Hubspot
+sidekickopen23.com #Hubspot
+sidekickopen24.com #Hubspot
+sidekickopen25.com #Hubspot
+sidekickopen26.com #Hubspot
+sidekickopen27.com #Hubspot
+sidekickopen28.com #Hubspot
+sidekickopen29.com #Hubspot
+sidekickopen30.com #Hubspot
+sidekickopen31.com #Hubspot
+sidekickopen32.com #Hubspot
+sidekickopen33.com #Hubspot
+sidekickopen34.com #Hubspot
+sidekickopen35.com #Hubspot
+sidekickopen36.com #Hubspot
+sidekickopen37.com #Hubspot
+sidekickopen38.com #Hubspot
+sidekickopen39.com #Hubspot
+sidekickopen40.com #Hubspot
+sidekickopen51.com #Hubspot
+sidekickopen52.com #Hubspot
+sidekickopen53.com #Hubspot
+sidekickopen54.com #Hubspot
+sidekickopen55.com #Hubspot
+sidekickopen56.com #Hubspot
+sidekickopen57.com #Hubspot
+sidekickopen58.com #Hubspot
+sidekickopen59.com #Hubspot
+sidekickopen60.com #Hubspot
+sidekickopen61.com #Hubspot
+sidekickopen62.com #Hubspot
+sidekickopen63.com #Hubspot
+sidekickopen64.com #Hubspot
+sidekickopen65.com #Hubspot
+sidekickopen66.com #Hubspot
+sidekickopen67.com #Hubspot
+sidekickopen68.com #Hubspot
+sidekickopen69.com #Hubspot
+sidekickopen70.com #Hubspot
+siftscience.com
+signalecinque.com #Hubspot
+signaledue.com #Hubspot
+signalequattro.com #Hubspot
+signaletre.com #Hubspot
+signaleuna.com #Hubspot
+signauxcinq.com #Hubspot
+signauxdeux.com #Hubspot
+signauxdix.com #Hubspot
+signauxhuit.com #Hubspot
+signauxneuf.com #Hubspot
+signauxquatre.com #Hubspot
+signauxsept.com #Hubspot
+signauxsix.com #Hubspot
+signauxtrois.com #Hubspot
+signauxun.com #Hubspot
 signiasweden.com #Adtoma
+sigopn01.com #Hubspot
+sigopn02.com #Hubspot
+sigopn03.com #Hubspot
+sigopn04.com #Hubspot
+sigopn05.com #Hubspot
 silkenthreadiness.info
 silktide.com
 silverpop.com #IBM Silverpop
@@ -10153,6 +10239,26 @@ storymedia.se
 strands.com #Strands
 streamsend.com
 strikead.com
+strk01.email #Hubspot
+strk02.email #Hubspot
+strk03.email #Hubspot
+strk04.email #Hubspot
+strk05.email #Hubspot
+strk06.email #Hubspot
+strk07.email #Hubspot
+strk08.email #Hubspot
+strk09.email #Hubspot
+strk10.email #Hubspot
+strk11.email #Hubspot
+strk12.email #Hubspot
+strk13.email #Hubspot
+strk14.email #Hubspot
+strk15.email #Hubspot
+strk16.email #Hubspot
+strk17.email #Hubspot
+strk18.email #Hubspot
+strk19.email #Hubspot
+strk20.email #Hubspot
 struq.com
 sub2tech.com
 subtraxion.com
