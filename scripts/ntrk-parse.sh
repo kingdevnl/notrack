@@ -317,7 +317,7 @@ function process_accesslog() {
     
   for line in "${logarray[@]}"; do               #Read whole logarray
     #echo "$line"                                #Uncomment for debugging
-    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|\d*\|(.+)\|(.+) ]]; then    
+    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|\d*\|([^\|]+)\|(.+) ]]; then    
       log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
       site="${BASH_REMATCH[2]}"
       http_method="${BASH_REMATCH[3]}"
@@ -332,6 +332,32 @@ function process_accesslog() {
   
   unset IFS  
 }
+
+function oldprocess_accesslog() {
+  local line=""
+  local log_time=0
+  local site=""
+  local http_method=""
+  local uri_path=""
+  
+  echo "Processing lighty log file"
+    
+  for line in "${logarray[@]}"; do               #Read whole logarray
+    #echo "$line"                                #Uncomment for debugging
+    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200 ]]; then    
+      log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
+      site="${BASH_REMATCH[2]}"
+      http_method="${BASH_REMATCH[3]}"
+      uri_path="${BASH_REMATCH[4]}"
+      if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
+        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path')"        
+      fi    
+    fi
+  done
+  
+  unset IFS  
+}
+
 
 #--------------------------------------------------------------------
 # Process Today Log
@@ -561,10 +587,10 @@ if [ $? -gt 0 ]; then                            #More than 0 is age in days
   sleep 2s
 fi
 
-#if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
-#  echo "Not much in $FILE_DNSLOG, exiting"
-#  exit 110
-#fi
+if [ "$(wc -l "$FILE_DNSLOG" | cut -d " " -f 1)" -lt $MINLINES ]; then
+  echo "Not much in $FILE_DNSLOG, exiting"
+  exit 110
+fi
 
 check_root                                       #Are we running as root?
 is_sql_installed
@@ -573,7 +599,13 @@ load_config                                      #Load users config
 #Make sure there is something in lighttpd access log 
 if [ "$(wc -l "$FILE_ACCESSLOG" | cut -d " " -f 1)" -gt 2 ]; then
   load_accesslog                                 #Load lighttpd log file into array
-  process_accesslog                              #Process and add log to SQL table
+  if [[ "$(grep accesslog.format /etc/lighttpd/lighttpd.conf)" =~ ^accesslog\.format[[:space:]]+\=[[:space:]]\"%\{%s\}t\|%V\|%r\|%s\|%b\" ]]; then
+    echo "Legacy processing of lighty log"
+    oldprocess_accesslog
+  else
+    echo "New processing of lighty log"
+    process_accesslog                            #Process and add log to SQL table
+  fi
 fi
 
 logarray=()                                      #Empty logarray for reuse

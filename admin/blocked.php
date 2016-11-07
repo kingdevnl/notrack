@@ -45,6 +45,8 @@ function show_lightyaccess() {
   $http_method = '';
   $site_full = '';
   $site_msg = '';
+  $referrer = '';
+  $user_agent = '';
     
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>Sites Blocked</h5>'.PHP_EOL;
@@ -92,9 +94,19 @@ function show_lightyaccess() {
     
     $site_full = $row['site'].$row['uri_path'];
     
-    $referrer = $row['referrer']
+    if (array_key_exists('referrer', $row)) {
+      $referrer = $row['referrer'];
+    }
+    else {
+      $referrer = '';
+    }
     
-    $user_agent = $row['user_agent']
+    if (array_key_exists('user_agent', $row)) {
+      $user_agent = $row['user_agent'];
+    }
+    else {
+      $user_agent = '';
+    }
     
     //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
     //For unknown file just show the first 45 characters and display+ button

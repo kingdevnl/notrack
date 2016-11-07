@@ -399,8 +399,14 @@ tr.green {
   text-align: center;
 }
 #access-table th:nth-child(3), #access-table th:nth-child(3) {
-  width: 60%;
+  width: 20%;
   text-align: center;
+}
+#access-table th:nth-child(4), #access-table th:nth-child(4) {
+  width: 20%;  
+}
+#access-table th:nth-child(5), #access-table th:nth-child(5) {
+  width: 20%;  
 }
 
 #block-table td:nth-child(1), #block-table th:nth-child(1) {
