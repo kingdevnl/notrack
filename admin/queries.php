@@ -472,7 +472,7 @@ function show_group_view() {
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
-    elseif ($row['dns_result'] == 'B') {
+    elseif ($row['dns_result'] == 'B') {         //Blocked
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
       if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
@@ -485,21 +485,7 @@ function show_group_view() {
       }
       else {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
-      }
-      /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {        
-        if (in_array('.'.$matches[1], $TLDBlockList)) {
-          $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
-        }
-        else {
-          $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
-        }
-      }
-      
-      elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
-        $row_class = ' class="invalid"';
-        $blockreason = '<p class="small">IP Requested</p>';
-      }
-      */
+      }      
     }
     elseif ($row['dns_result'] == 'L') {
       $row_class = ' class="local"';
@@ -538,7 +524,7 @@ function show_live_time() {
   $rows = count_rows_save('SELECT COUNT(*) FROM live'.add_filterstr());
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-  $query = 'SELECT * FROM live'.add_filterstr(). ' ORDER BY log_time '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $query = 'SELECT * FROM live'.add_filterstr(). ' ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
@@ -558,11 +544,11 @@ function show_live_time() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    if ($row['dns_result'] == 'A') {
+    if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
-    elseif ($row['dns_result'] == 'B') {
+    elseif ($row['dns_result'] == 'B') {         //Blocked
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
       if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
@@ -575,21 +561,9 @@ function show_live_time() {
       }
       else {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
-      }
-      /*if (preg_match('/([\w\d\-_]+)$/', $row['dns_request'],  $matches) > 0) {
-        if (in_array('.'.$matches[1], $TLDBlockList)) {
-          $blockreason = '<p class="small">.'.$matches[1].' Blocked by Top Level Domain List</p>';          
-        }
-        else {
-          $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
-        }
-      }
-      elseif (!filter_var($row['dns_request'], FILTER_VALIDATE_IP) === false) {
-        $row_class = ' class="invalid"';
-        $blockreason = '<p class="small">IP Requested</p>';
-      } */       
+      }      
     }
-    elseif ($row['dns_result'] == 'L') {
+    elseif ($row['dns_result'] == 'L') {         //Local
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
@@ -626,13 +600,13 @@ function show_historic_time() {
   $rows = count_rows_save('SELECT COUNT(*) FROM historic'.add_filterstr().add_datestr());
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-  $query = 'SELECT * FROM historic'.add_filterstr().add_datestr(). ' ORDER BY log_time '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $query = 'SELECT * FROM historic'.add_filterstr().add_datestr(). ' ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
   }
   
-  if ($result->num_rows == 0) {                 //Leave if nothing found
+  if ($result->num_rows == 0) {                  //Leave if nothing found
     $result->free();
     echo "Nothing found for the selected dates";
     return false;
@@ -647,11 +621,11 @@ function show_historic_time() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    if ($row['dns_result'] == 'A') {
+    if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
     }
-    elseif ($row['dns_result'] == 'B') {
+    elseif ($row['dns_result'] == 'B') {         //Blocked
       $row_class = ' class="blocked"';
       //$action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
       $blockreason = search_blockreason($row['dns_request']);
@@ -667,7 +641,7 @@ function show_historic_time() {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
       }
     }
-    elseif ($row['dns_result'] == 'L') {
+    elseif ($row['dns_result'] == 'L') {         //Local
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
