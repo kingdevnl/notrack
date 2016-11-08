@@ -312,20 +312,22 @@ function process_accesslog() {
   local uri_path=""
   local referrer=""
   local user_agent=""
+  local remote_host=""
   
   echo "Processing lighty log file"
     
   for line in "${logarray[@]}"; do               #Read whole logarray
     #echo "$line"                                #Uncomment for debugging
-    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|[0-9]+\|([^\|]+)\|(.+) ]]; then    
+    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200\|[0-9]+\|([^\|]+)\|(.+)|(.+) ]]; then    
       log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
       site="${BASH_REMATCH[2]}"
       http_method="${BASH_REMATCH[3]}"
       uri_path="${BASH_REMATCH[4]}"
       referrer="${BASH_REMATCH[5]}"
       user_agent="${BASH_REMATCH[6]}"
+      remote_host="${BASH_REMATCH[7]}"
       if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
-        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path,referrer,user_agent) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path', '$referrer', '$user_agent')"        
+        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path,referrer,user_agent,remote_host) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path', '$referrer', '$user_agent', $'remote_host')"        
       fi    
     fi
   done
