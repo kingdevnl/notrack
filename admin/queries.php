@@ -47,6 +47,7 @@ $COMMONSITESLIST = array('cloudfront.net',
                          'gvt1.com',
                          'deviantart.net',
                          'deviantart.com',
+                         'ampproject.net',
                          'tumblr.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 
