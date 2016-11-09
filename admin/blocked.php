@@ -24,11 +24,20 @@ draw_topmenu();
 draw_sidemenu();
 
 /************************************************
+*Constants                                      *
+************************************************/
+
+
+/************************************************
 *Global Variables                               *
 ************************************************/
 $page = 1;
+$view = 'time';
+$sort = 'DESC';
+
 $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 #$searchbox = '';
+
 
 /************************************************
 *Arrays                                         *
@@ -36,6 +45,19 @@ $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
 echo '<div id="main">';
 
+function draw_subnav() {
+  global $view;
+  
+  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
+  echo '<div class="sub-nav">'.PHP_EOL;
+  echo '<ul>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'time').' href="?v=time">Time</a></li>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'group').' href="?v=time">Group</a></li>'.PHP_EOL;
+  
+  echo '</ul>'.PHP_EOL;
+  echo '</div></div>'.PHP_EOL;
+}
 
 function show_lightyaccess() {
   global $db, $page;
@@ -50,7 +72,7 @@ function show_lightyaccess() {
   $remote_host = '';
     
   echo '<div class="sys-group">'.PHP_EOL;
-  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
+  echo '<h6>Sorted by Time</h6>'.PHP_EOL;
     
   $rows = count_rows('SELECT COUNT(DISTINCT `site`) FROM lightyaccess');
     
@@ -156,6 +178,7 @@ if (isset($_GET['page'])) {
   $page = filter_integer($_GET['page'], 1, PHP_INT_MAX, 1);
 }
 
+draw_subnav();
 show_lightyaccess();
 
 ?>

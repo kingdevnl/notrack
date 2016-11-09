@@ -159,6 +159,23 @@ function filter_integer($value, $min, $max, $defaultvalue=0) {
 }
 
 /********************************************************************
+ *  Is Active Class
+ *    Used to allocate class="active" against li
+ *  Params:
+ *    Current View, Test
+ *  Return:
+ *    class='active' or '' when inactive
+ */
+function is_active_class($currentview, $test) {
+  if ($currentview == $test) {
+    return ' class="active"';
+  }
+  else {
+    return '';
+  }
+}
+
+/********************************************************************
  *  Pagination
  *  
  *  Draw up to 7 buttons

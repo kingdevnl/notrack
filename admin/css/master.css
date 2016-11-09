@@ -352,13 +352,14 @@ a.button-blue, a.button-grey, a.button-danger {
   text-decoration: none;
   border-bottom: 3px solid #666;  
 }
-.sub-nav li a:hover:not(.active) {
-  background-color: #ddd;
-}
 .sub-nav li a.active {
   border-bottom: 4px solid #21BBFF;
   color: #666;  
 }
+.sub-nav li a:hover:not(.active) {
+  background-color: #ddd;
+}
+
 
 table {  
   border-spacing: 0;
