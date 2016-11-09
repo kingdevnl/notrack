@@ -47,6 +47,7 @@ function show_lightyaccess() {
   $site_msg = '';
   $referrer = '';
   $user_agent = '';
+  $remote_host = '';
     
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>Sites Blocked</h5>'.PHP_EOL;
@@ -82,7 +83,7 @@ function show_lightyaccess() {
   
   pagination($rows, '');
   echo '<table id="access-table">'.PHP_EOL;
-  echo '<tr><th>Date Time</th><th>Method</th><th>User Agent</th><th>Referrer</th><th>Site</th></tr>'.PHP_EOL;
+  echo '<tr><th>Date Time</th><th>Requester</th><th>Method</th><th>User Agent</th><th>Referrer</th><th>Site</th></tr>'.PHP_EOL;
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     if ($row['http_method'] == 'GET') {
@@ -108,6 +109,12 @@ function show_lightyaccess() {
       $user_agent = '';
     }
     
+    if (array_key_exists('remote_host', $row)) {
+      $remote_host = $row['remote_host'];
+    }
+    else {
+      $remote_host = '';
+    }
     //If string length too long, then attempt to cut out segment of known file name of URI and join to shortened URL
     //For unknown file just show the first 45 characters and display+ button
     if (strlen($site_full) > 48) {
@@ -121,7 +128,7 @@ function show_lightyaccess() {
     else {
       $site_msg = $site_full;
     }
-    echo '<tr><td>'.$row['log_time'].'</td><td>'.$http_method.'</td><td>'.$user_agent.'</td><td>'.$referrer.'</td><td>'.$site_msg.'</td></tr>'.PHP_EOL;
+    echo '<tr><td>'.$row['log_time'].'</td><td>'.$remote_host.'</td><td>'.$http_method.'</td><td><img src="https://cloud.githubusercontent.com/assets/10121067/20120252/0447c3d6-a604-11e6-92c9-ba02d983bb01.jpg" title="'.$user_agent.'"<img></td><td>'.$referrer.'</td><td>'.$site_msg.'</td></tr>'.PHP_EOL;
     
     $i++;
   }

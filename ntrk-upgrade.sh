@@ -151,9 +151,10 @@ if [[ $SudoCheck == "" ]]; then
   echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | tee -a /etc/sudoers
 fi
 
-#v0.8.1 - Add user_agent table to sql db
+#v0.8.1 - Add user_agent table to sql db 
 mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN IF NOT EXISTS referrer TEXT AFTER uri_path;"
 mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN IF NOT EXISTS user_agent TEXT AFTER referrer;"
+mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD COLUMN IF NOT EXISTS remote_host TEXT AFTER user_agent;"
 
 #v0.8.1 - Add user_agent collection to lighttpd.conf
 if [[ $(grep '"%{%s}t|%V|%r|%s|%b"' /etc/lighttpd/lighttpd.conf) != "" ]]; then
