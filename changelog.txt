@@ -1,4 +1,17 @@
-v0.8 Development
+v0.8.1 Development
+
+Admin:
+  New pie chart showing % of traffic allowed, blocked, or local
+  New Table design
+
+Blocked sites:
+  Issue #162 - IP, User agent, and Referrer now shown. Thanks to duramato for working on this feature.  
+  
+Login:
+  Fixed bug - Correct password entry no longer writes to fail2ban log.
+*************************************************
+
+v0.8 Alpha
 Issue #141 - New SQL backend using MariaDB
 IMPORTANT NOTE: You will need to run "bash install.sh -sql" after upgrading
 
@@ -12,6 +25,7 @@ Security:
 
 New blocklists:
   Cedia malware domain list (Issue #126)
+
 *************************************************
 
 v0.7.18 alpha - Interim release to facilitate upgrade to v0.8
