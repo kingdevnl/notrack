@@ -359,7 +359,27 @@ a.button-blue, a.button-grey, a.button-danger {
   border-bottom: 4px solid #21BBFF;
   color: #666;  
 }
+
 table {  
+  border-spacing: 0;
+  table-layout: fixed;  
+  width: 100%;
+}
+td, th {
+  overflow: auto;
+  padding: 0.7em 0.6em;
+  border-bottom: 1px solid #b3b3b3;
+}
+th {
+  color: #666;
+}
+tr {
+  background: #FBFBFB;
+}
+tr:hover {
+  filter: brightness(85%);
+}
+/*table {  
   border: 1px solid #b3b3b3;
   border-spacing: 0;
   table-layout: fixed;
@@ -380,7 +400,7 @@ tr:nth-child(odd) {
 }
 tr:nth-child(even) {
   background: #FBFBFB;
-}
+}*/
 tr.blocked {
   background: #EB5D66;
 }
