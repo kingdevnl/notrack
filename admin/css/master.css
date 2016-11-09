@@ -306,7 +306,7 @@ a.button-blue, a.button-grey, a.button-danger {
   padding: 0 0.9em 0.4em;
 }
 .pag-nav ul {
-  margin: 0;
+  /* margin: 0; */
   padding: 0;
   list-style: none;
 } 
@@ -331,24 +331,34 @@ a.button-blue, a.button-grey, a.button-danger {
 .pag-nav a:hover {
   color: #008CD1;
 }
-/*.pag-nav li li{
-  width: 160px;
-  margin-top: 1px;
-}*/
-/*.pag-nav li li:hover {
-  background-color: #E1E1E1;
-} 
-.pag-nav li li a:hover {
-  color: #008CD1;
-} 
-.pag-nav ul ul  {
-  margin-top: 1px;
-  position: absolute;
-  visibility: hidden;
+.sub-nav ul {
+  list-style-type: none;
+  /* margin: 0; */
+  padding: 0;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  overflow: hidden;  
 }
-.pag-nav li:hover > ul {
-  visibility: visible;
-}*/
+.sub-nav li {
+  float: left;
+  width: 8.5em;
+}
+.sub-nav li a, .sub-nav li a:visited {
+  display: block;
+  text-align: center;
+  line-height: 2.1rem;
+  font-size: 1.1em;
+  color: #008CD1;
+  text-decoration: none;
+  border-bottom: 3px solid #666;  
+}
+.sub-nav li a:hover:not(.active) {
+  background-color: #ddd;
+}
+.sub-nav li a.active {
+  border-bottom: 4px solid #21BBFF;
+  color: #666;  
+}
 table {  
   border: 1px solid #b3b3b3;
   border-spacing: 0;
