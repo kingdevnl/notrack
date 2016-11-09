@@ -247,7 +247,7 @@ function load_accesslog() {
     logarray+=("$line")
   done < "$FILE_ACCESSLOG"
     
-  #cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
+  cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
 }
 
 #--------------------------------------------------------------------
