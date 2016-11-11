@@ -244,6 +244,7 @@ adsterra.com #Adsterra
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
 adsymptotic.com
+adstheaa.com #The AA
 ads-for-apps.com #Smaato
 ads-ai.com #YieldBot
 ads-creativesyndicator.com
@@ -1179,6 +1180,7 @@ flix360.com #Flix 360
 flx1.com #Teradata
 flxads.com #Teradata
 flxpxl.com #Teradata
+fmpub.net #Federated Media
 fogzyads.com
 followistic.com
 footprint.net #Level3
@@ -1481,6 +1483,10 @@ itsfom.com #Zanox
 iu16wmye.com
 #J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J
 jackship.cn
+jetlore.com #Jetlore
+jetlore.info #Jetlore
+jetlore.net #Jetlore
+jetlore.org #Jetlore
 jisusaiche.com
 jpush.cn
 jpush.io
