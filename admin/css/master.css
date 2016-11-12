@@ -41,11 +41,11 @@ p.small {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
 }
-p.smallhidden {
+/*p.smallhidden {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
   display: none;
-}
+}*/
 p.light {
   margin: 0 0 0 0.5em;
   font-size: 0.8rem;
@@ -128,8 +128,10 @@ h5 {
   border-bottom: 2px solid #21BBFF;  
 }
 h6 {
-  font-size: 1.2em;
+  font-size: 1.3em;
+  font-weight: 500;
   margin: 0.3rem 0.5rem;
+  color: #444;
 }
 @media only screen and (max-width:480px), only screen and (max-device-width:480px) {
   h1 {
@@ -360,7 +362,6 @@ a.button-blue, a.button-grey, a.button-danger {
   background-color: #ddd;
 }
 
-
 table {  
   border-spacing: 0;
   table-layout: fixed;  
@@ -422,22 +423,23 @@ tr.green {
 }
 
 #access-table td:nth-child(1), #access-table th:nth-child(1) {
-  width: 18%;
+  width: 15%;
   text-align: center;
 }
 #access-table td:nth-child(2), #access-table th:nth-child(2) {
-  width: 6%;
+  width: 10%;
   text-align: center;
 }
 #access-table th:nth-child(3), #access-table th:nth-child(3) {
-  width: 20%;
+  width: 14%;
   text-align: center;
 }
 #access-table th:nth-child(4), #access-table th:nth-child(4) {
-  width: 20%;  
+  width: 58%;  
 }
-#access-table th:nth-child(5), #access-table th:nth-child(5) {
-  width: 20%;  
+#access-table td img {
+  width: 3em;
+  padding: 0 0.2rem;
 }
 
 #block-table td:nth-child(1), #block-table th:nth-child(1) {
