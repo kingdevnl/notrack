@@ -162,12 +162,12 @@ function filter_integer($value, $min, $max, $defaultvalue=0) {
  *  Is Active Class
  *    Used to allocate class="active" against li
  *  Params:
- *    Current View, Test
+ *    Current View, Item
  *  Return:
  *    class='active' or '' when inactive
  */
-function is_active_class($currentview, $test) {
-  if ($currentview == $test) {
+function is_active_class($currentview, $item) {
+  if ($currentview == $item) {
     return ' class="active"';
   }
   else {
