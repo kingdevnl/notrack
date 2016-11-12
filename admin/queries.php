@@ -55,7 +55,7 @@ $COMMONSITESLIST = array('cloudfront.net',
 ************************************************/
 $page = 1;
 $filter = DEF_FILTER;
-$view = "livegroup";
+$view = 'livegroup';
 $sort = 'DESC';
 $sys = DEF_SYSTEM;
 
@@ -341,31 +341,9 @@ function search_blockreason($site) {
     return $result->fetch_row()[0];
   }
   
-  /*$split = array();
-  $splitsearch = '';
-  $splitsize = 0;
     
-  $split = explode('.', $site);                  //Split URL by . delimeter
-  $splitsize = count($split);
-  
-  
-  if ($splitsize == 0) {                         //Zero is probably user searching
-    return '<p class="small">Invalid Request</p>';
-  }
-  
-  //Look at each section of URL up to domain.tld
-  for ($i = 1; $i < $splitsize; $i++) {
-    $splitsearch = implode('.', array_slice($split, $i));
-    $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \''.$splitsearch.'\'');    
-    if ($result->num_rows > 0) {
-      return '<p class="small">Blocked by '.get_blocklistname($result->fetch_row()[0]).'</p>';
-      break;
-    }
-  }
-  */
-  
   //Try to find LIKE site ending with site.tld
-  if (preg_match('/([\w\d\-_]+)\.([\w\d\-_]+)$/', $site,  $matches) > 0) {
+  if (preg_match('/([\w\d\-\_]+)\.([\w\d\-\_]+)$/', $site,  $matches) > 0) {
     $result = $db->query('SELECT bl_source site FROM blocklist WHERE site LIKE \'%'.$matches[1].'.'.$matches[2].'\'');
 
     if ($result->num_rows > 0) {
@@ -379,13 +357,6 @@ function search_blockreason($site) {
     }
   }
   
-  /*
-  //Last attempt to search against Top Level Domain
-  $result = $db->query('SELECT bl_source site FROM blocklist WHERE site = \'.'.$split[$splitsize-1].'\'');
-  if ($result->num_rows > 0) {
-    return '<p class="small">Blocked by Top Level Domain</p>';
-  }
-  */
   return '';                                     //Don't know at this point    
 }
 
@@ -470,14 +441,18 @@ function show_group_view() {
     
     if ($row['dns_result'] == 'A') {             //Row colouring
       $row_class='';
-      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', false, true)"></span>';
     }
     elseif ($row['dns_result'] == 'B') {         //Blocked
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
       if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
-        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
         $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == 'custom') {        //Users blacklist, show report icon
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
+        $blockreason = '<p class="small">Blocked by Black list</p>';
       }
       elseif ($blockreason == '') {              //No reason is probably IP or Search request
         $row_class = ' class="invalid"';
@@ -485,6 +460,7 @@ function show_group_view() {
       }
       else {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, false)"></span>';
       }      
     }
     elseif ($row['dns_result'] == 'L') {
@@ -546,14 +522,18 @@ function show_live_time() {
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
     if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
-      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', false, true)"></span>';
     }
     elseif ($row['dns_result'] == 'B') {         //Blocked
       $row_class = ' class="blocked"';
       $blockreason = search_blockreason($row['dns_request']);
       if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
-        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
         $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == 'custom') {        //Users blacklist, show report icon
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
+        $blockreason = '<p class="small">Blocked by Black list</p>';
       }
       elseif ($blockreason == '') {              //No reason is probably IP or Search request
         $row_class = ' class="invalid"';
@@ -561,7 +541,8 @@ function show_live_time() {
       }
       else {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
-      }      
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, false)"></span>';
+      }
     }
     elseif ($row['dns_result'] == 'L') {         //Local
       $row_class = ' class="local"';
@@ -623,15 +604,18 @@ function show_historic_time() {
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
     if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
-      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', false)"></span>';
+      $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', false, true)"></span>';
     }
     elseif ($row['dns_result'] == 'B') {         //Blocked
-      $row_class = ' class="blocked"';
-      //$action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
-      $blockreason = search_blockreason($row['dns_request']);
+      $row_class = ' class="blocked"';      
+      $blockreason = search_blockreason($row['dns_request']);      
       if ($blockreason == 'bl_notrack') {        //Show Report icon on NoTrack list
-        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="ReportSite(\''.$row['dns_request'].'\', true)"></span>';
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
         $blockreason = '<p class="small">Blocked by NoTrack list</p>';
+      }
+      elseif ($blockreason == 'custom') {        //Users blacklist, show report icon
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, true)"></span>';
+        $blockreason = '<p class="small">Blocked by Black list</p>';
       }
       elseif ($blockreason == '') {              //No reason is probably IP or Search request
         $row_class = ' class="invalid"';
@@ -639,7 +623,8 @@ function show_historic_time() {
       }
       else {
         $blockreason = '<p class="small">Blocked by '.get_blocklistname($blockreason).'</p>';
-      }
+        $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', true, false)"></span>';
+      }    
     }
     elseif ($row['dns_result'] == 'L') {         //Local
       $row_class = ' class="local"';
