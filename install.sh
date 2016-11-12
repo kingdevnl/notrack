@@ -28,7 +28,7 @@ readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
 #######################################
 # Environment variables
 #######################################
-readonly VERSION="0.8"
+readonly VERSION="0.8.1"
 SUDO_REQUIRED=false                              #true If installing to /opt
 
 REBOOT_REQUIRED=false
