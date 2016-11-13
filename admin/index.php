@@ -119,6 +119,7 @@ function draw_queriesbox() {
   echo '<div class="chart-box">'.PHP_EOL;
   echo '<svg width="100%" height="90%" viewbox="0 0 200 200">'.PHP_EOL;
   echo piechart($chartdata, 100, 100, 98, $CHARTCOLOURS);
+  echo '<circle cx="100" cy="100" r="30" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
   echo '</svg>'.PHP_EOL;
   //<img src="./svg/home_queries.svg" srcset="./svg/home_queries.svg" alt="">
   echo '</div></div></a>'.PHP_EOL;
