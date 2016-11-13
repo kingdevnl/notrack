@@ -26,6 +26,8 @@ draw_sidemenu();
 /************************************************
 *Constants                                      *
 ************************************************/
+//Chart colours from: http://godsnotwheregodsnot.blogspot.co.uk/2013/11/kmeans-color-quantization-seeding.html
+$CHARTCOLOURS = array('#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46', '#008941', '#006FA6', '#A30059', '#FFDBE5', '#7A4900', '#0000A6', '#63FFAC', '#B79762', '#004D43', '#8FB0FF', '#997D87', '#5A0007', '#809693', '#FEFFE6', '#1B4400', '#4FC601', '#3B5DFF', '#4A3B53',  '#DDEFFF', '#000035', '#7B4F4B', '#A1C299', '#300018', '#0AA6D8', '#013349', '#00846F' );
 
 
 /************************************************
@@ -34,6 +36,8 @@ draw_sidemenu();
 $page = 1;
 $view = 'group';
 $sort = 'DESC';
+$last = 1;                                       //SQL Interval Time
+$unit = 'DAY';                                   //SQL Interval Unit
 
 $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
@@ -62,7 +66,7 @@ function draw_subnav() {
   echo '<li><a'.is_active_class($view, 'group').' href="?view=group">Group</a></li>'.PHP_EOL;
   echo '<li><a'.is_active_class($view, 'time').' href="?view=time">Time</a></li>'.PHP_EOL;
   //echo '<li><a'.is_active_class($view, 'ref').' href="?view=ref">Referrer</a></li>'.PHP_EOL;
-  //echo '<li><a'.is_active_class($view, 'vis').' href="?view=vis">Visualisation</a></li>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'visualisation').' href="?view=vis">Visualisation</a></li>'.PHP_EOL;
   echo '</ul>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
@@ -298,6 +302,83 @@ function show_accesstable() {
 }
 
 
+/********************************************************************
+ *  Show Visualisation
+ *    
+ *  Params:
+ *    None
+ *  Return:
+ *    True on results found
+ */
+function show_visualisation() {
+  global $CHARTCOLOURS, $db, $last, $unit;
+  
+  $site_names = array();
+  $site_count = array();
+  $total = 0;
+  $other = 0;
+  $numsites = 0;
+  
+  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<h6>Visualisation</h6>'.PHP_EOL;
+  
+  echo '<div class="pag-nav"><ul>'.PHP_EOL;
+  echo '<li'.is_active_class($last.$unit, '1HOUR').'><a href="?view=vis&amp;last=1hour">1 Hour</a></li>'.PHP_EOL;
+  echo '<li'.is_active_class($last.$unit, '4HOUR').'><a href="?view=vis&amp;last=4hour">4 Hours</a></li>'.PHP_EOL;
+  echo '<li'.is_active_class($last.$unit, '8HOUR').'><a href="?view=vis&amp;last=8hour">8 Hours</a></li>'.PHP_EOL;
+  echo '<li'.is_active_class($last.$unit, '1DAY').'><a href="?view=vis&amp;last=1day">1 Day</a></li>'.PHP_EOL;
+  echo '<li'.is_active_class($last.$unit, '7DAY').'><a href="?view=vis&amp;last=7day">7 Days</a></li>'.PHP_EOL;
+  echo '</ul></div>'.PHP_EOL;
+  
+  
+  $total = count_rows('SELECT COUNT(*) FROM lightyaccess WHERE log_time >= (NOW() - INTERVAL '.$last.' '.$unit.')');
+  
+  $query = 'SELECT site, COUNT(*) AS count FROM lightyaccess WHERE log_time >= (NOW() - INTERVAL '.$last.' '.$unit.') GROUP BY site ORDER BY count DESC LIMIT 20';
+  
+  if(!$result = $db->query($query)){
+    die('There was an error running the query'.$db->error);
+  }
+  
+  if ($result->num_rows == 0) {                  //Leave if nothing found
+    $result->free();
+    echo 'No sites found in Access List'.PHP_EOL;
+    echo '</div>';
+    return false;
+  }
+
+  while($row = $result->fetch_assoc()) {         //Read each row of results
+    $site_names[] = $row['site'];
+    $site_count[] = $row['count'];
+    $other += $row['count'];
+  }
+  
+  $other = $total - $other;
+  
+  if ($other > 10) {                             //Is it worth adding other?
+    $site_names[] = 'Other';
+    $site_count[] = $other;
+  }
+  
+  $numsites = count($site_names);
+  
+  echo '<svg width="100%" height="90%" viewbox="0 0 1500 1100">'.PHP_EOL;
+  echo piechart($site_count, 500, 540, 490, $CHARTCOLOURS);
+  echo '<circle cx="500" cy="540" r="120" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
+  
+  for ($i = 0; $i < $numsites; $i++) {
+    echo '<rect x="1015" y="'.(($i*43)+90).'" rx="5" ry="5" width="38" height="38" style="fill:'.$CHARTCOLOURS[$i].'; stroke:#00000A; stroke-width=3" />';
+    echo '<text x="1063" y="'.(($i*43)+118).'" style="font-family: Arial; font-size: 26px; fill:#00000A">'.$site_names[$i].': '.number_format(floatval($site_count[$i])).'</text>'.PHP_EOL;
+  }
+  
+  echo '</svg>'.PHP_EOL;
+    
+  echo '</div>'.PHP_EOL;                         //End Sys-group div
+  
+  $result->free();
+
+  return true;
+}
+
 //Main---------------------------------------------------------------
 
 /************************************************
@@ -306,7 +387,8 @@ function show_accesstable() {
 if (isset($_GET['view'])) {
   switch($_GET['view']) {
     case 'group': $view = 'group'; break;
-    case 'time': $view = 'time'; break;    
+    case 'time': $view = 'time'; break;
+    case 'vis': $view = 'visualisation'; break;
   }
 }
 
@@ -314,12 +396,25 @@ if (isset($_GET['page'])) {
   $page = filter_integer($_GET['page'], 1, PHP_INT_MAX, 1);
 }
 
+if (isset($_GET['last'])) {
+  $lastmatches = array();
+  
+  if (preg_match('/^(\d\d?)(hour|day|week)$/', $_GET['last'], $lastmatches) > 0) {
+    $last = intval($lastmatches[1]);
+    $unit = strtoupper($lastmatches[2]);
+  }
+  unset($lastmatches);
+}
+//Start of page------------------------------------------------------
 echo '<div id="main">';
 
 draw_subnav();
 
 if (($view == 'group') || ($view == 'time'))  {
   show_accesstable();
+}
+elseif ($view == 'visualisation') {
+  show_visualisation();
 }
 
 ?>
