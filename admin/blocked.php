@@ -92,7 +92,7 @@ Non-capturing group (?:KHTML|Gecko|AppleWebKit)?
 function get_useragent($user_agent) {
   $matches = array();
   $ua = array('unknown', 'unknown');
-  $pattern = '/(Mozilla|Dalvik|Opera)\/\d\.\d\.?\d?\s\((Linux|X11|Android|Windows|compatible|iPad|iPhone|Macintosh|IE 11\.0).\s?(MSIE|Android|Windows)?[^\)]+\)\s?(?:KHTML|Gecko|AppleWebKit)?[\/\d\.\+]*\s?(Firefox|Iceweasel|PaleMoon|SeaMonkey|\(KHTML\,\slike\sGecko\)\s)?(Chrome|Version|min|brave)?[\/\d\.\s]*(Mobile|Safari)?[\/\d\.\s]*(Edge|OPR|Vivaldi)?/';
+  $pattern = '/^(Mozilla|Dalvik|Opera)\/\d\.\d\.?\d?\s\((Linux|X11|Android|Windows|compatible|iPad|iPhone|Macintosh|IE 11\.0).\s?(MSIE|Android|Windows)?[^\)]+\)\s?(?:KHTML|Gecko|AppleWebKit)?[\/\d\.\+]*\s?(Firefox|Iceweasel|PaleMoon|SeaMonkey|\(KHTML\,\slike\sGecko\)\s)?(Chrome|Version|min|brave)?[\/\d\.\s]*(Mobile|Safari)?[\/\d\.\s]*(Edge|OPR|Vivaldi)?/';
   
   if (preg_match($pattern, $user_agent, $matches) > 0) {
     switch($matches[1]) {                        //Usually Mozilla
@@ -163,7 +163,10 @@ function get_useragent($user_agent) {
       }
     }    
   }
-    
+  //Subsequent regex statements are too dificult to implement above
+  elseif($preg_match('/^Python-urllib\/\d\.\d\d?', $user_agent, $matches) > 0) {
+    $ua = array('unknown', 'python');
+  }    
   
   return $ua;
 }
