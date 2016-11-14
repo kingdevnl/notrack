@@ -107,7 +107,7 @@ function check_version($latestversion) {
   for ($i = 0; $i < count($splitversion); $i++) {
     $numversion += ($units[$i] * intval($splitversion[$i]));
   }
-  for ($i = 0; $i < count($splitversion); $i++) {
+  for ($i = 0; $i < count($splitlatest); $i++) {
     $numlatest += ($units[$i] * intval($splitlatest[$i]));
   }
   
