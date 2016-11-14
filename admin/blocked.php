@@ -164,7 +164,7 @@ function get_useragent($user_agent) {
     }    
   }
   //Subsequent regex statements are too dificult to implement above
-  elseif($preg_match('/^Python-urllib\/\d\.\d\d?', $user_agent, $matches) > 0) {
+  elseif(preg_match('/^Python-urllib\/\d\.\d\d?', $user_agent, $matches) > 0) {
     $ua = array('unknown', 'python');
   }    
   
@@ -224,17 +224,19 @@ function show_accesstable() {
   echo '<div class="sys-group">'.PHP_EOL;
   if ($view == 'group') {
     echo '<h6>Sorted by Unique Site</h6>'.PHP_EOL;
-    $rows = count_rows('SELECT COUNT(DISTINCT `site`) FROM lightyaccess');
+    $rows = count_rows('SELECT COUNT(DISTINCT site) FROM lightyaccess');
+    if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+    
     $query = 'SELECT * FROM lightyaccess GROUP BY site ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
   elseif ($view == 'time') {
     echo '<h6>Sorted by Time last seen</h6>'.PHP_EOL;
     $rows = count_rows('SELECT COUNT(*) FROM lightyaccess');
+    if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+    
     $query = 'SELECT * FROM lightyaccess ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }  
-  
-  if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
-    
+      
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
   }
