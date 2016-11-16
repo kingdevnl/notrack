@@ -164,7 +164,7 @@ function get_useragent($user_agent) {
     }    
   }
   //Subsequent regex statements are too dificult to implement above
-  elseif(preg_match('/^Python-urllib\/\d\.\d\d?', $user_agent, $matches) > 0) {
+  elseif(preg_match('/^Python\-urllib\/\d\.\d\d?', $user_agent, $matches) > 0) {
     $ua = array('unknown', 'python');
   }    
   
