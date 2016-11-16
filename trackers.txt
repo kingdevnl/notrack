@@ -10716,7 +10716,11 @@ dmtracking2.alibaba.com
 stat.alibaba.com
 g.alicdn.com
 analytics.amakings.com
+bigdata.adups.com #Chinese Android Data Collection
+bigdata.adsunflower.com #Chinese Android Data Collection
+bigdata.adfuture.cn #Chinese Android Data Collection
 advertising.amazon.co.uk #Amazon
+bigdata.advmob.cn #Chinese Android Data Collection
 affiliate-program.amazon.co.uk #Amazon
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 device-metrics-us.amazon.com
