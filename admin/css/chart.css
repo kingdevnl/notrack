@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*CSS to cover the extra items in charts*/
+.axistext {
+  font-family: Arial; 
+  font-size: 38px; 
+  fill: #666666;
+}
+.axisline {
+  fill:none;
+  stroke:#666666;
+  stroke-width:3;
+  stroke-opacity:1;
+}
+.gridline {
+  fill:none;
+  stroke:#888888;
+  stroke-width:1;
+  stroke-opacity:0.9;
+}
+.shadow {
+  filter: drop-shadow( 1px 2px 6px rgba(0, 0, 0, .5));
+}

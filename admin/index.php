@@ -11,6 +11,7 @@ ensure_active_session();
 <head>
   <meta charset="UTF-8" />
   <link href="./css/master.css" rel="stylesheet" type="text/css" />
+  <link href="./css/chart.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <script src="./include/menu.js"></script>
   <title>NoTrack Admin</title>
@@ -30,7 +31,7 @@ define('QRY_BLOCKLIST', 'SELECT COUNT(*) FROM blocklist');
 define('QRY_DNSQUERIES', 'SELECT COUNT(*) FROM live');
 define('QRY_LIGHTY', 'SELECT COUNT(*) FROM lightyaccess WHERE log_time BETWEEN (CURDATE() - INTERVAL 7 DAY) AND NOW()');
 
-$CHARTCOLOURS = array('#262626', '#B1244A', '#008CD1');
+$CHARTCOLOURS = array('#008CD1', '#B1244A', '#00AA00');
 
 /************************************************
 *Global Variables                               *
@@ -158,7 +159,7 @@ function draw_statusbox() {
   }
   
   if (file_exists(BL_NOTRACK)) {                 //Does the notrack.list file exist?
-    $filemtime = filemtime(BL_NOTRACK);      //Get last modified time
+    $filemtime = filemtime(BL_NOTRACK);          //Get last modified time
     if ($filemtime > $currenttime - 86400) $date_msg = '<h3>Today</h3>';
     elseif ($filemtime > $currenttime - 172800) $date_msg = '<h3>Yesterday</h3>';
     elseif ($filemtime > $currenttime - 259200) $date_msg = '<h3>3 Days ago</h3>';
@@ -209,6 +210,174 @@ function draw_sitesblockedbox() {
 }
 
 
+/********************************************************************
+ *  Traffic Graph
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function draw_trafficgraph() {
+  global $db;
+  $allowed_values = array();
+  $blocked_values = array();
+  $xlabels = array();
+  $max_value = 0;
+  $ymax = 0;
+  $xstep = 0;
+  $pathout = '';
+  $numvalues = 0;
+  $x = 0;
+  $y = 850;
+  
+  //Get allowed values
+  $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'a\' GROUP BY HOUR(log_time) ';
+  
+  if(!$result = $db->query($query)){
+    die('There was an error running the query'.$db->error);
+  }
+  while($row = $result->fetch_assoc()) {         //Read each row of results  
+    $allowed_values[] = $row['num_rows'];
+    $xlabels[] = $row['hour'];
+  }
+  
+  $result->free();
+  
+  //Get blocked values
+  $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'b\' GROUP BY HOUR(log_time) ';
+  
+  if(!$result = $db->query($query)){
+    die('There was an error running the query'.$db->error);
+  }
+  while($row = $result->fetch_assoc()) {         //Read each row of results  
+    $blocked_values[] = $row['num_rows'];    
+  }
+  
+  $result->free();
+  
+  //Prepare chart
+  $max_value = max(array(max($allowed_values), max($blocked_values)));
+  $numvalues = count($allowed_values);
+  $allowed_values[] = 0;                         //Ensure line returns to 0
+  $blocked_values[] = 0;                         //Ensure line returns to 0
+  $xlabels[] = $xlabels[$numvalues-1] + 1;       //Increment xlables
+  
+  $xstep = 1900 / 24;                            //Calculate x axis increment
+  if ($max_value < 200) {                        //Calculate y axis maximum
+    $ymax = (ceil($max_value / 10) * 10) + 10;
+  }
+  elseif ($max_value < 10000) {
+    $ymax = ceil($max_value / 100) * 100;
+  }
+  else {
+    $ymax = ceil($max_value / 1000) * 1000;
+  }
+    
+  echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
+  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
+  echo '<path class="axisline" d="M100,0 V850 H2000 " />';
+  
+  for ($i = 0.25; $i < 1; $i+=0.25) {            //Y Axis lines and labels
+    echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
+    echo '<text class="axistext" x="12" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
+  }
+  echo '<text x="12" y="855" class="axistext">0</text>';
+  echo '<text x="12" y="38" class="axistext">'.$ymax.'</text>';
+  
+  
+  for ($i = 0; $i < $numvalues; $i+=2) {         //X Axis labels
+    echo '<text x="'.(55+($i * $xstep)).'" y="898" class="axistext">'.$xlabels[$i].':00</text>'.PHP_EOL;
+  }  
+  
+  for ($i = 2; $i < 24; $i+=2) {                 //X Grid lines
+    echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
+  }
+  
+  $pathout = "<path d=\"M 100,850 ";             //Blue line for allowed
+  for ($i = 1; $i < $numvalues; $i++) {
+    $pathout .= calc_curve($allowed_values[$i-1], $allowed_values[$i], $allowed_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#008CD1');    
+  }
+  $pathout .= 'V850 " stroke="#008CD1" stroke-width="3px" fill="#00AEFF" fill-opacity="0.15" />'.PHP_EOL;
+  echo $pathout;
+  
+  $pathout = "<path d=\"M 100,850 ";             //Red line for blocked
+  for ($i = 1; $i < $numvalues; $i++) {
+    if (! isset($blocked_values[$i+1])) {        //Check for zero blocked sites in next array value
+      $blocked_values[] = 0;                     //Add zero to prevent warning
+    }
+    $pathout .= calc_curve($blocked_values[$i-1], $blocked_values[$i], $blocked_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#B1244A');    
+  }
+  $pathout .= 'V850 " stroke="#B1244A" stroke-width="3px" fill="#FF346D" fill-opacity="0.15" />'.PHP_EOL;
+  echo $pathout;
+  
+  echo '</svg>'.PHP_EOL;                         //End SVG  
+
+}
+
+/********************************************************************
+ *  Calculate Curve
+ *    Calculates smooth bezier curve with 4 node points at -42%, -15%, +15%, +42%
+ *
+ *  Params:
+ *    [$i-1][$i][$i+1], column position, column width, column height, colour
+ *  Return:
+ *    svg path nodes with bezier curve points
+ */
+
+function calc_curve($old, $cur, $new, $xpos, $xstep, $ymax, $colour) {
+  $pathout = '';
+  $x = 0;                                        //Node X
+  $y = 0;                                        //Node Y
+  $dx1 = 0;                                      //Bezier curve left X
+  $dx2 = 0;                                      //Bezier curve left Y
+  $dy1 = 0;                                      //Bezier curve right X
+  $dy2 = 0;                                      //Bezier curve right Y    
+  $diff = 0;                                     //Difference between values
+  
+  $diff = $cur - $old;                           //Left-hand slope
+  
+  if ($cur > 0) {
+    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="8" fill="'.$colour.'" fill-opacity="0.8" />'.PHP_EOL;
+  }
+  
+  $dx1 = $xpos - ($xstep * 0.5);
+  $dy1 = 850-((($cur - ($diff * 0.49))/$ymax)*850);
+  $x = $xpos - ($xstep * 0.45);
+  $y = 850-((($cur - ($diff * 0.42))/$ymax)*850);
+  $dx2 = $xpos - ($xstep * 0.35);
+  $dy2 = 850-((($cur - ($diff * 0.2))/$ymax)*850);
+  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
+    
+  $dx1 = $xpos - ($xstep * 0.25);
+  $dy1 = 850-((($cur - ($diff * 0.1))/$ymax)*850);
+  $x = $xpos - ($xstep * 0.15);
+  $y = 850-((($cur - ($diff * 0.005))/$ymax)*850);
+  $dx2 = $xpos - ($xstep * 0.1);
+  $dy2 = 850-((($cur - ($diff * 0.001))/$ymax)*850);
+  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
+    
+  $diff = $new - $cur;                           //Right-hand slope
+    
+  $dx1 = $xpos + ($xstep * 0.1);
+  $dy1 = 850-((($cur + ($diff * 0.001))/$ymax)*850);
+  $x = $xpos + ($xstep * 0.15);
+  $y = 850-((($cur + ($diff * 0.005))/$ymax)*850);    
+  $dx2 = $xpos + ($xstep * 0.25);
+  $dy2 = 850-((($cur + ($diff * 0.1))/$ymax)*850);
+  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
+    
+  $dx1 = $xpos + ($xstep * 0.35);
+  $dy1 = 850-((($cur + ($diff * 0.2))/$ymax)*850);
+  $x = $xpos + ($xstep * 0.44);
+  $y = 850-((($cur + ($diff * 0.42))/$ymax)*850);
+  $dx2 = $xpos + ($xstep * 0.5);
+  $dy2 = 850-((($cur + ($diff * 0.49))/$ymax)*850);
+  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
+    
+  return $pathout;
+}
+
 //Main---------------------------------------------------------------
 echo '<div id="main">';
 echo '<div class="home-nav-container">';
@@ -219,11 +388,13 @@ draw_sitesblockedbox();
 draw_queriesbox();
 draw_dhcpbox();
 
+draw_trafficgraph();
+
 echo '</div>'.PHP_EOL;
-echo '<div class="sys-group"><p>Welcome to the new version of NoTrack v0.8 with a SQL back-end.</p><p>Performance will now be significantly improved reviewing DNS Queries made, and searching Blocked sites list</p>'.PHP_EOL;
+/*echo '<div class="sys-group"><p>Welcome to the new version of NoTrack v0.8 with a SQL back-end.</p><p>Performance will now be significantly improved reviewing DNS Queries made, and searching Blocked sites list</p>'.PHP_EOL;
 echo '<p>At this point in time the front-end web interface replicates what you have seen in previous versions, but the new back-end will allow for some fancy effects like graphs showing the most persistant trackers your systems have encountered, and the ability to highlight if one of your systems attempted to visit a malicious site</p>'.PHP_EOL;
 echo '<p>Historic DNS logs are no longer available because I stripped Log Time, and System Request out of the files to save on processing power. That information is now stored in the Historic database, unfortunately with the data gone it would mean either spoofing missing data or leaving it alone. You can still access the original files at <code>/var/logs/notrack</code></p></div>'.PHP_EOL;
-//echo '<div class="row"><br /></div>'.PHP_EOL;
+//echo '<div class="row"><br /></div>'.PHP_EOL;*/
 
 //Is an upgrade Needed?
 if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {      

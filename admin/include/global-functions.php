@@ -158,6 +158,31 @@ function filter_integer($value, $min, $max, $defaultvalue=0) {
   return $defaultvalue;
 }
 
+
+/********************************************************************
+ *  Format Number
+ *    Returns a number rounded to 3 significant figures
+ *  Params:
+ *    Number 
+ *  Return:
+ *    Number rounded to 3sf
+ */
+function formatnumber($number) {
+  if ($number < 1000) return $number;
+  elseif ($number < 10000) return number_format($number / 1000, 2).'k';
+  elseif ($number < 100000) return number_format($number / 1000, 1).'k';
+  elseif ($number < 1000000) return number_format($number / 1000, 0).'k';
+  elseif ($number < 10000000) return number_format($number / 1000000, 2).'M';
+  elseif ($number < 100000000) return number_format($number / 1000000, 1).'M';
+  elseif ($number < 1000000000) return number_format($number / 1000000, 0).'M';
+  elseif ($number < 10000000000) return number_format($number / 1000000000, 2).'G';
+  elseif ($number < 100000000000) return number_format($number / 1000000000, 1).'G';
+  elseif ($number < 1000000000000) return number_format($number / 1000000000, 0).'G';
+  
+  return number_format($number / 1000000000000, 0).'T';
+}
+
+
 /********************************************************************
  *  Is Active Class
  *    Used to allocate class="active" against li
