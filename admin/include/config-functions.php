@@ -362,31 +362,31 @@ function show_custom_list($view) {
   $i = 1;
 
   if ($searchbox == '') {
-    foreach ($list as $Site) {
-      if ($Site[2] == true) {
-        echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
+    foreach ($list as $site) {
+      if ($site[2] == true) {
+        echo '<tr><td>'.$i.'</td><td>'.$site[0].'</td><td>'.$site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="changeSite(this)" checked="checked"><button class="button-small"  onclick="deleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
       }
       else {
-        echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
+        echo '<tr class="dark"><td>'.$i.'</td><td>'.$site[0].'</td><td>'.$site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="changeSite(this)"><button class="button-small"  onclick="deleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
       }
       $i++;
     }
   }
   else {
-    foreach ($list as $Site) {
-      if (strpos($Site[0], $searchbox) !== false) {
-        if ($Site[2] == true) {
-          echo '<tr><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)" checked="checked"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
+    foreach ($list as $site) {
+      if (strpos($site[0], $searchbox) !== false) {
+        if ($site[2] == true) {
+          echo '<tr><td>'.$i.'</td><td>'.$site[0].'</td><td>'.$site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="changeSite(this)" checked="checked"><button class="button-small"  onclick="deleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
         }
         else {
-          echo '<tr class="dark"><td>'.$i.'</td><td>'.$Site[0].'</td><td>'.$Site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="ChangeSite(this)"><button class="button-small"  onclick="DeleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
+          echo '<tr class="dark"><td>'.$i.'</td><td>'.$site[0].'</td><td>'.$site[1].'<td><input type="checkbox" name="r'.$i.'" onclick="changeSite(this)"><button class="button-small"  onclick="deleteSite('.$i.')"><span><img src="./images/icon_trash.png" class="btn" alt="-"></span></button></td></tr>'.PHP_EOL;
         }
       }
       $i++;
     }
   }
   
-  echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="AddSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+  echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="addSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
         
   echo '</table></div></div>'.PHP_EOL;
   
@@ -464,34 +464,34 @@ function show_domain_list() {
   echo '<p><b>Old Generic Domains</b></p>'.PHP_EOL;
   echo '<table class="tld-table">'.PHP_EOL;
   
-  foreach ($list as $Site) {
-    if ($Site[2] == 0) {                         //Zero means draw new table
+  foreach ($list as $site) {
+    if ($site[2] == 0) {                         //Zero means draw new table
       echo '</table>'.PHP_EOL;                   //End old table
       echo '<br />'.PHP_EOL;
-      echo '<p><b>'.$Site[1].'</b></p>'.PHP_EOL; //Title of Table
+      echo '<p><b>'.$site[1].'</b></p>'.PHP_EOL; //Title of Table
       echo '<table class="tld-table">'.PHP_EOL;  //New Table
       continue;                                  //Jump to end of loop
     }
     
-    switch ($Site[2]) {                          //Row colour based on risk
+    switch ($site[2]) {                          //Row colour based on risk
       case 1: echo '<tr class="invalid">'; break;
       case 2: echo '<tr class="orange">'; break;      
       case 3: echo '<tr>'; break;                //Use default colour for low risk
       case 5: echo '<tr class="green">'; break;
     }
     
-    $UnderscoreName = str_replace(' ', '_', $Site[1]); //Flag names are seperated by underscore
+    $UnderscoreName = str_replace(' ', '_', $site[1]); //Flag names are seperated by underscore
     
     //Does a Flag image exist?
     if (file_exists('./images/flags/Flag_of_'.$UnderscoreName.'.png')) $FlagImage = '<img src="./images/flags/Flag_of_'.$UnderscoreName.'.png" alt=""> ';
     else $FlagImage = '';
     
     //(Risk 1 & NOT in White List) OR (in Black List)
-    if ((($Site[2] == 1) && (! array_key_exists($Site[0], $KeyWhite))) || (array_key_exists($Site[0], $KeyBlack))) {
-      echo '<td><b>'.$Site[0].'</b></td><td><b>'.$FlagImage.$Site[1].'</b></td><td>'.$Site[3].'</td><td><input type="checkbox" name="'.substr($Site[0], 1).'" checked="checked"></td></tr>'.PHP_EOL;
+    if ((($site[2] == 1) && (! array_key_exists($site[0], $KeyWhite))) || (array_key_exists($site[0], $KeyBlack))) {
+      echo '<td><b>'.$site[0].'</b></td><td><b>'.$FlagImage.$site[1].'</b></td><td>'.$site[3].'</td><td><input type="checkbox" name="'.substr($site[0], 1).'" checked="checked"></td></tr>'.PHP_EOL;
     }
     else {
-      echo '<td>'.$Site[0].'</td><td>'.$FlagImage.$Site[1].'</td><td>'.$Site[3].'</td><td><input type="checkbox" name="'.substr($Site[0], 1).'"></td></tr>'.PHP_EOL;
+      echo '<td>'.$site[0].'</td><td>'.$FlagImage.$site[1].'</td><td>'.$site[3].'</td><td><input type="checkbox" name="'.substr($site[0], 1).'"></td></tr>'.PHP_EOL;
     }    
   }
   
@@ -647,7 +647,7 @@ function show_general() {
   //draw_sysrow('Cpu', $pid_dnsmasq[3]);
   draw_sysrow('Memory Used', $pid_dnsmasq[3].' MB');
   draw_sysrow('Historical Logs', count_rows('SELECT COUNT(DISTINCT(DATE(log_time))) FROM historic').' Days');
-  draw_sysrow('Delete All History', '<button class="button-danger" onclick="ConfirmLogDelete();">Purge</button>');
+  draw_sysrow('Delete All History', '<button class="button-danger" onclick="confirmLogDelete();">Purge</button>');
   echo '</table></div></div>'.PHP_EOL;
 
   
@@ -689,12 +689,8 @@ function show_general() {
       echo '<option value="'.$key.'">'.$key.'</option>'.PHP_EOL;
     }
   }
-  echo '</select></td></tr>'.PHP_EOL;
-  
+  echo '</select></td></tr>'.PHP_EOL;  
   echo '</table></div></div></form>'.PHP_EOL;    //End Stats
-  
-    
-  echo '</table></div></div></form>'.PHP_EOL;
   
   return null;
 }

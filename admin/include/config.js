@@ -1,4 +1,5 @@
 function getUrlVars() {
+  //Used to find URL arguments
   var vars = {};
   var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
   function(m,key,value) {
@@ -7,17 +8,17 @@ function getUrlVars() {
   return vars;
 }
 
-function ConfirmLogDelete() {
+function confirmLogDelete() {
   if (confirm("Are you sure you want to delete all History?")) window.open("?action=delete-history", "_self");
 }
-function AddSite(RowNum) {  
-  var SiteName = document.getElementsByName('site'+RowNum)[0].value;
-  var Comment = document.getElementsByName('comment'+RowNum)[0].value;
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=add&site='+SiteName+'&comment='+Comment, "_self");
+function addSite(rownumber) {  
+  var sitename = document.getElementsByName('site'+rownumber)[0].value;
+  var comment = document.getElementsByName('comment'+rownumber)[0].value;
+  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=add&site='+sitename+'&comment='+comment, "_self");
 }
-function DeleteSite(RowNum) {
-  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=del&row='+RowNum, "_self");
+function deleteSite(rownumber) {
+  window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=del&row='+rownumber, "_self");
 }
-function ChangeSite(Item) {
+function changeSite(Item) {
   window.open('?v='+getUrlVars()["v"]+'&action='+getUrlVars()["v"]+'&do=cng&row='+Item.name.substring(1)+'&status='+Item.checked, "_self");  
 }
