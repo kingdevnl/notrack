@@ -16,7 +16,7 @@
 .country,Country,1,
 .date,Date,1,"<a href=""https://www.bluecoat.com/security-blog/2015-07-30/date-spammers-shady-tld-research-pt-7"">100% of top 71</a> sites found to be shady<br />At time of writing this was a new TLD, and few sites were actually live"
 .diet,Diet,1,
-.download,Download,1,55% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
+.download,Download,1,"55% Bad domains seen by <a href=""https://www.spamhaus.org/statistics/tlds/"">Spamhaus</a> June 2016"
 .faith,Faith,1,"<a href=""https://www.bluecoat.com/security-blog/2015-08-19/everybodys-gotta-have-faith-shady-tld-research-pt-9"">99% of top 500</a> sites found to be shady"
 .gdn,GDN,1,55% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
 .kim,Kim,1,At 99.54%
