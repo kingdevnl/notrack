@@ -49,32 +49,53 @@ function block_message() {
   sudo chmod -R 775 /var/www/html/sink
 }
 
-#Check File Exists---------------------------------------------------
-Check_File_Exists() {
-  if [ ! -e "$1" ]; then
-    echo "Error file $1 is missing.  Aborting."
-    exit 24
-  fi
-}
-#Copy Black List-----------------------------------------------------
-Copy_BlackList() {
+
+#--------------------------------------------------------------------
+# Copy Black list
+#   Copies temp blacklist to /etc/notrack
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function copy_blacklist() {
   if [ -e "/tmp/blacklist.txt" ]; then
     chown root:root /tmp/blacklist.txt
     chmod 644 /tmp/blacklist.txt
     echo "Copying /tmp/blacklist.txt to /etc/notrack/blacklist.txt"
     mv /tmp/blacklist.txt /etc/notrack/blacklist.txt
-    echo
+    echo  
+  else
+    echo "/tmp/blacklist.txt missing"
   fi
 }
-#Copy White List-----------------------------------------------------
-Copy_WhiteList() {
+
+
+#--------------------------------------------------------------------
+# Copy White list
+#   Copies temp whitelist to /etc/notrack
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function copy_whitelist() {
   if [ -e "/tmp/whitelist.txt" ]; then
     chown root:root /tmp/whitelist.txt
     chmod 644 /tmp/whitelist.txt
     echo "Copying /tmp/whitelist.txt to /etc/notrack/whitelist.txt"
     mv /tmp/whitelist.txt /etc/notrack/whitelist.txt    
+  else
+    echo "/tmp/whitelist.txt missing"
   fi
 }
+
 
 #--------------------------------------------------------------------
 # Copy TLD Lists
@@ -86,7 +107,7 @@ Copy_WhiteList() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-copy_tldlists() {
+function copy_tldlists() {
   if [ -e "/tmp/domain-blacklist.txt" ]; then
     chown root:root /tmp/domain.txt
     chmod 644 /tmp/domain-blacklist.txt
@@ -114,7 +135,7 @@ copy_tldlists() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-create_accesslog() {
+function create_accesslog() {
   if [ ! -e "$ACCESSLOG" ]; then
     echo "Creating $ACCESSLOG"
     touch "$ACCESSLOG"
@@ -205,7 +226,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,copy-tld,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,pause: -- "$@"); then
+  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,pause:,copy: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -227,8 +248,16 @@ if [ "$1" ]; then                         #Have any arguments been given
       --bm-pxl)
         block_message "pixel"
       ;;
-      --copy-tld)
-        copy_tldlists
+      --copy)
+        if [[ $2 == "'black'" ]]; then
+          copy_blacklist
+        elif [[ $2 == "'white'" ]]; then
+          copy_whitelist
+        elif [[ $2 == "'tld'" ]]; then
+          copy_tldlists
+        else
+          echo "Invalid file"
+        fi      
       ;;
       --delete-history)
         delete_history
@@ -269,24 +298,5 @@ if [ "$1" ]; then                         #Have any arguments been given
     shift
   done
 else 
-  Check_File_Exists "$FILE_EXEC"
-
-  while read -r Line; do  
-    case "$Line" in
-      copy-blacklist)
-        Copy_BlackList
-      ;;
-      copy-whitelist) 
-        Copy_WhiteList
-      ;;      
-      
-      *)
-        echo "Invalid action $Line"
-    esac
-  done < "$FILE_EXEC"
-
-  if [ -e /tmp/ntrk-exec.txt ]; then
-    echo "Deleting $FILE_EXEC"
-    rm "$FILE_EXEC"
-  fi
+  echo "No arguments given"
 fi

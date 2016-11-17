@@ -141,6 +141,23 @@ function count_rows($query) {
 
 
 /********************************************************************
+ *  Filter Boolean Value
+ *    Checks if value given is 'true' or 'false'
+ *  Params:
+ *    Value to Check
+ *  Return:
+ *    true or false
+ */
+function filter_bool($value) {
+  if ($value == 'true') {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+/********************************************************************
  *  Filter Integer Value
  *    Checks if Integer value given is between min and max
  *  Params:
@@ -158,7 +175,22 @@ function filter_integer($value, $min, $max, $defaultvalue=0) {
   return $defaultvalue;
 }
 
-
+/********************************************************************
+ *  Filter URL
+ *    perform regex match to see if url is in the form of some-site.com, or some_site.co.uk
+ *  Params:
+ *    URL to check
+ *  Return:
+ *    True on success, False on failure
+ */
+function filter_url($url) {  
+  if (preg_match('/[\d\w\-\_]\.[\d\w\-\_\.]/', $url) > 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 /********************************************************************
  *  Format Number
  *    Returns a number rounded to 3 significant figures
@@ -326,47 +358,7 @@ function save_config() {
 
 
 
-
-
-//Execute Action-----------------------------------------------------
-function ExecAction($Action, $ExecNow, $Fork=false) {
-  //Execute Action writes a command into /tmp/ntrk-exec.txt
-  //It can then either wait inline for ntrk-exec to process command, or fork ntrk-exec
-  
-  //Options:
-  //ExecNow - false: Write Action to file and then return
-  //ExecNow - true: Run ntrk-exec and wait until its finished
-  //Fork - true: Run ntrk-exec and fork to new process
-
-  global $FileTmpAction;
-  if (file_put_contents($FileTmpAction, $Action.PHP_EOL, FILE_APPEND) === false) {
-    die('Unable to write to file '.$FileTmpAction);
-  }
-  
-  if (($ExecNow) && (! $Fork)) {
-    exec('sudo ntrk-exec 2>&1');
-    //echo "<pre>\n";
-    //$Msg = shell_exec('sudo ntrk-exec 2>&1');
-    //echo $Msg;
-    //echo "</pre>\n";
-  }
-  elseif (($ExecNow) && ($Fork)) {
-    exec("sudo ntrk-exec > /dev/null &");
-  }
-  
-  return null;    
-}
-//Filter Bool from GET-----------------------------------------------
-function Filter_Bool($Str) {
-  //1. Check Variable Exists
-  //2. Check if Variable is 'true', then return boolean true
-  //3. Otherwise return boolean false
-  
-  if (isset($_GET[$Str])) {
-    if ($_GET[$Str] == 'true') return true;
-  }
-  return false;
-}
+//DEPRECATED
 //Filter Int from GET------------------------------------------------
 function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
   //1. Check Variable Exists
@@ -377,21 +369,6 @@ function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
     if (is_numeric($_GET[$Str])) {
       if (($_GET[$Str] >= $Min) && ($_GET[$Str] < $Max)) {
         return intval($_GET[$Str]);
-      }
-    }
-  }
-  return $DefaltValue;
-}
-//Filter Int from POST-----------------------------------------------
-function Filter_Int_Post($Str, $Min, $Max, $DefaltValue=false) {
-  //1. Check Variable Exists
-  //2. Check Value is between $Min and $Max
-  //3. Return Value on success, and $DefaultValue on fail
-  
-  if (isset($_POST[$Str])) {
-    if (is_numeric($_POST[$Str])) {
-      if (($_POST[$Str] >= $Min) && ($_POST[$Str] < $Max)) {
-        return intval($_POST[$Str]);
       }
     }
   }
@@ -419,20 +396,8 @@ function Filter_Str_Value($Str, $DefaltValue='') {
   }  
   return $DefaltValue;
 }
-//Filter URL GET-----------------------------------------------------
-function Filter_URL($Str) {
-  //1. Check Variable Exists
-  //2. Check String Length is > 0 AND String doesn't contain !"£$%^&()+=<>,|/\
-  //3. Check String matches the form of a URL "any.co"
-  //Return True on success, and False on fail
-  
-  if (isset($_GET[$Str])) {
-    if (((strlen($_GET[$Str]) > 0) && (preg_match('/[!\"£\$%\^&\(\)+=<>\,\|\/\\\\]/', $_GET[$Str]) == 0))) {
-      if (preg_match('/.*\..{2,}/', $_GET[$Str]) == 1) return true;
-    }
-  }
-  return false;
-}
+
+
 //Filter URL Str-----------------------------------------------------
 function Filter_URL_Str($Str) {
   //1. Check String Length is > 0 AND String doesn't contain !"£$^()<>,|

@@ -26,6 +26,11 @@ draw_topmenu();
 draw_configmenu();
 echo '<div id="main">';
 
+/************************************************
+*Constants                                      *
+************************************************/
+define ('DEF_DELAY', 30);
+
 /********************************************************************
  *  Disable Password Protection
  *
@@ -90,7 +95,13 @@ function update_password_config() {
     else {                                       //Fallback for older versions of PHP 
       $Config['Password'] = hash('sha256', $password);
     }
-    $Config['Delay'] = Filter_Int_Post('delay', 10, 2401, 30);
+    
+    if (isset($_POST['delay'])) {                //Set Delay
+      $Config['Delay'] = filter_integer($_POST['delay'], 5, 2401, DEF_DELAY);
+    }
+    else {                                       //Fallback if Delay not posted
+      $Config['Delay'] = DEF_DELAY;
+    }
   }
   
   return true;
