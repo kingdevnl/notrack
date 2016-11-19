@@ -7,7 +7,7 @@
 10cms.com #Amplience
 123count.com #SpidersWatchp
 123-tracker.com #Lead Forensics
-ad.12dt.com #Ads
+ad.12dt.com #Adverts on 12dt.com
 161media.com #161 Media
 1800omniture.com #Adobe
 1s3h4f7sl.com #HelloWorld
@@ -21,7 +21,7 @@ ad.12dt.com #Ads
 254a.com #Advertising Unknown
 2cobrowse.com #eGain Corporation
 207.net #Adobe
-2nyan.org
+2nyan.org #Tracker Unknown
 2o7.net #Adobe
 302br.net #Integral Ad Science
 303br.net #Integral Ad Science
@@ -36,16 +36,16 @@ ad.12dt.com #Ads
 360yieldplatform.com #Improve digital
 3d-dyj.cn #Advertising
 3lift.com #Triple Lift
-4dsply.com
-4nabs.com
+4dsply.com #AdSupply
+4nabs.com #Tracker Unknown
 4seeresults.com #ForeSee
-51yes.com
-51.la
-5293.com
+51yes.com #Tracker Unknown
+51.la #Tracker Unknown
+5293.com #Tracker Unknown
 52tyd.com #Advertising
-52zfu.com
-5gl1x9qc.com
-5min.com
+52zfu.com #Tracker Unknown
+5gl1x9qc.com #Tracker Unknown
+5min.com #AOL
 6000088.com #HelloWorld
 6000788.com #HelloWorld
 6001888.com #HelloWorld
@@ -84,37 +84,39 @@ ad.12dt.com #Ads
 950958.com #Alibaba
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a1webstats.com #A1Webstats
-a2dfp.net
+a2dfp.net #Tracker Unknown
 a8bt.com  #Advertising
-a9.com
+a9.com #Amazon
 aetterweb.info #instartlogic
 abetterweb.mobi #instartlogic
 abetterweb.org #instartlogic
 abetterweb.us #instartlogic
-abmr.net
+abmr.net #Akami
 absentvodka.com #Hacker Site
-abtasty.com
-acceptableserver.com
+abtasty.com #AB Tasty
+acceptableserver.com #Amazon
 acekhor.com #SpyVisit
 acexedge.com #WhiteOps
-activeconversion.com
-active-agent.com
-active-agent.net
+activeconversion.com #Active Conversion
+active-agent.com #Active Agent
+active-agent.net #Active Agent
 active-trk7.com #Lead Forensics
-acuityplatform.com
-acxiom-online.com
-ad4game.com
+acuityplatform.com #Acuity Consumer Connection Platform
+acuityplatform.net #Acuity Consumer Connection Platform
+acuityplatform.org #Acuity Consumer Connection Platform
+acxiom-online.com #Acxiom
+ad4game.com #Ad4Game
 adacado.com #Adacado
 adaction.mobi #AdAction
-adadvisor.net
-adagencyonline.biz
-adagencyonline.net
-adagencyonlineautomotiveadvertising.com
-adalyser.com
-adalyser.net
-adap.tv
-adblade.com
-adbrau.com
+adadvisor.net #Neustar
+adagencyonline.biz #AdAgencyOnline
+adagencyonline.net #AdAgencyOnline
+adagencyonlineautomotiveadvertising.com #AdAgencyOnline
+adalyser.com #Adalyser
+adalyser.net #Adalyser
+adap.tv #AOL
+adblade.com #Adblade
+adbrau.com #Advertising Unknown
 adbrn.com
 adbutler-tachyon.com
 adbutter.net #Makazi Group
@@ -127,20 +129,24 @@ addnexus.com #AppNexus Inc
 addnexus.info #AppNexus Inc
 addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
-addnow.com
-addoox.net
-addthis.com
+addnow.com #AddNow
+addoox.net #Addoox
+addthis.com #AddThis
 addthisedge.com #Oracle
-addtoany.com
+addtoany.com #AddToAny
 adexchangeprediction.com #Adverising Unknown
 adfast.net #Ad Web
 adfast.org #Ad Web
-adfinis-sygroup.ch
+adfinis-sygroup.ch #Adfinis SyGroup
 adflight.net #Ad Web
-adform.net
+adform.com #Adform
+adform.net #Adform
+adform.org #Adform
+adformdsp.com #Adform
+adformdsp.net #Adform
 adfront.org #BuySellAds
-adfuture.cn
-adgenie.co.uk
+adfuture.cn #Tracker Unknown
+adgenie.co.uk #Ve Interactive
 adgibbon.com #AdGibbon
 adgibbon.mobi #AdGibbon
 adglare.net
@@ -1575,6 +1581,7 @@ liveadvert.com
 livefyre.com
 liverail.com
 liveperson.net
+liwio.com #AB Tasty
 localconfirmsubscription.com #Campaign Monitor Pty
 localcreatesend.com #Campaign Monitor Pty
 localemailserver.com #Campaign Monitor Pty
