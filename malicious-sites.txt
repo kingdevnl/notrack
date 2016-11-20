@@ -1,4 +1,4 @@
-#NoTrack Malicious Site list updated 05 November 2016
+#NoTrack Malicious Site list updated 20 November 2016
 1kdailyprofit.co #Scam
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 abcd7777.com #Chinese Scammer
@@ -30,6 +30,7 @@ iphoneoptimizer.com #Scam
 jianbaimei.com.cname.yunjiasu-cdn.net #CDN of Malicious site jianbaimei.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
+lhzbdvm.com #Ragentek Rootkit
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 m1ll1c4n0.com #Added May 2016
 madmimi.com #Email spam
@@ -39,6 +40,8 @@ myxns.cn #DNS Exploiters
 onlinesurveydaily.com #Annoying
 oc.uk #Typo of .co.uk
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
+prugskh.com #Ragentek Rootkit
+prugskh.net #Ragentek Rootkit
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
