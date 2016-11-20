@@ -338,7 +338,7 @@ function calc_curve($old, $cur, $new, $xpos, $xstep, $ymax, $colour) {
   $diff = $cur - $old;                           //Left-hand slope
   
   if ($cur > 0) {
-    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="8" fill="'.$colour.'" fill-opacity="0.8" />'.PHP_EOL;
+    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="6" fill="'.$colour.'" fill-opacity="0.8" />'.PHP_EOL;
   }
   
   $dx1 = $xpos - ($xstep * 0.5);
