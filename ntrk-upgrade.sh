@@ -4,40 +4,80 @@
 #Author : QuidsUp
 #Date : 2016-03-22
 #Usage : ntrk-upgrade
-#Last updated with NoTrack v0.7.10
+#Last updated with NoTrack v0.8.2
 
-#Error Codes:
-#21 Root access required
-#22 Unable to find NoTrack
-#23 Download of NoTrack has failed
-#24 File missing
+#Move file to /scripts at 0.8.5 TODO
 
-#Settings (Leave these alone)----------------------------------------
-ConfigFile="/etc/notrack/notrack.conf"
+#######################################
+# Constants
+#######################################
+readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 
-#Variables-----------------------------------------------------------
+#######################################
+# Global Variables
+#######################################
 INSTALL_LOCATION=""
-UserName=""
+USERNAME=""
 
 #--------------------------------------------------------------------
-check_file_exists() {
-  if [ ! -e "$1" ]; then
-    echo "Error file $1 is missing.  Aborting."
-    exit 24
+# Copy File
+#   Checks if Source file exists, then copies it to Destination
+#
+# Globals:
+#   INSTALL_LOCATION
+# Arguments:
+#  $1 = Source
+#  $2 = Destination
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function copy_file() {
+  if [ -e "$1" ]; then
+    cp "$INSTALL_LOCATION/$1" "$2"
+    echo "Copying $1 to $2"
+  else
+    echo "WARNING: Unable to find file $1"
+  fi 
+}
+
+
+#--------------------------------------------------------------------
+# Rename File
+#   Renames Source file to Destination
+#   Chmod 755 Destination file
+#
+# Globals:
+#   None
+# Arguments:
+#  $1 = Error Message
+#  $2 = Exit Code
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function rename_file() {
+  if [ -e "$1" ]; then
+    mv "$1" "$2"
+    chmod 755 "$2"    
+  else
+    echo "WARNING: Unable to rename file $1"
   fi
 }
+
+
 #--------------------------------------------------------------------
 if [[ "$(id -u)" != "0" ]]; then
   echo "Root access is required to carry out upgrade of NoTrack"
   exit 21
 fi
 
-for HomeDir in /home/*; do
-  if [ -d "$HomeDir/NoTrack" ]; then 
-    INSTALL_LOCATION="$HomeDir/NoTrack"
+echo "Upgrading NoTrack"
+
+for homefolder in /home/*; do
+  if [ -d "$homefolder/NoTrack" ]; then 
+    INSTALL_LOCATION="$homefolder/NoTrack"
     break
-  elif [ -d "$HomeDir/notrack" ]; then 
-    INSTALL_LOCATION="$HomeDir/notrack"
+  elif [ -d "$homefolder/notrack" ]; then 
+    INSTALL_LOCATION="$homefolder/notrack"
     break
   fi
 done
@@ -45,29 +85,30 @@ done
 if [[ $INSTALL_LOCATION == "" ]]; then
   if [ -d "/opt/notrack" ]; then
     INSTALL_LOCATION="/opt/notrack"
-    UserName="root"
+    USERNAME="root"
   elif [ -d "/root/notrack" ]; then
     INSTALL_LOCATION="/root/notrack"
-    UserName="root"
+    USERNAME="root"
   elif [ -d "/notrack" ]; then
     INSTALL_LOCATION="/notrack"
-    UserName="root"
+    USERNAME="root"
   else
     echo "Error Unable to find NoTrack folder"
     echo "Aborting"
     exit 22
   fi
 else 
-  UserName=$(grep "$HomeDir" /etc/passwd | cut -d : -f1)
+  USERNAME=$(grep "$homefolder" /etc/passwd | cut -d : -f1)
 fi
 
 echo "Install Location $INSTALL_LOCATION"
-echo "Username: $UserName"
+echo "Username: $USERNAME"
+echo
 
 #Alt command for sudoless systems
 #su -c "cd /home/$USERNAME/$PROJECT ; svn update" -m "$USERNAME" 
 
-sudo -u $UserName bash << ROOTLESS
+sudo -u $USERNAME bash << ROOTLESS
 if [ "$(command -v git)" ]; then                 #Utilise Git if its installed
   echo "Pulling latest updates of NoTrack using Git"
   cd "$INSTALL_LOCATION"
@@ -115,38 +156,26 @@ if [ $? == 23 ]; then                            #Code hasn't downloaded
   exit 23
 fi
 
-check_file_exists "$INSTALL_LOCATION/notrack.sh"       #NoTrack.sh
-echo "Updating notrack.sh"
-cp "$INSTALL_LOCATION/notrack.sh" /usr/local/sbin/
-mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
-chmod 755 /usr/local/sbin/notrack
-  
-check_file_exists "$INSTALL_LOCATION/ntrk-exec.sh"     #ntrk-exec.sh
-echo "Updating ntrk-exec.sh"
-cp "$INSTALL_LOCATION/ntrk-exec.sh" /usr/local/sbin/
-mv /usr/local/sbin/ntrk-exec.sh /usr/local/sbin/ntrk-exec
-chmod 755 /usr/local/sbin/ntrk-exec
-  
-check_file_exists "$INSTALL_LOCATION/ntrk-pause.sh"    #ntrk-pause.sh
-echo "Updating ntrk-pause.sh"
-cp "$INSTALL_LOCATION/ntrk-pause.sh" /usr/local/sbin/
-mv /usr/local/sbin/ntrk-pause.sh /usr/local/sbin/ntrk-pause
-chmod 755 /usr/local/sbin/ntrk-pause
+echo
+copy_file "notrack.sh" "/usr/local/sbin/"        #NoTrack.sh
+rename_file "/usr/local/sbin/notrack.sh" "/usr/local/sbin/notrack"
 
-check_file_exists "$INSTALL_LOCATION/ntrk-upgrade.sh"  #ntrk-upgrade.sh
-echo "Updating ntrk-upgrade.sh"
-cp "$INSTALL_LOCATION/ntrk-upgrade.sh" /usr/local/sbin/
-mv /usr/local/sbin/ntrk-upgrade.sh /usr/local/sbin/ntrk-upgrade
-chmod 755 /usr/local/sbin/ntrk-upgrade
+copy_file "ntrk-exec.sh" "/usr/local/sbin/"      #ntrk-exec.sh
+rename_file "/usr/local/sbin/ntrk-exec.sh" "/usr/local/sbin/ntrk-exec"
 
-check_file_exists "$INSTALL_LOCATION/scripts/ntrk-parse.sh"      #ntrk-parse.sh
-echo "Updating ntrk-parse.sh"
-cp "$INSTALL_LOCATION/scripts/ntrk-parse.sh" /usr/local/sbin/
-mv /usr/local/sbin/ntrk-parse.sh /usr/local/sbin/ntrk-parse
-chmod 755 /usr/local/sbin/ntrk-parse
+copy_file "ntrk-pause.sh" "/usr/local/sbin/"     #ntrk-pause.sh
+rename_file "/usr/local/sbin/ntrk-pause.sh" "/usr/local/sbin/ntrk-pause"
+
+copy_file "ntrk-upgrade.sh" "/usr/local/sbin/"   #ntrk-upgrade.sh
+rename_file "/usr/local/sbin/ntrk-upgrade.sh" "/usr/local/sbin/ntrk-upgrade"
+
+copy_file "scripts/ntrk-parse.sh" "/usr/local/sbin/"  #ntrk-parse.sh
+rename_file "/usr/local/sbin/ntrk-parse.sh" "/usr/local/sbin/ntrk-parse"
+echo "Finished copying scripts"
+echo
   
-SudoCheck=$(cat /etc/sudoers | grep www-data)
-if [[ $SudoCheck == "" ]]; then
+sudocheck=$(grep www-data /etc/sudoers)          #Check sudo permissions for lighty
+if [[ $sudocheck == "" ]]; then
   echo "Adding NoPassword permissions for www-data to execute script /usr/local/sbin/ntrk-exec as root"
   echo -e "www-data\tALL=(ALL:ALL) NOPASSWD: /usr/local/sbin/ntrk-exec" | tee -a /etc/sudoers
 fi
@@ -167,10 +196,12 @@ if [[ $(grep '"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i"' /etc/lighttpd/lig
   echo "lighttpd needs restarting: sudo systemctl restart lighttpd"
 fi
 
-if [ -e "$ConfigFile" ]; then                  #Remove Latestversion number from Config file
+
+if [ -e "$FILE_CONFIG" ]; then                  #Remove Latestversion number from Config file
   echo "Removing version number from Config file"
-  grep -v "LatestVersion" "$ConfigFile" > /tmp/notrack.conf
-  mv /tmp/notrack.conf "$ConfigFile"
+  grep -v "LatestVersion" "$FILE_CONFIG" > /tmp/notrack.conf
+  mv /tmp/notrack.conf "$FILE_CONFIG"
+  echo
 fi
   
-echo "NoTrack updated"
+echo "NoTrack update complete"
