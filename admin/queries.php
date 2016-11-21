@@ -105,26 +105,32 @@ function add_datestr() {
 function add_filterstr() {
   global $filter, $sys;
   
-  $searchstr = ' WHERE ';
+  $searchstr = " WHERE ";
   
-  if (($filter == DEF_FILTER) && ($sys == DEF_SYSTEM)) return '';
+  if (($filter == DEF_FILTER) && ($sys == DEF_SYSTEM)) {   //Nothing to add
+    return '';
+  }
   
   if ($sys != DEF_SYSTEM) {
-    $searchstr .= 'sys = \''.$sys.'\'';
+    $searchstr .= "sys = '$sys'";
   }
   if ($filter != DEF_FILTER) {
-    if ($sys != DEF_SYSTEM) $searchstr .= ' AND dns_result=';
-    else $searchstr .= ' dns_result=';
+    if ($sys != DEF_SYSTEM) {
+      $searchstr .= " AND dns_result=";
+    }    
+    else {
+      $searchstr .= " dns_result=";
+    }    
     
     switch($filter) {
       case 'allowed':
-        $searchstr .= '\'a\'';
+        $searchstr .= "'a'";
         break;
       case 'blocked':
-        $searchstr .= '\'b\'';
+        $searchstr .= "'b'";
         break;
       case 'local':
-        $searchstr .= '\'l\'';
+        $searchstr .= "'l'";
         break;
     }
   }
@@ -361,6 +367,7 @@ function search_blockreason($site) {
   return '';                                     //Don't know at this point    
 }
 
+//Need to ammend for historic view TODO
 /********************************************************************
  *  Search Systems
  *  
@@ -377,7 +384,7 @@ function search_systems() {
   $syslist = $mem->get('syslist');
   
   if (empty($syslist)) {
-    if (! $result = $db->query('SELECT DISTINCT `sys` FROM `live` ORDER BY `sys`')) {
+    if (! $result = $db->query("SELECT DISTINCT sys FROM live ORDER BY sys")) {
       die('There was an error running the query'.$db->error);
     }
     while($row = $result->fetch_assoc()) {       //Read each row of results
@@ -409,13 +416,14 @@ function show_group_view() {
   $blockreason = '';
   $query = '';
   
-  $linkstr = htmlspecialchars('&filter='.$filter.'&sys='.$sys);
+  $linkstr = "&amp;filter=$filter&amp;sys=$sys"; //Default link string
+  
   if ($sqltable == 'historic') {                 //Add date search to link in histroic view
-    $linkstr .= htmlspecialchars('&datestart='.$datestart.'&dateend='.$dateend);
+    $linkstr .= "&amp;datestart=$datestart&amp;dateend=$dateend";
   }
   
-  $rows = count_rows_save('SELECT COUNT(DISTINCT `dns_request`) FROM `'.$sqltable.'`' .add_filterstr().add_datestr());
-  $query = 'SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM `'.$sqltable.'`'.add_filterstr().add_datestr().' GROUP BY dns_request ORDER BY count '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $rows = count_rows_save("SELECT COUNT(DISTINCT dns_request) FROM $sqltable " .add_filterstr().add_datestr());
+  $query = "SELECT sys, dns_request, dns_result, COUNT(*) AS count FROM $sqltable" .add_filterstr().add_datestr()." GROUP BY dns_request ORDER BY count $sort LIMIT ".ROWSPERPAGE." OFFSET ".(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
@@ -501,7 +509,7 @@ function show_live_time() {
   $rows = count_rows_save('SELECT COUNT(*) FROM live'.add_filterstr());
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-  $query = 'SELECT * FROM live'.add_filterstr(). ' ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $query = "SELECT * FROM live".add_filterstr(). " ORDER BY UNIX_TIMESTAMP(log_time) $sort LIMIT ".ROWSPERPAGE." OFFSET ".(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
@@ -579,10 +587,10 @@ function show_historic_time() {
   $action = '';
   $blockreason = '';  
     
-  $rows = count_rows_save('SELECT COUNT(*) FROM historic'.add_filterstr().add_datestr());
+  $rows = count_rows_save("SELECT COUNT(*) FROM historic".add_filterstr().add_datestr());
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
-  $query = 'SELECT * FROM historic'.add_filterstr().add_datestr(). ' ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
+  $query = "SELECT * FROM historic".add_filterstr().add_datestr(). " ORDER BY UNIX_TIMESTAMP(log_time) $sort LIMIT ".ROWSPERPAGE." OFFSET ".(($page-1) * ROWSPERPAGE);
   
   if(!$result = $db->query($query)){
     die('There was an error running the query'.$db->error);
