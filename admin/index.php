@@ -280,10 +280,10 @@ function draw_trafficgraph() {
   
   for ($i = 0.25; $i < 1; $i+=0.25) {            //Y Axis lines and labels
     echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
-    echo '<text class="axistext" x="12" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
+    echo '<text class="axistext" x="8" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
   }
-  echo '<text x="12" y="855" class="axistext">0</text>';
-  echo '<text x="12" y="38" class="axistext">'.$ymax.'</text>';
+  echo '<text x="8" y="855" class="axistext">0</text>';
+  echo '<text x="8" y="38" class="axistext">'.formatnumber($ymax).'</text>';
   
   
   for ($i = 0; $i < $numvalues; $i+=2) {         //X Axis labels
