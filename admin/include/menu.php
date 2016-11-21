@@ -63,7 +63,7 @@ function action_topmenu() {
       default:
         return false;
     }
-    sleep(4);
+    sleep(3);
     header("Location: ?");
   }
   
@@ -93,6 +93,7 @@ function draw_sidemenu() {
 }
 
 
+//DEPRECATED
 /********************************************************************
  *  Draw Config Menu
  *
@@ -101,6 +102,7 @@ function draw_sidemenu() {
  *  Return:
  *    None
  */
+ /*
 function draw_configmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
@@ -118,7 +120,7 @@ function draw_configmenu() {
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;  
 }
-
+*/
 
 /********************************************************************
  *  Draw Help Menu
@@ -153,7 +155,7 @@ function draw_topmenu() {
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
   echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
-  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' Alpha</small></span></a>'.PHP_EOL;
+  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' A</small></span></a>'.PHP_EOL;
   
   if (is_password_protection_enabled()) {         //Only do Logout if there is a password
     echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
