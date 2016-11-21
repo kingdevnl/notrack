@@ -3,18 +3,19 @@
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 abcd7777.com #Chinese Scammer
 abcdnf.com #Chinese Scammer
-andr-security.com
+andr-security.com #Malicious Site
 apple-safari.info #Malicious Site
 ashleyrnadison.com #Typo
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 biosagentplus.com #Scam
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
-com-internet.online
+com-internet.online #Malicious Site
 cookiereports.com #Annoying Cookie Popup
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 elbacom.com #Angler EK
-edatasales.com
+edatasales.com #Malicious Site
+epicunitscan.info #Malicious Site
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 facebookprofileview.com #Malicious software
 ffdns.net #DNS Exploiters

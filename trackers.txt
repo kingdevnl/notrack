@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 20 Nov 2016
-#LatestVersion 0.8.1
+#NoTrack Blocklist updated 21 Nov 2016
+#LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -116,12 +116,14 @@ adadvisor.net #Neustar
 adagencyonline.biz #AdAgencyOnline
 adagencyonline.net #AdAgencyOnline
 adagencyonlineautomotiveadvertising.com #AdAgencyOnline
+adality.com #Ascio Technologies
 adalyser.com #Adalyser
 adalyser.net #Adalyser
 adap.tv #AOL
 adblade.com #Adblade
+adbrain.com #Adbrain
 adbrau.com #Advertising Unknown
-adbrn.com
+adbrn.com #Adbrain
 adbutler-tachyon.com
 adbutter.net #Makazi Group
 adc-srv.net #ADC Media
@@ -135,9 +137,10 @@ addnexus.net #AppNexus Inc
 addnexus.org #AppNexus Inc
 addnow.com #AddNow
 addoox.net #Addoox
-addthis.com #AddThis
+addthis.com #Oracle
 addthisedge.com #Oracle
 addtoany.com #AddToAny
+adelphic.net #Adelphic
 adeventtracker.spotify.com #Spotify tracking ads
 adexchangeprediction.com #Adverising Unknown
 adfast.net #Ad Web
@@ -155,17 +158,18 @@ adgenie.co.uk #Ve Interactive
 adgibbon.com #AdGibbon
 adgibbon.mobi #AdGibbon
 adglare.net
-adgrx.com
-adinfo.aol.com
+adgrx.com #AdGear
+adinfo.aol.com #AOL
 adinfuse.com #Velti
 adingo.jp #Voyage Group
 adio.co #Idio
 adip.ly
-adition.com
+adition.com #Adition Technologies
 adixo.com
 adizio.com
 adjug.com
 adjust.com
+adkernel.com #AdKernel
 adkmob.com #Advertising Unknown
 adkontekst.pl
 adlabsnetworks.com #AdLabs
@@ -173,6 +177,9 @@ adlansa.com
 adlegend.com
 adlibrary.org #AppNexus Inc
 adlooxtracking.com
+adlucent.com #Adlucent
+adlucent.net #Adlucent
+adlucent.org #Adlucent
 admailtiser.com
 admantx.com
 admarketplace.net
@@ -227,10 +234,10 @@ adrecreate.com #Advertising Unknown
 adrequest.net #R van Ingen
 adrichweb.com #Adrich
 adriver.ru
-adroll.com
+adroll.com #AdRoll
 adrotate.se
 adrsp.net
-adrtx.net
+adrtx.net #Ascio Technologies
 adrunnr.com #Adverising Unknown
 ads-ai.com #YieldBot
 ads-creativesyndicator.com
@@ -253,6 +260,7 @@ adscale.de
 adscience.nl #Adscience
 adsclean.com
 adsensecustomsearchads.com
+adserver.pandora.com #Pandora radio
 adsfac.eu
 adsignify.net
 adsmobi.com #Smaato
@@ -267,6 +275,7 @@ adsrvr.org
 adsrvs.com #WhiteOps
 adsterra.com #Adsterra
 adstheaa.com #The AA
+adsty.com #Adsty
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
 adsymptotic.com
@@ -286,8 +295,9 @@ adversal.com
 advertisers-openx.com #OpenX
 advertiserurl.com #Advertising Unknown
 advertising.amazon.co.uk #Amazon
+advertising.aol.com #AOL
 advertising.bbcworldwide.com
-advertising.com
+advertising.com #AOL
 advertisingwouldbegreat.com #Advertising Unknown
 adverts.itv.com #ITV
 advertserve.com
@@ -305,6 +315,7 @@ adwise.fr #AdWise
 adwise.mobi #AdWise
 adwise.org #AdWise
 adwise.ru #AdWise
+adx1.com #Adsty
 adxite-ads.com #Unknown Advertising
 adxpansion.com #Gammae
 adxpose.com #ComScore
@@ -344,7 +355,7 @@ affrh2022.com #RevenueHits
 affrh2023.com #RevenueHits
 affrh2024.com #RevenueHits
 affrh2025.com #RevenueHits
-afy11.net
+afy11.net #Adify
 agil1.biz
 agil1.info
 agil1.us
@@ -359,6 +370,7 @@ ahainternational.com #Ad Web
 ahainternational.net #Ad Web
 ahalogy.com
 aimatch.com
+alcmpn.com #American List Counsel
 alephd.com #AOL
 alertbot.co.uk
 algonetwork.com #RevenueHits
@@ -380,12 +392,13 @@ altabold1.com #Lead Forensics
 amap.com
 amazon-adsystem.com
 amessagewithabottle.com #Uknown Tracker
-amgdgt.com
+amgdgt.com #Amobee
 amplience.com #Amplience
 amplitude.com
 amung.us #TBC
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 analytics-egain.com #eGain Corporation
+analytics-static.ugc.bazaarvoice.com #Bazaar Voice
 analytics.amakings.com
 analytics.ccs.mcafee.com #McAfee
 analytics.faw.sky.com #Sky
@@ -400,6 +413,7 @@ angorch-cdr7.com #Lead Forensics
 anm.co.uk #Associated Newspapers Limited
 anrdoezrs.net
 anreson.net #Advertising
+ans.mlb.com #Major League Baseball
 answerscloud.com #Answers Cloud
 apero-bigdata.com #Ysance
 apester.com
@@ -418,7 +432,7 @@ appdynamics.net #AppDynamics
 appdynamics.org #AppDynamics
 appdynamics.us #AppDynamics
 appenstance.com #AppNexus Inc
-appier.net
+appier.net #Appier
 appinstance.com #AppNexus Inc
 appliances2compare.com #Digital Window
 applicationstreamingnetwork.com #instartlogic
@@ -462,20 +476,20 @@ apxlv.com
 aracea.com #Ad Web
 arc.msn.com #Microsoft
 arcpublishing.com #Washington Post
-areyouahuman.com #Human Bot verification TBC
+areyouahuman.com #Are You A Human
 aria.microsoft.com #Microsoft
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
 astutemetrics.com #Astute Trackr
-atdmt.com
+atdmt.com #Facebook
 atemda.com
 atgsvcs.com
 ati-host.net
 atl-6-ga.com #Lead Forensics
 atomz.com #Adobe
 attraqt.com
-atwola.com
+atwola.com #AOL
 audienceco-op.com #Adobe
 audiencedatamanagement.com #Adobe
 audienceinsights.net
@@ -502,6 +516,7 @@ awinanalytics.com #Digital Window
 awltovhc.com
 awmetrics.com #Digital Window
 azalead.com
+azdx.net #Ascio Technologies
 azera-s014.com #Lead Forensics
 bae5tracker.com #Lead Forensics
 bandelcot.com
@@ -523,6 +538,7 @@ begun.ru
 behancemanage.com #Adobe
 behavior.com #Adobe
 berg-6-82.com #Lead Forensics
+beta-i.pt #Beta-i
 betrad.com
 betteradserving.com #AppNexus Inc
 betterbrandsafety.com #AppNexus Inc
@@ -601,6 +617,7 @@ bravotestcampmon.com #Campaign Monitor Pty
 bravotestconfirmsubscription.com #Campaign Monitor Pty
 bravotestcreatesend.com #Campaign Monitor Pty
 brecon-radnor-today.co.uk #Ad Web
+bridgetrack.com #Bridge Track
 bright-cove.com
 bright-cove.net
 brightcove.biz #Brightcove
@@ -639,6 +656,7 @@ btttag-a.com #Blue Triangle Tech
 btttag.com #Blue Triangle Tech
 budgetedbauer.com #Tracker Unknown
 bugherd.com
+bugsnag.com #Bugsnag
 builfico.de
 bunchbox.co #Peaks and Pies
 bundles.api.here.com #German Maps possible Windows 10 spying
@@ -951,6 +969,7 @@ ctd006.net #Experian
 cten10010.com #Lead Forensics
 ctnsnet.com
 ctscdn.com
+cuebiq.com #Cubiq
 curalate.info #Curulate
 curalate.net #Curulate
 curalate.org #Curulate
@@ -966,6 +985,7 @@ d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
 d2ha22j8ys3e0o.cloudfront.net #Canvas Fingerprinting
 d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
 d2ymkpxi1rgldj.cloudfront.net #Canvas Fingerprinting
+d31qbv1cthcecs.cloudfront.net #Amazon - Alexa
 d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
 d3ujids68p6xmp.cloudfront.net
 da-ads.com
@@ -1218,6 +1238,7 @@ everesttech.net
 evergage.com
 evisitanalyst.com
 evyy.net #Impact Radius
+exclusivo.internet.pt #Advertising Unknown
 exdynsrv.com #Advertising
 exe.bid #Exebid DCA
 exebid.ru #Exebid DCA
@@ -1374,6 +1395,7 @@ gslbns.com #AppNexus Inc
 gslbns.net #AppNexus Inc
 gslbns.org #AppNexus Inc
 gssprt.jp
+gu-web.net #The Guardian
 gumgum.com
 guomob.com
 gw100-10.com #Lead Forensics
@@ -1575,8 +1597,10 @@ invitemedia.com
 invoc.us
 ioam.de
 ipccdn.co.uk
+ipredictive.com #Adelphic
 ipromote.com
 ist-track.com
+iterable.com #Iterable
 itsfom.com #Zanox
 iu16wmye.com
 jackship.cn
@@ -1670,6 +1694,7 @@ liveadvert.com
 livefyre.com
 liveperson.net
 liverail.com
+liveramp.com #LiveRamp
 liwio.com #AB Tasty
 local-finders.com #Tracker Unknown
 localconfirmsubscription.com #Campaign Monitor Pty
@@ -1743,6 +1768,7 @@ marketinghub.hp.com #HP
 marketizator.com
 marketo.com
 marketo.net
+markitcdn.com #Markit Group
 marktest.pt
 maskbaby.com.cn #Advertising Unknown
 matheranalytics.com
@@ -1767,6 +1793,8 @@ medialytics.com #Medialets
 mediamond.it #Mediamond
 medianexusnetwork.com
 mediaplex.com
+mediative.ca #Mediative
+mediative.com #Mediative
 mediavoice.com
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
@@ -1795,6 +1823,7 @@ metric.gstatic.com #Google
 metrics.aftonbladet.se #Aftonbladet
 metrics.argos.co.uk
 metrics.barclays.co.uk
+metrics.cbc.ca #CBC
 metrics.ctvdigital.net
 metrics.expressen.se #Expressen
 metrics.ikea.com #Ikea
@@ -10145,6 +10174,7 @@ nfltags.com #NFL
 nicecdn01.com #Nice People At Work
 nicecdn02.com #Nice People At Work
 ninjapd.com #WhiteOps
+ninthdecimal.com #Ninth Decimal
 nl00.net #NetLine
 nl01.net #NetLine
 nl02.net #NetLine
@@ -10188,7 +10218,7 @@ omessage.com
 omnitagjs.com
 omniture.com #Adobe
 omniture.groceries.asda.com #Asda
-omtrdc.net
+omtrdc.net #Adobe
 onclasrv.com
 onclickads.net #Advertising Technologies
 onclicktop.com
@@ -10338,7 +10368,7 @@ pressfusion.com #Ad Web
 preview.msn.com #Microsoft
 pricelist.skype.com #Microsoft
 primefuse.com
-privacy.aol.com
+privacy.aol.com #AOL
 privatescale.com #AppNexus Inc
 privatescale.net #AppNexus Inc
 prnx.net
@@ -10475,13 +10505,14 @@ responsetap.com
 retailautomata.com
 revcontent.com
 revdepo.com #RevenueHits
-revenue-tracker.com
+revenue-tracker.com #Unknown Tracker
+revenue.com #World Media Group
 revenuehits.com #RevenueHits
 revenuehits.net #RevenueHits
 revenuehitscontest.com #RevenueHits
 revenuevids.com #RevenueHits
 revmetrix.com
-revsci.net
+revsci.net #AudienceScience
 rewardwindow.com #Digital Window
 rfihub.com
 rfihub.net
@@ -10868,6 +10899,7 @@ stats.ebay.com #eBay
 stats.ft.com #Financial Times
 stats.g.doubleclick.net #Google
 stats.l.doubleclick.net #Google
+stats.royalbank.com #Canadian Royal Bank
 stats.wp.com #Wordpress
 statsfe1.ws.microsoft.com #Microsoft
 statsfe2.ws.microsoft.com #Microsoft
@@ -10909,6 +10941,7 @@ sts.microsoft.com #Microsoft
 sub2tech.com
 subtraxion.com
 successfultogether.co.uk
+sugarcrm.com #SugarCRM
 sugarops.com
 sumologic.com #Sumo Logic
 sumome.com #SumoMe
@@ -11162,6 +11195,7 @@ vertmarkets.com
 veruta.com
 vgwort.de
 viafoura.com
+viafoura.net #Viafoura
 viame-cdn.com #RadiumOne
 viazza.com
 viazza.info
