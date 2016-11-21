@@ -26,10 +26,10 @@ action_topmenu();
 *Global Variables                               *
 ************************************************/
 $page = 1;
-$db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 $searchbox = '';
 $showblradio = false;
 $blradio = 'all';
+$db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 
 /************************************************
 *Arrays                                         *
@@ -96,7 +96,7 @@ if (isset($_POST['action'])) {
 <?php
 action_topmenu();
 draw_topmenu();
-draw_configmenu();
+draw_sidemenu();
 echo '<div id="main">';
 
 
@@ -406,7 +406,7 @@ function update_webserver_config() {
 ************************************************/
 if (isset($_GET['s'])) {                         //Search box
   //Allow only characters a-z A-Z 0-9 ( ) . _ - and \whitespace
-  $searchbox = preg_replace('/[^a-zA-Z0-9\(\)\.\s_-]/', '', $_GET['s']);
+  $searchbox = preg_replace('/[^a-zA-Z0-9\(\)\.\s\_\-]/', '', $_GET['s']);
   $searchbox = strtolower($searchbox);  
 }
 
@@ -483,7 +483,7 @@ if (isset($_GET['v'])) {                         //What view to show?
   }
 }
 else {                                           //No View set
-  show_general();
+  show_menu();
 }
 
 $db->close();

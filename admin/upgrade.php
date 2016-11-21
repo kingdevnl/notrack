@@ -19,7 +19,7 @@ ensure_active_session();
 <?php
 action_topmenu();
 draw_topmenu();
-draw_configmenu();
+draw_sidemenu();
 
 //There are two views for upgrade:
 //1. Carrying out upgrade (dependant on POST['doupgrade']) which shows the result of ntrk-upgrade

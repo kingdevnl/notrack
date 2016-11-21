@@ -738,6 +738,9 @@ span.timer {
   #menu-side {
     padding-top: 5rem;
   }
+  #menu-side-bottom {
+    display: none;
+  }
   span.top-menu-item, span.logo {
     line-height: 4.8rem;
   }  
@@ -874,6 +877,35 @@ span.timer {
     width: 28%;
     max-width: 14rem;
     margin-right: 5%;
+  }
+}
+.conf-nav {
+  width: 27%;
+  height: 3rem;
+  padding: 0.4em 1em;
+  border-bottom: 1px solid #B3B3B3;
+  float: left;
+  margin: 0.5rem 2%;
+  font-size: 1.1em;  
+}
+.conf-nav img {
+  height: 100%;
+  margin-right: 1rem;
+  float: left;
+}
+.conf-nav span {
+  float: left;
+  margin-top: 1rem;
+  color: #00000A;
+}
+@media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {  /*Windowed view for Conf Nav*/
+  .conf-nav {
+    width: 41%;
+  }
+}
+@media only screen and (max-width:480px), only screen and (max-device-width:480px) {   /*Mobile view for Conf Nav*/
+  .conf-nav {
+    width: 91%;
   }
 }
 /*Top Menu Popups***************************************************/

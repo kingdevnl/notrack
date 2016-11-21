@@ -23,7 +23,7 @@ ensure_active_session();
 <?php
 action_topmenu();
 draw_topmenu();
-draw_configmenu();
+draw_sidemenu();
 echo '<div id="main">';
 
 /************************************************

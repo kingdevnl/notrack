@@ -125,7 +125,7 @@ function check_version($latestversion) {
  *    Number of Rows
  */
 function count_rows($query) {
-  global $db, $mem;
+  global $db;
   
   $rows = 0;
   
