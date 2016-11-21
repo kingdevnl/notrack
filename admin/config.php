@@ -142,8 +142,10 @@ function update_advanced() {
 
 /********************************************************************
  *  Update Block List Config
- *    Read and Filter values parsed from HTTP POST into the Config array  
- *    After this function save_config is run
+ *    1: Search through Config array for bl_? (excluding bl_custom)
+ *    2: Check if bl_? appears in POST[bl_?]
+ *    3: Set bl_custom by splitting and filtering values from POST[bl_custom]
+ *    4: After this function save_config is run
  *  Params:
  *    None
  *  Return:
@@ -154,36 +156,23 @@ function update_blocklist_config() {
   $customstr = '';
   $customlist = array();
   $validlist = array();
-    
-  $Config['bl_notrack'] = filter_config('bl_notrack');
-  $Config['bl_tld'] = filter_config('bl_tld');
-  $Config['bl_qmalware'] = filter_config('bl_qmalware');
-  $Config['bl_hexxium'] = filter_config('bl_hexxium');
-  $Config['bl_cedia'] = filter_config('bl_cedia');
-  $Config['bl_cedia_immortal'] = filter_config('bl_cedia_immortal');
-  $Config['bl_disconnectmalvertising'] = filter_config('bl_disconnectmalvertising');
-  $Config['bl_easylist'] = filter_config('bl_easylist');
-  $Config['bl_easyprivacy'] = filter_config('bl_easyprivacy');
-  $Config['bl_fbannoyance'] = filter_config('bl_fbannoyance');
-  $Config['bl_fbenhanced'] = filter_config('bl_fbenhanced');
-  $Config['bl_fbsocial'] = filter_config('bl_fbsocial');
-  $Config['bl_hphosts'] = filter_config('bl_hphosts');
-  $Config['bl_malwaredomainlist'] = filter_config('bl_malwaredomainlist');
-  $Config['bl_malwaredomains'] = filter_config('bl_malwaredomains');  
-  $Config['bl_pglyoyo'] = filter_config('bl_pglyoyo');
-  $Config['bl_someonewhocares'] = filter_config('bl_someonewhocares');  
-  $Config['bl_spam404'] = filter_config('bl_spam404');
-  $Config['bl_swissransom'] = filter_config('bl_swissransom');
-  $Config['bl_swisszeus'] = filter_config('bl_swisszeus');
-  $Config['bl_winhelp2002'] = filter_config('bl_winhelp2002');
-  $Config['bl_areasy'] = filter_config('bl_areasy');
-  $Config['bl_chneasy'] = filter_config('bl_chneasy');
-  $Config['bl_deueasy'] = filter_config('bl_deueasy');
-  $Config['bl_dnkeasy'] = filter_config('bl_dnkeasy');
-  $Config['bl_ruseasy'] = filter_config('bl_ruseasy');
-  $Config['bl_fblatin'] = filter_config('bl_fblatin');
+  $key = '';
+  $value = '';
   
-  if (isset($_POST['bl_custom'])) {    
+  foreach($Config as $key => $value) {           //Read entire Config array
+    if (preg_match('/^bl\_(?!custom)/', $key) > 0) { //Look for values starting bl_
+      if (isset($_POST[$key])) {                 //Is there an equivilent POST value?
+        if ($_POST[$key] == 'on') {              //Is it set to on (ticked)?
+          $Config[$key] = 1;                     //Yes - enable block list
+        }
+      }
+      else {                                     //No POST value
+        $Config[$key] = 0;                       //Block list is unticked
+      }
+    }
+  }
+  
+  if (isset($_POST['bl_custom'])) {              //bl_custom requires extra processing
     $customstr = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array
     $customlist = explode(',', $customstr);      //Split string into array
     foreach ($customlist as $site) {             //Check if each item is a valid URL
