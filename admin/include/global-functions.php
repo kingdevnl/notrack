@@ -375,6 +375,7 @@ function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
   return $DefaltValue;
 }
 
+//DEPRECATED
 //Filter String from GET---------------------------------------------
 function Filter_Str($Str) {
   //1. Check Variable Exists
@@ -469,7 +470,7 @@ function load_config() {
             break;            
           default:
             if (array_key_exists($splitline[0], $Config)) {
-              $Config[$splitline[0]] = $splitline[1];
+              $Config[$splitline[0]] = strip_tags($splitline[1]);
             }
             break;
         }

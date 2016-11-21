@@ -43,6 +43,7 @@ Config[bl_deueasy]=0                             #Germany
 Config[bl_dnkeasy]=0                             #Denmark
 Config[bl_ruseasy]=0                             #Russia
 Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countries)
+Config[bl_yhosts]=0                              #China yhosts
 
 #######################################
 # Constants
@@ -90,6 +91,7 @@ URLList[deueasy]="https://easylist-downloads.adblockplus.org/easylistgermany.txt
 URLList[dnkeasy]="https://adblock.dk/block.csv"
 URLList[ruseasy]="https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt"
 URLList[fblatin]="https://www.fanboy.co.nz/fanboy-espanol.txt"
+URLList[yhosts]="https://raw.githubusercontent.com/vokins/yhosts/master/hosts"
 
 #######################################
 # Global Variables
@@ -662,7 +664,7 @@ function get_list() {
     "plain") process_plainlist "$dlfile" ;;
     "notrack") process_notracklist "$dlfile" ;;
     "tldlist") process_tldlist ;;
-    "unix") Process_UnixList "$dlfile" ;;    
+    "unix") process_unixlist "$dlfile" ;;    
     *) error_exit "Unknown option $2" "7"
   esac  
   
@@ -1204,7 +1206,7 @@ function process_tldlist() {
 #   # Optional
 #   Group 6: Comment  any character zero or more times
 #--------------------------------------------------------------------
-function Process_UnixList() {
+function process_unixlist() {
   #All Unix lists that I've come across are Windows formatted, therefore we use the carriage return IFS \r
   
   local i=0
@@ -1627,6 +1629,7 @@ get_list "deueasy" "easylist"
 get_list "dnkeasy" "easylist" 
 get_list "ruseasy" "easylist"
 get_list "fblatin" "easylist"
+get_list "yhosts" "unix"
 
 get_custom                                       #Process Custom Block lists
 

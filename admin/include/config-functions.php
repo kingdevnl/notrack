@@ -124,23 +124,6 @@ function draw_blradioform() {
   echo '<br />'.PHP_EOL;
 }
 
-/********************************************************************
- *  Filter Config Post Request
- *
- *  Params:
- *    item - Post Item to check
- *  Return:
- *    1 if Post[item] = on, or 0 if not found
- */
-function filter_config($item) {  
-  if (isset($_POST[$item])) {    
-    if ($_POST[$item] == 'on') {
-      return 1;
-    }
-  }
-  return 0;
-}
-
 
 /********************************************************************
  *  Load CSV List
@@ -311,6 +294,8 @@ function show_blocklists() {
   draw_systable('Region Specific');
   draw_blocklist_row('bl_areasy', 'AR EasyList', 'EasyList Arab (عربي)‎ <a href="https://forums.lanik.us/viewforum.php?f=98" target="_blank">(forums.lanik.us)</a>');
   draw_blocklist_row('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php" target="_blank">(abpchina.org)</a>');
+  draw_blocklist_row('bl_yhosts', 'CHN Yhosts', 'YHosts (中文)‎ focused on Chinese advert sites <a href="https://github.com/vokins/yhosts" target="_blank">(github.com)</a>');
+
   
   draw_blocklist_row('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90" target="_blank">(forums.lanik.us)</a>');
   draw_blocklist_row('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/" target="_blank">(henrik.schack.dk)</a>');  

@@ -74,6 +74,7 @@ $DEFAULTCONFIG = array(
   'bl_dnkeasy' => 0,
   'bl_ruseasy' => 0,
   'bl_fblatin' => 0,
+  'bl_yhosts' => 0,
   'LatestVersion' => VERSION  
 );
 
@@ -103,6 +104,7 @@ $BLOCKLISTNAMES = array(
   'bl_swisszeus' => 'Swiss Security ZeuS',  
   'bl_areasy' => 'AR Easy List',
   'bl_chneasy' => 'CHN Easy List',
+  'bl_yhosts' => 'CHN Yhosts',
   'bl_deueasy' => 'DEU Easy List',
   'bl_dnkeasy' => 'DNK Easy List',
   'bl_fblatin' => 'Latin Easy List',
