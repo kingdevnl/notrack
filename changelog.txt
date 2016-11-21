@@ -1,5 +1,18 @@
-v0.8.1 Alpha - Released 12 Nov 2016
+*************************************************
+v0.8.2 Alpha - Released 21 Nov 2016
+Admin:
+  New chart showing number of DNS queries over the day
 
+Config:
+  New control panel style menu
+
+Scripts:
+  notrack-pause performance improved
+  notrack-upgrade no longer aborts when files are missing
+  
+*************************************************
+
+v0.8.1 Alpha - Released 12 Nov 2016
 Admin:
   New pie chart showing percentage of traffic allowed, blocked, or local
   New Table design
@@ -32,23 +45,5 @@ Security:
 
 New blocklists:
   Cedia malware domain list (Issue #126)
-
-*************************************************
-
-v0.7.18 alpha - Interim release to facilitate upgrade to v0.8
-Admin:
-  New style menu.
-  stats.php renamed to queries.php.
-  Parsing of DNS logs more accurate, but slower
-  Fixed bug #117 - Filters reset when clicking submit button
-  Fixed bug #146 - Expand queries on blocked.php not working
-
-NoTrack:
-  Fixed bug #123 - Freezing when duplicate NoTrack script is run
-  Fixed bug #124 - NoTrack not respecting TLD blocking
-
-Backend:
-  New script ntrk-parse to upload DNS logs into SQL (inactive at the moment)
-  ntrk-parse added to ntrk-upgrade
 
 *************************************************

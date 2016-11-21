@@ -47,7 +47,7 @@ Config[bl_fblatin]=0                             #Portugal/Spain (Latin Countrie
 #######################################
 # Constants
 #######################################
-readonly VERSION="0.8.1"
+readonly VERSION="0.8.2"
 readonly CSV_BLOCKING="/etc/notrack/blocking.csv"
 readonly LISTFILE_BLOCKING="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
