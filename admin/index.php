@@ -120,7 +120,7 @@ function draw_queriesbox() {
   echo '<div class="chart-box">'.PHP_EOL;
   echo '<svg width="100%" height="90%" viewbox="0 0 200 200">'.PHP_EOL;
   echo piechart($chartdata, 100, 100, 98, $CHARTCOLOURS);
-  echo '<circle cx="100" cy="100" r="30" stroke="#00000A" stroke-width="2" fill="#f7f7f7">'.PHP_EOL;
+  echo '<circle cx="100" cy="100" r="30" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
   echo '</svg>'.PHP_EOL;
   //<img src="./svg/home_queries.svg" srcset="./svg/home_queries.svg" alt="">
   echo '</div></div></a>'.PHP_EOL;
@@ -275,11 +275,11 @@ function draw_trafficgraph() {
   }
     
   echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
-  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1">'.PHP_EOL;
-  echo '<path class="axisline" d="M100,0 V850 H2000 ">';
+  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
+  echo '<path class="axisline" d="M100,0 V850 H2000 " />';
   
   for ($i = 0.25; $i < 1; $i+=0.25) {            //Y Axis lines and labels
-    echo '<path class="gridline" d="M100,'.($i*850).' H2000">'.PHP_EOL;
+    echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
     echo '<text class="axistext" x="8" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
   }
   echo '<text x="8" y="855" class="axistext">0</text>';
@@ -291,14 +291,14 @@ function draw_trafficgraph() {
   }  
   
   for ($i = 2; $i < 24; $i+=2) {                 //X Grid lines
-    echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850">'.PHP_EOL;
+    echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
   }
   
   $pathout = "<path d=\"M 100,850 ";             //Blue line for allowed
   for ($i = 1; $i < $numvalues; $i++) {
     $pathout .= calc_curve($allowed_values[$i-1], $allowed_values[$i], $allowed_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#008CD1');    
   }
-  $pathout .= 'V850 " stroke="#008CD1" stroke-width="3px" fill="#00AEFF" fill-opacity="0.15">'.PHP_EOL;
+  $pathout .= 'V850 " stroke="#008CD1" stroke-width="3px" fill="#00AEFF" fill-opacity="0.15" />'.PHP_EOL;
   echo $pathout;
   
   $pathout = "<path d=\"M 100,850 ";             //Red line for blocked
@@ -308,7 +308,7 @@ function draw_trafficgraph() {
     }
     $pathout .= calc_curve($blocked_values[$i-1], $blocked_values[$i], $blocked_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#B1244A');    
   }
-  $pathout .= 'V850 " stroke="#B1244A" stroke-width="3px" fill="#FF346D" fill-opacity="0.15">'.PHP_EOL;
+  $pathout .= 'V850 " stroke="#B1244A" stroke-width="3px" fill="#FF346D" fill-opacity="0.15" />'.PHP_EOL;
   echo $pathout;
   
   echo '</svg>'.PHP_EOL;                         //End SVG  
@@ -338,7 +338,7 @@ function calc_curve($old, $cur, $new, $xpos, $xstep, $ymax, $colour) {
   $diff = $cur - $old;                           //Left-hand slope
   
   if ($cur > 0) {
-    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="6" fill="'.$colour.'" fill-opacity="0.8">'.PHP_EOL;
+    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="6" fill="'.$colour.'" fill-opacity="0.8" />'.PHP_EOL;
   }
   
   $dx1 = $xpos - ($xstep * 0.5);

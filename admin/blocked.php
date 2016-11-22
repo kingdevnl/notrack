@@ -368,10 +368,10 @@ function show_visualisation() {
   
   echo '<svg width="100%" height="90%" viewbox="0 0 1500 1100">'.PHP_EOL;
   echo piechart($site_count, 500, 540, 490, $CHARTCOLOURS);
-  echo '<circle cx="500" cy="540" r="120" stroke="#00000A" stroke-width="2" fill="#f7f7f7">'.PHP_EOL;
+  echo '<circle cx="500" cy="540" r="120" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
   
   for ($i = 0; $i < $numsites; $i++) {
-    echo '<rect x="1015" y="'.(($i*43)+90).'" rx="5" ry="5" width="38" height="38" style="fill:'.$CHARTCOLOURS[$i].'; stroke:#00000A; stroke-width=3">';
+    echo '<rect x="1015" y="'.(($i*43)+90).'" rx="5" ry="5" width="38" height="38" style="fill:'.$CHARTCOLOURS[$i].'; stroke:#00000A; stroke-width=3" />';
     echo '<text x="1063" y="'.(($i*43)+118).'" style="font-family: Arial; font-size: 26px; fill:#00000A">'.$site_names[$i].': '.number_format(floatval($site_count[$i])).'</text>'.PHP_EOL;
   }
   
