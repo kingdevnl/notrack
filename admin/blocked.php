@@ -8,10 +8,10 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link href="./css/help.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link href="./css/help.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <script src="./include/queries.js"></script>
   <title>NoTrack - Sites Blocked</title>  
@@ -292,12 +292,12 @@ function show_accesstable() {
     
     $table_row .='<td title="'.$user_agent.'"><div class="centered"><img src="./images/useragent/'.$user_agent_array[0].'.png" alt=""><img src="./images/useragent/'.$user_agent_array[1].'.png" alt=""></div></td>';
     
-    $table_row .= '<td>'.highlight_url(htmlentities($row['site'].$row['uri_path'])).'<br />Referrer: '.highlight_url(htmlentities($referrer)).'<br />Requested By: '.$remote_host.'</td></tr>';
+    $table_row .= '<td>'.highlight_url(htmlentities($row['site'].$row['uri_path'])).'<br>Referrer: '.highlight_url(htmlentities($referrer)).'<br>Requested By: '.$remote_host.'</td></tr>';
     
     echo $table_row.PHP_EOL;                     //Echo the table row
   }
   
-  echo '</table><br />'.PHP_EOL;                 //End of table
+  echo '</table><br>'.PHP_EOL;                 //End of table
   pagination($rows, 'view='.$view);              //Draw pagination buttons
   echo '</div>'.PHP_EOL;                         //End Sys-group div
   
@@ -368,10 +368,10 @@ function show_visualisation() {
   
   echo '<svg width="100%" height="90%" viewbox="0 0 1500 1100">'.PHP_EOL;
   echo piechart($site_count, 500, 540, 490, $CHARTCOLOURS);
-  echo '<circle cx="500" cy="540" r="120" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
+  echo '<circle cx="500" cy="540" r="120" stroke="#00000A" stroke-width="2" fill="#f7f7f7">'.PHP_EOL;
   
   for ($i = 0; $i < $numsites; $i++) {
-    echo '<rect x="1015" y="'.(($i*43)+90).'" rx="5" ry="5" width="38" height="38" style="fill:'.$CHARTCOLOURS[$i].'; stroke:#00000A; stroke-width=3" />';
+    echo '<rect x="1015" y="'.(($i*43)+90).'" rx="5" ry="5" width="38" height="38" style="fill:'.$CHARTCOLOURS[$i].'; stroke:#00000A; stroke-width=3">';
     echo '<text x="1063" y="'.(($i*43)+118).'" style="font-family: Arial; font-size: 26px; fill:#00000A">'.$site_names[$i].': '.number_format(floatval($site_count[$i])).'</text>'.PHP_EOL;
   }
   

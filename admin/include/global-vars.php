@@ -141,7 +141,7 @@ $mem = new Memcache;                             //Initiate Memcache
 $mem->connect('localhost');
 
 if (!extension_loaded('mysqli')) {
-  echo '<p>NoTrack requires mysql to be installed<br />Run: <code>bash /opt/notrack/install.sh -sql</code> or <code>bash ~/notrack/install.sh -sql</code> (depending where NoTrack folder is located)</p>';
+  echo '<p>NoTrack requires mysql to be installed<br>Run: <code>bash /opt/notrack/install.sh -sql</code> or <code>bash ~/notrack/install.sh -sql</code> (depending where NoTrack folder is located)</p>';
   die;
 }
 ?>
