@@ -554,7 +554,7 @@ function piechart($data, $cx, $cy, $radius, $colours) {
     $chartelem .= " A$radius,$radius 0 $laf,1 $ax,$ay "; // draw arc
     $chartelem .= " z\" ";                       // z = close path
     $chartelem .= " fill=\"$colour\" stroke=\"#00000A\" stroke-width=\"2\" ";
-    $chartelem .= " fill-opacity=\"0.95\" stroke-linejoin=\"round\">";
+    $chartelem .= " fill-opacity=\"0.95\" stroke-linejoin=\"round\" />";
     $chartelem .= PHP_EOL;
     $dx = $x;      // old end points become new starting point
     $dy = $y;      // id.
