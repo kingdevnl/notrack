@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 21 Nov 2016
+#NoTrack Blocklist updated 23 Nov 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -86,6 +86,7 @@ a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
 a9.com #Amazon
+abbp1.science #Advertising Unknown
 abetterweb.mobi #instartlogic
 abetterweb.org #instartlogic
 abetterweb.us #instartlogic
@@ -405,6 +406,7 @@ analytics.faw.sky.com #Sky
 analytics.gandi.net #Gandi
 analytics.newsinc.com
 analytics.schoolwires.com
+analytics.slashdotmedia.com #Slash dot
 analytics.spotify.com #Spotify tracking ads
 analytics.twitter.com #Twitter
 analytics.yahoo.com #Yahoo
@@ -529,6 +531,7 @@ batchgeo.com
 baw5tracker.com #Lead Forensics
 baynote.net
 bcplayer.net
+bdex.com #Big Data Exchange
 bdg001a.com #Lead Forensics
 beacon.asda.com #Asda
 beacon.groceries.asda.com #Asda
@@ -550,8 +553,8 @@ bettertargeting.com #AppNexus Inc
 bettertradingsolutions.com #AppNexus Inc
 betweendigital.com #Between Digital
 bevyup.com
-bidr.io
-bidswitch.net
+bidr.io #Beeswax
+bidswitch.net #BidSwitch
 bidtheatre.com #BidTheatre
 bidtrk.com
 bigbos.top #Advertising
@@ -567,12 +570,13 @@ bingads.microsoft.com #Microsoft
 bis-dic15.com #Lead Forensics
 bizible.com
 bizographics.com
-bkrtx.com
+bkrtx.com #Oracle
 blackholemyemail.com #Campaign Monitor Pty
 blinkx.com
 blocwhite7.com #Lead Forensics
 blogherads.com
 bluebillywig.com
+bluecava.com #Qualia
 bluekai.com #Oracle
 bluelithium.com
 bluesnapper.au
@@ -628,6 +632,7 @@ brightcovetv.com #Brightcove
 brightedge.com
 brighteroption.com
 brightinfo.com #BrightInfo
+brightpixel.co.uk #Bright Pixel
 brightroll.com #BrightRoll
 brightroll.mobi #BrightRoll
 brightroll.net #BrightRoll
@@ -670,6 +675,7 @@ buysub.com
 bz.io
 c-ctrip.com
 c.msn.com #Microsoft
+c1exchange.com #C1 Exchange
 c3tag.com
 callwindow.com #Digital Window
 callwindow.net #Digital Window
@@ -697,6 +703,7 @@ capslockday.com #Caps Lock Day
 captifymedia.com
 carambo.la
 carbonads.net
+cardlytics.com #Cardlytics
 casalemedia.com
 cash4charities.com #Digital Window
 cash4charity.com #Digital Window
@@ -725,8 +732,8 @@ chameleon.ad #Chameleon
 chango.com
 channeladvisor.com
 channelintelligence.com
-chartbeat.com
-chartbeat.net
+chartbeat.com #Chartbeat
+chartbeat.net #Chartbeat
 cheekygirlz.info #Tracker Unknown
 cheetahmail.com #Experian
 chicdn.net
@@ -746,6 +753,7 @@ clearcode.cc
 click.monetizer.info
 clickadu.com #Clickadu
 clickbank.net
+clickdensity.com #Box UK
 clickfuse.com
 clickio.com
 clicks4ads.com
@@ -1227,6 +1235,7 @@ etahub.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
 eum-appdynamics.com #AppDynamics
+euroads.fi #Euro Ads
 evelinecourt.com #Ad Web
 evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
@@ -1245,6 +1254,7 @@ exebid.ru #Exebid DCA
 exelator.com
 exhaustionlaurenbremsstrahlung.info
 exoclick.com
+exoticads.com #ExoticAds
 exovueplatform.com
 expandengagement.com #Adobe
 exponential.com
@@ -1316,6 +1326,7 @@ friendinsites.com #Keywee
 friendsinsites.com #Keywee
 frm.li
 froo.com
+frtyg.com #Tracker Unknown
 fullstory.com
 futureusmedia.com
 fwmrm.net
@@ -1378,6 +1389,7 @@ goroost.com
 gosquared.com
 gotraffic.net #Unknown Tracker
 gpwebsolutions.co.uk
+graf.ly #Bright Pixel
 grapeshot.co.uk
 graphiq.com #Graphiq
 gravity.com
@@ -1406,6 +1418,7 @@ h-cdn.com #Tracker Unknown
 h1.msn.com #Microsoft
 h2.msn.com #Microsoft
 ha44888.com #HelloWorld
+hackers.lv #Tracker Unknown
 hanapinmarketing.com
 happyfoxchat.com #HappyFox Chat
 hardbouncemyemail.com #Campaign Monitor Pty
@@ -1538,6 +1551,7 @@ impb.us #AppNexus Inc
 impdesk.com
 impressiondesk.com
 imrworldwide.com
+imshopping.com #Blackhawk Network
 in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
@@ -1603,6 +1617,7 @@ ist-track.com
 iterable.com #Iterable
 itsfom.com #Zanox
 iu16wmye.com
+iwanttodeliver.com #Tracking Unknown
 jackship.cn
 jetlore.com #Jetlore
 jetlore.info #Jetlore
@@ -1827,6 +1842,7 @@ metrics.cbc.ca #CBC
 metrics.ctvdigital.net
 metrics.expressen.se #Expressen
 metrics.ikea.com #Ikea
+metrics.marksandspencer.com #Marks and Spencer
 metrics.nt.vc
 metrics.raptr.com #Raptr
 metricswindow.com #Digital Window
@@ -10037,7 +10053,7 @@ mkt998.com #IBM Silverpop
 mkt999.com #IBM Silverpop
 mktoresp.com
 mktoweb.com #Marketo
-ml314.com
+ml314.com #Bombora
 mlnadvertising.com
 mlsend2.com
 mmetrics.com #ComScore
@@ -10132,6 +10148,7 @@ myvirtualdisk.net #TMRG
 myvserv.com #Vserv
 myyage.com #Advertising
 n-core-pipe.com #Lead Forensics
+n121adserv.com #Advertising Unknown
 nanigans.com
 nano-visor.biz #instartlogic
 nano-visor.com #instartlogic
@@ -10325,6 +10342,7 @@ pipeaota.com
 pippio.com #Arbor
 piwik.pro #Piwik PRO
 piwikpro.com #Piwik PRO
+pixel.bild.de #Bild
 pixel.brit.co
 pixel.facebook.com #Facebook
 pixel.honestjohn.co.uk
@@ -10336,6 +10354,7 @@ pixfuture.net
 pixiedust.buzzfeed.com
 pkrchp001.com #Lead Forensics
 pkthop.com #WhiteOps
+playbuzz.com #Playbuzz
 playforprizes.net #Digital Window
 plista.biz #Plista
 plista.com #Plista
@@ -10354,6 +10373,7 @@ polldaddy.com #Polling
 popads.net #Advertising
 popcash.net #Advertising
 popmonetize.com #Advertising
+popmyads.com #Pop My Ads
 popularix.com
 postrelease.com
 postroller.com #BrightRoll
@@ -10503,6 +10523,7 @@ researchresults.com #Reserch Results
 reson8.com.au
 responsetap.com
 retailautomata.com
+returnpath.net #Return Path
 revcontent.com
 revdepo.com #RevenueHits
 revenue-tracker.com #Unknown Tracker
@@ -10777,7 +10798,7 @@ sigopn03.com #Hubspot
 sigopn04.com #Hubspot
 sigopn05.com #Hubspot
 silkenthreadiness.info
-silktide.com
+silktide.com #Silk Tide
 silverpop.com #IBM Silverpop
 simpleheatmaps.com
 simplereach.com
@@ -10880,6 +10901,7 @@ spoteffects.net
 spotxchange.com
 springboardplatform.com
 springserve.com
+sprinkletxt.com #Ballou Internet Services
 spylog.com #OpenStat
 spynet2.microsoft.com #Microsoft
 spynetalt.microsoft.com #Microsoft
@@ -11008,6 +11030,7 @@ thebrighttag.com
 thedailypocket.mobi #Millennial Media
 thehellobar.com #Crazy Egg
 thehut.net
+thepornsurvey.com #Polling
 therelevancegraph.mobi #Millennial Media
 theresulter.com #RevenueHits
 thetacdn.net #Verizon
@@ -11058,6 +11081,7 @@ traffichunt.com
 trafficjunky.net #Ennova Research
 trafficmanager.net
 trafficshop.com
+trafficstars.com #Trafficstars
 trail-web.com #Lead Forensics
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
@@ -11277,6 +11301,7 @@ webtrends.com #WebTrends
 webtrends.telegraph.co.uk #Telegraph
 webtrendslive.com #WebTrends
 webvitality.me
+wedgies.com #Polling
 whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
@@ -11364,6 +11389,7 @@ zemanta.com
 zenaps.com #Digital Window
 zencdn.net #Brightcove
 zepteo.com
+zeusclicks.com #Zeus Clicks
 zhongzifuli.com #Advertising
 zhongzishenqi.com #Advertising
 ziffdavisinternational.com
