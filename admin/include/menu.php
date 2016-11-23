@@ -81,11 +81,12 @@ function action_topmenu() {
  */
 function draw_sidemenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;  
-  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="">DNS Queries</span></a>'.PHP_EOL;
-  echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="">Network</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">Config</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;
+  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="" title="Dashboard">Dashboard</span></a>'.PHP_EOL;
+  echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="" title="DNS Queries">DNS Queries</span></a>'.PHP_EOL;
+  echo '<a href="../admin/blocked.php"><span><img src="./svg/menu_blocked.svg" alt="" title="Sites Blocked">Sites Blocked</span></a>'.PHP_EOL;
+  echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="" title="Network">Network</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="" title="Config">Config</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="" title="Help">Help</span></a>'.PHP_EOL;
   
   echo '<div id="menu-side-bottom"><a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a></div>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
