@@ -92,10 +92,10 @@ function draw_blradioform() {
   
   if ($showblradio) {                            //Are we drawing Form or Show button?
     echo '<form name = "blradform" method="GET">'.PHP_EOL;   //Form for Radio List
-    echo '<input type="hidden" name="v" value="full" />'.PHP_EOL;
-    echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
+    echo '<input type="hidden" name="v" value="full">'.PHP_EOL;
+    echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
     if ($searchbox != '') {
-      echo '<input type="hidden" name="s" value="'.$searchbox.'" />'.PHP_EOL;
+      echo '<input type="hidden" name="s" value="'.$searchbox.'">'.PHP_EOL;
     }    
   
     if ($blradio == 'all') {
@@ -121,7 +121,7 @@ function draw_blradioform() {
   }
   
   echo '</form>'.PHP_EOL;                        //End of either form above
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
 }
 
 
@@ -305,9 +305,9 @@ function show_blocklists() {
   echo '</table></div></div>'.PHP_EOL;
   
   draw_systable('Custom Block Lists');
-  draw_sysrow('Custom', 'Use either Downloadable or Localy stored Block Lists<br /><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['bl_custom']).'</textarea>');
+  draw_sysrow('Custom', 'Use either Downloadable or Localy stored Block Lists<br><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['bl_custom']).'</textarea>');
   
-  echo '</table><br />'.PHP_EOL;
+  echo '</table><br>'.PHP_EOL;
   
   echo '<div class="centered"><input type="submit" class="button-grey" value="Save Changes"></div>'.PHP_EOL;
   echo '</div></div></form>'.PHP_EOL;
@@ -342,7 +342,7 @@ function show_custom_list($view) {
   echo '</div></div></div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
-  echo '<div class="row"><br />'.PHP_EOL;
+  echo '<div class="row"><br>'.PHP_EOL;
   echo '<table id="cfg-custom-table">'.PHP_EOL;
   $i = 1;
 
@@ -412,24 +412,24 @@ function show_domain_list() {
   echo '</div>'.PHP_EOL;
   echo '<div class="sys-items">'.PHP_EOL;
   echo '<span class="key key-red">High</span>'.PHP_EOL;
-  echo '<p>High risk domains are home to a high percentage of Malicious sites compared to legitimate sites. Often they are cheap / free to buy and not well policed.<br />'.PHP_EOL;
+  echo '<p>High risk domains are home to a high percentage of Malicious sites compared to legitimate sites. Often they are cheap / free to buy and not well policed.<br>'.PHP_EOL;
   echo 'High risk domains are automatically blocked, unless you specifically untick them.</p>'.PHP_EOL;
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
   
   echo '<span class="key key-orange">Medium</span>'.PHP_EOL;
   echo '<p>Medium risk domains are home to a significant number of malicious sites, but are outnumbered by legitimate sites. You may want to consider blocking these, unless you live in, or utilise the websites of the affected country.</p>'.PHP_EOL;
   echo '<p>e.g. .pl (Poland) domain used to house a large number of Exploit kits which sat short lived randomly named sites. Traditional blocking is impossible, therefore it can be safer to block the entire .pl domain.</p>'.PHP_EOL;
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
   
   echo '<span class="key">Low</span>'.PHP_EOL;
   echo '<p>Low risk may still house some malicious sites, but they are vastly outnumbered by legitimate sites.</p>'.PHP_EOL;
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
   
   echo '<span class="key key-green">Negligible</span>'.PHP_EOL;
   echo '<p>These domains are not open to the public, therefore extremely unlikely to contain malicious sites.</p>'.PHP_EOL;
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
   
-  echo '<p><b>Shady Domains</b><br />'.PHP_EOL;
+  echo '<p><b>Shady Domains</b><br>'.PHP_EOL;
   echo 'Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';  
   
   echo '</div></div>'.PHP_EOL;
@@ -452,7 +452,7 @@ function show_domain_list() {
   foreach ($list as $site) {
     if ($site[2] == 0) {                         //Zero means draw new table
       echo '</table>'.PHP_EOL;                   //End old table
-      echo '<br />'.PHP_EOL;
+      echo '<br>'.PHP_EOL;
       echo '<p><b>'.$site[1].'</b></p>'.PHP_EOL; //Title of Table
       echo '<table class="tld-table">'.PHP_EOL;  //New Table
       continue;                                  //Jump to end of loop
@@ -481,7 +481,7 @@ function show_domain_list() {
   }
   
   echo '</table>'.PHP_EOL;
-  echo '<div class="centered"><br />'.PHP_EOL;
+  echo '<div class="centered"><br>'.PHP_EOL;
   echo '<input type="submit" class="button-grey" value="Save Changes">'.PHP_EOL;
   echo '</div>'.PHP_EOL;
   echo '</form></div>'.PHP_EOL;          //End table
@@ -525,9 +525,9 @@ function show_full_blocklist() {
   draw_blradioform();
   
   echo '<form method="GET">'.PHP_EOL;            //Form for Text Search
-  echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="v" value="full" />'.PHP_EOL;
-  echo '<input type="hidden" name="blrad" value="'.$blradio.'" />'.PHP_EOL;
+  echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
+  echo '<input type="hidden" name="v" value="full">'.PHP_EOL;
+  echo '<input type="hidden" name="blrad" value="'.$blradio.'">'.PHP_EOL;
   if ($searchbox == '') {                        //Anything in search box?
     echo '<input type="text" name="s" id="search" placeholder="Search">'.PHP_EOL;
   }
@@ -646,8 +646,8 @@ function show_general() {
   draw_sysrow('Started On', $pid_lighttpd[2]);
   //draw_sysrow('Cpu', $pid_lighttpd[3]);
   draw_sysrow('Memory Used', $pid_lighttpd[3].' MB');
-  if ($Config['BlockMessage'] == 'pixel') draw_sysrow('Block Message', '<input type="radio" name="block" value="pixel" checked onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="message" onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');
-  else draw_sysrow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br /><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br />');  
+  if ($Config['BlockMessage'] == 'pixel') draw_sysrow('Block Message', '<input type="radio" name="block" value="pixel" checked onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br><input type="radio" name="block" value="message" onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br>');
+  else draw_sysrow('Block Message', '<input type="radio" name="block" value="pixel" onclick="document.blockmsg.submit()">1x1 Blank Pixel (default)<br><input type="radio" name="block" value="messge" checked onclick="document.blockmsg.submit()">Message - Blocked by NoTrack<br>');  
   echo '</table></div></div></form>'.PHP_EOL;
 
   

@@ -30,7 +30,7 @@ function reportSite(site, blocked, showreport) {
     Msg = "<p>Akami is a Content Delivery Network (CDN) providing media delivery for a wide range of websites.</p><p>It is more efficient to block the originating website, rather than an Akami subdomain.</p>";
   }
   else if (ValidateIPaddress(site)) {            //Is it an IP Address
-    Msg = "<p>Unable to Block IP addresses.<br />You could add it to your Firewall instead</p>";
+    Msg = "<p>Unable to Block IP addresses.<br>You could add it to your Firewall instead</p>";
   }  
   
   else {                                         //Valid site    
