@@ -10,9 +10,9 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <script src="./include/queries.js"></script>
   <title>NoTrack - DNS Stats</title>
@@ -190,17 +190,17 @@ function draw_filterbox() {
   $line = '';
   
   if ($sqltable == 'historic') {
-    $hidden_date_vars = '<input type="hidden" name="datestart" value="'.$datestart.'" /><input type="hidden" name="dateend" value="'.$dateend.'" />'.PHP_EOL;
+    $hidden_date_vars = '<input type="hidden" name="datestart" value="'.$datestart.'"><input type="hidden" name="dateend" value="'.$dateend.'">'.PHP_EOL;
   }
   
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>DNS Queries</h5>'.PHP_EOL;
   echo '<div class="row"><div class="col-half">'.PHP_EOL;
   echo '<form method="get">'.PHP_EOL;
-  echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="view" value="'.$view.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="filter" value="'.$filter.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'" />'.PHP_EOL;
+  echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
+  echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
+  echo '<input type="hidden" name="filter" value="'.$filter.'">'.PHP_EOL;
+  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
   echo $hidden_date_vars;
   echo '<span class="filter">System:</span><select name="sys" onchange="submit()">';
     
@@ -219,10 +219,10 @@ function draw_filterbox() {
   
   echo '<div class="col-half">'.PHP_EOL;
   echo '<form method="get">'.PHP_EOL;
-  echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="view" value="'.$view.'" />'.PHP_EOL;
-  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'" />'.PHP_EOL;
-  echo '<input type="hidden" name="sys" value="'.$sys.'" />'.PHP_EOL;
+  echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
+  echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
+  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
+  echo '<input type="hidden" name="sys" value="'.$sys.'">'.PHP_EOL;
   echo $hidden_date_vars;
   echo '<span class="filter">Filter:</span><select name="filter" onchange="submit()">';
   echo '<option value="'.$filter.'">'.$FILTERLIST[$filter].'</option>'.PHP_EOL;
@@ -235,11 +235,11 @@ function draw_filterbox() {
   if ($sqltable == 'historic') {
     echo '<div class="row">'.PHP_EOL;
     echo '<form method="get">'.PHP_EOL;
-    echo '<input type="hidden" name="page" value="'.$page.'" />'.PHP_EOL;
-    echo '<input type="hidden" name="view" value="'.$view.'" />'.PHP_EOL;
-    echo '<input type="hidden" name="sort" value="'.strtolower($sort).'" />'.PHP_EOL;
-    echo '<input type="hidden" name="filter" value="'.$filter.'" />'.PHP_EOL;
-    echo '<input type="hidden" name="sys" value="'.$sys.'" />'.PHP_EOL;
+    echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
+    echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
+    echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
+    echo '<input type="hidden" name="filter" value="'.$filter.'">'.PHP_EOL;
+    echo '<input type="hidden" name="sys" value="'.$sys.'">'.PHP_EOL;
     echo '<div class="col-half">'.PHP_EOL;
     echo '<span class="filter">Start Date: </span><input name="datestart" type="date" value="'.$datestart.'" onchange="submit()"/>'.PHP_EOL;
     echo '</div>'.PHP_EOL;
@@ -731,7 +731,7 @@ $db->close();
 <span id="statsreport"><input type="submit" class="button-blue" value="Report"></span>
 <!--<span id="statsreport"><a class="button-blue" href="#">Report</a></span>-->
 </form>
-<br />
+<br>
 <div class="centered"><h6 class="button-grey" onclick="HideStatsBox()">Cancel</h6></div>
 <div class="close-button" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></div>
 </div>

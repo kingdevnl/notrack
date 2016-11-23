@@ -11,9 +11,9 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/config.js"></script>
   <script src="./include/menu.js"></script>
   <title>NoTrack - Security</title>  
@@ -155,7 +155,7 @@ if ($show_password_input_form) {
 
       
 if ($message != '') {
-  echo '<br />'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
   echo '<h3>'.$message.'</h3>'.PHP_EOL;
 }
   

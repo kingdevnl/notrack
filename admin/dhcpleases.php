@@ -10,9 +10,9 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <title>NoTrack - DHCP Leases</title>
 </head>
@@ -54,7 +54,7 @@ if (file_exists('/var/lib/misc/dnsmasq.leases')) {
 //No, display tutorial on how to set it up.
 else {
   echo '<p>DHCP is not currently being handled by NoTrack.</p>'.PHP_EOL;
-  echo '<p>In order to enable it, you need to edit Dnsmasq config file.<br />See this video tutorial: <a href="https://www.youtube.com/watch?v=a5dUJ0SlGP0">DHCP Server Setup with Dnsmasq</a></p><br />'.PHP_EOL;
+  echo '<p>In order to enable it, you need to edit Dnsmasq config file.<br>See this video tutorial: <a href="https://www.youtube.com/watch?v=a5dUJ0SlGP0">DHCP Server Setup with Dnsmasq</a></p><br>'.PHP_EOL;
   echo '<iframe width="640" height="360" src="https://www.youtube.com/embed/a5dUJ0SlGP0" frameborder="0" allowfullscreen></iframe>'.PHP_EOL;  
 }
 ?>

@@ -9,10 +9,10 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link href="./css/chart.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link href="./css/chart.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <title>NoTrack Admin</title>
 </head>
@@ -53,10 +53,10 @@ function draw_blocklistbox() {
   exec('pgrep notrack', $pids);
   if(empty($pids)) {
     $rows = count_rows(QRY_BLOCKLIST); 
-    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr /><span>'.number_format(floatval($rows)).'<br />Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr><span>'.number_format(floatval($rows)).'<br>Domains</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   }
   else {    
-    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr /><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./config.php?v=full"><div class="home-nav"><h2>Block List</h2><hr><span>Processing</span><div class="icon-box"><img src="./svg/home_trackers.svg" alt=""></div></div></a>'.PHP_EOL;
   }  
 }
 
@@ -71,10 +71,10 @@ function draw_blocklistbox() {
  */
 function draw_dhcpbox() {
   if (file_exists('/var/lib/misc/dnsmasq.leases')) { //DHCP Active
-    echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr /><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br />Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br>Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
   }
   else {                                           //DHCP Disabled
-    echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr /><span>DHCP Disabled</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
+    echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr><span>DHCP Disabled</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
   }  
 }
 
@@ -108,7 +108,7 @@ function draw_queriesbox() {
     $chartdata = array($allowed, $blocked, $local);
   }
   
-  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr /><span>'.number_format(floatval($total)).'<br />Today'.PHP_EOL;
+  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>'.number_format(floatval($total)).'<br>Today'.PHP_EOL;
   echo '<svg width="20em" height="3em" overflow="visible">'.PHP_EOL;
   echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format(floatval(($allowed/$total)*100)).'% Allowed</text>'.PHP_EOL;
   echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format(floatval(($blocked/$total)*100)).'% Blocked</text>'.PHP_EOL;
@@ -188,8 +188,8 @@ function draw_statusbox() {
     }
   }
 
-  echo '<a href="#"><div class="home-nav"><h2>Status</h2><hr /><br />'.$status_msg.'</div></a>'.PHP_EOL;
-  echo '<a href="#"><div class="home-nav"><h2>Last Updated</h2><hr /><br />'.$date_msg.$date_submsg.'</div></a>'.PHP_EOL;
+  echo '<a href="#"><div class="home-nav"><h2>Status</h2><hr><br>'.$status_msg.'</div></a>'.PHP_EOL;
+  echo '<a href="#"><div class="home-nav"><h2>Last Updated</h2><hr><br>'.$date_msg.$date_submsg.'</div></a>'.PHP_EOL;
 }
 
 
@@ -206,7 +206,7 @@ function draw_sitesblockedbox() {
   
   $rows = count_rows(QRY_LIGHTY);
 
-  echo '<a href="./blocked.php"><div class="home-nav"><h2>Sites Blocked</h2><hr /><span>'.number_format(floatval($rows)).'<br />This Week</span><div class="icon-box"><img src="./svg/home_blocked.svg" alt=""></div></div></a>'.PHP_EOL;
+  echo '<a href="./blocked.php"><div class="home-nav"><h2>Sites Blocked</h2><hr><span>'.number_format(floatval($rows)).'<br>This Week</span><div class="icon-box"><img src="./svg/home_blocked.svg" alt=""></div></div></a>'.PHP_EOL;
 }
 
 
@@ -394,7 +394,7 @@ echo '</div>'.PHP_EOL;
 /*echo '<div class="sys-group"><p>Welcome to the new version of NoTrack v0.8 with a SQL back-end.</p><p>Performance will now be significantly improved reviewing DNS Queries made, and searching Blocked sites list</p>'.PHP_EOL;
 echo '<p>At this point in time the front-end web interface replicates what you have seen in previous versions, but the new back-end will allow for some fancy effects like graphs showing the most persistant trackers your systems have encountered, and the ability to highlight if one of your systems attempted to visit a malicious site</p>'.PHP_EOL;
 echo '<p>Historic DNS logs are no longer available because I stripped Log Time, and System Request out of the files to save on processing power. That information is now stored in the Historic database, unfortunately with the data gone it would mean either spoofing missing data or leaving it alone. You can still access the original files at <code>/var/logs/notrack</code></p></div>'.PHP_EOL;
-//echo '<div class="row"><br /></div>'.PHP_EOL;*/
+//echo '<div class="row"><br></div>'.PHP_EOL;*/
 
 //Is an upgrade Needed?
 if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {      

@@ -8,10 +8,10 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link href="./css/help.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link href="./css/help.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <script src="./include/queries.js"></script>
   <title>NoTrack - Sites Blocked</title>  
@@ -292,12 +292,12 @@ function show_accesstable() {
     
     $table_row .='<td title="'.$user_agent.'"><div class="centered"><img src="./images/useragent/'.$user_agent_array[0].'.png" alt=""><img src="./images/useragent/'.$user_agent_array[1].'.png" alt=""></div></td>';
     
-    $table_row .= '<td>'.highlight_url(htmlentities($row['site'].$row['uri_path'])).'<br />Referrer: '.highlight_url(htmlentities($referrer)).'<br />Requested By: '.$remote_host.'</td></tr>';
+    $table_row .= '<td>'.highlight_url(htmlentities($row['site'].$row['uri_path'])).'<br>Referrer: '.highlight_url(htmlentities($referrer)).'<br>Requested By: '.$remote_host.'</td></tr>';
     
     echo $table_row.PHP_EOL;                     //Echo the table row
   }
   
-  echo '</table><br />'.PHP_EOL;                 //End of table
+  echo '</table><br>'.PHP_EOL;                 //End of table
   pagination($rows, 'view='.$view);              //Draw pagination buttons
   echo '</div>'.PHP_EOL;                         //End Sys-group div
   

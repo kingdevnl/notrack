@@ -8,9 +8,9 @@ ensure_active_session();
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <link href="./css/master.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta charset="UTF-8">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <title>NoTrack - Upgrade</title>
 </head>
@@ -49,14 +49,14 @@ else {                                           //Just displaying status
   if (VERSION == $Config['LatestVersion']) {     //See if upgrade Needed
     draw_systable('NoTrack Upgrade');
     draw_sysrow('Status', 'Running the latest version v'.VERSION);
-    draw_sysrow('Force Upgrade', 'Force upgrade to Development version of NoTrack<br /><input type="submit" class="button-danger" value="Upgrade">');
+    draw_sysrow('Force Upgrade', 'Force upgrade to Development version of NoTrack<br><input type="submit" class="button-danger" value="Upgrade">');
     echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
     echo '</form>'.PHP_EOL;
   }
   else {
     draw_systable('NoTrack Upgrade');
-    draw_sysrow('Status', 'Running version v'.VERSION.'<br />Latest version available: v'.$Config['LatestVersion']);
+    draw_sysrow('Status', 'Running version v'.VERSION.'<br>Latest version available: v'.$Config['LatestVersion']);
     draw_sysrow('Commence Upgrade', '<input type="submit" class="button-blue" value="Upgrade">');
     echo '</table>'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
