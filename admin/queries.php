@@ -483,6 +483,9 @@ function show_group_view() {
   }
   
   echo '</table>'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
+  pagination($rows, 'view='.$view.'&amp;sort='.strtolower($sort).$linkstr);
+  
   echo '</div>'.PHP_EOL;
   $result->free();
 
@@ -563,6 +566,8 @@ function show_live_time() {
   }
   
   echo '</table>'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
+  pagination($rows, 'view='.$view.'&amp;sort='.strtolower($sort).'&amp;filter='.$filter.'&amp;sys='.$sys);
   echo '</div>'.PHP_EOL;
   $result->free();
 
@@ -645,6 +650,8 @@ function show_historic_time() {
   }
   
   echo '</table>'.PHP_EOL;
+  echo '<br>'.PHP_EOL;
+  pagination($rows, htmlspecialchars('view='.$view.'&sort='.strtolower($sort).'&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend));
   echo '</div>'.PHP_EOL;
   $result->free();
 
