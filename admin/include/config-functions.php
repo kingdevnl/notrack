@@ -508,6 +508,7 @@ function show_full_blocklist() {
   $row_class = '';
   $bl_source = '';
   $linkstr = '';
+  $i = 0;
   
   echo '<div class="sys-group">'.PHP_EOL;
   echo '<h5>Sites Blocked</h5>'.PHP_EOL;
@@ -515,14 +516,15 @@ function show_full_blocklist() {
   $rows = count_rows('SELECT COUNT(*) FROM blocklist'.add_searches());
     
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
+  $i = (($page-1) * ROWSPERPAGE) + 1;            //Calculate count position
     
   $query = 'SELECT * FROM blocklist '.add_searches().'ORDER BY id LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   
-  if(!$result = $db->query($query)){
+  if(!$result = $db->query($query)){             //Run the Query
     die('There was an error running the query'.$db->error);
   }
   
-  draw_blradioform();
+  draw_blradioform();                            //Block List selector form
   
   echo '<form method="GET">'.PHP_EOL;            //Form for Text Search
   echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
@@ -540,24 +542,22 @@ function show_full_blocklist() {
   
   if ($result->num_rows == 0) {                  //Leave if nothing found
     $result->free();
-    echo 'No sites found in Block List'.PHP_EOL;
-    echo '</div>';
+    echo 'No sites found in Block List';
     return false;
   }
   
-  echo '<div class="sys-group">';                //Now for the results
-  if ($showblradio) {
-    pagination($rows, 'v=full'.$linkstr.'&amp;blrad='.$blradio);
-  }
-  else {
-    pagination($rows, 'v=full'.$linkstr);
-  }
+  if ($showblradio) {                            //Add selected blocklist to pagination link string
+    $linkstr .= '&amp;blrad='.$blradio;
+  }  
   
+  echo '<div class="sys-group">';                //Now for the results
+  
+  pagination($rows, 'v=full'.$linkstr);          //Pagination box
+    
   echo '<table id="block-table">'.PHP_EOL;
   echo '<tr><th>#</th><th>Block List</th><th>Site</th><th>Comment</th></tr>'.PHP_EOL;
    
-  while($row = $result->fetch_assoc()) {         //Read each row of results
-    
+  while($row = $result->fetch_assoc()) {         //Read each row of results    
     if ($row['site_status'] == 0) {              //Is site enabled or disabled?
       $row_class = ' class="dark"';
     }
@@ -571,10 +571,14 @@ function show_full_blocklist() {
     else {
       $bl_source = $row['bl_source'];
     }
-    echo '<tr'.$row_class.'><td>'.$row['id'].'</td><td>'.$bl_source.'</td><td>'.$row['site'].'</td><td>'.$row['comment'].'</td></tr>'.PHP_EOL;
+    echo '<tr'.$row_class.'><td>'.$i.'</td><td>'.$bl_source.'</td><td>'.$row['site'].'</td><td>'.$row['comment'].'</td></tr>'.PHP_EOL;
+    $i++;
   }
-  echo '</table>'.PHP_EOL;
-  echo '</div>'.PHP_EOL;
+  echo '</table>'.PHP_EOL;                       //End of table
+  
+  echo '<br>'.PHP_EOL;
+  pagination($rows, 'v=full'.$linkstr);          //Pagination box
+  echo '</div>'.PHP_EOL; 
   
   $result->free();
 
