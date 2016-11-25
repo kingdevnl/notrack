@@ -48,8 +48,7 @@ Config[bl_yhosts]=0                              #China yhosts
 # Constants
 #######################################
 readonly VERSION="0.8.2"
-readonly CSV_BLOCKING="/etc/notrack/blocking.csv"
-readonly LISTFILE_BLOCKING="/etc/dnsmasq.d/notrack.list"
+readonly MAIN_BLOCKLIST="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
 readonly FILE_WHITELIST="/etc/notrack/whitelist.txt"
 readonly FILE_DOMAINBLACK="/etc/notrack/domain-blacklist.txt"
@@ -739,7 +738,7 @@ function is_sql_installed() {
 #   None
 #--------------------------------------------------------------------
 function is_update_required() {
-  get_filetime "$LISTFILE_BLOCKING"
+  get_filetime "$MAIN_BLOCKLIST"
   local ListFileTime="$FileTime"
   
   if [ $Force == 1 ]; then
@@ -1121,13 +1120,14 @@ function process_tldlist() {
   local TLDListFileTime=$FileTime
   
   if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?    
+    echo "Not processing Top Level Domain list"
     echo
     return 0                                     #If not then leave function
   fi
   
-  SQLList=()                                     #Zero Arrays
+  SQLList=()                                     #Zero Array
       
-  echo "Processing Top Level Domain List"
+  echo "Processing Top Level Domain list"
   
   while IFS=$'\n' read -r Line
   do
@@ -1159,14 +1159,6 @@ function process_tldlist() {
       fi
     fi
   done < "$CSV_DOMAIN"
-  
-  #Are the Whitelist and CSV younger than processed list in dnsmasq.d?
-  if [ $DomainWhiteFileTime -lt $TLDListFileTime ] && [ $filetime_csvdomain -lt $TLDListFileTime ] && [ $Force == 0 ]; then
-    cat "/etc/notrack/tld.csv" >> "$CSV_BLOCKING"
-    echo "Top Level Domain List is in date, not saving"
-    echo
-    return 0    
-  fi
   
   insert_data "bl_tld"
   
@@ -1365,8 +1357,8 @@ function sortlist() {
   #printf "%s\n" "${SortedList[@]}"              #Uncomment to debug
   echo "Further Deduplicated $Dedup Domains"
   echo "Number of Domains in Block List: ${#DNSList[@]}"
-  echo "Writing block list to $LISTFILE_BLOCKING"
-  printf "%s\n" "${DNSList[@]}" > "$LISTFILE_BLOCKING"
+  echo "Writing block list to $MAIN_BLOCKLIST"
+  printf "%s\n" "${DNSList[@]}" > "$MAIN_BLOCKLIST"
   
   echo
 }
@@ -1573,7 +1565,6 @@ if [ ! -e $FILE_WHITELIST ]; then generate_whitelist
 fi
   
 load_whitelist                                   #Load Whitelist into array
-create_file "$CSV_BLOCKING"                      #Create Block list csv
   
 if [ ! -e "$FILE_BLACKLIST" ]; then generate_blacklist
 fi
@@ -1584,8 +1575,8 @@ create_file "$FILE_DOMAINBLACK"
 is_update_required                               #Check if NoTrack needs to run
 delete_table
 
-create_file "$LISTFILE_BLOCKING"
-cat /dev/null > "$CSV_BLOCKING"                  #Empty file
+create_file "$MAIN_BLOCKLIST"                    #The main notrack.list
+
 
 process_tldlist                                  #Load and Process TLD List
 process_whitelist                                #Process White List
@@ -1633,5 +1624,6 @@ else
 fi
 
 delete_file "/etc/notrack/domain-quick.list"     # DEPRECATED at 0.8.3
+delete_file "/etc/notrack/blocking.csv"          # DEPRECATED at 0.8.3
 echo "NoTrack complete"
 echo
