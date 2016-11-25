@@ -31,8 +31,8 @@ USERNAME=""
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function copy_file() {
-  if [ -e "$1" ]; then
+function copy_file() {  
+  if [ -e "$INSTALL_LOCATION/$1" ]; then
     cp "$INSTALL_LOCATION/$1" "$2"
     echo "Copying $1 to $2"
   else
