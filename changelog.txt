@@ -1,3 +1,13 @@
+Development
+If you upgraded between 21 - 25 November your upgrader will fail
+It will display "WARNING: Unable to find file"
+Please run ntrk-upgrade from terminal:
+cd ~/notrack  (or cd /opt/notrack)
+bash ntrk-updgrade.sh
+Sorry
+-Quids
+
+
 *************************************************
 v0.8.2 Alpha - Released 21 Nov 2016
 Admin:
@@ -9,6 +19,9 @@ Config:
 Scripts:
   notrack-pause performance improved
   notrack-upgrade no longer aborts when files are missing
+
+New blocklists:
+  CHN yhosts (Issue #134)
   
 *************************************************
 
