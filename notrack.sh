@@ -1,7 +1,6 @@
 #!/bin/bash
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
-#Script will also create quick.lists for use by stats.php web page
 #Author : QuidsUp
 #Date : 2015-01-14
 #Usage : sudo bash notrack.sh
@@ -55,7 +54,6 @@ readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
 readonly FILE_WHITELIST="/etc/notrack/whitelist.txt"
 readonly FILE_DOMAINBLACK="/etc/notrack/domain-blacklist.txt"
 readonly FILE_DOMAINWHITE="/etc/notrack/domain-whitelist.txt"
-readonly FILE_QUICKLIST="/etc/notrack/domain-quick.list"
 readonly CSV_DOMAIN="/var/www/html/admin/include/tld.csv"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly CHECKTIME=343800                        #Time in Seconds between downloading lists (4 days - 30mins)
@@ -233,9 +231,9 @@ function addsite() {
     fi
   
     if [ "${WhiteList[$site]}" ] || [ "${WhiteList[${BASH_REMATCH[1]}.${BASH_REMATCH[2]}${BASH_REMATCH[3]}]}" ]; then                 #Is sub.site.domain or site.domain in whitelist?    
-      SQLList+=("\"$site\",\"0\",\"$2\"")              #Add to SQL as Disabled      
+      SQLList+=("\"$site\",\"0\",\"$2\"")        #Add to SQL as Disabled      
     else                                         #No match in whitelist
-      SQLList+=("\"$site\",\"1\",\"$2\"")              #Add to SQL as Active
+      SQLList+=("\"$site\",\"1\",\"$2\"")        #Add to SQL as Active
       SiteList[$site]=true                       #Add site into SiteList array
     fi
   #else
@@ -1096,7 +1094,6 @@ function process_plainlist() {
 #   3. Read users custom TLD list, and compare with Domain WhiteList
 #   4. Results are stored in SQLList, and SiteList These arrays are sent back to get_list() for writing to file.
 #   The Downloaded & Custom lists are handled seperately to reduce number of disk writes in say cat'ting the files together
-#   FILE_QUICKLIST is used to speed up processing in stats.php
 # Globals:
 #   FILE_DOMAINBLACK, FILE_DOMAINWHITE
 #   CSV_DOMAIN
@@ -1123,20 +1120,14 @@ function process_tldlist() {
   get_filetime "/etc/dnsmasq.d/tld.list"
   local TLDListFileTime=$FileTime
   
-  if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?
-    delete_file "/etc/dnsmasq.d/tld.list"      #If not delete the old file, then leave the function
-    delete_file "/etc/notrack/tld.csv"
-    delete_file "$FILE_QUICKLIST"
+  if [ "${Config[bl_tld]}" == 0 ]; then          #Should we process this list according to the Config settings?    
     echo
-    return 0
+    return 0                                     #If not then leave function
   fi
   
   SQLList=()                                     #Zero Arrays
       
   echo "Processing Top Level Domain List"
-  
-  create_file "$FILE_QUICKLIST"                  #Quick lookup file for stats.php
-  cat /dev/null > "$FILE_QUICKLIST"             #Empty file
   
   while IFS=$'\n' read -r Line
   do
@@ -1177,7 +1168,6 @@ function process_tldlist() {
     return 0    
   fi
   
-  printf "%s\n" "${!DomainList[@]}" > $FILE_QUICKLIST
   insert_data "bl_tld"
   
   echo "Finished processing Top Level Domain List"
@@ -1558,11 +1548,10 @@ fi
 #5. Generate WhiteList if it doesn't exist
 #6. Check if Update is required 
 #7. Load WhiteList file into WhiteList associative array
-#8. Create csv file of blocked sites, or empty it
-#9. Process Users Custom BlackList
-#10. Process Other block lists according to Config
-#11. Process Custom block lists
-#12. Sort list and do final deduplication
+#8. Process Users Custom BlackList
+#9. Process Other block lists according to Config
+#10. Process Custom block lists
+#11. Sort list and do final deduplication
 
 check_root                                       #Check if Script run as Root
 is_sql_installed                                 #Check if MariaDB or MySQL is installed
@@ -1576,7 +1565,7 @@ if [ ! -d "/etc/notrack" ]; then                 #Check /etc/notrack folder exis
     error_exit "Unable to create folder /etc/notrack" "2"
   fi
 fi
-  
+
 load_config                                      #Load saved variables
 get_ip                                           #Read IP Address of NetDev
   
@@ -1636,10 +1625,6 @@ get_custom                                       #Process Custom Block lists
 echo "Deduplicated $Dedup Domains"
 sortlist                                         #Sort, Dedup 2nd round, Save list
 
-if [ "${Config[bl_tld]}" == 0 ]; then
-  delete_file "$FILE_QUICKLIST"
-fi
-  
 echo "Restarting Dnsmasq"
 if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
   systemctl restart dnsmasq
@@ -1647,5 +1632,6 @@ else
   service dnsmasq restart
 fi
 
+delete_file "/etc/notrack/domain-quick.list"     # DEPRECATED at 0.8.3
 echo "NoTrack complete"
 echo

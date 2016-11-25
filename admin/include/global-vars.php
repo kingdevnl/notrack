@@ -8,9 +8,7 @@ DEFINE('DBNAME', 'ntrkdb');
 
 DEFINE('ROWSPERPAGE', 200);
 
-$DomainQuickList = '/etc/notrack/domain-quick.list';
 $FileTmpAction = '/tmp/ntrk-exec.txt';
-
 
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
