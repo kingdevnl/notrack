@@ -19,18 +19,21 @@ readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly MAXAGE=88000                            #Just over 1 day in seconds
 readonly MINLINES=50
-readonly VERSION="0.8"
+readonly VERSION="0.8.3"
 
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
 readonly DBNAME="ntrkdb"
 
+CURRENT_DAY="$(date +"%d")"
+CURRENT_DATE="$(date +"%Y-%m-%d")"
+YESTERDAY_DATE="$(date -d "1 day ago" "+%Y-%m-%d")"
+
 #######################################
 # Global Variables
 #######################################
-declare -a logarray
 simpleurl=""
-datestr="$(date +"%Y-%m-%d")"
+declare -a logarray
 
 declare -A commonsites
 commonsites["cloudfront.net"]=true
@@ -378,46 +381,50 @@ function oldprocess_accesslog() {
 
 #Dnsmasq log line consists of:
 #0 - Month (3 characters)
-#1 - Day (d or dd)
-#2 - Time (dd:dd:dd) - Group 1
+#1 - Day (d or dd) - Group 1
+#2 - Time (dd:dd:dd) - Group 2
 #3 - dnsmasq[d{1-6}]
-#4 - Function (query, forwarded, reply, cached, config) - Group 2
-#5 - Query Type [A/AAA] - Group 3
-#5 - Website Requested - Group 4
-#6 - Action (is|to|from) - Group 5
-#7 - Return value - Group 6
+#4 - Function (query, forwarded, reply, cached, config) - Group 3
+#5 - Query Type [A/AAA] - Group 4
+#5 - Website Requested - Group 5
+#6 - Action (is|to|from) - Group 6
+#7 - Return value - Group 7
 
 function process_todaylog() {
   local dedup_answer=""
+  local dns_result=""
   local line=""
-  local -A querylist
-  local -A systemlist
   local url=""
-  local dns_result=""  
+  local -A querylist
+  local -A systemlist  
 
   echo "Processing log file"
     
   for line in "${logarray[@]}"; do
-    if [[ $line =~ ^[A-Z][a-z][a-z][[:space:]][[:space:]]?[0-9]{1,2}[[:space:]]([0-9]{2}\:[0-9]{2}\:[0-9]{2})[[:space:]]dnsmasq\[[0-9]{1,6}\]\:[[:space:]](query|reply|config|\/etc\/localhosts\.list)(\[[A]{1,4}\])?[[:space:]]([A-Za-z0-9\.\-]+)[[:space:]](is|to|from)[[:space:]](.*)$ ]]; then
-      url="${BASH_REMATCH[4]}"
+    if [[ $line =~ ^[A-Z][a-z][a-z][[:space:]][[:space:]]?([0-9]{1,2})[[:space:]]([0-9]{2}\:[0-9]{2}\:[0-9]{2})[[:space:]]dnsmasq\[[0-9]{1,6}\]\:[[:space:]](query|reply|config|\/etc\/localhosts\.list)(\[[A]{1,4}\])?[[:space:]]([A-Za-z0-9\.\-]+)[[:space:]](is|to|from)[[:space:]](.*)$ ]]; then
+      url="${BASH_REMATCH[5]}"
       
-      if [[ ${BASH_REMATCH[2]} == "query" ]]; then
-        if [[ ${BASH_REMATCH[3]} == "[A]" ]]; then         #Only IPv4 (prevent double)
-          querylist[$url]="${BASH_REMATCH[1]}"             #Add time to query array
-          systemlist[$url]="${BASH_REMATCH[6]}"            #Add IP to system array
+      if [[ ${BASH_REMATCH[3]} == "query" ]]; then
+        if [[ ${BASH_REMATCH[4]} == "[A]" ]]; then              #Only IPv4 to prevent double query entries
+          if [[ ${BASH_REMATCH[1]} == "$CURRENT_DAY" ]]; then   #Fix for dealing with date transition 23:50 - 00:10
+            querylist[$url]="$CURRENT_DATE ${BASH_REMATCH[2]}"  #Add current date and time to query array
+          else
+            querylist[$url]="$YESTERDAY_DATE ${BASH_REMATCH[2]}" #Add yesterday date and time to query array
+          fi
+          systemlist[$url]="${BASH_REMATCH[7]}"             #Add IP to system array
         fi      
       elif [[ $url != "$dedup_answer" ]]; then   #Simplify processing of multiple IP addresses returned
         dedup_answer="$url"                      #Deduplicate answer
         if [ "${querylist[$url]}" ]; then        #Does answer match a query?
-          if [[ ${BASH_REMATCH[2]} == "reply" ]]; then dns_result="A"    #Allowed
-          elif [[ ${BASH_REMATCH[2]} == "config" ]]; then dns_result="B" #Blocked
-          elif [[ ${BASH_REMATCH[2]} == "/etc/localhosts.list" ]]; then dns_result="L"
+          if [[ ${BASH_REMATCH[3]} == "reply" ]]; then dns_result="A"    #Allowed
+          elif [[ ${BASH_REMATCH[3]} == "config" ]]; then dns_result="B" #Blocked
+          elif [[ ${BASH_REMATCH[3]} == "/etc/localhosts.list" ]]; then dns_result="L"
           fi
           
           simplify_url "$url"                    #Simplify with commonsites
           
           if [[ $simpleurl != "" ]]; then        #Add row into SQL Table
-            echo "INSERT INTO live (id,log_time,sys,dns_request,dns_result) VALUES ('null','$datestr ${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$dns_result')" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
+            echo "INSERT INTO live (id,log_time,sys,dns_request,dns_result) VALUES ('null','${querylist[$url]}', '${systemlist[$url]}', '$simpleurl', '$dns_result')" | mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME"
           fi
                     
           unset querylist[$url]                  #Delete value from querylist
@@ -428,7 +435,6 @@ function process_todaylog() {
   done
   unset IFS  
 }
-
 #--------------------------------------------------------------------
 # Show Log Age
 #   Echos result of check_logage
