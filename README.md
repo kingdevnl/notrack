@@ -21,3 +21,5 @@ bash install.sh
 
 Point the DNS IP of all your systems to your NoTrack device.
 Or setup DHCP on your NoTrack device using the instructional YouTube video provided.
+  
+Don't want to use the automated installer, no problem, here is a manual [installer guide](https://github.com/quidsup/notrack/wiki/Custom-Install)
