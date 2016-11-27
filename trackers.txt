@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 23 Nov 2016
+#NoTrack Blocklist updated 27 Nov 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -235,6 +235,7 @@ adrecreate.com #Advertising Unknown
 adrequest.net #R van Ingen
 adrichweb.com #Adrich
 adriver.ru
+adrolays.de #Contact Impact
 adroll.com #AdRoll
 adrotate.se
 adrsp.net
@@ -253,6 +254,7 @@ ads.yahoo.com #Yahoo
 ads1.msn.com #Microsoft
 ads2.msn.com #Microsoft
 ads4apps.net #Smaato
+ads4pubs.com #Unknown Advertising
 ads5-adnow.com
 adsafeprotected.com
 adsafety.net #Online Solution Int
@@ -320,6 +322,7 @@ adx1.com #Adsty
 adxite-ads.com #Unknown Advertising
 adxpansion.com #Gammae
 adxpose.com #ComScore
+adxpose.net #comScore
 adxprts.com #Advertising
 adyard.net #Ligatus
 adzerk.com
@@ -371,6 +374,8 @@ ahainternational.com #Ad Web
 ahainternational.net #Ad Web
 ahalogy.com
 aimatch.com
+airwave.asia #Amobee
+airwaveasia.com #Amobee
 alcmpn.com #American List Counsel
 alephd.com #AOL
 alertbot.co.uk
@@ -394,6 +399,9 @@ amap.com
 amazon-adsystem.com
 amessagewithabottle.com #Uknown Tracker
 amgdgt.com #Amobee
+amobee.com #Amobee
+amobee.net #Amobee
+amobee.org #Amobee
 amplience.com #Amplience
 amplitude.com
 amung.us #TBC
@@ -868,12 +876,28 @@ cnzz.com
 codigo.se #Codigo
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
-collective-media.net
+cogocast.net #CogoCast
+collective-media.net #Collective
 collective.com
 collector.githubapp.com #Github
 company-target.com #Demandbase
 comparingmobiles.com #Digital Window
 compete.com
+comscore.biz #comScore
+comscore.com #comScore
+comscore.net #comScore
+comscore.org #comScore
+comscore.us #comScore
+comscoredatagems.com #comScore
+comscoredatamine.com #comScore
+comscoredirect.com #comScore
+comscoredirect.net #comScore
+comscorenetworks.com #comScore
+comscorenetworks.net #comScore
+comscoreresearch.com #comScore
+comscoreresearch.net #comScore
+comscorestudies.com #comScore
+comscorestudies.net #comScore
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
 config.skype.com #Microsoft
@@ -890,6 +914,7 @@ contentfeed.net
 contentquery.net
 contentwindow.com #Digital Window
 contextweb.com
+conversionlogic.net #Conversion Logic
 convertro.com
 conviva.com #Conviva
 conyak.com
@@ -953,6 +978,8 @@ createsend9.com #Campaign Monitor Pty
 creative-serving.com
 creativelibrary.org #AppNexus Inc
 creatormail.co.uk
+crispadvertising.com #Crisp
+crisppremium.com #Crisp
 criteo.biz #Criteo
 criteo.com #Criteo
 criteo.info #Criteo
@@ -975,7 +1002,7 @@ ctd004.net #Experian
 ctd005.net #Experian
 ctd006.net #Experian
 cten10010.com #Lead Forensics
-ctnsnet.com
+ctnsnet.com #Crimtan
 ctscdn.com
 cuebiq.com #Cubiq
 curalate.info #Curulate
@@ -1005,9 +1032,14 @@ dartsearch.net
 data-eroadvertising.com
 data.coremetrics.com
 data.microsoft.com #Microsoft
+databureau.com #comScore
+databureau.net #comScore
+databuro.com #comScore
+databuro.net #comScore
 datacaciques.com
 datacentric.ru #Exebid DCA
 datadrivensolution.com #Tracker Unknown
+daxapi.com #comScore
 dc-storm.com #Rakuten 
 dcoengine.com
 ddf-t1.com #Ysance
@@ -1056,6 +1088,10 @@ digital-et-crm.com #Ysance
 digital-marketing-hub.com #Ysance
 digital-window.com #Digital Window
 digitalanalyticsdatawarehouse.com #WebTrekk
+digitalanalytix.com #comScore
+digitalanalytix.net #comScore
+digitalanalytixmp.com #comScore
+digitalanalytixmp.net #comScore
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
@@ -1132,6 +1168,7 @@ eclkmpsa.com #RevenueHits
 eclkspbn.com #RevenueHits
 eclkspsa.com #RevenueHits
 ecomcbjs.jomodns.com #Baidu
+econommetrics.com #comScore
 ecopute.com #AppNexus Inc
 ecustomeropinions.com
 ed-clr-01.com #Lead Forensics
@@ -1281,6 +1318,7 @@ feedback.windows.com #Microsoft
 feedbackify.com #Feedbackify
 feedmagnet.com
 feedsportal.com
+feedstat.com #comScore
 feng-gui.com #Feng GUI
 fetchback.com
 fidelity-media.com
@@ -1299,6 +1337,8 @@ flx1.com #Teradata
 flxads.com #Teradata
 flxpxl.com #Teradata
 fmpub.net #Federated Media
+focus-site.com #comScore
+focussite.com #comScore
 fogzyads.com
 followistic.com
 footprint.net #Level3
@@ -1329,7 +1369,7 @@ froo.com
 frtyg.com #Tracker Unknown
 fullstory.com
 futureusmedia.com
-fwmrm.net
+fwmrm.net #FreeWheel
 fyre.co
 g.alicdn.com
 g.live.com #Microsoft
@@ -1660,6 +1700,7 @@ klick2contact.mobi #Eckoh
 klick2contact.net #Eckoh
 kmockett.com #Ad Web
 komoona.com
+kontera.com #Amobee
 korrelate.com
 korrelate.net
 krxd.net
@@ -1668,6 +1709,7 @@ labeldecisionnel.net #Ysance
 labeldecisionnel.org #Ysance
 labsmedia.com #ClickHeat
 ladycash.ru
+lanistaads.com #LanistaAds
 laptops2compare.com #Digital Window
 latestprizes.com #Digital Window
 latestprizes.net #Digital Window
@@ -1708,6 +1750,7 @@ liveadexchanger.com
 liveadvert.com
 livefyre.com
 liveperson.net
+livepromotools.com #Unknown Advertising
 liverail.com
 liveramp.com #LiveRamp
 liwio.com #AB Tasty
@@ -1795,6 +1838,7 @@ maxtraffic.com #MaxTraffic
 maxymiser.net
 mbd0.com #Campaign Monitor Pty
 mbd1.com #Campaign Monitor Pty
+mbenchmark.com #comScore
 mc.yandex.ru #Yandex
 mcsecure.mobi
 mcstats.org
@@ -1805,12 +1849,14 @@ media6degrees.com
 mediabong.com #Mediabong
 mediaforge.com #Rakuten
 medialytics.com #Medialets
+mediametrix.com #comScore
 mediamond.it #Mediamond
 medianexusnetwork.com
 mediaplex.com
 mediative.ca #Mediative
 mediative.com #Mediative
 mediavoice.com
+medleyads.com #Unknown Advertising
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
 merchenta.com
@@ -1851,6 +1897,8 @@ mgid.com
 mgsvc.com
 micpn.com
 microsoft-hohm.com #Microsoft
+microsoftpanel.com #comScore
+microsoftpanel.net #comScore
 midrollvideo.com #BrightRoll
 milenar-ads.pt
 millennialmedia.com
@@ -10059,6 +10107,7 @@ mlsend2.com
 mmetrics.com #ComScore
 mmetrics.mobi #ComScore
 mmetrics.net #ComScore
+mmetrics.org #comScore
 mmetrix.mobi #Mobiletech
 mmondi.com
 mmstat.com
@@ -10081,7 +10130,19 @@ mobfox.info #MobFox
 mobfox.org #MobFox
 mobfox.us #MobFox
 mobile-ad-cloud.com #Smaato
+mobileaccesspanel.com #comScore
 mobileapptracking.com
+mobilebenchmarck.com #comScore
+mobilebenchmark.com #comScore
+mobilemarketmeasurement.com #comScore
+mobilemeter.com #comScore
+mobilemeter.net #comScore
+mobilens.com #comScore
+mobilens.net #comScore
+mobilens.us #comScore
+mobilepanel.com #comScore
+mobilepanelist.com #comScore
+mobileruler.com #comScore
 mobiles2compare.com #Digital Window
 mobilesource.net #Digital Window
 mobiletech.no #Mobiletech
@@ -10112,7 +10173,12 @@ mouseflow.net #Mouseflow
 mouseflow.org #Mouseflow
 mouseflow.us #Mouseflow
 moutaihotel.cn #Advertising
+movoxi.com #comScore
+movoxi.net #comScore
+movoxy.com #comScore
+movoxy.net #comScore
 mp.weixin.qq.com #qq
+mpire.com #comScore
 mplxtms.com
 mpstat.us #SOASTA
 mptracking.mobi #MobPartner
@@ -10121,6 +10187,7 @@ msads.net
 msedge.net
 msgf.net #Adestra
 msgfocus.com
+mthsense.com #mthsense
 mxapis.com #maxtraffic.com
 mxcdn.net
 mxlogic.com
@@ -10130,11 +10197,16 @@ myads.com #Rubicon
 myapptv.net #Millennial Media
 myaudience.de
 mybuys.com
+mycomscore.com #comScore
+mycomscore.net #comScore
 mydas.mobi
 mydas.mobi #Millennial Media
 mydefense.info #ShawThing
 myflairware.com #TMRG
 myflairware.net #TMRG
+mymetrix.com #comScore
+mymobilepanel.com #comScore
+mynedstat.com #comScore
 myshou.com #Advertising
 mystats.in
 myswitchads.com
@@ -10169,6 +10241,20 @@ nativeads.com #Native Ads
 nativeads.site #Native Ads
 nativeads.solutions #Native Ads
 nearbyad.com #Rubicon
+nedsms.com #comScore
+nedstad.com #comScore
+nedstat.com #comScore
+nedstat.info #comScore
+nedstat.net #comScore
+nedstat.org #comScore
+nedstatacademy.com #comScore
+nedstatbasic.com #comScore
+nedstatclassic.com #comScore
+nedstatcyclingevent.com #comScore
+nedstatexpertforum.com #comScore
+nedstatipo.com #comScore
+nedstatpro.com #comScore
+nedstatpro.net #comScore
 neodatagroup.com #NeoData Intelligence
 net.ar
 netcommunities.com
@@ -10176,6 +10262,8 @@ netline.com #NetLine
 netmng.com
 netseer.com
 netshelter.net
+netstad.com #comScore
+netstat.asia #comScore
 newrelic.com
 newscurve.com #NeoData Intelligence
 newsinc.com #NewsInc
@@ -10301,6 +10389,7 @@ parsely.com
 partner-ts.groupon.co.uk
 passionfruitads.com
 pawamedia.com #RevenueHits
+pc20160301.com #Unknown Advertising
 pclick.yahoo.com #Yahoo
 pct-upd.info #Sergii Mykolaenko
 pctupd.info #Sergii Mykolaenko
@@ -10366,6 +10455,7 @@ plista.us #Plista
 plugerr.com
 plymedia.com
 po.st
+podstat.com #comScore
 pointroll.com
 polar.me
 polarmobile.com
@@ -10375,6 +10465,7 @@ popcash.net #Advertising
 popmonetize.com #Advertising
 popmyads.com #Pop My Ads
 popularix.com
+post2delicious.com #comScore
 postrelease.com
 postroller.com #BrightRoll
 pow7.com
@@ -10382,6 +10473,7 @@ powertheads.com #AppNexus Inc
 powertheinternet.com #AppNexus Inc
 pp.ru
 ppchero.com
+ppcstat.com #comScore
 ppjol.net
 preroller.com #BrightRoll
 pressfusion.com #Ad Web
@@ -10551,8 +10643,13 @@ rhextpub26.com #RevenueHits
 rhrev.com #RevenueHits
 rhtag.com #RevenueHits
 rhythmxchange.com
+riastat.com #comScore
 richmetrics.com #Burt Corp
 richrelevance.com
+ringringmedia.biz #Amobee
+ringringmedia.com #Amobee
+ringringmedia.mobi #Amobee
+ringringmedia.net #Amobee
 rlcdn.com
 rm0001.net #IBM Silverpop
 rm0002.net #IBM Silverpop
@@ -10682,6 +10779,7 @@ senalcinco.com #Hubspot
 senaldos.com #Hubspot
 senaltres.com #Hubspot
 senaluno.com #Hubspot
+send2delicious.com #comScore
 sendgrid.me
 sendtomyfriend.com #Campaign Monitor Pty
 sensic.net
@@ -10697,6 +10795,7 @@ serving-sys.com
 servingclks.com #CPMStars
 sessioncam.com
 sex-affiliation.com
+sexcount.com #comScore
 sg-living.co.jp
 shadowsmell.com #Advertising
 sharethis.com
@@ -10811,7 +10910,11 @@ siteimprove.net #SiteImprove
 siteimprove.org #SiteImprove
 sitescout.com #Rubicon
 sitescoutadserver.com
-sitestat.com
+sitestat.com #comScore
+sitestat.info #comScore
+sitestat.net #comScore
+sitestatapi.com #comScore
+sitestatnewsletter.com #comScore
 sitetagger.co.uk
 skift.pt
 skiftmedia.pt
@@ -10835,6 +10938,7 @@ smartadserver.org #Smart Ad Server
 smartadserver.us #Smart Ad Server
 smartclip.net
 smarterclick.co.uk
+smartmpanel.com #comScore
 smartology.co #Smartology
 smartology.net #Smartology
 smartstream.tv
@@ -10937,6 +11041,7 @@ stormiq.com
 storymedia.se
 strands.com #Strands
 streamsend.com
+streamsense.com #comScore
 strikead.com
 strk01.email #Hubspot
 strk02.email #Hubspot
@@ -10974,6 +11079,9 @@ surveybit.com #Campaign Monitor Pty
 surveybus.com #Campaign Monitor Pty
 surveyi.com #Surveyi
 surveyrocket.com #Campaign Monitor Pty
+surveysite.com #comScore
+surveysite.net #comScore
+surveysitemail.com #comScore
 survio.com #Survio
 survio.se #Survio
 sw-rail-7.com #Lead Forensics
@@ -10983,7 +11091,6 @@ swoop.com
 swordfishdc.com #Swordfish Inc
 sxxjdz.com #Advertising
 sydjyy.com
-symcb.com #Symantec
 symcd.com #Symantec
 t4p-upd.info #Sergii Mykolaenko
 taboola.com
@@ -11039,6 +11146,7 @@ tic-tic-toc.com
 ticket-genie.com #Digital Window
 tidaltv.com
 tifbs.net #United Internet Media
+tiller.co #Tiller
 timechange.space #Missleading adverts scam
 tiqcdn.com
 tkqlhce.com
@@ -11082,6 +11190,8 @@ trafficjunky.net #Ennova Research
 trafficmanager.net
 trafficshop.com
 trafficstars.com #Trafficstars
+trafficstars.com #Trafficstars
+traffique.net #Unknown Advertising
 trail-web.com #Lead Forensics
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
@@ -11096,7 +11206,7 @@ trkmob1.com #RevenueHits
 trkyme.com
 tru.am #TrueAnthem
 truste-svc.net
-truste.com
+truste.com #TRUSTe
 trusted.site #PathDefender
 trustedsite.com
 truviewanalytics.com #Adobe
@@ -11107,7 +11217,9 @@ tumri.net
 turn.com
 tvappvertising.net #Millennial Media
 tvsquared.com
+tweitgeist.com #comScore
 twisto.cz
+twitstat.com #comScore
 tworismo.com #WhiteOps
 tynt.com
 typekit.net #Adobe
@@ -11117,6 +11229,8 @@ tyskyt.com #YieldBot
 tyskyt.net #YieldBot
 tzcccm.com #Advertising
 uadx.com
+ubiquitv.com #comScore
+ubiquitv.net #comScore
 udmserve.net
 ugdturner.com #CNN
 ugg66.com
@@ -11171,6 +11285,7 @@ upsales.com #Upsales Nordic
 upsales.org #Upsales Nordic
 upsellit.com
 upsiloncdn.net #Verizon
+upsteed.com #Amobee
 upstory.it #BizUp
 uptilt.com #Aurea
 uptilt.net #Aurea
@@ -11226,6 +11341,7 @@ viazza.info
 videoadex.com
 videoamp.com #VideoAmp
 videologygroup.com
+videometrix2.com #comScore
 videopostroll.com #BrightRoll
 videopreroll.com #BrightRoll
 videorev.net #RevenueHits
@@ -11288,6 +11404,7 @@ webspectator.com #WebSpectator
 webspectator.info #WebSpectator
 webspectator.mobi #WebSpectator
 webspectator.us #WebSpectator
+webstat.channel4.com #Channel 4 UK
 webstatsresearch.com #TMRG
 webstatsresearch.net #TMRG
 webtraffic.se #Schibsted
@@ -11306,6 +11423,8 @@ whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
 wikia-beacon.com
+win30000.com #comScore
+win30000.net #comScore
 wistia.com
 wistia.net
 woopra.com
@@ -11396,7 +11515,7 @@ ziffdavisinternational.com
 zkcdn.net
 znaptag.com
 zoomanalytics.co #Zoom Analytics
-zqtk.net
+zqtk.net #comScore
 zsj18.com #Advertising
 zxad.com #Zanox
 zxad.net #Zanox
