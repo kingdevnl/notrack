@@ -34,6 +34,7 @@ $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
 /************************************************
 *Arrays                                         *
 ************************************************/
+$DHCPConfig = array();
 $list = array();                                 //Global array for all the Block Lists
 
 /************************************************
@@ -453,9 +454,9 @@ if (isset($_GET['v'])) {                         //What view to show?
       load_customlist('white', $FileWhiteList);
       show_custom_list('white');
       break;
-    case 'tld':
-      load_csv($CSVTld, 'csv_tld');
-      show_domain_list();     
+    case 'dhcp':
+      load_dhcp();
+      show_dhcp();
       break;
     case 'full':      
       show_full_blocklist();
@@ -465,6 +466,10 @@ if (isset($_GET['v'])) {                         //What view to show?
       break;
     case 'status':
       show_status();
+      break;
+    case 'tld':
+      load_csv($CSVTld, 'csv_tld');
+      show_domain_list();     
       break;
     default:
       show_general();

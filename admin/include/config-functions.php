@@ -383,6 +383,83 @@ function show_custom_list($view) {
 
 
 /********************************************************************
+ *  Load DHCP Values from SQL
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function load_dhcp() {
+  global $DHCPConfig, $db;
+  
+  $query = "SELECT * FROM config WHERE config_type = 'dhcp'";
+  $DHCPConfig['static_hosts'] = '';
+  
+  if (table_exists('config')) {
+    if (count_rows("SELECT COUNT(*) FROM config WHERE config_type = 'dhcp'") == 0) {
+      exec(NTRK_EXEC.'--read dhcp');
+    }    
+    if (count_rows("SELECT COUNT(*) FROM config WHERE config_type = 'dnsmasq'") == 0) {
+      exec(NTRK_EXEC.'--read dnsmasq');
+    }    
+  }
+  else {
+    exec(NTRK_EXEC.'--read dhcp');
+    exec(NTRK_EXEC.'--read dnsmasq');
+  }
+  
+  if(!$result = $db->query($query)) {            //Run the Query
+    die('There was an error running the query'.$db->error);
+  }
+  
+  while($row = $result->fetch_assoc()) {         //Read each row of results
+    switch($row['option_name']) {
+      case 'dhcp-host':
+        $DHCPConfig['static_hosts'] .= $row['option_value'].PHP_EOL;
+        break;
+      case 'dhcp_enabled':
+      case 'dhcp-authoritative':
+      case 'log-dhcp':
+        $DHCPConfig[$row['option_name']] = $row['option_enabled'];
+        break;
+      default:
+        $DHCPConfig[$row['option_name']] = $row['option_value'];
+        break;
+    }    
+  }
+  
+}
+/********************************************************************
+ *  Show Full Block List
+ *    1: DHCPConfig has been loaded from SQL table into Array
+ *    2: Draw form
+ * 
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function show_dhcp() {
+  global $DHCPConfig;
+    
+  echo '<form action="POST">'.PHP_EOL;
+  draw_systable('<strike>DHCP</strike> Work in progress');
+  draw_sysrow('Enabled', '<input type="checkbox" name="enabled" '.is_checked($DHCPConfig['dhcp_enabled']).'>');
+  draw_sysrow('Gateway IP', '<input type="text" name="gateway" value="'.$DHCPConfig['router_ip'].'"><p>Usually the IP address of your Router</p>');
+  draw_sysrow('Range - Start IP', '<input type="text" name="ipstart" value="'.$DHCPConfig['start_ip'].'">');
+  draw_sysrow('Range - End IP', '<input type="text" name="ipend" value="'.$DHCPConfig['end_ip'].'">');
+  draw_sysrow('Authoritative', '<input type="checkbox" name="authoritative"'.is_checked($DHCPConfig['dhcp-authoritative']).'><p>Set the DHCP server to authoritative mode. In this mode it will barge in and take over the lease for any client which broadcasts on the network. This avoids long timeouts
+  when a machine wakes up on a new network. http://www.isc.org/files/auth.html</p>');
+  echo '<tr><td>Static Hosts:</td><td><p><code>System.name,MAC Address,IP to allocate</code><br>e.g. <code>nas.local,11:22:33:aa:bb:cc,192.168.0.5</code></p>';
+  echo '<textarea rows="10" name="static">'.$DHCPConfig['static_hosts'].'</textarea></td></tr>'.PHP_EOL;
+  echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-blue" value="Save Changes"></div></td></tr>'.PHP_EOL;
+  echo '</table></div>'.PHP_EOL;
+  echo '</div></form>'.PHP_EOL;
+}
+ 
+
+/********************************************************************
  *  Show Domain List
  *    1. Load Users Domain Black list and convert into associative array
  *    2. Load Users Domain White list and convert into associative array
@@ -557,7 +634,7 @@ function show_full_blocklist() {
   echo '<table id="block-table">'.PHP_EOL;
   echo '<tr><th>#</th><th>Block List</th><th>Site</th><th>Comment</th></tr>'.PHP_EOL;
    
-  while($row = $result->fetch_assoc()) {         //Read each row of results    
+  while($row = $result->fetch_assoc()) {         //Read each row of results
     if ($row['site_status'] == 0) {              //Is site enabled or disabled?
       $row_class = ' class="dark"';
     }
@@ -694,15 +771,17 @@ function show_general() {
  *    None
  */
 function show_menu() {
-  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<div class="sys-group">'.PHP_EOL;        //System
   echo '<h5>System</h5>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=general"><div class="conf-nav"><img src="./svg/menu_config.svg"><span>General</span></div></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=status"><div class="conf-nav"><img src="./svg/menu_status.svg"><span>Back-end Status</span></div></a>'.PHP_EOL;
   echo '<a href="../admin/security.php"><div class="conf-nav"><img src="./svg/menu_security.svg"><span>Security</span></div></a>'.PHP_EOL;
   echo '<a href="../admin/upgrade.php"><div class="conf-nav"><img src="./svg/menu_upgrade.svg"><span>Upgrade</span></div></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=dhcp"><div class="conf-nav"><img src="./svg/menu_config.svg"><span>Work in progress</span></div></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php?v=dnsmasq"><div class="conf-nav"><img src="./svg/menu_config.svg"><span>Work in progress</span></div></a>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
   
-  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<div class="sys-group">'.PHP_EOL;        //Block lists
   echo '<h5>Block Lists</h5>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=blocks"><div class="conf-nav"><img src="./svg/menu_blocklists.svg"><span>Select Block Lists</span></div></a>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=tld"><div class="conf-nav"><img src="./svg/menu_domain.svg"><span>Top Level Domains</span></div></a>'.PHP_EOL;
@@ -711,7 +790,7 @@ function show_menu() {
   echo '<a href="../admin/config.php?v=full"><div class="conf-nav"><img src="./svg/menu_sites.svg"><span>View Sites Blocked</span></div></a>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
   
-  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<div class="sys-group">'.PHP_EOL;        //Advanced
   echo '<h5>Advanced</h5>'.PHP_EOL;
   echo '<a href="../admin/config.php?v=advanced"><div class="conf-nav"><img src="./svg/menu_advanced.svg"><span>Advanced Options</span></div></a>'.PHP_EOL;
   echo '</div>'.PHP_EOL;

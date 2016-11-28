@@ -134,7 +134,7 @@ function count_rows($query) {
   }
   
   $rows = $result->fetch_row()[0];               //Extract value from array
-  $result->free();    
+  $result->free();
         
   return $rows;
 }
@@ -231,6 +231,24 @@ function is_active_class($currentview, $item) {
     return '';
   }
 }
+
+
+/********************************************************************
+ *  Is Checked
+ *    Used to in forms to determine if tickbox should be checked
+ *  Params:
+ *    value
+ *  Return:
+ *    checked="checked" or nothing
+ */
+ function is_checked($value) {
+  if ($value == 1 || $value == true) {
+    return ' checked="checked"';
+  }
+  
+  return '';
+}
+ 
 
 /********************************************************************
  *  Pagination
@@ -357,6 +375,27 @@ function save_config() {
 }
 
 
+/********************************************************************
+ *  Check SQL Table Exists
+ *    Uses LIKE to check for table name in order to avoid error message.
+ *  Params:
+ *    SQL Table
+ *  Return:
+ *    True or False
+ */
+function table_exists($table) {
+  global $db;
+  $exists = false;
+  
+  $result = $db->query("SHOW TABLES LIKE '$table'");
+  
+  if ($result->num_rows == 1) { 
+    $exists = true;
+  }
+  
+  $result->free();
+  return $exists;
+}
 
 //DEPRECATED
 //Filter Int from GET------------------------------------------------

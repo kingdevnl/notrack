@@ -18,6 +18,11 @@ historic:
 | id (BIG INT) | log_time (DATETIME) | sys (TINYTEXT) | dns_request (TINYTEXT) | dns_result CHAR(1) |
 +--------------+---------------------+----------------+------------------------+--------------------+
 
+config:
++-----------------+----------------------+-------------------------------+---------------------+--------------------------+
+| config_id (INT) | config_type CHAR(15) | option_name (TINYTEXT UNIQUE) | option_value (TEXT) | option_enabled (BOOLEAN) |
++-----------------+----------------------+-------------------------------+---------------------+--------------------------+
+
 users: (not used yet)
 +----------+-----------------+-------------+---------------+
 | id (INT) | user (TINYTEXT) | pass (TEXT) | level CHAR(1) |

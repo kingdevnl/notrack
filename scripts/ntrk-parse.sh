@@ -330,7 +330,7 @@ function process_accesslog() {
       user_agent="${BASH_REMATCH[6]}"
       remote_host="${BASH_REMATCH[7]}"
       if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
-        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path,referrer,user_agent,remote_host) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path', '$referrer', '$user_agent', '$remote_host')"        
+        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path,referrer,user_agent,remote_host) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path', '$referrer', '$user_agent', '$remote_host')"
       fi    
     fi
   done

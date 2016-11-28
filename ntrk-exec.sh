@@ -9,12 +9,18 @@
 
 
 #######################################
+# Global Variables
+#######################################
+
+
+#######################################
 # Constants
 #######################################
 readonly ACCESSLOG="/var/log/ntrk-admin.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly FILE_EXEC="/tmp/ntrk-exec.txt"
 readonly TEMP_CONFIG="/tmp/notrack.conf"
+readonly DNSMASQ_CONF="/etc/dnsmasq.conf"
 
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
@@ -143,6 +149,7 @@ function create_accesslog() {
   fi
 }
 
+
 #--------------------------------------------------------------------
 # Delete History
 #
@@ -166,6 +173,162 @@ delete_history() {
   touch /var/log/lighttpd/error.log              #Create new error log and set privileges
   chown www-data:root /var/log/lighttpd/error.log
   chmod 644 /var/log/lighttpd/error.log
+}
+
+
+#--------------------------------------------------------------------
+# Add Value
+#   Add Value to SQL Config Table
+# Globals:
+#   None
+# Arguments:
+#   1: type
+#   2: option_name
+#   3: option_value
+#   4: option_enabled
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function addvalue() {
+  local enabled=1
+    
+  if [[ $4 == "#" ]]; then
+    enabled=0  
+  fi
+  
+  #echo "'$1','$2','$3','$enabled'"
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO config (config_id, config_type, option_name, option_value, option_enabled) VALUES ('NULL', '$1', '$2', '$3', '$enabled');"  
+}
+
+
+#--------------------------------------------------------------------
+# Read Dnsmasq Config for DHCP values
+#   1: Create config table (if necessary)
+#   2: Delete any old values in config table
+#   3: Read through dnsmasq.conf
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function read_dhcp() {
+  local dhcp_enabled=false
+  local line=""
+  local previous_line=""
+  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type CHAR(15), option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
+  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM config WHERE config_type = 'dhcp';"
+  
+  while IFS=$'\n' read -r line
+  do
+    if [[ $line =~ ^dhcp-range\=([^,]+),([^,]+),(.+)$ ]]; then
+      dhcp_enabled=true
+      addvalue "dhcp" "dhcp_enabled" "" ""
+      addvalue "dhcp" "start_ip" "${BASH_REMATCH[1]}" ""
+      addvalue "dhcp" "end_ip" "${BASH_REMATCH[2]}" ""
+      addvalue "dhcp" "lease_time" "${BASH_REMATCH[3]}" ""
+    elif [[ $line =~ ^dhcp-option\=3,(.+)$ ]]; then
+      addvalue "dhcp" "router_ip" "${BASH_REMATCH[1]}" ""
+    elif [[ $line =~ ^(#?)([^\=]+)\=?(.*)$ ]]; then
+      case "${BASH_REMATCH[2]}" in
+        dhcp-authoritative|log-dhcp)
+          addvalue "dhcp" "${BASH_REMATCH[2]}" "" "${BASH_REMATCH[1]}"
+          ;;
+        dhcp-host)           #Option + Value
+          if [[ ${BASH_REMATCH[1]} == "" ]]; then
+            if [[ ${previous_line:0:1} == "#" ]]; then
+              addvalue "dhcp" "${BASH_REMATCH[2]}" "${previous_line:1},${BASH_REMATCH[3]}" "${BASH_REMATCH[1]}"
+            else
+              addvalue "dhcp" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}" "${BASH_REMATCH[1]}"
+            fi
+          fi
+          ;;
+      esac
+      previous_line="$line"
+    fi
+  done < "$DNSMASQ_CONF" 
+  
+  if [[ $dhcp_enabled == false ]]; then          #Add default values if DHCP is disabled
+    addvalue "dhcp" "dhcp_enabled" "" "#"
+    addvalue "dhcp" "start_ip" "192.168.0.50" ""
+    addvalue "dhcp" "end_ip" "192.168.0.150" ""
+    addvalue "dhcp" "lease_time" "12h" ""
+    addvalue "dhcp" "router_ip" "192.168.0.254" ""
+  fi
+  unset IFS
+}
+
+
+#--------------------------------------------------------------------
+# Read Dnsmasq Config
+#   1: Create config table (if necessary)
+#   2: Delete any old values in config table
+#   3: Read through dnsmasq.conf
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+# Regex:
+#   1: Exclude Comment line
+#   2: Group 1 - Disabled option, Group 2 - option_name, Group 3 - option_value
+#--------------------------------------------------------------------
+function read_dnsmasq() {
+  local line=""
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type CHAR(15), option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
+  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM config WHERE config_type = 'dnsmasq';"
+  
+  while IFS=$'\n' read -r line
+  do
+    if [[ ! $line =~ ^#[[:space:]] ]]; then
+      if [[ $line =~ ^(#?)([^\=]+)\=?(.*)$ ]]; then
+        #echo "${BASH_REMATCH[1]} - ${BASH_REMATCH[2]} - ${BASH_REMATCH[3]}"
+        case "${BASH_REMATCH[2]}" in
+          bogus-priv|bind-interfaces|dnssec|dnssec-check-unsigned|filterwin2k) #Option
+            addvalue "dnsmasq" "${BASH_REMATCH[2]}" "" "${BASH_REMATCH[1]}"
+            ;;
+          enable-ra|log-queries|log-async|no-resolv)                     #Option
+            addvalue "dnsmasq" "${BASH_REMATCH[2]}" "" "${BASH_REMATCH[1]}"
+            ;;
+          resolv-file|addn-hosts|cache-size|conf-file|ipset|interface)   #Option +  Value
+            addvalue "dnsmasq" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}" "${BASH_REMATCH[1]}"
+            ;;
+          listen-address|local-ttl|log-facility)           #Option + Value
+            addvalue "dnsmasq" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}" "${BASH_REMATCH[1]}"
+            ;;
+          server)                                          #Enabled values only
+            if [[ ${BASH_REMATCH[1]} == "" ]]; then
+              addvalue "dnsmasq" "server" "${BASH_REMATCH[3]}" ""
+            fi
+            ;;
+        esac
+      fi
+    fi
+  done < "$DNSMASQ_CONF"
+  
+  unset IFS
+}
+
+
+#--------------------------------------------------------------------
+# Write Dnsmasq Config
+#
+# Globals:
+#   USER, PASSWORD, DBNAME
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function write_dnsmasq() {
+  echo "here"
 }
 
 
@@ -226,7 +389,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,pause:,copy: -- "$@"); then
+  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,read:,write:,pause:,copy: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -273,6 +436,13 @@ if [ "$1" ]; then                         #Have any arguments been given
         echo "$pausetime"        
         /usr/local/sbin/ntrk-pause --pause "$pausetime"  > /dev/null &
       ;;
+      --read)
+        if [[ $2 == "'dnsmasq'" ]]; then
+          read_dnsmasq
+        elif [[ $2 == "'dhcp'" ]]; then
+          read_dhcp
+        fi
+      ;;
       --restart)
         reboot > /dev/null &
       ;;
@@ -290,7 +460,12 @@ if [ "$1" ]; then                         #Have any arguments been given
       ;;
       --upgrade)
         upgrade_notrack
-      ;;            
+      ;;
+      --write)
+        if [[ $2 == "'dnsmasq'" ]]; then
+          write_dnsmasq 
+        fi         
+      ;;
       (--) shift; break;;
       (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 6;;
       (*) break;;
