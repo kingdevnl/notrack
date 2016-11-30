@@ -58,14 +58,18 @@ if (isset($_POST['action'])) {
       sleep(1);                                  //Short pause to prevent race condition
       header('Location: ?v=blocks');             //Reload page
       break;
-    case 'webserver':      
+    case 'dhcp':
+      update_dhcp();
+      header('Location: ?v=dhcp');               //Reload to DHCP
+      break;
+    case 'webserver':
       update_webserver_config();
-      save_config();      
+      save_config();
       header('Location: ?');
-      break;    
+      break;
     case 'stats':
       if (update_stats_config()) {
-        save_config();        
+        save_config();
         sleep(1);                                //Short pause to prevent race condition
         header('Location: ?');
       }
@@ -76,7 +80,7 @@ if (isset($_POST['action'])) {
       sleep(1);                                  //Prevent race condition
       header('Location: ?v=tld');                //Reload page
       break;
-    default:      
+    default:
       die('Unknown POST action');
   }
 }
@@ -318,6 +322,142 @@ function update_stats_config() {
 }
 
 
+/********************************************************************
+ *  Add Config Record
+ *    Add new record to config table
+ *  Params:
+ *    type, name, value, enabled
+ *  Return:
+ *    None
+ */
+function add_config_record($config_type, $option_name, $option_value, $option_enabled) {
+  global $db;
+  
+  $query = "INSERT INTO config (config_id, config_type, option_name, option_value, option_enabled) VALUES(null, '$config_type', '$option_name', '$option_value', '$option_enabled')";
+    
+  if (! $db->query($query)) {
+    die('add_config_record Error: '.$db->error);
+  }
+  
+  return null;
+}
+
+/********************************************************************
+ *  Delete Config Record
+ *    Delete records from config table
+ *  Params:
+ *    type, name
+ *  Return:
+ *    None
+ */
+function delete_config_record($config_type, $option_name) {
+  global $db;
+  
+  $query = "DELETE FROM config WHERE config_type = '$config_type' AND option_name = '$option_name'";
+    
+  if (! $db->query($query)) {
+    die('delete_config_record Error: '.$db->error);
+  }
+    
+  return null;
+}
+
+
+/********************************************************************
+ *  Update Config Record
+ *    1: Search for the ID of option_name
+ *    2: If record can't be found then set query to add value
+ *  Params:
+ *    type, name, value, enabled
+ *  Return:
+ *    None
+ */
+function update_config_record($config_type, $option_name, $option_value, $option_enabled) {
+  global $db;
+  
+  $config_id = 0;
+  $query = '';
+  
+  $result = $db->query("SELECT * FROM config WHERE config_type = '$config_type' AND option_name = '$option_name'");
+  
+  if ($result->num_rows > 0) {                       #Has anything been found?
+    $config_id = $result->fetch_object()->config_id; #Get the ID number
+  }
+  
+  if ($config_id > 0) {                          #ID > 0 means an existing record was found
+    $query = "UPDATE config SET option_value = '$option_value', option_enabled = '$option_enabled' WHERE config_id = '$config_id'";
+  }
+  else {                                         #Nothing found, add new record
+    $query = "INSERT INTO config (config_id, config_type, option_name, option_value, option_enabled) VALUES(null, '$config_type', '$option_name', '$option_value', '$option_enabled')";
+  }
+  
+  if (! $db->query($query)) {
+    die('update_config_record Error: '.$db->error);
+  }
+  
+  $result->free();
+  return null;
+}
+/********************************************************************
+ *  Update DHCP
+ *    dhcp-enabled, and dhcp-authoritative are tick boxes
+ *    router_ip, start_ip, end_ip are all IP addresses, use filter_var to validate
+ *    Its not easy to update the dhcp-host's, so we delete them and then re-add
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ *  Regex:
+ *    Group 1: anthing up to first comma ,
+ *    Group 2: MAC Address
+ *    Group 3: IPv4 or IPv6 address
+ */
+function update_dhcp() {
+  global $db;
+  
+  
+  $hosts = array();
+  $matches = array();
+  $host = '';
+  
+  update_config_record('dhcp', 'dhcp_enabled', '', isset($_POST['enabled']));
+  update_config_record('dhcp', 'dhcp-authoritative', '', isset($_POST['authoritative']));
+  
+  if (isset($_POST['router_ip'])) {
+    if (filter_var($_POST['router_ip'], FILTER_VALIDATE_IP) !== false) {
+      update_config_record('dhcp', 'router_ip', $_POST['router_ip'], true);
+    }    
+  }
+  if (isset($_POST['start_ip'])) {
+    if (filter_var($_POST['start_ip'], FILTER_VALIDATE_IP) !== false) {
+      update_config_record('dhcp', 'start_ip', $_POST['start_ip'], true);
+    }    
+  }
+  if (isset($_POST['end_ip'])) {
+    if (filter_var($_POST['end_ip'], FILTER_VALIDATE_IP) !== false) {
+      update_config_record('dhcp', 'end_ip', $_POST['end_ip'], true);
+    }    
+  }
+  
+  delete_config_record('dhcp', 'dhcp-host');
+  if (isset($_POST['static'])) {                 //Need to split textbox into seperate lines
+    $hosts = explode(PHP_EOL, strip_tags($_POST['static'])); #Prevent XSS
+    
+    foreach($hosts as $host) {                   //Read each line
+      //Check for Name,MAC,IP or MAC,IP
+      //Add record if it is valid
+      if (preg_match('/^([^,]+),([a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}),([a-f\d:\.]+)/', $host, $matches) > 0) {
+        add_config_record('dhcp', 'dhcp-host', $matches[0], true);
+      }
+      elseif (preg_match('/([a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}),([a-f\d:\.]+)/', $host, $matches) > 0) {
+        add_config_record('dhcp', 'dhcp-host', $matches[0], true);
+      }
+    }
+  }
+  
+  return null;
+}
 /********************************************************************
  *  Update Domian List
  *
