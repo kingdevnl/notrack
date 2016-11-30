@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 27 Nov 2016
+#NoTrack Blocklist updated 30 Nov 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1051,6 +1051,7 @@ decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
 deliverimp.com #Tracker Unknown
+delivery.inserthtml.com #Advertising Unknown
 deltadevconfirmsubscription.com #Campaign Monitor Pty
 deltadevcreatesend.com #Campaign Monitor Pty
 deltatestconfirmsubscription.com #Campaign Monitor Pty
@@ -1683,6 +1684,7 @@ jwpltx.com
 k-analytix.com
 kaloo.ga #Kalooga
 kalooga.com #Kalooga
+kampyle.com #Kampyle
 kastatic.com
 kau.li
 kawa11.space #Adverts
@@ -1857,6 +1859,7 @@ mediative.ca #Mediative
 mediative.com #Mediative
 mediavoice.com
 medleyads.com #Unknown Advertising
+mellowads.com #Mellow Ads
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
 merchenta.com
@@ -11025,6 +11028,7 @@ stats.ebay.com #eBay
 stats.ft.com #Financial Times
 stats.g.doubleclick.net #Google
 stats.l.doubleclick.net #Google
+stats.paypal.com #PayPal
 stats.royalbank.com #Canadian Royal Bank
 stats.wp.com #Wordpress
 statsfe1.ws.microsoft.com #Microsoft
@@ -11457,6 +11461,7 @@ ybx.io #Yield Bids
 yellgroup.com
 yellowdragonsoft.com #Adobe
 yenton.org #Ad Web
+yesware.com #Yesware
 yieldify.com
 yieldlab.net
 yieldmanager.com
