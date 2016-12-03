@@ -25,7 +25,7 @@ readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
 readonly DBNAME="ntrkdb"
 
-CURRENT_DAY="$(date +"%d")"
+CURRENT_DAY="$(date +"%e")"
 CURRENT_DATE="$(date +"%Y-%m-%d")"
 YESTERDAY_DATE="$(date -d "1 day ago" "+%Y-%m-%d")"
 
@@ -110,7 +110,7 @@ function check_logage() {
   local unixtime=0
   
   log_time=$(mysql -sN --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "SELECT log_time FROM live ORDER BY log_time LIMIT 1;")
-  #echo "Log Time:$log_time"
+  echo "Log Time:$log_time"
   
   if [[ $log_time == "" ]]; then                 #Anything returned? CHECK THIS VALUE
     echo "No log time found"
@@ -119,7 +119,7 @@ function check_logage() {
   
   log_epoch=$(date +"%s" -d "$log_time")         #Convert YYYY-MM-DD hh:mm:ss to epoch
   unixtime=$(date +"%s")                         #Get current epoch time
-    
+  
   if [ $((unixtime-log_epoch)) -gt $MAXAGE ]; then         #Check age
     if [ "$(((unixtime-log_epoch)/86400))" -gt 254 ]; then #Avoid error values > 254
       return 254
