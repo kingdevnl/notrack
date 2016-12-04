@@ -25,7 +25,7 @@ readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
 readonly DBNAME="ntrkdb"
 
-CURRENT_DAY="$(date +"%e")"
+CURRENT_DAY="$(date +"%d")"
 CURRENT_DATE="$(date +"%Y-%m-%d")"
 YESTERDAY_DATE="$(date -d "1 day ago" "+%Y-%m-%d")"
 
@@ -406,7 +406,7 @@ function process_todaylog() {
       
       if [[ ${BASH_REMATCH[3]} == "query" ]]; then
         if [[ ${BASH_REMATCH[4]} == "[A]" ]]; then              #Only IPv4 to prevent double query entries
-          if [[ ${BASH_REMATCH[1]} == "$CURRENT_DAY" ]]; then   #Fix for dealing with date transition 23:50 - 00:10
+          if [[ ${BASH_REMATCH[1]} == "$CURRENT_DAY" ]]; then   #Fix for dealing with date transition 23:50 - 00:10            
             querylist[$url]="$CURRENT_DATE ${BASH_REMATCH[2]}"  #Add current date and time to query array
           else
             querylist[$url]="$YESTERDAY_DATE ${BASH_REMATCH[2]}" #Add yesterday date and time to query array
@@ -574,6 +574,10 @@ if [ "$1" ]; then                                #Have any arguments been given
     esac
     shift
   done
+fi
+
+if [[ $CURRENT_DAY =~ ^0([0-9])$ ]]; then         #Trim leading zero from single digit date
+  CURRENT_DAY="${BASH_REMATCH[1]}"  
 fi
 
 #Between 04:00 - 04:20 Its time to copy Live to Historic
