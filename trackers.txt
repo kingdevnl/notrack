@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 30 Nov 2016
+#NoTrack Blocklist updated 04 Dec 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1109,6 +1109,7 @@ dispatcho3.com #Campaign Monitor Pty
 displaymarketplace.com
 displaywords.com #AppNexus Inc
 displaywords.net #AppNexus Inc
+disqusads.com #Disqus
 dl-rms.com
 dl.delivery.mp.microsoft.com #Microsoft
 dleke.com #Advertising
