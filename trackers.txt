@@ -10463,7 +10463,6 @@ podstat.com #comScore
 pointroll.com
 polar.me
 polarmobile.com
-polldaddy.com #Polling
 popads.net #Advertising
 popcash.net #Advertising
 popmonetize.com #Advertising
