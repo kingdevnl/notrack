@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 04 Dec 2016
+#NoTrack Blocklist updated 10 Dec 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -130,6 +130,8 @@ adbutter.net #Makazi Group
 adc-srv.net #ADC Media
 adcash.com
 adcentriconline.com
+adclick.stuff.co.nz #Stuff
+adcolony.com #AdColony
 addeluxe.jp
 addmediaclick.com #AppNexus Inc
 addnexus.com #AppNexus Inc
@@ -156,6 +158,7 @@ adformdsp.net #Adform
 adfront.org #BuySellAds
 adfuture.cn #Tracker Unknown
 adgenie.co.uk #Ve Interactive
+adgiant.io #AdGiant
 adgibbon.com #AdGibbon
 adgibbon.mobi #AdGibbon
 adglare.net
@@ -234,6 +237,7 @@ adrecover.com #AdRecover
 adrecreate.com #Advertising Unknown
 adrequest.net #R van Ingen
 adrichweb.com #Adrich
+adrise.tv #asRise
 adriver.ru
 adrolays.de #Contact Impact
 adroll.com #AdRoll
@@ -246,8 +250,10 @@ ads-creativesyndicator.com
 ads-fa.spotify.com #Spotify tracking ads
 ads-for-apps.com #Smaato
 ads-verify.net
+ads.diamonds #msales
 ads.ebay.com #eBay
 ads.fineco.it #Fineco
+ads.gold #msales
 ads.hearstmags.com
 ads.msn.com #Microsoft
 ads.yahoo.com #Yahoo
@@ -265,6 +271,7 @@ adsclean.com
 adsensecustomsearchads.com
 adserver.pandora.com #Pandora radio
 adsfac.eu
+adshole.click #msales
 adsignify.net
 adsmobi.com #Smaato
 adsmobi.info #Smaato
@@ -285,6 +292,7 @@ adsymptotic.com
 adtarget.me
 adtech.de
 adtechus.com
+adtilt.com #Advertising Unknown
 adtoma.com #Adtoma
 adtoma.mobi #Adtoma
 adtomafusion.net #Adtoma
@@ -301,6 +309,7 @@ advertising.amazon.co.uk #Amazon
 advertising.aol.com #AOL
 advertising.bbcworldwide.com
 advertising.com #AOL
+advertising.microsoft.com #Microsoft
 advertisingwouldbegreat.com #Advertising Unknown
 adverts.itv.com #ITV
 advertserve.com
@@ -330,6 +339,7 @@ adzerk.net
 adzhub.com
 adzip.co #Adbox Digital
 aegdigitalgroup.com
+aerserv.com #AerServ
 aetna.com #IBM Silverpop
 aetterweb.info #instartlogic
 affec.tv
@@ -402,6 +412,7 @@ amgdgt.com #Amobee
 amobee.com #Amobee
 amobee.net #Amobee
 amobee.org #Amobee
+ampaign.click #msales
 amplience.com #Amplience
 amplitude.com
 amung.us #TBC
@@ -413,6 +424,7 @@ analytics.ccs.mcafee.com #McAfee
 analytics.faw.sky.com #Sky
 analytics.gandi.net #Gandi
 analytics.newsinc.com
+analytics.sapo.pt #Sapo
 analytics.schoolwires.com
 analytics.slashdotmedia.com #Slash dot
 analytics.spotify.com #Spotify tracking ads
@@ -516,9 +528,12 @@ auditorius.ru #iAge
 auditude.com
 audtd.com #iAge
 augur.io
+austin.logs.roku.com #Roku
 autenticadas.com #Advertising Unknown
 authorisationimprint.com
 aweber.com
+awesomedealz.click #msales
+awesomeoffers247.com #msales
 awin1.com #Digital Window
 awin2.com #Digital Window
 awin3.com #Digital Window
@@ -528,6 +543,7 @@ awmetrics.com #Digital Window
 azalead.com
 azdx.net #Ascio Technologies
 azera-s014.com #Lead Forensics
+babebrkrflow.com #msales
 bae5tracker.com #Lead Forensics
 bandelcot.com
 bannerflow.com #Bannerflow
@@ -549,6 +565,8 @@ begun.ru
 behancemanage.com #Adobe
 behavior.com #Adobe
 berg-6-82.com #Lead Forensics
+bestdealmedia.click #msales
+bestdealonearth.click #msales
 beta-i.pt #Beta-i
 betrad.com
 betteradserving.com #AppNexus Inc
@@ -573,6 +591,7 @@ bigdata.adups.com #Chinese Android Data Collection
 bigdata.advmob.cn #Chinese Android Data Collection
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
+billmscurlrev.com #msales
 bing.net #Microsoft
 bingads.microsoft.com #Microsoft
 bis-dic15.com #Lead Forensics
@@ -608,6 +627,7 @@ bopartners.optimus.pt
 bosctrl32.com #Lead Forensics
 bounceexchange.com
 brainboxdigital.com #BrainBox Digital
+branch.io #Branch Metrics
 brand-server.com
 brandcrumb.com
 brandgatekeeper.com #Traffic Cake
@@ -665,6 +685,7 @@ btrll.net #BrightRoll
 btrll.org #BrightRoll
 btstatic.com
 bttrack.com #Bidtellect
+bttrbryrvsflw.com #msales
 btttag-a.com #Blue Triangle Tech
 btttag.com #Blue Triangle Tech
 budgetedbauer.com #Tracker Unknown
@@ -688,6 +709,7 @@ c3tag.com
 callwindow.com #Digital Window
 callwindow.net #Digital Window
 campaignmonitor.com #Campaign Monitor Pty
+campaigntrx.com #msales
 canddi.business #CANDDi
 canddi.com #CANDDi
 canddi.deals #CANDDi
@@ -725,6 +747,9 @@ cctyly.com #Advertising
 cdf-anon.gtm.xboxlive.com #Microsoft
 cdn-net.com
 cdngc.net
+cdnh1.net #Team Internet AG
+cdnh2.net #Team Internet AG
+cdnh3.net #Team Internet AG
 cds26.ams9.msecnd.net #Microsoft
 cedexis-radar.net #Cedexis Radar
 cedexis-test.com #Cedexis Radar
@@ -762,8 +787,10 @@ click.monetizer.info
 clickadu.com #Clickadu
 clickbank.net
 clickdensity.com #Box UK
+clickfordeal.click #msales
 clickfuse.com
 clickio.com
+clickpalace.com #msales
 clicks4ads.com
 clickshift.com #WebTrends
 clicktale.net
@@ -923,6 +950,8 @@ cookielesstargeting.net #YieldBot
 cookielesstargeting.org #YieldBot
 cookiesv2.publiekeomroep.nl
 cookiesync.vertamedia.com
+coolander247.click #msales
+cooldeal.click #msales
 coremetrics.com.edgekey.net #EdgeKey
 coremetrics.eu
 corp.aol.com #AOL
@@ -986,6 +1015,7 @@ criteo.info #Criteo
 criteo.net #Criteo
 criteo.org #Criteo
 criteo.us #Criteo
+croredbomsmt.com #msales
 crosspixel.net #Cross Pixel
 crowdignite.com
 crsspxl.com #Cross Pixel
@@ -1047,6 +1077,9 @@ ddf-t2.com #Ysance
 ddf-t3.com #Ysance
 de.coremetrics.com
 de17a.com #AdAction
+dealfarm.info #msales
+dealitright.click #msales
+dealzcamp.com #msales
 decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
@@ -1058,6 +1091,7 @@ deltatestconfirmsubscription.com #Campaign Monitor Pty
 deltatestcreatesend.com #Campaign Monitor Pty
 demandbase.com #Demandbase
 demdex.com #Adobe
+demdex.net #Adobe
 demdexpartner.com #Adobe
 demdextest.com #Adobe
 demographicprofiling.com #Adobe
@@ -1079,6 +1113,8 @@ devnexus.net #AppNexus Inc
 devnxs.net #AppNexus Inc
 dexometer.com #Adobe
 diagnostics.support.microsoft.com #Microsoft
+diamondeal.click #msales
+diamondmedia.click #msales
 dianalytics.com #Adobe
 dianomi.com
 diaobanstudio.com #Advertising
@@ -1136,6 +1172,7 @@ dpmetro.mobi #Millennial Media
 dpmsrv.com
 dqna.net
 dressipi.com #Style website which offers analytics for other retailers
+drptst.com #msales
 dsply.com
 dtc-330d.com #Lead Forensics
 dtc-v6t.com #Lead Forensics
@@ -1237,7 +1274,8 @@ emailreporting.com #Campaign Monitor Pty
 emailreports.info #Campaign Monitor Pty
 emailretargeting.com
 emark.nl #Emark
-embed.ly
+embed.ly #Embedly
+embedly.com #Embedly
 emediate.com #Cxsense
 emediate.dk #Cxsense
 emediate.eu #Cxsense
@@ -1261,6 +1299,7 @@ eprizefulfillment.com #HelloWorld
 eqads.com
 erne.co
 ero-advertising.com
+erombflowms.com #msales
 errorception.com #Rakesh Pai
 esearchvision.com
 esla.biz #Ad Web
@@ -1309,6 +1348,7 @@ ezp.bz
 face3media.com
 facetz.net #Exebid DCA
 facetz.ru #Exebid DCA
+fairsharelabs.com #Fairshare
 fallingfalcon.com #Tracker Unknown
 fancybar.net #BuySellAds
 fantuition.com #AppNexus Inc
@@ -1328,6 +1368,7 @@ fimserve.com
 final-aws-01.com #Lead Forensics
 final-azr-01.com #Lead Forensics
 findingflowers.com #Digital Window
+firethepixel.click #msales
 fits.me
 flagcounter.com
 flashtalking.com
@@ -1335,6 +1376,7 @@ flex.msn.com #Microsoft
 flexlinks.com
 flite.com
 flix360.com #Flix 360
+flurry.com #Yahoo
 flx1.com #Teradata
 flxads.com #Teradata
 flxpxl.com #Teradata
@@ -1364,12 +1406,14 @@ freegreatapps.com #MdotM
 freeskreen.com #SlimCut Media
 freewall.com #AppNexus Inc
 fresh8.co
+freshmedia.click #msales
 friendinsites.com #Keywee
 friendsinsites.com #Keywee
 frm.li
 froo.com
 frtyg.com #Tracker Unknown
 fullstory.com
+fungetbag.info #Tracker Unknown
 futureusmedia.com
 fwmrm.net #FreeWheel
 fyre.co
@@ -1377,6 +1421,8 @@ g.alicdn.com
 g.live.com #Microsoft
 g.msn.com #Microsoft
 gaheatmaps.com #PTEngine
+galacticoffers.com #msales
+gameofoffers.com #msales
 gamned.com
 gardendiscount.com #Digital Window
 gator.io
@@ -1406,6 +1452,8 @@ getsidekick.com #Hubspot
 gettally.com #Hubspot
 gettraff.com
 ghostery.com #Ghostery Enterprise
+giga.logs.roku.com #Roku
+gigabytedealz.com #msales
 gigya.com
 gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
@@ -1415,6 +1463,8 @@ gldsta-02-or.com
 gleam.io #Gleam
 gleamio.com #Gleam
 glimr.io #GLIMR
+globalmonetization.com #msales
+globaloffers.link #msales
 globalsitecheck.com #Traffic Cake
 go-mpulse.net
 go2cloud.org
@@ -1451,6 +1501,7 @@ gslbns.org #AppNexus Inc
 gssprt.jp
 gu-web.net #The Guardian
 gumgum.com
+gunmedbuyflw.com #msales
 guomob.com
 gw100-10.com #Lead Forensics
 gwallet-qa.com #RadiumOne
@@ -1485,6 +1536,7 @@ himediads.mobi #Hi Media
 himediads.net #Hi Media
 histats.com
 hlserve.com
+hobmobrevms.com #msales
 hochmoor.com
 hotjar.com #Hotjar
 hqcampaign.com #Aurea
@@ -1559,6 +1611,7 @@ hubspot9.com #Hubspot
 hubspot9.net #Hubspot
 hubspotanalytics.net #Hubspot
 hubtraffic.com #Hubspot
+hubtraffms.com #msales
 hw-dev.com #HelloWorld
 hxtrack.com
 hyfffpaint.com
@@ -1592,6 +1645,7 @@ impb.org #AppNexus Inc
 impb.us #AppNexus Inc
 impdesk.com
 impressiondesk.com
+improveads.fi #Improve Media
 imrworldwide.com
 imshopping.com #Blackhawk Network
 in2panel.com #TMRG
@@ -1614,6 +1668,7 @@ inmobicdn.net #InMobi
 inmobipso.com #InMobi
 inner-active.mobi #Inneractive
 innometrics.com #Swordfish Inc
+inorbitmedia.com #msales
 inq.com #Touch Commerce
 inscname.net #instartlogic
 inscname2.net #instartlogic
@@ -1627,6 +1682,7 @@ inskindemo.com #Inskinad
 inskinmedia.com #Inskinad
 insnw.net #instartlogic
 inspectlet.com #Inspectlet
+instamedia.click #msales
 instartcloud.com #instartlogic
 instartlogic.biz #instartlogic
 instartlogic.com #instartlogic
@@ -1648,6 +1704,7 @@ intentmedia.net
 interclick.com
 intercom.io
 intercomassets.com
+internetdealz.click #msales
 intothestorm.com #Ad Web
 invitemedia.com
 invoc.us
@@ -1661,6 +1718,7 @@ itsfom.com #Zanox
 iu16wmye.com
 iwanttodeliver.com #Tracking Unknown
 jackship.cn
+jadsmediaflw.com #msales
 jetlore.com #Jetlore
 jetlore.info #Jetlore
 jetlore.net #Jetlore
@@ -1696,6 +1754,7 @@ keywee.co #Keywee
 keyweego.com #Keywee
 keywords.com #Microsoft
 kiespr.com #TMRG
+kimcurlrvsms.com #msales
 kiosked.com
 kissmetrics.com
 klick2contact.com #Eckoh
@@ -1712,8 +1771,10 @@ labeldecisionnel.net #Ysance
 labeldecisionnel.org #Ysance
 labsmedia.com #ClickHeat
 ladycash.ru
+lander.click #msales
 lanistaads.com #LanistaAds
 laptops2compare.com #Digital Window
+latencyelb.info #msales
 latestprizes.com #Digital Window
 latestprizes.net #Digital Window
 lduhtrp.net
@@ -1725,6 +1786,10 @@ leadboltmobile.net #LeadBolt
 leadenhancer.com #Leadenhancer
 leadforensics.com
 leadformix.com
+leadid.com #Jornaya
+leadid.net #Jornaya
+leadid.org #Jornaya
+leanplum.com #Leanplum
 ledimed-ks.com #HelloWorld
 legolas-media.com
 lelabdecisionnel.com #Ysance
@@ -1743,6 +1808,7 @@ lijit.com
 likemastr.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
+linkis.com #Linkis
 linkoffers.net
 linkpulse.com #Linkpulse
 linksynergy.com
@@ -1842,6 +1908,7 @@ maxymiser.net
 mbd0.com #Campaign Monitor Pty
 mbd1.com #Campaign Monitor Pty
 mbenchmark.com #comScore
+mbsuitmsmt.com #msales
 mc.yandex.ru #Yandex
 mcsecure.mobi
 mcstats.org
@@ -1851,6 +1918,9 @@ media.net #Yahoo
 media6degrees.com
 mediabong.com #Mediabong
 mediaforge.com #Rakuten
+mediahaus.link #msales
+mediaklub.info #msales
+medialander.click #msales
 medialytics.com #Medialets
 mediametrix.com #comScore
 mediamond.it #Mediamond
@@ -10127,7 +10197,7 @@ mnetads.com #Yahoo
 moatads.com #Moat
 moatpixel.com #Moat
 mobclix.com #Velti
-mobfactory.info
+mobfactory.info #msales
 mobfox.biz #MobFox
 mobfox.com #MobFox
 mobfox.info #MobFox
@@ -10144,19 +10214,26 @@ mobilemeter.net #comScore
 mobilens.com #comScore
 mobilens.net #comScore
 mobilens.us #comScore
+mobileoutlet.info #msales
 mobilepanel.com #comScore
 mobilepanelist.com #comScore
 mobileruler.com #comScore
 mobiles2compare.com #Digital Window
+mobilesource.global #msales
 mobilesource.net #Digital Window
 mobiletech.no #Mobiletech
 mobiletracking.com #Impact Radius
 mobilexpression.com #TMRG
 mobilexpression.net #TMRG
+moblander.link #msales
 moblexp.com #TMRG
 moblexp.net #TMRG
 mobpartner.com #MobPartner
 mobpartner.mobi #MobPartner
+mobrdrmsmt.com #msales
+mobrevflwms.com #msales
+mobutrafsrcms.com #msales
+mobyetrafmsmt.com #msales
 mobytrks.com
 mocean.mobi #PubMatic
 mojiva.com #Mojiva
@@ -10168,8 +10245,10 @@ mon-com-net.com #Lead Forensics
 monarchads.com #Monarch Ads
 monefy.net #Buta Trading
 monetate.net
+monetization.global #msales
 monitor.uu.qq.com #qq
 mookie1.com
+moonmedia.info #msales
 mosaicaudience.com #Experian
 motdgd.com #MOTDgd
 mouseflow.com #Mouseflow
@@ -10191,7 +10270,43 @@ msads.net
 msedge.net
 msgf.net #Adestra
 msgfocus.com
+msmtrakk00.com #msales
+msmtrakk02a.com #msales
+msmtrakk02b.com #msales
+msmtrakk03a.com #msales
+msmtrakk03b.com #msales
+msmtrakk04a.com #msales
+msmtrakk04b.com #msales
+msmtrakk05a.com #msales
+msmtrakk05b.com #msales
+msmtrakk05c.com #msales
+msmtrakk05d.com #msales
+msmtrakk06a.com #msales
+msmtrakk06b.com #msales
+msmtrakk06c.com #msales
+msmtrakk06d.com #msales
+msmtrakk06e.com #msales
+msmtrakk08a.com #msales
+msmtrakk08b.com #msales
+msmtrakk09a.com #msales
+msmtrakk09b.com #msales
+msmtrakk10a.com #msales
+msmtrakk10b.com #msales
+msmtrakk11a.com #msales
+msmtrakk11b.com #msales
+msmtrakk12a.com #msales
+msmtrakk12b.com #msales
+msmtrakk13a.com #msales
+msmtrakk13b.com #msales
+msmtrakk14a.com #msales
+msmtrakk14b.com #msales
+msmtrakk15a.com #msales
+msmtrakk15b.com #msales
+msmtrakk16a.com #msales
+msmtrakk16b.com #msales
+msmtrakk17b.com #msales
 mthsense.com #mthsense
+munrvscurlms.com #msales
 mxapis.com #maxtraffic.com
 mxcdn.net
 mxlogic.com
@@ -10268,6 +10383,7 @@ netseer.com
 netshelter.net
 netstad.com #comScore
 netstat.asia #comScore
+newdealmedia.info #msales
 newrelic.com
 newscurve.com #NeoData Intelligence
 newsinc.com #NewsInc
@@ -10316,6 +10432,13 @@ oasnexus.net #AppNexus Inc
 oclaserver.com
 octonet.com
 oem.twimg.com #Twitter possible Windows spying
+offerfactory.click #msales
+offerhaus.link #msales
+offerland.info #msales
+offerlust.com #msales
+offermatic.net #msales
+offerpool.link #msales
+offertunity.click #msales
 officemart.ru
 offpageads.com
 ofnsv69.com #Lead Forensics
@@ -10331,6 +10454,7 @@ omtrdc.net #Adobe
 onclasrv.com
 onclickads.net #Advertising Technologies
 onclicktop.com
+oneclickdeal.info #msales
 onedmp.com
 onestat.com
 onetag-sys.com
@@ -10368,6 +10492,7 @@ optimizely.com #Optimizely
 optinmonster.com
 optnmnstr.com
 outbrain.com
+outrageousclick.com #msales
 ownedit.com #Owned it
 owneriq.net
 p-td.com
@@ -10439,12 +10564,14 @@ pixel.bild.de #Bild
 pixel.brit.co
 pixel.facebook.com #Facebook
 pixel.honestjohn.co.uk
+pixel.messenger.com #Facebook
 pixel.reddit.com
 pixel.redditmedia.com
 pixel.wp.com #Wordpress
 pixelunion.net
 pixfuture.net
 pixiedust.buzzfeed.com
+pkiconcurlms.com #msales
 pkrchp001.com #Lead Forensics
 pkthop.com #WhiteOps
 playbuzz.com #Playbuzz
@@ -10471,6 +10598,7 @@ popularix.com
 post2delicious.com #comScore
 postrelease.com
 postroller.com #BrightRoll
+postup.com # Post Up 
 pow7.com
 powertheads.com #AppNexus Inc
 powertheinternet.com #AppNexus Inc
@@ -10484,10 +10612,12 @@ preview.msn.com #Microsoft
 pricelist.skype.com #Microsoft
 primefuse.com
 privacy.aol.com #AOL
+privateebusiness.com #Advertising Unknown
 privatescale.com #AppNexus Inc
 privatescale.net #AppNexus Inc
 prnx.net
 pro-market.net
+proadsredmsmt.com #msales
 prod.spotify.map.fastlylb.net #Spotify tracking ads
 prod.telemetry.ros.rockstargames.com #Rockstar Games
 productserve.com #Digital Window
@@ -10495,6 +10625,7 @@ profile-matching.com #Ysance
 profilmatch.com #Ysance
 profilmatching.com #Ysance
 projectwonderful.com
+propllrcurlmb.com #msales
 prscripts.com #Advertising
 psma01.com #AdWise
 psma02.com #AdWise
@@ -10539,6 +10670,7 @@ qingcdn.com #Advertising
 qmerce.com
 qservz.com
 qsubmit.com
+qualityoffers.info #msales
 qualtrics.com
 quantcast.com #Quantcast
 quantcast.net #Quantcast
@@ -10557,6 +10689,7 @@ r1sdk.com #RadiumOne
 r1share.com #RadiumOne
 r24-tech.com
 r42tag.com #Relay42 
+r7ls.net #Impact Radius
 raasnet.com
 rad.live.com #Microsoft
 rad.msn.com #Microsoft
@@ -10577,6 +10710,7 @@ rampanel.com #Research and Analysis of Media
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
 rcsmetrics.it #Corriere.it
+rdrct.cloud #msales
 rdsa2011.com #RevenueHits
 rdsa2012.com #RevenueHits
 rdsa2013.com #RevenueHits
@@ -10595,9 +10729,12 @@ rebelmouse.com
 reclaimthenet.com #Ad Web
 reddadd.net #Smaato
 redeye.international
+redfacflowms.com #msales
 redir.metaservices.microsoft.com #Microsoft
 redirecting2.net
+redrevmsmt.com #msales
 redstar.co.uk
+redzumsmtva.com #msales
 reevoo.com
 refinedads.com
 relatedweboffers.com #RevenueHits
@@ -10608,6 +10745,7 @@ reliancevalve.com #Advertising
 rename.com #Digital Window
 rename.net #Digital Window
 rencai56.com #Advertising
+repmbuycurl.com #msales
 reportwindow.com #Digital Window
 res-x.com
 research-int.com #TNS Sifo
@@ -10621,6 +10759,7 @@ retailautomata.com
 returnpath.net #Return Path
 revcontent.com
 revdepo.com #RevenueHits
+revealytics.com #Revealytics
 revenue-tracker.com #Unknown Tracker
 revenue.com #World Media Group
 revenuehits.com #RevenueHits
@@ -10679,10 +10818,12 @@ rockabox.co #Scoota
 rockabox.com #Scoota
 roia.biz
 roost.me
+rooxflwtrafms.com #msales
 route.to
 routecdn.com
 royapp.com #Roy App
 rpt.msn.com #Microsoft
+rshplgmediams.com #msales
 rsvpgenius.com
 rtb007.com #RevenueHits
 rtbc.info #AppNexus Inc
@@ -10711,6 +10852,7 @@ rubiconproject.org #Rubicon
 runadtag.com
 rundsp.com
 runicy.com
+rushredmsmt.com #msales
 rutargeter.com #iAge
 rvfrm2002.com #RevenueHits
 rvfrm2003.com #RevenueHits
@@ -10741,6 +10883,7 @@ sas15k01.com #Lead Forensics
 sascdn.com #Smart Ad Server
 saymedia.com
 sayutracking.co.uk
+sc-analytics.appspot.com #Google
 scarabresearch.com
 sch-alt-91.com #Lead Forensics
 sch-crt-91.com #Lead Forensics
@@ -10806,6 +10949,7 @@ sharethrough.com
 shifen.com #Baidushifen.com
 shinystat.com
 shockedfish.com #Traffic Cake
+shootnstarzoffers.click #msales
 shop2market.com
 shoppingshadow.com #ebay
 shopwindow.com #Digital Window
@@ -10902,6 +11046,7 @@ sigopn05.com #Hubspot
 silkenthreadiness.info
 silktide.com #Silk Tide
 silverpop.com #IBM Silverpop
+simpleclickoffers.com #msales
 simpleheatmaps.com
 simplereach.com
 sinaimg.cn #Advertising
@@ -10949,6 +11094,7 @@ smct.co
 smetrics.mcafee.com #McAfee
 smetrics.sky.com #Sky
 smrk.io #Smarkio
+snapads.com #SnapAds
 snapengage.com #SnapEngage LLC
 snapsitemap.com #PathDefender
 snapsurveys.com
@@ -11009,6 +11155,7 @@ spotxchange.com
 springboardplatform.com
 springserve.com
 sprinkletxt.com #Ballou Internet Services
+sptslmtrafms.com #msales
 spylog.com #OpenStat
 spynet2.microsoft.com #Microsoft
 spynetalt.microsoft.com #Microsoft
@@ -11017,6 +11164,7 @@ srv4pub.com #RevenueHits
 srvntrk.com
 srvpub.com #RevenueHits
 sscefsol.com #Advertising
+sspintrafmsmt.com #msales
 ssw.live.com #Microsoft
 stat.alibaba.com
 stat.swedbank.se #Swedbank
@@ -11076,6 +11224,7 @@ sugarcrm.com #SugarCRM
 sugarops.com
 sumologic.com #Sumo Logic
 sumome.com #SumoMe
+supernovaoffers.click #msales
 support.microsoft.com #Microsoft
 survata.net
 survey-poll.com #ComScore
@@ -11131,10 +11280,12 @@ telize.com
 tellapart.com
 tellme.com #[24]7
 terraclicks.com
+terrambmsads.com #msales
 testanalytics.net
 testdata.coremetrics.com
 testorion.com #eGain Corporation
 textad.net
+thausredmsmt.com #msales
 theadex.com
 theatre-breaks.com #Digital Window
 thebrighttag.com
@@ -11158,12 +11309,15 @@ tl813.com
 tm1-001.com #Lead Forensics
 tmrginc.com #TMRG
 tmrginc.net #TMRG
+tnctrx.com #Team Internet AG
 tns-counter.ru
 tns-cs.net #Direkte
 tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
+topdealz.click #msales
 topfox.co.uk
+topoffers.click #msales
 topquantnetwork.com
 touchcommerce.com #Touch Commerce
 touchcommerce.london #Touch Commerce
@@ -11191,18 +11345,23 @@ trafficfactory.biz
 traffichaus.com #TrafficHaus
 traffichunt.com
 trafficjunky.net #Ennova Research
+traffickart.info #msales
 trafficmanager.net
 trafficshop.com
 trafficstars.com #Trafficstars
 trafficstars.com #Trafficstars
 traffique.net #Unknown Advertising
+trafshopmbuyer.com #msales
+trafstarcurlms.com #msales
 trail-web.com #Lead Forensics
+trakking.info #msales
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
 trees4knowledge.com #TMRG
 treesforknowledge.com #TMRG
 tremorhub.com #Tremor Video
 tremorvideo.com #Tremor Video
+trfflowrevms.com #msales
 tribalfusion.com
 triggit.com
 trkme.net
@@ -11215,6 +11374,7 @@ trusted.site #PathDefender
 trustedsite.com
 truviewanalytics.com #Adobe
 truviewdata.com #Adobe
+trychameleon.com #Chameleon
 ttxm.co.uk
 tubemogul.com
 tumri.net
@@ -11240,6 +11400,7 @@ ugdturner.com #CNN
 ugg66.com
 ultimedia.com #Charles Ganem
 umbel.com
+umeng.com #Umeng
 umhali.com #AppNexus Inc
 umhali.net #AppNexus Inc
 umhali.org #AppNexus Inc
@@ -11340,6 +11501,7 @@ vgwort.de
 viafoura.com
 viafoura.net #Viafoura
 viame-cdn.com #RadiumOne
+viasrctrafms.com #msales
 viazza.com
 viazza.info
 videoadex.com
@@ -11358,6 +11520,7 @@ vindicosuite.com
 virtualearth.net #Microsoft
 visistat.com
 visitortracklog.com
+vistaoffers.info #msales
 visualrevenue.com
 visualwebsiteoptimizer.com
 vizu.com
@@ -11423,6 +11586,7 @@ webtrends.telegraph.co.uk #Telegraph
 webtrendslive.com #WebTrends
 webvitality.me
 wedgies.com #Polling
+wemedredmobmsmt.com #msales
 whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
@@ -11432,6 +11596,8 @@ win30000.net #comScore
 wistia.com
 wistia.net
 woopra.com
+workdesk.click #msales
+worldwideoffers.net #msales
 wowanalytics.co.uk
 wpdigital.net #Washington Post
 wrightsmedia.com
@@ -11453,8 +11619,11 @@ xg4ken.com
 xibei70.com #Adverising
 xiti.com
 xixiwan.net #Advertising
+xoclkrvstrafms.com #msales
+xploreroffers.com #msales
 y-track.com #Ysance
 yadro.ru
+yadsrflowms.com #msales
 yarpp.org
 ybsitecenter.com
 ybx.io #Yield Bids
@@ -11477,6 +11646,10 @@ ynwqls.com #Advertising
 youborafds01.com #Nice People At Work
 youboranqs01.com #Nice People At Work
 youramigo.com
+yourbestoffers.click #msales
+yourofferplace.com #msales
+yourtopoffers.com #msales
+yrdrtzmsmt.com #msales
 ys-game.com #Ysance
 ys4you.com #Ysance
 ysance-bi-services.com #Ysance
