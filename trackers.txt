@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 10 Dec 2016
+#NoTrack Blocklist updated 19 Dec 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -60,6 +60,7 @@
 6008999.com #HelloWorld
 6009888.com #HelloWorld
 6009988.com #HelloWorld
+65twenty.com #Tracking Unknown
 7113653.com #Advertising Unknown
 778669.com #Advertising
 7eer.net #Impact Radius
@@ -114,6 +115,7 @@ ad4game.com #Ad4Game
 adacado.com #Adacado
 adaction.mobi #AdAction
 adadvisor.net #Neustar
+adage.com #Ad Age
 adagencyonline.biz #AdAgencyOnline
 adagencyonline.net #AdAgencyOnline
 adagencyonlineautomotiveadvertising.com #AdAgencyOnline
@@ -286,6 +288,8 @@ adsrvs.com #WhiteOps
 adsterra.com #Adsterra
 adstheaa.com #The AA
 adsty.com #Adsty
+adsur.it #Anti Adblocker
+adsurity.com #Anti Adblocker
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
 adsymptotic.com
@@ -1275,7 +1279,6 @@ emailreports.info #Campaign Monitor Pty
 emailretargeting.com
 emark.nl #Emark
 embed.ly #Embedly
-embedly.com #Embedly
 emediate.com #Cxsense
 emediate.dk #Cxsense
 emediate.eu #Cxsense
@@ -1683,6 +1686,7 @@ inskinmedia.com #Inskinad
 insnw.net #instartlogic
 inspectlet.com #Inspectlet
 instamedia.click #msales
+instantads.com #Instant Ads
 instartcloud.com #instartlogic
 instartlogic.biz #instartlogic
 instartlogic.com #instartlogic
@@ -10327,6 +10331,7 @@ mymetrix.com #comScore
 mymobilepanel.com #comScore
 mynedstat.com #comScore
 myshou.com #Advertising
+mystat-in.net #MyTop
 mystats.in
 myswitchads.com
 mythings.com
@@ -11643,6 +11648,7 @@ yjtag.jp
 yldbt.com #YeildBot
 yldmgrimg.net #Yahoo
 ynwqls.com #Advertising
+yospace.com #Yospace
 youborafds01.com #Nice People At Work
 youboranqs01.com #Nice People At Work
 youramigo.com
