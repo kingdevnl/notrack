@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 19 Dec 2016
+#NoTrack Blocklist updated 20 Dec 2016
 #LatestVersion 0.8.2
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -290,6 +290,9 @@ adstheaa.com #The AA
 adsty.com #Adsty
 adsur.it #Anti Adblocker
 adsurity.com #Anti Adblocker
+adsurity.de #Anti Adblocker
+adsurity.fr #Anti Adblocker
+adsurity.nl #Anti Adblocker
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
 adsymptotic.com
@@ -11271,7 +11274,6 @@ tdpwap.mobi #Millennial Media
 teads.tv
 tealiumiq.com
 teaserroll.com #Inskinad
-techhive.com
 technorail.com
 technorati.com #Technorati
 technoratimedia.com #Technorati
