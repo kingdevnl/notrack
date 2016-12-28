@@ -219,7 +219,7 @@ function read_dhcp() {
   local line=""
   local previous_line=""
   
-  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type CHAR(15), option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type TINYTEXT, option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
   
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM config WHERE config_type = 'dhcp';"
   
@@ -281,7 +281,7 @@ function read_dhcp() {
 #--------------------------------------------------------------------
 function read_dnsmasq() {
   local line=""
-  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type CHAR(15), option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS config (config_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, config_type TINYTEXT, option_name TINYTEXT, option_value TEXT, option_enabled BOOLEAN);"  
   
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM config WHERE config_type = 'dnsmasq';"
   
