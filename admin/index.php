@@ -229,7 +229,7 @@ function draw_trafficgraph() {
   $pathout = '';
   $numvalues = 0;
   $x = 0;
-  $y = 850;
+  $y = 0;
   
   //Get allowed values
   $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'a\' GROUP BY HOUR(log_time) ';
@@ -276,8 +276,7 @@ function draw_trafficgraph() {
     
   echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
   echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
-  echo '<path class="axisline" d="M100,0 V850 H2000 " />';
-  
+    
   for ($i = 0.25; $i < 1; $i+=0.25) {            //Y Axis lines and labels
     echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
     echo '<text class="axistext" x="8" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
@@ -294,26 +293,58 @@ function draw_trafficgraph() {
     echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
   }
   
-  $pathout = "<path d=\"M 100,850 ";             //Blue line for allowed
-  for ($i = 1; $i < $numvalues; $i++) {
-    $pathout .= calc_curve($allowed_values[$i-1], $allowed_values[$i], $allowed_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#008CD1');    
-  }
-  $pathout .= 'V850 " stroke="#008CD1" stroke-width="3px" fill="#00AEFF" fill-opacity="0.15" />'.PHP_EOL;
-  echo $pathout;
-  
-  $pathout = "<path d=\"M 100,850 ";             //Red line for blocked
-  for ($i = 1; $i < $numvalues; $i++) {
-    if (! isset($blocked_values[$i+1])) {        //Check for zero blocked sites in next array value
-      $blocked_values[] = 0;                     //Add zero to prevent warning
-    }
-    $pathout .= calc_curve($blocked_values[$i-1], $blocked_values[$i], $blocked_values[$i+1], 100+(($i) * $xstep), $xstep, $ymax, '#B1244A');    
-  }
-  $pathout .= 'V850 " stroke="#B1244A" stroke-width="3px" fill="#FF346D" fill-opacity="0.15" />'.PHP_EOL;
-  echo $pathout;
-  
+  graphline($allowed_values, $xstep, $ymax, '#008CD1');
+  graphline($blocked_values, $xstep, $ymax, '#B1244A');
+  circles($allowed_values, $xstep, $ymax, '#008CD1');
+  circles($blocked_values, $xstep, $ymax, '#B1244A');
+
+  echo '<path class="axisline" d="M100,0 V850 H2000 " />';  //X and Y Axis line
   echo '</svg>'.PHP_EOL;                         //End SVG  
 
 }
+
+/********************************************************************
+ *  Calculate Path
+ *    Calculates smooth bezier curve with 4 node points at -42%, -15%, +15%, +42%
+ *
+ *  Params:
+ *    [$i-1][$i][$i+1], column position, column width, column height, colour
+ *  Return:
+ *    svg path nodes with bezier curve points
+ */
+
+function graphline($values, $xstep, $ymax, $colour) {
+  $path = '';
+  $x = 0;                                        //Node X
+  $y = 0;                                        //Node Y
+  $numvalues = count($values);
+  
+  $path = "<path d=\"M 100,850 ";
+  for ($i = 1; $i < $numvalues; $i++) {
+    $x = 100 + (($i) * $xstep);
+    $y = 850 - (($values[$i] / $ymax) * 850);
+    $path .= "L $x $y";
+  }
+  $path .= 'V850 " stroke="'.$colour.'" stroke-width="6px" fill="'.$colour.'" fill-opacity="0.15" />'.PHP_EOL;
+  echo $path;  
+}
+
+function circles($values, $xstep, $ymax, $colour) {
+  $path = '';
+  $x = 0;                                        //Node X
+  $y = 0;                                        //Node Y
+  $numvalues = count($values);
+    
+  for ($i = 1; $i < $numvalues; $i++) {
+    if ($values[$i] > 0) {
+      $x = 100 + (($i) * $xstep);
+      $y = 850 - (($values[$i] / $ymax) * 850);    
+    
+      echo '<circle cx="'.$x.'" cy="'.(850-($values[$i]/$ymax)*850).'" r="10px" fill="'.$colour.'" fill-opacity="1" stroke="#F7F7F7" stroke-width="5px" />'.PHP_EOL;
+    }    
+  }  
+}
+
 
 /********************************************************************
  *  Calculate Curve
