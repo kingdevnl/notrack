@@ -1,11 +1,17 @@
-Development
-If you upgraded between 21 - 25 November your upgrader will fail
-It will display "WARNING: Unable to find file"
-Please run ntrk-upgrade from terminal:
+v0.8.3 Alpha - Released 28 Dec 2016
+**If you upgraded between 21 - 25 November your upgrader will fail**
+**It will display "WARNING: Unable to find file"
+**Please run ntrk-upgrade from terminal:
 cd ~/notrack  (or cd /opt/notrack)
 bash ntrk-updgrade.sh
 Sorry
 -Quids
+
+Admin:
+  New style chart show number of DNS queries
+
+Config:
+  Start of reading dnsmasq config via web gui
 
 
 *************************************************
@@ -23,40 +29,4 @@ Scripts:
 New blocklists:
   CHN yhosts (Issue #134)
   
-*************************************************
-
-v0.8.1 Alpha - Released 12 Nov 2016
-Admin:
-  New pie chart showing percentage of traffic allowed, blocked, or local
-  New Table design
-
-DNS Queries
-  Issue #105 - Show block list which caused site to be blocked
-  
-Blocked sites:
-  Issue #162 - More detail shown. Thanks to duramato for working on this feature.  
-  
-Login:
-  Fixed bug - Correct password entry no longer writes to fail2ban log.
-
-Installer
-  Progress made Issue #94 installation of NoTrack on Arch
-  
-*************************************************
-
-v0.8 Alpha - Released 30 Oct 2016
-Issue #141 - New SQL backend using MariaDB
-IMPORTANT NOTE: You will need to run "bash install.sh -sql" after upgrading
-
-
-Config:
-  Fixed bug #54 - Memcache can be exhausted when all blocklists are used
-
-Security:
-  Fixed bug #83 - Security will now work for older version of PHP pre v5.3 
-  New Security Page
-
-New blocklists:
-  Cedia malware domain list (Issue #126)
-
 *************************************************
