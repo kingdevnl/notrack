@@ -69,7 +69,7 @@ error_exit() {
 
 #######################################
 # Restart service
-#    with either systemd or sysvinit
+#    with either systemd or sysvinit or runit
 #
 # Globals:
 #   None
@@ -85,6 +85,8 @@ service_restart() {
       sudo systemctl restart $1
     elif [ "$(command -v service)" ]; then       #sysvinit
       sudo service $1 restart
+    elif [ "$(command -v sv)" ]; then            #runit
+      sudo sv restart $1
     else
       error_exit "Unable to restart services. Unknown service supervisor" "21"
     fi
@@ -367,6 +369,7 @@ function install_packages() {
   elif [ "$(command -v yum)" ]; then install_yum  
   elif [ "$(command -v pacman)" ]; then install_pacman
   elif [ "$(command -v apk)" ]; then install_apk
+  elif [ "$(command -v xbps-install)" ]; then install_xbps
   else 
     echo "Unable to work out which package manager is being used."
     echo "Ensure you have the following packages installed:"
@@ -577,6 +580,49 @@ function install_apk() {
 }
 
 
+#--------------------------------------------------------------------
+# Install xbps Packages
+#   Installs packages using xbps-install for VoidLinux
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function install_xbps() {
+  echo "Preparing to install XBPS packages..."
+  sudo xbps-install -Suy ##sync & update only once
+  sleep 2s
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo xbps-install -y unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo xbps-install -y dnsmasq
+  echo
+  echo "Installing MariaDB"
+  sleep 2s
+  sudo xbps-install -y mariadb
+  #sudo xbps-install -y mysql
+  echo
+  echo "Installing Lighttpd and PHP"
+  sleep 2s
+  #sudo xbps-install -y fcgi lighttpd php memcached php-memcache php-cgi ##TODO php-memcache so far unavailable in repository
+  sudo xbps-install -y fcgi lighttpd php php-cgi
+  echo
+
+  echo "Enabling Services"
+  sudo ln -s /etc/sv/mysqld /var/service
+  sudo ln -s /etc/sv/dnsmasq /var/service
+  sudo ln -s /etc/sv/lighttpd /var/service
+  sleep 7s
+}
+
+
+
 
 #--------------------------------------------------------------------
 # Setup Dnsmasq
@@ -666,6 +712,10 @@ setup_lighttpd() {
     echo "Adding http rights to $(whoami)"
     sudo usermod -a -G http "$(whoami)"
     group="http"
+  elif getent passwd _lighttpd > /dev/null 2>&1; then    #void uses group _lighttpd
+    echo "Adding _lighttpd rights to $(whoami)"
+    sudo usermod -a -G _lighttpd "$(whoami)"
+    group="_lighttpd"
   else
     echo "setup_lighttpd() WARNING: Unable to find group for lighttpd (normally www-data or http)"
     echo "Lighttpd webserver will have to be manually setup."
