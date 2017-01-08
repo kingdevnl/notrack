@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 28 Dec 2016
+#NoTrack Blocklist updated 08 Jan 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -82,6 +82,9 @@
 8099888.com #HelloWorld
 95095.com #Alibaba
 950958.com #Alibaba
+9nl.com #Click Meter
+9nl.org #Click Meter
+9nl.us #Click Meter
 a-msedge.net #Microsoft
 a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
@@ -504,6 +507,7 @@ appstreamingnetwork.net #instartlogic
 appstreamingnetwork.org #instartlogic
 apptrade.biz #Millennial Media
 apptrade.mobi #Millennial Media
+appunti.com #Click Meter
 apxlv.com
 aracea.com #Ad Web
 arc.msn.com #Microsoft
@@ -557,6 +561,7 @@ babebrkrflow.com #msales
 bae5tracker.com #Lead Forensics
 bandelcot.com
 bannerflow.com #Bannerflow
+bannermeter.com #Click Meter
 bars.sapo.pt #PT Telecomunicacoes
 basebanner.com
 bat.bing.com
@@ -640,6 +645,13 @@ brainboxdigital.com #BrainBox Digital
 branch.io #Branch Metrics
 brand-server.com
 brandcrumb.com
+brandedlinks.com #Click Meter
+brandedshort.domains #Click Meter
+brandedshort.link #Click Meter
+brandedshortdomains.com #Click Meter
+brandedshortlinks.com #Click Meter
+brandedshorturl.com #Click Meter
+brandedurl.com #Click Meter
 brandgatekeeper.com #Traffic Cake
 bravocampmon.com #Campaign Monitor Pty
 bravocreatesend.com #Campaign Monitor Pty
@@ -711,6 +723,7 @@ buyerappreciation.com
 buysellads.com #BuySellAds
 buysellads.net #BuySellAds
 buysub.com
+buzzybar.com #Click Meter
 bz.io
 c-ctrip.com
 c.msn.com #Microsoft
@@ -798,8 +811,17 @@ clickadu.com #Clickadu
 clickbank.net
 clickdensity.com #Box UK
 clickfordeal.click #msales
+clickfraudmeter.com #Click Meter
 clickfuse.com
 clickio.com
+clickiocdn.com #Advertising Unknown
+clickmeter.com #Click Meter
+clickmeter.info #Click Meter
+clickmeter.link #Click Meter
+clickmeter.net #Click Meter
+clickmeter.org #Click Meter
+clickmeter.us #Click Meter
+clickmetermail.com #Click Meter
 clickpalace.com #msales
 clicks4ads.com
 clickshift.com #WebTrends
@@ -1079,6 +1101,9 @@ databuro.net #comScore
 datacaciques.com
 datacentric.ru #Exebid DCA
 datadrivensolution.com #Tracker Unknown
+davide.click #Click Meter
+davide.link #Click Meter
+davide.photo #Click Meter
 daxapi.com #comScore
 dc-storm.com #Rakuten 
 dcoengine.com
@@ -1093,6 +1118,7 @@ dealzcamp.com #msales
 decibelinsight.com #Decibel Insight
 decibelinsight.net #Decibel Insight
 declaredthoughtfulness.co
+dedicated.domains #Click Meter
 deliverimp.com #Tracker Unknown
 delivery.inserthtml.com #Advertising Unknown
 deltadevconfirmsubscription.com #Campaign Monitor Pty
@@ -1277,9 +1303,11 @@ elitechnology.com #Enne Solutions
 ellard.biz #Ad Web
 ellard.net #Ad Web
 eloqua.com #Oracle
+eloqua.com #Oracle
 email-confirmation.com #Campaign Monitor Pty
 email-standards.com #Campaign Monitor Pty
 email-standards.org #Campaign Monitor Pty
+emailmeter.com #Click Meter
 emailreporting.com #Campaign Monitor Pty
 emailreports.info #Campaign Monitor Pty
 emailretargeting.com
@@ -1289,6 +1317,17 @@ emediate.com #Cxsense
 emediate.dk #Cxsense
 emediate.eu #Cxsense
 emediate.se #Cxsense
+emlfiles.com #dotmailer
+emlfiles1.com #dotmailer
+emlfiles10.com #dotmailer
+emlfiles2.com #dotmailer
+emlfiles3.com #dotmailer
+emlfiles4.com #dotmailer
+emlfiles5.com #dotmailer
+emlfiles6.com #dotmailer
+emlfiles7.com #dotmailer
+emlfiles8.com #dotmailer
+emlfiles9.com #dotmailer
 emltrk.com
 emv3.com
 en25.com #Oracle
@@ -1738,6 +1777,7 @@ jetlore.org #Jetlore
 jisusaiche.com
 jmxded110.net
 jntaoche.cn #Advertising
+joeporn.com #Click Meter
 jpush.cn
 jpush.io
 ju33.com #Advertising
@@ -1822,6 +1862,7 @@ likemastr.com
 linkbucks.com
 linkednexus.com #AppNexus Inc
 linkis.com #Linkis
+linkistheking.com #Click Meter
 linkoffers.net
 linkpulse.com #Linkpulse
 linksynergy.com
@@ -1837,6 +1878,8 @@ livepromotools.com #Unknown Advertising
 liverail.com
 liveramp.com #LiveRamp
 liwio.com #AB Tasty
+lkqd.com #LKQD
+lkqd.net #LKQD
 local-finders.com #Tracker Unknown
 localconfirmsubscription.com #Campaign Monitor Pty
 localcreatesend.com #Campaign Monitor Pty
@@ -10261,6 +10304,7 @@ monarchads.com #Monarch Ads
 monefy.net #Buta Trading
 monetate.net
 monetization.global #msales
+monika.link #Click Meter
 monitor.uu.qq.com #qq
 mookie1.com
 moonmedia.info #msales
@@ -10331,6 +10375,7 @@ myads.com #Rubicon
 myapptv.net #Millennial Media
 myaudience.de
 mybuys.com
+myclickmeter.com #Click Meter
 mycomscore.com #comScore
 mycomscore.net #comScore
 mydas.mobi
@@ -10341,6 +10386,7 @@ myflairware.net #TMRG
 mymetrix.com #comScore
 mymobilepanel.com #comScore
 mynedstat.com #comScore
+myrebrandly.com #Click Meter
 myshou.com #Advertising
 mystat-in.net #MyTop
 mystats.in
@@ -10584,6 +10630,7 @@ pixel.honestjohn.co.uk
 pixel.messenger.com #Facebook
 pixel.reddit.com
 pixel.redditmedia.com
+pixel.watch #Click Meter
 pixel.wp.com #Wordpress
 pixelunion.net
 pixfuture.net
@@ -10612,6 +10659,7 @@ popcash.net #Advertising
 popmonetize.com #Advertising
 popmyads.com #Pop My Ads
 popularix.com
+positiveadv.com #Click Meter
 post2delicious.com #comScore
 postrelease.com
 postroller.com #BrightRoll
@@ -10744,6 +10792,11 @@ realmedia.com #AppNexus Inc
 realtime.email
 realtimerelationship.com #AppNexus Inc
 rebelmouse.com
+rebrand.link #Click Meter
+rebrand.today #Click Meter
+rebranded.link #Click Meter
+rebrandly.com #Click Meter
+rebrandly.pro #Click Meter
 reclaimthenet.com #Ad Web
 reddadd.net #Smaato
 redeye.international
@@ -11085,6 +11138,7 @@ sitetagger.co.uk
 skift.pt
 skiftmedia.pt
 skimresources.com
+slashtag.link #Click Meter
 sli-spark.com
 slimcut.media #SlimCut Media
 slimcutmedia.com #SlimCut Media
@@ -11149,6 +11203,7 @@ softwaredefineddelivery.info #instartlogic
 softwaredefineddelivery.net #instartlogic
 softwaredefineddelivery.org #instartlogic
 softwaredefineddelivery.us #instartlogic
+sojern.com #Sojern
 solvemedia.com
 sonobi.com
 soosooka.com
@@ -11340,6 +11395,7 @@ topoffers.click #msales
 topquantnetwork.com
 touchcommerce.com #Touch Commerce
 touchcommerce.london #Touch Commerce
+touchstoneresearch.com #Touchstone Research
 tqlkg.com
 tqn.com
 track-flow.com
@@ -11386,6 +11442,7 @@ triggit.com
 trkme.net
 trkmob1.com #RevenueHits
 trkyme.com
+trovaamici.com #Click Meter
 tru.am #TrueAnthem
 truste-svc.net
 truste.com #TRUSTe
@@ -11542,6 +11599,7 @@ visistat.com
 visitortracklog.com
 vistaoffers.info #msales
 visualrevenue.com
+visualvote.com #Click Meter
 visualwebsiteoptimizer.com
 vizu.com
 vo.msecnd.net #Microsoft
@@ -11668,6 +11726,7 @@ youborafds01.com #Nice People At Work
 youboranqs01.com #Nice People At Work
 youramigo.com
 yourbestoffers.click #msales
+yourbrandonyourlinks.com #Click Meter
 yourofferplace.com #msales
 yourtopoffers.com #msales
 yrdrtzmsmt.com #msales

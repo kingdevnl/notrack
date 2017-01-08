@@ -13,6 +13,9 @@ Admin:
 Config:
   Start of reading dnsmasq config via web gui
 
+DNS Queries:
+  Date fixed after midnight (Issue #169)
+
 
 *************************************************
 v0.8.2 Alpha - Released 21 Nov 2016
