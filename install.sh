@@ -29,7 +29,7 @@ readonly DNSMASQ_CONF_PATH="/etc/dnsmasq.conf"
 # Environment variables
 #######################################
 readonly VERSION="0.8.4"
-SUDO_REQUIRED=false                              #true If installing to /opt
+SUDO_REQUIRED=false                              #true if installing to /opt
 
 REBOOT_REQUIRED=false
 
@@ -368,7 +368,7 @@ function install_packages() {
   elif [ "$(command -v pacman)" ]; then install_pacman
   elif [ "$(command -v apk)" ]; then install_apk
   else 
-    echo "Unable to work out which package manage is being used."
+    echo "Unable to work out which package manager is being used."
     echo "Ensure you have the following packages installed:"
     echo -e "\tdnsmasq"
     echo -e "\tlighttpd"
@@ -416,7 +416,7 @@ function install_deb() {
   echo "Refreshing apt"
   sudo apt-get update
   echo
-  echo "Preparing to Install Deb Packages..."
+  echo "Preparing to install Deb packages..."
   sleep 2s
   echo "Installing dependencies"
   sleep 2s
@@ -448,7 +448,7 @@ function install_deb() {
 #   None
 #--------------------------------------------------------------------
 function install_dnf() {
-  echo "Preparing to Install RPM packages using Dnf..."
+  echo "Preparing to install RPM packages using Dnf..."
   sleep 2s
   sudo dnf update
   echo
@@ -482,7 +482,7 @@ function install_dnf() {
 #   None
 #--------------------------------------------------------------------
 function install_pacman() {
-  echo "Preparing to Install Arch Packages..."
+  echo "Preparing to install Arch packages..."
   sleep 2s
   echo
   echo "Installing dependencies"
@@ -520,7 +520,7 @@ function install_pacman() {
 #   None
 #--------------------------------------------------------------------
 function install_yum() {
-  echo "Preparing to Install RPM packages using Yum..."
+  echo "Preparing to install RPM packages using Yum..."
   sleep 2s
   sudo yum update
   echo
