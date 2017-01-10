@@ -32,22 +32,26 @@ function check_appsinstalled() {
 }
 
 
-#--------------------------------------------------------------------
-# Restart Lighttpd
-#   Restarts lighttpd with either systemd or sysvinit
+#######################################
+# Restart service
+#    with either systemd or sysvinit
+#
 # Globals:
 #   None
 # Arguments:
 #   None
 # Returns:
 #   None
-#--------------------------------------------------------------------
-function restart_lighttpd() {
-  echo "Restarting Lighttpd"
-  if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
-    sudo systemctl restart lighttpd
-  else
-    sudo service lighttpd restart
+#######################################
+service_restart() {
+  if [[ -z $1 ]]; then
+    if [ "$(command -v systemctl)" ]; then     #systemd
+      sudo systemctl restart $1
+    elif [ "$(commnd -v service)" ]; then      #sysvinit
+      sudo service $1 restart
+    else
+      error_exit "Unable to restart services. Unknown service supervisor" "21"
+    fi
   fi
 }
 
@@ -122,7 +126,7 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
   sleep 5s
   echo "Disabling Lighttpd SSL Module"
   sudo lighty-disable-mod ssl                      #Disable SSL Module
-  restart_lighttpd
+  service_restart lighttpd
   echo
   
   if [ -z "$(pgrep lighttpd)" ]; then              #Check if lighttpd restart has now been successful

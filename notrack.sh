@@ -123,6 +123,31 @@ function error_exit() {
   exit "$2"
 }
 
+
+#######################################
+# Restart service
+#    with either systemd or sysvinit
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+service_restart() {
+  if [[ -z $1 ]]; then
+    if [ "$(command -v systemctl)" ]; then     #systemd
+      sudo systemctl restart $1
+    elif [ "$(commnd -v service)" ]; then      #sysvinit
+      sudo service $1 restart
+    else
+      error_exit "Unable to restart services. Unknown service supervisor" "21"
+    fi
+  fi
+}
+
+
 #--------------------------------------------------------------------
 # Create File
 # Checks if a file exists and creates it
@@ -1617,11 +1642,7 @@ echo "Deduplicated $Dedup Domains"
 sortlist                                         #Sort, Dedup 2nd round, Save list
 
 echo "Restarting Dnsmasq"
-if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
-  systemctl restart dnsmasq
-else
-  service dnsmasq restart
-fi
+service_restart dnsmasq
 
 delete_file "/etc/notrack/domain-quick.list"     # DEPRECATED at 0.8.3
 delete_file "/etc/notrack/blocking.csv"          # DEPRECATED at 0.8.3
