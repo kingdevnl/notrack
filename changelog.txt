@@ -1,3 +1,7 @@
+v0.8.4 Alpha Dev
+Removed deprecated code
+*************************************************
+
 v0.8.3 Alpha - Released 28 Dec 2016
 **If you upgraded between 21 - 25 November your upgrader will fail**
 **It will display "WARNING: Unable to find file"
