@@ -30,7 +30,8 @@ service_stop() {
     elif [ "$(command -v service)" ]; then      #sysvinit
       sudo service $1 stop
     else
-      error_exit "Unable to stop services. Unknown service supervisor" "21"
+      echo "Unable to stop services. Unknown service supervisor"
+      exit 21
     fi
   fi
 }

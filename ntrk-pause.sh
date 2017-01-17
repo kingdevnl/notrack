@@ -197,7 +197,8 @@ service_restart() {
     elif [ "$(command -v service)" ]; then       #sysvinit
       sudo service $1 restart
     else
-      error_exit "Unable to restart services. Unknown service supervisor" "21"
+      echo "Unable to restart services. Unknown service supervisor"
+      exit 21
     fi
   fi
 }
