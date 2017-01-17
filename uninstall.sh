@@ -27,7 +27,7 @@ service_stop() {
   if [[ -z $1 ]]; then
     if [ "$(command -v systemctl)" ]; then     #systemd
       sudo systemctl stop $1
-    elif [ "$(commnd -v service)" ]; then      #sysvinit
+    elif [ "$(command -v service)" ]; then      #sysvinit
       sudo service $1 stop
     else
       error_exit "Unable to stop services. Unknown service supervisor" "21"

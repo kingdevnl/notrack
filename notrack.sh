@@ -137,9 +137,9 @@ function error_exit() {
 #######################################
 service_restart() {
   if [[ -z $1 ]]; then
-    if [ "$(command -v systemctl)" ]; then     #systemd
+    if [ "$(command -v systemctl)" ]; then       #systemd
       sudo systemctl restart $1
-    elif [ "$(commnd -v service)" ]; then      #sysvinit
+    elif [ "$(command -v service)" ]; then       #sysvinit
       sudo service $1 restart
     else
       error_exit "Unable to restart services. Unknown service supervisor" "21"
