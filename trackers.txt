@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 08 Jan 2017
+#NoTrack Blocklist updated 17 Jan 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1247,7 +1247,6 @@ econommetrics.com #comScore
 ecopute.com #AppNexus Inc
 ecustomeropinions.com
 ed-clr-01.com #Lead Forensics
-edgekey.net
 edigitalresearch.com
 edigitalsurvey.com
 educing.info #Tracker Unknown
@@ -1279,6 +1278,7 @@ ekomi.info #eKomi
 ekomi.mobi #eKomi
 ekomi.tel #eKomi
 ekomi.us #eKomi
+ela-3-tnk.com #Lead Forensics
 elabs1.com #Aurea
 elabs10.com #Aurea
 elabs11.com #Aurea
@@ -10527,7 +10527,6 @@ onstate.com
 onthe.io #Tracker Unknown
 ontoplist.com
 ooyala.com
-ooyala.com.edgekey.net
 openad.com #AppNexus Inc
 openadstream.com #AppNexus Inc
 openadstream.mobi #AppNexus Inc
