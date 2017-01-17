@@ -1644,7 +1644,5 @@ sortlist                                         #Sort, Dedup 2nd round, Save li
 echo "Restarting Dnsmasq"
 service_restart dnsmasq
 
-delete_file "/etc/notrack/domain-quick.list"     # DEPRECATED at 0.8.3
-delete_file "/etc/notrack/blocking.csv"          # DEPRECATED at 0.8.3
 echo "NoTrack complete"
 echo
