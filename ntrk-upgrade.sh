@@ -188,12 +188,12 @@ mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "ALTER TABLE lightyaccess ADD
 #v0.8.1 - Add user_agent collection to lighttpd.conf
 if [[ $(grep '"%{%s}t|%V|%r|%s|%b"' /etc/lighttpd/lighttpd.conf) != "" ]]; then
   sed -i 's/"%{%s}t|%V|%r|%s|%b"/"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i|%h"/' /etc/lighttpd/lighttpd.conf
-  echo "lighttpd needs restarting: sudo systemctl restart lighttpd"
+  echo "lighttpd needs restarting: please restart lighttpd service"
 fi
 
 if [[ $(grep '"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i"' /etc/lighttpd/lighttpd.conf) != "" ]]; then
   sed -i 's/"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i"/"%{%s}t|%V|%r|%s|%b|%{Referer}i|%{User-Agent}i|%h"/' /etc/lighttpd/lighttpd.conf
-  echo "lighttpd needs restarting: sudo systemctl restart lighttpd"
+  echo "lighttpd needs restarting: please restart lighttpd service"
 fi
 
 

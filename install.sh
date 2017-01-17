@@ -68,6 +68,30 @@ error_exit() {
 
 
 #######################################
+# Restart service
+#    with either systemd or sysvinit
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+service_restart() {
+  if [[ -z $1 ]]; then
+    if [ "$(command -v systemctl)" ]; then     #systemd
+      sudo systemctl restart $1
+    elif [ "$(commnd -v service)" ]; then      #sysvinit
+      sudo service $1 restart
+    else
+      error_exit "Unable to restart services. Unknown service supervisor" "21"
+    fi
+  fi
+}
+
+
+#######################################
 # Check if file exists
 # Globals:
 #   None
@@ -1640,11 +1664,8 @@ if [ $1 ]; then
     setup_mariadb
     
     echo "Restarting Services"
-    if [ "$(command -v systemctl)" ]; then 
-      sudo systemctl restart lighttpd
-    else  
-      sudo service lighttpd restart
-    fi
+    service_restart dnsmasq
+    service_restart lighttpd
     
     sudo /usr/local/sbin/ntrk-parse
     sudo /usr/local/sbin/notrack
@@ -1761,13 +1782,8 @@ if [ "$(command -v firewall-cmd)" ]; then        #Check FirewallD exists
 fi
 
 echo "Restarting Services"
-if [ "$(command -v systemctl)" ]; then           #Using systemd or sysvinit?
-  sudo systemctl restart dnsmasq
-  sudo systemctl restart lighttpd
-else
-  sudo service restart dnsmasq
-  sudo service lighttpd restart
-fi
+service_restart dnsmasq
+service_restart lighttpd
 
 echo "Downloading List of Trackers"
 sudo /usr/local/sbin/notrack -f

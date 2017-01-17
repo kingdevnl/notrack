@@ -12,6 +12,30 @@ readonly FOLDER_ETC="/etc"
 INSTALL_LOCATION="${HOME}/NoTrack"
 
 
+#######################################
+# Stop service
+#    with either systemd or sysvinit
+#
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+#######################################
+service_stop() {
+  if [[ -z $1 ]]; then
+    if [ "$(command -v systemctl)" ]; then     #systemd
+      sudo systemctl stop $1
+    elif [ "$(commnd -v service)" ]; then      #sysvinit
+      sudo service $1 stop
+    else
+      error_exit "Unable to stop services. Unknown service supervisor" "21"
+    fi
+  fi
+}
+
+
 #Copy File-----------------------------------------------------------
 CopyFile() {
   #$1 Source
@@ -96,9 +120,9 @@ fi
 
 
 echo "Stopping Dnsmasq"
-service dnsmasq stop
+service_stop dnsmasq
 echo "Stopping Lighttpd"
-service lighttpd stop
+service_stop lighttpd
 echo
 
 echo "Deleting Symlinks for Web Folders"
