@@ -212,13 +212,19 @@ function draw_sitesblockedbox() {
 
 /********************************************************************
  *  Traffic Graph
+ *    1. Load data from live table for values per hour
+ *    2. Calulate maximum values of SQL data for $ymax
+ *    3. Draw grid lines
+ *    4. Draw axis labels
+ *    5. Draw coloured graph lines
+ *    6. Draw coloured circles to reduce sharpness of graph line
  *
  *  Params:
  *    None
  *  Return:
  *    None
  */
-function draw_trafficgraph() {
+function trafficgraph() {
   global $db;
   $allowed_values = array();
   $blocked_values = array();
@@ -293,10 +299,10 @@ function draw_trafficgraph() {
     echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
   }
   
-  graphline($allowed_values, $xstep, $ymax, '#008CD1');
-  graphline($blocked_values, $xstep, $ymax, '#B1244A');
-  circles($allowed_values, $xstep, $ymax, '#008CD1');
-  circles($blocked_values, $xstep, $ymax, '#B1244A');
+  draw_graphline($allowed_values, $xstep, $ymax, '#008CD1');
+  draw_graphline($blocked_values, $xstep, $ymax, '#B1244A');
+  draw_circles($allowed_values, $xstep, $ymax, '#008CD1');
+  draw_circles($blocked_values, $xstep, $ymax, '#B1244A');
 
   echo '<path class="axisline" d="M100,0 V850 H2000 " />';  //X and Y Axis line
   echo '</svg>'.PHP_EOL;                         //End SVG  
@@ -304,16 +310,16 @@ function draw_trafficgraph() {
 }
 
 /********************************************************************
- *  Calculate Path
- *    Calculates smooth bezier curve with 4 node points at -42%, -15%, +15%, +42%
+ *  Draw Graph Line
+ *    Calulates and draws the graph line using straight point-to-point notes
  *
  *  Params:
- *    [$i-1][$i][$i+1], column position, column width, column height, colour
+ *    $values array, x step, y maximum value, line colour
  *  Return:
  *    svg path nodes with bezier curve points
  */
 
-function graphline($values, $xstep, $ymax, $colour) {
+function draw_graphline($values, $xstep, $ymax, $colour) {
   $path = '';
   $x = 0;                                        //Node X
   $y = 0;                                        //Node Y
@@ -325,11 +331,20 @@ function graphline($values, $xstep, $ymax, $colour) {
     $y = 850 - (($values[$i] / $ymax) * 850);
     $path .= "L $x $y";
   }
-  $path .= 'V850 " stroke="'.$colour.'" stroke-width="6px" fill="'.$colour.'" fill-opacity="0.15" />'.PHP_EOL;
+  $path .= 'V850 " stroke="'.$colour.'" stroke-width="5px" fill="'.$colour.'" fill-opacity="0.15" />'.PHP_EOL;
   echo $path;  
 }
 
-function circles($values, $xstep, $ymax, $colour) {
+/********************************************************************
+ *  Draw Circle Points
+ *    Draws circle shapes where line node points are, in order to reduce sharpness of graph line
+ *
+ *  Params:
+ *    $values array, x step, y maximum value, line colour
+ *  Return:
+ *    svg path nodes with bezier curve points
+ */
+function draw_circles($values, $xstep, $ymax, $colour) {
   $path = '';
   $x = 0;                                        //Node X
   $y = 0;                                        //Node Y
@@ -346,69 +361,6 @@ function circles($values, $xstep, $ymax, $colour) {
 }
 
 
-/********************************************************************
- *  Calculate Curve
- *    Calculates smooth bezier curve with 4 node points at -42%, -15%, +15%, +42%
- *
- *  Params:
- *    [$i-1][$i][$i+1], column position, column width, column height, colour
- *  Return:
- *    svg path nodes with bezier curve points
- */
-
-function calc_curve($old, $cur, $new, $xpos, $xstep, $ymax, $colour) {
-  $pathout = '';
-  $x = 0;                                        //Node X
-  $y = 0;                                        //Node Y
-  $dx1 = 0;                                      //Bezier curve left X
-  $dx2 = 0;                                      //Bezier curve left Y
-  $dy1 = 0;                                      //Bezier curve right X
-  $dy2 = 0;                                      //Bezier curve right Y    
-  $diff = 0;                                     //Difference between values
-  
-  $diff = $cur - $old;                           //Left-hand slope
-  
-  if ($cur > 0) {
-    echo '<circle cx="'.$xpos.'" cy="'.(850-($cur/$ymax)*850).'" r="6" fill="'.$colour.'" fill-opacity="0.8" />'.PHP_EOL;
-  }
-  
-  $dx1 = $xpos - ($xstep * 0.5);
-  $dy1 = 850-((($cur - ($diff * 0.49))/$ymax)*850);
-  $x = $xpos - ($xstep * 0.45);
-  $y = 850-((($cur - ($diff * 0.42))/$ymax)*850);
-  $dx2 = $xpos - ($xstep * 0.35);
-  $dy2 = 850-((($cur - ($diff * 0.2))/$ymax)*850);
-  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
-    
-  $dx1 = $xpos - ($xstep * 0.25);
-  $dy1 = 850-((($cur - ($diff * 0.1))/$ymax)*850);
-  $x = $xpos - ($xstep * 0.15);
-  $y = 850-((($cur - ($diff * 0.005))/$ymax)*850);
-  $dx2 = $xpos - ($xstep * 0.1);
-  $dy2 = 850-((($cur - ($diff * 0.001))/$ymax)*850);
-  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
-    
-  $diff = $new - $cur;                           //Right-hand slope
-    
-  $dx1 = $xpos + ($xstep * 0.1);
-  $dy1 = 850-((($cur + ($diff * 0.001))/$ymax)*850);
-  $x = $xpos + ($xstep * 0.15);
-  $y = 850-((($cur + ($diff * 0.005))/$ymax)*850);    
-  $dx2 = $xpos + ($xstep * 0.25);
-  $dy2 = 850-((($cur + ($diff * 0.1))/$ymax)*850);
-  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
-    
-  $dx1 = $xpos + ($xstep * 0.35);
-  $dy1 = 850-((($cur + ($diff * 0.2))/$ymax)*850);
-  $x = $xpos + ($xstep * 0.44);
-  $y = 850-((($cur + ($diff * 0.42))/$ymax)*850);
-  $dx2 = $xpos + ($xstep * 0.5);
-  $dy2 = 850-((($cur + ($diff * 0.49))/$ymax)*850);
-  $pathout .= "C $x $y, $dx1 $dy1, $dx2 $dy2 ";
-    
-  return $pathout;
-}
-
 //Main---------------------------------------------------------------
 echo '<div id="main">';
 echo '<div class="home-nav-container">';
@@ -419,13 +371,9 @@ draw_sitesblockedbox();
 draw_queriesbox();
 draw_dhcpbox();
 
-draw_trafficgraph();
+trafficgraph();
 
 echo '</div>'.PHP_EOL;
-/*echo '<div class="sys-group"><p>Welcome to the new version of NoTrack v0.8 with a SQL back-end.</p><p>Performance will now be significantly improved reviewing DNS Queries made, and searching Blocked sites list</p>'.PHP_EOL;
-echo '<p>At this point in time the front-end web interface replicates what you have seen in previous versions, but the new back-end will allow for some fancy effects like graphs showing the most persistant trackers your systems have encountered, and the ability to highlight if one of your systems attempted to visit a malicious site</p>'.PHP_EOL;
-echo '<p>Historic DNS logs are no longer available because I stripped Log Time, and System Request out of the files to save on processing power. That information is now stored in the Historic database, unfortunately with the data gone it would mean either spoofing missing data or leaving it alone. You can still access the original files at <code>/var/logs/notrack</code></p></div>'.PHP_EOL;
-//echo '<div class="row"><br></div>'.PHP_EOL;*/
 
 //Is an upgrade Needed?
 if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {      
