@@ -79,7 +79,8 @@ error_exit() {
 #   None
 #######################################
 service_restart() {
-  if [[ -z $1 ]]; then
+  if [[ -n $1 ]]; then
+    echo "Restarting $1"
     if [ "$(command -v systemctl)" ]; then       #systemd
       sudo systemctl restart $1
     elif [ "$(command -v service)" ]; then       #sysvinit
@@ -1663,7 +1664,6 @@ if [ $1 ]; then
     install_packages
     setup_mariadb
     
-    echo "Restarting Services"
     service_restart dnsmasq
     service_restart lighttpd
     
@@ -1781,7 +1781,6 @@ if [ "$(command -v firewall-cmd)" ]; then        #Check FirewallD exists
   Setup_FirewallD
 fi
 
-echo "Restarting Services"
 service_restart dnsmasq
 service_restart lighttpd
 

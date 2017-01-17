@@ -44,7 +44,8 @@ function check_appsinstalled() {
 #   None
 #######################################
 service_restart() {
-  if [[ -z $1 ]]; then
+  if [[ -n $1 ]]; then
+    echo "Restarting $1"
     if [ "$(command -v systemctl)" ]; then       #systemd
       sudo systemctl restart $1
     elif [ "$(command -v service)" ]; then       #sysvinit

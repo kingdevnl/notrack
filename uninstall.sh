@@ -24,7 +24,8 @@ INSTALL_LOCATION="${HOME}/NoTrack"
 #   None
 #######################################
 service_stop() {
-  if [[ -z $1 ]]; then
+  if [[ -n $1 ]]; then
+    echo "Stopping $1"
     if [ "$(command -v systemctl)" ]; then     #systemd
       sudo systemctl stop $1
     elif [ "$(command -v service)" ]; then      #sysvinit
@@ -120,9 +121,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 
-echo "Stopping Dnsmasq"
 service_stop dnsmasq
-echo "Stopping Lighttpd"
 service_stop lighttpd
 echo
 
