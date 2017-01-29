@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 17 Jan 2017
+#NoTrack Blocklist updated 29 Jan 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -545,6 +545,7 @@ augur.io
 austin.logs.roku.com #Roku
 autenticadas.com #Advertising Unknown
 authorisationimprint.com
+avocet.io #Avocet
 aweber.com
 awesomedealz.click #msales
 awesomeoffers247.com #msales
@@ -1165,6 +1166,10 @@ digitalanalytix.com #comScore
 digitalanalytix.net #comScore
 digitalanalytixmp.com #comScore
 digitalanalytixmp.net #comScore
+digitaldonut.com #Digital Doughnut
+digitaldoughnut.com #Digital Doughnut
+digitaldoughnut.email #Digital Doughnut
+digitaldoughnut.net #Digital Doughnut
 digitalreflectionpanel.com #TMRG
 digitalreflectionpanel.net #TMRG
 digitalwindow.com #Digital Window
@@ -1317,6 +1322,7 @@ emediate.com #Cxsense
 emediate.dk #Cxsense
 emediate.eu #Cxsense
 emediate.se #Cxsense
+eml.lu #Farvest
 emlfiles.com #dotmailer
 emlfiles1.com #dotmailer
 emlfiles10.com #dotmailer
@@ -11299,7 +11305,6 @@ sugarops.com
 sumologic.com #Sumo Logic
 sumome.com #SumoMe
 supernovaoffers.click #msales
-support.microsoft.com #Microsoft
 survata.net
 survey-poll.com #ComScore
 surveybit.com #Campaign Monitor Pty
