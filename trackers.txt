@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 29 Jan 2017
+#NoTrack Blocklist updated 10 Feb 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -313,6 +313,7 @@ adunity.com #AdUnity
 adunity.net #AdUnity
 adupclickfilter.com
 advanced-web-analytics.com
+advantage.as #Via Aurea
 adventori.com
 adversal.com
 advertarium.com.ua #Advertarium
@@ -356,7 +357,6 @@ aerserv.com #AerServ
 aetna.com #IBM Silverpop
 aetterweb.info #instartlogic
 affec.tv
-affiliate-program.amazon.co.uk #Amazon
 affiliate-window.com #Digital Window
 affiliatehub.skybet.com #Sky
 affiliateswindow.com #Digital Window
@@ -458,6 +458,7 @@ apnx.us #AppNexus Inc
 app-dynamics.com #AppDynamics
 app-measurement.com #Googles android analytics
 appads.com #Smaato
+appanalytics.embarcadero.com #Embarcadero
 appdynamics.asia #AppDynamics
 appdynamics.biz #AppDynamics
 appdynamics.com #AppDynamics
@@ -517,6 +518,7 @@ aria.microsoft.com #Microsoft
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
+aspirer.xyz #Advertising Unknown
 astutemetrics.com #Astute Trackr
 atdmt.com #Facebook
 atemda.com
@@ -605,6 +607,7 @@ bigdata.adfuture.cn #Chinese Android Data Collection
 bigdata.adsunflower.com #Chinese Android Data Collection
 bigdata.adups.com #Chinese Android Data Collection
 bigdata.advmob.cn #Chinese Android Data Collection
+bigdataexchange.com #Contextuads
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 billmscurlrev.com #msales
@@ -807,6 +810,7 @@ citypaketet.se #City Packetet
 cj.com #Conversant Media
 clear-reports.com
 clearcode.cc
+clevernt.com #HSTPNetwork
 click.monetizer.info
 clickadu.com #Clickadu
 clickbank.net
@@ -973,6 +977,7 @@ contentclick.co.uk
 contentfeed.net
 contentquery.net
 contentwindow.com #Digital Window
+contextuads.com #Contextuads
 contextweb.com
 conversionlogic.net #Conversion Logic
 convertro.com
@@ -1085,6 +1090,7 @@ d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
 d2ymkpxi1rgldj.cloudfront.net #Canvas Fingerprinting
 d31qbv1cthcecs.cloudfront.net #Amazon - Alexa
 d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
+d3ohfm6v3473ou.cloudfront.net #Global Media Group
 d3ujids68p6xmp.cloudfront.net
 da-ads.com
 dakic-ia-300.com #Lead Forensics
@@ -1372,6 +1378,7 @@ evelinecourt.com #Ad Web
 evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
 eventcapture06.com #Lead Forensics
+events.gfe.nvidia.com #Nvidia
 ever-lohas.com #Advetising
 ever-track-51.com #Lead Forensics
 everestjs.net
@@ -1506,6 +1513,10 @@ getsentry.org #GetSentry
 getsidekick.com #Hubspot
 gettally.com #Hubspot
 gettraff.com
+gfe.geforce.com #Nvidia
+gfe.nvidia.com #Nvidia
+gfsql.geforce.com #Nvidia
+gfswl.geforce.com #Nvidia
 ghostery.com #Ghostery Enterprise
 giga.logs.roku.com #Roku
 gigabytedealz.com #msales
@@ -1591,6 +1602,7 @@ himediads.com #Hi Media
 himediads.mobi #Hi Media
 himediads.net #Hi Media
 histats.com
+hit.skrz.cz #Skrz
 hlserve.com
 hobmobrevms.com #msales
 hochmoor.com
@@ -1704,6 +1716,7 @@ impressiondesk.com
 improveads.fi #Improve Media
 imrworldwide.com
 imshopping.com #Blackhawk Network
+in.mydirtyhobby.de #Advertising Adult
 in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
@@ -1774,6 +1787,7 @@ iterable.com #Iterable
 itsfom.com #Zanox
 iu16wmye.com
 iwanttodeliver.com #Tracking Unknown
+ixnsmcpdauof.com #Advertising Unknown
 jackship.cn
 jadsmediaflw.com #msales
 jetlore.com #Jetlore
@@ -1974,7 +1988,7 @@ mbenchmark.com #comScore
 mbsuitmsmt.com #msales
 mc.yandex.ru #Yandex
 mcsecure.mobi
-mcstats.org
+mcstats.org #Minecraft
 mdotm.com #MdotM
 medals.bizrate.com #TBC
 media.net #Yahoo
@@ -10268,6 +10282,7 @@ mobfox.info #MobFox
 mobfox.org #MobFox
 mobfox.us #MobFox
 mobile-ad-cloud.com #Smaato
+mobile.logs.roku.com #Roku
 mobileaccesspanel.com #comScore
 mobileapptracking.com
 mobilebenchmarck.com #comScore
@@ -10405,6 +10420,8 @@ myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
 myvirtualdisk.net #TMRG
 myvserv.com #Vserv
+myx.cz #mYx
+myxheat.com #mYx
 myyage.com #Advertising
 n-core-pipe.com #Lead Forensics
 n121adserv.com #Advertising Unknown
@@ -10600,6 +10617,7 @@ perfectmarket.com #Taboola
 perfiliate.com #Digital Window
 performancemail.com #Aurea
 performancemail.net #Aurea
+performax.cz #Performax
 performfeeds.com #Perform Group
 performgroup.com #Perform Group
 permission-research.com #TMRG
@@ -10608,6 +10626,7 @@ permissionresearch.com #TMRG
 permissionresearch.net #TMRG
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
+persoo.cz #Persoo
 petametrics.com #Petametrics
 petrous.cn #Advertising
 phicdn.net #Verizon
@@ -10628,6 +10647,7 @@ pipeaota.com
 pippio.com #Arbor
 piwik.pro #Piwik PRO
 piwikpro.com #Piwik PRO
+pixel-eu.rubiconproject.net.akadns.net #Rubicon
 pixel.bild.de #Bild
 pixel.brit.co
 pixel.facebook.com #Facebook
@@ -10635,6 +10655,7 @@ pixel.honestjohn.co.uk
 pixel.messenger.com #Facebook
 pixel.reddit.com
 pixel.redditmedia.com
+pixel.rubiconproject.net.akadns.net #Rubicon
 pixel.watch #Click Meter
 pixel.wp.com #Wordpress
 pixelunion.net
@@ -10709,7 +10730,9 @@ ptengine.net #PTEngine
 ptmind.com #PTEngine
 ptvmediaservices.cz #Advertising
 pubexchange.com
+publicidade.dn.pt #Global Media Group
 publicidade.jn.pt #Publicidade
+publicidade.tsf.pt #Global Media Group
 pubmatic.com #PubMatic
 pubmine.com
 pubnation.com #Not sure
@@ -10754,6 +10777,7 @@ quelhadoop.com #Ysance
 questback.com #Questback
 questionmarket.com
 qy168.pw #Advertising
+r.i0.cz #centrum.cz
 r1-cdn.net #RadiumOne
 r1sdk-cdn.com #RadiumOne
 r1sdk.com #RadiumOne
@@ -10822,6 +10846,7 @@ rename.com #Digital Window
 rename.net #Digital Window
 rencai56.com #Advertising
 repmbuycurl.com #msales
+report-metrics.essentials3.net #Minecraft
 reportwindow.com #Digital Window
 res-x.com
 research-int.com #TNS Sifo
@@ -10847,6 +10872,7 @@ revsci.net #AudienceScience
 rewardwindow.com #Digital Window
 rfihub.com
 rfihub.net
+rgmgocplioed.com #Advertising Unknown
 rhbnr2002.com #RevenueHits
 rhbnr2003.com #RevenueHits
 rhbnr2004.com #RevenueHits
@@ -10969,6 +10995,7 @@ schibsted.se #Schibsted
 scorecardresearch.com #TMRG
 scorecardresearch.net #TMRG
 scoutanalytics.net
+scribe.logs.roku.com #Roku
 sd-ad.net #instartlogic
 sd-ad.org #instartlogic
 sdad.biz #instartlogic
@@ -11351,7 +11378,10 @@ technoratimedia.com #Technorati
 technoratimedia.net #Technorati
 tedglynn.com #Ad Web
 telemetry.api.swiftkey.com #Swiftkey
+telemetry.battle.net #Blizzard
+telemetry.gfe.nvidia.com #Nvidia
 telemetry.microsoft.com #Microsoft
+telemetry.nvidia.com #Nvidia
 telemetry.urs.microsoft.com #Microsoft
 televisions2compare.com #Digital Window
 telize.com
@@ -11359,6 +11389,7 @@ tellapart.com
 tellme.com #[24]7
 terraclicks.com
 terrambmsads.com #msales
+terrapops.com #Advertising Unknown
 testanalytics.net
 testdata.coremetrics.com
 testorion.com #eGain Corporation
@@ -11407,6 +11438,7 @@ track-mv-01.com #MultiView
 track-mv-02.com #MultiView
 track-mv.com #MultiView
 track.ft.com #Financial Times
+trackad.cz #TrackAd
 trackalyzer.com
 trackedlink.net
 trackjs.com
@@ -11443,6 +11475,7 @@ tremorvideo.com #Tremor Video
 trfflowrevms.com #msales
 tribalfusion.com
 triggit.com
+trk.i0.cz #centrum.cz
 trkme.net
 trkmob1.com #RevenueHits
 trkyme.com
@@ -11455,6 +11488,7 @@ trustedsite.com
 truviewanalytics.com #Adobe
 truviewdata.com #Adobe
 trychameleon.com #Chameleon
+tsfe.trafficshaping.dsp.mp.microsoft.com #Microsoft
 ttxm.co.uk
 tubemogul.com
 tumri.net
@@ -11478,6 +11512,7 @@ ubiquitv.net #comScore
 udmserve.net
 ugdturner.com #CNN
 ugg66.com
+ukxeudykhgdi.com #Advertising Unknown
 ultimedia.com #Charles Ganem
 umbel.com
 umeng.com #Umeng
