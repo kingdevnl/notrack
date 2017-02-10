@@ -14,12 +14,12 @@
 #######################################
 # Constants
 #######################################
-readonly FILE_ACCESSLOG="/var/log/lighttpd/access.log"
+readonly FILE_LIGHTYLOG="/var/log/lighttpd/access.log"
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly MAXAGE=88000                            #Just over 1 day in seconds
 readonly MINLINES=50
-readonly VERSION="0.8.3"
+readonly VERSION="0.8.4"
 
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
@@ -142,7 +142,7 @@ function check_logage() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function delete_access() {
+function delete_lighty() {
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE LOW_PRIORITY FROM lightyaccess;"
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "ALTER TABLE lightyaccess AUTO_INCREMENT = 1;"
 }
@@ -243,14 +243,14 @@ function load_config() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function load_accesslog() {
-  echo "Loading lighty log file into array"
+function load_lightylog() {
+  echo "Loading lighty access log file into array"
   while IFS=$'\n' read -r line
   do
     logarray+=("$line")
-  done < "$FILE_ACCESSLOG"
+  done < "$FILE_LIGHTYLOG"
     
-  cat /dev/null > "$FILE_ACCESSLOG"              #Empty log file
+  cat /dev/null > "$FILE_LIGHTYLOG"              #Empty log file
 }
 
 #--------------------------------------------------------------------
@@ -292,11 +292,6 @@ function load_todaylog() {
 #   None
 #--------------------------------------------------------------------
 
-#Example data
-#1471892585|polling.bbc.co.uk|GET /appconfig/iplayer/android/4.19.3/policy.json HTTP/1.1|200|26
-#1471892807|cmdts.ksmobile.com|POST /c/ HTTP/1.1|200|26
-#1471771627|notrack.local|GET /admin/svg/menu_dhcp.svg HTTP/1.1|304|0
-#1471773009|notrack.local|GET /admin/stats.php HTTP/1.1|200|117684
   
 #Lighty log line consists of:
 #1: \d{1,23} - 64bit Time value
@@ -307,7 +302,7 @@ function load_todaylog() {
 #HTTP 1.1 or 2.0
 #200 - HTTP Ok (Not interested in 304,404)
   
-function process_accesslog() {
+function process_lightylog() {
   local line=""
   local log_time=0
   local site=""
@@ -331,31 +326,6 @@ function process_accesslog() {
       remote_host="${BASH_REMATCH[7]}"
       if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
         mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path,referrer,user_agent,remote_host) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path', '$referrer', '$user_agent', '$remote_host')"
-      fi    
-    fi
-  done
-  
-  unset IFS  
-}
-
-function oldprocess_accesslog() {
-  local line=""
-  local log_time=0
-  local site=""
-  local http_method=""
-  local uri_path=""
-  
-  echo "Processing lighty log file"
-    
-  for line in "${logarray[@]}"; do               #Read whole logarray
-    #echo "$line"                                #Uncomment for debugging
-    if [[ $line =~ ^([0-9]{1,23})\|([^\|]+)\|(GET|POST)[[:space:]]([^[:space:]]+)[[:space:]]HTTP\/[0-9]\.[0-9]\|200 ]]; then    
-      log_time="${BASH_REMATCH[1]}"              #Allocate variables from BASH_REMATCH
-      site="${BASH_REMATCH[2]}"
-      http_method="${BASH_REMATCH[3]}"
-      uri_path="${BASH_REMATCH[4]}"
-      if [[ ! $uri_path =~ ^(\/admin|\/favicon\.ico) ]]; then  #Negate admin access
-        mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "INSERT INTO lightyaccess (id,log_time,site,http_method,uri_path) VALUES ('NULL',FROM_UNIXTIME('$log_time'), '$site', '$http_method', '$uri_path')"        
       fi    
     fi
   done
@@ -464,7 +434,7 @@ function show_help() {
   echo -e "  -c, --copy\tCopy Live table to Historic table"
   echo -e "  -h, --help\tThis Help"
   echo -e "  -v, --version\tDisplay version number"
-  echo -e "  --delete-access\tDelete contents of Access table"
+  echo -e "  --delete-lighty\tDelete contents of Lighty table"
   echo -e "  --delete-live\tDelete contents of Live table"
 }
 #--------------------------------------------------------------------
@@ -517,8 +487,8 @@ function simplify_url() {
 # Returns:
 #   None
 #--------------------------------------------------------------------
-function trim_access() {
-  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM lightyaccess WHERE log_time < NOW() - INTERVAL 31 DAY;"  
+function trim_lighty() {
+  mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "DELETE FROM lightyaccess WHERE log_time < NOW() - INTERVAL 60 DAY;"  
 }
 
 
@@ -544,8 +514,8 @@ if [ "$1" ]; then                                #Have any arguments been given
         copy_table
         exit 0
       ;;
-      --delete-access)
-        delete_access
+      --delete-lighty)
+        delete_lighty
         exit 0
       ;;
       --delete-live)
@@ -585,7 +555,7 @@ if [[ "$(date +'%H')" == "04" ]]; then
   if [ "$(date +'%M')" -lt 20 ]; then
     copy_table                                   #Copy Live to Historic
     delete_live
-    #trim_access                                 #Optional to add
+    trim_lighty                                  #Trim lighty access table
     exit 112                                     #No rush to parse log right now
   fi
 fi
@@ -595,7 +565,7 @@ check_logage                                     #Is Live older than MAXAGE?
 if [ $? -gt 0 ]; then                            #More than 0 is age in days
   copy_table                                     #Copy Live to Historic
   delete_live
-  #trim_access                                 #Optional to add
+  #trim_lighty                                    #Optional to add
   sleep 2s
 fi
 
@@ -609,15 +579,9 @@ is_sql_installed
 load_config                                      #Load users config
 
 #Make sure there is something in lighttpd access log 
-if [ "$(wc -l "$FILE_ACCESSLOG" | cut -d " " -f 1)" -gt 2 ]; then
-  load_accesslog                                 #Load lighttpd log file into array
-  if [[ "$(grep accesslog.format /etc/lighttpd/lighttpd.conf)" =~ ^accesslog\.format[[:space:]]+\=[[:space:]]\"%\{%s\}t\|%V\|%r\|%s\|%b\"$ ]]; then
-    echo "Legacy processing of lighty log"
-    oldprocess_accesslog
-  else
-    echo "New processing of lighty log"
-    process_accesslog                            #Process and add log to SQL table
-  fi
+if [ "$(wc -l "$FILE_LIGHTYLOG" | cut -d " " -f 1)" -gt 2 ]; then
+  load_lightylog                                 #Load lighttpd log file into array
+  process_lightylog                            #Process and add log to SQL table  
 fi
 
 logarray=()                                      #Empty logarray for reuse
