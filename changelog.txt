@@ -1,5 +1,10 @@
 v0.8.4 Alpha Dev
 Removed deprecated code
+
+Changed default log parsing time from 10 mins to 7 mins for new installs
+
+NoTrack.sh
+  #203 - fix error on lighttpd access file missing on non-lighttpd installs
 *************************************************
 
 v0.8.3 Alpha - Released 28 Dec 2016
