@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 13 Feb 2017
+#NoTrack Blocklist updated 16 Feb 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -137,6 +137,8 @@ adc-srv.net #ADC Media
 adcash.com
 adcentriconline.com
 adclick.stuff.co.nz #Stuff
+adclk.co #Advertising Unknown
+adclk.com #Advertising Unknown
 adcolony.com #AdColony
 addeluxe.jp
 addmediaclick.com #AppNexus Inc
@@ -318,6 +320,7 @@ adtruth.com #Experian
 adunity.com #AdUnity
 adunity.net #AdUnity
 adupclickfilter.com
+adv.satsis.info #Satsis
 advanced-web-analytics.com
 advantage.as #Via Aurea
 adventori.com
@@ -1120,6 +1123,7 @@ d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
 d2ymkpxi1rgldj.cloudfront.net #Canvas Fingerprinting
 d31qbv1cthcecs.cloudfront.net #Amazon - Alexa
 d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
+d3c3cq33003psk.cloudfront.net #QuBit Digital
 d3ohfm6v3473ou.cloudfront.net #Global Media Group
 d3ujids68p6xmp.cloudfront.net
 da-ads.com
@@ -1549,6 +1553,7 @@ geogslb.com #AppNexus Inc
 geogslb.net #AppNexus Inc
 geoiplookup.wikimedia.org #Wikipedia
 georiot.com
+geover-prod.do.dsp.mp.microsoft.com #Microsoft
 getclicky.com
 getdrip.com
 getmyads.com #Get My Ads
@@ -1653,6 +1658,7 @@ hit.skrz.cz #Skrz
 hlserve.com
 hobmobrevms.com #msales
 hochmoor.com
+hockeyapp.net #HockeyApp
 hotjar.com #Hotjar
 hqcampaign.com #Aurea
 hrb1tng0.com #Lead Forensics
@@ -1768,6 +1774,7 @@ in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
 indexww.com #CassleMedia
+indpcr1.com #Lead Forensics 
 industrybrains.com
 inetwork.directory
 inference.location.live.net #Microsoft
@@ -1886,6 +1893,7 @@ korrelate.com
 korrelate.net
 krxd.net
 ksmobile.com
+kv101-prod.do.dsp.mp.microsoft.com #Microsoft
 labeldecisionnel.net #Ysance
 labeldecisionnel.org #Ysance
 labsmedia.com #ClickHeat
@@ -2104,6 +2112,7 @@ milenar-ads.pt
 millennialmedia.com
 mioeverywhere.tv #Ooyala
 mixpanel.com
+mkt.publico.pt #Publico
 mkt001.com #IBM Silverpop
 mkt002.com #IBM Silverpop
 mkt003.com #IBM Silverpop
@@ -10539,6 +10548,7 @@ nl01.net #NetLine
 nl02.net #NetLine
 nl03.net #NetLine
 nl04.net #NetLine
+nlytcs.diffen.com #Diffen
 nmgcdn.com
 nosto.com #Nosto
 novao.com #Ysance
@@ -10591,6 +10601,10 @@ onclickads.net #Advertising Technologies
 onclicktop.com
 oneclickdeal.info #msales
 onedmp.com
+onesettings-bn2.metron.live.com.nsatc.net #Microsoft
+onesettings-cy2.metron.live.com.nsatc.net #Microsoft
+onesettings-db5.metron.live.com.nsatc.net #Microsoft
+onesettings-hk2.metron.live.com.nsatc.net #Microsoft
 onestat.com
 onetag-sys.com
 online-metrix.net
@@ -10792,6 +10806,7 @@ pubsqrd.com
 pubzip.net #Adbox Digital
 pulsemgr.com
 pump.to
+purch.com #Purch
 purplenile.com #eGain Corporation
 pusher.com #Pusher
 pusherapp.com #Pusher
@@ -11041,6 +11056,7 @@ sc-analytics.appspot.com #Google
 scarabresearch.com
 sch-alt-91.com #Lead Forensics
 sch-crt-91.com #Lead Forensics
+schemas.microsoft.akadns.net #Microsoft
 schibsted.io #Schibsted
 schibsted.media #Schibsted
 schibsted.se #Schibsted
@@ -11095,6 +11111,9 @@ servesharp.net
 serving-sys.com #Microsoft
 servingclks.com #CPMStars
 sessioncam.com
+settings-sandbox.data.microsoft.com #Microsoft
+settings.data.glbdns2.microsoft.com #Microsoft
+settings.data.microsoft.com #Microsoft
 sex-affiliation.com
 sexcount.com #comScore
 sg-living.co.jp
@@ -11111,6 +11130,7 @@ shopwindow.com #Digital Window
 shopwindowforum.com #Digital Window
 shore.li #Shore
 shore.uno #Shore
+shqads.com #Advertising Unknown
 shrfbdg004.com #Lead Forensics
 shuhenelk.com #Advertising
 shwired.com #TMRG
@@ -11206,6 +11226,7 @@ simpleheatmaps.com
 simplereach.com
 sinaimg.cn #Advertising
 site24x7rum.com
+siteheart.com #SiteHeart
 siteimprove.biz #SiteImprove
 siteimprove.com #SiteImprove
 siteimprove.info #SiteImprove
@@ -11250,6 +11271,9 @@ smct.co
 smetrics.mcafee.com #McAfee
 smetrics.sky.com #Sky
 smrk.io #Smarkio
+sn3301-c.1drv.com #Microsoft
+sn3301-e.1drv.com #Microsoft
+sn3301-g.1drv.com #Microsoft
 snapads.com #SnapAds
 snapengage.com #SnapEngage LLC
 snapsitemap.com #PathDefender
@@ -11431,11 +11455,13 @@ technoratimedia.com #Technorati
 technoratimedia.net #Technorati
 tedglynn.com #Ad Web
 tele.trafficmanager.net #Microsoft
-telecommand.telemetry.microsoft.com #Microsoft
 telemetry.api.swiftkey.com #Swiftkey
 telemetry.battle.net #Blizzard
 telemetry.gfe.nvidia.com #Nvidia
+telemetry.jivosite.com #Jivochat
 telemetry.microsoft.com #Microsoft
+telemetry.microsoft.com.nsatc.net #Microsoft
+telemetry.microsoft.com.nsatc.net #Microsoft
 telemetry.nvidia.com #Nvidia
 telemetry.urs.microsoft.com #Microsoft
 televisions2compare.com #Digital Window
@@ -11532,6 +11558,7 @@ triggit.com
 trk.i0.cz #centrum.cz
 trkme.net
 trkmob1.com #RevenueHits
+trkthatpaper.org #Advertising Unknown
 trkyme.com
 trovaamici.com #Click Meter
 tru.am #TrueAnthem
@@ -11697,6 +11724,14 @@ visualwebsiteoptimizer.com
 vizu.com
 vo.msecnd.net #Microsoft
 voicefive.com
+vortex-bn2.metron.live.com.nsatc.net #Microsoft
+vortex-cy2.metron.live.com.nsatc.net #Microsoft
+vortex-db5.metron.live.com.nsatc.net #Microsoft
+vortex-hk2.metron.live.com.nsatc.net #Microsoft
+vortex-sandbox.data.microsoft.com #Microsoft
+vortex-win.data.metron.live.com.nsatc.net #Microsoft
+vortex.data.glbdns2.microsoft.com #Microsoft
+vortex.data.metron.live.com.nsatc.net #Microsoft
 vortex.data.microsoft.com #Microsoft
 voucher-club.com #Digital Window
 voucheralley.com #Digital Window
@@ -11764,6 +11799,7 @@ whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
 wikia-beacon.com
+win10.ipv6.microsoft.com #Microsoft
 win30000.com #comScore
 win30000.net #comScore
 wistia.com
