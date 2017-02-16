@@ -186,7 +186,9 @@ function create_sqltables {
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS blocklist (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, bl_source TINYTEXT, site TINYTEXT, site_status BOOLEAN, comment TEXT);"
   mysql --user="$USER" --password="$PASSWORD" -D "$DBNAME" -e "CREATE TABLE IF NOT EXISTS lightyaccess (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, site TINYTEXT, http_method CHAR(4), uri_path TEXT, referrer TEXT, user_agent TEXT, remote_host TEXT);"
   
-  sudo chmod 775 /var/log/lighttpd/access.log    #Not really SQL related, but my system was causing ntrk-parse to fail because of permissions
+  if [ -e "/var/log/lighttpd/access.log" ]; then
+    sudo chmod 775 /var/log/lighttpd/access.log  #Not SQL related, but my system was causing ntrk-parse to fail because of permissions  
+  fi
 }
 
 
