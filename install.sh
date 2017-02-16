@@ -765,7 +765,7 @@ function setup_mariadb() {
   mysql --user=ntrk --password=ntrkpass -D ntrkdb -e "CREATE TABLE lightyaccess (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, log_time DATETIME, site TINYTEXT, http_method CHAR(4), uri_path TEXT, referrer TEXT, user_agent TEXT, remote_host TEXT);"
   
   echo "Creating CRON job for Log Parser"
-  echo -e "*/10 * * * *\troot\t/usr/local/sbin/ntrk-parse" | sudo tee /etc/cron.d/ntrk-parse &> /dev/null
+  echo -e "*/7 * * * *\troot\t/usr/local/sbin/ntrk-parse" | sudo tee /etc/cron.d/ntrk-parse &> /dev/null
 
   echo "MariaDB setup complete"
   echo
