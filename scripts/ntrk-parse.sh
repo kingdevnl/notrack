@@ -280,10 +280,11 @@ function load_todaylog() {
 #--------------------------------------------------------------------
 # Process Lighty Log
 #   1. Read each line of logarray and pattern match with regex 
-#   2. Add queries to querylist and systemlist arrays
-#   3. Find what happened to each query
-#   4. Build string for SQL entry
-#   5. Echo result into SQL
+#   2. Negate /admin and /favicon.ico
+#   3. Add queries to querylist and systemlist arrays
+#   4. Find what happened to each query
+#   5. Build string for SQL entry
+#   6. Echo result into SQL
 # Globals:
 #   logarray, USER, PASSWORD, DBNAME
 # Arguments:
@@ -297,10 +298,13 @@ function load_todaylog() {
 #1: \d{1,23} - 64bit Time value
 #2: [NOT |] One or more times Left-hand side of URL (before /)
 #3: (GET|POST) GET or POST
-#Negate /admin and /favicon.ico
 #4: [NOT space] Any number of times Right-hand side of URL (after /)
 #HTTP 1.1 or 2.0
 #200 - HTTP Ok (Not interested in 304,404)
+#5: URI Path [NOT |]
+#6: Referrer [NOT |]
+#7: User Agent [NOT |]
+#8: Remote Host [NOT |]
   
 function process_lightylog() {
   local line=""
