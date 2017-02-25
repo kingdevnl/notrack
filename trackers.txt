@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 16 Feb 2017
+#NoTrack Blocklist updated 25 Feb 2017
 #LatestVersion 0.8.3
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -693,6 +693,7 @@ bravodevupdatemyprofile.com #Campaign Monitor Pty
 bravotestcampmon.com #Campaign Monitor Pty
 bravotestconfirmsubscription.com #Campaign Monitor Pty
 bravotestcreatesend.com #Campaign Monitor Pty
+brealtime.com #bRealTime
 brecon-radnor-today.co.uk #Ad Web
 bridgetrack.com #Bridge Track
 bright-cove.com
@@ -967,6 +968,7 @@ cnv003.net #Experian
 cnv004.net #Experian
 cnv005.net #Experian
 cnzz.com
+coaptru.com #Tracker Unknown 
 codigo.se #Codigo
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
@@ -1575,7 +1577,6 @@ gigya.com
 gillyhunt.com #Ad Web
 gimmescreenshot.com #Usabilla
 glam.com #Ad domains are run on www2.glam.com and www8
-glbdns2.microsoft.com #Microsoft
 gldsta-02-or.com
 gleam.io #Gleam
 gleamio.com #Gleam
@@ -10560,6 +10561,7 @@ nr-data.net
 nster.net
 nt.vc #House of Next Tuesday
 ntv.io #Unknown Advertising
+nuffnang.com.sg #Nuffnang
 nuggad.net
 numerino.cz #Numerino
 nw-rail-03.com #Lead Forensics
@@ -10795,6 +10797,7 @@ ptengine.net #PTEngine
 ptmind.com #PTEngine
 ptvmediaservices.cz #Advertising
 pubexchange.com
+publicidade.delas.pt #Delas
 publicidade.dn.pt #Global Media Group
 publicidade.jn.pt #Publicidade
 publicidade.tsf.pt #Global Media Group
@@ -11569,7 +11572,6 @@ trustedsite.com
 truviewanalytics.com #Adobe
 truviewdata.com #Adobe
 trychameleon.com #Chameleon
-tsfe.trafficshaping.dsp.mp.microsoft.com #Microsoft
 ttxm.co.uk
 tubemogul.com
 tumri.net
@@ -11664,7 +11666,6 @@ v11cdn.net #Verizon
 v12cdn.net #Verizon
 v13cdn.net #Verizon
 v1cdn.net #Verizon
-v2cdn.net #Verizon
 v3cdn.net #Verizon
 v4cdn.net #Verizon
 v5cdn.net #Verizon
