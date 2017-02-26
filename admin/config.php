@@ -47,6 +47,7 @@ if (isset($_POST['action'])) {
       if (update_advanced()) {                   //Are users settings valid?
         save_config();                           //If ok, then save the Config file        
         sleep(1);                                //Short pause to prevent race condition
+        exec(NTRK_EXEC.'--parsing');             //Update ParsingTime value in Cron job
       }      
       header('Location: ?v=advanced');           //Reload page
       break;
@@ -75,7 +76,7 @@ if (isset($_POST['action'])) {
       }
       break;
     case 'tld':
-      load_csv($CSVTld, 'CSVTld');               //Load tld.csv
+      load_csv(TLD_FILE, 'CSVTld');              //Load tld.csv
       update_domain_list();      
       sleep(1);                                  //Prevent race condition
       header('Location: ?v=tld');                //Reload page
@@ -124,17 +125,22 @@ function update_advanced() {
   $suppress = '';
   $suppresslist = array();
   $validlist = array();
+  
+  if (isset($_POST['parsing'])) {
+    $Config['ParsingTime'] = filter_integer($_POST['parsing'], 1, 60, 7);
+  }
+  
   if (isset($_POST['suppress'])) {
     $suppress = preg_replace('#\s+#',',',trim($_POST['suppress'])); //Split array
-    if (strlen($suppress) <= 2) {             //Is string too short?
+    if (strlen($suppress) <= 2) {                //Is string too short?
       $Config['Suppress'] = '';
       return true;
     }
     
-    $suppresslist = explode(',', $suppress);  //Split string into array
+    $suppresslist = explode(',', $suppress);     //Split string into array
     foreach ($suppresslist as $site) {           //Check if each item is a valid URL
-      if (Filter_URL_Str($site)) {
-        $validlist[] = $site;
+      if (filter_url($site)) {
+        $validlist[] = strip_tags($site);
       }
     }
     if (sizeof($validlist) == 0) $Config['Suppress'] = '';
@@ -181,8 +187,8 @@ function update_blocklist_config() {
     $customstr = preg_replace('#\s+#',',',trim($_POST['bl_custom'])); //Split array
     $customlist = explode(',', $customstr);      //Split string into array
     foreach ($customlist as $site) {             //Check if each item is a valid URL
-      if (Filter_URL_Str($site)) {
-        $validlist[] = $site;
+      if (filter_url($site)) {
+        $validlist[] = strip_tags($site);
       }
     }
     if (sizeof($validlist) == 0) $Config['bl_custom'] = '';
@@ -608,7 +614,7 @@ if (isset($_GET['v'])) {                         //What view to show?
       show_status();
       break;
     case 'tld':
-      load_csv($CSVTld, 'csv_tld');
+      load_csv(TLD_FILE, 'csv_tld');
       show_domain_list();     
       break;
     default:

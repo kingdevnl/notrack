@@ -35,9 +35,9 @@ function add_searches() {
  *    None
  */
 function draw_blocklist_row($bl, $bl_name, $msg) {
-  global $Config, $CSVTld;
+  global $Config;
   //Txt File = Origniating download file
-  //TLD Is a special case, and the Txt file used is $CSVTld
+  //TLD Is a special case, and the Txt file used is TLD_FILE
   
   $txtfile = false;
   $txtfilename = '';
@@ -51,7 +51,7 @@ function draw_blocklist_row($bl, $bl_name, $msg) {
   else {    
     $filename = strtolower(substr($bl, 3));
     if ($bl == 'bl_tld') {
-      $txtfilename = $CSVTld;
+      $txtfilename = TLD_FILE;
     }
     else {
       $txtfilename = DIR_TMP.$filename.'.txt';
@@ -163,7 +163,7 @@ function load_csv($filename, $listname) {
  */
 function load_customlist($listname, $filename) { 
   global $list, $mem;
-  
+    
   $list = $mem->get($listname);
   
   if (empty($list)) {
@@ -171,13 +171,13 @@ function load_customlist($listname, $filename) {
     while (!feof($fh)) {
       $Line = trim(fgets($fh));
       
-      if (Filter_URL_Str($Line)) {
-        $Seg = explode('#', $Line);
-        if ($Seg[0] == '') {
-          $list[] = Array(trim($Seg[1]), $Seg[2], false);
+      if (filter_url($Line)) {
+        $seg = explode('#', $Line);
+        if ($seg[0] == '') {
+          $list[] = array(trim($seg[1]), $seg[2], false);
         }
         else {
-          $list[] = Array(trim($Seg[0]), $Seg[1], true);
+          $list[] = array(trim($seg[0]), $seg[1], true);
         }        
       }
     }  
@@ -230,6 +230,7 @@ function show_advanced() {
   echo '<form action="?v=advanced" method="post">'.PHP_EOL;
   echo '<input type="hidden" name="action" value="advanced">';
   draw_systable('Advanced Settings');
+  draw_sysrow('DNS Log Parsing Interval', '<input type="number" name="parsing" min="1" max="60" value="'.$Config['ParsingTime'].'" title="Time between updates in Minutes">');
   draw_sysrow('Suppress Domains <img class="btn" src="./svg/button_help.svg" alt="help" title="Group together certain domains on the Stats page">', '<textarea rows="5" name="suppress">'.str_replace(',', PHP_EOL, $Config['Suppress']).'</textarea>');
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-grey" value="Save Changes"></div></td></tr>'.PHP_EOL;
   echo '</table>'.PHP_EOL;
@@ -675,7 +676,7 @@ function show_full_blocklist() {
  *    None
  */
 function show_general() {
-  global $Config, $DirOldLogs, $SEARCHENGINELIST, $WHOISLIST;
+  global $Config, $SEARCHENGINELIST, $WHOISLIST;
   
   $key = '';
   $value = '';

@@ -318,6 +318,33 @@ function read_dnsmasq() {
 
 
 #--------------------------------------------------------------------
+# Parsing Time
+#   Update CRON Job parsing interval for ntrk-parse
+#   
+# Globals:
+#   FILE_CONFIG
+# Arguments:
+#   None
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function parsing_time() {
+  interval=""
+  interval=$(grep "ParsingTime" "$FILE_CONFIG")  #Load single value from Config
+  if [[ -n $interval ]]; then                    #Anything found?
+    interval=$(cut -d "=" -f 2 <<< $interval | cut -d " " -f 2) #Remove 'Parsing = '
+    if [[ $interval =~ ^[1-9][0-9]?$ ]]; then    #Valid one or two digit number?
+      echo "Setting Cron job interval of $interval minutes for ntrk-parse"
+      echo -e "*/$interval * * * *\troot\t/usr/local/sbin/ntrk-parse" | sudo tee /etc/cron.d/ntrk-parse &> /dev/null
+    else
+      echo "Invalid value for ParsingTime in $FILE_CONFIG"
+    fi
+  else
+    echo "Error: Value for ParsingTime not found in $FILE_CONFIG"
+  fi  
+}
+
+#--------------------------------------------------------------------
 # Write Dnsmasq Config
 #
 # Globals:
@@ -389,7 +416,7 @@ fi
 
 
 if [ "$1" ]; then                         #Have any arguments been given
-  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,delete-history,force,run-notrack,restart,save-conf,shutdown,upgrade,read:,write:,pause:,copy: -- "$@"); then
+  if ! Options=$(getopt -o hps -l accesslog,bm-msg,bm-pxl,delete-history,force,parsing,run-notrack,restart,save-conf,shutdown,upgrade,read:,write:,pause:,copy: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -430,6 +457,9 @@ if [ "$1" ]; then                         #Have any arguments been given
       ;;
       -p)                                        #Play
         /usr/local/sbin/ntrk-pause --start  > /dev/null &
+      ;;
+      --parsing)
+        parsing_time;
       ;;
       --pause)
         pausetime=$(sed "s/'//g" <<< "$2")       #Remove single quotes
