@@ -1,13 +1,17 @@
-v0.8.4 Alpha Dev
-Removed deprecated code
+v0.8.4 Alpha Dev - Released 26 Feb 2017
 
-Changed default log parsing time from 10 mins to 7 mins for new installs
-
+Config:
+  Added Option to change Log parsing time
+  
 NoTrack.sh
   #203 - fix error on lighttpd access file missing on non-lighttpd installs
+
+Removed deprecated code
+Changed default log parsing time from 10 mins to 7 mins for new installs
+  
 *************************************************
 
-v0.8.3 Alpha - Released 28 Dec 2016
+v0.8.3 Alpha - Released 28 Nov 2016
 **If you upgraded between 21 - 25 November your upgrader will fail**
 **It will display "WARNING: Unable to find file"
 **Please run ntrk-upgrade from terminal:

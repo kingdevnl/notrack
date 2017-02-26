@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 25 Feb 2017
-#LatestVersion 0.8.3
+#NoTrack Blocklist updated 26 Feb 2017
+#LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -771,6 +771,11 @@ canddi.guru #CANDDi
 canddi.io #CANDDi
 canddi.rocks #CANDDi
 canddianalytics.com #CANDDi
+candid.international #Candid
+candid.io #Candid
+candid.marketing #Candid
+candid.media #Candid
+candid.shop #Candid
 candobees.com #Ad Web
 candodigital.biz #Ad Web
 candodigital.com #Ad Web
@@ -10387,6 +10392,8 @@ monika.link #Click Meter
 monitor.uu.qq.com #qq
 mookie1.com
 moonmedia.info #msales
+mopub.cloud #MoPub
+mopub.com #MoPub
 mosaicaudience.com #Experian
 motdgd.com #MOTDgd
 mouseflow.com #Mouseflow
