@@ -397,58 +397,6 @@ function table_exists($table) {
   return $exists;
 }
 
-//DEPRECATED
-//Filter Int from GET------------------------------------------------
-function Filter_Int($Str, $Min, $Max, $DefaltValue=false) {
-  //1. Check Variable Exists
-  //2. Check Value is between $Min and $Max
-  //3. Return Value on success, and $DefaultValue on fail
-  
-  if (isset($_GET[$Str])) {
-    if (is_numeric($_GET[$Str])) {
-      if (($_GET[$Str] >= $Min) && ($_GET[$Str] < $Max)) {
-        return intval($_GET[$Str]);
-      }
-    }
-  }
-  return $DefaltValue;
-}
-
-//DEPRECATED
-//Filter String from GET---------------------------------------------
-function Filter_Str($Str) {
-  //1. Check Variable Exists
-  //2. Check String doesn't contain !"£$%^*()[]<>|/\
-  //Return True on success, and False on fail
-
-  if (isset($_GET[$Str])) {
-    if (preg_match('/[!\"£\$%\^\*\(\)\[\]<>\|\/\\\\]/', $_GET[$Str]) == 0) return true;    
-  }
-  return false;
-}
-//Filter String Value------------------------------------------------
-function Filter_Str_Value($Str, $DefaltValue='') {
-  //1. Check String Length is > 0 AND String doesn't contain !"<>,|/\
-  //2. Return Str on success, and Default on fail
-  
-  if (preg_match('/[!\"<>\|]/', $Str) == 0) {
-    return $Str;
-  }  
-  return $DefaltValue;
-}
-
-
-//Filter URL Str-----------------------------------------------------
-function Filter_URL_Str($Str) {
-  //1. Check String Length is > 0 AND String doesn't contain !"£$^()<>,|
-  //2. Check String matches the form of a URL "any.co"
-  //Return True on success, and False on fail
-  if (preg_match('/[!\"£\$\^\(\)<>\,\|]/', $Str) == 0) {
-    if (preg_match('/.*\..{2,}$/', $Str) == 1) return true;    
-  }
-  return false;
-}
-
 
 /********************************************************************
  *  Load Config File
@@ -486,26 +434,11 @@ function load_config() {
         $splitline[0] = trim($splitline[0]);
         $splitline[1] = trim($splitline[1]);
         switch (trim($splitline[0])) {
-          case 'LatestVersion':
-            $Config['LatestVersion'] = Filter_Str_Value($splitline[1], VERSION);
-            break;
-          case 'Status':
-            $Config['Status'] = Filter_Str_Value($splitline[1], 'Enabled');
-            break;
-          case 'BlockMessage':
-            $Config['BlockMessage'] = Filter_Str_Value($splitline[1], 'pixel');
-            break;
-          case 'Search':
-            $Config['Search'] = Filter_Str_Value($splitline[1], 'DuckDuckGo');
-            break;
-          case 'WhoIs':
-            $Config['WhoIs'] = Filter_Str_Value($splitline[1], 'Who.is');              
-            break;
           case 'Delay':
             $Config['Delay'] = filter_integer($splitline[1], 0, 3600, 30);
             break;
-          case 'Suppress':
-            $Config['Suppress'] = Filter_Str_Value($splitline[1], '');
+          case 'ParsingTime':
+            $Config['ParsingTime'] = filter_integer($splitline[1], 1, 60, 7);
             break;            
           default:
             if (array_key_exists($splitline[0], $Config)) {

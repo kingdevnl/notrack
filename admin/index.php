@@ -158,8 +158,8 @@ function draw_statusbox() {
     $status_msg = '<h3>Active</h3>';
   }
   
-  if (file_exists(BL_NOTRACK)) {                 //Does the notrack.list file exist?
-    $filemtime = filemtime(BL_NOTRACK);          //Get last modified time
+  if (file_exists(NOTRACK_LIST)) {               //Does the notrack.list file exist?
+    $filemtime = filemtime(NOTRACK_LIST);        //Get last modified time
     if ($filemtime > $currenttime - 86400) $date_msg = '<h3>Today</h3>';
     elseif ($filemtime > $currenttime - 172800) $date_msg = '<h3>Yesterday</h3>';
     elseif ($filemtime > $currenttime - 259200) $date_msg = '<h3>3 Days ago</h3>';

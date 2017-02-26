@@ -1,6 +1,6 @@
 <?php
 
-DEFINE('VERSION', '0.8.3');
+DEFINE('VERSION', '0.8.4');
 DEFINE('SERVERNAME', 'localhost');
 DEFINE('USERNAME', 'ntrk');
 DEFINE('PASSWORD', 'ntrkpass');
@@ -8,25 +8,19 @@ DEFINE('DBNAME', 'ntrkdb');
 
 DEFINE('ROWSPERPAGE', 200);
 
-$FileTmpAction = '/tmp/ntrk-exec.txt';
-
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
 $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
 $FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
-$CSVBlocking = '/etc/notrack/blocking.csv';
-$CSVTld = './include/tld.csv';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
+DEFINE('DIR_TMP', '/tmp/');
 DEFINE('ACCESSLOG', '/var/log/ntrk-admin.log');
 DEFINE('CONFIGFILE', '/etc/notrack/notrack.conf');
 DEFINE('CONFIGTEMP', '/tmp/notrack.conf');
+DEFINE('TLD_FILE', './include/tld.csv');
 DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
-DEFINE('DIR_TMP', '/tmp/');
-DEFINE('BL_NOTRACK', '/etc/dnsmasq.d/notrack.list');
-
-$DirEtc = '/etc/notrack/';
-$DirOldLogs = '/var/log/notrack';
+DEFINE('NOTRACK_LIST', '/etc/dnsmasq.d/notrack.list');
 
 $Config=array();
 
@@ -43,6 +37,7 @@ $DEFAULTCONFIG = array(
   'Password' => '',
   'Delay' => 30,
   'Suppress' => '',
+  'ParsingTime' => 10,
   'bl_custom' => '',
   'bl_notrack' => 1,
   'bl_tld' => 1,

@@ -7,27 +7,21 @@
 //Further notes: Strict controls are needed on echo file_get_contents to prevent user from downloading system or config files.
 
 require('./global-vars.php');
+$list = '';
+$file = '';
 
 header('Content-type: text/plain');
 
 if (isset($_GET['v'])) {
   switch($_GET['v']) {
     case 'black':
-      $FileName = $FileBlackList;
-      $DefFile = 'blacklist.txt';
+      $list = $FileBlackList;
+      $file = 'blacklist.txt';
       break;
     case 'white':
-      $FileName = $FileWhiteList;
-      $DefFile = 'whitelist.txt';
-      break;
-    case 'tldblack':
-      $FileName = $FileTLDBlackList;
-      $DefFile = 'domain-blacklist.txt';
-      break;
-    case 'tldwhite':
-      $FileName = $FileTLDWhiteList;
-      $DefFile = 'domain-whitelist.txt';
-      break;
+      $list = $FileWhiteList;
+      $file = 'whitelist.txt';
+      break;    
     default:
       echo 'Error: No valid file selected';
       die();
@@ -38,7 +32,7 @@ else {
   die();
 }
 
-header('Content-Disposition: attachment; filename="'.$DefFile.'"');
-echo file_get_contents($FileName);
+header('Content-Disposition: attachment; filename="'.$file.'"');
+echo file_get_contents($list);
 
 ?>
