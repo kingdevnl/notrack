@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 26 Feb 2017
+#NoTrack Blocklist updated 27 Feb 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -85,7 +85,6 @@
 9nl.com #Click Meter
 9nl.org #Click Meter
 9nl.us #Click Meter
-a-msedge.net #Microsoft
 a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
@@ -97,7 +96,6 @@ abetterweb.us #instartlogic
 abmr.net #Akami
 absentvodka.com #Hacker Site
 abtasty.com #AB Tasty
-ac3.msn.com #Microsoft
 acceptableserver.com #Amazon
 acekhor.com #SpyVisit
 acexedge.com #WhiteOps
@@ -105,7 +103,6 @@ active-agent.com #Active Agent
 active-agent.net #Active Agent
 active-trk7.com #Lead Forensics
 activeconversion.com #Active Conversion
-activity.windows.com #Microsoft
 acuityplatform.com #Acuity Consumer Connection Platform
 acuityplatform.net #Acuity Consumer Connection Platform
 acuityplatform.org #Acuity Consumer Connection Platform
@@ -270,8 +267,6 @@ ads.hearstmags.com
 ads.msn.com #Microsoft
 ads.yahoo.com #Yahoo
 ads1.msn.com #Microsoft
-ads1.msn.com #Microsoft
-ads2.msn.com #Microsoft
 ads2.msn.com #Microsoft
 ads4apps.net #Smaato
 ads4pubs.com #Unknown Advertising
@@ -508,7 +503,6 @@ appnexuscloud.org #AppNexus Inc
 appnexuscloud.us #AppNexus Inc
 appnexusconsole.com #AppNexus Inc
 apps-your-ideas.com
-apps.skype.com #Microsoft
 appsequencer.com #instartlogic
 appsequencer.net #instartlogic
 appsmonitoring.com #AppDynamics
@@ -521,10 +515,8 @@ apptrade.mobi #Millennial Media
 appunti.com #Click Meter
 apxlv.com
 aracea.com #Ad Web
-arc.msn.com #Microsoft
 arcpublishing.com #Washington Post
 areyouahuman.com #Are You A Human
-aria.microsoft.com #Microsoft
 as133873.net #Campaign Monitor Pty
 as134124.net #Campaign Monitor Pty
 as55819.net #Campaign Monitor Pty
@@ -627,9 +619,6 @@ bis-dic15.com #Lead Forensics
 bizible.com
 bizographics.com
 bkrtx.com #Oracle
-bl3301-a.1drv.com #Microsoft
-bl3301-c.1drv.com #Microsoft
-bl3301-g.1drv.com #Microsoft
 blackholemyemail.com #Campaign Monitor Pty
 blinkx.com
 blocwhite7.com #Lead Forensics
@@ -646,12 +635,6 @@ bluevoice.us
 blutonic-ads.com #bluTonic
 blutonic.net #bluTonic
 bluuadd.com #Smaato
-bn1304-e.1drv.com #Microsoft
-bn1306-a.1drv.com #Microsoft
-bn1306-e.1drv.com #Microsoft
-bn1306-g.1drv.com #Microsoft
-bn2b-cor001.api.p001.1drv.com #Microsoft
-bn3p-cor001.api.p001.1drv.com #Microsoft
 bolimubei.com #Advertising
 bombora.com
 bongacash.com
@@ -749,15 +732,10 @@ buysellads.com #BuySellAds
 buysellads.net #BuySellAds
 buysub.com
 buzzybar.com #Click Meter
-by3301-a.1drv.com #Microsoft
-by3301-c.1drv.com #Microsoft
-by3301-e.1drv.com #Microsoft
 bz.io
 c-ctrip.com
-c.msn.com #Microsoft
 c1exchange.com #C1 Exchange
 c3tag.com
-cache.datamart.windows.com #Microsoft
 callwindow.com #Digital Window
 callwindow.net #Digital Window
 campaignmonitor.com #Campaign Monitor Pty
@@ -801,14 +779,11 @@ cashforfundraising.com #Digital Window
 cashlantis.com
 ccmp.eu #Experian
 cctyly.com #Advertising
-cdf-anon.gtm.xboxlive.com #Microsoft
 cdn-net.com
 cdngc.net
 cdnh1.net #Team Internet AG
 cdnh2.net #Team Internet AG
 cdnh3.net #Team Internet AG
-cds26.ams9.msecn.net #Microsoft
-cds26.ams9.msecnd.net #Microsoft
 cedexis-radar.net #Cedexis Radar
 cedexis-test.com #Cedexis Radar
 cedexis.com #Cedexis Radar
@@ -819,11 +794,6 @@ centralcore7.com #Lead Forensics
 ceros.com
 certona.net
 cetrk.com
-ch3301-c.1drv.com #Microsoft
-ch3301-e.1drv.com #Microsoft
-ch3301-g.1drv.com #Microsoft
-ch3302-c.1drv.com #Microsoft
-ch3302-e.1drv.com #Microsoft
 chameleon.ad #Chameleon
 chango.com
 channeladvisor.com
@@ -835,7 +805,6 @@ cheetahmail.com #Experian
 chicdn.net
 chinaheh.com #Advertising
 chinashoesking.com #Advertising
-choice.microsoft.com #Microsoft
 choicestream.com
 choosealoan.com #Digital Window
 christmasalready.com #Digital Window
@@ -922,7 +891,6 @@ clktag.com #RevenueHits
 clkuno.com #RevenueHits
 cloud-9751.com #Lead Forensics
 cloud-et-bigdata.com #Ysance
-cloudapp.net #Microsoft
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail.link #Campaign Monitor Pty
@@ -962,7 +930,6 @@ cmcore.com
 cmmeglobal.com
 cmon1.com #Campaign Monitor Pty
 cmon2.com #Campaign Monitor Pty
-cms.msn.com #Microsoft
 cnt-tm-1.com #Lead Forensics
 cnt1.net #Luna Park
 cntr-di5.com #Lead Forensics
@@ -1001,7 +968,6 @@ comscorestudies.com #comScore
 comscorestudies.net #comScore
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
-config.skype.com #Microsoft
 confirmsubscription.com #Campaign Monitor Pty
 connatix.com #Connatix
 connct-9.com #Lead Forensics
@@ -1027,14 +993,11 @@ cookiesv2.publiekeomroep.nl
 cookiesync.vertamedia.com
 coolander247.click #msales
 cooldeal.click #msales
-coremetrics.com.edgekey.net #EdgeKey
 coremetrics.eu
 corp.aol.com #AOL
-corpext.msitadfs.glbdns2.microsoft.com #Microsoft
 corporate-ir.net
 coveritlive.com #Coverit Live
 cp1.news.com.au
-cp101-prod.do.dsp.mp.microsoft.com #Microsoft
 cpmstars.com #CPMStars
 cq.io
 cqcounter.com
@@ -1141,7 +1104,6 @@ dart.l.doubleclick.net #Google
 dartsearch.net
 data-eroadvertising.com
 data.coremetrics.com
-data.microsoft.com #Microsoft
 databureau.com #comScore
 databureau.net #comScore
 databuro.com #comScore
@@ -1153,22 +1115,6 @@ davide.click #Click Meter
 davide.link #Click Meter
 davide.photo #Click Meter
 daxapi.com #comScore
-db3wns2011111.wns.windows.com #Microsoft
-db5.wns.windows.com #Microsoft
-db5sch101100917.wns.windows.com #Microsoft
-db5sch101101511.wns.windows.com #Microsoft
-db5sch101101914.wns.windows.com #Microsoft
-db5sch101101939.wns.windows.com #Microsoft
-db5sch101110626.wns.windows.com #Microsoft
-db5sch101110634.wns.windows.com #Microsoft
-db5sch101110821.wns.windows.com #Microsoft
-db5sch101110822.wns.windows.com #Microsoft
-db5sch103082111.wns.windows.com #Microsoft
-db5sch103082406.wns.windows.com #Microsoft
-db5sch103092209.wns.windows.com #Microsoft
-db5wns1d.wns.windows.com #Microsoft
-db6sch102091105.wns.windows.com #Microsoft
-db6sch102091412.wns.windows.com #Microsoft
 dc-storm.com #Rakuten 
 dcoengine.com
 ddf-t1.com #Ysance
@@ -1212,7 +1158,6 @@ deviceapps.net #Millennial Media
 devnexus.net #AppNexus Inc
 devnxs.net #AppNexus Inc
 dexometer.com #Adobe
-diagnostics.support.microsoft.com #Microsoft
 diamondeal.click #msales
 diamondmedia.click #msales
 dianalytics.com #Adobe
@@ -1251,7 +1196,6 @@ displaywords.com #AppNexus Inc
 displaywords.net #AppNexus Inc
 disqusads.com #Disqus
 dl-rms.com
-dl.delivery.mp.microsoft.com #Microsoft
 dleke.com #Advertising
 dlqm.net
 dmd.metaservices.microsoft.com
@@ -1474,8 +1418,6 @@ fashiona-z.com #Digital Window
 fastclick.net
 fdgkdhfgjkdfgdg.com #HelloWorld
 feed-ads.com #Advertising Unknown
-feedback.search.microsoft.com #Microsoft
-feedback.windows.com #Microsoft
 feedbackify.com #Feedbackify
 feedmagnet.com
 feedsportal.com
@@ -1491,7 +1433,6 @@ firethepixel.click #msales
 fits.me
 flagcounter.com
 flashtalking.com
-flex.msn.com #Microsoft
 flexlinks.com
 flite.com
 flix360.com #Flix 360
@@ -1537,8 +1478,6 @@ futureusmedia.com
 fwmrm.net #FreeWheel
 fyre.co
 g.alicdn.com
-g.live.com #Microsoft
-g.msn.com #Microsoft
 gaheatmaps.com #PTEngine
 galacticoffers.com #msales
 gameofoffers.com #msales
@@ -1550,7 +1489,6 @@ gbl007.com #Lead Forensics
 gblwebcen.com #Lead Forensics
 gemius.pl
 genericlink.com
-geo-prod.do.dsp.mp.microsoft.com #Microsoft
 geo.query.yahoo.com #Yahoo
 geoadnxs.com #AppNexus Inc
 geoadnxs.net #AppNexus Inc
@@ -1560,7 +1498,6 @@ geogslb.com #AppNexus Inc
 geogslb.net #AppNexus Inc
 geoiplookup.wikimedia.org #Wikipedia
 georiot.com
-geover-prod.do.dsp.mp.microsoft.com #Microsoft
 getclicky.com
 getdrip.com
 getmyads.com #Get My Ads
@@ -1632,9 +1569,6 @@ gw100-10.com #Lead Forensics
 gwallet-qa.com #RadiumOne
 gwallet.com #RadiumOne
 gwallet.net #RadiumOne
-h-cdn.com #Tracker Unknown
-h1.msn.com #Microsoft
-h2.msn.com #Microsoft
 ha44888.com #HelloWorld
 hackers.lv #Tracker Unknown
 hanapinmarketing.com
@@ -1743,7 +1677,6 @@ hw-dev.com #HelloWorld
 hxtrack.com
 hyfffpaint.com
 i-transactads.com
-i1.services.social.microsoft.com #Microsoft
 i10c.net #instartlogic
 iadvize.com #iAdvize
 iasds01.com
@@ -1783,7 +1716,6 @@ indexww.com #CassleMedia
 indpcr1.com #Lead Forensics 
 industrybrains.com
 inetwork.directory
-inference.location.live.net #Microsoft
 infernotions.com
 infinity-tracking.net
 influentialinsights.com #TMRG
@@ -1899,7 +1831,6 @@ korrelate.com
 korrelate.net
 krxd.net
 ksmobile.com
-kv101-prod.do.dsp.mp.microsoft.com #Microsoft
 labeldecisionnel.net #Ysance
 labeldecisionnel.org #Ysance
 labsmedia.com #ClickHeat
@@ -1950,7 +1881,6 @@ linksynergy.com
 liqwid.net #Liqwid
 listrakbi.com
 lithium.com
-live.rads.msn.com #Microsoft
 liveadexchanger.com
 liveadvert.com
 livefyre.com
@@ -1978,7 +1908,6 @@ loyaltywindow.com #Digital Window
 lp4.io #Linkpulse
 lpsnmedia.net
 lrcdn.net
-ls2web.redmond.corp.microsoft.com #Microsoft
 lucidmedia.com
 luxup.ru #AdLabs
 lyhxwx.com
@@ -2004,7 +1933,6 @@ lyristech.com #Aurea
 lyristech.net #Aurea
 lyristechnologies.com #Aurea
 lyristechnologies.net #Aurea
-m.hotmail.com #Microsoft
 madisonlogic.com
 madnxs.com #AppNexus Inc
 madnxs.net #AppNexus Inc
@@ -2110,7 +2038,6 @@ metrigo.com
 mgid.com
 mgsvc.com
 micpn.com
-microsoft-hohm.com #Microsoft
 microsoftpanel.com #comScore
 microsoftpanel.net #comScore
 midrollvideo.com #BrightRoll
@@ -10412,7 +10339,6 @@ mpstat.us #SOASTA
 mptracking.mobi #MobPartner
 mrkt.it
 msads.net
-msedge.net
 msgf.net #Adestra
 msgfocus.com
 msmtrakk00.com #msales
@@ -10610,10 +10536,6 @@ onclickads.net #Advertising Technologies
 onclicktop.com
 oneclickdeal.info #msales
 onedmp.com
-onesettings-bn2.metron.live.com.nsatc.net #Microsoft
-onesettings-cy2.metron.live.com.nsatc.net #Microsoft
-onesettings-db5.metron.live.com.nsatc.net #Microsoft
-onesettings-hk2.metron.live.com.nsatc.net #Microsoft
 onestat.com
 onetag-sys.com
 online-metrix.net
@@ -10692,7 +10614,6 @@ performancemail.com #Aurea
 performancemail.net #Aurea
 performax.cz #Performax
 performfeeds.com #Perform Group
-performgroup.com #Perform Group
 permission-research.com #TMRG
 permission-research.net #TMRG
 permissionresearch.com #TMRG
@@ -10715,7 +10636,6 @@ pingmemessenger.com #RadiumOne
 pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
-pipe.skype.com #Microsoft
 pipeaota.com
 pippio.com #Arbor
 piwik.pro #Piwik PRO
@@ -10773,8 +10693,6 @@ ppjol.net
 preroll.cz #Grape Media
 preroller.com #BrightRoll
 pressfusion.com #Ad Web
-preview.msn.com #Microsoft
-pricelist.skype.com #Microsoft
 primefuse.com
 privacy.aol.com #AOL
 privateebusiness.com #Advertising Unknown
@@ -10804,9 +10722,9 @@ ptengine.net #PTEngine
 ptmind.com #PTEngine
 ptvmediaservices.cz #Advertising
 pubexchange.com
-publicidade.delas.pt #Delas
+publicidade.delas.pt #Global Media Group
 publicidade.dn.pt #Global Media Group
-publicidade.jn.pt #Publicidade
+publicidade.jn.pt #Global Media Group
 publicidade.tsf.pt #Global Media Group
 pubmatic.com #PubMatic
 pubmine.com
@@ -10863,7 +10781,6 @@ r42tag.com #Relay42
 r7ls.net #Impact Radius
 raasnet.com
 rad.live.com #Microsoft
-rad.msn.com #Microsoft
 radicaltest.com #RadiumOne
 radium1.com #RadiumOne
 radium1.info #RadiumOne
@@ -10906,7 +10823,6 @@ reclaimthenet.com #Ad Web
 reddadd.net #Smaato
 redeye.international
 redfacflowms.com #msales
-redir.metaservices.microsoft.com #Microsoft
 redirecting2.net
 redrevmsmt.com #msales
 redstar.co.uk
@@ -11001,7 +10917,6 @@ rooxflwtrafms.com #msales
 route.to
 routecdn.com
 royapp.com #Roy App
-rpt.msn.com #Microsoft
 rshplgmediams.com #msales
 rsvpgenius.com
 rtb007.com #RevenueHits
@@ -11043,8 +10958,6 @@ rvfrm2008.com #RevenueHits
 rvfrm2009.com #RevenueHits
 rvfrm2010.com #RevenueHits
 rvfrm2011.com #RevenueHits
-s.gateway.messenger.live.com #Microsoft
-s0.2mdn.net #Microsoft
 s3network1.com #Lead Forensics
 s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
@@ -11066,7 +10979,6 @@ sc-analytics.appspot.com #Google
 scarabresearch.com
 sch-alt-91.com #Lead Forensics
 sch-crt-91.com #Lead Forensics
-schemas.microsoft.akadns.net #Microsoft
 schibsted.io #Schibsted
 schibsted.media #Schibsted
 schibsted.se #Schibsted
@@ -11121,9 +11033,6 @@ servesharp.net
 serving-sys.com #Microsoft
 servingclks.com #CPMStars
 sessioncam.com
-settings-sandbox.data.microsoft.com #Microsoft
-settings.data.glbdns2.microsoft.com #Microsoft
-settings.data.microsoft.com #Microsoft
 sex-affiliation.com
 sexcount.com #comScore
 sg-living.co.jp
@@ -11281,9 +11190,6 @@ smct.co
 smetrics.mcafee.com #McAfee
 smetrics.sky.com #Sky
 smrk.io #Smarkio
-sn3301-c.1drv.com #Microsoft
-sn3301-e.1drv.com #Microsoft
-sn3301-g.1drv.com #Microsoft
 snapads.com #SnapAds
 snapengage.com #SnapEngage LLC
 snapsitemap.com #PathDefender
@@ -11336,7 +11242,6 @@ spendnraise.org #Digital Window
 spexaccess.net #Spex Access
 spgo.io #SparkPost
 spiderwatch.com #SpidersWatch
-spoded.com #Microsoft
 spongecell.com
 spopessentials3.com
 spotad.co #Spot Ad
@@ -11360,7 +11265,6 @@ ssw.live.com #Microsoft
 stat.alibaba.com
 stat.swedbank.se #Swedbank
 statcounter.com
-static.2mdn.net #Microsoft
 staticworld.net
 stats.bbc.co.uk
 stats.ebay.com #eBay
@@ -11371,7 +11275,6 @@ stats.paypal.com #PayPal
 stats.royalbank.com #Canadian Royal Bank
 stats.wp.com #Wordpress
 statsfe1.ws.microsoft.com #Microsoft
-statsfe2.update.microsoft.com #Microsoft
 statsfe2.ws.microsoft.com #Microsoft
 statsy.net #Tracker Unknown
 statuscake-email.com #Traffic Cake
@@ -11410,7 +11313,6 @@ strk18.email #Hubspot
 strk19.email #Hubspot
 strk20.email #Hubspot
 struq.com
-sts.microsoft.com #Microsoft
 sub2tech.com
 subtraxion.com
 successfultogether.co.uk
@@ -11437,7 +11339,6 @@ swoop.com
 swordfishdc.com #Swordfish Inc
 sxxjdz.com #Advertising
 sydjyy.com
-symcd.com #Symantec
 t4p-upd.info #Sergii Mykolaenko
 taboola.com
 taboolasyndication.com
@@ -11464,13 +11365,11 @@ technorati.com #Technorati
 technoratimedia.com #Technorati
 technoratimedia.net #Technorati
 tedglynn.com #Ad Web
-tele.trafficmanager.net #Microsoft
 telemetry.api.swiftkey.com #Swiftkey
 telemetry.battle.net #Blizzard
 telemetry.gfe.nvidia.com #Nvidia
 telemetry.jivosite.com #Jivochat
 telemetry.microsoft.com #Microsoft
-telemetry.microsoft.com.nsatc.net #Microsoft
 telemetry.microsoft.com.nsatc.net #Microsoft
 telemetry.nvidia.com #Nvidia
 telemetry.urs.microsoft.com #Microsoft
@@ -11722,7 +11621,6 @@ vidmark.com
 vidyard.com
 viglink.com
 vindicosuite.com
-virtualearth.net #Microsoft
 visistat.com
 visitortracklog.com
 vistaoffers.info #msales
@@ -11730,17 +11628,7 @@ visualrevenue.com
 visualvote.com #Click Meter
 visualwebsiteoptimizer.com
 vizu.com
-vo.msecnd.net #Microsoft
 voicefive.com
-vortex-bn2.metron.live.com.nsatc.net #Microsoft
-vortex-cy2.metron.live.com.nsatc.net #Microsoft
-vortex-db5.metron.live.com.nsatc.net #Microsoft
-vortex-hk2.metron.live.com.nsatc.net #Microsoft
-vortex-sandbox.data.microsoft.com #Microsoft
-vortex-win.data.metron.live.com.nsatc.net #Microsoft
-vortex.data.glbdns2.microsoft.com #Microsoft
-vortex.data.metron.live.com.nsatc.net #Microsoft
-vortex.data.microsoft.com #Microsoft
 voucher-club.com #Digital Window
 voucheralley.com #Digital Window
 vouchercodeclub.com #Digital Window
@@ -11807,7 +11695,6 @@ whoisvisiting.com
 whyanalytics.com #Imagini Holdings
 wickhillnews.com
 wikia-beacon.com
-win10.ipv6.microsoft.com #Microsoft
 win30000.com #comScore
 win30000.net #comScore
 wistia.com
