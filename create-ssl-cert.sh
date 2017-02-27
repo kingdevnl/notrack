@@ -117,7 +117,7 @@ echo "Copying Certificate to /etc/lighttpd/"
 sudo cp ~/server.pem /etc/lighttpd/server.pem
 echo
 
-restart_lighttpd
+sudo service lighttpd restart
 echo
 
 if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart has been successful
@@ -128,7 +128,7 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
   sleep 5s
   echo "Disabling Lighttpd SSL Module"
   sudo lighty-disable-mod ssl                      #Disable SSL Module
-  service_restart lighttpd
+  sudo service lighttpd restart
   echo
   
   if [ -z "$(pgrep lighttpd)" ]; then              #Check if lighttpd restart has now been successful
