@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 27 Feb 2017
+#NoTrack Blocklist updated 28 Feb 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -613,7 +613,6 @@ bigdataexchange.com #Contextuads
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 billmscurlrev.com #msales
-bing.net #Microsoft
 bingads.microsoft.com #Microsoft
 bis-dic15.com #Lead Forensics
 bizible.com
@@ -1087,6 +1086,7 @@ customersciences.com #Adobe
 customize.cz #Customize.cz
 cxense.com #Cxsense
 d09.no
+d15cjcet1djbmv.cloudfront.net #trandsey.info
 d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
 d2ha22j8ys3e0o.cloudfront.net #Canvas Fingerprinting
 d2jjzw81hqbuqv.cloudfront.net #Canvas Fingerprinting
@@ -1581,6 +1581,7 @@ heartbeat.dm.origin.com #EA
 heartbeat.flickr.com #Flickr
 heatmap.it #Heatmap
 heatmap.me #Heatmap
+heatre.info #Tracker Unknown
 heias.com
 hellobar.com #Crazy Egg
 helloinsiders.com #HelloWorld
@@ -1599,6 +1600,7 @@ hlserve.com
 hobmobrevms.com #msales
 hochmoor.com
 hockeyapp.net #HockeyApp
+honeytracks.com #HoneyTracks
 hotjar.com #Hotjar
 hqcampaign.com #Aurea
 hrb1tng0.com #Lead Forensics
@@ -1767,6 +1769,7 @@ interclick.com
 intercom.io
 intercomassets.com
 internetdealz.click #msales
+intervice.info #Tracker Unknown
 intothestorm.com #Ad Web
 invitemedia.com
 invoc.us
@@ -10416,6 +10419,7 @@ myxheat.com #mYx
 myyage.com #Advertising
 n-core-pipe.com #Lead Forensics
 n121adserv.com #Advertising Unknown
+namesurf.net #HoneyTracks
 nanigans.com
 nano-visor.biz #instartlogic
 nano-visor.com #instartlogic
@@ -11161,7 +11165,7 @@ sitestatnewsletter.com #comScore
 sitetagger.co.uk
 skift.pt
 skiftmedia.pt
-skimresources.com
+skimresources.com #Skimlinks
 slashtag.link #Click Meter
 sli-spark.com
 slimcut.media #SlimCut Media
@@ -11259,13 +11263,13 @@ spyvisit.com #SpyVisit
 srv4pub.com #RevenueHits
 srvntrk.com
 srvpub.com #RevenueHits
+ssacdn.com #Supersonic Mobile Advertising
 sscefsol.com #Advertising
 sspintrafmsmt.com #msales
 ssw.live.com #Microsoft
 stat.alibaba.com
 stat.swedbank.se #Swedbank
 statcounter.com
-staticworld.net
 stats.bbc.co.uk
 stats.ebay.com #eBay
 stats.ft.com #Financial Times
@@ -11337,6 +11341,7 @@ switchadhub.com
 switchads.com
 swoop.com
 swordfishdc.com #Swordfish Inc
+swrve.com #Swrve
 sxxjdz.com #Advertising
 sydjyy.com
 t4p-upd.info #Sergii Mykolaenko
@@ -11394,6 +11399,7 @@ thehut.net
 thepornsurvey.com #Polling
 therelevancegraph.mobi #Millennial Media
 theresulter.com #RevenueHits
+therse.info #Tracker Unknown
 thetacdn.net #Verizon
 thispick.com #Keywee
 tic-tic-toc.com
@@ -11455,6 +11461,7 @@ trafshopmbuyer.com #msales
 trafstarcurlms.com #msales
 trail-web.com #Lead Forensics
 trakking.info #msales
+trandsey.info #Tracker Unknown
 travel-options.com #Digital Window
 traveloffer-uk.com #Digital Window
 trees4knowledge.com #TMRG
