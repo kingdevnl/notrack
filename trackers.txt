@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 28 Feb 2017
+#NoTrack Blocklist updated 01 Mar 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -110,6 +110,7 @@ acxiom-online.com #Acxiom
 ad-center.com
 ad-score.com
 ad-serverparc.nl
+ad-stir.com #Ad Stir
 ad.12dt.com #Adverts on 12dt.com
 ad.groupon.co.uk
 ad4game.com #Ad4Game
@@ -209,6 +210,7 @@ adnexus.net #AppNexus Inc
 adnexus.nyc #AppNexus Inc
 adnexus.org #AppNexus Inc
 adnexus.us #AppNexus Inc
+adnico.jp #Ad Nico
 adnow.com #AdNow
 adnxs.biz #AppNexus Inc
 adnxs.com #AppNexus Inc
@@ -604,7 +606,6 @@ bidswitch.net #BidSwitch
 bidtheatre.com #BidTheatre
 bidtrk.com
 bigbos.top #Advertising
-bigcommerce.com #BigCommerce
 bigdata.adfuture.cn #Chinese Android Data Collection
 bigdata.adsunflower.com #Chinese Android Data Collection
 bigdata.adups.com #Chinese Android Data Collection
@@ -1526,6 +1527,7 @@ glimr.io #GLIMR
 globalmonetization.com #msales
 globaloffers.link #msales
 globalsitecheck.com #Traffic Cake
+gloomwrite.com #Unknown Advertising
 go-mpulse.net
 go2cloud.org
 goadservices.com
@@ -11573,19 +11575,6 @@ userreport.com #User Report
 userstats.com
 userzoom.com
 utarget.ru
-v0cdn.net #Verizon
-v10cdn.net #Verizon
-v11cdn.net #Verizon
-v12cdn.net #Verizon
-v13cdn.net #Verizon
-v1cdn.net #Verizon
-v3cdn.net #Verizon
-v4cdn.net #Verizon
-v5cdn.net #Verizon
-v6cdn.net #Verizon
-v7cdn.net #Verizon
-v8cdn.net #Verizon
-v9cdn.net #Verizon
 vacwrite.com #Tracking Unknown
 valaffiliates.com #ValAffiliates
 valdelabs.com #AppNexus Inc
