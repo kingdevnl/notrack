@@ -88,40 +88,11 @@ function draw_sidemenu() {
   echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="" title="Config">Config</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="" title="Help">Help</span></a>'.PHP_EOL;
   
-  echo '<div id="menu-side-bottom"><a href="https://quidsup.net/donate/?ref=ntrk" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a></div>'.PHP_EOL;
+  echo '<div id="menu-side-bottom"><a href="https://quidsup.net/donate" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a></div>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
 }
 
-
-//DEPRECATED
-/********************************************************************
- *  Draw Config Menu
- *
- *  Params:
- *    None
- *  Return:
- *    None
- */
- /*
-function draw_configmenu() {
-  echo '<nav><div id="menu-side">'.PHP_EOL;
-  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="">General</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=blocks"><span><img src="./svg/menu_blocklists.svg" alt="">Block Lists</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=black"><span><img src="./svg/menu_black.svg" alt="">BlackList</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=white"><span><img src="./svg/menu_white.svg" alt="">WhiteList</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=tld"><span><img src="./svg/menu_domain.svg" alt="">Domains</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=full"><span><img src="./svg/menu_sites.svg" alt="">Sites Blocked</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=advanced"><span><img src="./svg/menu_advanced.svg" alt="">Advanced</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php?v=status"><span><img src="./svg/menu_status.svg" alt="">Back-end Status</span></a>'.PHP_EOL;
-  echo '<a href="../admin/security.php"><span><img src="./svg/menu_security.svg" alt="">Security</span></a>'.PHP_EOL;
-  echo '<a href="../admin/upgrade.php"><span><img src="./svg/menu_upgrade.svg" alt="">Upgrade</span></a>'.PHP_EOL;
-  
-  echo '</div></nav>'.PHP_EOL;
-  echo PHP_EOL;  
-}
-*/
 
 /********************************************************************
  *  Draw Help Menu
