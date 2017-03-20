@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 09 Mar 2017
+#NoTrack Blocklist updated 20 Mar 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -110,6 +110,7 @@ acuityplatform.net #Acuity Consumer Connection Platform
 acuityplatform.org #Acuity Consumer Connection Platform
 acxiom-online.com #Acxiom
 ad-center.com
+ad-dev.globalnoticias.pt #Global Media Group
 ad-score.com
 ad-serverparc.nl
 ad-stir.com #Ad Stir
@@ -953,6 +954,7 @@ coaptru.com #Tracker Unknown
 codigo.se #Codigo
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
+cof.tracking.priberam.pt #Priberam Informatica
 cogocast.net #CogoCast
 collective-media.net #Collective
 collective.com
@@ -1518,6 +1520,7 @@ getsentry.com #GetSentry
 getsentry.net #GetSentry
 getsentry.org #GetSentry
 getsidekick.com #Hubspot
+getsocial.io #GetSocial
 gettally.com #Hubspot
 gettraff.com
 gfe.geforce.com #Nvidia
@@ -2016,7 +2019,6 @@ mediative.ca #Mediative
 mediative.com #Mediative
 mediavoice.com
 medleyads.com #Unknown Advertising
-meiosepublicidade.pt #Global Media Group
 mellowads.com #Mellow Ads
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
@@ -11000,6 +11002,7 @@ nanovisor.us #instartlogic
 nativeads.com #Native Ads
 nativeads.site #Native Ads
 nativeads.solutions #Native Ads
+nativesdks.mparticle.com #mParticle
 navrcholu.cz #Navrcholu
 nearbyad.com #Rubicon
 nedsms.com #comScore
@@ -11049,6 +11052,7 @@ nl03.net #NetLine
 nl04.net #NetLine
 nlytcs.diffen.com #Diffen
 nmgcdn.com
+nobeta.com.br #NoBeta
 nosto.com #Nosto
 novao.com #Ysance
 novao.net #Ysance
@@ -11292,6 +11296,7 @@ pubexchange.com
 publicidade.delas.pt #Global Media Group
 publicidade.dn.pt #Global Media Group
 publicidade.jn.pt #Global Media Group
+publicidade.motor24.pt #Global Media Group
 publicidade.tsf.pt #Global Media Group
 pubmatic.com #PubMatic
 pubmine.com
@@ -11757,6 +11762,7 @@ smartmpanel.com #comScore
 smartology.co #Smartology
 smartology.net #Smartology
 smartstream.tv
+smb-store.c66.me #GetSocial
 smct.co
 smetrics.mcafee.com #McAfee
 smetrics.sky.com #Sky
