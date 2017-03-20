@@ -642,9 +642,9 @@ $db->close();
 <span id="statsblock2"><a class="button-blue" href="#">Block Sub</a> Block just the subdomain</span>
 <form name="reportform" action="https://quidsup.net/notrack/report.php" method="post" target="_blank">
 <input type="hidden" name="site" id="siterep" value="none">
-<span id="statsreport"><input type="submit" class="button-blue" value="Report"></span>
-<!--<span id="statsreport"><a class="button-blue" href="#">Report</a></span>-->
+<span id="statsreport"><input type="submit" class="button-blue" value="Report">&nbsp;<input type="text" name="comment" class="textbox-small" placeholder="Optional comment"></span>
 </form>
+
 <br>
 <div class="centered"><h6 class="button-grey" onclick="HideStatsBox()">Cancel</h6></div>
 <div class="close-button" onclick="HideStatsBox()"><img src="./svg/button_close.svg" onmouseover="this.src='./svg/button_close_over.svg'" onmouseout="this.src='./svg/button_close.svg'" alt="close"></div>

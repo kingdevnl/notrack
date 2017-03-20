@@ -173,6 +173,9 @@ input[type="text"], input[type="password"] {
   box-shadow: 0 0 8px #21BBFF;
   margin: 0.2em 0;
 }
+input[type="text"].textbox-small {
+  width: 15em;
+}
 select, input[type="date"], input[type="number"] {
   width: 70%;
   height: 1.5em;
