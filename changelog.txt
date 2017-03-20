@@ -1,4 +1,9 @@
-v0.8.4 Alpha Dev - Released 26 Feb 2017
+Development:
+#197 - Add proof for site report
+
+*************************************************
+
+v0.8.4 Alpha - Released 26 Feb 2017
 
 Config:
   Added Option to change Log parsing time
