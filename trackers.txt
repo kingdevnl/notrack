@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 20 Mar 2017
+#NoTrack Blocklist updated 28 Mar 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -1436,7 +1436,6 @@ feedbackify.com #Feedbackify
 feedmagnet.com
 feedsportal.com
 feedstat.com #comScore
-feng-gui.com #Feng GUI
 fetchback.com
 fidelity-media.com
 fimserve.com
@@ -1559,6 +1558,7 @@ gosquared.com
 gotraffic.net #Unknown Tracker
 gpwebsolutions.co.uk
 graf.ly #Bright Pixel
+granify.com #Granify
 grapemedia.cz #Grape Media
 grapeshot.co.uk
 graphiq.com #Graphiq
@@ -1569,6 +1569,7 @@ groovygifts.com #Digital Window
 grumft.com #Grumft
 grvcdn.com
 gscontxt.net
+gsecondscreen.com #Gamooga Second Screen
 gslb-ns.com #AppNexus Inc
 gslb-ns.net #AppNexus Inc
 gslb-ns.org #AppNexus Inc
@@ -1918,6 +1919,7 @@ localconfirmsubscription.com #Campaign Monitor Pty
 localcreatesend.com #Campaign Monitor Pty
 localemailserver.com #Campaign Monitor Pty
 localytics.com #Localytics
+log.kmplayer.com #KMPlayer
 log.pinterest.com #Pinterest
 log.spotify.com #Spotify tracking ads
 loggly.com #Loggly
@@ -11407,6 +11409,7 @@ relestar.com
 relevancegraph.mobi #Millennial Media
 relevantknowledge.com #TMRG
 reliancevalve.com #Advertising
+remarketingpixel.com #Remarketing Pixel
 rename.com #Digital Window
 rename.net #Digital Window
 rencai56.com #Advertising
