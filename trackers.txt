@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 28 Mar 2017
+#NoTrack Blocklist updated 21 Apr 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -9,6 +9,7 @@
 123count.com #SpidersWatchp
 161media.com #161 Media
 1800omniture.com #Adobe
+1orange-u.com
 1s3h4f7sl.com #HelloWorld
 200summit.com #Lead Forensics
 206ads.com #Advertising Unknown
@@ -350,6 +351,7 @@ adwise.fr #AdWise
 adwise.mobi #AdWise
 adwise.org #AdWise
 adwise.ru #AdWise
+adworldmedia.com #AdWorldMedia
 adx1.com #Adsty
 adxite-ads.com #Unknown Advertising
 adxpansion.com #Gammae
@@ -743,6 +745,7 @@ buysub.com
 buzzybar.com #Click Meter
 bz.io
 c-ctrip.com
+c.afekv.com #Public DNS Scan 
 c1exchange.com #C1 Exchange
 c3tag.com
 callwindow.com #Digital Window
@@ -789,7 +792,6 @@ cashlantis.com
 ccmp.eu #Experian
 cctyly.com #Advertising
 cdn-net.com
-cdngc.net
 cdnh1.net #Team Internet AG
 cdnh2.net #Team Internet AG
 cdnh3.net #Team Internet AG
@@ -844,6 +846,7 @@ clickmeter.us #Click Meter
 clickmetermail.com #Click Meter
 clickpalace.com #msales
 clicks4ads.com
+clicksgear.com #AdMeasures
 clickshift.com #WebTrends
 clicktale.net
 clicktracks.biz #Aurea
@@ -901,6 +904,7 @@ clktag.com #RevenueHits
 clkuno.com #RevenueHits
 cloud-9751.com #Lead Forensics
 cloud-et-bigdata.com #Ysance
+clusterconsulting.com.cn #Advertising
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail.link #Campaign Monitor Pty
@@ -1097,6 +1101,7 @@ customerjourney.com #eGain Corporation
 customersciences.com #Adobe
 customize.cz #Customize.cz
 cxense.com #Cxsense
+d-80-live.com
 d09.no
 d15cjcet1djbmv.cloudfront.net #trandsey.info
 d1g3gvqfdsvkse.cloudfront.net #Canvas Fingerprinting
@@ -1589,6 +1594,7 @@ gwallet.com #RadiumOne
 gwallet.net #RadiumOne
 ha44888.com #HelloWorld
 hackers.lv #Tracker Unknown
+hailiao520.com #Advertising
 hanapinmarketing.com
 happyfoxchat.com #HappyFox Chat
 hardbouncemyemail.com #Campaign Monitor Pty
@@ -1703,6 +1709,7 @@ iasds01.com
 ib-ibi.com
 ibillboard.com
 icandi.de
+idaguang.com #Advertising
 idg.com
 idgknowledgehub.com
 idgpublishing.com
@@ -1803,6 +1810,7 @@ iwanttodeliver.com #Tracking Unknown
 ixnsmcpdauof.com #Advertising Unknown
 jackship.cn
 jadsmediaflw.com #msales
+jail-ios.com #Spam
 jetlore.com #Jetlore
 jetlore.info #Jetlore
 jetlore.net #Jetlore
@@ -2020,6 +2028,7 @@ mediaplex.com
 mediative.ca #Mediative
 mediative.com #Mediative
 mediavoice.com
+mediawhirl.net #Advertising Unknown
 medleyads.com #Unknown Advertising
 mellowads.com #Mellow Ads
 member-hsbc-group.com #HSBC
@@ -11047,6 +11056,7 @@ nicecdn01.com #Nice People At Work
 nicecdn02.com #Nice People At Work
 ninjapd.com #WhiteOps
 ninthdecimal.com #Ninth Decimal
+njdijiani.com #Advertising
 nl00.net #NetLine
 nl01.net #NetLine
 nl02.net #NetLine
@@ -11435,7 +11445,7 @@ revenuehits.com #RevenueHits
 revenuehits.net #RevenueHits
 revenuehitscontest.com #RevenueHits
 revenuevids.com #RevenueHits
-revive.workmedia.pt # Work Media
+revive.workmedia.pt #Work Media
 revmetrix.com
 revsci.net #AudienceScience
 rewardwindow.com #Digital Window
@@ -11571,6 +11581,7 @@ sdad.biz #instartlogic
 sdad.guru #instartlogic
 sdad.mobi #instartlogic
 sdad.technology #instartlogic
+sdsjweb.com
 se-core-pipe.com #Lead Forensics
 sea-nov-1.com #Lead Forensics
 search123.com #BrainBox Digital
@@ -11985,6 +11996,7 @@ tidaltv.com
 tifbs.net #United Internet Media
 tiller.co #Tiller
 timechange.space #Missleading adverts scam
+tinydm.com #Adware
 tiqcdn.com
 tkqlhce.com
 tl813.com
@@ -12026,6 +12038,7 @@ traffic.ru
 trafficauthority.com #Adobe
 trafficbee.com #Trafficbee
 trafficcake.com #Traffic Cake
+trafficfabrik.com #TrafficFabrik
 trafficfactory.biz
 traffichaus.com #TrafficHaus
 traffichunt.com
@@ -12378,4 +12391,5 @@ zsj18.com #Advertising
 zxad.com #Zanox
 zxad.net #Zanox
 zylpfood.com
+zzhengre.com #Advertising
 zzword.com #Adobe
