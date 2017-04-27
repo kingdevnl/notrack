@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 21 Apr 2017
+#NoTrack Blocklist updated 27 Apr 2017
 #LatestVersion 0.8.4
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -92,6 +92,7 @@ a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
 a9.com #Amazon
+aakn.com #Advertising Unknown
 abbp1.science #Advertising Unknown
 abetterweb.mobi #instartlogic
 abetterweb.org #instartlogic
@@ -416,7 +417,6 @@ alephd.com #AOL
 alertbot.co.uk
 algonetwork.com #RevenueHits
 algovise.com #RevenueHits
-alicdn.com
 alicili.org #Advertising
 aliunicorn.com
 alnisrgroup.com
@@ -12386,6 +12386,7 @@ ziffdavisinternational.com
 zkcdn.net
 znaptag.com
 zoomanalytics.co #Zoom Analytics
+zopim.com #Zendesk Chat
 zqtk.net #comScore
 zsj18.com #Advertising
 zxad.com #Zanox
