@@ -14,7 +14,7 @@ INSTALL_LOCATION="${HOME}/NoTrack"
 
 #######################################
 # Stop service
-#    with either systemd or sysvinit
+#    with either systemd or sysvinit or runit
 #
 # Globals:
 #   None
@@ -28,8 +28,10 @@ service_stop() {
     echo "Stopping $1"
     if [ "$(command -v systemctl)" ]; then     #systemd
       sudo systemctl stop $1
-    elif [ "$(command -v service)" ]; then      #sysvinit
+    elif [ "$(command -v service)" ]; then     #sysvinit
       sudo service $1 stop
+    elif [ "$(command -v sv)" ]; then          #runit
+      sudo sv down $1
     else
       echo "Unable to stop services. Unknown service supervisor"
       exit 21

@@ -181,7 +181,7 @@ function move_file() {
 
 #######################################
 # Restart service
-#    with either systemd or sysvinit
+#    with either systemd or sysvinit or runit
 #
 # Globals:
 #   None
@@ -197,6 +197,8 @@ service_restart() {
       sudo systemctl restart $1      
     elif [ "$(command -v service)" ]; then       #sysvinit
       sudo service $1 restart
+    elif [ "$(command -v sv)" ]; then            #runit
+      sudo sv restart $1
     else
       echo "Unable to restart services. Unknown service supervisor"
       exit 21
