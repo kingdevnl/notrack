@@ -1,4 +1,4 @@
-.biz,Business,3,
+.biz,Business,2,"19 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
 .com,Commercial,3,
 .edu,Education,5,
 .gov,Government,5,
@@ -9,45 +9,52 @@
 .net,network,3,
 .xxx,Adult Sites,3,
 #,New Generic Top Level Domains,0,
-.accountant,Accountant,1,"<a href=""https://www.bluecoat.com/security-blog/2016-04-22/shady-tld-accountant-vs-realtor"">97% of top 500</a> sites found to be shady"
+.accountant,Accountant,1,"11 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
 .ads,Ads,1,Used for Marketing and Advertising campaigns
-.click,Click,1,
-.cricket,Cricket,1,"<a href=""https://www.bluecoat.com/blogs/2015-10-21/just-not-cricket-shady-tld-research-part-12"">95% of top 200</a> sites found to be shady"
-.country,Country,1,
-.date,Date,1,"<a href=""https://www.bluecoat.com/security-blog/2015-07-30/date-spammers-shady-tld-research-pt-7"">100% of top 71</a> sites found to be shady<br />At time of writing this was a new TLD, and few sites were actually live"
-.diet,Diet,1,
-.download,Download,1,"55% Bad domains seen by <a href=""https://www.spamhaus.org/statistics/tlds/"">Spamhaus</a> June 2016"
-.faith,Faith,1,"<a href=""https://www.bluecoat.com/security-blog/2015-08-19/everybodys-gotta-have-faith-shady-tld-research-pt-9"">99% of top 500</a> sites found to be shady"
-.gdn,GDN,1,"55% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016"
-.kim,Kim,1,"At 99.54%"
-.link,Link,1,"43% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016"
-.loan,Loan,1,"At 98%"
+.bid,Bid,2,"20 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.christmas,Christmas,2,"19 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.click,Click,1,"7 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.cricket,Cricket,1,"10 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.date,Date,1,"13 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.diet,Diet,3,No longer features in 2017 Report
+.download,Download,1,"9 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.faith,Faith,1,"15 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.gdn,GDN,1,"8 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.kim,Kim,2,"Above average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.link,Link,1,"14 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.loan,Loan,2,"Above average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.men,Men,1,"5 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
 .ninja,Ninja,3,"<a href=""https://www.bluecoat.com/security-blog/2015-05-14/ninja-attack-another-shady-tld-report"">Less than 50%</a> of sites found to be shady"
-.party,Party,1,"At 99%"
-.pink,Pink,1,
-.racing,Racing,1,"<a href=""https://www.bluecoat.com/security-blog/2015-09-16/racing-top-or-bottom-shady-tld-research-pt-11"">96% of top 51</a> sites found to be shady<br />*very few .racing sites have been registered."
-.review,Review,1,50% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
-.science,Science,1,".science initially gave out free domains<br /><a href=""https://www.bluecoat.com/security-blog/2015-03-16/science-shady-tld-use"">96% of top 200</a> sites found to be shady"
-.space,Space,1,"<a href=""https://www.bluecoat.com/security-blog/2016-01-05/lost-space-shady-tld-research-part-14"">93% of top 100</a> sites found to be shady"
-.tokyo,Tokyo,1,62% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
-.top,Top,1,
-.win,Win,1,"<a href=""https://www.bluecoat.com/security-blog/2015-11-11/win-lose-propositions-shady-tld-research-13"">95% of top 200</a> sites found to be shady"
-.work,Work,1,58% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016
-.xyz,xyz,2,"<ahref=""https://www.bluecoat.com/security-blog/2015-07-14/exploring-xyz-another-shady-tld-report"">Historically high percentage</a> of shady sites, however Domain owner has been clearing up malicious sites"
+.party,Party,3,No longer features in 2017 Report
+.pink,Pink,3,No longer features in 2017 Report
+.racing,Racing,1,"3 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.review,Review,1,"6 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.science,Science,1,"1 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.space,Space,3,No longer features in 2017 Report
+.stream,Stream,1,"4 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.study,Study,1,"2 – Top 10 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.trade,Trade,1,"12 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.tokyo,Tokyo,3,"Below average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.top,Top,1,"16 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.webcam,Webcam,2,"Above average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.win,Win,1,"18 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.work,Work,3,"Below average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.xyz,xyz,3,"Below average level of Malicious Domains according to <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
+.yokohama,Yokohama,1,"17 – Top 20 Bad Domains by <a href=""https://www.domaintools.com/resources/white-papers/the-domaintools-report-spring-2017-edition"">Domain Tools</a> 2017"
 #,Country Domains,0,
-.ac,Ascension Island,3,"Commonly used for academic websites"
+.ac,Ascension Island,3,Commonly used for academic websites
 .ad,Andorra,3,
 .ae,United Arab Emirates,3,
 .af,Afghanistan,3,
-.ag,Antigua and Barbuda,3,"Also unofficially used by German businesses"
+.ag,Antigua and Barbuda,3,Also unofficially used by German businesses
 .ai,Anguilla,3,
 .al,Albania,3,
-.am,Armenia,3,"Unofficially used by AM radio stations"
+.am,Armenia,3,Unofficially used by AM radio stations
 .ao,Angola,3,
 .aq,Antarctica,3,
 .ar,Argentina,3,
 .as,American Samoa,3,
-.asia,Asia Pacific,2,"15% Bad domains seen by <a href="https://www.spamhaus.org/statistics/tlds/">Spamhaus</a> June 2016"
+.asia,Asia Pacific,2,"15% Bad domains seen by <a href=""https://www.spamhaus.org/statistics/tlds/"">Spamhaus</a> June 2016"
 .at,Austria,3,
 .au,Australia,3,
 .aw,Aruba,3,"Restricted to registered Aruban companies, organisations and citizens"
@@ -74,13 +81,13 @@
 .ca,Canada,3,
 .cc,Cocos Islands,2,"Low cost, and historically abused"
 .cd,Democratic Republic of the Congo,3,
-.cf,Central African Republic,1,"Also used as a free domain service to the public."
+.cf,Central African Republic,1,Also used as a free domain service to the public.
 .cg,Republic of the Congo,3,
 .ch,Switzerland,3,
 .ci,Côte d'Ivoire,3,
 .ck,Cook Islands,5,
 .cl,Chile,3,
-.cm,Cameroon,2,"Typo of .com"
+.cm,Cameroon,2,Typo of .com
 .cn,People's Republic of China,2,
 .co,Colombia,2,"Typo of .com, but has many legitimate uses"
 .cr,Costa Rica,3,
@@ -105,14 +112,14 @@
 .fi,Finland,3,
 .fj,Fiji,3,
 .fk,Falkland Islands,3,
-.fm,Federated States of Micronesia,3,"Unofficially used by FM radio stations and Podcasts"
+.fm,Federated States of Micronesia,3,Unofficially used by FM radio stations and Podcasts
 .fo,Faroe Islands,3,
 .fr,France,3,
-.ga,Gabon,1,"Also used as a free domain service to the public."
+.ga,Gabon,1,Also used as a free domain service to the public.
 .gd,Grenada,3,
 .ge,Georgia,3,
 .gf,French Guiana,3,
-.gg,Guernsey,3,"Commonly used in reference to the gamer slang for good game."
+.gg,Guernsey,3,Commonly used in reference to the gamer slang for good game.
 .gh,Ghana,3,
 .gi,Gibraltar,5,
 .gl,Greenland,3,
@@ -182,27 +189,27 @@
 .mp,Northern Mariana Islands,3,
 .mq,Martinique,3,
 .mr,Mauritania,3,
-.ms,Montserrat,2,"Unofficially used for Microsoft-related domains."
+.ms,Montserrat,2,Unofficially used for Microsoft-related domains.
 .mt,Malta,3,
 .mu,Mauritius,3,
 .mv,Maldives,3,
 .mw,Malawi,3,
 .mx,Mexico,3,
-.my,Malaysia,3,"Restricted to registration by an individual or company in Malaysia"
+.my,Malaysia,3,Restricted to registration by an individual or company in Malaysia
 .mz,Mozambique,3,
 .na,Namibia,3,
-.nc,New Caledonia,3,"Restricted to companies that have a New Caledonian Business Registration Certificate or individuals living in New Caledonia for at least 6 months."
+.nc,New Caledonia,3,Restricted to companies that have a New Caledonian Business Registration Certificate or individuals living in New Caledonia for at least 6 months.
 .ne,Niger,3,
 .nf,Norfolk Island,3,
 .ng,Nigeria,3,
 .ni,Nicaragua,3,
 .nl,Netherlands,3,
 .no,Norway,3,
-.np,Nepal,2,"All .np domains are free to register for individuals and registered businesses."
-.nr,Nauru,2,"Also used as a free domain service to the public as co.nr."
+.np,Nepal,2,All .np domains are free to register for individuals and registered businesses.
+.nr,Nauru,2,Also used as a free domain service to the public as co.nr.
 .nu,Niue,3,"Commonly used by Danish, Dutch and Swedish websites, because in those languages ""nu"" means ""now""."
 .nz,New Zealand,3,
-.om,Oman,1,"Used for <a href="https://www.endgame.com/blog/what-does-oman-house-cards-and-typosquatting-have-common-om-domain-and-dangers-typosquatting">Typo squatting</a> of .com domains"
+.om,Oman,1,"Used for <a href=""https://www.endgame.com/blog/what-does-oman-house-cards-and-typosquatting-have-common-om-domain-and-dangers-typosquatting"">Typo squatting</a> of .com domains"
 .pa,Panama,3,
 .pe,Peru,3,
 .pf,French Polynesia,3,
@@ -213,7 +220,7 @@
 .pm,Saint-Pierre and Miquelon,3,
 .pn,Pitcairn Islands,3,
 .pr,Puerto Rico,3,
-.ps,Palestine,3,"West Bank and Gaza Strip."
+.ps,Palestine,3,West Bank and Gaza Strip.
 .pt,Portugal,3,
 .pw,Palau,3,
 .py,Paraguay,3,
@@ -248,14 +255,14 @@
 .tg,Togo,3,
 .th,Thailand,3,
 .tj,Tajikistan,3,
-.tk,Tokelau,1,"Also used as a free domain service to the public."
+.tk,Tokelau,1,Also used as a free domain service to the public.
 .tl,East Timor,3,
 .tm,Turkmenistan,3,
 .tn,Tunisia,3,
-.to,Tonga,2,"Often used unofficially for Torrents"
+.to,Tonga,2,Often used unofficially for Torrents
 .tr,Turkey,3,
 .tt,Trinidad and Tobago,3,
-.tv,Tuvalu,3,"Used as an abbreviation of Television"
+.tv,Tuvalu,3,Used as an abbreviation of Television
 .tw,Taiwan,3,
 .tz,Tanzania,3,
 .ua,Ukraine,3,
@@ -264,7 +271,7 @@
 .us,United States of America,3,
 .uy,Uruguay,3,
 .uz,Uzbekistan,3,
-.va,Vatican City,5,"Limited to the official sites of the Vatican"
+.va,Vatican City,5,Limited to the official sites of the Vatican
 .vc,Saint Vincent and the Grenadines,3,
 .ve,Venezuela,3,
 .vg,British Virgin Islands,3,
@@ -272,7 +279,7 @@
 .vn,Vietnam,2,"Historically bad, but has improved recently"
 .vu,Vanuatu,3,
 .wf,Wallis and Futuna,3,
-.ws,Samoa,1,"Marketed for use in general Web Sites"
+.ws,Samoa,1,Marketed for use in general Web Sites
 .ye,Yemen,3,
 .yt,Mayotte,3,
 .za,South Africa,3,
