@@ -1,6 +1,6 @@
 <?php
 
-DEFINE('VERSION', '0.8.4');
+DEFINE('VERSION', '0.8.5');
 DEFINE('SERVERNAME', 'localhost');
 DEFINE('USERNAME', 'ntrk');
 DEFINE('PASSWORD', 'ntrkpass');

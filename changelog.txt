@@ -1,5 +1,8 @@
-Development:
-#197 - Add proof for site report
+v0.8.5 Alpha - Released 23 May 2017
+
+Admin:
+  #197 - Add proof for site report
+  Updated Top Level Domain blocklist from Domain Tools 2017 report
 
 *************************************************
 

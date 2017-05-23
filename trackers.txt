@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 09 May 2017
-#LatestVersion 0.8.4
+#NoTrack Blocklist updated 23 May 2017
+#LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -811,6 +811,7 @@ centralcore7.com #Lead Forensics
 ceros.com
 certona.net
 cetrk.com
+chaintraffic.com #Popunder
 chameleon.ad #Chameleon
 chango.com
 channeladvisor.com
@@ -11974,6 +11975,7 @@ technorati.com #Technorati
 technoratimedia.com #Technorati
 technoratimedia.net #Technorati
 tedglynn.com #Ad Web
+telemetry-in.battle.net #Battle.net
 telemetry.api.swiftkey.com #Swiftkey
 telemetry.battle.net #Blizzard
 telemetry.gfe.nvidia.com #Nvidia
@@ -12176,6 +12178,7 @@ uptilt.net #Aurea
 urbanairship.com
 usabilla.com #Usabilla
 useitbetter.com
+user-agent-tracker.herokuapp.com #Heroku
 user-api.com #Advertising
 userreplay.net
 userreport.com #User Report
