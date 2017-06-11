@@ -297,10 +297,32 @@ function show_blocklists() {
   draw_blocklist_row('bl_chneasy', 'CHN EasyList', 'EasyList China (中文)‎ <a href="http://abpchina.org/forum/forum.php" target="_blank">(abpchina.org)</a>');
   draw_blocklist_row('bl_yhosts', 'CHN Yhosts', 'YHosts (中文)‎ focused on Chinese advert sites <a href="https://github.com/vokins/yhosts" target="_blank">(github.com)</a>');
 
-  
   draw_blocklist_row('bl_deueasy', 'DEU EasyList', 'EasyList Germany (Deutsch) <a href="https://forums.lanik.us/viewforum.php?f=90" target="_blank">(forums.lanik.us)</a>');
   draw_blocklist_row('bl_dnkeasy', 'DNK EasyList', 'Schacks Adblock Plus liste‎ (Danmark) <a href="https://henrik.schack.dk/adblock/" target="_blank">(henrik.schack.dk)</a>');  
   draw_blocklist_row('bl_fblatin', 'Latin EasyList', 'Spanish/Portuguese Adblock List <a href="https://www.fanboy.co.nz/regional.html" target="_blank">(fanboy.co.nz)</a>');
+  
+  draw_blocklist_row('bl_fraeasy', 'FRA EasyList', 'EasyList France <a href="https://forums.lanik.us/viewforum.php?f=91" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_grceasy', 'GRC EasyList', 'EasyList Greece (Ελλάδα) <a href="https://github.com/kargig/greek-adblockplus-filter" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_huneasy', 'HUN hufilter', 'Magyar Adblock szűrőlista (Hungary) <a href="https://github.com/szpeter80/hufilter" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_idneasy', 'IDN EasyList', 'ABPindo (Indonesia) <a href="https://github.com/ABPindo/indonesianadblockrules" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_isleasy', 'ISL EasyList', 'Adblock Plus listi fyrir íslenskar vefsíður (Iceland) <a href="https://adblock.gardar.net" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_itaeasy', 'ITA EasyList', 'Italia (Italy) <a href="https://forums.lanik.us/viewforum.php?f=96" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_jpneasy', 'JPN EasyList', '日本用フィルタ (Japan) <a href="https://github.com/k2jp/abp-japanese-filters" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_koreasy', 'KOR EasyList', 'EasyList 대한민국  (Korea) <a href="https://github.com/gfmaster/adblock-korea-contrib" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_korfb', 'KOR Fanboy', 'Fanboy&rsquo;s list 대한민국  (Korea) <a href="https://forums.lanik.us/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_koryous', 'KOR YousList', 'YousList 대한민국  (Korea) <a href="https://github.com/yous/YousList" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_ltueasy', 'LTU EasyList', 'EasyList Lietuva (Lithuania) <a href="http://margevicius.lt/easylist_lithuania" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  
+  
+  /*
+  
+
+get_list "lvaeasy" "easylist"
+get_list "nldeasy" "easylist"
+get_list "poleasy" "easylist"
+get_list "spaeasy" "easylist"
+get_list "svneasy" "easylist"
+get_list "sweeasy" "easylist"*/
   
   draw_blocklist_row('bl_ruseasy', 'RUS EasyList', 'Russia RuAdList+EasyList (Россия Фильтр) <a href="https://forums.lanik.us/viewforum.php?f=102" target="_blank">(forums.lanik.us)</a>');
   echo '</table></div></div>'.PHP_EOL;

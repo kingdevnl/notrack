@@ -1,3 +1,9 @@
+Development
+New region specific AdBlockPlus blocklists:
+  France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania
+
+*************************************************
+
 v0.8.5 Alpha - Released 23 May 2017
 
 Admin:
@@ -17,40 +23,3 @@ NoTrack.sh
 Removed deprecated code
 Changed default log parsing time from 10 mins to 7 mins for new installs
   
-*************************************************
-
-v0.8.3 Alpha - Released 28 Nov 2016
-**If you upgraded between 21 - 25 November your upgrader will fail**
-**It will display "WARNING: Unable to find file"
-**Please run ntrk-upgrade from terminal:
-cd ~/notrack  (or cd /opt/notrack)
-bash ntrk-updgrade.sh
-Sorry
--Quids
-
-Admin:
-  New style chart show number of DNS queries
-
-Config:
-  Start of reading dnsmasq config via web gui
-
-DNS Queries:
-  Date fixed after midnight (Issue #169)
-
-
-*************************************************
-v0.8.2 Alpha - Released 21 Nov 2016
-Admin:
-  New chart showing number of DNS queries over the day
-
-Config:
-  New control panel style menu
-
-Scripts:
-  notrack-pause performance improved
-  notrack-upgrade no longer aborts when files are missing
-
-New blocklists:
-  CHN yhosts (Issue #134)
-  
-*************************************************

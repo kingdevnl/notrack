@@ -65,12 +65,28 @@ $DEFAULTCONFIG = array(
   'bl_chneasy' => 0,
   'bl_deueasy' => 0,
   'bl_dnkeasy' => 0,
+  'bl_fraeasy' => 0,
+  'bl_grceasy' => 0,
+  'bl_huneasy' => 0,
+  'bl_idneasy' => 0,
+  'bl_isleasy' => 0,
+  'bl_itaeasy' => 0,
+  'bl_jpneasy' => 0,
+  'bl_koreasy' => 0,
+  'bl_korfb' => 0,
+  'bl_koryous' => 0,
+  'bl_ltueasy' => 0,
+  'bl_lvaeasy' => 0,
+  'bl_nldeasy' => 0,
   'bl_ruseasy' => 0,
+  'bl_spaeasy' => 0,
+  'bl_svneasy' => 0,
+  'bl_sweeasy' => 0,
+  'bl_viefb' => 0,
   'bl_fblatin' => 0,
   'bl_yhosts' => 0,
-  'LatestVersion' => VERSION  
+  'LatestVersion' => VERSION
 );
-
 
 $BLOCKLISTNAMES = array(
   'custom' => 'Custom',
@@ -100,8 +116,23 @@ $BLOCKLISTNAMES = array(
   'bl_yhosts' => 'CHN Yhosts',
   'bl_deueasy' => 'DEU Easy List',
   'bl_dnkeasy' => 'DNK Easy List',
+  'bl_fraeasy' => 'FRA Easy List',
+  'bl_grceasy' => 'GRC Easy List',
+  'bl_huneasy' => 'HUN Easy List',
+  'bl_idneasy' => 'IDN Easy List',
+  'bl_itaeasy' => 'ITA Easy List',
+  'bl_jpneasy' => 'JPN Easy List',
+  'bl_koreasy' => 'KOR Easy List',
+  'bl_korfb' => 'KOR Fanboy',
+  'bl_koryous' => 'KOR Yous List',
+  'bl_ltueasy' => 'LTU Easy List',
+  'bl_nldeasy' => 'NLD Easy List',
+  'bl_ruseasy' => 'RUS Easy List',
+  'bl_spaeasy' => 'SPA Easy List',
+  'bl_svneasy' => 'SVN Easy List',
+  'bl_sweeasy' => 'SWE Easy List',
+  'bl_viefb' => 'VIE Fanboy',
   'bl_fblatin' => 'Latin Easy List',
-  'bl_ruseasy' => 'RUS Easy List'  
 );
 
 
