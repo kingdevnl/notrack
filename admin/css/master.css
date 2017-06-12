@@ -372,7 +372,7 @@ table {
 }
 td, th {
   overflow: auto;
-  padding: 0.7em 0.6em;
+  padding: 0.6em 0.6em;
   border-bottom: 1px solid #b3b3b3;
 }
 th {
