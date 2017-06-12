@@ -78,6 +78,7 @@ $DEFAULTCONFIG = array(
   'bl_ltueasy' => 0,
   'bl_lvaeasy' => 0,
   'bl_nldeasy' => 0,
+  'bl_poleasy' => 0,
   'bl_ruseasy' => 0,
   'bl_spaeasy' => 0,
   'bl_svneasy' => 0,
