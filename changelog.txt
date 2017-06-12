@@ -1,6 +1,6 @@
 Development
 New region specific AdBlockPlus blocklists:
-  France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania
+  France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania, Latvia, Netherlands, Poland, Spain, Slovenia
 
 *************************************************
 
