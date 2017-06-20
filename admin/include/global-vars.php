@@ -33,6 +33,7 @@ $DEFAULTCONFIG = array(
   'SearchUrl' => '',
   'WhoIs' => 'Who.is',
   'WhoIsUrl' => '',
+  'whoisapi' => '',
   'Username' => '',
   'Password' => '',
   'Delay' => 30,
