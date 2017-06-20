@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 23 May 2017
+#NoTrack Blocklist updated 20 Jun 2017
 #LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -88,6 +88,7 @@
 9nl.com #Click Meter
 9nl.org #Click Meter
 9nl.us #Click Meter
+a1749y92ai7h2uwi4v7e.club #Ad blocking investigation
 a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
@@ -169,7 +170,6 @@ adform.org #Adform
 adformdsp.com #Adform
 adformdsp.net #Adform
 adfront.org #BuySellAds
-adfuture.cn #Tracker Unknown
 adgenie.co.uk #Ve Interactive
 adgiant.io #AdGiant
 adgibbon.com #AdGibbon
@@ -396,6 +396,7 @@ affrh2022.com #RevenueHits
 affrh2023.com #RevenueHits
 affrh2024.com #RevenueHits
 affrh2025.com #RevenueHits
+afh32lkjwe.net #Advertising Unknown
 afy11.net #Adify
 agil1.biz
 agil1.info
@@ -522,6 +523,7 @@ appstreamingnetwork.net #instartlogic
 appstreamingnetwork.org #instartlogic
 apptrade.biz #Millennial Media
 apptrade.mobi #Millennial Media
+appuniverseapplication.com #Tracker unknown
 appunti.com #Click Meter
 apxlv.com
 aracea.com #Ad Web
@@ -617,16 +619,14 @@ bidswitch.net #BidSwitch
 bidtheatre.com #BidTheatre
 bidtrk.com
 bigbos.top #Advertising
-bigdata.adfuture.cn #Chinese Android Data Collection
-bigdata.adsunflower.com #Chinese Android Data Collection
 bigdata.adups.com #Chinese Android Data Collection
-bigdata.advmob.cn #Chinese Android Data Collection
 bigdataexchange.com #Contextuads
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 billmscurlrev.com #msales
 bingads.microsoft.com #Microsoft
 bis-dic15.com #Lead Forensics
+bitssurfer.com #bitssurfer
 bizible.com
 bizographics.com
 bkrtx.com #Oracle
@@ -990,6 +990,7 @@ comscorestudies.com #comScore
 comscorestudies.net #comScore
 concertbreaks.com #Digital Window
 concerthospitality.com #Digital Window
+conduit-services.com #Unknown PUA
 confirmsubscription.com #Campaign Monitor Pty
 connatix.com #Connatix
 connct-9.com #Lead Forensics
@@ -1286,6 +1287,7 @@ econommetrics.com #comScore
 ecopute.com #AppNexus Inc
 ecustomeropinions.com
 ed-clr-01.com #Lead Forensics
+edatasales.com #Chrome Extension Easy Auto Refresh
 edigitalresearch.com
 edigitalsurvey.com
 educing.info #Tracker Unknown
@@ -1504,6 +1506,7 @@ frtyg.com #Tracker Unknown
 fullstory.com
 fungetbag.info #Tracker Unknown
 futureusmedia.com
+fwfgbhjhnlkv.com #Popunder Ad
 fwmrm.net #FreeWheel
 fyre.co
 g.alicdn.com
@@ -1540,6 +1543,7 @@ gettally.com #Hubspot
 gettraff.com
 gfe.geforce.com #Nvidia
 gfe.nvidia.com #Nvidia
+gff6166tdt2i4fc155zi11.info #Ad blocking investigation
 gfsql.geforce.com #Nvidia
 gfswl.geforce.com #Nvidia
 ggimg.tapas.net
@@ -11137,6 +11141,7 @@ onedmp.com
 onestat.com
 onetag-sys.com
 online-metrix.net
+onlinesalespro.com #Online Sales Pro
 onscroll.com
 onstate.co.uk
 onstate.com
@@ -11236,6 +11241,7 @@ pingmemessenger.mobi #RadiumOne
 pingmemessenger.net #RadiumOne
 pingmemessenger.us #RadiumOne
 pipeaota.com
+pipeschannels.com #Advertising Unknown
 pippio.com #Arbor
 piwik.com-online.com #PIWIK
 piwik.pro #Piwik PRO
@@ -12201,6 +12207,7 @@ vergic.org #Vergic
 vergicengage.com #Vergic
 verityresearchpanel.com #TMRG
 verityresearchpanel.net #TMRG
+vertamedia.com #VertaMedia
 verticalscope.com
 verticaltechmedia.de
 vertmarkets.com
@@ -12312,6 +12319,7 @@ worldwideoffers.net #msales
 wowanalytics.co.uk
 wpa.qq.com #QQ
 wpdigital.net #Washington Post
+wraug5vv72b28fch.pro #Ad blocking investigation
 wrightsmedia.com
 ws-outage.com #Lead Forensics
 wshifen.com #Baidu

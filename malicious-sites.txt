@@ -1,8 +1,12 @@
-#NoTrack Malicious Site list updated 10 Feb 2017
+#NoTrack Malicious Site list updated 20 Jun 2017
+1kdailyprofit.biz #Scam
 1kdailyprofit.co #Scam
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 abcd7777.com #Chinese Scammer
 abcdnf.com #Chinese Scammer
+adfuture.cn #Chinese Android Data Collection 
+adsunflower.com #Chinese Android Data Collection 
+advmob.cn #Chinese Android Data Collection 
 andr-security.com #Malicious Site
 apple-safari.info #Malicious Site
 ashleyrnadison.com #Typo
