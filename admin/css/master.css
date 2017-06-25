@@ -424,6 +424,9 @@ tr.orange {
 tr.green {
   background: #80FF60;
 }
+tr.cyan {
+  background: #55FFFF;
+}
 
 #access-table td:nth-child(1), #access-table th:nth-child(1) {
   width: 15%;
