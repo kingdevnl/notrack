@@ -21,6 +21,9 @@ DEFINE('CONFIGTEMP', '/tmp/notrack.conf');
 DEFINE('TLD_FILE', './include/tld.csv');
 DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
 DEFINE('NOTRACK_LIST', '/etc/dnsmasq.d/notrack.list');
+DEFINE('REGEX_DATE', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])$/');
+DEFINE('REGEX_TIME', '/([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
+DEFINE('REGEX_DATETIME', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])\s([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
 
 $Config=array();
 
