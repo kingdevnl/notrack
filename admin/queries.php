@@ -489,6 +489,7 @@ function show_time_view() {
   $query = '';
   $action = '';
   $blockreason = '';
+  $investigate = '';
   
   if ($view == 'livetime') {
     $rows = count_rows_save('SELECT COUNT(*) FROM live'.add_filterstr());
@@ -522,10 +523,11 @@ function show_time_view() {
   draw_viewbuttons();
   
   echo '<table id="query-time-table">'.PHP_EOL;
-  echo '<tr><th>Time<a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=desc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25BE;</a><a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=asc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;  
+  echo '<tr><th>Time<a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=desc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25BE;</a><a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=asc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
+    $investigate = '<a href="./investigate.php?datetime='.$row['formatted_time'].'&amp;site='.$row['dns_request'].'&amp;sys='.$row['sys'].'">.</a>';
     if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', false, true)"></span>';
@@ -554,8 +556,8 @@ function show_time_view() {
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
-    
-    echo '<tr'.$row_class.'><td>'.$row['formatted_time'].'</td><td>'.$row['sys'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td></tr>'.PHP_EOL;
+        
+    echo '<tr'.$row_class.'><td>'.$row['formatted_time'].'</td><td>'.$row['sys'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.$investigate.'</td></tr>'.PHP_EOL;
     $blockreason = '';
   }
   
@@ -596,10 +598,10 @@ if (isset($_GET['view'])) {
 }
 
 if (isset($_GET['datestart'])) {                 //Filter for yyyy-mm-dd
-  if (preg_match('/^2[0-1][0-9][0-9]\-[0-1][0-9]\-[0-3][0-9]$/', $_GET['datestart']) > 0) $datestart = $_GET['datestart'];
+  if (preg_match(REGEX_DATE, $_GET['datestart']) > 0) $datestart = $_GET['datestart'];
 }
 if (isset($_GET['dateend'])) {                   //Filter for yyyy-mm-dd
-  if (preg_match('/^2[0-1][0-9][0-9]\-[0-1][0-9]\-[0-3][0-9]$/', $_GET['dateend']) > 0) $dateend = $_GET['dateend'];  
+  if (preg_match(REGEX_DATE, $_GET['dateend']) > 0) $dateend = $_GET['dateend'];  
 }
 
 if ($sqltable == 'historic') {                   //Check to see if dates are valid
