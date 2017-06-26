@@ -50,6 +50,7 @@ prugskh.com #Ragentek Rootkit
 prugskh.net #Ragentek Rootkit
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
+reimageplus.com #Fake BSOD Popus &Scam
 #S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S-S
 ironbeast.io #Suspicious
 safari-code.net #Malicious Site
