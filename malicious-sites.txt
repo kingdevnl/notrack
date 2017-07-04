@@ -7,6 +7,7 @@ abcdnf.com #Chinese Scammer
 adfuture.cn #Chinese Android Data Collection 
 adsunflower.com #Chinese Android Data Collection 
 advmob.cn #Chinese Android Data Collection 
+akamoihd.net #Ad Injector
 andr-security.com #Malicious Site
 apple-safari.info #Malicious Site
 ashleyrnadison.com #Typo
@@ -16,6 +17,7 @@ biosagentplus.com #Scam
 com-internet.online #Malicious Site
 cookiereports.com #Annoying Cookie Popup
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
+digitaloptout.com #Ad Injector
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 elbacom.com #Angler EK
 edatasales.com #Malicious Site
