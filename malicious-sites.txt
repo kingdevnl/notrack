@@ -17,6 +17,8 @@ biosagentplus.com #Scam
 com-internet.online #Malicious Site
 cookiereports.com #Annoying Cookie Popup
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
+davesbestdeals.com #Ad Injector
+donation-tools.org #Ad Injector
 digitaloptout.com #Ad Injector
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
 elbacom.com #Angler EK
@@ -29,6 +31,7 @@ ffdns.net #DNS Exploiters
 globaloffers.link #Malware
 googele.com #Typo
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
+hoholikik.club #Ad Injector
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 intimglobus.ru #suspicious
 iubenda.com #Annoying
@@ -60,9 +63,10 @@ searchnet.com #Malicious Site
 searchtabnew.com #Malicious Site
 simplebookmark.info #Buta Trading - leak analytics
 site360.org.uk #Angler EK
-#T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
 surveyrouter.com #Toluna Surveys
+#T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
 toogle.com #Malicious Site
+trumpetedextremes.com #Ad Injector
 #U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U-U
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
