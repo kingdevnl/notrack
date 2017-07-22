@@ -1,4 +1,6 @@
 Development
+Started on Investigate page which requires API key from JsonWhois
+
 New region specific AdBlockPlus blocklists:
   France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania, Latvia, Netherlands, Poland, Spain, Slovenia
 

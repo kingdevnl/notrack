@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 20 Jun 2017
+#NoTrack Blocklist updated 22 Jul 2017
 #LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -24,6 +24,7 @@
 2cobrowse.com #eGain Corporation
 2nyan.org #Tracker Unknown
 2o7.net #Adobe
+2znp09oa.com #Tracker Unknown
 302br.net #Integral Ad Science
 303br.net #Integral Ad Science
 304br.net #Integral Ad Science
@@ -83,6 +84,7 @@
 8096888.com #HelloWorld
 8099888.com #HelloWorld
 8866786.com #Adverts
+8m5sew59gr.bid #Unknown adverts bn7v3w.8m5sew59gr.bid
 95095.com #Alibaba
 950958.com #Alibaba
 9nl.com #Click Meter
@@ -452,6 +454,7 @@ analytics.ccs.mcafee.com #McAfee
 analytics.faw.sky.com #Sky
 analytics.gandi.net #Gandi
 analytics.newsinc.com
+analytics.query.yahoo.com #Yahoo
 analytics.sapo.pt #Sapo
 analytics.schoolwires.com
 analytics.slashdotmedia.com #Slash dot
@@ -721,6 +724,7 @@ brvideosummit.com #BrightRoll
 brvs.com #BrightRoll
 brx.com #BrightRoll
 brxvideosummit.com #BrightRoll
+bstats.org #bStats
 btrll.com #BrightRoll
 btrll.net #BrightRoll
 btrll.org #BrightRoll
@@ -1448,6 +1452,7 @@ fancybar.net #BuySellAds
 fantuition.com #AppNexus Inc
 fashiona-z.com #Digital Window
 fastclick.net
+fastpopunder.com #Advertising Unknown
 fdgkdhfgjkdfgdg.com #HelloWorld
 feed-ads.com #Advertising Unknown
 feedbackify.com #Feedbackify
@@ -1886,6 +1891,7 @@ laptops2compare.com #Digital Window
 latencyelb.info #msales
 latestprizes.com #Digital Window
 latestprizes.net #Digital Window
+lcprd1.samsungcloudsolution.net #Samsung smart tv telemetry
 lduhtrp.net
 lead-01.com #Euclead
 lead-30.com #Euclead
@@ -1998,10 +2004,12 @@ mailshield.net #Aurea
 mainad.com #MainADV
 mainadv.com #MainADV
 maintrack.us #MainAd
+mandrillapp.com #MailChimp
 map2.ssl.hwcdn.net #HWCDN Tracking
 margree.com #Ad Web
 marinsm.com
 marketing-solutions.bt.com
+marketing-ssl.upsight-api.com #Upsight
 marketing.lloydsbank.co.uk
 marketinghq.net #Aurea
 marketinghub.hp.com #HP
@@ -11776,6 +11784,7 @@ sitetagger.co.uk
 skift.pt
 skiftmedia.pt
 skimresources.com #Skimlinks
+skipittok.com #Malwarebytes
 slashtag.link #Click Meter
 sli-spark.com
 slimcut.media #SlimCut Media
@@ -11986,6 +11995,7 @@ telemetry.api.swiftkey.com #Swiftkey
 telemetry.battle.net #Blizzard
 telemetry.gfe.nvidia.com #Nvidia
 telemetry.jivosite.com #Jivochat
+telemetry.malwarebytes.com #Malwarebytes
 telemetry.microsoft.com #Microsoft
 telemetry.microsoft.com.nsatc.net #Microsoft
 telemetry.nvidia.com #Nvidia
@@ -12023,6 +12033,7 @@ tiller.co #Tiller
 timechange.space #Missleading adverts scam
 tinydm.com #Adware
 tiqcdn.com
+titanium1100-en-au.census.trendmicro.com #Trendmicro
 tkqlhce.com
 tl813.com
 tm1-001.com #Lead Forensics
@@ -12034,6 +12045,7 @@ tns-cs.net #Direkte
 tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd 
+topaz-analytics.com #Topaz Solutions
 topdealz.click #msales
 topfox.co.uk
 topoffers.click #msales
