@@ -247,37 +247,6 @@ function draw_filterbox() {
 }
 
 
-/********************************************************************
- *  Draw View Buttons
- *    [Today][Historic][Group][Time]
- *  Params:
- *    None
- *  Return:
- *    None
- */
-function draw_viewbuttons() {
-  global $sqltable, $view;
-
-  echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
-  if ($sqltable == 'live') {
-    echo '<li class="active"><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
-  }
-  else {
-    echo '<li><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li class="active"><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
-  }  
-  if (($view == 'livetime') || ($view == 'historictime')) {
-    echo '<li><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li class="active"><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
-  }
-  elseif (($view == 'livegroup') || ($view == 'historicgroup')) {
-    echo '<li class="active"><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
-  }
-  echo '</ul></div>'.PHP_EOL;
-}
-
 
 /********************************************************************
  *  Get Block List Name
@@ -466,9 +435,8 @@ function get_whoisdata($query, $apikey) {
   $headers[] = 'Authorization: Token token='.$apikey;
   $url = 'https://jsonwhois.com/api/v1/whois/?domain='.$query;
 
-  if ($mem->get('whois-'.$query)) {              //Does Whois exist in memcache?
-    $response = $mem->get('whois-'.$query);      //Use stored value
-    echo "cached";
+  if ($mem->get('whois-'.$query)) {                        //Does Whois exist in memcache?
+    $response = $mem->get('whois-'.$query);                //Use stored value    
     return $response;
   }
   
@@ -481,7 +449,7 @@ function get_whoisdata($query, $apikey) {
   $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
   
-  if ($status == 400) {                          //Bad request domain doesn't exist
+  if ($status == 400) {                                    //Bad request domain doesn't exist
     echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
     echo '<h5>Domain Information</h5></div>'.PHP_EOL;
     echo '<div class="sys-items">'.PHP_EOL;
@@ -499,9 +467,8 @@ function get_whoisdata($query, $apikey) {
   
   curl_close($ch);
 
-  $response = json_decode($json_response, true); //Load json response into PHP array
-  
-  $mem->set('whois-'.$query, $response, 0, 3600);//Save Whois result for 1 hour
+  $response = json_decode($json_response, true);           //Load json response into PHP array  
+  $mem->set('whois-'.$query, $response, 0, 3600);          //Save Whois result for 1 hour
   
   return $response;
 }
@@ -517,7 +484,7 @@ function get_whoisdata($query, $apikey) {
 function show_whoisdata() {
   global $whoisdata;
   
-  if ($whoisdata === false) return;              //No whois data available    
+  if ($whoisdata === false) return;                        //No whois data available    
   
   if (isset($whoisdata['error'])) {
     echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
@@ -575,7 +542,7 @@ function show_whoiserror() {
   echo '<p>Instructions:</p>'.PHP_EOL;
   echo '<ol>'.PHP_EOL;
   echo '<li>Sign up to <a href="https://jsonwhois.com/">JsonWhois</a></li>'.PHP_EOL;
-  echo '<li> Add your API key to NoTrack <a href="./config.php?v=advanced">config</a></li>'.PHP_EOL;
+  echo '<li> Add your API key to NoTrack <a href="./config.php?v=general">config</a></li>'.PHP_EOL;
   echo '</ol>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
 }
