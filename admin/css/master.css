@@ -164,8 +164,8 @@ pre {
 /*Form items*********************************************************/
 input[type="text"], input[type="password"] {
   width: 98%;
-  height: 1.5em;
-  font-size: 1.2em;
+  height: 1.3em;
+  font-size: 1.1rem;
   color: #00000A;
   background-color: #F7F7F7;
   border: 2px solid #21BBFF;
@@ -176,10 +176,16 @@ input[type="text"], input[type="password"] {
 input[type="text"].textbox-small {
   width: 15em;
 }
+input[type="text"].input-conf {
+  width: 24em;
+}
+select.input-conf {
+  width: 24.4em;
+}
 select, input[type="date"], input[type="number"] {
   width: 70%;
   height: 1.5em;
-  font-size: 1.1em;
+  font-size: 1.1rem;
   color: #00000A;
   background-color: #F7F7F7;
   border: 2px solid #21BBFF;
@@ -197,7 +203,7 @@ textarea {
   box-shadow: 0 0 8px #21BBFF;
 }
 .button-blue, .button-grey, .button-danger {
-  font-size: 1.1em;
+  font-size: 1.1rem;
   text-align: center;
   color: #00000A;
   border: none;
@@ -211,7 +217,7 @@ textarea {
 .button-danger:hover {background-color: #8B1D3A;}
 .button-grey {background-color: #C0C0C0;}
 .button-small {
-  font-size: 1.1em;
+  font-size: 1.1rem;
   text-align: center;
   color: #00000A;
   background-color: #C0C0C0;
