@@ -757,7 +757,7 @@ function show_general() {
   
   draw_systable('Domain Stats');
   echo '<tr><td>Search Engine: </td>'.PHP_EOL;
-  echo '<td><select name="search" onchange="submit()">'.PHP_EOL;
+  echo '<td><select name="search" class="input-conf" onchange="submit()">'.PHP_EOL;
   echo '<option value="'.$Config['Search'].'">'.$Config['Search'].'</option>'.PHP_EOL;
   foreach ($SEARCHENGINELIST as $key => $value) {
     if ($key != $Config['Search']) {
@@ -767,14 +767,15 @@ function show_general() {
   echo '</select></td></tr>'.PHP_EOL;
   
   echo '<tr><td>Who Is Lookup: </td>'.PHP_EOL;
-  echo '<td><select name="whois" onchange="submit()">'.PHP_EOL;
+  echo '<td><select name="whois" class="input-conf" onchange="submit()">'.PHP_EOL;
   echo '<option value="'.$Config['WhoIs'].'">'.$Config['WhoIs'].'</option>'.PHP_EOL;
   foreach ($WHOISLIST as $key => $value) {
     if ($key != $Config['WhoIs']) {
       echo '<option value="'.$key.'">'.$key.'</option>'.PHP_EOL;
     }
   }
-  echo '</select></td></tr>'.PHP_EOL;  
+  echo '</select></td></tr>'.PHP_EOL;
+  draw_sysrow('JsonWhois API <a href="https://jsonwhois.com/"><img class="btn" src="./svg/button_help.svg"></a>', '<input type="text" name="whoisapi" class="input-conf" value="'.$Config['whoisapi'].'">');
   echo '</table></div></div></form>'.PHP_EOL;    //End Stats
   
   return null;

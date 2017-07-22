@@ -72,7 +72,7 @@ if (isset($_POST['action'])) {
       if (update_stats_config()) {
         save_config();
         sleep(1);                                //Short pause to prevent race condition
-        header('Location: ?');
+        header('Location: ?v=general');
       }
       break;
     case 'tld':
@@ -323,6 +323,18 @@ function update_stats_config() {
       $updated = true;
     }
   }
+  
+  if (isset($_POST['whoisapi'])) {                         //Validate whoisapi
+    if (strlen($_POST['whoisapi']) < 50) {                 //Limit input length
+      if (ctype_xdigit($_POST['whoisapi'])) {              //Is input hexadecimal?
+        $Config['whoisapi'] = $_POST['whoisapi'];
+        $updated = true;
+      }
+      else {
+        $Config['whoisapi'] = '';
+      }
+    }
+  }  
   
   return $updated;
 }
