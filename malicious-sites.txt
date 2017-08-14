@@ -30,6 +30,7 @@ ffdns.net #DNS Exploiters
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
 globaloffers.link #Malware
 googele.com #Typo
+gonirola.com #Malicious Site
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 hoholikik.club #Ad Injector
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
@@ -45,6 +46,7 @@ lhzbdvm.com #Ragentek Rootkit
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 m1ll1c4n0.com #Added May 2016
 madmimi.com #Email spam
+minaraca.com #Malicious Site
 myxns.cn #DNS Exploiters
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 #O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O

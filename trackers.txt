@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 07 Aug 2017
+#NoTrack Blocklist updated 14 Aug 2017
 #LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -373,6 +373,7 @@ aerserv.com #AerServ
 aetna.com #IBM Silverpop
 aetterweb.info #instartlogic
 affec.tv
+affhit.com #Tracker Unknown
 affilbox.cz #AffilBox
 affiliate-window.com #Digital Window
 affiliatehub.skybet.com #Sky
@@ -591,7 +592,6 @@ bannermeter.com #Click Meter
 bars.sapo.pt #PT Telecomunicacoes
 basebanner.com
 bat.bing.com
-bat.bing.com
 batchgeo.com
 baw5tracker.com #Lead Forensics
 baynote.net
@@ -753,7 +753,7 @@ buysub.com
 buzzybar.com #Click Meter
 bz.io
 c-ctrip.com
-c.afekv.com #Public DNS Scan 
+c.afekv.com #Public DNS Scan
 c1exchange.com #C1 Exchange
 c3tag.com
 callwindow.com #Digital Window
@@ -925,7 +925,6 @@ clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
 cmail.link #Campaign Monitor Pty
 cmail1.com #Campaign Monitor Pty
-cmail1.com #Campaign Monitor Pty
 cmail10.com #Campaign Monitor Pty
 cmail11.com #Campaign Monitor Pty
 cmail12.com #Campaign Monitor Pty
@@ -965,12 +964,12 @@ cnt1.net #Luna Park
 cntr-di5.com #Lead Forensics
 cntr-di7.com #Lead Forensics
 cnv001.net #Experian
-cnv002.net #Experian 
+cnv002.net #Experian
 cnv003.net #Experian
 cnv004.net #Experian
 cnv005.net #Experian
 cnzz.com
-coaptru.com #Tracker Unknown 
+coaptru.com #Tracker Unknown
 codigo.se #Codigo
 codinginadtech.com #OpenX
 codinginadtech.net #OpenX
@@ -1150,7 +1149,7 @@ davide.click #Click Meter
 davide.link #Click Meter
 davide.photo #Click Meter
 daxapi.com #comScore
-dc-storm.com #Rakuten 
+dc-storm.com #Rakuten
 dcoengine.com
 ddf-t1.com #Ysance
 ddf-t2.com #Ysance
@@ -1354,7 +1353,6 @@ elitechnology.com #Enne Solutions
 ellard.biz #Ad Web
 ellard.net #Ad Web
 eloqua.com #Oracle
-eloqua.com #Oracle
 email-confirmation.com #Campaign Monitor Pty
 email-standards.com #Campaign Monitor Pty
 email-standards.org #Campaign Monitor Pty
@@ -1466,6 +1464,13 @@ feedmagnet.com
 feedsportal.com
 feedstat.com #comScore
 fetchback.com
+fffgftr.com #oly.fst
+ffftfgr.com #oly.fst
+ffftfrg.com #oly.fst
+ffftgfr.com #oly.fst
+ffftgrf.com #oly.fst
+ffftrfg.com #oly.fst
+ffftrgf.com #oly.fst
 fidelity-media.com
 fimserve.com
 final-aws-01.com #Lead Forensics
@@ -1654,7 +1659,6 @@ honeytracks.com #HoneyTracks
 hotjar.com #Hotjar
 hqcampaign.com #Aurea
 hrb1tng0.com #Lead Forensics
-hrb1tng0.com
 hs-analytics.com #Hubspot
 hs-analytics.net #Hubspot
 hs-appstatic.com #Hubspot
@@ -1766,7 +1770,7 @@ in2panel.com #TMRG
 in2panel.net #TMRG
 inboxreport.com #Campaign Monitor Pty
 indexww.com #CassleMedia
-indpcr1.com #Lead Forensics 
+indpcr1.com #Lead Forensics
 industrybrains.com
 inetwork.directory
 infernotions.com
@@ -10939,7 +10943,6 @@ movoxi.com #comScore
 movoxi.net #comScore
 movoxy.com #comScore
 movoxy.net #comScore
-mp.weixin.qq.com #qq
 mpire.com #comScore
 mplxtms.com
 mpstat.us #SOASTA
@@ -10998,7 +11001,6 @@ myclickmeter.com #Click Meter
 mycomscore.com #comScore
 mycomscore.net #comScore
 mydas.mobi
-mydas.mobi #Millennial Media
 mydefense.info #ShawThing
 myflairware.com #TMRG
 myflairware.net #TMRG
@@ -11013,6 +11015,7 @@ myswitchads.com
 mythings.com
 mytrafficvalue.commsedge.net
 mytrix.com #OpenStat
+myunsubscribe.net #oly.fst
 myvirtualdisc.com #TMRG
 myvirtualdisc.net #TMRG
 myvirtualdisk.com #TMRG
@@ -11184,6 +11187,15 @@ openxenterprise.org #OpenX
 ophan.co.uk
 opinionsquare.com #TMRG
 opinionsquare.net #TMRG
+oplkc.com #oly.fst
+oplkk.com #oly.fst
+oplkl.com #oly.fst
+oplkm.com #oly.fst
+oplkt.com #oly.fst
+oplkv.com #oly.fst
+oplkw.com #oly.fst
+oplkx.com #oly.fst
+oplkz.com #oly.fst
 optilead.co.uk
 optimizely.com #Optimizely
 optinmonster.com
@@ -11305,7 +11317,7 @@ positiveadv.com #Click Meter
 post2delicious.com #comScore
 postrelease.com
 postroller.com #BrightRoll
-postup.com # Post Up 
+postup.com #Post Up
 pow7.com
 powertheads.com #AppNexus Inc
 powertheinternet.com #AppNexus Inc
@@ -11402,7 +11414,7 @@ r1sdk-cdn.com #RadiumOne
 r1sdk.com #RadiumOne
 r1share.com #RadiumOne
 r24-tech.com
-r42tag.com #Relay42 
+r42tag.com #Relay42
 r7ls.net #Impact Radius
 raasnet.com
 rad.live.com #Microsoft
@@ -12055,7 +12067,7 @@ tns-counter.ru
 tns-cs.net #Direkte
 tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
-topad.mobi #TopAd 
+topad.mobi #TopAd
 topaz-analytics.com #Topaz Solutions
 topdealz.click #msales
 topfox.co.uk
@@ -12071,12 +12083,15 @@ track-flow.com
 track-mv-01.com #MultiView
 track-mv-02.com #MultiView
 track-mv.com #MultiView
+track.cpa.iqoption.com #IQOption
 track.ft.com #Financial Times
 trackad.cz #TrackAd
 trackalyzer.com
+trackedgr8.com #Tracker Unknown
 trackedlink.net
 trackertec.nznweb.com.br #NZN webs piwiki
 tracking.lenzmx.com #Mobvista
+tracking.xsellapp.com #Unknown Tracker
 trackjs.com
 trackwindow.com #Digital Window
 tradeadexchange.com
@@ -12095,7 +12110,6 @@ traffichunt.com
 trafficjunky.net #Ennova Research
 traffickart.info #msales
 trafficshop.com
-trafficstars.com #Trafficstars
 trafficstars.com #Trafficstars
 traffique.net #Unknown Advertising
 trafshopmbuyer.com #msales
