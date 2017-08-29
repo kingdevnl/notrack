@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 14 Aug 2017
+#NoTrack Blocklist updated 29 Aug 2017
 #LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -166,6 +166,7 @@ adfast.net #Ad Web
 adfast.org #Ad Web
 adfinis-sygroup.ch #Adfinis SyGroup
 adflight.net #Ad Web
+adflix.club #ADflix
 adform.com #Adform
 adform.net #Adform
 adform.org #Adform
@@ -452,6 +453,7 @@ analytics-collector-28944298.us-east-1.elb.amazonaws.com
 analytics-egain.com #eGain Corporation
 analytics-static.ugc.bazaarvoice.com #Bazaar Voice
 analytics.amakings.com
+analytics.brave.com #Brave Browser
 analytics.ccs.mcafee.com #McAfee
 analytics.faw.sky.com #Sky
 analytics.gandi.net #Gandi
@@ -462,6 +464,7 @@ analytics.sapo.pt #Sapo
 analytics.schoolwires.com
 analytics.slashdotmedia.com #Slash dot
 analytics.spotify.com #Spotify tracking ads
+analytics.squidhq.com #SquidHD
 analytics.twitter.com #Twitter
 analytics.yahoo.com #Yahoo
 and.co.uk
@@ -521,6 +524,7 @@ appnexuscloud.net #AppNexus Inc
 appnexuscloud.org #AppNexus Inc
 appnexuscloud.us #AppNexus Inc
 appnexusconsole.com #AppNexus Inc
+appround.biz
 apps-your-ideas.com
 appsequencer.com #instartlogic
 appsequencer.net #instartlogic
@@ -613,6 +617,7 @@ betrad.com
 betteradserving.com #AppNexus Inc
 betterbrandsafety.com #AppNexus Inc
 bettercreatives.com #AppNexus Inc
+betterinstaller.com #Malware
 betterliquidity.com #AppNexus Inc
 bettermarketplaces.com #AppNexus Inc
 betterprogrammatic.com #AppNexus Inc
@@ -627,11 +632,14 @@ bidtrk.com
 bigbos.top #Advertising
 bigdata.adups.com #Chinese Android Data Collection
 bigdataexchange.com #Contextuads
+bigspeedpro.com
 bigtentresearch.com #TMRG
 bigtentresearch.net #TMRG
 billmscurlrev.com #msales
 bingads.microsoft.com #Microsoft
 bis-dic15.com #Lead Forensics
+bispd.com
+bisrv.com
 bitssurfer.com #bitssurfer
 bizible.com
 bizographics.com
@@ -652,6 +660,7 @@ bluevoice.us
 blutonic-ads.com #bluTonic
 blutonic.net #bluTonic
 bluuadd.com #Smaato
+boards.greenhouse.io #Greenhouse
 bolimubei.com #Advertising
 bombora.com
 bongacash.com
@@ -805,6 +814,9 @@ ccmdemail.com #Email Vision
 ccmp.eu #Experian
 cctyly.com #Advertising
 cdn-net.com
+cdn.download.sweetpacks.com
+cdn.insta.playbryte.com
+cdn.mypcbackup.com #MyPCBackup
 cdnh1.net #Team Internet AG
 cdnh2.net #Team Internet AG
 cdnh3.net #Team Internet AG
@@ -1128,6 +1140,7 @@ d31qbv1cthcecs.cloudfront.net #Amazon - Alexa
 d38nbbai6u794i.cloudfront.net #Canvas Fingerprinting
 d3c3cq33003psk.cloudfront.net #QuBit Digital
 d3ohfm6v3473ou.cloudfront.net #Global Media Group
+d3oxtn1x3b8d7i.cloudfront.net #Ads
 d3ujids68p6xmp.cloudfront.net
 da-ads.com
 dakic-ia-300.com #Lead Forensics
@@ -1192,6 +1205,7 @@ deviceapps.net #Millennial Media
 devnexus.net #AppNexus Inc
 devnxs.net #AppNexus Inc
 dexometer.com #Adobe
+dgnvmw.xyz #Advertising
 diamondeal.click #msales
 diamondmedia.click #msales
 dianalytics.com #Adobe
@@ -1256,6 +1270,7 @@ dpmsrv.com
 dqna.net
 dressipi.com #Style website which offers analytics for other retailers
 drptst.com #msales
+dsf4t5jfds34j.com #Advertising 
 dsply.com
 dsywd.com
 dtc-330d.com #Lead Forensics
@@ -1472,6 +1487,7 @@ ffftgrf.com #oly.fst
 ffftrfg.com #oly.fst
 ffftrgf.com #oly.fst
 fidelity-media.com
+filebulldog.com #Malware
 fimserve.com
 final-aws-01.com #Lead Forensics
 final-azr-01.com #Lead Forensics
@@ -1619,6 +1635,7 @@ gu-web.net #The Guardian
 gumgum.com
 gunmedbuyflw.com #msales
 guomob.com
+guttastatdk.us
 gw100-10.com #Lead Forensics
 gwallet-qa.com #RadiumOne
 gwallet.com #RadiumOne
@@ -1630,6 +1647,7 @@ hanapinmarketing.com
 happyfoxchat.com #HappyFox Chat
 hardbouncemyemail.com #Campaign Monitor Pty
 hardofhearing.org
+header.tech #Tracker Unknown
 heads-ec.spotify.com #Spotify tracking ads
 heapanalytics.com
 heartbeat.dm.origin.com #EA
@@ -10949,6 +10967,7 @@ mpstat.us #SOASTA
 mptracking.mobi #MobPartner
 mrkt.it
 msads.net
+msdwnld.com
 msgf.net #Adestra
 msgfocus.com
 msmtrakk00.com #msales
@@ -11173,6 +11192,7 @@ openadstreamcentral.net #AppNexus Inc
 openadsystem.com #AppNexus Inc
 openadsystems.com #AppNexus Inc
 openadsystems.net #AppNexus Inc
+opencandy.com #OpenCandy
 opendsp.com #OpenDSP
 openstat.com #OpenStat
 openstat.net #OpenStat
@@ -11257,6 +11277,7 @@ petrous.cn #Advertising
 phicdn.net #Verizon
 phluant.com #Phluant
 phluantmobile.net #Phluant
+phone.igexin.com #Igexin Spyware
 pictela.net #AOL
 piksel.com
 pimpb.us #AppNexus Inc
@@ -11309,6 +11330,7 @@ pointroll.com
 polar.me
 polarmobile.com
 popads.net #Advertising
+popadvertisement.club #Advertising 
 popcash.net #Advertising
 popmonetize.com #Advertising
 popmyads.com #Pop My Ads
@@ -11328,6 +11350,7 @@ ppjol.net
 preroll.cz #Grape Media
 preroller.com #BrightRoll
 pressfusion.com #Ad Web
+prfhn.com #Performance Horizon
 primefuse.com
 privacy.aol.com #AOL
 privateebusiness.com #Advertising Unknown
@@ -11372,7 +11395,6 @@ pulsemgr.com
 pump.to
 purch.com #Purch
 purplenile.com #eGain Corporation
-pusher.com #Pusher
 pusherapp.com #Pusher
 pussycash.com
 pvtraffic.com
@@ -11432,6 +11454,7 @@ radiumone.org #RadiumOne
 radiumone.us #RadiumOne
 radiumonelabs.com #RadiumOne
 rampanel.com #Research and Analysis of Media
+randomfaster.club #Advertising 
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
 rcsmetrics.it #Corriere.it
@@ -11519,6 +11542,7 @@ rhrev.com #RevenueHits
 rhtag.com #RevenueHits
 rhythmxchange.com
 riastat.com #comScore
+riceateastcach.us
 richmedia.cz #Grape Media
 richmetrics.com #Burt Corp
 richrelevance.com
@@ -12069,6 +12093,7 @@ tns-sifo.se #TNS Sifo
 toluna-analytics.com #Toluna Surveys
 topad.mobi #TopAd
 topaz-analytics.com #Topaz Solutions
+topclickguru.com #Advertising
 topdealz.click #msales
 topfox.co.uk
 topoffers.click #msales
@@ -12085,12 +12110,14 @@ track-mv-02.com #MultiView
 track-mv.com #MultiView
 track.cpa.iqoption.com #IQOption
 track.ft.com #Financial Times
+track.mypcbackup.com #MyPCBackup
 trackad.cz #TrackAd
 trackalyzer.com
 trackedgr8.com #Tracker Unknown
 trackedlink.net
 trackertec.nznweb.com.br #NZN webs piwiki
 tracking.lenzmx.com #Mobvista
+tracking.opencandy.com.s3.amazonaws.com #OpenCandy
 tracking.xsellapp.com #Unknown Tracker
 trackjs.com
 trackwindow.com #Digital Window
@@ -12280,6 +12307,9 @@ visualvote.com #Click Meter
 visualwebsiteoptimizer.com
 vizu.com
 voicefive.com
+voluumtrk.com #Voluum
+voluumtrk2.com #Voluum
+voluumtrk3.com #Voluum
 voucher-club.com #Digital Window
 voucheralley.com #Digital Window
 vouchercodeclub.com #Digital Window
@@ -12379,7 +12409,9 @@ xiti.com
 xixiwan.net #Advertising
 xoclkrvstrafms.com #msales
 xploreroffers.com #msales
+xzhmjoch.bid #Popunder Ad
 y-track.com #Ysance
+y5wflt0xibmoufuvsayg1efy80yq0ystkjncf76cqm.com #Advertising
 yadro.ru
 yadsrflowms.com #msales
 yarpp.org
