@@ -57,6 +57,9 @@ $COMMONSITESLIST = array('cloudfront.net',
 $datetime = '';
 $site = 'quidsup.net';
 
+$whois_date = '';
+$whois_record = '';
+
 /************************************************
 *Arrays                                         *
 ************************************************/
@@ -420,40 +423,60 @@ function show_time_view() {
 }
 
 /********************************************************************
- *  Show Who Is Data
+ *  Create Who Is Table
+ *    Run sql query to create whois table
+ *    TODO Causes unknown error 
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function create_whoistable() {
+  global $db;
+    
+  $query = "CREATE TABLE whois (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, save_time DATETIME, site TINYTEXT, record MEDIUMTEXT)";
+  
+  if (!$result = $db->query($query)) {
+    die('create_whoistable failed: '.$db->error);
+  }
+    
+  $result->free();
+}
+
+
+
+/********************************************************************
+ *  Get Who Is Data
+ *    Downloads whois data from jsonwhois.com
+ *    Checks cURL return value
+ *    Save data to whois table
  *
  *  Params:
  *    URL to Query, Users API Key to jsonwhois
  *  Return:
- *    False on Fail, Array of WhoIs data on success
+ *    
  */
-function get_whoisdata($query, $apikey) {
-  global $mem;
+function get_whoisdata($site, $apikey) {
+  global $db, $whois_date, $whois_record;
 
   $headers[] = 'Accept: application/json';
   $headers[] = 'Content-Type: application/json';
   $headers[] = 'Authorization: Token token='.$apikey;
-  $url = 'https://jsonwhois.com/api/v1/whois/?domain='.$query;
+  $url = 'https://jsonwhois.com/api/v1/whois/?domain='.$site;
+  $whois_date = date('Y-m-d H:i:s');
 
-  if ($mem->get('whois-'.$query)) {                        //Does Whois exist in memcache?
-    $response = $mem->get('whois-'.$query);                //Use stored value    
-    return $response;
-  }
-  
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $json_response = curl_exec($ch);
-
   $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
   
   if ($status == 400) {                                    //Bad request domain doesn't exist
     echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
     echo '<h5>Domain Information</h5></div>'.PHP_EOL;
     echo '<div class="sys-items">'.PHP_EOL;
-    echo $query.' does not exist'.PHP_EOL;
+    echo $site.' does not exist'.PHP_EOL;
     echo '</div></div>'.PHP_EOL;
     curl_close($ch);
     return false;
@@ -467,14 +490,57 @@ function get_whoisdata($query, $apikey) {
   
   curl_close($ch);
 
-  $response = json_decode($json_response, true);           //Load json response into PHP array  
-  $mem->set('whois-'.$query, $response, 0, 3600);          //Save Whois result for 1 hour
   
-  return $response;
+  //Save whois record into whois table
+  $cmd = "INSERT INTO whois (id, save_time, site, record) VALUES ('NULL', '$whois_date', '$site', '".$db->real_escape_string($json_response)."')";
+  if ($db->query($cmd) === false) {
+    echo 'get_whoisdata() Error adding data to whois table: '.$db->error;
+  }
+  
+  $whois_record = json_decode($json_response, true);
+  
+  return true;  
 }
 
+
+/********************************************************************
+ *  Search Who Is Record
+ *    Attempts to find $site from whois table in order to prevent overuse of JsonWhois API
+ *
+ *  Params:
+ *    URL to search
+ *  Return:
+ *    True on record found
+ *    False if no record found
+ */
+function search_whois($site) {
+  global $db, $whois_date, $whois_record;
+  
+  $query = "SELECT * FROM whois WHERE site = '$site'";
+      
+  if(!$result = $db->query($query)){
+    die('search_whois() There was an error running the query: '.$db->error);
+  }
+  
+  if ($result->num_rows == 0) {                            //Leave if nothing found
+    $result->free();
+    return false;
+  }
+    
+  $row = $result->fetch_assoc();                           //Read one row of results
+  
+  $whois_date = $row['save_time'];
+  $whois_record = json_decode($row['record'], true);
+
+  $result->free();
+  
+  return true;
+}
+  
+ 
 /********************************************************************
  *  Show Who Is Data
+ *    Displays data from $whois_record
  *
  *  Params:
  *    None
@@ -482,48 +548,50 @@ function get_whoisdata($query, $apikey) {
  *    None
  */
 function show_whoisdata() {
-  global $whoisdata;
+  global $whois_date, $whois_record;
   
-  if ($whoisdata === false) return;                        //No whois data available    
+  if ($whois_record == null) return null;
   
-  if (isset($whoisdata['error'])) {
+  //TODO give user a chance to reload data
+  if (isset($whois_record['error'])) {
     echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
     echo '<h5>Domain Information</h5></div>'.PHP_EOL;
     echo '<div class="sys-items">'.PHP_EOL;
-    echo $whoisdata['error'].PHP_EOL;
+    echo $whois_record['error'].PHP_EOL;
     echo '</div></div>'.PHP_EOL;
-    return;
+    return null;
   }
   
   draw_systable('Domain Information');
-  draw_sysrow('Domain Name', $whoisdata['domain']);
-  draw_sysrow('Name', $whoisdata['registrar']['name']);
-  draw_sysrow('Status', ucfirst($whoisdata['status']));
-  draw_sysrow('Created On', substr($whoisdata['created_on'], 0, 10));
-  draw_sysrow('Updated On', substr($whoisdata['updated_on'], 0, 10));
-  draw_sysrow('Expires On', substr($whoisdata['expires_on'], 0, 10));
-  if (isset($whoisdata['nameservers'][0])) draw_sysrow('Name Servers', $whoisdata['nameservers']['0']['name']);
-  if (isset($whoisdata['nameservers'][1])) draw_sysrow('', $whoisdata['nameservers']['1']['name']);
-  if (isset($whoisdata['nameservers'][2])) draw_sysrow('', $whoisdata['nameservers']['2']['name']);
-  if (isset($whoisdata['nameservers'][3])) draw_sysrow('', $whoisdata['nameservers']['3']['name']);
+  draw_sysrow('Domain Name', $whois_record['domain']);
+  draw_sysrow('Name', $whois_record['registrar']['name']);
+  draw_sysrow('Status', ucfirst($whois_record['status']));
+  draw_sysrow('Created On', substr($whois_record['created_on'], 0, 10));
+  draw_sysrow('Updated On', substr($whois_record['updated_on'], 0, 10));
+  draw_sysrow('Expires On', substr($whois_record['expires_on'], 0, 10));
+  if (isset($whois_record['nameservers'][0])) draw_sysrow('Name Servers', $whois_record['nameservers']['0']['name']);
+  if (isset($whois_record['nameservers'][1])) draw_sysrow('', $whois_record['nameservers']['1']['name']);
+  if (isset($whois_record['nameservers'][2])) draw_sysrow('', $whois_record['nameservers']['2']['name']);
+  if (isset($whois_record['nameservers'][3])) draw_sysrow('', $whois_record['nameservers']['3']['name']);
+  draw_sysrow('Last Retrived', $whois_date);
   echo '</table></div></div>'.PHP_EOL;
   
-  if (isset($whoisdata['registrant_contacts'][0])) {
+  if (isset($whois_record['registrant_contacts'][0])) {
     draw_systable('Registrant Contact');
-    draw_sysrow('Name', $whoisdata['registrant_contacts']['0']['name']);
-    draw_sysrow('Organisation', $whoisdata['registrant_contacts']['0']['organization']);
-    draw_sysrow('Address', $whoisdata['registrant_contacts']['0']['address']);
-    draw_sysrow('City', $whoisdata['registrant_contacts']['0']['city']);
-    draw_sysrow('Postcode', $whoisdata['registrant_contacts']['0']['zip']);
-    if (isset($whoisdata['registrant_contacts'][0]['state'])) draw_sysrow('State', $whoisdata['registrant_contacts']['0']['state']);
-    draw_sysrow('Country', $whoisdata['registrant_contacts']['0']['country']);
-    if (isset($whoisdata['registrant_contacts'][0]['phone'])) draw_sysrow('Phone', $whoisdata['registrant_contacts']['0']['phone']);
-    if (isset($whoisdata['registrant_contacts'][0]['fax'])) draw_sysrow('Fax', $whoisdata['registrant_contacts']['0']['fax']);
-    if (isset($whoisdata['registrant_contacts'][0]['email'])) draw_sysrow('Email', strtolower($whoisdata['registrant_contacts']['0']['email']));
+    draw_sysrow('Name', $whois_record['registrant_contacts']['0']['name']);
+    draw_sysrow('Organisation', $whois_record['registrant_contacts']['0']['organization']);
+    draw_sysrow('Address', $whois_record['registrant_contacts']['0']['address']);
+    draw_sysrow('City', $whois_record['registrant_contacts']['0']['city']);
+    draw_sysrow('Postcode', $whois_record['registrant_contacts']['0']['zip']);
+    if (isset($whois_record['registrant_contacts'][0]['state'])) draw_sysrow('State', $whois_record['registrant_contacts']['0']['state']);
+    draw_sysrow('Country', $whois_record['registrant_contacts']['0']['country']);
+    if (isset($whois_record['registrant_contacts'][0]['phone'])) draw_sysrow('Phone', $whois_record['registrant_contacts']['0']['phone']);
+    if (isset($whois_record['registrant_contacts'][0]['fax'])) draw_sysrow('Fax', $whois_record['registrant_contacts']['0']['fax']);
+    if (isset($whois_record['registrant_contacts'][0]['email'])) draw_sysrow('Email', strtolower($whois_record['registrant_contacts']['0']['email']));
     echo '</table></div></div>'.PHP_EOL;
   }
   
-  //print_r($whoisdata);
+  //print_r($whois_record);
 }
 
 /********************************************************************
@@ -564,21 +632,26 @@ if (isset($_GET['datetime'])) {                 //Filter for hh:mm:ss
 
 if (isset($_GET['site'])) {
   if (filter_url($_GET['site'])) {
-    $site = $_GET['site'];
+    $site = extract_domain($_GET['site']);     
   }
 }
 
-//echo "$sys - $datetime - $site";
+if (!table_exists('whois')) {                              //Does whois sql table exist?
+  create_whoistable();                                     //If not then create it
+}
 
-show_time_view();
+if ($datetime != '') show_time_view();                     //Show time view if datetime in parameters
 
-//TODO Whois needs TLD so remove sub domains from query
-if ($Config['whoisapi'] == '') {
-  show_whoiserror();
+
+//Load whois data
+if ($Config['whoisapi'] == '') {                           //Has user set an API key?              
+  show_whoiserror();                                       //No - Don't go any further
 }
 else {
-  $whoisdata = get_whoisdata($site, $Config['whoisapi']);
-  show_whoisdata();
+  if (! search_whois($site)) {                             //Attempt to search whois table    
+    get_whoisdata($site, $Config['whoisapi']);             //No record found - download it from JsonWhois
+  }
+  show_whoisdata();                                        //Display data from table / JsonWhois
 }
 
 
