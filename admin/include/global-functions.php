@@ -139,6 +139,22 @@ function count_rows($query) {
   return $rows;
 }
 
+/********************************************************************
+ *  Extract Domain
+ *    Extract domain with optional double-barrelled tld
+ *  Params:
+ *    URL to check
+ *  Return:
+ *    Filtered domain
+ */
+function extract_domain($url) {
+  $REGEX_DOMAIN = '/[\w\d\-\_]+\.(org\.|co\.|com\.|gov\.)?[\w\d\-\_]+$/';
+  preg_match($REGEX_DOMAIN, $url, $matches);
+  
+  return $matches[0];
+}
+
+
 
 /********************************************************************
  *  Filter Boolean Value
@@ -381,7 +397,8 @@ function save_config() {
  *  Params:
  *    SQL Table
  *  Return:
- *    True or False
+ *    True if table exists
+ *    False if table does not exist
  */
 function table_exists($table) {
   global $db;
