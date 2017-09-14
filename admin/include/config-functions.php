@@ -508,13 +508,12 @@ function show_domain_list() {
   echo '</div>'.PHP_EOL;
   echo '<div class="sys-items">'.PHP_EOL;
   echo '<span class="key key-red">High</span>'.PHP_EOL;
-  echo '<p>High risk domains are home to a high percentage of Malicious sites compared to legitimate sites. Often they are cheap / free to buy and not well policed.<br>'.PHP_EOL;
+  echo '<p>High risk domains are home to a high percentage of malicious sites compared to legitimate sites. Often they are cheap / free to buy and are not well policed.<br>'.PHP_EOL;
   echo 'High risk domains are automatically blocked, unless you specifically untick them.</p>'.PHP_EOL;
   echo '<br>'.PHP_EOL;
   
   echo '<span class="key key-orange">Medium</span>'.PHP_EOL;
-  echo '<p>Medium risk domains are home to a significant number of malicious sites, but are outnumbered by legitimate sites. You may want to consider blocking these, unless you live in, or utilise the websites of the affected country.</p>'.PHP_EOL;
-  echo '<p>e.g. .pl (Poland) domain used to house a large number of Exploit kits which sat short lived randomly named sites. Traditional blocking is impossible, therefore it can be safer to block the entire .pl domain.</p>'.PHP_EOL;
+  echo '<p>Medium risk domains are home to a significant number of malicious sites, but are outnumbered by legitimate sites. You may want to consider blocking these, unless you live in, or utilise the websites of the affected country.</p>'.PHP_EOL;  
   echo '<br>'.PHP_EOL;
   
   echo '<span class="key">Low</span>'.PHP_EOL;
@@ -524,10 +523,7 @@ function show_domain_list() {
   echo '<span class="key key-green">Negligible</span>'.PHP_EOL;
   echo '<p>These domains are not open to the public, therefore extremely unlikely to contain malicious sites.</p>'.PHP_EOL;
   echo '<br>'.PHP_EOL;
-  
-  echo '<p><b>Shady Domains</b><br>'.PHP_EOL;
-  echo 'Stats of &quot;Shady&quot; Domains have been taken from <a href="https://www.bluecoat.com/security/security-blog">BlueCoat Security Blog</a>. The definition of Shady includes Malicious, Spam, Suspect, and Adult sites.</p>';  
-  
+    
   echo '</div></div>'.PHP_EOL;
   
   
