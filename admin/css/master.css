@@ -428,7 +428,7 @@ tr.orange {
   background: #FFA704;
 }
 tr.green {
-  background: #80FF60;
+  background: #43FF62;
 }
 tr.cyan {
   background: #55FFFF;
@@ -579,7 +579,7 @@ span.key {
 }
 span.key-red {background: #EE202B;}
 span.key-orange {background: #FFA704;}
-span.key-green {background: #80FF60;}
+span.key-green {background: #43FF62;}
 
 /*Side Menu*********************************************************/
 #menu-side {
