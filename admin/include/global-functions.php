@@ -496,6 +496,125 @@ function load_config() {
 
 
 /********************************************************************
+ *  Draw Line Chart
+ *    Draws background line chart using SVG
+ *    Calculate numeric ranges to use based on input data
+ *
+ *  Params:
+ *    $values1 - array 1, $values2 array 2, $xlabels array
+ *  Return:
+ *    None
+ */
+function linechart($values1, $values2, $xlabels) {  
+  $max_value = 0;
+  $ymax = 0;
+  $xstep = 0;
+  $pathout = '';
+  $numvalues = 0;
+  $x = 0;
+  $y = 0;
+
+//Prepare chart
+  $max_value = max(array(max($values1), max($values2)));
+  $numvalues = count($values1);
+  $values1[] = 0;                                          //Ensure line returns to 0
+  $values2[] = 0;                                          //Ensure line returns to 0
+  $xlabels[] = $xlabels[$numvalues-1] + 1;                 //Increment xlables
+  
+  $xstep = 1900 / 24;                                      //Calculate x axis increment
+  if ($max_value < 200) {                                  //Calculate y axis maximum
+    $ymax = (ceil($max_value / 10) * 10) + 10;             //Change offset for low values
+  }
+  elseif ($max_value < 10000) {
+    $ymax = ceil($max_value / 100) * 100;
+  }
+  else {
+    $ymax = ceil($max_value / 1000) * 1000;
+  }
+    
+  echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
+  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
+    
+  for ($i = 0.25; $i < 1; $i += 0.25) {                    //Draw Y Axis lables and horizontal lines
+    echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
+    echo '<text class="axistext" x="8" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
+  }
+  echo '<text x="8" y="855" class="axistext">0</text>';
+  echo '<text x="8" y="38" class="axistext">'.formatnumber($ymax).'</text>';
+  
+  
+  for ($i = 0; $i < $numvalues; $i += 2) {                 //Draw X Axis labels skipping every other value
+    echo '<text x="'.(55+($i * $xstep)).'" y="898" class="axistext">'.$xlabels[$i].':00</text>'.PHP_EOL;
+  }  
+  
+  for ($i = 2; $i < 24; $i += 2) {                         //Verticle Grid lines
+    echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
+  }
+  
+  draw_graphline($values1, $xstep, $ymax, '#008CD1');
+  draw_graphline($values2, $xstep, $ymax, '#B1244A');
+  draw_circles($values1, $xstep, $ymax, '#008CD1');
+  draw_circles($values2, $xstep, $ymax, '#B1244A');
+
+  echo '<path class="axisline" d="M100,0 V850 H2000 " />'; //X and Y Axis line
+  echo '</svg>'.PHP_EOL;                                   //End SVG  
+
+}
+
+
+/********************************************************************
+ *  Draw Graph Line
+ *    Calulates and draws the graph line using straight point-to-point notes
+ *
+ *  Params:
+ *    $values array, x step, y maximum value, line colour
+ *  Return:
+ *    svg path nodes with bezier curve points
+ */
+
+function draw_graphline($values, $xstep, $ymax, $colour) {
+  $path = '';
+  $x = 0;                                                  //Node X
+  $y = 0;                                                  //Node Y
+  $numvalues = count($values);
+  
+  $path = "<path d=\"M 100,850 ";                          //Path start point
+  for ($i = 1; $i < $numvalues; $i++) {
+    $x = 100 + (($i) * $xstep);
+    $y = 850 - (($values[$i] / $ymax) * 850);
+    $path .= "L $x $y";
+  }
+  $path .= 'V850 " stroke="'.$colour.'" stroke-width="5px" fill="'.$colour.'" fill-opacity="0.15" />'.PHP_EOL;
+  echo $path;  
+}
+
+
+/********************************************************************
+ *  Draw Circle Points
+ *    Draws circle shapes where line node points are, in order to reduce sharpness of graph line
+ *
+ *  Params:
+ *    $values array, x step, y maximum value, line colour
+ *  Return:
+ *    svg path nodes with bezier curve points
+ */
+function draw_circles($values, $xstep, $ymax, $colour) {
+  $path = '';
+  $x = 0;                                        //Node X
+  $y = 0;                                        //Node Y
+  $numvalues = count($values);
+    
+  for ($i = 1; $i < $numvalues; $i++) {
+    if ($values[$i] > 0) {
+      $x = 100 + (($i) * $xstep);
+      $y = 850 - (($values[$i] / $ymax) * 850);    
+    
+      echo '<circle cx="'.$x.'" cy="'.(850-($values[$i]/$ymax)*850).'" r="10px" fill="'.$colour.'" fill-opacity="1" stroke="#F7F7F7" stroke-width="5px" />'.PHP_EOL;
+    }    
+  }  
+}
+
+/********************************************************************
  *  Draw Pie Chart
  *    Credit to Branko: http://www.tekstadventure.nl/branko/blog/2008/04/php-generator-for-svg-pie-charts
  *  Params:

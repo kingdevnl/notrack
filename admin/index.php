@@ -229,13 +229,6 @@ function trafficgraph() {
   $allowed_values = array();
   $blocked_values = array();
   $xlabels = array();
-  $max_value = 0;
-  $ymax = 0;
-  $xstep = 0;
-  $pathout = '';
-  $numvalues = 0;
-  $x = 0;
-  $y = 0;
   
   //Get allowed values
   $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'a\' GROUP BY HOUR(log_time) ';
@@ -261,104 +254,12 @@ function trafficgraph() {
   }
   
   $result->free();
+  /*print_r($allowed_values);
+  echo '<br>';
+  print_r($blocked_values);*/
+  linechart($allowed_values, $blocked_values, $xlabels);
   
-  //Prepare chart
-  $max_value = max(array(max($allowed_values), max($blocked_values)));
-  $numvalues = count($allowed_values);
-  $allowed_values[] = 0;                         //Ensure line returns to 0
-  $blocked_values[] = 0;                         //Ensure line returns to 0
-  $xlabels[] = $xlabels[$numvalues-1] + 1;       //Increment xlables
-  
-  $xstep = 1900 / 24;                            //Calculate x axis increment
-  if ($max_value < 200) {                        //Calculate y axis maximum
-    $ymax = (ceil($max_value / 10) * 10) + 10;
-  }
-  elseif ($max_value < 10000) {
-    $ymax = ceil($max_value / 100) * 100;
-  }
-  else {
-    $ymax = ceil($max_value / 1000) * 1000;
-  }
-    
-  echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
-  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
-    
-  for ($i = 0.25; $i < 1; $i+=0.25) {            //Y Axis lines and labels
-    echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
-    echo '<text class="axistext" x="8" y="'.(18+($i*850)).'">'.formatnumber((1-$i)*$ymax).'</text>'.PHP_EOL;
-  }
-  echo '<text x="8" y="855" class="axistext">0</text>';
-  echo '<text x="8" y="38" class="axistext">'.formatnumber($ymax).'</text>';
-  
-  
-  for ($i = 0; $i < $numvalues; $i+=2) {         //X Axis labels
-    echo '<text x="'.(55+($i * $xstep)).'" y="898" class="axistext">'.$xlabels[$i].':00</text>'.PHP_EOL;
-  }  
-  
-  for ($i = 2; $i < 24; $i+=2) {                 //X Grid lines
-    echo '<path class="gridline" d="M'.(100+($i*$xstep)).',2 V850" />'.PHP_EOL;
-  }
-  
-  draw_graphline($allowed_values, $xstep, $ymax, '#008CD1');
-  draw_graphline($blocked_values, $xstep, $ymax, '#B1244A');
-  draw_circles($allowed_values, $xstep, $ymax, '#008CD1');
-  draw_circles($blocked_values, $xstep, $ymax, '#B1244A');
-
-  echo '<path class="axisline" d="M100,0 V850 H2000 " />';  //X and Y Axis line
-  echo '</svg>'.PHP_EOL;                         //End SVG  
-
-}
-
-/********************************************************************
- *  Draw Graph Line
- *    Calulates and draws the graph line using straight point-to-point notes
- *
- *  Params:
- *    $values array, x step, y maximum value, line colour
- *  Return:
- *    svg path nodes with bezier curve points
- */
-
-function draw_graphline($values, $xstep, $ymax, $colour) {
-  $path = '';
-  $x = 0;                                        //Node X
-  $y = 0;                                        //Node Y
-  $numvalues = count($values);
-  
-  $path = "<path d=\"M 100,850 ";
-  for ($i = 1; $i < $numvalues; $i++) {
-    $x = 100 + (($i) * $xstep);
-    $y = 850 - (($values[$i] / $ymax) * 850);
-    $path .= "L $x $y";
-  }
-  $path .= 'V850 " stroke="'.$colour.'" stroke-width="5px" fill="'.$colour.'" fill-opacity="0.15" />'.PHP_EOL;
-  echo $path;  
-}
-
-/********************************************************************
- *  Draw Circle Points
- *    Draws circle shapes where line node points are, in order to reduce sharpness of graph line
- *
- *  Params:
- *    $values array, x step, y maximum value, line colour
- *  Return:
- *    svg path nodes with bezier curve points
- */
-function draw_circles($values, $xstep, $ymax, $colour) {
-  $path = '';
-  $x = 0;                                        //Node X
-  $y = 0;                                        //Node Y
-  $numvalues = count($values);
-    
-  for ($i = 1; $i < $numvalues; $i++) {
-    if ($values[$i] > 0) {
-      $x = 100 + (($i) * $xstep);
-      $y = 850 - (($values[$i] / $ymax) * 850);    
-    
-      echo '<circle cx="'.$x.'" cy="'.(850-($values[$i]/$ymax)*850).'" r="10px" fill="'.$colour.'" fill-opacity="1" stroke="#F7F7F7" stroke-width="5px" />'.PHP_EOL;
-    }    
-  }  
-}
+}  
 
 
 //Main---------------------------------------------------------------
