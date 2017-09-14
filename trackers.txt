@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 29 Aug 2017
+#NoTrack Blocklist updated 13 Sep 2017
 #LatestVersion 0.8.5
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -34,10 +34,12 @@
 308br.net #Integral Ad Science
 309br.net #Integral Ad Science
 33across.com #33Across
+34.gs #Click Meter
 360yield.com #Improve digital
 360yieldplatform.com #Improve digital
 3d-dyj.cn #Advertising
 3lift.com #Triple Lift
+45.gs #Click Meter
 4dsply.com #AdSupply
 4nabs.com #Tracker Unknown
 4seeresults.com #ForeSee
@@ -83,6 +85,7 @@
 809002.com #HelloWorld
 8096888.com #HelloWorld
 8099888.com #HelloWorld
+82t.co #Click Meter
 8866786.com #Adverts
 8m5sew59gr.bid #Unknown adverts bn7v3w.8m5sew59gr.bid
 95095.com #Alibaba
@@ -864,6 +867,7 @@ clickfraudmeter.com #Click Meter
 clickfuse.com
 clickio.com
 clickiocdn.com #Advertising Unknown
+clickmeter.biz #Click Meter
 clickmeter.com #Click Meter
 clickmeter.info #Click Meter
 clickmeter.link #Click Meter
@@ -935,6 +939,7 @@ cloud-et-bigdata.com #Ysance
 clusterconsulting.com.cn #Advertising
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
+cm.gy #Click Meter
 cmail.link #Campaign Monitor Pty
 cmail1.com #Campaign Monitor Pty
 cmail10.com #Campaign Monitor Pty
@@ -1983,6 +1988,7 @@ loggly.com #Loggly
 loggly.net #Loggly
 loggly.org #Loggly
 lognormal.net
+logs.dashlane.com #Dashlane Password Manager
 logs.roku.com #Roku
 logsss.com #Tracker Unknown
 loopme.me #Loopme
@@ -11092,10 +11098,11 @@ netshelter.net
 netstad.com #comScore
 netstat.asia #comScore
 newdealmedia.info #msales
-newrelic.com
+newrelic.com #New Relic
 newscurve.com #NeoData Intelligence
 newsinc.com #NewsInc
 nexac.com
+nexage.com #Admax
 nextbigsound.com #Pandora Media
 nextdocs.com #Aurea
 nextdocsonline.com #Aurea
@@ -11129,7 +11136,7 @@ novao.net #Ysance
 npario-inc.net #nPario
 npario.com #nPario
 npaw.com #Nice People At Work
-nr-data.net
+nr-data.net #New Relic
 nster.net
 nt.vc #House of Next Tuesday
 ntv.io #Unknown Advertising
@@ -11169,6 +11176,7 @@ omnitagjs.com
 omniture.com #Adobe
 omniture.groceries.asda.com #Asda
 omtrdc.net #Adobe
+onaudience.com #OnAudience
 onclasrv.com
 onclickads.net #Advertising Technologies
 onclicktop.com
@@ -11623,6 +11631,7 @@ rvfrm2009.com #RevenueHits
 rvfrm2010.com #RevenueHits
 rvfrm2011.com #RevenueHits
 s3network1.com #Lead Forensics
+s3xified.com #Tracker Unknown
 s5network1.com #Lead Forensics
 saas-eue-1.com #Lead Forensics
 saas-euw-1.com #Lead Forensics
@@ -12235,6 +12244,7 @@ unsubscribe9.com #Campaign Monitor Pty
 uobsoe.com
 up0.net #Aurea
 upd-pct.info #Sergii Mykolaenko
+update.browser.qq.com #QQ Browser Tracking
 update.com #Aurea
 updatemyprofile.com #Campaign Monitor Pty
 updatemyprofile.net #Campaign Monitor Pty
@@ -12385,6 +12395,7 @@ woopra.com
 workdesk.click #msales
 worldwideoffers.net #msales
 wowanalytics.co.uk
+wp.gl #Click Meter
 wpa.qq.com #QQ
 wpdigital.net #Washington Post
 wraug5vv72b28fch.pro #Ad blocking investigation
@@ -12395,6 +12406,8 @@ wt-eu02.net #WebTrekk
 wt-safetag.com #WebTrekk
 wtp101.com
 wunderloop.net
+wup.browser.qq.com #QQ Browser Tracking
+wup.imtt.qq.com #QQ Browser Tracking
 wwpxl.com #AppNexus Inc
 www.audio2.spotify.com #Spotify tracking ads
 wwwpromoter.com #WWWPromoter
@@ -12409,6 +12422,7 @@ xiti.com
 xixiwan.net #Advertising
 xoclkrvstrafms.com #msales
 xploreroffers.com #msales
+xs.gy #Click Meter
 xzhmjoch.bid #Popunder Ad
 y-track.com #Ysance
 y5wflt0xibmoufuvsayg1efy80yq0ystkjncf76cqm.com #Advertising
