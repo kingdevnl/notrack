@@ -1,6 +1,6 @@
 <?php
 
-DEFINE('VERSION', '0.8.5');
+DEFINE('VERSION', '0.8.6');
 DEFINE('SERVERNAME', 'localhost');
 DEFINE('USERNAME', 'ntrk');
 DEFINE('PASSWORD', 'ntrkpass');
@@ -24,6 +24,7 @@ DEFINE('NOTRACK_LIST', '/etc/dnsmasq.d/notrack.list');
 DEFINE('REGEX_DATE', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])$/');
 DEFINE('REGEX_TIME', '/([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
 DEFINE('REGEX_DATETIME', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])\s([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
+DEFINE('REGEX_DOMAIN', '/[\w\d\-\_]+\.(org\.|co\.|com\.|gov\.)?[\w\d\-\_]+$/');
 
 $Config=array();
 
