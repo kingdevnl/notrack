@@ -21,7 +21,7 @@ ensure_active_session();
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('Investigate');
 draw_sidemenu();
 echo '<div id="main">'.PHP_EOL;
 
@@ -38,24 +38,12 @@ $FILTERLIST = array('all' => 'All Requests',
                     'blocked' => 'Blocked Only',
                     'local' => 'Local Only');
 
-$VIEWLIST = array('livegroup', 'livetime', 'historicgroup', 'historictime');
-
-$COMMONSITESLIST = array('cloudfront.net',
-                         'googleusercontent.com',
-                         'googlevideo.com',
-                         'cedexis-radar.net',
-                         'gvt1.com',
-                         'deviantart.net',
-                         'deviantart.com',
-                         'ampproject.net',
-                         'tumblr.com');
-//CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 
 /************************************************
 *Global Variables                               *
 ************************************************/
 $datetime = '';
-$site = 'quidsup.net';
+$site = '';
 
 $whois_date = '';
 $whois_record = '';
@@ -65,187 +53,46 @@ $whois_record = '';
 ************************************************/
 $syslist = array();
 $TLDBlockList = array();
-$CommonSites = array();                          //Merge Common sites list with Users Suppress list
 
 
 /********************************************************************
- *  Add Date Vars to SQL Search
- *
+ *  Create Who Is Table
+ *    Run sql query to create whois table
+ *    TODO Causes unknown error 
  *  Params:
  *    None
  *  Return:
- *    SQL Query string
- */
-function add_datestr() {
-  global $sqltable, $filter, $sys, $datestart, $dateend;
-  
-  if ($sqltable == 'live') return '';
-  
-  $searchstr = ' WHERE ';
-  if (($filter != DEF_FILTER) || ($sys != DEF_SYSTEM)) $searchstr = ' AND ';
-  
-  $searchstr .= 'log_time BETWEEN \''.$datestart.'\' AND \''.$dateend.' 23:59\'';
-  
-  return $searchstr;
-}
-
-
-/********************************************************************
- *  Add Filter Vars to SQL Search
- *
- *  Params:
  *    None
- *  Return:
- *    SQL Query string
  */
-function add_filterstr() {
-  global $filter, $sys;
-  
-  $searchstr = " WHERE ";
-  
-  if (($filter == DEF_FILTER) && ($sys == DEF_SYSTEM)) {   //Nothing to add
-    return '';
-  }
-  
-  if ($sys != DEF_SYSTEM) {
-    $searchstr .= "sys = '$sys'";
-  }
-  if ($filter != DEF_FILTER) {
-    if ($sys != DEF_SYSTEM) {
-      $searchstr .= " AND dns_result=";
-    }    
-    else {
-      $searchstr .= " dns_result=";
-    }    
+function create_whoistable() {
+  global $db;
     
-    switch($filter) {
-      case 'allowed':
-        $searchstr .= "'a'";
-        break;
-      case 'blocked':
-        $searchstr .= "'b'";
-        break;
-      case 'local':
-        $searchstr .= "'l'";
-        break;
-    }
+  $query = "CREATE TABLE whois (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, save_time DATETIME, site TINYTEXT, record MEDIUMTEXT)";
+  
+  if (!$result = $db->query($query)) {
+    die('create_whoistable failed: '.$db->error);
   }
-  return $searchstr;        
+    
+  $result->free();
 }
 
 
 /********************************************************************
- *  Count rows in table and save result to memcache
- *  
- *  1. Attempt to load value from Memcache
- *  2. Check if same query is being run
- *  3. If that fails then run query
+ *  Draw Search Bar
  *
  *  Params:
- *    Query String
- *  Return:
- *    Number of Rows
- */
-function count_rows_save($query) {
-  global $db, $mem;
-  
-  $rows = 0;
-  
-  if ($mem->get('rows')) {                       //Does rows exist in memcache?
-    if ($query == $mem->get('oldquery')) {       //Is this query same as old query?
-      $rows = $mem->get('rows');                 //Use stored value      
-      return $rows;
-    }
-  }
-  
-  if(!$result = $db->query($query)){
-    die('There was an error running the query '.$db->error);
-  }
-  
-  $rows = $result->fetch_row()[0];               //Extract value from array
-  $result->free();    
-  $mem->set('oldquery', $query, 0, 600);         //Save for 10 Mins
-      
-  return $rows;
-}
-
-
-/********************************************************************
- *  Draw Filter Box
- *  
- *  Params:
  *    None
  *  Return:
  *    None
  */
-function draw_filterbox() {
-  global $FILTERLIST, $syslist, $filter, $page, $sqltable, $sort, $sys, $view;
-  global $datestart, $dateend;
-  
-  $hidden_date_vars = '';
-  $line = '';
-  
-  if ($sqltable == 'historic') {
-    $hidden_date_vars = '<input type="hidden" name="datestart" value="'.$datestart.'"><input type="hidden" name="dateend" value="'.$dateend.'">'.PHP_EOL;
-  }
+function draw_searchbar() {
+  global $site;
   
   echo '<div class="sys-group">'.PHP_EOL;
-  echo '<h5>DNS Queries</h5>'.PHP_EOL;
-  echo '<div class="row"><div class="col-half">'.PHP_EOL;
-  echo '<form method="get">'.PHP_EOL;
-  echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
-  echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
-  echo '<input type="hidden" name="filter" value="'.$filter.'">'.PHP_EOL;
-  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
-  echo $hidden_date_vars;
-  echo '<span class="filter">System:</span><select name="sys" onchange="submit()">';
-    
-  if ($sys == DEF_SYSTEM) {
-    echo '<option value="all">All</option>'.PHP_EOL;
-  }
-  else {
-    echo '<option value="1">'.$sys.'</option>'.PHP_EOL;
-    echo '<option value="all">All</option>'.PHP_EOL;
-  }
-  foreach ($syslist as $line) {
-    if ($line != $sys) echo '<option value="'.$line.'">'.$line.'</option>'.PHP_EOL;
-  }
-  echo '</select></form>'.PHP_EOL;
-  echo '</div>'.PHP_EOL;
-  
-  echo '<div class="col-half">'.PHP_EOL;
-  echo '<form method="get">'.PHP_EOL;
-  echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
-  echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
-  echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
-  echo '<input type="hidden" name="sys" value="'.$sys.'">'.PHP_EOL;
-  echo $hidden_date_vars;
-  echo '<span class="filter">Filter:</span><select name="filter" onchange="submit()">';
-  echo '<option value="'.$filter.'">'.$FILTERLIST[$filter].'</option>'.PHP_EOL;
-  foreach ($FILTERLIST as $key => $line) {
-    if ($key != $filter) echo '<option value="'.$key.'">'.$line.'</option>'.PHP_EOL;
-  }
-  echo '</select></form>'.PHP_EOL;
-  echo '</div></div>'.PHP_EOL;
-  
-  if ($sqltable == 'historic') {
-    echo '<div class="row">'.PHP_EOL;
-    echo '<form method="get">'.PHP_EOL;
-    echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
-    echo '<input type="hidden" name="view" value="'.$view.'">'.PHP_EOL;
-    echo '<input type="hidden" name="sort" value="'.strtolower($sort).'">'.PHP_EOL;
-    echo '<input type="hidden" name="filter" value="'.$filter.'">'.PHP_EOL;
-    echo '<input type="hidden" name="sys" value="'.$sys.'">'.PHP_EOL;
-    echo '<div class="col-half">'.PHP_EOL;
-    echo '<span class="filter">Start Date: </span><input name="datestart" type="date" value="'.$datestart.'" onchange="submit()"/>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
-    echo '<div class="col-half">'.PHP_EOL;
-    echo '<span class="filter">End Date: </span><input name="dateend" type="date" value="'.$dateend.'" onchange="submit()"/>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
-    echo '</form>'.PHP_EOL;
-    echo '</div>'.PHP_EOL;
-  }
-  
+  echo '<form method="GET">'.PHP_EOL;
+  echo '<input type="text" name="site" class="input-conf" placeholder="Search domain" value="'.$site.'">&nbsp;'.PHP_EOL;
+  echo '<input type="submit" class="button-blue" value="Investigate">'.PHP_EOL;
+  echo '</form>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
 }
 
@@ -309,7 +156,6 @@ function search_blockreason($site) {
   return '';                                     //Don't know at this point    
 }
 
-//Need to ammend for historic view TODO
 /********************************************************************
  *  Search Systems
  *  
@@ -327,13 +173,13 @@ function search_systems() {
   
   if (empty($syslist)) {
     if (! $result = $db->query("SELECT DISTINCT sys FROM live ORDER BY sys")) {
-      die('There was an error running the query'.$db->error);
+      die('search_systems(): There was an error running the query'.$db->error);
     }
-    while($row = $result->fetch_assoc()) {       //Read each row of results
-      $syslist[] = $row['sys'];                  //Add row value to $syslist
+    while($row = $result->fetch_assoc()) {                 //Read each row of results
+      $syslist[] = $row['sys'];                            //Add row value to $syslist
     }
     $result->free();
-    $mem->set('syslist', $syslist, 0, 600);      //Save for 10 Mins
+    $mem->set('syslist', $syslist, 0, 600);                //Save for 10 Mins
   }    
 }
 
@@ -422,28 +268,6 @@ function show_time_view() {
   return true;
 }
 
-/********************************************************************
- *  Create Who Is Table
- *    Run sql query to create whois table
- *    TODO Causes unknown error 
- *  Params:
- *    None
- *  Return:
- *    None
- */
-function create_whoistable() {
-  global $db;
-    
-  $query = "CREATE TABLE whois (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, save_time DATETIME, site TINYTEXT, record MEDIUMTEXT)";
-  
-  if (!$result = $db->query($query)) {
-    die('create_whoistable failed: '.$db->error);
-  }
-    
-  $result->free();
-}
-
-
 
 /********************************************************************
  *  Get Who Is Data
@@ -454,7 +278,8 @@ function create_whoistable() {
  *  Params:
  *    URL to Query, Users API Key to jsonwhois
  *  Return:
- *    
+ *    True on success
+ *    False on lookup failed or other HTTP error
  */
 function get_whoisdata($site, $apikey) {
   global $db, $whois_date, $whois_record;
@@ -482,7 +307,7 @@ function get_whoisdata($site, $apikey) {
     return false;
   }
   
-  if ($status >= 300) {
+  if ($status >= 300) {                                    //Other HTTP Error
     echo "Error: call to URL $url failed with status $status, response $json_response";
     curl_close($ch);
     return false;
@@ -550,7 +375,7 @@ function search_whois($site) {
 function show_whoisdata() {
   global $whois_date, $whois_record;
   
-  if ($whois_record == null) return null;
+  if ($whois_record == null) return null;                  //Any data in the array?
   
   //TODO give user a chance to reload data
   if (isset($whois_record['error'])) {
@@ -614,17 +439,20 @@ function show_whoiserror() {
   echo '</ol>'.PHP_EOL;
   echo '</div></div>'.PHP_EOL;
 }
-//Main---------------------------------------------------------------
 
-$db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
+/********************************************************************
+ *Main
+ */
 
-search_systems();                                //Need to find out systems on live table
+$db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);  //Open MariaDB connection
 
-if (isset($_GET['sys'])) {
+search_systems();                                          //Need to find out systems are on live table
+
+if (isset($_GET['sys'])) {                                 //Any system set?
   if (in_array($_GET['sys'], $syslist)) $sys = $_GET['sys'];
 }
 
-if (isset($_GET['datetime'])) {                 //Filter for hh:mm:ss
+if (isset($_GET['datetime'])) {                            //Filter for hh:mm:ss
   if (preg_match(REGEX_TIME, $_GET['datetime']) > 0) {
     $datetime = date('Y-m-d ').$_GET['datetime'];
   }
@@ -632,27 +460,34 @@ if (isset($_GET['datetime'])) {                 //Filter for hh:mm:ss
 
 if (isset($_GET['site'])) {
   if (filter_url($_GET['site'])) {
-    $site = extract_domain($_GET['site']);     
+    $site = $_GET['site'];
   }
 }
 
 if (!table_exists('whois')) {                              //Does whois sql table exist?
   create_whoistable();                                     //If not then create it
+  sleep(2);                                                //Delay to wait for MariaDB to create the table
 }
+
+if ($Config['whoisapi'] == '') {                           //Has user set an API key?              
+  show_whoiserror();                                       //No - Don't go any further
+  $db->close();
+  exit;
+}
+
+draw_searchbar();
 
 if ($datetime != '') show_time_view();                     //Show time view if datetime in parameters
 
 
-//Load whois data
-if ($Config['whoisapi'] == '') {                           //Has user set an API key?              
-  show_whoiserror();                                       //No - Don't go any further
-}
-else {
-  if (! search_whois($site)) {                             //Attempt to search whois table    
+if ($site != '') {                                         //Load whois data?
+  $site = extract_domain($site);                           //Can only search for TLD
+  if (! search_whois($site)) {                             //Attempt to search whois table
     get_whoisdata($site, $Config['whoisapi']);             //No record found - download it from JsonWhois
   }
-  show_whoisdata();                                        //Display data from table / JsonWhois
+  show_whoisdata();                                        //Display data from table / JsonWhois 
 }
+
 
 
 $db->close();
