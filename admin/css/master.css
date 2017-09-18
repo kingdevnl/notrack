@@ -164,7 +164,7 @@ pre {
 /*Form items*********************************************************/
 input[type="text"], input[type="password"] {
   width: 98%;
-  height: 1.3em;
+  height: 1.5em;
   font-size: 1.1rem;
   color: #00000A;
   background-color: #F7F7F7;
