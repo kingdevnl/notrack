@@ -1,5 +1,9 @@
-Development
-Started on Investigate page which requires API key from JsonWhois
+v0.8.6 Alpha - Released 18 Sep 2017
+New Investigate page which requires API key from JsonWhois
+
+gTLD Blocklist:
+  Added .club
+  Removed .ninja
 
 New region specific AdBlockPlus blocklists:
   France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania, Latvia, Netherlands, Poland, Spain, Slovenia

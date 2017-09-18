@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 13 Sep 2017
-#LatestVersion 0.8.5
+#NoTrack Blocklist updated 18 Sep 2017
+#LatestVersion 0.8.6
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -1500,6 +1500,7 @@ findingflowers.com #Digital Window
 firethepixel.click #msales
 fits.me
 flagcounter.com
+flamemobi.download #flamemobi
 flashtalking.com
 flexlinks.com
 flite.com
@@ -10963,6 +10964,7 @@ mouseflow.net #Mouseflow
 mouseflow.org #Mouseflow
 mouseflow.us #Mouseflow
 moutaihotel.cn #Advertising
+movingos.com #Movingos
 movoxi.com #comScore
 movoxi.net #comScore
 movoxy.com #comScore
@@ -12344,6 +12346,7 @@ web-cam-model.com #TopAd
 web-cntr-09.com #Lead Forensics
 web-cntr-10.com #Lead Forensics
 web-cntr-11.com #Lead Forensics
+webanalytics2.ovh.net #OVH
 webanalyticsday.com #Aurea
 webapplicationstreamingnetwork.com #instartlogic
 webapplicationstreamingnetwork.info #instartlogic
