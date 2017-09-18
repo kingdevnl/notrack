@@ -83,6 +83,7 @@ function draw_sidemenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;  
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="" title="Dashboard">Dashboard</span></a>'.PHP_EOL;
   echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="" title="DNS Queries">DNS Queries</span></a>'.PHP_EOL;
+  echo '<a href="../admin/investigate.php"><span><img src="./svg/menu_investigate.svg" alt="" title="Investigate">Investigate</span></a>'.PHP_EOL;
   echo '<a href="../admin/blocked.php"><span><img src="./svg/menu_blocked.svg" alt="" title="Sites Blocked">Sites Blocked</span></a>'.PHP_EOL;
   echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="" title="Network">Network</span></a>'.PHP_EOL;
   echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="" title="Config">Config</span></a>'.PHP_EOL;
@@ -122,12 +123,18 @@ function draw_helpmenu() {
  *  Return:
  *    None
  */
-function draw_topmenu() {
+function draw_topmenu($currentpage='') {
   global $Config, $mem;
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
   echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
-  echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' A</small></span></a>'.PHP_EOL;
+  
+  if ($currentpage == '') {
+    echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' A</small></span></a>'.PHP_EOL;
+  }
+  else {
+    echo '<a href="./"><span class="logo"><b>No</b>Track <small> - '.$currentpage.'</small></span></a>'.PHP_EOL;
+  }
   
   if (is_password_protection_enabled()) {         //Only do Logout if there is a password
     echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
