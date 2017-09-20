@@ -376,8 +376,7 @@ table {
   table-layout: fixed;  
   width: 100%;
 }
-td, th {
-  overflow: auto;
+td, th {  
   padding: 0.6em 0.6em;
   border-bottom: 1px solid #b3b3b3;
 }
@@ -520,6 +519,12 @@ tr.cyan {
 #query-group-table img, #query-time-table img {
   width: 1em;
 }
+
+#access-table td, #query-group-table td, #query-time-table td {
+  overflow: auto;  /*Can't use overflow in config table in Chrome*/
+}
+
+
 #dhcp-table td:nth-child(1), #dhcp-table th:nth-child(1) {
   width: 22%;
   text-align: center;  
