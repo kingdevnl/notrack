@@ -130,12 +130,12 @@ function count_rows($query) {
   $rows = 0;
   
   if(!$result = $db->query($query)){
-    die('There was an error running the query '.$db->error);
+    die('count_rows() error running the query '.$db->error);
   }
-  
-  $rows = $result->fetch_row()[0];               //Extract value from array
+    
+  $rows = $result->fetch_row()[0];                         //Extract value from array
   $result->free();
-        
+  
   return $rows;
 }
 
@@ -497,7 +497,11 @@ function load_config() {
 /********************************************************************
  *  Draw Line Chart
  *    Draws background line chart using SVG
- *    Calculate numeric ranges to use based on input data
+ *    1. Calulate maximum values of input data for $ymax
+ *    2. Draw grid lines
+ *    3. Draw axis labels
+ *    4. Draw coloured graph lines
+ *    5. Draw coloured circles to reduce sharpness of graph line
  *
  *  Params:
  *    $values1 - array 1, $values2 array 2, $xlabels array
@@ -551,8 +555,8 @@ function linechart($values1, $values2, $xlabels) {
   }
   
   draw_graphline($values1, $xstep, $ymax, '#008CD1');
-  draw_graphline($values2, $xstep, $ymax, '#B1244A');
   draw_circles($values1, $xstep, $ymax, '#008CD1');
+  draw_graphline($values2, $xstep, $ymax, '#B1244A');
   draw_circles($values2, $xstep, $ymax, '#B1244A');
 
   echo '<path class="axisline" d="M100,0 V850 H2000 " />'; //X and Y Axis line
