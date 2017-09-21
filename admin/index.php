@@ -212,12 +212,12 @@ function draw_sitesblockedbox() {
 
 /********************************************************************
  *  Traffic Graph
- *    1. Load data from live table for values per hour
- *    2. Calulate maximum values of SQL data for $ymax
- *    3. Draw grid lines
- *    4. Draw axis labels
- *    5. Draw coloured graph lines
- *    6. Draw coloured circles to reduce sharpness of graph line
+ *    Live Table runs from 04:00 to 03:59
+ *    1. Adjust values for today and tomorrow depending if time is (04:00 to 23:59) or (00:00 to 03:59)
+ *    2. Create xlabels
+ *    3. Load allowed 'a' results from live table for values per hour
+ *    4. Load blocked 'b' results from live table for values per hour
+ *    5. Send data to linechart()
  *
  *  Params:
  *    None
@@ -225,40 +225,99 @@ function draw_sitesblockedbox() {
  *    None
  */
 function trafficgraph() {
-  global $db;
   $allowed_values = array();
   $blocked_values = array();
   $xlabels = array();
   
-  //Get allowed values
-  $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'a\' GROUP BY HOUR(log_time) ';
-  
-  if(!$result = $db->query($query)){
-    die('There was an error running the query'.$db->error);
+  if ((date('H') >= 0) && (date('H') < 4)) {               //Is 'today' yesterday in terms of log data?
+    $today = date("Y-m-d", strtotime('yesterday'));
+    $tomorrow = date('Y-m-d');    
   }
-  while($row = $result->fetch_assoc()) {         //Read each row of results  
-    $allowed_values[] = $row['num_rows'];
-    $xlabels[] = $row['hour'];
+  else {                                                   //No, 'today' is today in terms of log data
+    $today = date('Y-m-d');
+    $tomorrow = date("Y-m-d", strtotime('+1 day'));
   }
   
-  $result->free();
+  $xlabels[] = '04';                                       //Create xlabels
+  $xlabels[] = '05';
+  $xlabels[] = '06';
+  $xlabels[] = '07';
+  $xlabels[] = '08';
+  $xlabels[] = '09';
+  $xlabels[] = '10';
+  $xlabels[] = '11';
+  $xlabels[] = '12';
+  $xlabels[] = '13';
+  $xlabels[] = '14';
+  $xlabels[] = '15';
+  $xlabels[] = '16';
+  $xlabels[] = '17';
+  $xlabels[] = '18';
+  $xlabels[] = '19';
+  $xlabels[] = '20';
+  $xlabels[] = '21';
+  $xlabels[] = '22';
+  $xlabels[] = '23';
+  $xlabels[] = '00';
+  $xlabels[] = '01';
+  $xlabels[] = '02';
+  $xlabels[] = '03';
   
-  //Get blocked values
-  $query = 'SELECT HOUR(log_time) AS hour, COUNT(*) AS num_rows FROM live WHERE dns_result = \'b\' GROUP BY HOUR(log_time) ';
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 04:00:00' AND log_time < '$today 05:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 05:00:00' AND log_time < '$today 06:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 06:00:00' AND log_time < '$today 07:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 07:00:00' AND log_time < '$today 08:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 08:00:00' AND log_time < '$today 09:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 09:00:00' AND log_time < '$today 10:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 10:00:00' AND log_time < '$today 11:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 11:00:00' AND log_time < '$today 12:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 12:00:00' AND log_time < '$today 13:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 13:00:00' AND log_time < '$today 14:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 14:00:00' AND log_time < '$today 15:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 15:00:00' AND log_time < '$today 16:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 16:00:00' AND log_time < '$today 17:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 17:00:00' AND log_time < '$today 18:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 18:00:00' AND log_time < '$today 19:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 19:00:00' AND log_time < '$today 20:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 20:00:00' AND log_time < '$today 21:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 21:00:00' AND log_time < '$today 22:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 22:00:00' AND log_time < '$today 23:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$today 23:00:00' AND log_time < '$tomorrow 00:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$tomorrow 00:00:00' AND log_time < '$tomorrow 01:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$tomorrow 01:00:00' AND log_time < '$tomorrow 02:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$tomorrow 02:00:00' AND log_time < '$tomorrow 03:00:00'");
+  $allowed_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'a' AND log_time >= '$tomorrow 03:00:00' AND log_time < '$tomorrow 04:00:00'");
   
-  if(!$result = $db->query($query)){
-    die('There was an error running the query'.$db->error);
-  }
-  while($row = $result->fetch_assoc()) {         //Read each row of results  
-    $blocked_values[] = $row['num_rows'];    
-  }
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 04:00:00' AND log_time < '$today 05:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 05:00:00' AND log_time < '$today 06:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 06:00:00' AND log_time < '$today 07:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 07:00:00' AND log_time < '$today 08:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 08:00:00' AND log_time < '$today 09:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 09:00:00' AND log_time < '$today 10:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 10:00:00' AND log_time < '$today 11:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 11:00:00' AND log_time < '$today 12:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 12:00:00' AND log_time < '$today 13:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 13:00:00' AND log_time < '$today 14:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 14:00:00' AND log_time < '$today 15:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 15:00:00' AND log_time < '$today 16:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 16:00:00' AND log_time < '$today 17:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 17:00:00' AND log_time < '$today 18:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 18:00:00' AND log_time < '$today 19:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 19:00:00' AND log_time < '$today 20:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 20:00:00' AND log_time < '$today 21:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 21:00:00' AND log_time < '$today 22:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 22:00:00' AND log_time < '$today 23:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$today 23:00:00' AND log_time < '$tomorrow 00:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$tomorrow 00:00:00' AND log_time < '$tomorrow 01:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$tomorrow 01:00:00' AND log_time < '$tomorrow 02:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$tomorrow 02:00:00' AND log_time < '$tomorrow 03:00:00'");
+  $blocked_values[] = count_rows("SELECT COUNT(*) FROM live WHERE dns_result = 'b' AND log_time >= '$tomorrow 03:00:00' AND log_time < '$tomorrow 04:00:00'");
   
-  $result->free();
-  /*print_r($allowed_values);
+    
+  /*print_r($allowed_values);                              //For debugging
   echo '<br>';
   print_r($blocked_values);*/
-  linechart($allowed_values, $blocked_values, $xlabels);
-  
+  linechart($allowed_values, $blocked_values, $xlabels);   //Draw the line chart
 }  
 
 
