@@ -21,7 +21,7 @@ ensure_active_session();
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('DNS Queries');
 draw_sidemenu();
 echo '<div id="main">'.PHP_EOL;
 
@@ -265,7 +265,38 @@ function draw_filterbox() {
 function draw_viewbuttons() {
   global $sqltable, $view;
 
-  echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
+  /*echo '<div class="sys-group">'.PHP_EOL;
+  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
+  echo '<nav><div class="sub-nav">'.PHP_EOL;
+  echo '<ul>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'group').' href="?view=group">Group</a></li>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'time').' href="?view=time">Time</a></li>'.PHP_EOL;
+  //echo '<li><a'.is_active_class($view, 'ref').' href="?view=ref">Referrer</a></li>'.PHP_EOL;
+  echo '<li><a'.is_active_class($view, 'visualisation').' href="?view=vis">Visualisation</a></li>'.PHP_EOL;
+  echo '</ul>'.PHP_EOL;
+  echo '</div></nav>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;*/
+  
+  echo '<div class="sub-nav float-right"><ul>'.PHP_EOL;
+  if ($sqltable == 'live') {
+    echo '<li><a class="active" href="?view=livegroup">Today</a></li>'.PHP_EOL;
+    echo '<li><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
+  }
+  else {
+    echo '<li><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
+    echo '<li><a class="active" href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
+  }  
+  if (($view == 'livetime') || ($view == 'historictime')) {
+    echo '<li><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
+    echo '<li><a class="active" href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
+  }
+  elseif (($view == 'livegroup') || ($view == 'historicgroup')) {
+    echo '<li><a class="active" href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
+    echo '<li><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
+  }
+  echo '</ul></div>'.PHP_EOL;
+  
+  /*echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
   if ($sqltable == 'live') {
     echo '<li class="active"><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
     echo '<li><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
@@ -282,7 +313,7 @@ function draw_viewbuttons() {
     echo '<li class="active"><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
     echo '<li><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
   }
-  echo '</ul></div>'.PHP_EOL;
+  echo '</ul></div>'.PHP_EOL;*/
 }
 
 

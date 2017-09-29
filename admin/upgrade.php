@@ -18,7 +18,7 @@ ensure_active_session();
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('Config');
 draw_sidemenu();
 
 //There are two views for upgrade:

@@ -101,7 +101,7 @@ if (isset($_POST['action'])) {
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('Config');
 draw_sidemenu();
 echo '<div id="main">';
 

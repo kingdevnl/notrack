@@ -321,7 +321,7 @@ function show_blocklists() {
   echo '</table></div></div>'.PHP_EOL;
   
   draw_systable('Custom Block Lists');
-  draw_sysrow('Custom', 'Use either Downloadable or Localy stored Block Lists<br><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['bl_custom']).'</textarea>');
+  draw_sysrow('Custom', '<p>Use either Downloadable or Localy stored Block Lists</p><textarea rows="5" name="bl_custom">'.str_replace(',', PHP_EOL,$Config['bl_custom']).'</textarea>');
   
   echo '</table><br>'.PHP_EOL;
   
@@ -344,18 +344,14 @@ function show_blocklists() {
 function show_custom_list($view) {
   global $list, $searchbox;
   
-  echo '<div class="sys-group"><div class="sys-title">'.PHP_EOL;
-  echo '<h5>'.ucfirst($view).' List</h5>'.PHP_EOL;
-  echo '</div>'.PHP_EOL;
-  echo '<div class="sys-items">'.PHP_EOL;
-  echo '<div class="centered">'.PHP_EOL;
-  
+  echo '<div class="sys-group">'.PHP_EOL;
+  echo '<h5>'.ucfirst($view).' List</h5>'.PHP_EOL;  
   echo '<form action="?" method="get">';
   echo '<input type="hidden" name="v" value="'.$view.'">';
-  if ($searchbox == '') echo '<input type="text" name="s" id="searchbox" placeholder="Search">'.PHP_EOL;
-  else echo '<input type="text" name="s" id="searchbox" value="'.$searchbox.'">'.PHP_EOL;
+  echo '<input type="text" name="s" id="searchbox" value="'.$searchbox.'">&nbsp;&nbsp;';
+  echo '<input type="submit" class="button-blue" value="Search">'.PHP_EOL;
   echo '</form>'.PHP_EOL;
-  echo '</div></div></div>'.PHP_EOL;
+  echo '</div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
   echo '<div class="row"><br>'.PHP_EOL;
@@ -387,7 +383,9 @@ function show_custom_list($view) {
     }
   }
   
-  echo '<tr><td>'.$i.'</td><td><input type="text" name="site'.$i.'" placeholder="site.com"></td><td><input type="text" name="comment'.$i.'" placeholder="comment"></td><td><button class="button-small" onclick="addSite('.$i.')"><span><img src="./images/green_tick.png" class="btn" alt=""></span>Save</button></td></tr>';
+  echo '<tr><td>'.$i.'</td><td><input type="text" class="ninty" name="site'.$i.'" placeholder="site.com"></td><td>';   //Add new site row
+  echo '<input type="text" class="ninty" name="comment'.$i.'" placeholder="comment"></td>';
+  echo '<td><button class="button-grey" onclick="addSite('.$i.')">Save</button></td></tr>';                            //End add new site row
         
   echo '</table></div></div>'.PHP_EOL;
   
@@ -608,49 +606,44 @@ function show_full_blocklist() {
   $rows = count_rows('SELECT COUNT(*) FROM blocklist'.add_searches());
     
   if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
-  $i = (($page-1) * ROWSPERPAGE) + 1;            //Calculate count position
+  $i = (($page-1) * ROWSPERPAGE) + 1;                      //Calculate count position
     
   $query = 'SELECT * FROM blocklist '.add_searches().'ORDER BY id LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   
-  if(!$result = $db->query($query)){             //Run the Query
+  if(!$result = $db->query($query)){                       //Run the Query
     die('There was an error running the query'.$db->error);
   }
   
-  draw_blradioform();                            //Block List selector form
+  draw_blradioform();                                      //Block List selector form
   
-  echo '<form method="GET">'.PHP_EOL;            //Form for Text Search
+  echo '<form method="GET">'.PHP_EOL;                      //Form for Text Search
   echo '<input type="hidden" name="page" value="'.$page.'">'.PHP_EOL;
   echo '<input type="hidden" name="v" value="full">'.PHP_EOL;
   echo '<input type="hidden" name="blrad" value="'.$blradio.'">'.PHP_EOL;
-  if ($searchbox == '') {                        //Anything in search box?
-    echo '<input type="text" name="s" id="search" placeholder="Search">'.PHP_EOL;
-  }
-  else {                                         //Yes - Add it as current value
-    echo '<input type="text" name="s" id="search" value="'.$searchbox.'">';
-    $linkstr = '&amp;s='.$searchbox;             //Also add it to $linkstr
-  }
-  echo '</form></div>'.PHP_EOL;                  //End form
+  echo '<input type="text" name="s" id="search" value="'.$searchbox.'">&nbsp;&nbsp;';
+  echo '<input type="Submit" class="button-blue" value="Search">'.PHP_EOL;
+  echo '</form></div>'.PHP_EOL;                            //End form for Text Search
   
   
-  if ($result->num_rows == 0) {                  //Leave if nothing found
+  if ($result->num_rows == 0) {                            //Leave if nothing found
     $result->free();
     echo 'No sites found in Block List';
     return false;
   }
   
-  if ($showblradio) {                            //Add selected blocklist to pagination link string
+  if ($showblradio) {                                      //Add selected blocklist to pagination link string
     $linkstr .= '&amp;blrad='.$blradio;
   }  
   
-  echo '<div class="sys-group">';                //Now for the results
+  echo '<div class="sys-group">';                          //Now for the results
   
-  pagination($rows, 'v=full'.$linkstr);          //Pagination box
+  pagination($rows, 'v=full'.$linkstr);                    //Draw Pagination box
     
   echo '<table id="block-table">'.PHP_EOL;
   echo '<tr><th>#</th><th>Block List</th><th>Site</th><th>Comment</th></tr>'.PHP_EOL;
    
-  while($row = $result->fetch_assoc()) {         //Read each row of results
-    if ($row['site_status'] == 0) {              //Is site enabled or disabled?
+  while($row = $result->fetch_assoc()) {                   //Read each row of results
+    if ($row['site_status'] == 0) {                        //Is site enabled or disabled?
       $row_class = ' class="dark"';
     }
     else {
@@ -666,10 +659,10 @@ function show_full_blocklist() {
     echo '<tr'.$row_class.'><td>'.$i.'</td><td>'.$bl_source.'</td><td>'.$row['site'].'</td><td>'.$row['comment'].'</td></tr>'.PHP_EOL;
     $i++;
   }
-  echo '</table>'.PHP_EOL;                       //End of table
+  echo '</table>'.PHP_EOL;                                 //End of table
   
   echo '<br>'.PHP_EOL;
-  pagination($rows, 'v=full'.$linkstr);          //Pagination box
+  pagination($rows, 'v=full'.$linkstr);                    //Draw second Pagination box
   echo '</div>'.PHP_EOL; 
   
   $result->free();

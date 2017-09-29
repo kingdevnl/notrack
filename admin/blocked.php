@@ -20,14 +20,14 @@ ensure_active_session();
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('Sites Blocked');
 draw_sidemenu();
 
 /************************************************
 *Constants                                      *
 ************************************************/
 //Chart colours from: http://godsnotwheregodsnot.blogspot.co.uk/2013/11/kmeans-color-quantization-seeding.html
-$CHARTCOLOURS = array('#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46', '#008941', '#006FA6', '#A30059', '#FFDBE5', '#7A4900', '#0000A6', '#63FFAC', '#B79762', '#004D43', '#8FB0FF', '#997D87', '#5A0007', '#809693', '#FEFFE6', '#1B4400', '#4FC601', '#3B5DFF', '#4A3B53',  '#DDEFFF', '#000035', '#7B4F4B', '#A1C299', '#300018', '#0AA6D8', '#013349', '#00846F' );
+$CHARTCOLOURS = array('#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46', '#008941', '#006FA6', '#A30059', '#FFDBE5', '#7A4900', '#0000A6', '#63FFAC', '#B79762', '#004D43', '#8FB0FF', '#997D87', '#5A0007', '#809693', '#FEFFE6', '#1B4400', '#4FC601', '#3B5DFF', '#4A3B53',  '#DDEFFF', '#000035', '#7B4F4B', '#A1C299', '#300018', '#0AA6D8', '#013349', '#00846F');
 
 
 /************************************************
@@ -222,14 +222,14 @@ function show_accesstable() {
   $user_agent_array = array();
     
   echo '<div class="sys-group">'.PHP_EOL;
-  if ($view == 'group') {                        //Group view
+  if ($view == 'group') {                                  //Group view
     echo '<h6>Sorted by Unique Site</h6>'.PHP_EOL;
     $rows = count_rows('SELECT COUNT(DISTINCT site) FROM lightyaccess');
     if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
     
     $query = 'SELECT * FROM lightyaccess GROUP BY site ORDER BY UNIX_TIMESTAMP(log_time) '.$sort.' LIMIT '.ROWSPERPAGE.' OFFSET '.(($page-1) * ROWSPERPAGE);
   }
-  elseif ($view == 'time') {                     //Time View
+  elseif ($view == 'time') {                               //Time View
     echo '<h6>Sorted by Time last seen</h6>'.PHP_EOL;
     $rows = count_rows('SELECT COUNT(*) FROM lightyaccess');
     if ((($page-1) * ROWSPERPAGE) > $rows) $page = 1;
@@ -242,20 +242,20 @@ function show_accesstable() {
   }
   
     
-  if ($result->num_rows == 0) {                  //Leave if nothing found
+  if ($result->num_rows == 0) {                            //Leave if nothing found
     $result->free();
     echo 'No sites found in Access List'.PHP_EOL;
     echo '</div>';
     return false;
   }
   
-  pagination($rows, 'view='.$view);              //Draw pagination buttons
+  pagination($rows, 'view='.$view);                        //Draw pagination buttons
   
-  echo '<table id="access-table">'.PHP_EOL;      //Start table
+  echo '<table id="access-table">'.PHP_EOL;                //Start table
   echo '<tr><th>Date Time</th><th>Method</th><th>User Agent</th><th>Site</th></tr>'.PHP_EOL;
   
-  while($row = $result->fetch_assoc()) {         //Read each row of results
-    if ($row['http_method'] == 'GET') {          //Colour HTTP Method
+  while($row = $result->fetch_assoc()) {                   //Read each row of results
+    if ($row['http_method'] == 'GET') {                    //Colour HTTP Method
       $http_method = '<span class="green">GET</span>';
     }
     else {
@@ -285,7 +285,7 @@ function show_accesstable() {
       $remote_host = '';
     }
         
-    $user_agent_array = get_useragent($user_agent);  //Get OS and Browser from UserAgent
+    $user_agent_array = get_useragent($user_agent);        //Get OS and Browser from UserAgent
     
     //Build up the table row
     $table_row = '<tr><td>'.$row['log_time'].'</td><td>'.$http_method.'</td>';
@@ -294,12 +294,12 @@ function show_accesstable() {
     
     $table_row .= '<td>'.highlight_url(htmlentities($row['site'].$row['uri_path'])).'<br>Referrer: '.highlight_url(htmlentities($referrer)).'<br>Requested By: '.$remote_host.'</td></tr>';
     
-    echo $table_row.PHP_EOL;                     //Echo the table row
+    echo $table_row.PHP_EOL;                               //Echo the table row
   }
   
-  echo '</table><br>'.PHP_EOL;                 //End of table
-  pagination($rows, 'view='.$view);              //Draw pagination buttons
-  echo '</div>'.PHP_EOL;                         //End Sys-group div
+  echo '</table><br>'.PHP_EOL;                             //End of table
+  pagination($rows, 'view='.$view);                        //Draw pagination buttons
+  echo '</div>'.PHP_EOL;                                   //End Sys-group div
   
   $result->free();
 
@@ -344,14 +344,14 @@ function show_visualisation() {
     die('There was an error running the query'.$db->error);
   }
   
-  if ($result->num_rows == 0) {                  //Leave if nothing found
+  if ($result->num_rows == 0) {                            //Leave if nothing found
     $result->free();
     echo 'No sites found in Access List'.PHP_EOL;
     echo '</div>';
     return false;
   }
 
-  while($row = $result->fetch_assoc()) {         //Read each row of results
+  while($row = $result->fetch_assoc()) {                   //Read each row of results
     $site_names[] = $row['site'];
     $site_count[] = $row['count'];
     $other += $row['count'];
@@ -359,7 +359,7 @@ function show_visualisation() {
   
   $other = $total - $other;
   
-  if ($other > 10) {                             //Is it worth adding other?
+  if ($other > 10) {                                       //Is it worth adding other?
     $site_names[] = 'Other';
     $site_count[] = $other;
   }
@@ -377,7 +377,7 @@ function show_visualisation() {
   
   echo '</svg>'.PHP_EOL;
     
-  echo '</div>'.PHP_EOL;                         //End Sys-group div
+  echo '</div>'.PHP_EOL;                                   //End Sys-group div
   
   $result->free();
 

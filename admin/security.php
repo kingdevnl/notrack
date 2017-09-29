@@ -22,7 +22,7 @@ ensure_active_session();
 <body>
 <?php
 action_topmenu();
-draw_topmenu();
+draw_topmenu('Config');
 draw_sidemenu();
 echo '<div id="main">';
 
@@ -62,7 +62,7 @@ function draw_password_input_form() {
     
   draw_sysrow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'"><p><i>Optional authentication username.</i></p>');
   draw_sysrow('NoTrack Password', '<input type="password" name="password"><p><i>Optional authentication password.</i></p>');
-  draw_sysrow('Delay', '<input type="number" name="delay" min="10" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
+  draw_sysrow('Delay', '<input type="number" class="input-conf" name="delay" min="10" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-grey" value="Save Changes"></div></td></tr>';
   echo '</table></form>'.PHP_EOL;
 }
