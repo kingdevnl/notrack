@@ -16,11 +16,13 @@ body {
   margin: 0;
   padding: 0;
 }
-a:link, a:visited  { 
+a:link, a:visited  {
+  font-size: 1.0em;
   color: #008CD1;
   text-decoration: none;
 }
 a:hover {
+  font-size: 1.0em;
   color: #008CD1;
   text-decoration: none;
 }
@@ -41,11 +43,6 @@ p.small {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
 }
-/*p.smallhidden {
-  margin: 0.1em 0.5em 0em 1em;
-  font-size: 0.8rem;
-  display: none;
-}*/
 p.light {
   margin: 0 0 0 0.5em;
   font-size: 0.8rem;
@@ -86,39 +83,7 @@ h1 {
   font-weight: normal;
   letter-spacing: 0.1rem;
   margin: 0.5em;
-  
-  /*font-size: 2.1em;
-  font-weight: bold;
-  text-align: center;
-  color: #D9D9D9;
-  background-color: #008CD1;
-  text-shadow: 3px 2px #222;
-  
-  margin: 0 0 2rem 0; 
-  padding: 1rem;  */
 }
-/*h2 {
-  font-size: 1.9em;
-  color: #00000A;  
-  text-align: center;
-  letter-spacing: 0.15rem;
-  margin: 0.1rem 0 0.4rem 0;
-  padding: 0;
-}
-h3 {
-  font-size: 2.3em;
-  color: #00000A;  
-  letter-spacing: 0.2rem;
-  text-align: center;
-  margin: 0.5rem 0;
-}
-h4 { 
-  font-size: 1.6em;
-  margin: 0.5rem 1rem;
-  color: #00000A;
-  text-align: center;
-  margin: 0; 
-}*/
 h5 {
   font-size: 1.6em;
   font-weight: 400;
@@ -153,7 +118,7 @@ pre {
   margin: 0.5em auto;
   padding: 0.5em;
   overflow: auto;
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 @media only screen and (max-width:1200px), only screen and (max-device-width:1200px) {
   pre {width: 90%}
@@ -163,7 +128,7 @@ pre {
 }
 /*Form items*********************************************************/
 input[type="text"], input[type="password"] {
-  width: 98%;
+  width: 24em;
   height: 1.5em;
   font-size: 1.1rem;
   color: #00000A;
@@ -176,7 +141,10 @@ input[type="text"], input[type="password"] {
 input[type="text"].textbox-small {
   width: 15em;
 }
-input[type="text"].input-conf {
+input[type="text"].ninty {
+  width: 90%;
+}
+input[type="text"].input-conf, input[type="number"].input-conf {
   width: 24em;
 }
 select.input-conf {
@@ -273,14 +241,13 @@ a.button-blue, a.button-grey, a.button-danger {
 }
 .sys-group {
   background: #F7F7F7;
-  border: 1px solid #B3B3B3;
-/*   border-left: 5px solid #21BBFF; */
-  border-radius: 3px;  
+  border: 1px solid #B3B3B3;  
+  border-radius: 3px;
   width: 80%;
   margin: 0.9em auto;
   padding: 0.5em;
   display: table;
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 .sys-title {
   width: 20%;
@@ -316,8 +283,7 @@ a.button-blue, a.button-grey, a.button-danger {
   font-size: 0.9em;
   padding: 0 0.9em 0.4em;
 }
-.pag-nav ul {
-  /* margin: 0; */
+.pag-nav ul {  
   padding: 0;
   list-style: none;
 } 
@@ -343,11 +309,10 @@ a.button-blue, a.button-grey, a.button-danger {
   color: #008CD1;
 }
 .sub-nav ul {
-  list-style-type: none;
-  /* margin: 0; */
+  list-style-type: none;  
   padding: 0;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   overflow: hidden;  
 }
 .sub-nav li {
@@ -357,14 +322,14 @@ a.button-blue, a.button-grey, a.button-danger {
 .sub-nav li a, .sub-nav li a:visited {
   display: block;
   text-align: center;
-  line-height: 2.1rem;
+  line-height: 1.9rem;
   font-size: 1.1em;
   color: #008CD1;
   text-decoration: none;
   border-bottom: 3px solid #666;  
 }
 .sub-nav li a.active {
-  border-bottom: 4px solid #21BBFF;
+  border-bottom: 3px solid #21BBFF;
   color: #666;  
 }
 .sub-nav li a:hover:not(.active) {
@@ -389,28 +354,6 @@ tr {
 tr:hover {
   filter: brightness(85%);
 }
-/*table {  
-  border: 1px solid #b3b3b3;
-  border-spacing: 0;
-  table-layout: fixed;
-  font-size:1.1em;
-  border-radius: 3px;
-  width: 100%;
-}
-td, th {  
-  overflow: auto;
-  padding: 5px 7px;
-}
-th {
-  background-color: #E8E8E8;
-  line-height: 1.7em;
-}
-tr:nth-child(odd) {
-  background: #E8E8E8;
-}
-tr:nth-child(even) {
-  background: #FBFBFB;
-}*/
 tr.blocked {
   background: #EB5D66;
 }
@@ -804,7 +747,7 @@ span.timer {
   width: 26%;
   height: 14.4rem;
   float: left;
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
 .home-nav h2 {
@@ -938,15 +881,6 @@ span.timer {
   filter: alpha(opacity=80);
   z-index:1000;
 }
-/*#centerpoint1, #centerpoint2, #stats-center {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  display: none;  
-}*/
-/* #centerpoint1 {z-index: 1001;} */
-/* #centerpoint2 {z-index: 1002;} */
-/* #stats-center {z-index: 1002;} */
 #dialog-box, #options-box, #stats-box {
   position: absolute;
   display: none;
