@@ -269,7 +269,7 @@ function show_blocklists() {
   echo '</table></div></div>'.PHP_EOL;
   
   draw_systable('Malware');
-  draw_blocklist_row('bl_hexxium', 'Hexxium Creations Malware List', 'Hexxium Creations are a small independent team running a community based malware database <a href="https://hexxiumcreations.com/domain-ip-threat-database/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_hexxium', 'Hexxium Creations Threat List', 'Hexxium Creations are a small independent team running a community based malware and scam domain database <a href="https://www.hexxiumcreations.com/projects/malicious-domain-blocking" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_cedia', 'CEDIA Malware List', 'National network investigation and education of Ecuador - Malware List <a href="https://cedia.org.ec/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_cedia_immortal', 'CEDIA Immortal Malware List', 'CEDIA Long-lived &#8220;immortal&#8221; Malware sites <a href="https://cedia.org.ec/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_disconnectmalvertising', 'Malvertising list by Disconnect', '<a href="https://disconnect.me/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
