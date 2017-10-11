@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 18 Sep 2017
+#NoTrack Blocklist updated 11 Oct 2017
 #LatestVersion 0.8.6
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -468,6 +468,7 @@ analytics.schoolwires.com
 analytics.slashdotmedia.com #Slash dot
 analytics.spotify.com #Spotify tracking ads
 analytics.squidhq.com #SquidHD
+analytics.trackerstatus.info #TrackerStatus
 analytics.twitter.com #Twitter
 analytics.yahoo.com #Yahoo
 and.co.uk
@@ -477,6 +478,7 @@ anrdoezrs.net
 anreson.net #Advertising
 ans.mlb.com #Major League Baseball
 answerscloud.com #Answers Cloud
+anuncios.sapo.pt #Sapo Adverts
 apero-bigdata.com #Ysance
 apester.com
 api.mobula.sdk.duapps.com #DU Apps
@@ -889,6 +891,7 @@ clickwindow.net #Digital Window
 client-event-reporter.twitch.tv #Twitch
 clientsend.com #Campaign Monitor Pty
 clixengine.com #Digital Window
+clixmetrix.com #ClixMetrix
 clk1002.com #RevenueHits
 clk1003.com #RevenueHits
 clk1004.com #RevenueHits
@@ -1046,6 +1049,7 @@ corp.aol.com #AOL
 corporate-ir.net
 coveritlive.com #Coverit Live
 cp1.news.com.au
+cpm20.com #Advertising
 cpmstars.com #CPMStars
 cq.io
 cqcounter.com
@@ -1454,6 +1458,7 @@ exebid.ru #Exebid DCA
 exelator.com
 exhaustionlaurenbremsstrahlung.info
 exoclick.com
+exosrv.com #Exosrv
 exoticads.com #ExoticAds
 exovueplatform.com
 expandengagement.com #Adobe
@@ -1570,6 +1575,7 @@ geoiplookup.wikimedia.org #Wikipedia
 georiot.com
 getclicky.com
 getdrip.com
+getlocalmeasure.com #Local Measure
 getmyads.com #Get My Ads
 getphotoeffects.com #RadiumOne
 getsentry.com #GetSentry
@@ -1876,6 +1882,7 @@ jntaoche.cn #Advertising
 joeporn.com #Click Meter
 jpush.cn
 jpush.io
+jslog.post.cz #Seznam
 ju33.com #Advertising
 juicyads.com
 jumptap.com #Jumptap
@@ -1946,6 +1953,7 @@ lelabdecisionnel.com #Ysance
 levexis.com
 liadm.com
 lian13.com #HelloWorld
+librato.com #librato
 licasd.com #Live Intent
 liftdna.com #OpenX
 liftdna.net #OpenX
@@ -10910,6 +10918,7 @@ mobfox.org #MobFox
 mobfox.us #MobFox
 mobile-ad-cloud.com #Smaato
 mobileaccesspanel.com #comScore
+mobileanalytics.us-east-1.amazonaws.com #AWS Mobile Analytics
 mobileapptracking.com
 mobilebenchmarck.com #comScore
 mobilebenchmark.com #comScore
@@ -11194,6 +11203,7 @@ onstate.com
 onthe.io #Tracker Unknown
 ontoplist.com
 ooyala.com
+open.oneplus.net #OnePlus
 openad.com #AppNexus Inc
 openadstream.com #AppNexus Inc
 openadstream.mobi #AppNexus Inc
@@ -11406,6 +11416,7 @@ pump.to
 purch.com #Purch
 purplenile.com #eGain Corporation
 pusherapp.com #Pusher
+pussl9.com
 pussycash.com
 pvtraffic.com
 pwrads.net
@@ -12132,6 +12143,7 @@ tracking.opencandy.com.s3.amazonaws.com #OpenCandy
 tracking.xsellapp.com #Unknown Tracker
 trackjs.com
 trackwindow.com #Digital Window
+trackwt.com #Wtsense
 tradeadexchange.com
 tradedoubler.com
 tradefxads.com
@@ -12408,6 +12420,8 @@ wshifen.com #Baidu
 wt-eu02.net #WebTrekk
 wt-safetag.com #WebTrekk
 wtp101.com
+wtsense.com #Wtsense
+wttrc.com #Advertising
 wunderloop.net
 wup.browser.qq.com #QQ Browser Tracking
 wup.imtt.qq.com #QQ Browser Tracking
