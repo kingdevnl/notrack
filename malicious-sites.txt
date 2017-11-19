@@ -31,6 +31,7 @@ ffdns.net #DNS Exploiters
 globaloffers.link #Malware
 googele.com #Typo
 gonirola.com #Malicious Site
+gotoout.ml #Phishing
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 hoholikik.club #Ad Injector
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I

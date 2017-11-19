@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 11 Oct 2017
+#NoTrack Blocklist updated 19 Nov 2017
 #LatestVersion 0.8.6
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -236,6 +236,7 @@ adnxtr.com #WhiteOps
 adnxus.com #AppNexus Inc
 adobedtm.com #Adobe
 adobetag.com #Adobe
+adocean.pl #AdOcean
 adoftheyear.com
 adometry.com #Google
 adomify.com #Adomik
@@ -293,6 +294,7 @@ adscience.nl #Adscience
 adsclean.com
 adsegments.imgs.sapo.pt #Sapo
 adsensecustomsearchads.com
+adserv.com #AdRate
 adserver.pandora.com #Pandora radio
 adsfac.eu
 adshole.click #msales
@@ -315,6 +317,7 @@ adsurity.com #Anti Adblocker
 adsurity.de #Anti Adblocker
 adsurity.fr #Anti Adblocker
 adsurity.nl #Anti Adblocker
+adswithsalt.com #Advertising Unknown
 adswizz.com #AdsWizz
 adswizz.net #AdsWizz
 adsymptotic.com
@@ -462,6 +465,7 @@ analytics.faw.sky.com #Sky
 analytics.gandi.net #Gandi
 analytics.newsinc.com
 analytics.nznweb.com.br #NZN
+analytics.plex.tv #Plex
 analytics.query.yahoo.com #Yahoo
 analytics.sapo.pt #Sapo
 analytics.schoolwires.com
@@ -1049,6 +1053,7 @@ corp.aol.com #AOL
 corporate-ir.net
 coveritlive.com #Coverit Live
 cp1.news.com.au
+cpex.cz #Czech Publisher Exchange
 cpm20.com #Advertising
 cpmstars.com #CPMStars
 cq.io
@@ -1160,6 +1165,7 @@ dart.l.doubleclick.net #Google
 dartsearch.net
 data-eroadvertising.com
 data.coremetrics.com
+databreakers.com #Data Breakers
 databureau.com #comScore
 databureau.net #comScore
 databuro.com #comScore
@@ -1438,7 +1444,11 @@ etahub.com
 eue21east.com #Lead Forensics
 eue27west.com #Lead Forensics
 eum-appdynamics.com #AppDynamics
+euroads.dk #EuroAds
+euroads.es #EuroAds
 euroads.fi #Euro Ads
+euroads.no #EuroAds
+euroads.se #EuroAds
 evelinecourt.com #Ad Web
 evelinecourt.net #Ad Web
 eventcapture03.com #Lead Forensics
@@ -1538,6 +1548,7 @@ fraudmetrix.cn
 fredhopperservices.com
 freegreatapps.com #MdotM
 freeskreen.com #SlimCut Media
+freestar.io #Freestar
 freewall.com #AppNexus Inc
 fresh8.co
 freshmedia.click #msales
@@ -1606,6 +1617,8 @@ globalmonetization.com #msales
 globaloffers.link #msales
 globalsitecheck.com #Traffic Cake
 gloomwrite.com #Unknown Advertising
+gmarketing.com #Guerrilla Marketing
+gmarketing.me #Guerrilla Marketing
 go-mpulse.net
 go2cloud.org
 goadservices.com
@@ -1775,6 +1788,7 @@ idgknowledgehub.com
 idgpublishing.com
 idio.co #Idio
 idqqimg.com #Advertising
+idvert.cz #Idvertorial
 iframes.us
 igodigital.com
 igsonar.com
@@ -10962,6 +10976,7 @@ monetate.net
 monetization.global #msales
 monika.link #Click Meter
 monitor.uu.qq.com #qq
+monkeytracker.cz #Monkey Tracker
 mookie1.com
 moonmedia.info #msales
 mopub.cloud #MoPub
@@ -11062,6 +11077,7 @@ myxheat.com #mYx
 myyage.com #Advertising
 n-core-pipe.com #Lead Forensics
 n121adserv.com #Advertising Unknown
+n158adserv.com #Advertising Unknown
 namesurf.net #HoneyTracks
 nanigans.com
 nano-visor.biz #instartlogic
@@ -11361,6 +11377,7 @@ postrelease.com
 postroller.com #BrightRoll
 postup.com #Post Up
 pow7.com
+powertds.trade #Malicious Ads
 powertheads.com #AppNexus Inc
 powertheinternet.com #AppNexus Inc
 pp.ru
@@ -11385,6 +11402,7 @@ productserve.com #Digital Window
 profile-matching.com #Ysance
 profilmatch.com #Ysance
 profilmatching.com #Ysance
+proformics.com #Proformics Digital
 projectwonderful.com
 propllrcurlmb.com #msales
 prscripts.com #Advertising
@@ -11416,6 +11434,7 @@ pump.to
 purch.com #Purch
 purplenile.com #eGain Corporation
 pusherapp.com #Pusher
+pushwoosh.com #Pushwoosh
 pussl9.com
 pussycash.com
 pvtraffic.com
@@ -11655,6 +11674,7 @@ sail-horizon.com
 sailthru.com
 salecycle.com #SafeCycle
 salesforce.com #Salesforce
+salesmanago.pl #Sales Manago.pl
 santaidinuan.com #Advertising
 sanya1.com
 sarky.org #Ad Web
@@ -11940,6 +11960,7 @@ spoteffects.net
 spotxchange.com
 springboardplatform.com
 springserve.com
+sprinklecontent.com #Strossle
 sprinkletxt.com #Ballou Internet Services
 sptslmtrafms.com #msales
 spylog.com #OpenStat
@@ -12126,6 +12147,7 @@ touchcommerce.london #Touch Commerce
 touchstoneresearch.com #Touchstone Research
 tqlkg.com
 tqn.com
+traaack.com #Tracker Unknown
 track-flow.com
 track-mv-01.com #MultiView
 track-mv-02.com #MultiView
@@ -12133,10 +12155,12 @@ track-mv.com #MultiView
 track.cpa.iqoption.com #IQOption
 track.ft.com #Financial Times
 track.mypcbackup.com #MyPCBackup
+track.us.org #TrackAd
 trackad.cz #TrackAd
 trackalyzer.com
 trackedgr8.com #Tracker Unknown
 trackedlink.net
+tracker-api.my.com #Mail.ru
 trackertec.nznweb.com.br #NZN webs piwiki
 tracking.lenzmx.com #Mobvista
 tracking.opencandy.com.s3.amazonaws.com #OpenCandy
@@ -12265,6 +12289,7 @@ updatemyprofile.net #Campaign Monitor Pty
 updpct.info #Sergii Mykolaenko
 upsales.com #Upsales Nordic
 upsales.org #Upsales Nordic
+upscore.com #UpScore
 upsellit.com
 upsteed.com #Amobee
 upstory.it #BizUp
@@ -12284,6 +12309,7 @@ vacwrite.com #Tracking Unknown
 valaffiliates.com #ValAffiliates
 valdelabs.com #AppNexus Inc
 vcmedia.vn
+vcommission.com #vCommission
 vdna-assets.com #Imagini Holdings
 veeseo.com #Veeseo
 veille-referencement.com
@@ -12322,6 +12348,7 @@ vidlux.com
 vidmark.com
 vidyard.com
 viglink.com
+vilynx.com #Vilynx
 vindicosuite.com
 visistat.com
 visitortracklog.com
@@ -12344,6 +12371,7 @@ vppgamingnetwork.com
 vserv.mobi #Vserv
 vservdigital.com #Vserv
 vservmobi.com #Vserv
+vvbox.cz #Tracker Unknown
 vwdservices.com #VWD Group
 w55c.net
 walkme.com
