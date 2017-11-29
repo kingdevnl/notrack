@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 19 Nov 2017
+#NoTrack Blocklist updated 29 Nov 2017
 #LatestVersion 0.8.6
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -943,6 +943,7 @@ clktag.com #RevenueHits
 clkuno.com #RevenueHits
 cloud-9751.com #Lead Forensics
 cloud-et-bigdata.com #Ysance
+cloud.ca.com #CA
 clusterconsulting.com.cn #Advertising
 clusteredcloud.com #AppNexus Inc
 clusteredcloud.net #AppNexus Inc
@@ -1112,6 +1113,7 @@ criteo.info #Criteo
 criteo.net #Criteo
 criteo.org #Criteo
 criteo.us #Criteo
+crobo.com #Crobo
 croredbomsmt.com #msales
 crosspixel.net #Cross Pixel
 crowdignite.com
@@ -1285,7 +1287,7 @@ dpmsrv.com
 dqna.net
 dressipi.com #Style website which offers analytics for other retailers
 drptst.com #msales
-dsf4t5jfds34j.com #Advertising 
+dsf4t5jfds34j.com #Advertising
 dsply.com
 dsywd.com
 dtc-330d.com #Lead Forensics
@@ -1965,6 +1967,7 @@ legolas-media.com
 leiki.com #Leiki
 lelabdecisionnel.com #Ysance
 levexis.com
+lgsmartad.com #Advertisements for LG Smart TVs
 liadm.com
 lian13.com #HelloWorld
 librato.com #librato
@@ -2010,6 +2013,7 @@ log.spotify.com #Spotify tracking ads
 loggly.com #Loggly
 loggly.net #Loggly
 loggly.org #Loggly
+logmatic.io #Logmatic
 lognormal.net
 logs.dashlane.com #Dashlane Password Manager
 logs.roku.com #Roku
@@ -11366,7 +11370,7 @@ pointroll.com
 polar.me
 polarmobile.com
 popads.net #Advertising
-popadvertisement.club #Advertising 
+popadvertisement.club #Advertising
 popcash.net #Advertising
 popmonetize.com #Advertising
 popmyads.com #Pop My Ads
@@ -11406,6 +11410,7 @@ proformics.com #Proformics Digital
 projectwonderful.com
 propllrcurlmb.com #msales
 prscripts.com #Advertising
+ps7894.com #Advertising Unknown
 psma01.com #AdWise
 psma02.com #AdWise
 psma03.com #AdWise
@@ -11494,7 +11499,7 @@ radiumone.org #RadiumOne
 radiumone.us #RadiumOne
 radiumonelabs.com #RadiumOne
 rampanel.com #Research and Analysis of Media
-randomfaster.club #Advertising 
+randomfaster.club #Advertising
 razzle.nyc #AppNexus Inc
 razzledazzle.nyc #AppNexus Inc
 rcsmetrics.it #Corriere.it
@@ -12162,8 +12167,10 @@ trackedgr8.com #Tracker Unknown
 trackedlink.net
 tracker-api.my.com #Mail.ru
 trackertec.nznweb.com.br #NZN webs piwiki
+tracking.cmjump.com.au #Tracker Unknown
 tracking.lenzmx.com #Mobvista
 tracking.opencandy.com.s3.amazonaws.com #OpenCandy
+tracking.volo-mobile.com #Volo
 tracking.xsellapp.com #Unknown Tracker
 trackjs.com
 trackwindow.com #Digital Window
@@ -12368,6 +12375,7 @@ voucherwindow.com #Digital Window
 voxmedia.com #Vox Media
 voycme.com #eGain Corporation
 vppgamingnetwork.com
+vrtztrk.com #Tracker Unknown
 vserv.mobi #Vserv
 vservdigital.com #Vserv
 vservmobi.com #Vserv
