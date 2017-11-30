@@ -1,3 +1,5 @@
+v0.8.7 Alpha - Released 30 Nov 2017
+
 v0.8.6 Alpha - Released 18 Sep 2017
 New Investigate page which requires API key from JsonWhois
 

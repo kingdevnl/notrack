@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 29 Nov 2017
-#LatestVersion 0.8.6
+#NoTrack Blocklist updated 30 Nov 2017
+#LatestVersion 0.8.7
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
