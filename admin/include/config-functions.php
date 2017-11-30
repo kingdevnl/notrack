@@ -258,16 +258,19 @@ function show_blocklists() {
   draw_blocklist_row('bl_qmalware', 'Malware Sites', 'Malicious sites');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Advert Blocking
   draw_systable('Advert Blocking');
   draw_blocklist_row('bl_easylist', 'EasyList', 'EasyList without element hiding rules‎ <a href="https://forums.lanik.us/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_pglyoyo', 'Peter Lowe&rsquo;s Ad server list‎', 'Some of this list is already in NoTrack <a href="https://pgl.yoyo.org/adservers/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>'); 
   echo '</table></div></div>'.PHP_EOL;
   
+  //Privacy
   draw_systable('Privacy');
   draw_blocklist_row('bl_easyprivacy', 'EasyPrivacy', 'Supplementary list from AdBlock Plus <a href="https://forums.lanik.us/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_fbenhanced', 'Fanboy&rsquo;s Enhanced Tracking List', 'Blocks common tracking scripts <a href="https://www.fanboy.co.nz/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Malware
   draw_systable('Malware');
   draw_blocklist_row('bl_hexxium', 'Hexxium Creations Threat List', 'Hexxium Creations are a small independent team running a community based malware and scam domain database <a href="https://www.hexxiumcreations.com/projects/malicious-domain-blocking" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_cedia', 'CEDIA Malware List', 'National network investigation and education of Ecuador - Malware List <a href="https://cedia.org.ec/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
@@ -280,18 +283,22 @@ function show_blocklists() {
   draw_blocklist_row('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Social
   draw_systable('Social');
   draw_blocklist_row('bl_fbannoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_fbsocial', 'Fanboy&rsquo;s Social Blocking List', 'Block social content, widgets, scripts and icons. <a href="https://www.fanboy.co.nz" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Multipurpose
   draw_systable('Multipurpose');
+  draw_blocklist_row('bl_nocoin', 'No Coin', 'This blocklist utilises the domains from No Coin, which is a browser extension aiming to block coin miners such as Coinhive. <a href="https://github.com/keraf/NoCoin" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   //draw_blocklist_row('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/" target="_blank">(securemecca.com)</a>');
   draw_blocklist_row('bl_winhelp2002', 'MVPS Hosts‎', 'Very inefficient list <a href="http://winhelp2002.mvps.org/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Region Specific
   draw_systable('Region Specific');
   draw_blocklist_row('bl_fblatin', 'Latin EasyList', 'Spanish/Portuguese Adblock List <a href="https://www.fanboy.co.nz/regional.html" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_areasy', 'AR EasyList', 'عربي EasyList (Arab) ‎ <a href="https://forums.lanik.us/viewforum.php?f=98" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');

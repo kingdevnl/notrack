@@ -30,6 +30,7 @@ Config[bl_fbsocial]=0
 Config[bl_hphosts]=0
 Config[bl_malwaredomainlist]=0
 Config[bl_malwaredomains]=0
+Config[bl_nocoin]=0
 Config[bl_pglyoyo]=0
 Config[bl_someonewhocares]=0
 Config[bl_spam404]=0
@@ -65,7 +66,7 @@ Config[bl_yhosts]=0                              #China yhosts
 #######################################
 # Constants
 #######################################
-readonly VERSION="0.8.6"
+readonly VERSION="0.8.7"
 readonly MAIN_BLOCKLIST="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
 readonly FILE_WHITELIST="/etc/notrack/whitelist.txt"
@@ -93,6 +94,7 @@ URLList[fbsocial]="https://secure.fanboy.co.nz/fanboy-social.txt"
 URLList[hphosts]="http://hosts-file.net/ad_servers.txt"
 URLList[malwaredomainlist]="http://www.malwaredomainlist.com/hostslist/hosts.txt"
 URLList[malwaredomains]="http://mirror1.malwaredomains.com/files/justdomains"
+URLList[nocoin]="https://raw.githubusercontent.com/keraf/NoCoin/master/src/blacklist.txt"
 #URLList[securemecca]="http://securemecca.com/Downloads/hosts.txt"
 URLList[spam404]="https://raw.githubusercontent.com/Dawsey21/Lists/master/adblock-list.txt"
 URLList[swissransom]="https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt"
@@ -727,6 +729,7 @@ function get_list() {
     "easylist") process_easylist "$dlfile" ;;
     "plain") process_plainlist "$dlfile" ;;
     "notrack") process_notracklist "$dlfile" ;;
+    "nocoin") process_nocoinlist "$dlfile" ;;
     "tldlist") process_tldlist ;;
     "unix") process_unixlist "$dlfile" ;;    
     *) error_exit "Unknown option $2" "7"
@@ -1047,6 +1050,53 @@ function process_easylist() {
   
   unset IFS
 }
+
+
+#--------------------------------------------------------------------
+# Process NoCoin List
+# 
+# Globals:
+#   JumpPoint
+#   PercentPoint
+# Arguments:
+#   #$1 List file to process
+# Returns:
+#   None
+# Regex:
+#   *://(site.com)/
+#   *://*.(site.com)/
+#   Group 1: Site
+#--------------------------------------------------------------------
+function process_nocoinlist() {
+  local i=0
+  local j=0
+
+  CalculatePercentPoint "$1"
+  i=1                                            #Progress counter
+  j=$JumpPoint                                   #Jump in percent
+      
+  while IFS=$'#\n\r' read -r Line _
+  do
+    if [[ ! $Line =~ ^\ *# ]] && [[ -n $Line ]]; then
+      Line="${Line%%\#*}"                        #Delete comments
+      Line="${Line%%*( )}"                       #Delete trailing spaces      
+      if [[ $Line =~ ^\*\:\/\/\*?\.?([A-Za-z0-9\.\-]+)\/ ]]; then        
+        addsite "${BASH_REMATCH[1]}" "No Coin"
+      fi
+    fi
+    
+    if [ $i -ge $PercentPoint ]; then            #Display progress
+      echo -ne " $j%  \r"                        #Echo without return
+      j=$((j + JumpPoint))
+      i=0
+    fi
+    ((i++))
+  done < "$1"
+  echo " 100%"
+  
+  unset IFS
+}
+
 
 #--------------------------------------------------------------------
 # Process NoTrack List
@@ -1664,6 +1714,7 @@ get_list "fbsocial" "easylist"
 get_list "hphosts" "unix"
 get_list "malwaredomainlist" "unix"
 get_list "malwaredomains" "plain"
+get_list "nocoin" "nocoin"
 get_list "pglyoyo" "plain"
 get_list "someonewhocares" "unix"
 get_list "spam404" "easylist"

@@ -1,6 +1,6 @@
 <?php
 
-DEFINE('VERSION', '0.8.6');
+DEFINE('VERSION', '0.8.7');
 DEFINE('SERVERNAME', 'localhost');
 DEFINE('USERNAME', 'ntrk');
 DEFINE('PASSWORD', 'ntrkpass');
@@ -59,6 +59,7 @@ $DEFAULTCONFIG = array(
   'bl_hphosts' => 0,
   'bl_malwaredomainlist' => 0,
   'bl_malwaredomains' => 0,
+  'bl_nocoin' => 0,
   'bl_pglyoyo' => 0,  
   'bl_someonewhocares' => 0,
   'bl_spam404' => 0,
@@ -112,6 +113,7 @@ $BLOCKLISTNAMES = array(
   'bl_hphosts' => 'hpHosts',
   'bl_malwaredomainlist' => 'Malware Domain List',
   'bl_malwaredomains' => 'Malware Domains',
+  'bl_nocoin' => 'NoCoin',
   'bl_winhelp2002' => 'MVPS Hosts',
   'bl_pglyoyo' => 'Peter Lowe&rsquo;s Ad List',  
   'bl_spam404'=> 'Spam 404',
