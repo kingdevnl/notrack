@@ -291,7 +291,7 @@ function show_blocklists() {
   
   //Multipurpose
   draw_systable('Multipurpose');
-  draw_blocklist_row('bl_nocoin', 'No Coin', 'This blocklist utilises the domains from No Coin, which is a browser extension aiming to block coin miners such as Coinhive. <a href="https://github.com/keraf/NoCoin" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  draw_blocklist_row('bl_nocoin', 'No Coin', 'This blocklist utilises the domains from No Coin to block browser based Coin Miners such as Coinhive. <a href="https://github.com/keraf/NoCoin" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   //draw_blocklist_row('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/" target="_blank">(securemecca.com)</a>');
