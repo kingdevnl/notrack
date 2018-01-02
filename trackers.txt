@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 30 Nov 2017
+#NoTrack Blocklist updated 02 Jan 2018
 #LatestVersion 0.8.7
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -65,6 +65,7 @@
 6008999.com #HelloWorld
 6009888.com #HelloWorld
 6009988.com #HelloWorld
+628e7ae68a3357896.com #Minify Mobi
 65twenty.com #Tracking Unknown
 7113653.com #Advertising Unknown
 778669.com #Advertising
@@ -93,7 +94,7 @@
 9nl.com #Click Meter
 9nl.org #Click Meter
 9nl.us #Click Meter
-a1749y92ai7h2uwi4v7e.club #Ad blocking investigation
+a.applvn.com #AppLovin
 a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
@@ -513,6 +514,7 @@ applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
 applift.com #AppLift
 applovin.com #AppLovin
+applvn.com #AppLovin
 appnex.us #AppNexus Inc
 appnexis.com #AppNexus Inc
 appnexus.asia #AppNexus Inc
@@ -567,7 +569,7 @@ attraqt.com
 atwola.com #AOL
 audienceco-op.com #Adobe
 audiencedatamanagement.com #Adobe
-audienceinsights.net
+audienceinsights.net #Adthink
 audienceiq.com
 audiencemanagementplatform.com #Adobe
 audiencemanagementplatforms.com #Adobe
@@ -618,7 +620,10 @@ beanstock.com
 begun.ru
 behancemanage.com #Adobe
 behavior.com #Adobe
+behavioralengine.com #OnAudience
+behavioralmailing.com #OnAudience
 berg-6-82.com #Lead Forensics
+best-dental-implants-tracking.com
 bestdealmedia.click #msales
 bestdealonearth.click #msales
 beta-i.pt #Beta-i
@@ -1529,6 +1534,7 @@ flxpxl.com #Teradata
 fmpub.net #Federated Media
 focus-site.com #comScore
 focussite.com #comScore
+focuusing.com #Tracker Unknown
 fogzyads.com
 followistic.com
 footprint.net #Level3
@@ -1642,6 +1648,7 @@ grapemedia.cz #Grape Media
 grapeshot.co.uk
 graphiq.com #Graphiq
 gravity.com
+greatestoldupgrading.review
 greystripe.com #Conversant
 grfyti.com #eGain Corporation
 groovygifts.com #Digital Window
@@ -1690,12 +1697,14 @@ helloworld.com #HelloWorld
 helloworldmagic.com #HelloWorld
 helloworldmail.com #HelloWorld
 helloworldptqa.com #HelloWorld
+help24center.com
 hilltopads.net #HillTopAds
 himediads.com #Hi Media
 himediads.mobi #Hi Media
 himediads.net #Hi Media
 histats.com
 hit.skrz.cz #Skrz
+hitcpm.com #Advertising Unknown
 hlserve.com
 hobmobrevms.com #msales
 hochmoor.com
@@ -11289,6 +11298,7 @@ partner-ts.groupon.co.uk
 passionfruitads.com
 pawamedia.com #RevenueHits
 pc20160301.com #Unknown Advertising
+pcapredict.com #PCA Predict
 pclick.yahoo.com #Yahoo
 pct-upd.info #Sergii Mykolaenko
 pctupd.info #Sergii Mykolaenko
