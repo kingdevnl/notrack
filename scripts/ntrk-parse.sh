@@ -44,7 +44,9 @@ commonsites["gvt1.com"]=true
 commonsites["deviantart.net"]=true
 commonsites["deviantart.com"]=true
 commonsites["ampproject.net"]=true
+commonsites["steamcontent.com"]=true
 commonsites["tumblr.com"]=true
+commonsites["userstorage.mega.co.nz"]=true
 
 #--------------------------------------------------------------------
 # Check If Running as Root and if Script is already running
