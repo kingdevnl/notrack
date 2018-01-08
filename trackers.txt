@@ -1,4 +1,4 @@
-#NoTrack Blocklist updated 02 Jan 2018
+#NoTrack Blocklist updated 08 Jan 2018
 #LatestVersion 0.8.7
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
@@ -329,6 +329,7 @@ adtilt.com #Advertising Unknown
 adtoma.com #Adtoma
 adtoma.mobi #Adtoma
 adtomafusion.net #Adtoma
+adtopia.club #Adtopia
 adtruth.com #Experian
 adunity.com #AdUnity
 adunity.net #AdUnity
@@ -456,6 +457,8 @@ ampaign.click #msales
 amplience.com #Amplience
 amplitude.com
 amung.us #TBC
+analyse.email #Altaire
+analysing.email #Altaire
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 analytics-egain.com #eGain Corporation
 analytics-static.ugc.bazaarvoice.com #Bazaar Voice
@@ -1543,6 +1546,7 @@ footprintpredict.com #Microsoft
 force.com
 forensiq.com #Forensiq
 forensiq.net #Forensiq
+foresee.com #Foresee
 foreseeresults.com #ForeSee
 forexzone.org #Buta Trading
 forkmedia.in
@@ -2127,6 +2131,7 @@ medleyads.com #Unknown Advertising
 mellowads.com #Mellow Ads
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
+mention-me.email #Liveclicker
 merchenta.com
 messages1.com #IBM Silverpop
 messages10.com #IBM Silverpop
