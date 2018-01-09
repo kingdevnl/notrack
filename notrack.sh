@@ -18,6 +18,9 @@ Config[bl_custom]=""
 Config[bl_notrack]=1
 Config[bl_tld]=1
 Config[bl_qmalware]=1
+Config[bl_cbl_all]=0
+Config[bl_cbl_browser]=0
+Config[bl_cbl_opt]=0
 Config[bl_cedia]=0
 Config[bl_cedia_immortal]=1
 Config[bl_hexxium]=1
@@ -74,7 +77,7 @@ readonly FILE_DOMAINBLACK="/etc/notrack/domain-blacklist.txt"
 readonly FILE_DOMAINWHITE="/etc/notrack/domain-whitelist.txt"
 readonly CSV_DOMAIN="/var/www/html/admin/include/tld.csv"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
-readonly CHECKTIME=343800                        #Time in Seconds between downloading lists (4 days - 30mins)
+readonly CHECKTIME=257400                        #Time in Seconds between downloading lists (3 days - 30mins)
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
 readonly DBNAME="ntrkdb"
@@ -82,6 +85,9 @@ readonly DBNAME="ntrkdb"
 declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
+URLList[cbl_all]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list.txt"
+URLList[cbl_browser]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list_browser.txt"
+URLList[cbl_opt]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list_optional.txt"
 URLList[cedia]="http://mirror.cedia.org.ec/malwaredomains/domains.zip"
 URLList[cedia_immortal]="http://mirror.cedia.org.ec/malwaredomains/immortal_domains.zip"
 URLList[hexxium]="https://hexxiumcreations.github.io/threat-list/hexxiumthreatlist.txt"
@@ -1705,6 +1711,9 @@ get_list "qmalware" "plain"
 get_list "cedia" "csv" "domains.txt"
 get_list "cedia_immortal" "plain" "immortal_domains.txt"
 get_list "hexxium" "easylist"
+get_list "cbl_all" "plain"
+get_list "cbl_browser" "plain"
+get_list "cbl_opt" "plain"
 get_list "disconnectmalvertising" "plain"
 get_list "easylist" "easylist"
 get_list "easyprivacy" "easylist"

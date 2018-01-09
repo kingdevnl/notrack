@@ -1,4 +1,11 @@
+v0.8.8 Development
+Added Coin Blocker Lists
+Reduced list download check from 4 days to 3 days
+
+*************************************************
+
 v0.8.7 Alpha - Released 30 Nov 2017
+*************************************************
 
 v0.8.6 Alpha - Released 18 Sep 2017
 New Investigate page which requires API key from JsonWhois
@@ -18,16 +25,3 @@ Admin:
   #197 - Add proof for site report
   Updated Top Level Domain blocklist from Domain Tools 2017 report
 
-*************************************************
-
-v0.8.4 Alpha - Released 26 Feb 2017
-
-Config:
-  Added Option to change Log parsing time
-  
-NoTrack.sh
-  #203 - fix error on lighttpd access file missing on non-lighttpd installs
-
-Removed deprecated code
-Changed default log parsing time from 10 mins to 7 mins for new installs
-  
