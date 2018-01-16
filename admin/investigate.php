@@ -59,7 +59,7 @@ $TLDBlockList = array();
 /********************************************************************
  *  Create Who Is Table
  *    Run sql query to create whois table
- *    TODO Causes unknown error 
+ *    TODO Causes unknown error - Should be fixed now removing error check
  *  Params:
  *    None
  *  Return:
@@ -70,11 +70,7 @@ function create_whoistable() {
     
   $query = "CREATE TABLE whois (id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, save_time DATETIME, site TINYTEXT, record MEDIUMTEXT)";
   
-  if (!$result = $db->query($query)) {
-    die('create_whoistable failed: '.$db->error);
-  }
-    
-  $result->free();
+  $db->query($query);    
 }
 
 

@@ -425,6 +425,7 @@ function show_group_view() {
   $action = '';
   $blockreason = '';
   $query = '';
+  $site_cell = '';
   
   $linkstr = "&amp;filter=$filter&amp;sys=$sys"; //Default link string
   
@@ -487,7 +488,10 @@ function show_group_view() {
       $action = '&nbsp;';
     }
     
-    echo '<tr'.$row_class.'><td>'.$i.'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.'</td><td>'.$row['count'].'</td></tr>'.PHP_EOL;
+    //Make entire site cell clickable with link going to Investigate
+    $site_cell = '<td class="pointer" onclick="window.open(\'./investigate.php?site='.$row['dns_request'].'\', \'_blank\')"><a href="./investigate.php?site='.$row['dns_request'].'" class="black" target="_blank">'.$row['dns_request'].$blockreason.'</a></td>';
+        
+    echo '<tr'.$row_class.'><td>'.$i.'</td>'.$site_cell.'<td>'.$action.'</td><td>'.$row['count'].'</td></tr>'.PHP_EOL;
     $blockreason = '';
     $i++;
   }
@@ -523,6 +527,7 @@ function show_time_view() {
   $action = '';
   $blockreason = '';
   $investigate = '';
+  $site_cell = '';
   
   if ($view == 'livetime') {
     $rows = count_rows_save('SELECT COUNT(*) FROM live'.add_filterstr());
@@ -560,7 +565,7 @@ function show_time_view() {
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
-    $investigate = '<a href="./investigate.php?datetime='.$row['formatted_time'].'&amp;site='.$row['dns_request'].'&amp;sys='.$row['sys'].'">.</a>';
+    
     if ($row['dns_result'] == 'A') {             //Allowed
       $row_class='';
       $action .= '<span class="pointer"><img src="./images/report_icon.png" alt="Rep" title="Report Site" onclick="reportSite(\''.$row['dns_request'].'\', false, true)"></span>';
@@ -589,8 +594,13 @@ function show_time_view() {
       $row_class = ' class="local"';
       $action = '&nbsp;';
     }
+    
         
-    echo '<tr'.$row_class.'><td>'.$row['formatted_time'].'</td><td>'.$row['sys'].'</td><td>'.$row['dns_request'].$blockreason.'</td><td>'.$action.$investigate.'</td></tr>'.PHP_EOL;
+    //Make entire site cell clickable with link going to Investigate
+    //Add in datetime and system into investigate link
+    $site_cell = '<td class="pointer" onclick="window.open(\'./investigate.php?datetime='.$row['formatted_time'].'&amp;site='.$row['dns_request'].'&amp;sys='.$row['sys'].'\', \'_blank\')"><a href="./investigate.php?datetime='.$row['formatted_time'].'&amp;site='.$row['dns_request'].'&amp;sys='.$row['sys'].'" class="black" target="_blank">'.$row['dns_request'].$blockreason.'</a></td>';
+        
+    echo '<tr'.$row_class.'><td>'.$row['formatted_time'].'</td><td>'.$row['sys'].'</td>'.$site_cell.'<td>'.$action.$investigate.'</td></tr>'.PHP_EOL;
     $blockreason = '';
   }
   
