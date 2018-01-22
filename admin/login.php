@@ -95,40 +95,40 @@ if (isset($_POST['password'])) {
 </head>
 
 <body>
-
-<div class="login-box">
-<form method="post" name="Login_Form">
-<span>Username:</span>
-<div class="centered"><input name="username" type="text"></div>
-<span>Password:</span>
-<div class="centered"><input name="password" type="password"></div>
-<div class="centered"><input type="submit" value="Login"></div>
-</form>
-</div>
-
 <?php
 if ($message != '') {                            //Any Message to show?
-  echo '<div class="login-box">'.PHP_EOL;
+  echo '<div id="error-box">'.PHP_EOL;
   echo '<h4>'.$message.'</h4>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
 }
+?>
 
+<div class="col-half">
+  <div id="logo-box">
+    <b>No</b>Track
+  </div>
+</div>
+
+<div class="col-half">
+<div id="login-box">
+<form method="post" name="Login_Form">
+<div class="centered"><input name="username" type="text" placeholder="Username"></div>
+<div class="centered"><input name="password" type="password" placeholder="Password" required></div>
+<div class="centered"><input type="submit" value="Login"></div>
+</form>
+</div>
+</div>
+
+<?php
 echo '<div id="fade"></div>'.PHP_EOL;
-echo '<div id="centerpoint1"><div id="dialog">'.PHP_EOL;
-echo '<div class="dialog-bar">NoTrack</div>'.PHP_EOL;
-echo '<div class="close-button"><a href="#" onclick="hideOptions()"><img src="./svg/button_close.svg" onmouseover="this.src=\'./svg/button_close_over.svg\'" onmouseout="this.src=\'./svg/button_close.svg\'" alt="Close"></a></div>'.PHP_EOL;
+echo '<div id="cookie-box">'.PHP_EOL;
 echo '<h4 id="dialogmsg">Cookies need to be enabled</h4>'.PHP_EOL;
-echo '</div></div>'.PHP_EOL;
+echo '</div>'.PHP_EOL;
 ?>
 
 <script>
-function hideOptions() {
-  document.getElementById('centerpoint1').style.display = "none";
-  document.getElementById('fade').style.display = "none";
-}
-
-if (! navigator.cookieEnabled) {               //has user disabled cookies for this site
-  document.getElementById("centerpoint1").style.display = "block";
+if (! navigator.cookieEnabled) {                           //has user disabled cookies for this site?
+  document.getElementById("cookie-box").style.display = "block";
   document.getElementById("fade").style.display = "block";
 }
 </script>
