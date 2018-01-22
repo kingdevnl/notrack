@@ -137,9 +137,9 @@ function draw_topmenu($currentpage='') {
   }
   
   if (is_password_protection_enabled()) {         //Only do Logout if there is a password
-    echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
+    echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt=""><span class="mobile-hide">Logout</span></span></a>'.PHP_EOL;
   }
-  echo '<span class="top-menu-item float-right pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt="">Options</span>'.PHP_EOL;
+  echo '<span class="top-menu-item float-right pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt=""><span class="mobile-hide">Options</span></span>'.PHP_EOL;
 
   //If Status = Paused & Enable Time < Now then switch Status to Enabled
   if ((substr($Config['Status'], 0, 6) == 'Paused') && (floatval(substr($Config['Status'], 6))) < (time()+60)) {
@@ -180,7 +180,7 @@ function draw_topmenu($currentpage='') {
   echo '<div class="centered"><img src="./images/progress.gif" alt=""></div>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
 
-  //Operations
+  //Operations 
   echo '<div id="options-box">'.PHP_EOL;
   echo '<div class="dialog-bar">Options</div>'.PHP_EOL;
   echo '<div class="centered">'.PHP_EOL;
