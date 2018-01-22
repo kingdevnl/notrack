@@ -1,27 +1,12 @@
-v0.8.8 Development
+v0.8.8 Released 22 Jan 2018
+
 Added Coin Blocker Lists
+Improved access into Investigate from DNS Queries
 Reduced list download check from 4 days to 3 days
+Downgraded .ws from priority 1 to priority 2 on TLD blocklist
+New style login screen
+
+#200 - Enabled changing password without turning off security
 
 *************************************************
-
-v0.8.7 Alpha - Released 30 Nov 2017
-*************************************************
-
-v0.8.6 Alpha - Released 18 Sep 2017
-New Investigate page which requires API key from JsonWhois
-
-gTLD Blocklist:
-  Added .club
-  Removed .ninja
-
-New region specific AdBlockPlus blocklists:
-  France, Greece, Hungary, Indonesia, Iceland, Italy, Japan, Korea, Lithuania, Latvia, Netherlands, Poland, Spain, Slovenia
-
-*************************************************
-
-v0.8.5 Alpha - Released 23 May 2017
-
-Admin:
-  #197 - Add proof for site report
-  Updated Top Level Domain blocklist from Domain Tools 2017 report
 
