@@ -3,7 +3,7 @@
  * Font: #00000A             *
  * Dark background: #262626  *
  * Light background: #F7F7F7 *
- * Page background: #F1F1F1  *
+ * Page background: #F0F0F0  *
  * Primary: #008CD1          *
  * Dark Primary: #004F75     *
  * Secondary: #21BBFF        *
@@ -12,7 +12,7 @@ body {
   font-size: 1.0em;
   font-family: Arial, Helvetica, sans-serif;
   color: #00000A;
-  background-color: #F1F1F1;
+  background-color: #F0F0F0;
   margin: 0;
   padding: 0;
 }
@@ -140,6 +140,7 @@ input[type="text"], input[type="password"] {
   border-radius: 5px;
   box-shadow: 0 0 8px #21BBFF;
   margin: 0.2em 0;
+  padding-left: 0.2em;
 }
 input[type="text"].textbox-small {
   width: 15em;
@@ -163,6 +164,7 @@ select, input[type="date"], input[type="number"] {
   border-radius: 5px;
   box-shadow: 0 0 8px #21BBFF;
   margin: 0.4em 0;
+  padding-left: 0.2em;
 }
 textarea {
   width: 98%;
@@ -172,6 +174,7 @@ textarea {
   border: 2px solid #21BBFF;
   border-radius: 5px;
   box-shadow: 0 0 8px #21BBFF;
+  padding-left: 0.2em;
 }
 .button-blue, .button-grey, .button-danger {
   font-size: 1.1rem;
