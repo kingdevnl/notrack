@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 16 Jan 2018
-#LatestVersion 0.8.7
+#NoTrack Blocklist updated 25 Jan 2018
+#LatestVersion 0.8.8
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -427,6 +427,7 @@ ahalogy.com
 aimatch.com
 airwave.asia #Amobee
 airwaveasia.com #Amobee
+ak-is.net #Tracker Unknown
 alcmpn.com #American List Counsel
 alephd.com #AOL
 alertbot.co.uk
@@ -11014,7 +11015,7 @@ movoxi.net #comScore
 movoxy.com #comScore
 movoxy.net #comScore
 mpire.com #comScore
-mplxtms.com
+mplxtms.com #Conversant
 mpstat.us #SOASTA
 mptracking.mobi #MobPartner
 mrkt.it
@@ -12464,6 +12465,7 @@ woopra.com
 workdesk.click #msales
 worldwideoffers.net #msales
 wowanalytics.co.uk
+wowcon.net #Tracker Unknown
 wp.gl #Click Meter
 wpa.qq.com #QQ
 wpdigital.net #Washington Post
