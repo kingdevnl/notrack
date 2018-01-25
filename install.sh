@@ -557,7 +557,7 @@ function install_yum() {
 
 #--------------------------------------------------------------------
 # Install apk Packages
-#   Installs packages using yum for Busybox
+#   Installs packages for Busybox
 #   TODO
 # Globals:
 #   None
