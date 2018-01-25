@@ -107,13 +107,21 @@ function draw_queriesbox() {
   else {
     $chartdata = array($allowed, $blocked, $local);
   }
-  
-  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>'.number_format(floatval($total)).'<br>Today'.PHP_EOL;
+  if ($allowed > 0) {
+    $allowed = floatval(($allowed/$total)*100);
+  }
+
+  if ($blocked > 0) {
+    $allowed = floatval(($blocked/$total)*100);
+  }  
+
+  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>' . number_format(floatval($total)) . '<br>Today'.PHP_EOL;
   echo '<svg width="20em" height="3em" overflow="visible">'.PHP_EOL;
-  echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format(floatval(($allowed/$total)*100)).'% Allowed</text>'.PHP_EOL;
-  echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format(floatval(($blocked/$total)*100)).'% Blocked</text>'.PHP_EOL;
+  echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format($allowed).'% Allowed</text>'.PHP_EOL;
+  echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format($blocked).'% Blocked</text>'.PHP_EOL;
   if ($local > 0) {
-    echo '<text x="0" y="3.3em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[2].'">'.number_format(floatval(($local/$total)*100)).'% Local</text>'.PHP_EOL;
+    $local = floatval(($local/$total)*100);
+    echo '<text x="0" y="3.3em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[2].'">'.number_format($local).'% Local</text>'.PHP_EOL;
   }
   echo '</svg></span>';
   
