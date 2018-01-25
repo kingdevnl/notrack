@@ -33,15 +33,15 @@ p {
   margin: 0 0 0.5em 0;
   font-size: 1em;
 }
-p.bold {
+/*p.bold {
   font-weight: bold;
-}
+}*/
 p.indent {
   margin: 0 0 1.2em 1.5em;
 }
-p.italic {
+/*p.italic {
   font-style:italic;
-}
+}*/
 p.small {
   margin: 0.1em 0.5em 0em 1em;
   font-size: 0.8rem;
@@ -237,11 +237,11 @@ a.button-blue, a.button-grey, a.button-danger {
   width:100%;
 /*   float:left; */
 }
-.row-large {
+/*.row-large {
   width: 100%;
   float: left;
   display: inline;
-}
+}*/
 .centered {
   text-align:center;
 }
@@ -580,7 +580,7 @@ span.key-green {background: #43FF62;}
   left: 0;  
   z-index: 100;  
 }
-#menu-top-right {
+/*#menu-top-right {
   margin: 1.9rem 2rem 0 0;
   float: right;
 }
@@ -588,7 +588,7 @@ span.key-green {background: #43FF62;}
   margin: 0 0.2rem;
   width: 2.2rem;
   height: 2.2rem;
-}
+}*/
 #menu-top img {
   width: 2.6em;
   height: 2.6rem;
@@ -598,22 +598,22 @@ span.key-green {background: #43FF62;}
 #menu-top span {
   color: #F7F7F7;
 }
-span.top-menu-item {
+span.menu-top-item {
   line-height: 3.4rem;
   padding: 0 0.8em;
   border-radius: 5px;
 }
+span.menu-top-item:hover {
+  background: #00326f;
+}
 span.mobile-hide {
   display: inline-block;
-}
-span.top-menu-item:hover {
-  background: #00326f;
 }
 span.logo {
   margin: 0 0.5em;
   font-size: 1.8rem;
   line-height: 3.3rem;  
-  float: left;
+/*   float: left; */
   padding: 0 0.5em;
   letter-spacing: 1px;  
 }
@@ -707,7 +707,7 @@ span.timer {
   #menu-side-bottom {
     display: none;
   }
-  span.top-menu-item, span.logo {
+  span.menu-top-item, span.logo {
     line-height: 4.8rem;
   }  
   span.pbutton, #dropbutton {

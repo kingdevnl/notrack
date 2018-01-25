@@ -371,7 +371,6 @@ function show_custom_list($view) {
   echo '</div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
-  echo '<div class="row"><br>'.PHP_EOL;
   echo '<table id="cfg-custom-table">'.PHP_EOL;
   $i = 1;
 
@@ -404,7 +403,7 @@ function show_custom_list($view) {
   echo '<input type="text" class="ninty" name="comment'.$i.'" placeholder="comment"></td>';
   echo '<td><button class="button-grey" onclick="addSite('.$i.')">Save</button></td></tr>';                            //End add new site row
         
-  echo '</table></div></div>'.PHP_EOL;
+  echo '</table></div>'.PHP_EOL;
   
   echo '<div class="sys-group"><div class="centered">'.PHP_EOL;  
   echo '<a href="./include/downloadlist.php?v='.$view.'" class="button-grey">Download List</a>&nbsp;&nbsp;';
