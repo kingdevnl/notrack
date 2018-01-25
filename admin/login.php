@@ -36,7 +36,7 @@ $password = '';
 $username = '';
 
 if (! is_password_protection_enabled()) {
-  header('Location ./index.php');
+  header('Location: ./index.php');
   exit;
 }
 
