@@ -11,6 +11,7 @@ ensure_active_session();
 <head>
   <meta charset="UTF-8">
   <link href="./css/master.css" rel="stylesheet" type="text/css">
+<!--   <link href="./css/home.css" rel="stylesheet" type="text/css"> -->
   <link href="./css/chart.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
@@ -112,7 +113,7 @@ function draw_queriesbox() {
   }
 
   if ($blocked > 0) {
-    $allowed = floatval(($blocked/$total)*100);
+    $blocked = floatval(($blocked/$total)*100);
   }  
 
   echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>' . number_format(floatval($total)) . '<br>Today'.PHP_EOL;
