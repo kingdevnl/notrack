@@ -15,7 +15,7 @@ ensure_active_session();
   <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <script src="./include/queries.js"></script>
-  <title>NoTrack - DNS Stats</title>
+  <title>NoTrack - DNS Queries</title>
 </head>
 
 <body>
@@ -266,56 +266,25 @@ function draw_filterbox() {
  */
 function draw_viewbuttons() {
   global $sqltable, $view;
-
-  /*echo '<div class="sys-group">'.PHP_EOL;
-  echo '<h5>Sites Blocked</h5>'.PHP_EOL;
-  echo '<nav><div class="sub-nav">'.PHP_EOL;
-  echo '<ul>'.PHP_EOL;
-  echo '<li><a'.is_active_class($view, 'group').' href="?view=group">Group</a></li>'.PHP_EOL;
-  echo '<li><a'.is_active_class($view, 'time').' href="?view=time">Time</a></li>'.PHP_EOL;
-  //echo '<li><a'.is_active_class($view, 'ref').' href="?view=ref">Referrer</a></li>'.PHP_EOL;
-  echo '<li><a'.is_active_class($view, 'visualisation').' href="?view=vis">Visualisation</a></li>'.PHP_EOL;
-  echo '</ul>'.PHP_EOL;
-  echo '</div></nav>'.PHP_EOL;
-  echo '</div>'.PHP_EOL;*/
-  
-  echo '<div class="sub-nav float-right"><ul>'.PHP_EOL;
+    
+  echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
   if ($sqltable == 'live') {
-    echo '<li><a class="active" href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
+    echo '<li class="active"><a class="pag-wide" href="?view=livegroup">Today</a></li>'.PHP_EOL;
+    echo '<li><a class="pag-wide" href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
   }
   else {
-    echo '<li><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li><a class="active" href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
+    echo '<li><a class="pag-wide" href="?view=livegroup">Today</a></li>'.PHP_EOL;
+    echo '<li class="active"><a class="pag-wide" href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
   }  
   if (($view == 'livetime') || ($view == 'historictime')) {
-    echo '<li><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li><a class="active" href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
+    echo '<li><a class="pag-wide" href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
+    echo '<li class="active"><a class="pag-wide" href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
   }
   elseif (($view == 'livegroup') || ($view == 'historicgroup')) {
-    echo '<li><a class="active" href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
+    echo '<li class="active pag-wide"><a class="pag-wide" href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
+    echo '<li><a class="pag-wide" href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
   }
-  echo '</ul></div>'.PHP_EOL;
-  
-  /*echo '<div class="pag-nav float-right"><ul>'.PHP_EOL;
-  if ($sqltable == 'live') {
-    echo '<li class="active"><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
-  }
-  else {
-    echo '<li><a href="?view=livegroup">Today</a></li>'.PHP_EOL;
-    echo '<li class="active"><a href="?view=historicgroup">Historic</a></li>'.PHP_EOL;
-  }  
-  if (($view == 'livetime') || ($view == 'historictime')) {
-    echo '<li><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li class="active"><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
-  }
-  elseif (($view == 'livegroup') || ($view == 'historicgroup')) {
-    echo '<li class="active"><a href="?view='.$sqltable.'group">Group</a></li>'.PHP_EOL;
-    echo '<li><a href="?view='.$sqltable.'time">Time</a></li>'.PHP_EOL;    
-  }
-  echo '</ul></div>'.PHP_EOL;*/
+  echo '</ul></div>'.PHP_EOL; 
 }
 
 
@@ -454,7 +423,7 @@ function show_group_view() {
   
   echo '<table id="query-group-table">'.PHP_EOL;
   
-  echo '<tr><th>#</th><th>Site</th><th>Action</th><th>Requests<a href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc'.$linkstr.'">&#x25BE;</a><a href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc'.$linkstr.'">&#x25B4;</a></th></tr>'.PHP_EOL;  
+  echo '<tr><th>#</th><th>Site</th><th>Action</th><th>Requests<a class="blue" href="?page='.$page.'&amp;view='.$view.'&amp;sort=desc'.$linkstr.'">&#x25BE;</a><a class="blue" href="?page='.$page.'&amp;view='.$view.'&amp;sort=asc'.$linkstr.'">&#x25B4;</a></th></tr>'.PHP_EOL;  
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';
@@ -561,7 +530,7 @@ function show_time_view() {
   draw_viewbuttons();
   
   echo '<table id="query-time-table">'.PHP_EOL;
-  echo '<tr><th>Time<a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=desc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25BE;</a><a href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=asc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;
+  echo '<tr><th>Time<a class="blue" href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=desc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25BE;</a><a class="blue" href="?'.htmlspecialchars('page='.$page.'&view='.$view.'&sort=asc&filter='.$filter.'&sys='.$sys.'&datestart='.$datestart.'&dateend='.$dateend).'">&#x25B4;</a></th><th>System</th><th>Site</th><th>Action</th></tr>'.PHP_EOL;
   
   while($row = $result->fetch_assoc()) {         //Read each row of results
     $action = '<a target="_blank" href="'.$Config['SearchUrl'].$row['dns_request'].'"><img class="icon" src="./images/search_icon.png" alt="G" title="Search"></a>&nbsp;<a target="_blank" href="'.$Config['WhoIsUrl'].$row['dns_request'].'"><img class="icon" src="./images/whois_icon.png" alt="W" title="Whois"></a>&nbsp;';

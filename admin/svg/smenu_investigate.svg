@@ -15,7 +15,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="menu_investigate.svg">
+   sodipodi:docname="smenu_investigate.svg">
+  <title
+     id="title8008">NoTrack Investigate</title>
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-44.024288"
-     inkscape:cy="108.26691"
+     inkscape:zoom="5.6"
+     inkscape:cx="69.134199"
+     inkscape:cy="-11.345357"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -49,7 +51,12 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title>NoTrack Investigate</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>QuidsUp</dc:title>
+          </cc:Agent>
+        </dc:creator>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,7 +66,7 @@
      id="layer1"
      transform="translate(0,-992.3622)">
     <circle
-       style="opacity:1;fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4136"
        cx="26.07143"
        cy="1001.4693"
@@ -69,15 +76,15 @@
        cy="1041.6479"
        cx="11.071427"
        id="circle4138"
-       style="opacity:1;fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <circle
        r="7.6785712"
        cy="1024.505"
        cx="49.821434"
        id="circle4140"
-       style="opacity:1;fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#008cd1;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#f7f7f7;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 26.071429,1001.4693 c -11.545506,12.7383 -12.600549,26.5257 -15.000002,40.1786 12.285548,-9.501 25.039798,-16.1898 38.750004,-17.1429 -4.30922,-10.176 -13.289791,-17.118 -23.750002,-23.0357"
        id="path4152"
        inkscape:connector-curvature="0"

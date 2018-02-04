@@ -1,3 +1,11 @@
+v0.8.9 Development
+
+New Styling
+Added Incognito
+Added API
+Fixed bug of notrack not updating blocklist after pausing
+
+*************************************************
 v0.8.8 Released 22 Jan 2018
 
 Added Coin Blocker Lists

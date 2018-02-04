@@ -64,7 +64,7 @@ function change_password_form() {
   
   draw_sysrow('Old Password', '<input type="password" name="old_password" id="password" placeholder="Old Password">');
   
-  draw_sysrow('New Password', '<input type="password" name="password" id="password" placeholder="Password" onkeyup="checkPassword();">');
+  draw_sysrow('New Password', '<input type="password" name="password" id="password" placeholder="Password" onkeyup="checkPassword();" required>');
   draw_sysrow('Confirm Password', '<input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" onkeyup="checkPassword();">');
   
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-blue" value="Change Password"></div></td></tr>';
@@ -90,12 +90,12 @@ function new_password_input_form() {
   echo '<form name="security" method="post">';
   echo '<table class="sys-table">'.PHP_EOL;
     
-  draw_sysrow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'" placeholder="Username"><p><i>Optional authentication username.</i></p>');
+  draw_sysrow('NoTrack Username', '<input type="text" name="username" value="'.$Config['Username'].'" placeholder="Username"><p><i>Optional authentication username</i></p>');
   
-  draw_sysrow('NoTrack Password', '<input type="password" name="password" id="password" placeholder="Password" onkeyup="checkPassword();"><p><i>Optional authentication password.</i></p>');
+  draw_sysrow('NoTrack Password', '<input type="password" name="password" id="password" placeholder="Password" onkeyup="checkPassword();" required><p><i>Authentication password</i></p>');
   draw_sysrow('Confirm Password', '<input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" onkeyup="checkPassword();">');
   
-  draw_sysrow('Delay', '<input type="number" class="input-conf" name="delay" min="5" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts.</i></p>');
+  draw_sysrow('Delay', '<input type="number" class="input-conf" name="delay" min="5" max="2400" value="'.$Config['Delay'].'"><p><i>Delay in seconds between attempts</i></p>');
   echo '<tr><td colspan="2"><div class="centered"><input type="submit" class="button-blue" value="Save Changes"></div></td></tr>';
   echo '</table></form>'.PHP_EOL;
 }
