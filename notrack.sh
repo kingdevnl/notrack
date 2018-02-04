@@ -542,7 +542,7 @@ function get_ip() {
 function get_filetime() {
   #$1 = File to be checked
   if [ -e "$1" ]; then                           #Does file exist?
-    FileTime=$(stat -c %Z "$1")                  #Return time of last status change, seconds since Epoch
+    FileTime=$(stat -c %Y "$1")                  #Get last data modification in secs since Epoch
   else
     FileTime=0                                   #Otherwise retrun 0
   fi
@@ -797,7 +797,7 @@ function is_sql_installed() {
 # Check if an update is required
 #   Triggers for Update being required:
 #   1. -f or --forced
-#   2 Block list older than 4 days
+#   2 Block list older than 3 days
 #   3 White list recently modified
 #   4 Black list recently modified
 #   5 Config recently modified
@@ -814,44 +814,52 @@ function is_sql_installed() {
 #   None
 #--------------------------------------------------------------------
 function is_update_required() {
-  get_filetime "$MAIN_BLOCKLIST"
-  local ListFileTime="$FileTime"
+  local ftime=0
   
-  if [ $Force == 1 ]; then
+  if [ $Force == 1 ]; then                                 #Force overrides
     echo "Forced Update"
     return 0
   fi
-  if [ $ListFileTime -lt $((EXECTIME-CHECKTIME)) ]; then
+  
+  get_filetime "$MAIN_BLOCKLIST"
+  ftime="$FileTime"  
+  if [ $ftime -lt $((EXECTIME-CHECKTIME)) ]; then
     echo "Block List out of date"
     return 0
   fi
+  
   get_filetime "$FILE_WHITELIST"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "White List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_BLACKLIST"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Black List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_CONFIG"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Config recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_DOMAINWHITE"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain White List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_DOMAINBLACK"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain White List recently modified"
     return 0
   fi
+  
   get_filetime "$CSV_DOMAIN"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain Master List recently modified"
     return 0
   fi
