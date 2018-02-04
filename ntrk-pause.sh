@@ -3,7 +3,7 @@
 #Description : NoTrack Pause can pause/stop/start blocking in NoTrack by moving blocklists away from /etc/dnsmasq.d
 #Author : QuidsUp
 #Date : 2016-02-23
-#Last updated with notrack 0.8.2
+#Last updated with notrack 0.8.9
 #Usage : ntrk-pause [--pause | --stop | --start | --status]
 
 #Move file to /scripts at 0.8.5 TODO
@@ -15,11 +15,18 @@ readonly FILE_CONFIG="/etc/notrack/notrack.conf"
 readonly NOTRACK_LIST="/etc/dnsmasq.d/notrack.list"
 readonly NOTRACK_TEMP="/tmp/ntrkpause/notrack.list"
 
+readonly STATUS_ENABLED=1
+readonly STATUS_DISABLED=2
+readonly STATUS_PAUSED=4
+readonly STATUS_INCOGNITO=8
+readonly STATUS_NOTRACKRUNNING=64
+readonly STATUS_ERROR=128
 
 #######################################
 # Global Variables
 #######################################
 pause_time=0
+incognito=0
 
 
 #--------------------------------------------------------------------
@@ -38,6 +45,44 @@ function backup_lists() {
   move_file "$NOTRACK_LIST" "$NOTRACK_TEMP"
 }
 
+
+#--------------------------------------------------------------------
+# Change Status
+#   1: Checks if status exists in config
+#   2: Modify status if exists
+#   3: Add status
+#
+# Globals:
+#   incognoito   
+# Arguments:
+#   $1 - Status
+#   $2 - Unpause time (optional)
+# Returns:
+#   None
+#--------------------------------------------------------------------
+function change_status() {
+  local newstatus=$1
+  let "newstatus += $incognito"
+  
+  if [ ! -e "$FILE_CONFIG" ]; then                         #Does config exist?
+    touch "$FILE_CONFIG"
+  fi
+  
+  if [[ $(grep "status" "$FILE_CONFIG") != "" ]]; then
+    sed -i "s/^\(status *= *\).*/\1$newstatus/" $FILE_CONFIG
+  else
+    echo "status = $newstatus" >> $FILE_CONFIG
+  fi
+  
+  if [ "$2" ]; then
+    if [[ $(grep "unpausetime" "$FILE_CONFIG") != "" ]]; then
+      sed -i "s/^\(unpausetime *= *\).*/\1$2/" $FILE_CONFIG
+    else
+      echo "unpausetime = $2" >> $FILE_CONFIG
+    fi
+  fi
+    
+}
 
 #--------------------------------------------------------------------
 # Check Root
@@ -116,42 +161,44 @@ function delete_folder {
 #   None
 # Returns:
 #   Status of blocking
-#   ? 0 = NoTrack Running with Blocking Enabled
-#   ? 100 = Blocking Paused
-#   ? 101 = Blocking Disabled
-#   ? 102 = Error Unknown Status
-#   ? 103 = NoTrack Running
+#   See STATUS consts at top
 #--------------------------------------------------------------------
 function get_status() {
+  local status=0
+
   if [[ $(pgrep notrack) != "" ]]; then          #Is NoTrack running?
-    return 103
+    return $STATUS_NOTRACKRUNNING
   fi
 
   if [ -e "$FILE_CONFIG" ]; then                 #Does config exist?
-    if [[ $(grep "Status = Paused" "$FILE_CONFIG") != "" ]]; then
-      return 100
-    elif [[ $(grep "Status = Stop" "$FILE_CONFIG") != "" ]]; then
-      return 101
-    else                                         #Status unknown - Check blocklist exists
-      if [ -e "$NOTRACK_LIST" ]; then
-        return 0
-      elif [ -e "$NOTRACK_TEMP" ]; then
-        return 101
-      else
-        return 102                               #No idea - no blocking set
+    if [[ $(grep "status" "$FILE_CONFIG") != "" ]]; then
+      status=$(grep -i status /etc/notrack/notrack.conf | cut -f2 -d= | cut -f2 -d\ )
+      
+      if (( ($status & $STATUS_INCOGNITO ) >0 )); then     #Bitwise checks if incongnito enabled
+        incognito=$STATUS_INCOGNITO                        #Store incongnito result        
+      fi
+      if (( ($status & $STATUS_PAUSED ) >0 )); then        #Bitwise checks
+        return $STATUS_PAUSED
+      fi
+      if (( ($status & $STATUS_DISABLED ) >0 )); then
+        return $STATUS_DISABLED
+      fi
+      if (( ($status & $STATUS_ENABLED ) >0 )); then
+        return $STATUS_ENABLED
       fi
     fi
-  else                                           #No config file, check blocklist exists
-    if [ -e "$NOTRACK_LIST" ]; then
-      return 0
-    elif [ -e "$NOTRACK_TEMP" ]; then
-      return 101
-    else                                         #No idea - no blocking set, no config
-      return 102
-    fi
+  fi
+    
+  #No config file or unknown status, check blocklist exists
+  if [ -e "$NOTRACK_LIST" ]; then
+    return $STATUS_ENABLED
+  elif [ -e "$NOTRACK_TEMP" ]; then
+    return $STATUS_DISABLED
+  else                                                     #No idea - no blocking set, no config
+    return $STATUS_ERROR
   fi
 
-  return 0                                       #Shouldn't get to this point
+  return $STATUS_ERROR                                     #Shouldn't get to this point
 }
 
 
@@ -193,12 +240,12 @@ function move_file() {
 service_restart() {
   if [[ -n $1 ]]; then
     echo "Restarting $1"
-    if [ "$(command -v systemctl)" ]; then       #systemd
-      sudo systemctl restart $1      
-    elif [ "$(command -v service)" ]; then       #sysvinit
-      sudo service $1 restart
-    elif [ "$(command -v sv)" ]; then            #runit
-      sudo sv restart $1
+    if [ "$(command -v systemctl)" ]; then                 #systemd
+      sudo systemctl restart "$1"      
+    elif [ "$(command -v service)" ]; then                 #sysvinit
+      sudo service "$1" restart
+    elif [ "$(command -v sv)" ]; then                      #runit
+      sudo sv restart "$1"
     else
       echo "Unable to restart services. Unknown service supervisor"
       exit 21
@@ -209,7 +256,7 @@ service_restart() {
 
 #--------------------------------------------------------------------
 # Restore Lists
-#   1: Restore all NoTrack blocklists from /tmp/ntrkpause to /etc/dnsmasq.d
+#   1: Restore NoTrack blocklist from /tmp/ntrkpause to /etc/dnsmasq.d
 #   2: If list doesn't exist, then run NoTrack
 #   3: Remove status from config
 #
@@ -226,14 +273,8 @@ function restore_lists() {
     delete_folder "/tmp/ntrkpause"
   else
     echo "Unable to find old blocklists, running NoTrack"
-    /usr/sbin/notrack -f
-  fi
-
-  if [ -e "$FILE_CONFIG" ]; then                 #Remove status from Config file
-    echo "Removing status from Config file"
-    grep -v "Status" "$FILE_CONFIG" > /tmp/notrack.conf
-    move_file "/tmp/notrack.conf" "$FILE_CONFIG"
-  fi
+    /usr/local/sbin/notrack -f
+  fi  
 }
 
 
@@ -278,20 +319,20 @@ show_status() {
   get_status
 
   case $? in
-    0)
-      echo "Status 0: Blocking Enabled"
+    $STATUS_ENABLED)
+      echo "Status $STATUS_ENABLED: Blocking Enabled"
       ;;
-    100)
-      echo "Status 100: Blocking Paused"
+    $STATUS_PAUSED)
+      echo "Status $STATUS_PAUSED: Blocking Paused"
       ;;
-    101)
-      echo "Status 101: Blocking Disabled"
+    $STATUS_DISABLED)
+      echo "Status $STATUS_DISABLED: Blocking Disabled"
       ;;
-    102)
-      echo "Status 102: Old config exists, but status unknown"
+    $STATUS_ERROR)
+      echo "Status $STATUS_ERROR: Old config exists, but status unknown"
       ;;
-    103)
-      echo "Status 103: NoTrack already running"
+    $STATUS_NOTRACKRUNNING)
+      echo "Status $STATUS_NOTRACKRUNNING: NoTrack already running"
       ;;
   esac
   exit 0
@@ -315,26 +356,27 @@ disable_blocking() {
 
   get_status
   case "$?" in
-    0)                                           #Enable > Disabled
+    $STATUS_ENABLED)                                       #Enable > Disabled
+      echo "Disabling blocking"
       backup_lists
-      echo "Status = Stop" >> $FILE_CONFIG
+      change_status $STATUS_DISABLED
       service_restart dnsmasq
       ;;
-    100)                                         #Paused > Disabled
+    $STATUS_PAUSED)                                        #Paused > Disabled
       echo "Switching from Paused to Disabled"
       sed -i "s/^\(Status *= *\).*/\1Stop/" $FILE_CONFIG
       ;;
-    101)
+    $STATUS_DISABLED)
       echo "NoTrack blocking already Disabled"
-      return 101
+      return $STATUS_DISABLED
       ;;
-    102)
+    $STATUS_ERROR)
       echo "Unknown Status"
-      exit 102
+      exit $STATUS_ERROR
       ;;
-    103)
+    $STATUS_NOTRACKRUNNING)
       echo "NoTrack already running"
-      exit 103
+      exit $STATUS_NOTRACKRUNNING
       ;;
   esac
 }
@@ -357,20 +399,22 @@ enable_blocking() {
 
   get_status
   case "$?" in
-    0)                                           #Enable > Enabled
+    $STATUS_ENABLED)                                       #Enable > Enabled
       echo "NoTrack blocking already enabled"
       ;;
-    100 | 101)                                   #Paused | Stop > Enable
+    $STATUS_PAUSED | $STATUS_DISABLED)                     #Paused | Stop > Enable
+      echo "Enabling NoTrack"
+      change_status $STATUS_ENABLED 0
       restore_lists
       service_restart dnsmasq
       ;;
-    102)
+    $STATUS_ERROR)
       echo "Unknown Status, running NoTrack to enable blocking"
       /usr/local/sbin/notrack
       ;;
-    103)
+    $STATUS_NOTRACKRUNNING)
       echo "NoTrack already running"
-      exit 103
+      exit $STATUS_NOTRACKRUNNING
       ;;
   esac
 }
@@ -384,7 +428,7 @@ enable_blocking() {
 #   4. Sleep for ntrk-pause $2 minutes
 #   5. Restore blocklists
 # Globals:
-#   None
+#   pause_time
 # Arguments:
 #   None
 # Returns:
@@ -394,33 +438,33 @@ function pause_blocking() {
   local unpause_time=0
 
   #Calculate unpause time, based on (Current Epoch time + (ntrk-pause $2 * 60))
-  unpause_time=$(date +%s)                       #Epoch time now
+  unpause_time=$(date +%s)                                 #Epoch time now
   let unpause_time+="($pause_time * 60)"
 
   check_root
 
   get_status
   case $? in
-    0)                                           #Enabled > Paused
+    $STATUS_ENABLED)                                       #Enabled > Paused
       backup_lists
       service_restart dnsmasq
-      echo "Status = Paused$unpause_time" >> $FILE_CONFIG
+      change_status $STATUS_PAUSED $unpause_time      
       ;;
-    100)                                         #Paused > Different Pause Time
+    $STATUS_PAUSED)                                        #Paused > Different Pause Time
       echo "Changing Pause time"
-      sed -i "s/^\(Status *= *\).*/\1Paused$unpause_time/" $FILE_CONFIG
+      change_status $STATUS_PAUSED $unpause_time      
       ;;
-    101)                                         #Disabled > Paused
+    $STATUS_DISABLED)                                      #Disabled > Paused
       echo "Switching from Disabled to Paused"
-      sed -i "s/^\(Status *= *\).*/\1Paused$unpause_time/" $FILE_CONFIG
+      change_status $STATUS_PAUSED $unpause_time      
       ;;
-    102)                                         #Unknown
+    $STATUS_ERROR)                                         #Unknown
       echo "Old config exists, but status unknown"
-      exit 102
+      exit $STATUS_ERROR
       ;;
-    103)
+    $STATUS_NOTRACKRUNNING)
       echo "NoTrack already running"
-      exit 103
+      exit $STATUS_NOTRACKRUNNING
       ;;
   esac
 
@@ -429,6 +473,7 @@ function pause_blocking() {
   sleep "${pause_time}m"
 
   restore_lists
+  change_status $STATUS_ENABLED 0
   service_restart dnsmasq
 }
 
@@ -480,22 +525,25 @@ else                                             #No commands passed
 
   get_status
   case $? in
-    0)
+    $STATUS_ENABLED)
       echo "Pausing NoTrack for 15 minutes"
       pause_time=15
       pause_blocking
       ;;
-    100)
+    $STATUS_PAUSED)
       echo "Unpausing NoTrack"
       enable_blocking
       ;;
-    101)
+    $STATUS_DISABLED)
       echo "Enabling NoTrack"
       enable_blocking
       ;;
-    102)
+    $STATUS_NOTRACKRUNNING)
+      echo "Wait. NoTrack processing blocklists"      
+      ;;
+    $STATUS_ERROR)
       echo "Pause status unknown. Running NoTrack"
-      /usr/sbin/notrack -f
+      /usr/local/sbin/notrack -f
       ;;
   esac
 fi

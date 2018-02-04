@@ -10,6 +10,7 @@
 #Processing is done on the array from memory
 #Between 04:00 to 04:20 Live table is copied to Historic table
 #For systems not running 24/7 Live table is copied after data is over 1 day old
+#In event of STATUS_INCOGNITO being set, blank out log files and don't store anything
 
 #######################################
 # Constants
@@ -17,9 +18,11 @@
 readonly FILE_LIGHTYLOG="/var/log/lighttpd/access.log"
 readonly FILE_DNSLOG="/var/log/notrack.log"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
-readonly MAXAGE=88000                            #Just over 1 day in seconds
+readonly MAXAGE=88000                                      #Just over 1 day in seconds
 readonly MINLINES=50
-readonly VERSION="0.8.4"
+readonly VERSION="0.8.9"
+
+readonly STATUS_INCOGNITO=8                                #STATUS_INCOGNITO is the only status relevent to ntrk-parse
 
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
@@ -33,6 +36,8 @@ YESTERDAY_DATE="$(date -d "1 day ago" "+%Y-%m-%d")"
 # Global Variables
 #######################################
 simpleurl=""
+status=1
+
 declare -a logarray
 
 declare -A commonsites
@@ -217,7 +222,8 @@ function load_config() {
       value="${value#\"*}"     # Del closing string quotes 
         
       case "$key" in
-        Suppress) suppress_str="$value";;        
+        Suppress) suppress_str="$value";;
+        status) status="$value";;
       esac            
     fi
   done < $FILE_CONFIG  
@@ -584,10 +590,17 @@ check_root                                       #Are we running as root?
 is_sql_installed
 load_config                                      #Load users config
 
+if (( ($status & $STATUS_INCOGNITO ) >0 )); then           #Bitwise checks if incongnito enabled
+  #echo "Incognito mode set"                               #Debugging
+  cat /dev/null > "$FILE_LIGHTYLOG"                        #Empty lighty log file
+  cat /dev/null > "$FILE_DNSLOG"                           #Empty DNS log file
+  exit 0                                                   #Exit safely to make sure no data is recorded in Incognito mode
+fi
+
 #Make sure there is something in lighttpd access log 
 if [ "$(wc -l "$FILE_LIGHTYLOG" | cut -d " " -f 1)" -gt 2 ]; then
   load_lightylog                                 #Load lighttpd log file into array
-  process_lightylog                            #Process and add log to SQL table  
+  process_lightylog                              #Process and add log to SQL table  
 fi
 
 logarray=()                                      #Empty logarray for reuse
