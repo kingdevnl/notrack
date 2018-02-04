@@ -371,7 +371,7 @@ function show_custom_list($view) {
   echo '</div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
-  echo '<table id="cfg-custom-table">'.PHP_EOL;
+  echo '<table id="cfg-custom-table">'.PHP_EOL;            //Start custom list table
   $i = 1;
 
   if ($searchbox == '') {
@@ -403,11 +403,11 @@ function show_custom_list($view) {
   echo '<input type="text" class="ninty" name="comment'.$i.'" placeholder="comment"></td>';
   echo '<td><button class="button-grey" onclick="addSite('.$i.')">Save</button></td></tr>';                            //End add new site row
         
-  echo '</table></div>'.PHP_EOL;
+  echo '</table>'.PHP_EOL;                                 //End custom list table
   
-  echo '<div class="sys-group"><div class="centered">'.PHP_EOL;  
-  echo '<a href="./include/downloadlist.php?v='.$view.'" class="button-grey">Download List</a>&nbsp;&nbsp;';
-  echo '<a href="?v='.$view.'&amp;action='.$view.'&amp;do=update" class="button-blue">Update Blocklists</a>';
+  echo '<div class="centered"><br>'.PHP_EOL;  
+  echo '<a href="?v='.$view.'&amp;action='.$view.'&amp;do=update" class="button-blue">Update Blocklists</a>&nbsp;&nbsp;';
+  echo '<a href="./include/downloadlist.php?v='.$view.'" class="button-grey">Download List</a>';
   echo '</div></div>'.PHP_EOL;  
 }
 

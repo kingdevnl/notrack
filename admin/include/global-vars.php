@@ -1,12 +1,19 @@
 <?php
 
-DEFINE('VERSION', '0.8.8');
-DEFINE('SERVERNAME', 'localhost');
-DEFINE('USERNAME', 'ntrk');
-DEFINE('PASSWORD', 'ntrkpass');
-DEFINE('DBNAME', 'ntrkdb');
+define('STATUS_ENABLED', 1);
+define('STATUS_DISABLED', 2);
+define('STATUS_PAUSED', 4);
+define('STATUS_INCOGNITO', 8);
+define('STATUS_NOTRACKRUNNING', 64);
+define('STATUS_ERROR', 128);
 
-DEFINE('ROWSPERPAGE', 200);
+define('VERSION', '0.8.8');
+define('SERVERNAME', 'localhost');
+define('USERNAME', 'ntrk');
+define('PASSWORD', 'ntrkpass');
+define('DBNAME', 'ntrkdb');
+
+define('ROWSPERPAGE', 200);
 
 $FileBlackList = '/etc/notrack/blacklist.txt';
 $FileWhiteList = '/etc/notrack/whitelist.txt';
@@ -14,24 +21,24 @@ $FileTLDBlackList = '/etc/notrack/domain-blacklist.txt';
 $FileTLDWhiteList = '/etc/notrack/domain-whitelist.txt';
 $LogLightyAccess = '/var/log/lighttpd/access.log';
 
-DEFINE('DIR_TMP', '/tmp/');
-DEFINE('ACCESSLOG', '/var/log/ntrk-admin.log');
-DEFINE('CONFIGFILE', '/etc/notrack/notrack.conf');
-DEFINE('CONFIGTEMP', '/tmp/notrack.conf');
-DEFINE('TLD_FILE', './include/tld.csv');
-DEFINE('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
-DEFINE('NOTRACK_LIST', '/etc/dnsmasq.d/notrack.list');
-DEFINE('REGEX_DATE', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])$/');
-DEFINE('REGEX_TIME', '/([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
-DEFINE('REGEX_DATETIME', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])\s([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
-DEFINE('REGEX_DOMAIN', '/[\w\d\-\_]+\.(org\.|co\.|com\.|gov\.)?[\w\d\-\_]+$/');
+define('DIR_TMP', '/tmp/');
+define('ACCESSLOG', '/var/log/ntrk-admin.log');
+define('CONFIGFILE', '/etc/notrack/notrack.conf');
+define('CONFIGTEMP', '/tmp/notrack.conf');
+define('TLD_FILE', './include/tld.csv');
+define('NTRK_EXEC', 'sudo /usr/local/sbin/ntrk-exec ');
+define('NOTRACK_LIST', '/etc/dnsmasq.d/notrack.list');
+define('REGEX_DATE', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])$/');
+define('REGEX_TIME', '/([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
+define('REGEX_DATETIME', '/^2[0-1][0-9][0-9]\-[0-1][0-9]\-(0[1-9]|[1-2][0-9]|3[01])\s([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/');
+define('REGEX_DOMAIN', '/[\w\d\-\_]+\.(org\.|co\.|com\.|gov\.)?[\w\d\-\_]+$/');
 
 $Config=array();
 
 $DEFAULTCONFIG = array(
   'NetDev' => 'eth0',
   'IPVersion' => 'IPv4',
-  'Status' => 'Enabled',
+  'status' => STATUS_ENABLED,
   'BlockMessage' => 'pixel',
   'Search' => 'DuckDuckGo',
   'SearchUrl' => '',
@@ -43,6 +50,7 @@ $DEFAULTCONFIG = array(
   'Delay' => 30,
   'Suppress' => '',
   'ParsingTime' => 10,
+  'unpausetime' => 0,
   'bl_custom' => '',
   'bl_notrack' => 1,
   'bl_tld' => 1,
