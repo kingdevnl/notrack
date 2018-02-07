@@ -603,11 +603,11 @@ span.logo {
 #dropbutton {
   display: inline-block;
 }
-span.pbutton, #dropbutton {  
+span.pause-btn, #dropbutton {  
   padding: 0.2rem 0.4rem;  
   border-radius: 2px;
 }
-span.pbutton {
+span.pause-btn {
   font-weight: bold;  
 }
 span.timer {
