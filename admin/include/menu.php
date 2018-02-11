@@ -20,7 +20,7 @@ function action_topmenu() {
         exec(NTRK_EXEC.'--force');
         sleep(3);                                //Prevent race condition
         header("Location: ?");
-        break;
+        break;      
       case 'restart':
         sleep(2);
         exec(NTRK_EXEC.'--restart');
@@ -50,11 +50,11 @@ function action_topmenu() {
         exec(NTRK_EXEC.'--pause 60');
         break;    
       case 'start':                              //Start / Play
-        if ($Config['Status'] != 'Enabled') {
-          exec(NTRK_EXEC.'-p');
+        if ($Config['status'] & STATUS_ENABLED) {
+          return false;
         }
         else {
-          return false;
+          exec(NTRK_EXEC.'-p');
         }
         break;
       case 'stop':                               //Stop
@@ -81,15 +81,17 @@ function action_topmenu() {
  */
 function draw_sidemenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;  
-  echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="" title="Dashboard">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/queries.php"><span><img src="./svg/menu_queries.svg" alt="" title="DNS Queries">DNS Queries</span></a>'.PHP_EOL;
-  echo '<a href="../admin/investigate.php"><span><img src="./svg/menu_investigate.svg" alt="" title="Investigate">Investigate</span></a>'.PHP_EOL;
-  echo '<a href="../admin/blocked.php"><span><img src="./svg/menu_blocked.svg" alt="" title="Sites Blocked">Sites Blocked</span></a>'.PHP_EOL;
-  echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/menu_dhcp.svg" alt="" title="Network">Network</span></a>'.PHP_EOL;
-  echo '<a href="../admin/config.php"><span><img src="./svg/menu_config.svg" alt="" title="Config">Config</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="" title="Help">Help</span></a>'.PHP_EOL;
+  echo '<a href="../admin/"><span><img src="./svg/smenu_dashboard.svg" alt="" title="Dashboard">Dashboard</span></a>'.PHP_EOL;
+  echo '<a href="../admin/queries.php"><span><img src="./svg/smenu_queries.svg" alt="" title="DNS Queries">DNS Queries</span></a>'.PHP_EOL;
+  echo '<a href="../admin/investigate.php"><span><img src="./svg/smenu_investigate.svg" alt="" title="Investigate">Investigate</span></a>'.PHP_EOL;
+  echo '<a href="../admin/blocked.php"><span><img src="./svg/smenu_blocked.svg" alt="" title="Sites Blocked">Sites Blocked</span></a>'.PHP_EOL;
+  echo '<a href="../admin/dhcpleases.php"><span><img src="./svg/smenu_dhcp.svg" alt="" title="Network">Network</span></a>'.PHP_EOL;
+  echo '<a href="../admin/config.php"><span><img src="./svg/smenu_config.svg" alt="" title="Config">Config</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php"><span><img src="./svg/smenu_help.svg" alt="" title="Help">Help</span></a>'.PHP_EOL;
   
-  echo '<div id="menu-side-bottom"><a href="https://quidsup.net/donate" target="_blank"><img src="./svg/menu_don.svg" alt="Donate" title="Donate"></a></div>'.PHP_EOL;
+  sidemenu_sysstatus();
+  
+  echo '<span id="menu-side-bottom"><a href="https://quidsup.net/donate" target="_blank"><img src="./svg/smenu_don.svg" alt="Donate" title="Donate"></a></span>'.PHP_EOL;
   echo '</div></nav>'.PHP_EOL;
   echo PHP_EOL;
 }
@@ -106,7 +108,7 @@ function draw_sidemenu() {
 function draw_helpmenu() {
   echo '<nav><div id="menu-side">'.PHP_EOL;
   echo '<a href="../admin/"><span><img src="./svg/menu_dashboard.svg" alt="">Dashboard</span></a>'.PHP_EOL;
-  echo '<a href="../admin/help.php"><span><img src="./svg/menu_help.svg" alt="">Help</span></a>'.PHP_EOL;
+  echo '<a href="../admin/help.php"><span><img src="./svg/smenu_help.svg" alt="">Help</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=security"><span>Security</span></a>'.PHP_EOL;
   echo '<a href="../admin/help.php?p=position" title="Where To Position NoTrack Device"><span>Positioning Device</span></a>'.PHP_EOL;  
   
@@ -117,9 +119,10 @@ function draw_helpmenu() {
 
 /********************************************************************
  *  Draw Top Menu
+ *    mobile-hide class is used to hide button text on mobile sized displays
  *
  *  Params:
- *    None
+ *    Current Page Title (optional)
  *  Return:
  *    None
  */
@@ -127,22 +130,29 @@ function draw_topmenu($currentpage='') {
   global $Config, $mem;
   
   echo '<nav><div id="menu-top">'.PHP_EOL;
-  echo '<span class="top-menu-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
+  echo '<span class="menu-top-item float-left pointer" onclick="openNav()">&#9776;</span>'.PHP_EOL;
   
-  if ($currentpage == '') {
+  if ($currentpage == '') {                                //Display version number when $currentpage has not been set
     echo '<a href="./"><span class="logo"><b>No</b>Track <small>v'.VERSION.' A</small></span></a>'.PHP_EOL;
   }
-  else {
+  else {                                                   //$currentpage set, display that next to NoTrack logo
     echo '<a href="./"><span class="logo"><b>No</b>Track <small> - '.$currentpage.'</small></span></a>'.PHP_EOL;
   }
   
-  if (is_password_protection_enabled()) {         //Only do Logout if there is a password
-    echo '<a href="../admin/logout.php"><span class="top-menu-item float-right"><img src="./svg/menu_logout.svg" alt="">Logout</span></a>'.PHP_EOL;
+  if (is_password_protection_enabled()) {                  //Show Logout button if there is a password
+    echo '<a href="../admin/logout.php"><span class="menu-top-item float-right"><img src="./svg/menu_logout.svg" alt=""><span class="mobile-hide">Logout</span></span></a>'.PHP_EOL;
   }
-  echo '<span class="top-menu-item float-right pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt="">Options</span>'.PHP_EOL;
-
-  //If Status = Paused & Enable Time < Now then switch Status to Enabled
-  if ((substr($Config['Status'], 0, 6) == 'Paused') && (floatval(substr($Config['Status'], 6))) < (time()+60)) {
+  echo '<span class="menu-top-item float-right pointer" onclick="ShowOptions()"><img src="./svg/menu_option.svg" alt=""><span class="mobile-hide">Options</span></span>'.PHP_EOL;
+  
+  if ($Config['status'] & STATUS_INCOGNITO) {              //Is Incognito set? Draw purple button and text
+    echo '<span class="menu-top-item float-right pointer" onclick="menuIncognito()"><img id="incognito-button" src="./svg/menu_incognito_active.svg" alt=""><span id="incognito-text" class="mobile-hide purple">Incognito</span></span>'.PHP_EOL;
+  }
+  else {                                                   //No, draw white button and text
+    echo '<span class="menu-top-item float-right pointer" onclick="menuIncognito()"><img id="incognito-button" src="./svg/menu_incognito.svg" alt=""><span id="incognito-text" class="mobile-hide">Incognito</span></span>'.PHP_EOL;
+  }
+  
+  //If Status = Paused AND UnpauseTime < Now plus a few seconds then force reload of Config
+  if (($Config['status'] & STATUS_PAUSED) && ($Config['unpausetime'] < (time()+10))) {
     $mem->delete('Config');
     load_config();
   }
@@ -150,18 +160,20 @@ function draw_topmenu($currentpage='') {
   echo '<div id="pause">'.PHP_EOL;
   echo '<form id="pause-form" action="?" method="post">'.PHP_EOL;
   echo '<input type="hidden" name="pause-time" id="pause-time" value="">'.PHP_EOL;
-  if (substr($Config['Status'], 0, 6) == 'Paused') {
-    echo '<span class="timer" title="Paused until">'.date('H:i', substr($Config['Status'], 6)).'</span>'.PHP_EOL;
-    echo '<span class="pbutton pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
+  if ($Config['status'] & STATUS_PAUSED) {
+    echo '<span id="pause-timer" class="timer" title="Paused until">'.date('H:i', $Config['unpausetime']).'</span>'.PHP_EOL;
+    echo '<span id="pause-button" class="pause-btn pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
   }
-  elseif ($Config['Status'] == 'Stop') {
-    echo '<span class="timer" title="NoTrack Disabled">----</span>'.PHP_EOL;
-    echo '<span class="pbutton pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
+  elseif ($Config['status'] & STATUS_DISABLED) {
+    echo '<span id="pause-timer" class="timer" title="NoTrack Disabled">----</span>'.PHP_EOL;
+    echo '<span id="pause-button" class="pause-btn pointer" title="Enable Blocking" onclick="PauseNoTrack(\'start\')">&#9654;</span>'.PHP_EOL;
   }
   else {
-    echo '<span class="pbutton pointer" title="Disable Blocking" onclick="PauseNoTrack(\'stop\')">&#8545;</span>'.PHP_EOL;
+    echo '<span id="pause-timer"></span>'.PHP_EOL;
+    echo '<span id="pause-button" class="pause-btn pointer" title="Disable Blocking" onclick="PauseNoTrack(\'stop\')">&#8545;</span>'.PHP_EOL;
   }
   
+  //Dropdown menu for default pause times
   echo '<div tabindex="1" id="dropbutton" title="Pause for..."><span class="pointer">&#x25BC;</span>'.PHP_EOL;
   echo '<div id="pause-menu">'.PHP_EOL;  
   echo '<span class="pointer" onclick="PauseNoTrack(\'pause\', 5)">Pause for 5 minutes</span>'.PHP_EOL;
@@ -180,7 +192,7 @@ function draw_topmenu($currentpage='') {
   echo '<div class="centered"><img src="./images/progress.gif" alt=""></div>'.PHP_EOL;
   echo '</div>'.PHP_EOL;
 
-  //Operations
+  //Operations 
   echo '<div id="options-box">'.PHP_EOL;
   echo '<div class="dialog-bar">Options</div>'.PHP_EOL;
   echo '<div class="centered">'.PHP_EOL;
@@ -196,4 +208,52 @@ function draw_topmenu($currentpage='') {
   echo '</div></div>'.PHP_EOL;
 
   echo '<div id="fade"></div>'.PHP_EOL;
+}
+
+
+/********************************************************************
+ *  Side Menu Status
+ *
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+function sidemenu_sysstatus() {
+  global $Config;
+  
+  $sysload = sys_getloadavg();
+  $freemem = preg_split('/\s+/', exec('free -m | grep Mem'));
+  
+  $mempercentage = round(($freemem[2]/$freemem[1])*100);
+
+  echo '<div id="menu-side-status">'.PHP_EOL;              //Start menu-side-status
+  echo '<div><img src="./svg/status_screen.svg" alt="">System Status</div>';
+  
+  if ($Config['status'] & STATUS_ENABLED) {
+    if (file_exists(NOTRACK_LIST)) {
+      echo '<div><img src="./svg/status_green.svg" alt="">Blocking: Enabled</div>'.PHP_EOL;
+    }
+    else {
+      if (file_exists(NOTRACK_LIST)) {
+        echo '<div><img src="./svg/status_red.svg" alt="">Blocklist Missing</div>'.PHP_EOL;
+      }
+    }
+  }
+  elseif ($Config['status'] & STATUS_PAUSED) {
+    echo '<div><img src="./svg/status_yellow.svg" alt="">Blocking: Paused</div>'.PHP_EOL;
+  }
+  elseif ($Config['status'] & STATUS_DISABLED) {
+    echo '<div><img src="./svg/status_red.svg" alt="">Blocking: Disabled</div>'.PHP_EOL;
+  }
+  
+  if ($mempercentage > 85) echo '<div><img src="./svg/status_red.svg" alt="">Memory Used: '.$mempercentage.'%</div>'.PHP_EOL;
+  elseif ($mempercentage > 60) echo '<div><img src="./svg/status_yellow.svg" alt="">Memory Used: '.$mempercentage.'%</div>'.PHP_EOL;
+  else echo '<div><img src="./svg/status_green.svg" alt="">Memory Used: '.$mempercentage.'%</div>'.PHP_EOL;
+  
+  if ($sysload[0] > 0.85) echo '<div><img src="./svg/status_red.svg" alt="">Load: ', $sysload[0].' | '.$sysload[1].' | '.$sysload[2].'</div>'.PHP_EOL;
+  elseif ($sysload[0] > 0.60) echo '<div><img src="./svg/status_yellow.svg" alt="">Load: ', $sysload[0].' | '.$sysload[1].' | '.$sysload[2].'</div>'.PHP_EOL;
+  else echo '<div><img src="./svg/status_green.svg" alt="">Load: ', $sysload[0].' | '.$sysload[1].' | '.$sysload[2].'</div>'.PHP_EOL;
+  
+  echo '</div>'.PHP_EOL;                                   //End menu-side-status
 }

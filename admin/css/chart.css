@@ -1,9 +1,13 @@
 @charset "utf-8";
 /*CSS to cover the extra items in charts*/
+.linechart-container {
+  margin: 1.5em 0.8em;
+  width: 98%;
+}
 .axistext {
   font-family: Arial; 
-  font-size: 38px; 
-  fill: #666666;
+  font-size: 34px; 
+  fill: #202020;
 }
 .axisline {
   fill:none;
@@ -18,5 +22,5 @@
   stroke-opacity:0.9;
 }
 .shadow {
-  filter: drop-shadow( 1px 2px 4px rgba(0, 0, 0, .5));
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
 }

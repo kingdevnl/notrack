@@ -11,6 +11,7 @@ ensure_active_session();
 <head>
   <meta charset="UTF-8">
   <link href="./css/master.css" rel="stylesheet" type="text/css">
+  <link href="./css/home.css" rel="stylesheet" type="text/css">
   <link href="./css/chart.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
@@ -47,7 +48,7 @@ $db = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
  *  Return:
  *    None
  */
-function draw_blocklistbox() {
+function home_blocklist() {
   $rows = 0;
   
   exec('pgrep notrack', $pids);
@@ -62,18 +63,21 @@ function draw_blocklistbox() {
 
 
 /********************************************************************
- *  DNS Queries Box
+ *  DHCP Network Box
+ *    Read number of lines from dnsmasq.leases using wc
+ *    Split into columns using cut with delimiter of space
+ *    Take 1st field
  *
  *  Params:
  *    None
  *  Return:
  *    None
  */
-function draw_dhcpbox() {
-  if (file_exists('/var/lib/misc/dnsmasq.leases')) { //DHCP Active
+function home_network() {
+  if (file_exists('/var/lib/misc/dnsmasq.leases')) {       //DHCP Active
     echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr><span>'.number_format(floatval(exec('wc -l /var/lib/misc/dnsmasq.leases | cut -d\  -f 1'))).'<br>Systems</span><div class="icon-box"><img src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
   }
-  else {                                           //DHCP Disabled
+  else {                                                   //DHCP Disabled
     echo '<a href="./dhcpleases.php"><div class="home-nav"><h2>Network</h2><hr><span>DHCP Disabled</span><div class="icon-box"><img class="full" src="./svg/home_dhcp.svg" alt=""></div></div></a>'.PHP_EOL;
   }  
 }
@@ -87,7 +91,7 @@ function draw_dhcpbox() {
  *  Return:
  *    None
  */
-function draw_queriesbox() {
+function home_queries() {
   global $CHARTCOLOURS;
 
   $total = 0;
@@ -107,20 +111,28 @@ function draw_queriesbox() {
   else {
     $chartdata = array($allowed, $blocked, $local);
   }
-  
-  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>'.number_format(floatval($total)).'<br>Today'.PHP_EOL;
+  if ($allowed > 0) {
+    $allowed = floatval(($allowed/$total)*100);
+  }
+
+  if ($blocked > 0) {
+    $blocked = floatval(($blocked/$total)*100);
+  }  
+
+  echo '<a href="./queries.php"><div class="home-nav"><h2>DNS Queries</h2><hr><span>' . number_format(floatval($total)) . '<br>Today'.PHP_EOL;
   echo '<svg width="20em" height="3em" overflow="visible">'.PHP_EOL;
-  echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format(floatval(($allowed/$total)*100)).'% Allowed</text>'.PHP_EOL;
-  echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format(floatval(($blocked/$total)*100)).'% Blocked</text>'.PHP_EOL;
+  echo '<text x="0" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[0].'">'.number_format($allowed).'% Allowed</text>'.PHP_EOL;
+  echo '<text x="6.4em" y="2em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[1].'">'.number_format($blocked).'% Blocked</text>'.PHP_EOL;
   if ($local > 0) {
-    echo '<text x="0" y="3.3em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[2].'">'.number_format(floatval(($local/$total)*100)).'% Local</text>'.PHP_EOL;
+    $local = floatval(($local/$total)*100);
+    echo '<text x="0" y="3.3em" style="font-family: Arial; font-size: 0.58em; fill:'.$CHARTCOLOURS[2].'">'.number_format($local).'% Local</text>'.PHP_EOL;
   }
   echo '</svg></span>';
   
   echo '<div class="chart-box">'.PHP_EOL;
   echo '<svg width="100%" height="90%" viewbox="0 0 200 200">'.PHP_EOL;
   echo piechart($chartdata, 100, 100, 98, $CHARTCOLOURS);
-  echo '<circle cx="100" cy="100" r="30" stroke="#00000A" stroke-width="2" fill="#f7f7f7" />'.PHP_EOL;
+  echo '<circle cx="100" cy="100" r="30" stroke="#202020" stroke-width="2" fill="#eaf1f1" />'.PHP_EOL;  //Small overlay circle
   echo '</svg>'.PHP_EOL;
   //<img src="./svg/home_queries.svg" srcset="./svg/home_queries.svg" alt="">
   echo '</div></div></a>'.PHP_EOL;
@@ -129,67 +141,93 @@ function draw_queriesbox() {
 
 /********************************************************************
  *  Status Box
- *
+ *    Check $Config for status
+ *    Look at the file modified time for NoTrack file under /etc/dnsmasq
  *  Params:
  *    None
  *  Return:
  *    None
  */
-function draw_statusbox() {
+function home_status() {
   global $Config;
 
   $currenttime = time();
+  $date_bgcolour = '';
   $date_msg = '';
   $date_submsg = '<h2>Block list is in date</h2>';
   $filemtime = 0;
+  $status_bgcolour = '';
   $status_msg = '';
+  $status_submsg = '';
+  $upgrade_available = false;
   
-  if (substr($Config['Status'], 0, 6) == 'Paused') {
-    $status_msg = '<h4>Paused</h4>';
+  if ($Config['status'] & STATUS_PAUSED) {
+    $status_msg = '<h3 class="darkgray">Paused</h3>';
+    $status_bgcolour = ' home-bgyellow';
     $date_msg = '<h2>---</h2>';
     $date_submsg = '';
   }
-  elseif ($Config['Status'] == 'Stop') {
-    $status_msg = '<h6>Disabled</h6>';
+  elseif ($Config['status'] & STATUS_DISABLED) {
+    $status_msg = '<h3 class="darkgray">Disabled</h3>';
+    $status_bgcolour = ' home-bgred';
     $date_msg = '<h2>---</h2>';
     $date_submsg = '';
   }
   else {
-    $status_msg = '<h3>Active</h3>';
+    $status_msg = '<h3 class="green">Active</h3>';
+    
+    //Is an upgrade Needed?
+    if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {
+      $upgrade_available = true;
+      $status_bgcolour = ' home-bggreen';
+      $status_msg = '<h3 class="darkgray">Upgrade</h3>';
+      $status_submsg = '<h2>New version available: v'.$Config['LatestVersion'].'</h2>';  
+    }    
   }
   
   if (file_exists(NOTRACK_LIST)) {               //Does the notrack.list file exist?
     $filemtime = filemtime(NOTRACK_LIST);        //Get last modified time
-    if ($filemtime > $currenttime - 86400) $date_msg = '<h3>Today</h3>';
-    elseif ($filemtime > $currenttime - 172800) $date_msg = '<h3>Yesterday</h3>';
-    elseif ($filemtime > $currenttime - 259200) $date_msg = '<h3>3 Days ago</h3>';
-    elseif ($filemtime > $currenttime - 345600) $date_msg = '<h3>4 Days ago</h3>';
+    if ($filemtime > $currenttime - 86400) $date_msg = '<h3 class="green">Today</h3>';
+    elseif ($filemtime > $currenttime - 172800) $date_msg = '<h3 class="green">Yesterday</h3>';
+    elseif ($filemtime > $currenttime - 259200) $date_msg = '<h3 class="green">3 Days ago</h3>';
+    elseif ($filemtime > $currenttime - 345600) $date_msg = '<h3 class="green">4 Days ago</h3>';
     elseif ($filemtime > $currenttime - 432000) {  //5 days onwards is getting stale
-      $date_msg = '<h4>5 Days ago</h4>';
+      $date_bgcolour = 'home-bgyellow';
+      $date_msg = '<h3 class="darkgray">5 Days ago</h3>';
       $date_submsg = '<h2>Block list is old</h2>';
     }
     elseif ($filemtime > $currenttime - 518400) {
-      $date_msg = '<h4>6 Days ago</h4>';
+      $date_bgcolour = 'home-bgyellow';
+      $date_msg = '<h3 class="darkgray">6 Days ago</h3>';
       $date_submsg = '<h2>Block list is old</h2>';
     }
     elseif ($filemtime > $currenttime - 1209600) {
-      $date_msg = '<h4>Last Week</h4>';
+      $date_bgcolour = 'home-bgred';
+      $date_msg = '<h3 class="darkgray">Last Week</h3>';
       $date_submsg = '<h2>Block list is old</h2>';
     }
     else {                                       //Beyond 2 weeks is too old
-      $date_msg = '<h6>'.date('d M', $filemtime).'</h6>';
-      $date_submsg = '<h6>Out of date</h6>';
+      $date_bgcolour = 'home-bgred';
+      $date_msg = '<h3 class="darkgray">'.date('d M', $filemtime).'</h3>';
+      $date_submsg = '<h3 class="red">Out of date</h3>';
     }
   }  
   else {
-    if ($status_msg == '<h3>Active</h3>') {
-      $status_msg = '<h6>Block List Missing</h6>';
-      $date_msg = '<h6>Unknown</h6>';
+    if ($Config['status'] & STATUS_ENABLED) {
+      $status_msg = '<h3 class="darkgray">Block List Missing</h3>';
+      $date_msg = '<h3 class="darkgray">Unknown</h3>';
+      $date_bgcolour = 'home-bgred';
+      $status_bgcolour = 'home-bgred';
     }
   }
 
-  echo '<a href="#"><div class="home-nav"><h2>Status</h2><hr><br>'.$status_msg.'</div></a>'.PHP_EOL;
-  echo '<a href="#"><div class="home-nav"><h2>Last Updated</h2><hr><br>'.$date_msg.$date_submsg.'</div></a>'.PHP_EOL;
+  if ($upgrade_available) {
+    echo '<a href="./upgrade.php"><div class="home-nav'.$status_bgcolour.'"><h2>Status</h2><hr><br>'.$status_msg.$status_submsg.'</div></a>'.PHP_EOL;
+  }
+  else {
+    echo '<div class="home-nav'.$status_bgcolour.'"><h2>Status</h2><hr><br>'.$status_msg.'</div>'.PHP_EOL;
+  }
+  echo '<div class="home-nav"><h2>Last Updated</h2><hr><br>'.$date_msg.$date_submsg.'</div>'.PHP_EOL;
 }
 
 
@@ -201,7 +239,7 @@ function draw_statusbox() {
  *  Return:
  *    None
  */
-function draw_sitesblockedbox() {
+function home_sitesblocked() {
   $rows = 0;
   
   $rows = count_rows(QRY_LIGHTY);
@@ -325,22 +363,15 @@ function trafficgraph() {
 echo '<div id="main">';
 echo '<div class="home-nav-container">';
 
-draw_statusbox();
-draw_blocklistbox();
-draw_sitesblockedbox();
-draw_queriesbox();
-draw_dhcpbox();
+home_status();
+home_blocklist();
+home_sitesblocked();
+home_queries();
+home_network();
 
 trafficgraph();
 
 echo '</div>'.PHP_EOL;
-
-//Is an upgrade Needed?
-if ((VERSION != $Config['LatestVersion']) && check_version($Config['LatestVersion'])) {      
-  draw_systable('Upgrade');
-  echo '<p>New version available: v'.$Config['LatestVersion'].'&nbsp;&nbsp;<a class="button-grey" href="./upgrade.php">Upgrade</a></p>';        
-  echo '</table></div></div>'.PHP_EOL;
-}
 
 $db->close();
 ?>

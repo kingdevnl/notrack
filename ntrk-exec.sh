@@ -403,7 +403,7 @@ function upgrade_notrack() {
 
 #Main----------------------------------------------------------------
 
-if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user
+if [[ $(whoami) == "www-data" ]]; then           #Check if launced from web server without root user   DEPRECATED
   echo "Error. ntrk-exec needs to be run as root"
   echo "run 'notrack --upgrade' to set permissions in sudoers file"
   exit 2
@@ -413,6 +413,7 @@ if [[ "$(id -u)" != "0" ]]; then                 #Check if running as root
   echo "Error this script must be run as root"
   exit 2
 fi
+
 
 
 if [ "$1" ]; then                         #Have any arguments been given

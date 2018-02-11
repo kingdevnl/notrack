@@ -18,6 +18,9 @@ Config[bl_custom]=""
 Config[bl_notrack]=1
 Config[bl_tld]=1
 Config[bl_qmalware]=1
+Config[bl_cbl_all]=0
+Config[bl_cbl_browser]=0
+Config[bl_cbl_opt]=0
 Config[bl_cedia]=0
 Config[bl_cedia_immortal]=1
 Config[bl_hexxium]=1
@@ -66,7 +69,7 @@ Config[bl_yhosts]=0                              #China yhosts
 #######################################
 # Constants
 #######################################
-readonly VERSION="0.8.7"
+readonly VERSION="0.8.8"
 readonly MAIN_BLOCKLIST="/etc/dnsmasq.d/notrack.list"
 readonly FILE_BLACKLIST="/etc/notrack/blacklist.txt"
 readonly FILE_WHITELIST="/etc/notrack/whitelist.txt"
@@ -74,7 +77,7 @@ readonly FILE_DOMAINBLACK="/etc/notrack/domain-blacklist.txt"
 readonly FILE_DOMAINWHITE="/etc/notrack/domain-whitelist.txt"
 readonly CSV_DOMAIN="/var/www/html/admin/include/tld.csv"
 readonly FILE_CONFIG="/etc/notrack/notrack.conf"
-readonly CHECKTIME=343800                        #Time in Seconds between downloading lists (4 days - 30mins)
+readonly CHECKTIME=257400                        #Time in Seconds between downloading lists (3 days - 30mins)
 readonly USER="ntrk"
 readonly PASSWORD="ntrkpass"
 readonly DBNAME="ntrkdb"
@@ -82,6 +85,9 @@ readonly DBNAME="ntrkdb"
 declare -A URLList                               #Array of URL's
 URLList[notrack]="https://raw.githubusercontent.com/quidsup/notrack/master/trackers.txt"
 URLList[qmalware]="https://raw.githubusercontent.com/quidsup/notrack/master/malicious-sites.txt"
+URLList[cbl_all]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list.txt"
+URLList[cbl_browser]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list_browser.txt"
+URLList[cbl_opt]="https://raw.githubusercontent.com/ZeroDot1/CoinBlockerLists/master/list_optional.txt"
 URLList[cedia]="http://mirror.cedia.org.ec/malwaredomains/domains.zip"
 URLList[cedia_immortal]="http://mirror.cedia.org.ec/malwaredomains/immortal_domains.zip"
 URLList[hexxium]="https://hexxiumcreations.github.io/threat-list/hexxiumthreatlist.txt"
@@ -536,7 +542,7 @@ function get_ip() {
 function get_filetime() {
   #$1 = File to be checked
   if [ -e "$1" ]; then                           #Does file exist?
-    FileTime=$(stat -c %Z "$1")                  #Return time of last status change, seconds since Epoch
+    FileTime=$(stat -c %Y "$1")                  #Get last data modification in secs since Epoch
   else
     FileTime=0                                   #Otherwise retrun 0
   fi
@@ -791,7 +797,7 @@ function is_sql_installed() {
 # Check if an update is required
 #   Triggers for Update being required:
 #   1. -f or --forced
-#   2 Block list older than 4 days
+#   2 Block list older than 3 days
 #   3 White list recently modified
 #   4 Black list recently modified
 #   5 Config recently modified
@@ -808,44 +814,52 @@ function is_sql_installed() {
 #   None
 #--------------------------------------------------------------------
 function is_update_required() {
-  get_filetime "$MAIN_BLOCKLIST"
-  local ListFileTime="$FileTime"
+  local ftime=0
   
-  if [ $Force == 1 ]; then
+  if [ $Force == 1 ]; then                                 #Force overrides
     echo "Forced Update"
     return 0
   fi
-  if [ $ListFileTime -lt $((EXECTIME-CHECKTIME)) ]; then
+  
+  get_filetime "$MAIN_BLOCKLIST"
+  ftime="$FileTime"  
+  if [ $ftime -lt $((EXECTIME-CHECKTIME)) ]; then
     echo "Block List out of date"
     return 0
   fi
+  
   get_filetime "$FILE_WHITELIST"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "White List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_BLACKLIST"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Black List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_CONFIG"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Config recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_DOMAINWHITE"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain White List recently modified"
     return 0
   fi
+  
   get_filetime "$FILE_DOMAINBLACK"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain White List recently modified"
     return 0
   fi
+  
   get_filetime "$CSV_DOMAIN"
-  if [ $FileTime -gt $ListFileTime ]; then
+  if [ $FileTime -gt $ftime ]; then
     echo "Domain Master List recently modified"
     return 0
   fi
@@ -1705,6 +1719,9 @@ get_list "qmalware" "plain"
 get_list "cedia" "csv" "domains.txt"
 get_list "cedia_immortal" "plain" "immortal_domains.txt"
 get_list "hexxium" "easylist"
+get_list "cbl_all" "plain"
+get_list "cbl_browser" "plain"
+get_list "cbl_opt" "plain"
 get_list "disconnectmalvertising" "plain"
 get_list "easylist" "easylist"
 get_list "easyprivacy" "easylist"

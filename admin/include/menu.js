@@ -1,3 +1,44 @@
+/********************************************************************
+ *  Menu incognito
+ *    POST Incognito operation to API
+ *    API returns new status value
+ *    Set incognito elements to purple colours
+ *  Params:
+ *    None
+ *  Return:
+ *    None
+ */
+
+function menuIncognito() {
+  var oReq = new XMLHttpRequest();
+  var url = "./include/api.php";
+  var params = "operation=incognito";
+  
+  oReq.open("POST", url, true);
+  oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  /*oReq.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+  };*/
+  oReq.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200) {
+      var apiResponse = JSON.parse(this.responseText);
+      if (apiResponse["status"] & 8) {                     //Bitwise check for STATUS_INCOGNITO
+        //Change incognito elements to purle colour
+        document.getElementById("incognito-button").src = "./svg/menu_incognito_active.svg";
+        document.getElementById("incognito-text").classList.add("purple");
+      }
+      else {
+        //Turning incognito off, change incognito elements back to grey
+        document.getElementById("incognito-button").src = "./svg/menu_incognito.svg";
+        document.getElementById("incognito-text").classList.remove("purple");
+      }
+    }
+  }
+  oReq.send(params);
+}
+
+
 function PauseNoTrack(Action, PauseTime) {
   switch (Action) {
     case 'pause':

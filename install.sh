@@ -404,21 +404,30 @@ function install_packages() {
 function install_deb() {
   local phpversion="php5"
   local phpmemcache="php5-memcache"
-  
-  echo "Checking to see if PHP 7.0 is available"
-  apt-cache show php7.0 &> /dev/null             #Search apt-cache and dump output to /dev/null
-  if [ $? == 0 ]; then                           #Closure code of zero indicates package is available
-    echo "Installing PHP 7.0"
-    phpversion="php7.0"
-    phpmemcache="php-memcache"                   #Believe version number has now been dropped as of PHP v7
-  else
-    echo "Installing PHP 5"
-  fi
-  
+  i=5                                                      #Assume highest version of PHP 7 will be v7.5
+    
   echo
   echo "Refreshing apt"
   sudo apt-get update
   echo
+  
+  echo "Searching package archives for latest PHP version"
+  while [ $i -ge 0 ]; do                                   #Start while loop at highest version
+    apt-cache show php7.$i &> /dev/null                    #Check apt-cache
+    if [ $? == 0 ]; then                                   #Return value of zero means package available
+      echo "Installing PHP 7.$i"
+      phpversion="php7.$i"
+      phpmemcache="php-memcache"                           #No version number in PHP >= 7
+      break
+    else                                                   #Not found, try lower version
+      ((i--))
+    fi
+  done
+  
+  if [[ $phpversion == "php5" ]]; then                     #PHP 7 not found, fallback to v5.x
+    echo "Installing PHP 5"
+  fi
+    
   echo "Preparing to install Deb packages..."
   sleep 2s
   echo "Installing dependencies"
@@ -548,7 +557,7 @@ function install_yum() {
 
 #--------------------------------------------------------------------
 # Install apk Packages
-#   Installs packages using yum for Busybox
+#   Installs packages for Busybox
 #   TODO
 # Globals:
 #   None

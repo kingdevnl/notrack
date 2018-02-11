@@ -1,5 +1,5 @@
-#NoTrack Blocklist updated 30 Nov 2017
-#LatestVersion 0.8.7
+#NoTrack Blocklist updated 25 Jan 2018
+#LatestVersion 0.8.8
 1-cl0ud.com #Lead Forensics
 1-creative-1.com #Lead Forensics
 103bees.com #Tracker Unknown
@@ -65,6 +65,7 @@
 6008999.com #HelloWorld
 6009888.com #HelloWorld
 6009988.com #HelloWorld
+628e7ae68a3357896.com #Minify Mobi
 65twenty.com #Tracking Unknown
 7113653.com #Advertising Unknown
 778669.com #Advertising
@@ -93,7 +94,7 @@
 9nl.com #Click Meter
 9nl.org #Click Meter
 9nl.us #Click Meter
-a1749y92ai7h2uwi4v7e.club #Ad blocking investigation
+a.applvn.com #AppLovin
 a1webstats.com #A1Webstats
 a2dfp.net #Tracker Unknown
 a8bt.com #Advertising
@@ -328,6 +329,7 @@ adtilt.com #Advertising Unknown
 adtoma.com #Adtoma
 adtoma.mobi #Adtoma
 adtomafusion.net #Adtoma
+adtopia.club #Adtopia
 adtruth.com #Experian
 adunity.com #AdUnity
 adunity.net #AdUnity
@@ -425,6 +427,7 @@ ahalogy.com
 aimatch.com
 airwave.asia #Amobee
 airwaveasia.com #Amobee
+ak-is.net #Tracker Unknown
 alcmpn.com #American List Counsel
 alephd.com #AOL
 alertbot.co.uk
@@ -455,6 +458,8 @@ ampaign.click #msales
 amplience.com #Amplience
 amplitude.com
 amung.us #TBC
+analyse.email #Altaire
+analysing.email #Altaire
 analytics-collector-28944298.us-east-1.elb.amazonaws.com
 analytics-egain.com #eGain Corporation
 analytics-static.ugc.bazaarvoice.com #Bazaar Voice
@@ -513,6 +518,7 @@ applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
 applift.com #AppLift
 applovin.com #AppLovin
+applvn.com #AppLovin
 appnex.us #AppNexus Inc
 appnexis.com #AppNexus Inc
 appnexus.asia #AppNexus Inc
@@ -567,7 +573,7 @@ attraqt.com
 atwola.com #AOL
 audienceco-op.com #Adobe
 audiencedatamanagement.com #Adobe
-audienceinsights.net
+audienceinsights.net #Adthink
 audienceiq.com
 audiencemanagementplatform.com #Adobe
 audiencemanagementplatforms.com #Adobe
@@ -618,7 +624,10 @@ beanstock.com
 begun.ru
 behancemanage.com #Adobe
 behavior.com #Adobe
+behavioralengine.com #OnAudience
+behavioralmailing.com #OnAudience
 berg-6-82.com #Lead Forensics
+best-dental-implants-tracking.com
 bestdealmedia.click #msales
 bestdealonearth.click #msales
 beta-i.pt #Beta-i
@@ -1529,6 +1538,7 @@ flxpxl.com #Teradata
 fmpub.net #Federated Media
 focus-site.com #comScore
 focussite.com #comScore
+focuusing.com #Tracker Unknown
 fogzyads.com
 followistic.com
 footprint.net #Level3
@@ -1537,6 +1547,7 @@ footprintpredict.com #Microsoft
 force.com
 forensiq.com #Forensiq
 forensiq.net #Forensiq
+foresee.com #Foresee
 foreseeresults.com #ForeSee
 forexzone.org #Buta Trading
 forkmedia.in
@@ -1642,6 +1653,7 @@ grapemedia.cz #Grape Media
 grapeshot.co.uk
 graphiq.com #Graphiq
 gravity.com
+greatestoldupgrading.review
 greystripe.com #Conversant
 grfyti.com #eGain Corporation
 groovygifts.com #Digital Window
@@ -1690,12 +1702,14 @@ helloworld.com #HelloWorld
 helloworldmagic.com #HelloWorld
 helloworldmail.com #HelloWorld
 helloworldptqa.com #HelloWorld
+help24center.com
 hilltopads.net #HillTopAds
 himediads.com #Hi Media
 himediads.mobi #Hi Media
 himediads.net #Hi Media
 histats.com
 hit.skrz.cz #Skrz
+hitcpm.com #Advertising Unknown
 hlserve.com
 hobmobrevms.com #msales
 hochmoor.com
@@ -1878,6 +1892,7 @@ ioam.de
 ipccdn.co.uk
 ipredictive.com #Adelphic
 ipromote.com
+isboost.co.jp #Boost
 ist-track.com
 iterable.com #Iterable
 itsfom.com #Zanox
@@ -2098,6 +2113,7 @@ mcstats.org #Minecraft
 mdotm.com #MdotM
 measure.mf.cz #Mlada fronta
 medals.bizrate.com #TBC
+medi-8.net #Medi8
 media.net #Yahoo
 media6degrees.com
 mediabong.com #Mediabong
@@ -2118,6 +2134,7 @@ medleyads.com #Unknown Advertising
 mellowads.com #Mellow Ads
 member-hsbc-group.com #HSBC
 mengmob.com #Advertising
+mention-me.email #Liveclicker
 merchenta.com
 messages1.com #IBM Silverpop
 messages10.com #IBM Silverpop
@@ -10998,7 +11015,7 @@ movoxi.net #comScore
 movoxy.com #comScore
 movoxy.net #comScore
 mpire.com #comScore
-mplxtms.com
+mplxtms.com #Conversant
 mpstat.us #SOASTA
 mptracking.mobi #MobPartner
 mrkt.it
@@ -11132,6 +11149,7 @@ newdealmedia.info #msales
 newrelic.com #New Relic
 newscurve.com #NeoData Intelligence
 newsinc.com #NewsInc
+nex8.net #Medi8
 nexac.com
 nexage.com #Admax
 nextbigsound.com #Pandora Media
@@ -11289,6 +11307,7 @@ partner-ts.groupon.co.uk
 passionfruitads.com
 pawamedia.com #RevenueHits
 pc20160301.com #Unknown Advertising
+pcapredict.com #PCA Predict
 pclick.yahoo.com #Yahoo
 pct-upd.info #Sergii Mykolaenko
 pctupd.info #Sergii Mykolaenko
@@ -12446,6 +12465,7 @@ woopra.com
 workdesk.click #msales
 worldwideoffers.net #msales
 wowanalytics.co.uk
+wowcon.net #Tracker Unknown
 wp.gl #Click Meter
 wpa.qq.com #QQ
 wpdigital.net #Washington Post

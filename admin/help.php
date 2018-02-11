@@ -10,8 +10,7 @@ ensure_active_session();
 <html>
 <head>
   <meta charset="UTF-8">
-  <link href="./css/master.css" rel="stylesheet" type="text/css">
-  <link href="./css/help.css" rel="stylesheet" type="text/css">
+  <link href="./css/master.css" rel="stylesheet" type="text/css">  
   <link rel="icon" type="image/png" href="./favicon.png">
   <script src="./include/menu.js"></script>
   <title>NoTrack Help</title>

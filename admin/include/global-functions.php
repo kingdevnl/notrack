@@ -534,9 +534,10 @@ function linechart($values1, $values2, $xlabels) {
   else {
     $ymax = ceil($max_value / 1000) * 1000;
   }
-    
+  
+  echo '<div class="linechart-container">'.PHP_EOL;        //Start Chart container
   echo '<svg width="100%" height="90%" viewbox="0 0 2000 910" class="shadow">'.PHP_EOL;
-  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill="#f7f7f7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
+  echo '<rect x="1" y="1" width="1998" height="908" rx="5" ry="5" fill-opacity="0.95" fill="#F7F7F7" stroke="#B3B3B3" stroke-width="2px" opacity="1" />'.PHP_EOL;
     
   for ($i = 0.25; $i < 1; $i += 0.25) {                    //Draw Y Axis lables and horizontal lines
     echo '<path class="gridline" d="M100,'.($i*850).' H2000" />'.PHP_EOL;
@@ -560,7 +561,8 @@ function linechart($values1, $values2, $xlabels) {
   draw_circles($values2, $xstep, $ymax, '#B1244A');
 
   echo '<path class="axisline" d="M100,0 V850 H2000 " />'; //X and Y Axis line
-  echo '</svg>'.PHP_EOL;                                   //End SVG  
+  echo '</svg>'.PHP_EOL;                                   //End SVG
+  echo '</div>'.PHP_EOL;                                   //End Chart container
 
 }
 
@@ -612,7 +614,7 @@ function draw_circles($values, $xstep, $ymax, $colour) {
       $x = 100 + (($i) * $xstep);
       $y = 850 - (($values[$i] / $ymax) * 850);    
     
-      echo '<circle cx="'.$x.'" cy="'.(850-($values[$i]/$ymax)*850).'" r="10px" fill="'.$colour.'" fill-opacity="1" stroke="#F7F7F7" stroke-width="5px" />'.PHP_EOL;
+      echo '<circle cx="'.$x.'" cy="'.(850-($values[$i]/$ymax)*850).'" r="10px" fill="'.$colour.'" fill-opacity="1" stroke="#EAEEEE" stroke-width="5px" />'.PHP_EOL;
     }    
   }  
 }
@@ -664,7 +666,7 @@ function piechart($data, $cx, $cy, $radius, $colours) {
     $chartelem .= " L$adx,$ady ";                // draw line away away from cursor
     $chartelem .= " A$radius,$radius 0 $laf,1 $ax,$ay "; // draw arc
     $chartelem .= " z\" ";                       // z = close path
-    $chartelem .= " fill=\"$colour\" stroke=\"#00000A\" stroke-width=\"2\" ";
+    $chartelem .= " fill=\"$colour\" stroke=\"#202020\" stroke-width=\"2\" ";
     $chartelem .= " fill-opacity=\"0.95\" stroke-linejoin=\"round\" />";
     $chartelem .= PHP_EOL;
     $dx = $x;      // old end points become new starting point

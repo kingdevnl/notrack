@@ -15,7 +15,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="menu_dashboard.svg">
+   sodipodi:docname="smenu_dashboard.svg">
+  <title
+     id="title8002">NoTrack Dashboard</title>
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,14 +28,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="-86.035452"
+     inkscape:cx="-33.50752"
      inkscape:cy="22.081366"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1860"
-     inkscape:window-height="1064"
-     inkscape:window-x="60"
+     inkscape:window-width="1856"
+     inkscape:window-height="1065"
+     inkscape:window-x="1984"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-global="false"
@@ -48,7 +50,12 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title>NoTrack Dashboard</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>QuidsUp</dc:title>
+          </cc:Agent>
+        </dc:creator>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,7 +65,7 @@
      id="layer1"
      transform="translate(0,-992.3622)">
     <rect
-       style="fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4137"
        width="24.553572"
        height="24.553572"
@@ -72,7 +79,7 @@
        height="24.553572"
        width="24.553572"
        id="rect4139"
-       style="fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
        ry="4.3274875"
        y="1025.6658"
@@ -80,9 +87,9 @@
        height="24.553572"
        width="24.553572"
        id="rect4141"
-       style="fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <rect
-       style="fill:#008cd1;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#f7f7f7;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4143"
        width="24.553572"
        height="24.553572"

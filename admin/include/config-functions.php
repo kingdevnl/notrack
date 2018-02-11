@@ -283,6 +283,17 @@ function show_blocklists() {
   draw_blocklist_row('bl_swisszeus', 'Swiss Security - ZeuS Tracker', 'Protects systems infected with ZeuS malware from accessing Command & Control servers <a href="https://zeustracker.abuse.ch/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   echo '</table></div></div>'.PHP_EOL;
   
+  //Crypto Coin
+  draw_systable('Crypto Coin Mining');
+  draw_blocklist_row('bl_nocoin', 'No Coin', 'This blocklist utilises the domains from No Coin to block browser based Coin Miners such as Coinhive. <a href="https://github.com/keraf/NoCoin" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  
+  draw_blocklist_row('bl_cbl_all', 'Coin Blocker Lists - All', 'This list contains all crypto mining domains - A list for administrators to prevent mining in networks. <a href="https://github.com/ZeroDot1/CoinBlockerLists" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  
+  draw_blocklist_row('bl_cbl_opt', 'Coin Blocker Lists - Optional', 'This list contains all optional mining domains - An additional list for administrators. <a href="https://github.com/ZeroDot1/CoinBlockerLists" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  
+  draw_blocklist_row('bl_cbl_browser', 'Coin Blocker Lists - Browser', 'This list contains all browser mining domains - A list to prevent browser mining only. <a href="https://github.com/ZeroDot1/CoinBlockerLists" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
+  echo '</table></div></div>'.PHP_EOL;
+  
   //Social
   draw_systable('Social');
   draw_blocklist_row('bl_fbannoyance', 'Fanboy&rsquo;s Annoyance List', 'Block Pop-Ups and other annoyances. <a href="https://www.fanboy.co.nz/" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
@@ -291,7 +302,6 @@ function show_blocklists() {
   
   //Multipurpose
   draw_systable('Multipurpose');
-  draw_blocklist_row('bl_nocoin', 'No Coin', 'This blocklist utilises the domains from No Coin to block browser based Coin Miners such as Coinhive. <a href="https://github.com/keraf/NoCoin" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_someonewhocares', 'Dan Pollock&rsquo;s hosts file', 'Mixture of Shock and Ad sites. <a href="http://someonewhocares.org/hosts" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   draw_blocklist_row('bl_hphosts', 'hpHosts', 'Inefficient list <a href="http://hosts-file.net" target="_blank"><img class="btn" alt="Link" src="./svg/icon_home.svg"></a>');
   //draw_blocklist_row('bl_securemecca', 'Secure Mecca', 'Mixture of Adult, Gambling and Advertising sites <a href="http://securemecca.com/" target="_blank">(securemecca.com)</a>');
@@ -361,8 +371,7 @@ function show_custom_list($view) {
   echo '</div>'.PHP_EOL;
   
   echo '<div class="sys-group">';
-  echo '<div class="row"><br>'.PHP_EOL;
-  echo '<table id="cfg-custom-table">'.PHP_EOL;
+  echo '<table id="cfg-custom-table">'.PHP_EOL;            //Start custom list table
   $i = 1;
 
   if ($searchbox == '') {
@@ -394,11 +403,11 @@ function show_custom_list($view) {
   echo '<input type="text" class="ninty" name="comment'.$i.'" placeholder="comment"></td>';
   echo '<td><button class="button-grey" onclick="addSite('.$i.')">Save</button></td></tr>';                            //End add new site row
         
-  echo '</table></div></div>'.PHP_EOL;
+  echo '</table>'.PHP_EOL;                                 //End custom list table
   
-  echo '<div class="sys-group"><div class="centered">'.PHP_EOL;  
-  echo '<a href="./include/downloadlist.php?v='.$view.'" class="button-grey">Download List</a>&nbsp;&nbsp;';
-  echo '<a href="?v='.$view.'&amp;action='.$view.'&amp;do=update" class="button-blue">Update Blocklists</a>';
+  echo '<div class="centered"><br>'.PHP_EOL;  
+  echo '<a href="?v='.$view.'&amp;action='.$view.'&amp;do=update" class="button-blue">Update Blocklists</a>&nbsp;&nbsp;';
+  echo '<a href="./include/downloadlist.php?v='.$view.'" class="button-grey">Download List</a>';
   echo '</div></div>'.PHP_EOL;  
 }
 
